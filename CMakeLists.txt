@@ -35,6 +35,9 @@ include(check_atomic)
 # Add third party libraries
 add_subdirectory(third_party)
 
+# Add math library
+add_subdirectory(vox.math)
+
 # Add render framework
 #add_subdirectory(vox.render)
 
