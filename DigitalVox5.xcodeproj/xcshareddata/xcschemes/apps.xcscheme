@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "047BB5C12803A96500CD5749"
-               BuildableName = "DigitalVox5"
+               BuildableName = "apps"
                BlueprintName = "apps"
                ReferencedContainer = "container:DigitalVox5.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "047BB5C12803A96500CD5749"
-            BuildableName = "DigitalVox5"
+            BuildableName = "apps"
             BlueprintName = "apps"
             ReferencedContainer = "container:DigitalVox5.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "047BB5C12803A96500CD5749"
-            BuildableName = "DigitalVox5"
+            BuildableName = "apps"
             BlueprintName = "apps"
             ReferencedContainer = "container:DigitalVox5.xcodeproj">
          </BuildableReference>
