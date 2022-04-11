@@ -23,12 +23,28 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		047BB5C22803A96500CD5749 /* DigitalVox5 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DigitalVox5; sourceTree = BUILT_PRODUCTS_DIR; };
+		047BB5C22803A96500CD5749 /* apps */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apps; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		047BB5D02803A99E00CD5749 /* libvox.render.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.render.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		047BB5DF2803A9B700CD5749 /* libvox.math.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.math.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		047BB5BF2803A96500CD5749 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		047BB5CE2803A99E00CD5749 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		047BB5DD2803A9B700CD5749 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,7 +57,9 @@
 		047BB5B92803A96500CD5749 = {
 			isa = PBXGroup;
 			children = (
-				047BB5C42803A96500CD5749 /* DigitalVox5 */,
+				047BB5E02803A9B700CD5749 /* vox.math */,
+				047BB5D12803A99E00CD5749 /* vox.render */,
+				047BB5C42803A96500CD5749 /* apps */,
 				047BB5C32803A96500CD5749 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,25 +67,58 @@
 		047BB5C32803A96500CD5749 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				047BB5C22803A96500CD5749 /* DigitalVox5 */,
+				047BB5C22803A96500CD5749 /* apps */,
+				047BB5D02803A99E00CD5749 /* libvox.render.a */,
+				047BB5DF2803A9B700CD5749 /* libvox.math.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		047BB5C42803A96500CD5749 /* DigitalVox5 */ = {
+		047BB5C42803A96500CD5749 /* apps */ = {
 			isa = PBXGroup;
 			children = (
 				047BB5C52803A96500CD5749 /* main.cpp */,
 			);
-			path = DigitalVox5;
+			path = apps;
+			sourceTree = "<group>";
+		};
+		047BB5D12803A99E00CD5749 /* vox.render */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = vox.render;
+			sourceTree = "<group>";
+		};
+		047BB5E02803A9B700CD5749 /* vox.math */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = vox.math;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		047BB5CC2803A99E00CD5749 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		047BB5DB2803A9B700CD5749 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		047BB5C12803A96500CD5749 /* DigitalVox5 */ = {
+		047BB5C12803A96500CD5749 /* apps */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 047BB5C92803A96500CD5749 /* Build configuration list for PBXNativeTarget "DigitalVox5" */;
+			buildConfigurationList = 047BB5C92803A96500CD5749 /* Build configuration list for PBXNativeTarget "apps" */;
 			buildPhases = (
 				047BB5BE2803A96500CD5749 /* Sources */,
 				047BB5BF2803A96500CD5749 /* Frameworks */,
@@ -77,10 +128,44 @@
 			);
 			dependencies = (
 			);
-			name = DigitalVox5;
+			name = apps;
 			productName = DigitalVox5;
-			productReference = 047BB5C22803A96500CD5749 /* DigitalVox5 */;
+			productReference = 047BB5C22803A96500CD5749 /* apps */;
 			productType = "com.apple.product-type.tool";
+		};
+		047BB5CF2803A99E00CD5749 /* vox.render */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 047BB5D82803A99E00CD5749 /* Build configuration list for PBXNativeTarget "vox.render" */;
+			buildPhases = (
+				047BB5CC2803A99E00CD5749 /* Headers */,
+				047BB5CD2803A99E00CD5749 /* Sources */,
+				047BB5CE2803A99E00CD5749 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = vox.render;
+			productName = vox.render;
+			productReference = 047BB5D02803A99E00CD5749 /* libvox.render.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		047BB5DE2803A9B700CD5749 /* vox.math */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 047BB5E72803A9B700CD5749 /* Build configuration list for PBXNativeTarget "vox.math" */;
+			buildPhases = (
+				047BB5DB2803A9B700CD5749 /* Headers */,
+				047BB5DC2803A9B700CD5749 /* Sources */,
+				047BB5DD2803A9B700CD5749 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = vox.math;
+			productName = vox.math;
+			productReference = 047BB5DF2803A9B700CD5749 /* libvox.math.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -92,6 +177,12 @@
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
 					047BB5C12803A96500CD5749 = {
+						CreatedOnToolsVersion = 13.3;
+					};
+					047BB5CF2803A99E00CD5749 = {
+						CreatedOnToolsVersion = 13.3;
+					};
+					047BB5DE2803A9B700CD5749 = {
 						CreatedOnToolsVersion = 13.3;
 					};
 				};
@@ -109,7 +200,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				047BB5C12803A96500CD5749 /* DigitalVox5 */,
+				047BB5DE2803A9B700CD5749 /* vox.math */,
+				047BB5CF2803A99E00CD5749 /* vox.render */,
+				047BB5C12803A96500CD5749 /* apps */,
 			);
 		};
 /* End PBXProject section */
@@ -120,6 +213,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				047BB5C62803A96500CD5749 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		047BB5CD2803A99E00CD5749 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		047BB5DC2803A9B700CD5749 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +362,58 @@
 			};
 			name = Release;
 		};
+		047BB5D92803A99E00CD5749 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4SL5L673UU;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		047BB5DA2803A99E00CD5749 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4SL5L673UU;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		047BB5E82803A9B700CD5749 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4SL5L673UU;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		047BB5E92803A9B700CD5749 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4SL5L673UU;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -267,11 +426,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		047BB5C92803A96500CD5749 /* Build configuration list for PBXNativeTarget "DigitalVox5" */ = {
+		047BB5C92803A96500CD5749 /* Build configuration list for PBXNativeTarget "apps" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				047BB5CA2803A96500CD5749 /* Debug */,
 				047BB5CB2803A96500CD5749 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		047BB5D82803A99E00CD5749 /* Build configuration list for PBXNativeTarget "vox.render" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				047BB5D92803A99E00CD5749 /* Debug */,
+				047BB5DA2803A99E00CD5749 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		047BB5E72803A9B700CD5749 /* Build configuration list for PBXNativeTarget "vox.math" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				047BB5E82803A9B700CD5749 /* Debug */,
+				047BB5E92803A9B700CD5749 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
