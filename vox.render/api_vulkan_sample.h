@@ -30,7 +30,7 @@
 #include <random>
 #include <sys/stat.h>
 
-//#include "camera.h"
+#include "camera.h"
 #include "vector4.h"
 #include "sub_mesh.h"
 #include "error.h"
@@ -228,11 +228,8 @@ protected:
      * @param f a block of code which is passed a command buffer which is already in the begin state.
      * @param signalSemaphore An optional semaphore to signal when the commands have completed execution.
      */
-    void with_command_buffer(const std::function<void(VkCommandBuffer command_buffer)
-                             
-                             > &f,
-                             VkSemaphore signalSemaphore = VK_NULL_HANDLE
-                             );
+    void with_command_buffer(const std::function<void(VkCommandBuffer command_buffer)> &f,
+                             VkSemaphore signalSemaphore = VK_NULL_HANDLE);
     
 public:
     /**
@@ -388,7 +385,7 @@ public:
     // Use to adjust mouse zoom speed
     float zoom_speed = 1.0f;
     
-    //    vox::Camera camera;
+    vox::Camera camera;
     
     Vector3F rotation = Vector3F();
     Vector3F camera_pos = Vector3F();

@@ -373,7 +373,7 @@ std::unique_ptr<sg::SubMesh> GLTFLoader::read_model_from_file(const std::string 
         model_path.clear();
     }
     
-    return std::move(load_model(index));
+    return load_model(index);
 }
 
 //sg::Scene GLTFLoader::load_scene(int scene_index) {

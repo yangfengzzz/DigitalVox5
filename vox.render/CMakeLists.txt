@@ -37,7 +37,7 @@ set(FRAMEWORK_FILES
         vulkan_sample.h
         api_vulkan_sample.h
         timer.h
-        #    camera.h
+        camera.h
         # Source Files
         gui.cpp
         glsl_compiler.cpp
@@ -55,7 +55,7 @@ set(FRAMEWORK_FILES
         vulkan_sample.cpp
         api_vulkan_sample.cpp
         timer.cpp
-        #    camera.cpp
+        camera.cpp
         )
 
 set(COMMON_FILES
