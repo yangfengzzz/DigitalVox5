@@ -250,6 +250,33 @@
 		0444E8AE280555E800C6F279 /* glsl_compiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glsl_compiler.cpp; sourceTree = "<group>"; };
 		0444E8C32805585800C6F279 /* shader_module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shader_module.cpp; sourceTree = "<group>"; };
 		0444E8C42805585800C6F279 /* shader_module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shader_module.h; sourceTree = "<group>"; };
+		0444E8D228055A1E00C6F279 /* unix_platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unix_platform.h; sourceTree = "<group>"; };
+		0444E8D328055A1E00C6F279 /* unix_platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unix_platform.cpp; sourceTree = "<group>"; };
+		0444E8D628055A2400C6F279 /* plugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = plugin.cpp; sourceTree = "<group>"; };
+		0444E8D728055A2400C6F279 /* plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin.h; sourceTree = "<group>"; };
+		0444E8D828055A2400C6F279 /* plugin_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin_base.h; sourceTree = "<group>"; };
+		0444E8DC28055A2900C6F279 /* CLI11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLI11.h; sourceTree = "<group>"; };
+		0444E8DD28055A2900C6F279 /* help_formatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = help_formatter.cpp; sourceTree = "<group>"; };
+		0444E8DE28055A2900C6F279 /* help_formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = help_formatter.h; sourceTree = "<group>"; };
+		0444E8DF28055A2900C6F279 /* CLI11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CLI11.cpp; sourceTree = "<group>"; };
+		0444E8E428055A3700C6F279 /* window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = window.h; sourceTree = "<group>"; };
+		0444E8E528055A3700C6F279 /* configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = configuration.h; sourceTree = "<group>"; };
+		0444E8E628055A3700C6F279 /* headless_window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = headless_window.h; sourceTree = "<group>"; };
+		0444E8E728055A3700C6F279 /* filesystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = filesystem.cpp; sourceTree = "<group>"; };
+		0444E8E828055A3700C6F279 /* glfw_window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw_window.h; sourceTree = "<group>"; };
+		0444E8EB28055A3700C6F279 /* glfw_window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfw_window.cpp; sourceTree = "<group>"; };
+		0444E8EC28055A3700C6F279 /* window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = window.cpp; sourceTree = "<group>"; };
+		0444E8ED28055A3700C6F279 /* application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = application.h; sourceTree = "<group>"; };
+		0444E8EE28055A3700C6F279 /* input_events.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = input_events.h; sourceTree = "<group>"; };
+		0444E8EF28055A3700C6F279 /* application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = application.cpp; sourceTree = "<group>"; };
+		0444E8F028055A3700C6F279 /* parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser.h; sourceTree = "<group>"; };
+		0444E8F128055A3700C6F279 /* parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parser.cpp; sourceTree = "<group>"; };
+		0444E8F228055A3800C6F279 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
+		0444E8F328055A3800C6F279 /* headless_window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = headless_window.cpp; sourceTree = "<group>"; };
+		0444E8F528055A3800C6F279 /* input_events.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = input_events.cpp; sourceTree = "<group>"; };
+		0444E8F628055A3800C6F279 /* platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = platform.cpp; sourceTree = "<group>"; };
+		0444E8F728055A3800C6F279 /* filesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filesystem.h; sourceTree = "<group>"; };
+		0444E8F828055A3800C6F279 /* configuration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = configuration.cpp; sourceTree = "<group>"; };
 		047BB5C22803A96500CD5749 /* apps */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apps; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		047BB5D02803A99E00CD5749 /* libvox.render.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.render.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -313,6 +340,80 @@
 			path = core;
 			sourceTree = "<group>";
 		};
+		0444E8CC280559BC00C6F279 /* platform */ = {
+			isa = PBXGroup;
+			children = (
+				0444E8E428055A3700C6F279 /* window.h */,
+				0444E8EC28055A3700C6F279 /* window.cpp */,
+				0444E8E828055A3700C6F279 /* glfw_window.h */,
+				0444E8EB28055A3700C6F279 /* glfw_window.cpp */,
+				0444E8E628055A3700C6F279 /* headless_window.h */,
+				0444E8F328055A3800C6F279 /* headless_window.cpp */,
+				0444E8F228055A3800C6F279 /* platform.h */,
+				0444E8F628055A3800C6F279 /* platform.cpp */,
+				0444E8CD280559C300C6F279 /* android */,
+				0444E8D1280559DD00C6F279 /* windows */,
+				0444E8D0280559D700C6F279 /* unix */,
+				0444E8CF280559D000C6F279 /* plugins */,
+				0444E8F028055A3700C6F279 /* parser.h */,
+				0444E8F128055A3700C6F279 /* parser.cpp */,
+				0444E8CE280559CA00C6F279 /* parsers */,
+				0444E8ED28055A3700C6F279 /* application.h */,
+				0444E8EF28055A3700C6F279 /* application.cpp */,
+				0444E8E528055A3700C6F279 /* configuration.h */,
+				0444E8F828055A3800C6F279 /* configuration.cpp */,
+				0444E8F728055A3800C6F279 /* filesystem.h */,
+				0444E8E728055A3700C6F279 /* filesystem.cpp */,
+				0444E8EE28055A3700C6F279 /* input_events.h */,
+				0444E8F528055A3800C6F279 /* input_events.cpp */,
+			);
+			path = platform;
+			sourceTree = "<group>";
+		};
+		0444E8CD280559C300C6F279 /* android */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = android;
+			sourceTree = "<group>";
+		};
+		0444E8CE280559CA00C6F279 /* parsers */ = {
+			isa = PBXGroup;
+			children = (
+				0444E8DC28055A2900C6F279 /* CLI11.h */,
+				0444E8DF28055A2900C6F279 /* CLI11.cpp */,
+				0444E8DE28055A2900C6F279 /* help_formatter.h */,
+				0444E8DD28055A2900C6F279 /* help_formatter.cpp */,
+			);
+			path = parsers;
+			sourceTree = "<group>";
+		};
+		0444E8CF280559D000C6F279 /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				0444E8D828055A2400C6F279 /* plugin_base.h */,
+				0444E8D728055A2400C6F279 /* plugin.h */,
+				0444E8D628055A2400C6F279 /* plugin.cpp */,
+			);
+			path = plugins;
+			sourceTree = "<group>";
+		};
+		0444E8D0280559D700C6F279 /* unix */ = {
+			isa = PBXGroup;
+			children = (
+				0444E8D228055A1E00C6F279 /* unix_platform.h */,
+				0444E8D328055A1E00C6F279 /* unix_platform.cpp */,
+			);
+			path = unix;
+			sourceTree = "<group>";
+		};
+		0444E8D1280559DD00C6F279 /* windows */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = windows;
+			sourceTree = "<group>";
+		};
 		047BB5B92803A96500CD5749 = {
 			isa = PBXGroup;
 			children = (
@@ -357,6 +458,7 @@
 				0444E7FC2805552B00C6F279 /* tags.h */,
 				0444E7FE2805552B00C6F279 /* utils.h */,
 				0444E7F62805552B00C6F279 /* utils.cpp */,
+				0444E8CC280559BC00C6F279 /* platform */,
 				0444E81A2805556100C6F279 /* core */,
 				0444E8AD280555E800C6F279 /* glsl_compiler.h */,
 				0444E8AE280555E800C6F279 /* glsl_compiler.cpp */,
