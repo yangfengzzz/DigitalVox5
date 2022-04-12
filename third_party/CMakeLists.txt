@@ -330,7 +330,7 @@ endif ()
 
 # spdlog
 add_subdirectory(spdlog)
-set_property(TARGET spdlog_headers_for_ide PROPERTY FOLDER "ThirdParty")
+#set_property(TARGET spdlog_headers_for_ide PROPERTY FOLDER "ThirdParty")
 
 # ctpl
 add_library(ctpl INTERFACE)

@@ -90,7 +90,7 @@ public:
         VkImageView view;
         VkFormat format;
         
-        void destroy(VkDevice device) {
+        void destroy(VkDevice device) const {
             vkDestroyImageView(device, view, nullptr);
             vkDestroyImage(device, image, nullptr);
             vkFreeMemory(device, mem, nullptr);
@@ -118,9 +118,9 @@ public:
     
     HDR();
     
-    ~HDR();
+    ~HDR() override;
     
-    virtual void request_gpu_features(vox::PhysicalDevice &gpu) override;
+    void request_gpu_features(vox::PhysicalDevice &gpu) override;
     
     void build_command_buffers() override;
     
@@ -148,11 +148,11 @@ public:
     
     bool prepare(vox::Platform &platform) override;
     
-    virtual void render(float delta_time) override;
+    void render(float delta_time) override;
     
-    virtual void on_update_ui_overlay(vox::Drawer &drawer) override;
+    void on_update_ui_overlay(vox::Drawer &drawer) override;
     
-    virtual bool resize(const uint32_t width, const uint32_t height) override;
+    bool resize(uint32_t width, uint32_t height) override;
 };
 
 }
