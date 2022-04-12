@@ -317,7 +317,7 @@ void HDR::prepare_offscreen_buffer() {
         attachment_descriptions[1].format = offscreen.color[1].format;
         attachment_descriptions[2].format = offscreen.depth.format;
         
-        std::vector <VkAttachmentReference> color_references;
+        std::vector<VkAttachmentReference> color_references;
         color_references.push_back({0, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL});
         color_references.push_back({1, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL});
         
@@ -419,7 +419,7 @@ void HDR::prepare_offscreen_buffer() {
         attachment_descriptions[0].finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
         attachment_descriptions[0].format = filter_pass.color[0].format;
         
-        std::vector <VkAttachmentReference> color_references;
+        std::vector<VkAttachmentReference> color_references;
         color_references.push_back({0, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL});
         
         VkSubpassDescription subpass = {};
@@ -493,13 +493,13 @@ void HDR::prepare_offscreen_buffer() {
 void HDR::load_assets() {
     // Models
     models.skybox = load_model("Scenes/cube.gltf");
-    std::vector <std::string> filenames = {"geosphere.gltf", "teapot.gltf", "torusknot.gltf"};
+    std::vector<std::string> filenames = {"geosphere.gltf", "teapot.gltf", "torusknot.gltf"};
     object_names = {"Sphere", "Teapot", "Torusknot"};
     for (auto file: filenames) {
         auto object = load_model("Scenes/" + file);
         models.objects.emplace_back(std::move(object));
     }
-
+    
     // Transforms
     auto geosphere_matrix = Matrix4x4F(1.0f);
     auto teapot_matrix = Matrix4x4F(1.0f);
@@ -515,7 +515,7 @@ void HDR::load_assets() {
 }
 
 void HDR::setup_descriptor_pool() {
-    std::vector <VkDescriptorPoolSize> pool_sizes = {
+    std::vector<VkDescriptorPoolSize> pool_sizes = {
         vox::initializers::descriptor_pool_size(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 4),
         vox::initializers::descriptor_pool_size(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 6)};
     uint32_t num_descriptor_sets = 4;
@@ -527,7 +527,7 @@ void HDR::setup_descriptor_pool() {
 }
 
 void HDR::setup_descriptor_set_layout() {
-    std::vector <VkDescriptorSetLayoutBinding> set_layout_bindings = {
+    std::vector<VkDescriptorSetLayoutBinding> set_layout_bindings = {
         vox::initializers::descriptor_set_layout_binding(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                                                          VK_SHADER_STAGE_VERTEX_BIT, 0),
         vox::initializers::descriptor_set_layout_binding(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
@@ -601,7 +601,7 @@ void HDR::setup_descriptor_sets() {
     VkDescriptorBufferInfo matrix_buffer_descriptor = create_descriptor(*uniform_buffers.matrices);
     VkDescriptorImageInfo environment_image_descriptor = create_descriptor(textures.envmap);
     VkDescriptorBufferInfo params_buffer_descriptor = create_descriptor(*uniform_buffers.params);
-    std::vector <VkWriteDescriptorSet> write_descriptor_sets = {
+    std::vector<VkWriteDescriptorSet> write_descriptor_sets = {
         vox::initializers::write_descriptor_set(descriptor_sets.object, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 0,
                                                 &matrix_buffer_descriptor),
         vox::initializers::write_descriptor_set(descriptor_sets.object,
@@ -636,7 +636,7 @@ void HDR::setup_descriptor_sets() {
                                                                  &descriptor_set_layouts.bloom_filter, 1);
     VK_CHECK(vkAllocateDescriptorSets(get_device().get_handle(), &alloc_info, &descriptor_sets.bloom_filter));
     
-    std::vector <VkDescriptorImageInfo> color_descriptors = {
+    std::vector<VkDescriptorImageInfo> color_descriptors = {
         vox::initializers::descriptor_image_info(offscreen.sampler, offscreen.color[0].view,
                                                  VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL),
         vox::initializers::descriptor_image_info(offscreen.sampler, offscreen.color[1].view,
@@ -717,7 +717,7 @@ void HDR::prepare_pipelines() {
                                                               VK_SAMPLE_COUNT_1_BIT,
                                                               0);
     
-    std::vector <VkDynamicState> dynamic_state_enables = {
+    std::vector<VkDynamicState> dynamic_state_enables = {
         VK_DYNAMIC_STATE_VIEWPORT,
         VK_DYNAMIC_STATE_SCISSOR};
     VkPipelineDynamicStateCreateInfo dynamic_state =
@@ -732,7 +732,7 @@ void HDR::prepare_pipelines() {
                                             render_pass,
                                             0);
     
-    std::vector <VkPipelineColorBlendAttachmentState> blend_attachment_states = {
+    std::vector<VkPipelineColorBlendAttachmentState> blend_attachment_states = {
         vox::initializers::pipeline_color_blend_attachment_state(0xf, VK_FALSE),
         vox::initializers::pipeline_color_blend_attachment_state(0xf, VK_FALSE),
     };
@@ -803,12 +803,12 @@ void HDR::prepare_pipelines() {
     
     // Vertex bindings an attributes for model rendering
     // Binding description
-    std::vector <VkVertexInputBindingDescription> vertex_input_bindings = {
+    std::vector<VkVertexInputBindingDescription> vertex_input_bindings = {
         vox::initializers::vertex_input_binding_description(0, sizeof(Vertex), VK_VERTEX_INPUT_RATE_VERTEX),
     };
     
     // Attribute descriptions
-    std::vector <VkVertexInputAttributeDescription> vertex_input_attributes = {
+    std::vector<VkVertexInputAttributeDescription> vertex_input_attributes = {
         vox::initializers::vertex_input_attribute_description(0, 0, VK_FORMAT_R32G32B32_SFLOAT,
                                                               0),                       // Position
         vox::initializers::vertex_input_attribute_description(0, 1, VK_FORMAT_R32G32B32_SFLOAT,
@@ -875,9 +875,9 @@ void HDR::prepare_uniform_buffers() {
 }
 
 void HDR::update_uniform_buffers() {
-//    ubo_vs.projection = camera.matrices.perspective;
-//    ubo_vs.modelview = camera.matrices.view * models.transforms[models.object_index];
-//    ubo_vs.skybox_modelview = camera.matrices.view;
+    ubo_vs.projection = camera.matrices.perspective;
+    ubo_vs.modelview = camera.matrices.view * models.transforms[models.object_index];
+    ubo_vs.skybox_modelview = camera.matrices.view;
     uniform_buffers.matrices->convert_and_update(ubo_vs);
 }
 
@@ -898,12 +898,12 @@ bool HDR::prepare(vox::Platform &platform) {
         return false;
     }
     
-//    camera.type = vox::CameraType::LookAt;
-//    camera.set_position(glm::vec3(0.0f, 0.0f, -4.0f));
-//    camera.set_rotation(glm::vec3(0.0f, 180.0f, 0.0f));
-//
-//    // Note: Using Revsered depth-buffer for increased precision, so Znear and Zfar are flipped
-//    camera.set_perspective(60.0f, (float) width / (float) height, 256.0f, 0.1f);
+    camera.type = vox::CameraType::LookAt;
+    camera.set_position(Point3F(0.0f, 0.0f, -4.0f));
+    camera.set_rotation(Vector3F(0.0f, 180.0f, 0.0f));
+    
+    // Note: Using Revsered depth-buffer for increased precision, so Znear and Zfar are flipped
+    camera.set_perspective(60.0f, (float) width / (float) height, 256.0f, 0.1f);
     
     load_assets();
     prepare_uniform_buffers();
@@ -921,8 +921,8 @@ void HDR::render(float delta_time) {
     if (!prepared)
         return;
     draw();
-//    if (camera.updated)
-//        update_uniform_buffers();
+    if (camera.updated)
+        update_uniform_buffers();
 }
 
 void HDR::on_update_ui_overlay(vox::Drawer &drawer) {
@@ -949,7 +949,7 @@ bool HDR::resize(const uint32_t width, const uint32_t height) {
     return true;
 }
 
-std::unique_ptr <vox::Application> create_hdr() {
+std::unique_ptr<vox::Application> create_hdr() {
     return std::make_unique<HDR>();
 }
 

@@ -107,27 +107,25 @@ set(RENDERING_FILES
 
 set(SCENE_RESOURCE_FILES
         # Header Files
-        scene_graph/components/image.h
-        scene_graph/components/material.h
-        #    scene_graph/components/pbr_material.h
-        scene_graph/components/sampler.h
-        scene_graph/components/sub_mesh.h
-        scene_graph/components/texture.h
-        scene_graph/components/image/astc.h
-        scene_graph/components/image/ktx.h
-        scene_graph/components/image/stb.h
+        image.h
+        material.h
+        pbr_material.h
+        sampler.h
+        sub_mesh.h
+        texture.h
+        image/astc_img.h
+        image/ktx_img.h
+        image/stb_img.h
         # Source Files
-        scene_graph/components/image.cpp
-        scene_graph/components/material.cpp
-        scene_graph/components/mesh.cpp
-        #    scene_graph/components/pbr_material.cpp
-        scene_graph/components/sampler.cpp
-        scene_graph/components/sub_mesh.cpp
-        scene_graph/components/texture.cpp
-        scene_graph/components/image/astc.cpp
-        scene_graph/components/image/ktx.cpp
-        scene_graph/components/image/stb.cpp)
-
+        image.cpp
+        material.cpp
+        pbr_material.cpp
+        sampler.cpp
+        sub_mesh.cpp
+        texture.cpp
+        image/astc_img.cpp
+        image/ktx_img.cpp
+        image/stb_img.cpp)
 
 #set(RENDERING_SUBPASSES_FILES
 #    # Header files
@@ -366,7 +364,7 @@ source_group("core\\" FILES ${CORE_FILES})
 #source_group("geometry\\" FILES ${GEOMETRY_FILES})
 source_group("rendering\\" FILES ${RENDERING_FILES})
 #source_group("rendering\\subpasses" FILES ${RENDERING_SUBPASSES_FILES})
-#source_group("scene_graph\\" FILES ${SCENE_GRAPH_FILES})
+source_group("\\" FILES ${SCENE_RESOURCE_FILES})
 #source_group("scene_graph\\components\\" FILES ${SCENE_GRAPH_COMPONENT_FILES})
 #source_group("scene_graph\\scripts\\" FILES ${SCENE_GRAPH_SCRIPTS_FILES})
 source_group("stats\\" FILES ${STATS_FILES})
@@ -381,7 +379,7 @@ set(PROJECT_FILES
         #    ${GEOMETRY_FILES}
         ${RENDERING_FILES}
         #    ${RENDERING_SUBPASSES_FILES}
-        #    ${SCENE_GRAPH_FILES}
+        ${SCENE_RESOURCE_FILES}
         #    ${SCENE_GRAPH_COMPONENT_FILES}
         #    ${SCENE_GRAPH_SCRIPTS_FILES}
         ${STATS_FILES}

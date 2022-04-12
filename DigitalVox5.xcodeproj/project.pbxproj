@@ -271,6 +271,8 @@
 		0444EA7A2805832400C6F279 /* gltf_loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA72280581C800C6F279 /* gltf_loader.cpp */; };
 		0444EA7D28059CDC00C6F279 /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA7B28059CDC00C6F279 /* camera.cpp */; };
 		0444EA7E28059CDC00C6F279 /* camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA7C28059CDC00C6F279 /* camera.h */; };
+		0444EA812805AF2A00C6F279 /* pbr_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA7F2805AF2900C6F279 /* pbr_material.cpp */; };
+		0444EA822805AF2A00C6F279 /* pbr_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA802805AF2A00C6F279 /* pbr_material.h */; };
 		047BB5C62803A96500CD5749 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047BB5C52803A96500CD5749 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -578,6 +580,8 @@
 		0444EA77280581F300C6F279 /* heightmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = heightmap.cpp; sourceTree = "<group>"; };
 		0444EA7B28059CDC00C6F279 /* camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = camera.cpp; sourceTree = "<group>"; };
 		0444EA7C28059CDC00C6F279 /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
+		0444EA7F2805AF2900C6F279 /* pbr_material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pbr_material.cpp; sourceTree = "<group>"; };
+		0444EA802805AF2A00C6F279 /* pbr_material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pbr_material.h; sourceTree = "<group>"; };
 		047BB5C22803A96500CD5749 /* apps */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apps; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		047BB5D02803A99E00CD5749 /* libvox.render.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.render.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -921,6 +925,8 @@
 				0444EA342805720800C6F279 /* texture.cpp */,
 				0444EA442805741800C6F279 /* material.h */,
 				0444EA452805741800C6F279 /* material.cpp */,
+				0444EA802805AF2A00C6F279 /* pbr_material.h */,
+				0444EA7F2805AF2900C6F279 /* pbr_material.cpp */,
 				0444EA40280573B500C6F279 /* sub_mesh.h */,
 				0444EA41280573B500C6F279 /* sub_mesh.cpp */,
 				0444EA73280581C800C6F279 /* gltf_loader.h */,
@@ -1067,6 +1073,7 @@
 				0444E92128055CE400C6F279 /* physical_device.h in Headers */,
 				0444E9F228056B0500C6F279 /* render_pass.h in Headers */,
 				0444EA592805772200C6F279 /* render_target.h in Headers */,
+				0444EA822805AF2A00C6F279 /* pbr_material.h in Headers */,
 				0444E9C7280569C500C6F279 /* render_pipeline.h in Headers */,
 				0444E9D728056A1900C6F279 /* buffer_pool.h in Headers */,
 				0444E9AD2805689000C6F279 /* sampled_image.h in Headers */,
@@ -1393,6 +1400,7 @@
 				0444E9E228056AFA00C6F279 /* device.cpp in Sources */,
 				0444EA1D28056EFD00C6F279 /* vulkan_sample.cpp in Sources */,
 				0444E953280562C700C6F279 /* image_view.cpp in Sources */,
+				0444EA812805AF2A00C6F279 /* pbr_material.cpp in Sources */,
 				0444E93A28055F8100C6F279 /* queue.cpp in Sources */,
 				0444E9D528056A1900C6F279 /* resource_replay.cpp in Sources */,
 				0444E9ED28056AFA00C6F279 /* pipeline_layout.cpp in Sources */,

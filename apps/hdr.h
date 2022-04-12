@@ -35,15 +35,15 @@ public:
     } textures;
     
     struct Models {
-        std::unique_ptr <vox::sg::SubMesh> skybox;
-        std::vector <std::unique_ptr<vox::sg::SubMesh>> objects;
-        std::vector <Matrix4x4F> transforms;
+        std::unique_ptr<vox::sg::SubMesh> skybox;
+        std::vector<std::unique_ptr<vox::sg::SubMesh>> objects;
+        std::vector<Matrix4x4F> transforms;
         int32_t object_index = 0;
     } models;
     
     struct {
-        std::unique_ptr <vox::core::Buffer> matrices;
-        std::unique_ptr <vox::core::Buffer> params;
+        std::unique_ptr<vox::core::Buffer> matrices;
+        std::unique_ptr<vox::core::Buffer> params;
     } uniform_buffers;
     
     struct UBOVS {
@@ -114,7 +114,7 @@ public:
         VkSampler sampler;
     } filter_pass;
     
-    std::vector <std::string> object_names;
+    std::vector<std::string> object_names;
     
     HDR();
     
