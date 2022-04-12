@@ -33,8 +33,8 @@ Device::Device(PhysicalDevice &gpu,
                std::unordered_map<const char *, bool> requested_extensions) :
 VulkanResource{VK_NULL_HANDLE, this},        // Recursive, but valid
 debug_utils{std::move(debug_utils)},
-gpu{gpu} {
-//resource_cache{*this} {
+gpu{gpu},
+resource_cache{*this} {
     LOGI("Selected GPU: {}", gpu.get_properties().deviceName);
     
     // Prepare the device queues
@@ -220,23 +220,23 @@ gpu{gpu} {
         throw VulkanException{result, "Cannot create allocator"};
     }
     
-//    command_pool = std::make_unique<CommandPool>(*this,
-//                                                 get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT,
-//                                                                    0).get_family_index());
+    command_pool = std::make_unique<CommandPool>(*this,
+                                                 get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT,
+                                                                    0).get_family_index());
     fence_pool = std::make_unique<FencePool>(*this);
 }
 
 Device::Device(PhysicalDevice &gpu, VkDevice &vulkan_device, VkSurfaceKHR surface) :
-gpu{gpu} {
-//resource_cache{*this} {
+gpu{gpu},
+resource_cache{*this} {
     this->handle = vulkan_device;
     debug_utils = std::make_unique<DummyDebugUtils>();
 }
 
 Device::~Device() {
-//    resource_cache.clear();
+    resource_cache.clear();
     
-//    command_pool.reset();
+    command_pool.reset();
     fence_pool.reset();
     
     if (memory_allocator != VK_NULL_HANDLE) {

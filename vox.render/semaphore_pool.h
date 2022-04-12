@@ -19,34 +19,42 @@
 
 #include "helpers.h"
 #include "vk_common.h"
-#include "core/vulkan_resource.h"
 
 namespace vox {
 class Device;
 
-namespace core {
-/**
- * @brief Represents a Vulkan Sampler
- */
-class Sampler : public VulkanResource<VkSampler, VK_OBJECT_TYPE_SAMPLER, const Device> {
+class SemaphorePool {
 public:
-    /**
-     * @brief Creates a Vulkan Sampler
-     * @param d The device to use
-     * @param info Creation details
-     */
-    Sampler(Device const &d, const VkSamplerCreateInfo &info);
+    SemaphorePool(Device &device);
     
-    Sampler(const Sampler &) = delete;
+    SemaphorePool(const SemaphorePool &) = delete;
     
-    Sampler(Sampler &&sampler);
+    SemaphorePool(SemaphorePool &&other) = delete;
     
-    ~Sampler();
+    ~SemaphorePool();
     
-    Sampler &operator=(const Sampler &) = delete;
+    SemaphorePool &operator=(const SemaphorePool &) = delete;
     
-    Sampler &operator=(Sampler &&) = delete;
+    SemaphorePool &operator=(SemaphorePool &&) = delete;
+    
+    VkSemaphore request_semaphore();
+    
+    VkSemaphore request_semaphore_with_ownership();
+    
+    void release_owned_semaphore(VkSemaphore semaphore);
+    
+    void reset();
+    
+    uint32_t get_active_semaphore_count() const;
+    
+private:
+    Device &device;
+    
+    std::vector<VkSemaphore> semaphores;
+    std::vector<VkSemaphore> released_semaphores;
+    
+    uint32_t active_semaphore_count{0};
 };
 
-}        // namespace core
+
 }        // namespace vox

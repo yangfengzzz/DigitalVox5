@@ -17,7 +17,7 @@
 
 #include "debug.h"
 
-//#include "core/command_buffer.h"
+#include "core/command_buffer.h"
 #include "core/device.h"
 #include <unordered_map>
 
@@ -176,11 +176,10 @@ command_buffer{VK_NULL_HANDLE} {
     }
 }
 
-//ScopedDebugLabel::ScopedDebugLabel(const CommandBuffer &command_buffer,
-//                                   const char *name, Color color) :
-//    ScopedDebugLabel{command_buffer.get_device().get_debug_utils(), command_buffer.get_handle(), name, color}
-//{
-//}
+ScopedDebugLabel::ScopedDebugLabel(const CommandBuffer &command_buffer,
+                                   const char *name, Color color) :
+    ScopedDebugLabel{command_buffer.get_device().get_debug_utils(), command_buffer.get_handle(), name, color} {
+}
 
 ScopedDebugLabel::~ScopedDebugLabel() {
     if (command_buffer != VK_NULL_HANDLE) {

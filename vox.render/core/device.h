@@ -21,30 +21,25 @@
 #include "helpers.h"
 #include "logging.h"
 #include "vk_common.h"
-
+#include "core/command_buffer.h"
+#include "core/command_pool.h"
+#include "core/debug.h"
+#include "core/descriptor_set.h"
+#include "core/descriptor_set_layout.h"
+#include "core/framebuffer.h"
 #include "core/instance.h"
 #include "core/physical_device.h"
-
-#include "core/vulkan_resource.h"
+#include "core/pipeline.h"
+#include "core/pipeline_layout.h"
 #include "core/queue.h"
+#include "core/render_pass.h"
+#include "core/shader_module.h"
 #include "core/swapchain.h"
-#include "core/debug.h"
-#include "core/buffer.h"
-
+#include "core/vulkan_resource.h"
 #include "fence_pool.h"
-
-//#include "core/command_buffer.h"
-//#include "core/command_pool.h"
-//#include "core/descriptor_set.h"
-//#include "core/descriptor_set_layout.h"
-//#include "core/framebuffer.h"
-//#include "core/pipeline.h"
-//#include "core/pipeline_layout.h"
-//#include "core/render_pass.h"
-//#include "core/shader_module.h"
-//#include "rendering/pipeline_state.h"
-//#include "rendering/render_target.h"
-//#include "resource_cache.h"
+#include "rendering/pipeline_state.h"
+#include "rendering/render_target.h"
+#include "resource_cache.h"
 
 namespace vox {
 struct DriverVersion {
@@ -138,7 +133,7 @@ public:
     
     uint32_t get_num_queues_for_queue_family(uint32_t queue_family_index);
     
-//    CommandPool &get_command_pool() const;
+    CommandPool &get_command_pool() const;
     
     /**
      * @brief Checks that a given memory type is supported by the GPU
@@ -169,7 +164,8 @@ public:
      * @param queue The queue to submit the copy command to
      * @param copy_region The amount to copy, if null copies the entire buffer
      */
-    void copy_buffer(vox::core::Buffer &src, vox::core::Buffer &dst, VkQueue queue, VkBufferCopy *copy_region = nullptr);
+    void
+    copy_buffer(vox::core::Buffer &src, vox::core::Buffer &dst, VkQueue queue, VkBufferCopy *copy_region = nullptr);
     
     /**
      * @brief Creates a command pool
@@ -229,7 +225,7 @@ public:
     
     VkResult wait_idle() const;
     
-//    ResourceCache &get_resource_cache();
+    ResourceCache &get_resource_cache();
     
 private:
     const PhysicalDevice &gpu;
@@ -247,12 +243,11 @@ private:
     std::vector <std::vector<Queue>> queues;
     
     /// A command pool associated to the primary queue
-//    std::unique_ptr <CommandPool> command_pool;
+    std::unique_ptr <CommandPool> command_pool;
     
     /// A fence pool associated to the primary queue
     std::unique_ptr <FencePool> fence_pool;
     
-//    ResourceCache resource_cache;
+    ResourceCache resource_cache;
 };
-
 }        // namespace vox

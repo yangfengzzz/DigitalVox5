@@ -24,10 +24,12 @@
 namespace vox {
 class Device;
 
+class CommandBuffer;
+
 class Queue {
 public:
-    Queue(Device &device, uint32_t family_index, VkQueueFamilyProperties properties,
-          VkBool32 can_present, uint32_t index);
+    Queue(Device &device, uint32_t family_index, VkQueueFamilyProperties properties, VkBool32 can_present,
+          uint32_t index);
     
     Queue(const Queue &) = default;
     
@@ -51,7 +53,7 @@ public:
     
     VkResult submit(const std::vector <VkSubmitInfo> &submit_infos, VkFence fence) const;
     
-    VkResult submit(const VkCommandBuffer &command_buffer, VkFence fence) const;
+    VkResult submit(const CommandBuffer &command_buffer, VkFence fence) const;
     
     VkResult present(const VkPresentInfoKHR &present_infos) const;
     
@@ -70,6 +72,5 @@ private:
     
     VkQueueFamilyProperties properties{};
 };
-
 
 }        // namespace vox

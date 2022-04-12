@@ -26,7 +26,7 @@
 #include "rendering/render_target.h"
 #include "resource_record.h"
 
-#include "common/helpers.h"
+#include "helpers.h"
 
 namespace std {
 template<>

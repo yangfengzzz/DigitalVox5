@@ -17,6 +17,7 @@
 
 #include "queue.h"
 
+#include "command_buffer.h"
 #include "device.h"
 
 namespace vox {
@@ -68,14 +69,14 @@ VkBool32 Queue::support_present() const {
     return can_present;
 }
 
-VkResult Queue::submit(const std::vector <VkSubmitInfo> &submit_infos, VkFence fence) const {
+VkResult Queue::submit(const std::vector<VkSubmitInfo> &submit_infos, VkFence fence) const {
     return vkQueueSubmit(handle, to_u32(submit_infos.size()), submit_infos.data(), fence);
 }
 
-VkResult Queue::submit(const VkCommandBuffer &command_buffer, VkFence fence) const {
+VkResult Queue::submit(const CommandBuffer &command_buffer, VkFence fence) const {
     VkSubmitInfo submit_info{VK_STRUCTURE_TYPE_SUBMIT_INFO};
     submit_info.commandBufferCount = 1;
-    submit_info.pCommandBuffers = &command_buffer;
+    submit_info.pCommandBuffers = &command_buffer.get_handle();
     
     return submit({submit_info}, fence);
 }
@@ -86,11 +87,10 @@ VkResult Queue::present(const VkPresentInfoKHR &present_info) const {
     }
     
     return vkQueuePresentKHR(handle, &present_info);
-}
+}        // namespace vox
 
 VkResult Queue::wait_idle() const {
     return vkQueueWaitIdle(handle);
 }
-
 
 }        // namespace vox
