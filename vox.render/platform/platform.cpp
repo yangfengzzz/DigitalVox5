@@ -107,42 +107,30 @@ ExitCode Platform::initialize(const std::vector<Plugin *> &plugins = {}) {
 }
 
 ExitCode Platform::main_loop() {
-    //    if (!app_requested()) {
-    //        LOGI("An app was not requested, can not continue");
-    //        return ExitCode::Close;
-    //    }
-    //
-    //    while (!window->should_close() && !close_requested) {
-    //        try {
-    //            // Load the requested app
-    //            if (app_requested()) {
-    //                if (!start_app()) {
-    //                    LOGE("Failed to load requested application");
-    //                    return ExitCode::FatalError;
-    //                }
-    //
-    //                // Compensate for load times of the app by rendering the first frame pre-emptively
-    //                timer.tick<Timer::Seconds>();
-    //                active_app->update(0.01667f);
-    //            }
-    //
-    //            update();
-    //
-    //            window->process_events();
-    //        }
-    //        catch (std::exception &e) {
-    //            LOGE("Error Message: {}", e.what());
-    //            LOGE("Failed when running application {}", active_app->get_name());
-    //
-    //            on_app_error(active_app->get_name());
-    //
-    //            if (app_requested()) {
-    //                LOGI("Attempting to load next application");
-    //            } else {
-    //                return ExitCode::FatalError;
-    //            }
-    //        }
-    //    }
+    // Load the requested app
+    if (!start_app()) {
+        LOGE("Failed to load requested application");
+        return ExitCode::FatalError;
+    }
+    
+    // Compensate for load times of the app by rendering the first frame pre-emptively
+    timer.tick<Timer::Seconds>();
+    active_app->update(0.01667f);
+    
+    while (!window->should_close() && !close_requested) {
+        try {
+            update();
+            
+            window->process_events();
+        }
+        catch (std::exception &e) {
+            LOGE("Error Message: {}", e.what());
+            LOGE("Failed when running application {}", active_app->get_name());
+            
+            on_app_error(active_app->get_name());
+            return ExitCode::FatalError;
+        }
+    }
     
     return ExitCode::Success;
 }
@@ -302,46 +290,35 @@ std::vector<spdlog::sink_ptr> Platform::get_platform_sinks() {
     return sinks;
 }
 
-//bool Platform::app_requested() {
-//    return requested_app != nullptr;
-//}
-//
-//void Platform::request_application(const apps::AppInfo *app) {
-//    requested_app = app;
-//}
-//
-//bool Platform::start_app() {
-//    auto *requested_app_info = requested_app;
-//    // Reset early incase error in preperation stage
-//    requested_app = nullptr;
-//
-//    if (active_app) {
-//        auto execution_time = timer.stop();
-//        LOGI("Closing App (Runtime: {:.1f})", execution_time);
-//
-//        auto app_id = active_app->get_name();
-//
-//        active_app->finish();
-//    }
-//
-//    active_app = requested_app_info->create();
-//
-//    active_app->set_name(requested_app_info->id);
-//
-//    if (!active_app) {
-//        LOGE("Failed to create a valid vulkan app.");
-//        return false;
-//    }
-//
-//    if (!active_app->prepare(*this)) {
-//        LOGE("Failed to prepare vulkan app.");
-//        return false;
-//    }
-//
-//    on_app_start(requested_app_info->id);
-//
-//    return true;
-//}
+void Platform::set_app(std::unique_ptr<Application>&& new_app) {
+    if (active_app) {
+        auto execution_time = timer.stop();
+        LOGI("Closing App (Runtime: {:.1f})", execution_time);
+        
+        auto app_id = active_app->get_name();
+        
+        active_app->finish();
+    }
+    active_app = std::move(new_app);
+}
+
+bool Platform::start_app() {
+    active_app->set_name("");
+    
+    if (!active_app) {
+        LOGE("Failed to create a valid vulkan app.");
+        return false;
+    }
+    
+    if (!active_app->prepare(*this)) {
+        LOGE("Failed to prepare vulkan app.");
+        return false;
+    }
+    
+    on_app_start("");
+    
+    return true;
+}
 
 void Platform::input_event(const InputEvent &input_event) {
     if (process_input_events && active_app) {

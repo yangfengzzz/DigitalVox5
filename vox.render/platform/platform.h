@@ -21,7 +21,6 @@
 #include <string>
 #include <vector>
 
-//#include "apps.h"
 #include "utils.h"
 #include "vk_common.h"
 #include "core/device.h"
@@ -80,6 +79,34 @@ public:
      */
     virtual void close();
     
+    virtual std::unique_ptr<RenderContext> create_render_context(Device &device, VkSurfaceKHR surface,
+                                                                 const std::vector<VkSurfaceFormatKHR> &surface_format_priority) const;
+    
+    virtual void resize(uint32_t width, uint32_t height);
+    
+    virtual void input_event(const InputEvent &input_event);
+    
+public:
+    Window &get_window();
+    
+    Application &get_app() const;
+    
+    Application &get_app();
+    
+    void set_app(std::unique_ptr<Application>&& active_app);
+
+    bool start_app();
+    
+public:
+    void set_focus(bool focused);
+    
+    void force_simulation_fps(float fps);
+    
+    void disable_input_processing();
+    
+public:
+    void set_window_properties(const Window::OptionalProperties &properties);
+    
     /**
      * @brief Returns the working directory of the application set by the platform
      * @returns The path to the working directory
@@ -92,24 +119,6 @@ public:
      */
     static const std::string &get_temp_directory();
     
-    /**
-     * @return The VkInstance extension name for the platform
-     */
-    virtual const char *get_surface_extension() = 0;
-    
-    virtual std::unique_ptr<RenderContext> create_render_context(Device &device, VkSurfaceKHR surface,
-                                                                 const std::vector<VkSurfaceFormatKHR> &surface_format_priority) const;
-    
-    virtual void resize(uint32_t width, uint32_t height);
-    
-    virtual void input_event(const InputEvent &input_event);
-    
-    Window &get_window();
-    
-    Application &get_app() const;
-    
-    Application &get_app();
-    
     std::vector<std::string> &get_arguments();
     
     static void set_arguments(const std::vector<std::string> &args);
@@ -118,30 +127,22 @@ public:
     
     static void set_temp_directory(const std::string &dir);
     
+    static const uint32_t MIN_WINDOW_WIDTH;
+    static const uint32_t MIN_WINDOW_HEIGHT;
+    
+public:
+    /**
+     * @return The VkInstance extension name for the platform
+     */
+    virtual const char *get_surface_extension() = 0;
+    
     template<class T>
     T *get_plugin() const;
     
     template<class T>
     bool using_plugin() const;
     
-    void set_focus(bool focused);
-    
-    //    void request_application(const apps::AppInfo *app);
-    //
-    //    bool app_requested();
-    //
-    //    bool start_app();
-    
-    void force_simulation_fps(float fps);
-    
-    void disable_input_processing();
-    
-    void set_window_properties(const Window::OptionalProperties &properties);
-    
     void on_post_draw(RenderContext &context);
-    
-    static const uint32_t MIN_WINDOW_WIDTH;
-    static const uint32_t MIN_WINDOW_HEIGHT;
     
 protected:
     std::unique_ptr<CommandParser> parser;
@@ -182,9 +183,7 @@ protected:
     
 private:
     Timer timer;
-    
-    //    const apps::AppInfo *requested_app{nullptr};
-    
+        
     std::vector<Plugin *> plugins;
     
     /// Static so can be set via JNI code in android_platform.cpp
