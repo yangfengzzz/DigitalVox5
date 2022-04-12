@@ -39,9 +39,9 @@
 #include "gui.h"
 #include "platform/platform.h"
 #include "rendering/render_context.h"
-#include "scene_graph/components/image.h"
-#include "scene_graph/components/sampler.h"
-#include "scene_graph/components/texture.h"
+#include "image.h"
+#include "sampler.h"
+#include "texture.h"
 #include "vulkan_sample.h"
 
 /**

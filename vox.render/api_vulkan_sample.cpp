@@ -20,10 +20,10 @@
 #include "core/device.h"
 #include "core/swapchain.h"
 #include "gltf_loader.h"
-#include "scene_graph/components/image.h"
-#include "scene_graph/components/sampler.h"
-#include "scene_graph/components/sub_mesh.h"
-#include "scene_graph/components/texture.h"
+#include "image.h"
+#include "sampler.h"
+#include "sub_mesh.h"
+#include "texture.h"
 
 bool ApiVulkanSample::prepare(vox::Platform &platform) {
     if (!VulkanSample::prepare(platform)) {
