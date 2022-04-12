@@ -1622,14 +1622,14 @@
 					./vox.math,
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"./cmake-debug/third_party/lib/Debug/x86_64",
-					"./cmake-debug/third_party/glfw/src/lib/Debug/x86_64",
-					"./cmake-debug/third_party/glslang/glslang/lib/Debug/x86_64",
-					"./cmake-debug/third_party/glslang/glslang/OSDependent/Unix/lib/Debug/x86_64",
-					"./cmake-debug/third_party/glslang/SPIRV/lib/Debug/x86_64",
-					"./cmake-debug/third_party/spirv-cross/lib/Debug/x86_64",
-					"./cmake-debug/third_party/hwcpipe/lib/Debug/x86_64",
-					"./cmake-debug/third_party/glslang/OGLCompilersDLL/lib/Debug/x86_64",
+					"./cmake-release/third_party/lib/Release/x86_64",
+					"./cmake-release/third_party/glfw/src/lib/Release/x86_64",
+					"./cmake-release/third_party/glslang/glslang/lib/Release/x86_64",
+					"./cmake-release/third_party/glslang/glslang/OSDependent/Unix/lib/Release/x86_64",
+					"./cmake-release/third_party/glslang/SPIRV/lib/Release/x86_64",
+					"./cmake-release/third_party/spirv-cross/lib/Release/x86_64",
+					"./cmake-release/third_party/hwcpipe/lib/Release/x86_64",
+					"./cmake-release/third_party/glslang/OGLCompilersDLL/lib/Release/x86_64",
 					/usr/local/lib,
 				);
 				OTHER_LDFLAGS = (
