@@ -249,6 +249,11 @@
 		0444EA3D2805732C00C6F279 /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA342805720800C6F279 /* texture.cpp */; };
 		0444EA3E2805732C00C6F279 /* sampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA302805720800C6F279 /* sampler.cpp */; };
 		0444EA3F2805732C00C6F279 /* sampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA332805720800C6F279 /* sampler.h */; };
+		0444EA42280573B500C6F279 /* sub_mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA40280573B500C6F279 /* sub_mesh.h */; };
+		0444EA43280573B500C6F279 /* sub_mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA41280573B500C6F279 /* sub_mesh.cpp */; };
+		0444EA462805741800C6F279 /* material.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA442805741800C6F279 /* material.h */; };
+		0444EA472805741800C6F279 /* material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA452805741800C6F279 /* material.cpp */; };
+		0444EA482805747500C6F279 /* api_vulkan_sample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA202805713D00C6F279 /* api_vulkan_sample.cpp */; };
 		047BB5C62803A96500CD5749 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047BB5C52803A96500CD5749 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -514,6 +519,10 @@
 		0444EA332805720800C6F279 /* sampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sampler.h; sourceTree = "<group>"; };
 		0444EA342805720800C6F279 /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = texture.cpp; sourceTree = "<group>"; };
 		0444EA352805720800C6F279 /* texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = texture.h; sourceTree = "<group>"; };
+		0444EA40280573B500C6F279 /* sub_mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sub_mesh.h; sourceTree = "<group>"; };
+		0444EA41280573B500C6F279 /* sub_mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sub_mesh.cpp; sourceTree = "<group>"; };
+		0444EA442805741800C6F279 /* material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
+		0444EA452805741800C6F279 /* material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = material.cpp; sourceTree = "<group>"; };
 		047BB5C22803A96500CD5749 /* apps */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apps; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		047BB5D02803A99E00CD5749 /* libvox.render.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.render.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -828,6 +837,10 @@
 				0444EA302805720800C6F279 /* sampler.cpp */,
 				0444EA352805720800C6F279 /* texture.h */,
 				0444EA342805720800C6F279 /* texture.cpp */,
+				0444EA442805741800C6F279 /* material.h */,
+				0444EA452805741800C6F279 /* material.cpp */,
+				0444EA40280573B500C6F279 /* sub_mesh.h */,
+				0444EA41280573B500C6F279 /* sub_mesh.cpp */,
 				0444EA1F2805713D00C6F279 /* api_vulkan_sample.h */,
 				0444EA202805713D00C6F279 /* api_vulkan_sample.cpp */,
 			);
@@ -946,6 +959,7 @@
 				0444E93128055D9300C6F279 /* debug_info.h in Headers */,
 				0444EA1128056E2700C6F279 /* stats_common.h in Headers */,
 				0444E9E428056AFA00C6F279 /* framebuffer.h in Headers */,
+				0444EA462805741800C6F279 /* material.h in Headers */,
 				0444E9F728056B0500C6F279 /* scratch_buffer.h in Headers */,
 				0444EA2D280571FA00C6F279 /* astc_img.h in Headers */,
 				0444E8C0280557ED00C6F279 /* resource_caching.h in Headers */,
@@ -987,6 +1001,7 @@
 				0444E8CA2805589600C6F279 /* spirv_reflection.h in Headers */,
 				0444E9F628056B0500C6F279 /* acceleration_structure.h in Headers */,
 				0444E965280563E600C6F279 /* filesystem.h in Headers */,
+				0444EA42280573B500C6F279 /* sub_mesh.h in Headers */,
 				0444E9F328056B0500C6F279 /* shader_binding_table.h in Headers */,
 				0444E9AE2805689000C6F279 /* sampler.h in Headers */,
 				0444E92228055CE400C6F279 /* instance.h in Headers */,
@@ -1226,6 +1241,7 @@
 				0444E9AF2805689000C6F279 /* sampler.cpp in Sources */,
 				0444EA1228056E2700C6F279 /* vulkan_stats_provider.cpp in Sources */,
 				0444E95B2805633000C6F279 /* glfw_window.cpp in Sources */,
+				0444EA472805741800C6F279 /* material.cpp in Sources */,
 				0444EA3E2805732C00C6F279 /* sampler.cpp in Sources */,
 				0444E96A280563E600C6F279 /* application.cpp in Sources */,
 				0444E95C280563DB00C6F279 /* unix_platform.cpp in Sources */,
@@ -1252,6 +1268,7 @@
 				0444EA1028056E2700C6F279 /* stats.cpp in Sources */,
 				0444E8C82805589600C6F279 /* spirv_reflection.cpp in Sources */,
 				0444E8B9280556B100C6F279 /* vk_common.cpp in Sources */,
+				0444EA482805747500C6F279 /* api_vulkan_sample.cpp in Sources */,
 				0444E9D628056A1900C6F279 /* buffer_pool.cpp in Sources */,
 				0444E8C92805589600C6F279 /* glsl_compiler.cpp in Sources */,
 				0444E8BC2805570600C6F279 /* error.cpp in Sources */,
@@ -1265,6 +1282,7 @@
 				0444EA0A28056E2700C6F279 /* frame_time_stats_provider.cpp in Sources */,
 				0444E9582805633000C6F279 /* platform.cpp in Sources */,
 				0444EA0E28056E2700C6F279 /* hwcpipe_stats_provider.cpp in Sources */,
+				0444EA43280573B500C6F279 /* sub_mesh.cpp in Sources */,
 				0444E961280563DB00C6F279 /* plugin.cpp in Sources */,
 				0444EA3D2805732C00C6F279 /* texture.cpp in Sources */,
 				0444EA0D28056E2700C6F279 /* stats_provider.cpp in Sources */,

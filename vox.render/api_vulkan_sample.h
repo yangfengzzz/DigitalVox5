@@ -30,7 +30,9 @@
 #include <random>
 #include <sys/stat.h>
 
-#include "camera.h"
+//#include "camera.h"
+#include "vector4.h"
+#include "sub_mesh.h"
 #include "error.h"
 #include "vk_common.h"
 #include "vk_initializers.h"
@@ -44,6 +46,7 @@
 #include "texture.h"
 #include "vulkan_sample.h"
 
+namespace vox {
 /**
  * @brief A swapchain buffer
  */
@@ -64,11 +67,11 @@ struct Texture {
  * @brief The structure of a vertex
  */
 struct Vertex {
-    glm::vec3 pos;
-    glm::vec3 normal;
-    glm::vec2 uv;
-    glm::vec4 joint0;
-    glm::vec4 weight0;
+    Vector3F pos;
+    Vector3F normal;
+    Vector2F uv;
+    Vector4F joint0;
+    Vector4F weight0;
 };
 
 /**
@@ -205,12 +208,12 @@ protected:
      */
     Texture load_texture_cubemap(const std::string &file);
     
-    /**
-     * @brief Loads in a single model from a GLTF file
-     * @param file The filename of the model to load
-     * @param index The index of the model to load from the GLTF file (default: 0)
-     */
-    std::unique_ptr<vox::sg::SubMesh> load_model(const std::string &file, uint32_t index = 0);
+//    /**
+//     * @brief Loads in a single model from a GLTF file
+//     * @param file The filename of the model to load
+//     * @param index The index of the model to load from the GLTF file (default: 0)
+//     */
+//    std::unique_ptr<vox::sg::SubMesh> load_model(const std::string &file, uint32_t index = 0);
     
     /**
      * @brief Records the necessary drawing commands to a command buffer
@@ -384,11 +387,11 @@ public:
     // Use to adjust mouse zoom speed
     float zoom_speed = 1.0f;
     
-    vox::Camera camera;
+//    vox::Camera camera;
     
-    glm::vec3 rotation = glm::vec3();
-    glm::vec3 camera_pos = glm::vec3();
-    glm::vec2 mouse_pos;
+    Vector3F rotation = Vector3F();
+    Vector3F camera_pos = Vector3F();
+    Vector2F mouse_pos;
     
     std::string title = "Vulkan Example";
     std::string name = "vulkanExample";
@@ -400,8 +403,8 @@ public:
     } depth_stencil;
     
     struct {
-        glm::vec2 axis_left = glm::vec2(0.0f);
-        glm::vec2 axis_right = glm::vec2(0.0f);
+        Vector2F axis_left = Vector2F();
+        Vector2F axis_right = Vector2F();
     } game_pad_state;
     
     struct {
@@ -418,3 +421,5 @@ public:
     double touch_timer = 0.0;
     int64_t last_tap_time = 0;
 };
+
+}
