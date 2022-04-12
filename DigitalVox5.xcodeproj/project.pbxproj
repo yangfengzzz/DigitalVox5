@@ -254,8 +254,36 @@
 		0444EA462805741800C6F279 /* material.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA442805741800C6F279 /* material.h */; };
 		0444EA472805741800C6F279 /* material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA452805741800C6F279 /* material.cpp */; };
 		0444EA482805747500C6F279 /* api_vulkan_sample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA202805713D00C6F279 /* api_vulkan_sample.cpp */; };
+		0444EA4B280575BA00C6F279 /* hdr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA4A280575BA00C6F279 /* hdr.cpp */; };
+		0444EA4D2805766F00C6F279 /* libvox.math.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 047BB5DF2803A9B700CD5749 /* libvox.math.a */; };
+		0444EA4E2805767000C6F279 /* libvox.render.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 047BB5D02803A99E00CD5749 /* libvox.render.a */; };
+		0444EA55280576F800C6F279 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444EA54280576F800C6F279 /* Cocoa.framework */; };
+		0444EA572805771000C6F279 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444EA562805770F00C6F279 /* IOKit.framework */; };
+		0444EA582805772200C6F279 /* render_frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E9B3280568C400C6F279 /* render_frame.cpp */; };
+		0444EA592805772200C6F279 /* render_target.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E9B1280568C300C6F279 /* render_target.h */; };
+		0444EA5A2805772200C6F279 /* render_target.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E9B5280568C400C6F279 /* render_target.cpp */; };
+		0444EA5B2805772200C6F279 /* render_frame.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E9B0280568C300C6F279 /* render_frame.h */; };
+		0444EA5C2805772200C6F279 /* render_context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E9B2280568C400C6F279 /* render_context.cpp */; };
+		0444EA5D2805772200C6F279 /* render_context.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E9B4280568C400C6F279 /* render_context.h */; };
 		047BB5C62803A96500CD5749 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047BB5C52803A96500CD5749 /* main.cpp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0444EA4F2805767300C6F279 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 047BB5DE2803A9B700CD5749;
+			remoteInfo = vox.math;
+		};
+		0444EA512805767300C6F279 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 047BB5CF2803A99E00CD5749;
+			remoteInfo = vox.render;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		047BB5C02803A96500CD5749 /* CopyFiles */ = {
@@ -523,6 +551,11 @@
 		0444EA41280573B500C6F279 /* sub_mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sub_mesh.cpp; sourceTree = "<group>"; };
 		0444EA442805741800C6F279 /* material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
 		0444EA452805741800C6F279 /* material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = material.cpp; sourceTree = "<group>"; };
+		0444EA49280575BA00C6F279 /* hdr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hdr.h; sourceTree = "<group>"; };
+		0444EA4A280575BA00C6F279 /* hdr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hdr.cpp; sourceTree = "<group>"; };
+		0444EA532805767600C6F279 /* apps.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = apps.entitlements; sourceTree = "<group>"; };
+		0444EA54280576F800C6F279 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		0444EA562805770F00C6F279 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		047BB5C22803A96500CD5749 /* apps */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apps; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		047BB5D02803A99E00CD5749 /* libvox.render.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.render.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -534,6 +567,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0444EA572805771000C6F279 /* IOKit.framework in Frameworks */,
+				0444EA55280576F800C6F279 /* Cocoa.framework in Frameworks */,
+				0444EA4D2805766F00C6F279 /* libvox.math.a in Frameworks */,
+				0444EA4E2805767000C6F279 /* libvox.render.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -756,6 +793,15 @@
 			path = image;
 			sourceTree = "<group>";
 		};
+		0444EA4C2805766F00C6F279 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0444EA562805770F00C6F279 /* IOKit.framework */,
+				0444EA54280576F800C6F279 /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		047BB5B92803A96500CD5749 = {
 			isa = PBXGroup;
 			children = (
@@ -763,6 +809,7 @@
 				047BB5D12803A99E00CD5749 /* vox.render */,
 				047BB5C42803A96500CD5749 /* apps */,
 				047BB5C32803A96500CD5749 /* Products */,
+				0444EA4C2805766F00C6F279 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -779,6 +826,9 @@
 		047BB5C42803A96500CD5749 /* apps */ = {
 			isa = PBXGroup;
 			children = (
+				0444EA532805767600C6F279 /* apps.entitlements */,
+				0444EA49280575BA00C6F279 /* hdr.h */,
+				0444EA4A280575BA00C6F279 /* hdr.cpp */,
 				047BB5C52803A96500CD5749 /* main.cpp */,
 			);
 			path = apps;
@@ -962,6 +1012,7 @@
 				0444EA462805741800C6F279 /* material.h in Headers */,
 				0444E9F728056B0500C6F279 /* scratch_buffer.h in Headers */,
 				0444EA2D280571FA00C6F279 /* astc_img.h in Headers */,
+				0444EA5B2805772200C6F279 /* render_frame.h in Headers */,
 				0444E8C0280557ED00C6F279 /* resource_caching.h in Headers */,
 				0444E969280563E600C6F279 /* application.h in Headers */,
 				0444E8BF280557ED00C6F279 /* tags.h in Headers */,
@@ -976,6 +1027,7 @@
 				0444E8BD2805579F00C6F279 /* helpers.h in Headers */,
 				0444E92128055CE400C6F279 /* physical_device.h in Headers */,
 				0444E9F228056B0500C6F279 /* render_pass.h in Headers */,
+				0444EA592805772200C6F279 /* render_target.h in Headers */,
 				0444E9C7280569C500C6F279 /* render_pipeline.h in Headers */,
 				0444E9D728056A1900C6F279 /* buffer_pool.h in Headers */,
 				0444E9AD2805689000C6F279 /* sampled_image.h in Headers */,
@@ -1002,6 +1054,7 @@
 				0444E9F628056B0500C6F279 /* acceleration_structure.h in Headers */,
 				0444E965280563E600C6F279 /* filesystem.h in Headers */,
 				0444EA42280573B500C6F279 /* sub_mesh.h in Headers */,
+				0444EA5D2805772200C6F279 /* render_context.h in Headers */,
 				0444E9F328056B0500C6F279 /* shader_binding_table.h in Headers */,
 				0444E9AE2805689000C6F279 /* sampler.h in Headers */,
 				0444E92228055CE400C6F279 /* instance.h in Headers */,
@@ -1136,6 +1189,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				0444EA502805767300C6F279 /* PBXTargetDependency */,
+				0444EA522805767300C6F279 /* PBXTargetDependency */,
 			);
 			name = apps;
 			productName = DigitalVox5;
@@ -1221,6 +1276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0444EA4B280575BA00C6F279 /* hdr.cpp in Sources */,
 				047BB5C62803A96500CD5749 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1229,12 +1285,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0444EA5A2805772200C6F279 /* render_target.cpp in Sources */,
 				0444E9FB28056B5000C6F279 /* utils.cpp in Sources */,
 				0444E9DF28056A1900C6F279 /* semaphore_pool.cpp in Sources */,
 				0444E92028055CE400C6F279 /* physical_device.cpp in Sources */,
 				0444EA2B280571FA00C6F279 /* stb_img.cpp in Sources */,
 				0444E9EA28056AFA00C6F279 /* command_pool.cpp in Sources */,
 				0444E91F28055CE400C6F279 /* instance.cpp in Sources */,
+				0444EA5C2805772200C6F279 /* render_context.cpp in Sources */,
 				0444E93D28055F9E00C6F279 /* swapchain.cpp in Sources */,
 				0444E9592805633000C6F279 /* window.cpp in Sources */,
 				0444E9542805633000C6F279 /* headless_window.cpp in Sources */,
@@ -1298,6 +1356,7 @@
 				0444E94128055FD400C6F279 /* debug.cpp in Sources */,
 				0444E9E328056AFA00C6F279 /* descriptor_set.cpp in Sources */,
 				0444E966280563E600C6F279 /* help_formatter.cpp in Sources */,
+				0444EA582805772200C6F279 /* render_frame.cpp in Sources */,
 				0444EA2F280571FA00C6F279 /* ktx_img.cpp in Sources */,
 				0444E9E128056AFA00C6F279 /* pipeline.cpp in Sources */,
 				0444E9F928056B0500C6F279 /* render_pass.cpp in Sources */,
@@ -1319,6 +1378,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0444EA502805767300C6F279 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 047BB5DE2803A9B700CD5749 /* vox.math */;
+			targetProxy = 0444EA4F2805767300C6F279 /* PBXContainerItemProxy */;
+		};
+		0444EA522805767300C6F279 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 047BB5CF2803A99E00CD5749 /* vox.render */;
+			targetProxy = 0444EA512805767300C6F279 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		047BB5C72803A96500CD5749 /* Debug */ = {
@@ -1433,20 +1505,154 @@
 		047BB5CA2803A96500CD5749 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = apps/apps.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'ROOT_PATH_SIZE=39'",
+					VK_NO_PROTOTYPES,
+					VK_USE_PLATFORM_METAL_EXT,
+					LIBKTX,
+					"'KTX_FEATURE_WRITE=0'",
+					"'BASISD_SUPPORT_KTX2_ZSTD=0'",
+					BASISU_NO_ITERATOR_DEBUG_LEVEL,
+					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					./vox.render,
+					./vox.math,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"./cmake-debug/third_party/lib/Debug/x86_64",
+					"./cmake-debug/third_party/glfw/src/lib/Debug/x86_64",
+					"./cmake-debug/third_party/glslang/glslang/lib/Debug/x86_64",
+					"./cmake-debug/third_party/glslang/glslang/OSDependent/Unix/lib/Debug/x86_64",
+					"./cmake-debug/third_party/glslang/SPIRV/lib/Debug/x86_64",
+					"./cmake-debug/third_party/spirv-cross/lib/Debug/x86_64",
+					"./cmake-debug/third_party/hwcpipe/lib/Debug/x86_64",
+					"./cmake-debug/third_party/glslang/OGLCompilersDLL/lib/Debug/x86_64",
+					/usr/local/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lvolk",
+					"-lktx",
+					"-lastc",
+					"-limgui",
+					"-lglslang",
+					"-lSPIRV",
+					"-lMachineIndependent",
+					"-lOGLCompiler",
+					"-lOSDependent",
+					"-lGenericCodeGen",
+					"-lhwcpipe",
+					"-lspirv-cross-glsl",
+					"-lspirv-cross-core",
+					"-lglslang-default-resource-limits",
+					"-lglfw3",
+					"-lopenvdb",
+					"-ltbb",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					./third_party/vma/src,
+					./third_party/volk,
+					./third_party/vulkan/include,
+					./third_party/spdlog/include,
+					./third_party/glm,
+					./third_party/glslang,
+					./third_party/tinygltf,
+					./third_party/cli11/include,
+					./third_party/glfw/include,
+					"./third_party/spirv-cross",
+					./third_party/hwcpipe,
+					./third_party/imgui,
+					./third_party/astc/Source,
+					./third_party/stb,
+					./third_party/ktx/include,
+					./third_party/CTPL,
+					/usr/local/include,
+				);
 			};
 			name = Debug;
 		};
 		047BB5CB2803A96500CD5749 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = apps/apps.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'ROOT_PATH_SIZE=39'",
+					VK_NO_PROTOTYPES,
+					VK_USE_PLATFORM_METAL_EXT,
+					LIBKTX,
+					"'KTX_FEATURE_WRITE=0'",
+					"'BASISD_SUPPORT_KTX2_ZSTD=0'",
+					BASISU_NO_ITERATOR_DEBUG_LEVEL,
+					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					./vox.render,
+					./vox.math,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"./cmake-debug/third_party/lib/Debug/x86_64",
+					"./cmake-debug/third_party/glfw/src/lib/Debug/x86_64",
+					"./cmake-debug/third_party/glslang/glslang/lib/Debug/x86_64",
+					"./cmake-debug/third_party/glslang/glslang/OSDependent/Unix/lib/Debug/x86_64",
+					"./cmake-debug/third_party/glslang/SPIRV/lib/Debug/x86_64",
+					"./cmake-debug/third_party/spirv-cross/lib/Debug/x86_64",
+					"./cmake-debug/third_party/hwcpipe/lib/Debug/x86_64",
+					"./cmake-debug/third_party/glslang/OGLCompilersDLL/lib/Debug/x86_64",
+					/usr/local/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lvolk",
+					"-lktx",
+					"-lastc",
+					"-limgui",
+					"-lglslang",
+					"-lSPIRV",
+					"-lMachineIndependent",
+					"-lOGLCompiler",
+					"-lOSDependent",
+					"-lGenericCodeGen",
+					"-lhwcpipe",
+					"-lspirv-cross-glsl",
+					"-lspirv-cross-core",
+					"-lglslang-default-resource-limits",
+					"-lglfw3",
+					"-lopenvdb",
+					"-ltbb",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					./third_party/vma/src,
+					./third_party/volk,
+					./third_party/vulkan/include,
+					./third_party/spdlog/include,
+					./third_party/glm,
+					./third_party/glslang,
+					./third_party/tinygltf,
+					./third_party/cli11/include,
+					./third_party/glfw/include,
+					"./third_party/spirv-cross",
+					./third_party/hwcpipe,
+					./third_party/imgui,
+					./third_party/astc/Source,
+					./third_party/stb,
+					./third_party/ktx/include,
+					./third_party/CTPL,
+					/usr/local/include,
+				);
 			};
 			name = Release;
 		};
