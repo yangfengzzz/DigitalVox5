@@ -101,7 +101,7 @@ class ShaderVariant {
 public:
     ShaderVariant() = default;
     
-    ShaderVariant(std::string &&preamble, std::vector <std::string> &&processes);
+    ShaderVariant(std::string &&preamble, std::vector<std::string> &&processes);
     
     size_t get_id() const;
     
@@ -109,7 +109,7 @@ public:
      * @brief Add definitions to shader variant
      * @param definitions Vector of definitions to add to the variant
      */
-    void add_definitions(const std::vector <std::string> &definitions);
+    void add_definitions(const std::vector<std::string> &definitions);
     
     /**
      * @brief Adds a define macro to the shader
@@ -131,13 +131,13 @@ public:
      */
     void add_runtime_array_size(const std::string &runtime_array_name, size_t size);
     
-    void set_runtime_array_sizes(const std::unordered_map <std::string, size_t> &sizes);
+    void set_runtime_array_sizes(const std::unordered_map<std::string, size_t> &sizes);
     
     const std::string &get_preamble() const;
     
-    const std::vector <std::string> &get_processes() const;
+    const std::vector<std::string> &get_processes() const;
     
-    const std::unordered_map <std::string, size_t> &get_runtime_array_sizes() const;
+    const std::unordered_map<std::string, size_t> &get_runtime_array_sizes() const;
     
     void clear();
     
@@ -146,9 +146,9 @@ private:
     
     std::string preamble;
     
-    std::vector <std::string> processes;
+    std::vector<std::string> processes;
     
-    std::unordered_map <std::string, size_t> runtime_array_sizes;
+    std::unordered_map<std::string, size_t> runtime_array_sizes;
     
     void update_id();
 };
@@ -206,11 +206,11 @@ public:
     
     const std::string &get_entry_point() const;
     
-    const std::vector <ShaderResource> &get_resources() const;
+    const std::vector<ShaderResource> &get_resources() const;
     
     const std::string &get_info_log() const;
     
-    const std::vector <uint32_t> &get_binary() const;
+    const std::vector<uint32_t> &get_binary() const;
     
     inline const std::string &get_debug_name() const {
         return debug_name;
@@ -243,9 +243,9 @@ private:
     std::string debug_name;
     
     /// Compiled source
-    std::vector <uint32_t> spirv;
+    std::vector<uint32_t> spirv;
     
-    std::vector <ShaderResource> resources;
+    std::vector<ShaderResource> resources;
     
     std::string info_log;
 };

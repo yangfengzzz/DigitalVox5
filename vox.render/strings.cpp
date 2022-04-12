@@ -19,7 +19,7 @@
 
 #include <spdlog/fmt/fmt.h>
 
-//#include "core/shader_module.h"
+#include "core/shader_module.h"
 
 namespace vox {
 std::vector<std::string> split(const std::string &str, const std::string &delimiter) {
@@ -997,34 +997,34 @@ const std::string to_string(bool flag) {
     return "false";
 }
 
-//const std::string to_string(ShaderResourceType type) {
-//    switch (type) {
-//        case ShaderResourceType::Input:
-//            return "Input";
-//        case ShaderResourceType::InputAttachment:
-//            return "InputAttachment";
-//        case ShaderResourceType::Output:
-//            return "Output";
-//        case ShaderResourceType::Image:
-//            return "Image";
-//        case ShaderResourceType::ImageSampler:
-//            return "ImageSampler";
-//        case ShaderResourceType::ImageStorage:
-//            return "ImageStorage";
-//        case ShaderResourceType::Sampler:
-//            return "Sampler";
-//        case ShaderResourceType::BufferUniform:
-//            return "BufferUniform";
-//        case ShaderResourceType::BufferStorage:
-//            return "BufferStorage";
-//        case ShaderResourceType::PushConstant:
-//            return "PushConstant";
-//        case ShaderResourceType::SpecializationConstant:
-//            return "SpecializationConstant";
-//        default:
-//            return "Unkown Type";
-//    }
-//}
+const std::string to_string(ShaderResourceType type) {
+    switch (type) {
+        case ShaderResourceType::Input:
+            return "Input";
+        case ShaderResourceType::InputAttachment:
+            return "InputAttachment";
+        case ShaderResourceType::Output:
+            return "Output";
+        case ShaderResourceType::Image:
+            return "Image";
+        case ShaderResourceType::ImageSampler:
+            return "ImageSampler";
+        case ShaderResourceType::ImageStorage:
+            return "ImageStorage";
+        case ShaderResourceType::Sampler:
+            return "Sampler";
+        case ShaderResourceType::BufferUniform:
+            return "BufferUniform";
+        case ShaderResourceType::BufferStorage:
+            return "BufferStorage";
+        case ShaderResourceType::PushConstant:
+            return "PushConstant";
+        case ShaderResourceType::SpecializationConstant:
+            return "SpecializationConstant";
+        default:
+            return "Unkown Type";
+    }
+}
 
 const std::string buffer_usage_to_string(VkBufferUsageFlags flags) {
     return to_string<VkBufferUsageFlagBits>(flags,

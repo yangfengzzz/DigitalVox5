@@ -32,7 +32,7 @@ VKBP_ENABLE_WARNINGS()
 namespace vox {
 namespace fs {
 namespace path {
-const std::unordered_map <Type, std::string> relative_paths = {{Type::Assets,      "assets/"},
+const std::unordered_map<Type, std::string> relative_paths = {{Type::Assets,      "assets/"},
     {Type::Shaders,     "shaders/"},
     {Type::Storage,     "output/"},
     {Type::Screenshots, "output/images/"},
@@ -95,7 +95,7 @@ void create_path(const std::string &root, const std::string &path) {
 }
 
 std::string read_text_file(const std::string &filename) {
-    std::vector <std::string> data;
+    std::vector<std::string> data;
     
     std::ifstream file;
     
@@ -109,8 +109,8 @@ std::string read_text_file(const std::string &filename) {
         (std::istreambuf_iterator<char>())};
 }
 
-std::vector <uint8_t> read_binary_file(const std::string &filename, const uint32_t count) {
-    std::vector <uint8_t> data;
+std::vector<uint8_t> read_binary_file(const std::string &filename, const uint32_t count) {
+    std::vector<uint8_t> data;
     
     std::ifstream file;
     
@@ -135,7 +135,7 @@ std::vector <uint8_t> read_binary_file(const std::string &filename, const uint32
 }
 
 static void
-write_binary_file(const std::vector <uint8_t> &data, const std::string &filename, const uint32_t count) {
+write_binary_file(const std::vector<uint8_t> &data, const std::string &filename, const uint32_t count) {
     std::ofstream file;
     
     file.open(filename, std::ios::out | std::ios::binary | std::ios::trunc);
@@ -153,7 +153,7 @@ write_binary_file(const std::vector <uint8_t> &data, const std::string &filename
     file.close();
 }
 
-std::vector <uint8_t> read_asset(const std::string &filename, const uint32_t count) {
+std::vector<uint8_t> read_asset(const std::string &filename, const uint32_t count) {
     return read_binary_file(path::get(path::Type::Assets) + filename, count);
 }
 
@@ -161,15 +161,15 @@ std::string read_shader(const std::string &filename) {
     return read_text_file(path::get(path::Type::Shaders) + filename);
 }
 
-std::vector <uint8_t> read_shader_binary(const std::string &filename) {
+std::vector<uint8_t> read_shader_binary(const std::string &filename) {
     return read_binary_file(path::get(path::Type::Shaders) + filename, 0);
 }
 
-std::vector <uint8_t> read_temp(const std::string &filename, const uint32_t count) {
+std::vector<uint8_t> read_temp(const std::string &filename, const uint32_t count) {
     return read_binary_file(path::get(path::Type::Temp) + filename, count);
 }
 
-void write_temp(const std::vector <uint8_t> &data, const std::string &filename, const uint32_t count) {
+void write_temp(const std::vector<uint8_t> &data, const std::string &filename, const uint32_t count) {
     write_binary_file(data, path::get(path::Type::Temp) + filename, count);
 }
 

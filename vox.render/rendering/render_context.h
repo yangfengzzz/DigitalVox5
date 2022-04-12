@@ -88,12 +88,12 @@ public:
     /**
      * @brief Sets the order in which the swapchain prioritizes selecting its present mode
      */
-    void set_present_mode_priority(const std::vector <VkPresentModeKHR> &present_mode_priority_list);
+    void set_present_mode_priority(const std::vector<VkPresentModeKHR> &present_mode_priority_list);
     
     /**
      * @brief Sets the order in which the swapchain prioritizes selecting its surface format
      */
-    void set_surface_format_priority(const std::vector <VkSurfaceFormatKHR> &surface_format_priority_list);
+    void set_surface_format_priority(const std::vector<VkSurfaceFormatKHR> &surface_format_priority_list);
     
     /**
      * @brief Prepares the RenderFrames for rendering
@@ -119,7 +119,7 @@ public:
      * @brief Updates the swapchains image usage, if a swapchain exists
      * @param image_usage_flags The usage flags the new swapchain images will have
      */
-    void update_swapchain(const std::set <VkImageUsageFlagBits> &image_usage_flags);
+    void update_swapchain(const std::set<VkImageUsageFlagBits> &image_usage_flags);
     
     /**
      * @brief Updates the swapchains extent and surface transform, if a swapchain exists
@@ -224,7 +224,7 @@ public:
     
     uint32_t get_active_frame_index() const;
     
-    std::vector <std::unique_ptr<RenderFrame>> &get_render_frames();
+    std::vector<std::unique_ptr<RenderFrame>> &get_render_frames();
     
     /**
      * @brief Handles surface changes, only applicable if the render_context makes use of a swapchain
@@ -246,23 +246,23 @@ private:
     /// If swapchain exists, then this will be a present supported queue, else a graphics queue
     const Queue &queue;
     
-    std::unique_ptr <Swapchain> swapchain;
+    std::unique_ptr<Swapchain> swapchain;
     
     SwapchainProperties swapchain_properties;
     
     // A list of present modes in order of priority (vector[0] has high priority, vector[size-1] has low priority)
-    std::vector <VkPresentModeKHR> present_mode_priority_list = {
+    std::vector<VkPresentModeKHR> present_mode_priority_list = {
         VK_PRESENT_MODE_FIFO_KHR,
         VK_PRESENT_MODE_MAILBOX_KHR};
     
     // A list of surface formats in order of priority (vector[0] has high priority, vector[size-1] has low priority)
-    std::vector <VkSurfaceFormatKHR> surface_format_priority_list = {
+    std::vector<VkSurfaceFormatKHR> surface_format_priority_list = {
         {VK_FORMAT_R8G8B8A8_SRGB,  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
         {VK_FORMAT_B8G8R8A8_SRGB,  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
         {VK_FORMAT_R8G8B8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
         {VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR}};
     
-    std::vector <std::unique_ptr<RenderFrame>> frames;
+    std::vector<std::unique_ptr<RenderFrame>> frames;
     
     VkSemaphore acquired_semaphore;
     

@@ -51,7 +51,7 @@ public:
     
     VkBool32 support_present() const;
     
-    VkResult submit(const std::vector <VkSubmitInfo> &submit_infos, VkFence fence) const;
+    VkResult submit(const std::vector<VkSubmitInfo> &submit_infos, VkFence fence) const;
     
     VkResult submit(const CommandBuffer &command_buffer, VkFence fence) const;
     

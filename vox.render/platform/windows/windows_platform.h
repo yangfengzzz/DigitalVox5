@@ -19,19 +19,17 @@
 
 #include "platform/platform.h"
 
-namespace vkb
-{
-class WindowsPlatform : public Platform
-{
-  public:
-	WindowsPlatform(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-	                PSTR lpCmdLine, INT nCmdShow);
-
-	virtual ~WindowsPlatform() = default;
-
-	virtual const char *get_surface_extension() override;
-
-  protected:
-	virtual void create_window(const Window::Properties &properties) override;
+namespace vox {
+class WindowsPlatform : public Platform {
+public:
+    WindowsPlatform(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+                    PSTR lpCmdLine, INT nCmdShow);
+    
+    virtual ~WindowsPlatform() = default;
+    
+    virtual const char *get_surface_extension() override;
+    
+protected:
+    virtual void create_window(const Window::Properties &properties) override;
 };
-}        // namespace vkb
+}        // namespace vox

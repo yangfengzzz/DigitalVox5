@@ -78,8 +78,8 @@ Pipeline{device} {
                                             shader_module->get_debug_name().c_str());
     
     // Create specialization info from tracked state.
-    std::vector <uint8_t> data{};
-    std::vector <VkSpecializationMapEntry> map_entries{};
+    std::vector<uint8_t> data{};
+    std::vector<VkSpecializationMapEntry> map_entries{};
     
     const auto specialization_constant_state = pipeline_state.get_specialization_constant_state().get_specialization_constant_state();
     
@@ -115,13 +115,13 @@ GraphicsPipeline::GraphicsPipeline(Device &device,
                                    VkPipelineCache pipeline_cache,
                                    PipelineState &pipeline_state) :
 Pipeline{device} {
-    std::vector <VkShaderModule> shader_modules;
+    std::vector<VkShaderModule> shader_modules;
     
-    std::vector <VkPipelineShaderStageCreateInfo> stage_create_infos;
+    std::vector<VkPipelineShaderStageCreateInfo> stage_create_infos;
     
     // Create specialization info from tracked state. This is shared by all shaders.
-    std::vector <uint8_t> data{};
-    std::vector <VkSpecializationMapEntry> map_entries{};
+    std::vector<uint8_t> data{};
+    std::vector<VkSpecializationMapEntry> map_entries{};
     
     const auto specialization_constant_state = pipeline_state.get_specialization_constant_state().get_specialization_constant_state();
     

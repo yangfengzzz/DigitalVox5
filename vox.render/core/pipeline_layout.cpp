@@ -63,7 +63,7 @@ shader_modules{shader_modules} {
             it2->second.push_back(shader_resource);
         } else {
             // Create a new set index and with the first resource
-            shader_sets.emplace(shader_resource.set, std::vector < ShaderResource > {shader_resource});
+            shader_sets.emplace(shader_resource.set, std::vector<ShaderResource>{shader_resource});
         }
     }
     
@@ -75,7 +75,7 @@ shader_modules{shader_modules} {
     }
     
     // Collect all the descriptor set layout handles, maintaining set order
-    std::vector <VkDescriptorSetLayout> descriptor_set_layout_handles;
+    std::vector<VkDescriptorSetLayout> descriptor_set_layout_handles;
     for (uint32_t i = 0; i < descriptor_set_layouts.size(); ++i) {
         if (descriptor_set_layouts[i]) {
             descriptor_set_layout_handles.push_back(descriptor_set_layouts[i]->get_handle());
@@ -85,7 +85,7 @@ shader_modules{shader_modules} {
     }
     
     // Collect all the push constant shader resources
-    std::vector <VkPushConstantRange> push_constant_ranges;
+    std::vector<VkPushConstantRange> push_constant_ranges;
     for (auto &push_constant_resource: get_resources(ShaderResourceType::PushConstant)) {
         push_constant_ranges.push_back(
                                        {push_constant_resource.stages, push_constant_resource.offset, push_constant_resource.size});
@@ -131,9 +131,9 @@ const std::vector<ShaderModule *> &PipelineLayout::get_shader_modules() const {
     return shader_modules;
 }
 
-const std::vector <ShaderResource>
+const std::vector<ShaderResource>
 PipelineLayout::get_resources(const ShaderResourceType &type, VkShaderStageFlagBits stage) const {
-    std::vector <ShaderResource> found_resources;
+    std::vector<ShaderResource> found_resources;
     
     for (auto &it: shader_resources) {
         auto &shader_resource = it.second;
@@ -148,7 +148,7 @@ PipelineLayout::get_resources(const ShaderResourceType &type, VkShaderStageFlagB
     return found_resources;
 }
 
-const std::unordered_map <uint32_t, std::vector<ShaderResource>> &PipelineLayout::get_shader_sets() const {
+const std::unordered_map<uint32_t, std::vector<ShaderResource>> &PipelineLayout::get_shader_sets() const {
     return shader_sets;
 }
 

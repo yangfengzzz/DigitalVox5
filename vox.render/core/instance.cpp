@@ -26,43 +26,38 @@ namespace vox {
 namespace {
 #if defined(VKB_DEBUG) || defined(VKB_VALIDATION_LAYERS)
 
-VKAPI_ATTR VkBool32 VKAPI_CALL debug_utils_messenger_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
-                                                              VkDebugUtilsMessageTypeFlagsEXT message_type,
-                                                              const VkDebugUtilsMessengerCallbackDataEXT *callback_data,
-                                                              void *                                      user_data) {
+VKAPI_ATTR VkBool32 VKAPI_CALL
+debug_utils_messenger_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
+                               VkDebugUtilsMessageTypeFlagsEXT message_type,
+                               const VkDebugUtilsMessengerCallbackDataEXT *callback_data,
+                               void *user_data) {
     // Log debug messge
-    if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
-    {
-        LOGW("{} - {}: {}", callback_data->messageIdNumber, callback_data->pMessageIdName, callback_data->pMessage);
-    }
-    else if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT)
-    {
-        LOGE("{} - {}: {}", callback_data->messageIdNumber, callback_data->pMessageIdName, callback_data->pMessage);
+    if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
+        LOGW("{} - {}: {}", callback_data->messageIdNumber, callback_data->pMessageIdName,
+             callback_data->pMessage);
+    } else if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
+        LOGE("{} - {}: {}", callback_data->messageIdNumber, callback_data->pMessageIdName,
+             callback_data->pMessage);
     }
     return VK_FALSE;
 }
 
-static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT /*type*/,
-                                                     uint64_t /*object*/, size_t /*location*/, int32_t /*message_code*/,
-                                                     const char *layer_prefix, const char *message, void * /*user_data*/) {
-    if (flags & VK_DEBUG_REPORT_ERROR_BIT_EXT)
-    {
+static VKAPI_ATTR VkBool32 VKAPI_CALL
+debug_callback(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT /*type*/,
+               uint64_t /*object*/, size_t /*location*/, int32_t /*message_code*/,
+               const char *layer_prefix, const char *message, void * /*user_data*/) {
+    if (flags & VK_DEBUG_REPORT_ERROR_BIT_EXT) {
         LOGE("{}: {}", layer_prefix, message);
-    }
-    else if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT)
-    {
+    } else if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT) {
         LOGW("{}: {}", layer_prefix, message);
-    }
-    else if (flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT)
-    {
+    } else if (flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT) {
         LOGW("{}: {}", layer_prefix, message);
-    }
-    else
-    {
+    } else {
         LOGI("{}: {}", layer_prefix, message);
     }
     return VK_FALSE;
 }
+
 #endif
 
 bool validate_layers(const std::vector<const char *> &required,
@@ -169,16 +164,14 @@ Instance::Instance(const std::string &application_name,
     
 #if defined(VKB_DEBUG) || defined(VKB_VALIDATION_LAYERS)
     // Check if VK_EXT_debug_utils is supported, which supersedes VK_EXT_Debug_Report
-    const bool has_debug_utils  = enable_extension(VK_EXT_DEBUG_UTILS_EXTENSION_NAME,
-                                                   available_instance_extensions, enabled_extensions);
-    bool       has_debug_report = false;
+    const bool has_debug_utils = enable_extension(VK_EXT_DEBUG_UTILS_EXTENSION_NAME,
+                                                  available_instance_extensions, enabled_extensions);
+    bool has_debug_report = false;
     
-    if (!has_debug_utils)
-    {
+    if (!has_debug_utils) {
         has_debug_report = enable_extension(VK_EXT_DEBUG_REPORT_EXTENSION_NAME,
                                             available_instance_extensions, enabled_extensions);
-        if (!has_debug_report)
-        {
+        if (!has_debug_report) {
             LOGW("Neither of {} or {} are available; disabling debug reporting",
                  VK_EXT_DEBUG_UTILS_EXTENSION_NAME, VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
         }
@@ -283,19 +276,20 @@ Instance::Instance(const std::string &application_name,
     instance_info.ppEnabledLayerNames = requested_validation_layers.data();
     
 #if defined(VKB_DEBUG) || defined(VKB_VALIDATION_LAYERS)
-    VkDebugUtilsMessengerCreateInfoEXT debug_utils_create_info  = {VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT};
+    VkDebugUtilsMessengerCreateInfoEXT debug_utils_create_info = {
+        VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT};
     VkDebugReportCallbackCreateInfoEXT debug_report_create_info = {VK_STRUCTURE_TYPE_DEBUG_REPORT_CREATE_INFO_EXT};
-    if (has_debug_utils)
-    {
-        debug_utils_create_info.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT;
-        debug_utils_create_info.messageType     = VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+    if (has_debug_utils) {
+        debug_utils_create_info.messageSeverity =
+        VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT;
+        debug_utils_create_info.messageType =
+        VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
         debug_utils_create_info.pfnUserCallback = debug_utils_messenger_callback;
         
         instance_info.pNext = &debug_utils_create_info;
-    }
-    else
-    {
-        debug_report_create_info.flags       = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT;
+    } else {
+        debug_report_create_info.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT |
+        VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT;
         debug_report_create_info.pfnCallback = debug_callback;
         
         instance_info.pNext = &debug_report_create_info;
@@ -327,19 +321,14 @@ Instance::Instance(const std::string &application_name,
     volkLoadInstance(handle);
     
 #if defined(VKB_DEBUG) || defined(VKB_VALIDATION_LAYERS)
-    if (has_debug_utils)
-    {
+    if (has_debug_utils) {
         result = vkCreateDebugUtilsMessengerEXT(handle, &debug_utils_create_info, nullptr, &debug_utils_messenger);
-        if (result != VK_SUCCESS)
-        {
+        if (result != VK_SUCCESS) {
             throw VulkanException(result, "Could not create debug utils messenger");
         }
-    }
-    else
-    {
+    } else {
         result = vkCreateDebugReportCallbackEXT(handle, &debug_report_create_info, nullptr, &debug_report_callback);
-        if (result != VK_SUCCESS)
-        {
+        if (result != VK_SUCCESS) {
             throw VulkanException(result, "Could not create debug report callback");
         }
     }
@@ -359,12 +348,10 @@ handle{instance} {
 
 Instance::~Instance() {
 #if defined(VKB_DEBUG) || defined(VKB_VALIDATION_LAYERS)
-    if (debug_utils_messenger != VK_NULL_HANDLE)
-    {
+    if (debug_utils_messenger != VK_NULL_HANDLE) {
         vkDestroyDebugUtilsMessengerEXT(handle, debug_utils_messenger, nullptr);
     }
-    if (debug_report_callback != VK_NULL_HANDLE)
-    {
+    if (debug_report_callback != VK_NULL_HANDLE) {
         vkDestroyDebugReportCallbackEXT(handle, debug_report_callback, nullptr);
     }
 #endif

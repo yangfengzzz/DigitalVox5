@@ -188,7 +188,8 @@ protected:
      * @param descriptor_type The type of image descriptor (default: VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER)
      */
     VkDescriptorImageInfo
-    create_descriptor(Texture &texture, VkDescriptorType descriptor_type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER);
+    create_descriptor(Texture &texture,
+                      VkDescriptorType descriptor_type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER);
     
     /**
      * @brief Loads in a ktx 2D texture
@@ -208,12 +209,12 @@ protected:
      */
     Texture load_texture_cubemap(const std::string &file);
     
-//    /**
-//     * @brief Loads in a single model from a GLTF file
-//     * @param file The filename of the model to load
-//     * @param index The index of the model to load from the GLTF file (default: 0)
-//     */
-//    std::unique_ptr<vox::sg::SubMesh> load_model(const std::string &file, uint32_t index = 0);
+    //    /**
+    //     * @brief Loads in a single model from a GLTF file
+    //     * @param file The filename of the model to load
+    //     * @param index The index of the model to load from the GLTF file (default: 0)
+    //     */
+    //    std::unique_ptr<vox::sg::SubMesh> load_model(const std::string &file, uint32_t index = 0);
     
     /**
      * @brief Records the necessary drawing commands to a command buffer
@@ -387,7 +388,7 @@ public:
     // Use to adjust mouse zoom speed
     float zoom_speed = 1.0f;
     
-//    vox::Camera camera;
+    //    vox::Camera camera;
     
     Vector3F rotation = Vector3F();
     Vector3F camera_pos = Vector3F();

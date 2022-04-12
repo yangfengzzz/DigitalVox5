@@ -53,13 +53,11 @@ public:
     
     const VkPhysicalDeviceMemoryProperties &get_memory_properties() const;
     
-    const std::vector <VkQueueFamilyProperties> &get_queue_family_properties() const;
+    const std::vector<VkQueueFamilyProperties> &get_queue_family_properties() const;
     
-    uint32_t get_queue_family_performance_query_passes(
-                                                       const VkQueryPoolPerformanceCreateInfoKHR *perf_query_create_info) const;
+    uint32_t get_queue_family_performance_query_passes(const VkQueryPoolPerformanceCreateInfoKHR *perf_query_create_info) const;
     
-    void enumerate_queue_family_performance_query_counters(
-                                                           uint32_t queue_family_index,
+    void enumerate_queue_family_performance_query_counters(uint32_t queue_family_index,
                                                            uint32_t *count,
                                                            VkPerformanceCounterKHR *counters,
                                                            VkPerformanceCounterDescriptionKHR *descriptions) const;
@@ -159,7 +157,7 @@ private:
     VkPhysicalDeviceMemoryProperties memory_properties;
     
     // The GPU queue family properties
-    std::vector <VkQueueFamilyProperties> queue_family_properties;
+    std::vector<VkQueueFamilyProperties> queue_family_properties;
     
     // The features that will be requested to be enabled in the logical device
     VkPhysicalDeviceFeatures requested_features{};
@@ -168,7 +166,7 @@ private:
     void *last_requested_extension_feature{nullptr};
     
     // Holds the extension feature structures, we use a map to retain an order of requested structures
-    std::map <VkStructureType, std::shared_ptr<void>> extension_features;
+    std::map<VkStructureType, std::shared_ptr<void>> extension_features;
     
     bool high_priority_graphics_queue{};
 };

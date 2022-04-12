@@ -69,11 +69,11 @@ private:
     
     uint32_t queue_family_index{0};
     
-    std::vector <std::unique_ptr<CommandBuffer>> primary_command_buffers;
+    std::vector<std::unique_ptr<CommandBuffer>> primary_command_buffers;
     
     uint32_t active_primary_command_buffer_count{0};
     
-    std::vector <std::unique_ptr<CommandBuffer>> secondary_command_buffers;
+    std::vector<std::unique_ptr<CommandBuffer>> secondary_command_buffers;
     
     uint32_t active_secondary_command_buffer_count{0};
     

@@ -72,7 +72,7 @@ const VkPhysicalDeviceMemoryProperties &PhysicalDevice::get_memory_properties() 
     return memory_properties;
 }
 
-const std::vector <VkQueueFamilyProperties> &PhysicalDevice::get_queue_family_properties() const {
+const std::vector<VkQueueFamilyProperties> &PhysicalDevice::get_queue_family_properties() const {
     return queue_family_properties;
 }
 

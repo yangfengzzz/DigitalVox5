@@ -56,8 +56,7 @@ public:
     virtual void on_app_error(const std::string &app_id) override {};
     
 private:
-    Tag<TAGS...> *tags = reinterpret_cast<Tag < TAGS
-    ...> *>(this);
+    Tag<TAGS...> *tags = reinterpret_cast<Tag<TAGS...> *>(this);
     
     std::vector<Hook> hooks;
     std::vector<Command *> commands;

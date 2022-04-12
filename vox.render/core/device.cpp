@@ -29,7 +29,7 @@ VKBP_ENABLE_WARNINGS()
 namespace vox {
 Device::Device(PhysicalDevice &gpu,
                VkSurfaceKHR surface,
-               std::unique_ptr <DebugUtils> &&debug_utils,
+               std::unique_ptr<DebugUtils> &&debug_utils,
                std::unordered_map<const char *, bool> requested_extensions) :
 VulkanResource{VK_NULL_HANDLE, this},        // Recursive, but valid
 debug_utils{std::move(debug_utils)},
@@ -39,9 +39,9 @@ resource_cache{*this} {
     
     // Prepare the device queues
     uint32_t queue_family_properties_count = to_u32(gpu.get_queue_family_properties().size());
-    std::vector <VkDeviceQueueCreateInfo> queue_create_infos(queue_family_properties_count,
-                                                             {VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO});
-    std::vector <std::vector<float>> queue_priorities(queue_family_properties_count);
+    std::vector<VkDeviceQueueCreateInfo> queue_create_infos(queue_family_properties_count,
+                                                            {VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO});
+    std::vector<std::vector<float>> queue_priorities(queue_family_properties_count);
     
     for (uint32_t queue_family_index = 0U;
          queue_family_index < queue_family_properties_count; ++queue_family_index) {

@@ -33,9 +33,9 @@ AccelerationStructure::~AccelerationStructure() {
     }
 }
 
-uint64_t AccelerationStructure::add_triangle_geometry(std::unique_ptr <vox::core::Buffer> &vertex_buffer,
-                                                      std::unique_ptr <vox::core::Buffer> &index_buffer,
-                                                      std::unique_ptr <vox::core::Buffer> &transform_buffer,
+uint64_t AccelerationStructure::add_triangle_geometry(std::unique_ptr<vox::core::Buffer> &vertex_buffer,
+                                                      std::unique_ptr<vox::core::Buffer> &index_buffer,
+                                                      std::unique_ptr<vox::core::Buffer> &transform_buffer,
                                                       uint32_t triangle_count, uint32_t max_vertex,
                                                       VkDeviceSize vertex_stride, uint32_t transform_offset,
                                                       VkFormat vertex_format, VkGeometryFlagsKHR flags,
@@ -65,9 +65,9 @@ uint64_t AccelerationStructure::add_triangle_geometry(std::unique_ptr <vox::core
 }
 
 void AccelerationStructure::update_triangle_geometry(uint64_t triangleUUID,
-                                                     std::unique_ptr <vox::core::Buffer> &vertex_buffer,
-                                                     std::unique_ptr <vox::core::Buffer> &index_buffer,
-                                                     std::unique_ptr <vox::core::Buffer> &transform_buffer,
+                                                     std::unique_ptr<vox::core::Buffer> &vertex_buffer,
+                                                     std::unique_ptr<vox::core::Buffer> &index_buffer,
+                                                     std::unique_ptr<vox::core::Buffer> &transform_buffer,
                                                      uint32_t triangle_count, uint32_t max_vertex,
                                                      VkDeviceSize vertex_stride, uint32_t transform_offset,
                                                      VkFormat vertex_format, VkGeometryFlagsKHR flags,
@@ -95,7 +95,7 @@ void AccelerationStructure::update_triangle_geometry(uint64_t triangleUUID,
     geometries[triangleUUID].updated = true;
 }
 
-uint64_t AccelerationStructure::add_instance_geometry(std::unique_ptr <vox::core::Buffer> &instance_buffer,
+uint64_t AccelerationStructure::add_instance_geometry(std::unique_ptr<vox::core::Buffer> &instance_buffer,
                                                       uint32_t instance_count, uint32_t transform_offset,
                                                       VkGeometryFlagsKHR flags) {
     VkAccelerationStructureGeometryKHR geometry{};
@@ -112,7 +112,7 @@ uint64_t AccelerationStructure::add_instance_geometry(std::unique_ptr <vox::core
 }
 
 void AccelerationStructure::update_instance_geometry(uint64_t instance_UID,
-                                                     std::unique_ptr <vox::core::Buffer> &instance_buffer,
+                                                     std::unique_ptr<vox::core::Buffer> &instance_buffer,
                                                      uint32_t instance_count, uint32_t transform_offset,
                                                      VkGeometryFlagsKHR flags) {
     VkAccelerationStructureGeometryKHR *geometry = &geometries[instance_UID].geometry;
@@ -131,9 +131,9 @@ void AccelerationStructure::build(VkQueue queue, VkBuildAccelerationStructureFla
                                   VkBuildAccelerationStructureModeKHR mode) {
     assert(!geometries.empty());
     
-    std::vector <VkAccelerationStructureGeometryKHR> acceleration_structure_geometries;
-    std::vector <VkAccelerationStructureBuildRangeInfoKHR> acceleration_structure_build_range_infos;
-    std::vector <uint32_t> primitive_counts;
+    std::vector<VkAccelerationStructureGeometryKHR> acceleration_structure_geometries;
+    std::vector<VkAccelerationStructureBuildRangeInfoKHR> acceleration_structure_build_range_infos;
+    std::vector<uint32_t> primitive_counts;
     for (auto &geometry: geometries) {
         if (mode == VK_BUILD_ACCELERATION_STRUCTURE_MODE_UPDATE_KHR && !geometry.second.updated) {
             continue;

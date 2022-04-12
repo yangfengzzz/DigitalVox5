@@ -41,7 +41,7 @@ public:
            VkBufferUsageFlags buffer_usage,
            VmaMemoryUsage memory_usage,
            VmaAllocationCreateFlags flags = VMA_ALLOCATION_CREATE_MAPPED_BIT,
-           const std::vector <uint32_t> &queue_family_indices = {});
+           const std::vector<uint32_t> &queue_family_indices = {});
     
     Buffer(const Buffer &) = delete;
     
@@ -54,14 +54,14 @@ public:
     Buffer &operator=(Buffer &&) = delete;
     
     template<typename T>
-    static std::vector <T>
-    copy(std::unordered_map <std::string, vox::core::Buffer> &buffers, const char *buffer_name) {
+    static std::vector<T>
+    copy(std::unordered_map<std::string, vox::core::Buffer> &buffers, const char *buffer_name) {
         auto iter = buffers.find(buffer_name);
         if (iter == buffers.cend()) {
             return {};
         }
         auto &buffer = iter->second;
-        std::vector <T> out;
+        std::vector<T> out;
         
         const size_t sz = buffer.get_size();
         out.resize(sz / sizeof(T));
@@ -128,7 +128,7 @@ public:
      * @param data The data vector to upload
      * @param offset The offset to start the copying into the mapped data
      */
-    void update(const std::vector <uint8_t> &data, size_t offset = 0);
+    void update(const std::vector<uint8_t> &data, size_t offset = 0);
     
     /**
      * @brief Copies an object as byte data into the buffer

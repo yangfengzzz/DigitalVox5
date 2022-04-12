@@ -41,7 +41,7 @@ public:
      * @param name Name of the component
      * @param data ASTC data with header
      */
-    Astc(const std::string &name, const std::vector <uint8_t> &data);
+    Astc(const std::string &name, const std::vector<uint8_t> &data);
     
     virtual ~Astc() = default;
     

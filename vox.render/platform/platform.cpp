@@ -107,42 +107,42 @@ ExitCode Platform::initialize(const std::vector<Plugin *> &plugins = {}) {
 }
 
 ExitCode Platform::main_loop() {
-//    if (!app_requested()) {
-//        LOGI("An app was not requested, can not continue");
-//        return ExitCode::Close;
-//    }
-//
-//    while (!window->should_close() && !close_requested) {
-//        try {
-//            // Load the requested app
-//            if (app_requested()) {
-//                if (!start_app()) {
-//                    LOGE("Failed to load requested application");
-//                    return ExitCode::FatalError;
-//                }
-//
-//                // Compensate for load times of the app by rendering the first frame pre-emptively
-//                timer.tick<Timer::Seconds>();
-//                active_app->update(0.01667f);
-//            }
-//
-//            update();
-//
-//            window->process_events();
-//        }
-//        catch (std::exception &e) {
-//            LOGE("Error Message: {}", e.what());
-//            LOGE("Failed when running application {}", active_app->get_name());
-//
-//            on_app_error(active_app->get_name());
-//
-//            if (app_requested()) {
-//                LOGI("Attempting to load next application");
-//            } else {
-//                return ExitCode::FatalError;
-//            }
-//        }
-//    }
+    //    if (!app_requested()) {
+    //        LOGI("An app was not requested, can not continue");
+    //        return ExitCode::Close;
+    //    }
+    //
+    //    while (!window->should_close() && !close_requested) {
+    //        try {
+    //            // Load the requested app
+    //            if (app_requested()) {
+    //                if (!start_app()) {
+    //                    LOGE("Failed to load requested application");
+    //                    return ExitCode::FatalError;
+    //                }
+    //
+    //                // Compensate for load times of the app by rendering the first frame pre-emptively
+    //                timer.tick<Timer::Seconds>();
+    //                active_app->update(0.01667f);
+    //            }
+    //
+    //            update();
+    //
+    //            window->process_events();
+    //        }
+    //        catch (std::exception &e) {
+    //            LOGE("Error Message: {}", e.what());
+    //            LOGE("Failed when running application {}", active_app->get_name());
+    //
+    //            on_app_error(active_app->get_name());
+    //
+    //            if (app_requested()) {
+    //                LOGI("Attempting to load next application");
+    //            } else {
+    //                return ExitCode::FatalError;
+    //            }
+    //        }
+    //    }
     
     return ExitCode::Success;
 }
@@ -165,20 +165,20 @@ std::unique_ptr<RenderContext> Platform::create_render_context(Device &device, V
                                                                const std::vector<VkSurfaceFormatKHR> &surface_format_priority) const {
     assert(!surface_format_priority.empty() &&
            "Surface format priority list must contain atleast one preffered surface format");
-
+    
     auto extent = window->get_extent();
     auto context = std::make_unique<RenderContext>(device, surface, extent.width, extent.height);
-
+    
     context->set_surface_format_priority(surface_format_priority);
-
+    
     context->request_image_format(surface_format_priority[0].format);
-
+    
     context->set_present_mode_priority({
         VK_PRESENT_MODE_MAILBOX_KHR,
         VK_PRESENT_MODE_FIFO_KHR,
         VK_PRESENT_MODE_IMMEDIATE_KHR,
     });
-
+    
     switch (window_properties.vsync) {
         case Window::Vsync::ON:
             context->request_present_mode(VK_PRESENT_MODE_FIFO_KHR);
@@ -188,7 +188,7 @@ std::unique_ptr<RenderContext> Platform::create_render_context(Device &device, V
             context->request_present_mode(VK_PRESENT_MODE_MAILBOX_KHR);
             break;
     }
-
+    
     return context;
 }
 
@@ -216,12 +216,12 @@ void Platform::terminate(ExitCode code) {
     on_platform_close();
     
     // Halt on all unsuccessful exit codes unless ForceClose is in use
-//    if (code != ExitCode::Success && !using_plugin<::plugins::ForceClose>()) {
-//#ifndef ANDROID
-//        std::cout << "Press any key to continue";
-//        std::cin.get();
-//#endif
-//    }
+    //    if (code != ExitCode::Success && !using_plugin<::plugins::ForceClose>()) {
+    //#ifndef ANDROID
+    //        std::cout << "Press any key to continue";
+    //        std::cin.get();
+    //#endif
+    //    }
 }
 
 void Platform::close() {
@@ -371,14 +371,14 @@ void Platform::resize(uint32_t width, uint32_t height) {
 }
 
 #define HOOK(enum, func)                \
-static auto res = hooks.find(enum); \
-if (res != hooks.end())             \
-{                                   \
-for (auto plugin : res->second) \
-{                               \
-plugin->func;               \
-}                               \
-}
+    static auto res = hooks.find(enum); \
+    if (res != hooks.end())             \
+    {                                   \
+        for (auto plugin : res->second) \
+        {                               \
+            plugin->func;               \
+        }                               \
+    }
 
 void Platform::on_post_draw(RenderContext &context) {
     HOOK(Hook::PostDraw, on_post_draw(context));

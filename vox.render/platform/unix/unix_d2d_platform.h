@@ -19,18 +19,16 @@
 
 #include "platform/platform.h"
 
-namespace vkb
-{
-class UnixD2DPlatform : public Platform
-{
-  public:
-	UnixD2DPlatform(int argc, char **argv);
-
-	virtual ~UnixD2DPlatform() = default;
-
-	virtual const char *get_surface_extension() override;
-
-  protected:
-	virtual void create_window(const Window::Properties &properties) override;
+namespace vox {
+class UnixD2DPlatform : public Platform {
+public:
+    UnixD2DPlatform(int argc, char **argv);
+    
+    virtual ~UnixD2DPlatform() = default;
+    
+    virtual const char *get_surface_extension() override;
+    
+protected:
+    virtual void create_window(const Window::Properties &properties) override;
 };
-}        // namespace vkb
+}        // namespace vox

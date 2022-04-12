@@ -58,7 +58,7 @@ public:
     static std::unique_ptr<Image> load(const std::string &name, const std::string &uri);
     
     virtual ~Image() = default;
-        
+    
     const std::vector<uint8_t> &get_data() const;
     
     void clear_data();

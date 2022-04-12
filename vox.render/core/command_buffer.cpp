@@ -559,8 +559,8 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
             // Make descriptor set layout bound for current set
             descriptor_set_layout_binding_state[descriptor_set_id] = &descriptor_set_layout;
             
-            BindingMap <VkDescriptorBufferInfo> buffer_infos;
-            BindingMap <VkDescriptorImageInfo> image_infos;
+            BindingMap<VkDescriptorBufferInfo> buffer_infos;
+            BindingMap<VkDescriptorImageInfo> image_infos;
             
             std::vector<uint32_t> dynamic_offsets;
             

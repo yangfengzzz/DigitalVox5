@@ -48,27 +48,27 @@ DepthStencilState &Subpass::get_depth_stencil_state() {
     return depth_stencil_state;
 }
 
-const std::vector <uint32_t> &Subpass::get_input_attachments() const {
+const std::vector<uint32_t> &Subpass::get_input_attachments() const {
     return input_attachments;
 }
 
-void Subpass::set_input_attachments(std::vector <uint32_t> input) {
+void Subpass::set_input_attachments(std::vector<uint32_t> input) {
     input_attachments = input;
 }
 
-const std::vector <uint32_t> &Subpass::get_output_attachments() const {
+const std::vector<uint32_t> &Subpass::get_output_attachments() const {
     return output_attachments;
 }
 
-void Subpass::set_output_attachments(std::vector <uint32_t> output) {
+void Subpass::set_output_attachments(std::vector<uint32_t> output) {
     output_attachments = output;
 }
 
-const std::vector <uint32_t> &Subpass::get_color_resolve_attachments() const {
+const std::vector<uint32_t> &Subpass::get_color_resolve_attachments() const {
     return color_resolve_attachments;
 }
 
-void Subpass::set_color_resolve_attachments(std::vector <uint32_t> color_resolve) {
+void Subpass::set_color_resolve_attachments(std::vector<uint32_t> color_resolve) {
     color_resolve_attachments = color_resolve;
 }
 

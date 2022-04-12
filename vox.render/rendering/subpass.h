@@ -72,19 +72,19 @@ public:
     
     DepthStencilState &get_depth_stencil_state();
     
-    const std::vector <uint32_t> &get_input_attachments() const;
+    const std::vector<uint32_t> &get_input_attachments() const;
     
-    void set_input_attachments(std::vector <uint32_t> input);
+    void set_input_attachments(std::vector<uint32_t> input);
     
-    const std::vector <uint32_t> &get_output_attachments() const;
+    const std::vector<uint32_t> &get_output_attachments() const;
     
-    void set_output_attachments(std::vector <uint32_t> output);
+    void set_output_attachments(std::vector<uint32_t> output);
     
     void set_sample_count(VkSampleCountFlagBits sample_count);
     
-    const std::vector <uint32_t> &get_color_resolve_attachments() const;
+    const std::vector<uint32_t> &get_color_resolve_attachments() const;
     
-    void set_color_resolve_attachments(std::vector <uint32_t> color_resolve);
+    void set_color_resolve_attachments(std::vector<uint32_t> color_resolve);
     
     const bool &get_disable_depth_stencil_attachment() const;
     
@@ -108,7 +108,7 @@ protected:
     VkSampleCountFlagBits sample_count{VK_SAMPLE_COUNT_1_BIT};
     
     // A map of shader resource names and the mode of constant data
-    std::unordered_map <std::string, ShaderResourceMode> resource_mode_map;
+    std::unordered_map<std::string, ShaderResourceMode> resource_mode_map;
     
 private:
     std::string debug_name{};
@@ -133,13 +133,13 @@ private:
     VkResolveModeFlagBits depth_stencil_resolve_mode{VK_RESOLVE_MODE_NONE};
     
     /// Default to no input attachments
-    std::vector <uint32_t> input_attachments = {};
+    std::vector<uint32_t> input_attachments = {};
     
     /// Default to swapchain output attachment
-    std::vector <uint32_t> output_attachments = {0};
+    std::vector<uint32_t> output_attachments = {0};
     
     /// Default to no color resolve attachments
-    std::vector <uint32_t> color_resolve_attachments = {};
+    std::vector<uint32_t> color_resolve_attachments = {};
     
     /// Default to no depth stencil resolve attachment
     uint32_t depth_stencil_resolve_attachment{VK_ATTACHMENT_UNUSED};

@@ -59,7 +59,7 @@ public:
      */
     Device(PhysicalDevice &gpu,
            VkSurfaceKHR surface,
-           std::unique_ptr <DebugUtils> &&debug_utils,
+           std::unique_ptr<DebugUtils> &&debug_utils,
            std::unordered_map<const char *, bool> requested_extensions = {});
     
     /**
@@ -232,21 +232,21 @@ private:
     
     VkSurfaceKHR surface{VK_NULL_HANDLE};
     
-    std::unique_ptr <DebugUtils> debug_utils;
+    std::unique_ptr<DebugUtils> debug_utils;
     
-    std::vector <VkExtensionProperties> device_extensions;
+    std::vector<VkExtensionProperties> device_extensions;
     
     std::vector<const char *> enabled_extensions{};
     
     VmaAllocator memory_allocator{VK_NULL_HANDLE};
     
-    std::vector <std::vector<Queue>> queues;
+    std::vector<std::vector<Queue>> queues;
     
     /// A command pool associated to the primary queue
-    std::unique_ptr <CommandPool> command_pool;
+    std::unique_ptr<CommandPool> command_pool;
     
     /// A fence pool associated to the primary queue
-    std::unique_ptr <FencePool> fence_pool;
+    std::unique_ptr<FencePool> fence_pool;
     
     ResourceCache resource_cache;
 };

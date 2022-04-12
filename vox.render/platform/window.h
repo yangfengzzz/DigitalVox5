@@ -32,8 +32,8 @@ public:
     };
     
     struct OptionalExtent {
-        std::optional <uint32_t> width;
-        std::optional <uint32_t> height;
+        std::optional<uint32_t> width;
+        std::optional<uint32_t> height;
     };
     
     enum class Mode {
@@ -50,10 +50,10 @@ public:
     };
     
     struct OptionalProperties {
-        std::optional <std::string> title;
-        std::optional <Mode> mode;
+        std::optional<std::string> title;
+        std::optional<Mode> mode;
         std::optional<bool> resizable;
-        std::optional <Vsync> vsync;
+        std::optional<Vsync> vsync;
         OptionalExtent extent;
     };
     

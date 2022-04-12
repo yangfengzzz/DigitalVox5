@@ -39,7 +39,7 @@ public:
     Texture(Texture &&other) = default;
     
     virtual ~Texture() = default;
-        
+    
     void set_image(Image &image);
     
     Image *get_image();

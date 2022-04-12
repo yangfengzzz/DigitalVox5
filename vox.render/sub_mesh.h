@@ -46,7 +46,7 @@ public:
     SubMesh(const std::string &name = {});
     
     virtual ~SubMesh() = default;
-        
+    
     VkIndexType index_type{};
     
     std::uint32_t index_offset = 0;

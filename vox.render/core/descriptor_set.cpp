@@ -27,8 +27,8 @@ namespace vox {
 DescriptorSet::DescriptorSet(Device &device,
                              DescriptorSetLayout &descriptor_set_layout,
                              DescriptorPool &descriptor_pool,
-                             const BindingMap <VkDescriptorBufferInfo> &buffer_infos,
-                             const BindingMap <VkDescriptorImageInfo> &image_infos) :
+                             const BindingMap<VkDescriptorBufferInfo> &buffer_infos,
+                             const BindingMap<VkDescriptorImageInfo> &image_infos) :
 device{device},
 descriptor_set_layout{descriptor_set_layout},
 descriptor_pool{descriptor_pool},
@@ -38,8 +38,8 @@ handle{descriptor_pool.allocate()} {
     prepare();
 }
 
-void DescriptorSet::reset(const BindingMap <VkDescriptorBufferInfo> &new_buffer_infos,
-                          const BindingMap <VkDescriptorImageInfo> &new_image_infos) {
+void DescriptorSet::reset(const BindingMap<VkDescriptorBufferInfo> &new_buffer_infos,
+                          const BindingMap<VkDescriptorImageInfo> &new_image_infos) {
     if (!new_buffer_infos.empty() || !new_image_infos.empty()) {
         buffer_infos = new_buffer_infos;
         image_infos = new_image_infos;
@@ -212,11 +212,11 @@ const DescriptorSetLayout &DescriptorSet::get_layout() const {
     return descriptor_set_layout;
 }
 
-BindingMap <VkDescriptorBufferInfo> &DescriptorSet::get_buffer_infos() {
+BindingMap<VkDescriptorBufferInfo> &DescriptorSet::get_buffer_infos() {
     return buffer_infos;
 }
 
-BindingMap <VkDescriptorImageInfo> &DescriptorSet::get_image_infos() {
+BindingMap<VkDescriptorImageInfo> &DescriptorSet::get_image_infos() {
     return image_infos;
 }
 

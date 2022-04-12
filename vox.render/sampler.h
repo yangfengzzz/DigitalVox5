@@ -35,7 +35,7 @@ public:
     Sampler(Sampler &&other) = default;
     
     virtual ~Sampler() = default;
-        
+    
     core::Sampler vk_sampler;
 };
 

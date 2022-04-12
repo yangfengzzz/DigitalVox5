@@ -126,11 +126,11 @@ public:
     
     void set_focus(bool focused);
     
-//    void request_application(const apps::AppInfo *app);
-//
-//    bool app_requested();
-//
-//    bool start_app();
+    //    void request_application(const apps::AppInfo *app);
+    //
+    //    bool app_requested();
+    //
+    //    bool start_app();
     
     void force_simulation_fps(float fps);
     
@@ -183,7 +183,7 @@ protected:
 private:
     Timer timer;
     
-//    const apps::AppInfo *requested_app{nullptr};
+    //    const apps::AppInfo *requested_app{nullptr};
     
     std::vector<Plugin *> plugins;
     

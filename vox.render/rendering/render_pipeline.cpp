@@ -18,7 +18,7 @@
 #include "render_pipeline.h"
 
 namespace vox {
-RenderPipeline::RenderPipeline(std::vector <std::unique_ptr<Subpass>> &&subpasses_) :
+RenderPipeline::RenderPipeline(std::vector<std::unique_ptr<Subpass>> &&subpasses_) :
 subpasses{std::move(subpasses_)} {
     prepare();
     
@@ -33,28 +33,28 @@ void RenderPipeline::prepare() {
     }
 }
 
-void RenderPipeline::add_subpass(std::unique_ptr <Subpass> &&subpass) {
+void RenderPipeline::add_subpass(std::unique_ptr<Subpass> &&subpass) {
     subpass->prepare();
     subpasses.emplace_back(std::move(subpass));
 }
 
-std::vector <std::unique_ptr<Subpass>> &RenderPipeline::get_subpasses() {
+std::vector<std::unique_ptr<Subpass>> &RenderPipeline::get_subpasses() {
     return subpasses;
 }
 
-const std::vector <LoadStoreInfo> &RenderPipeline::get_load_store() const {
+const std::vector<LoadStoreInfo> &RenderPipeline::get_load_store() const {
     return load_store;
 }
 
-void RenderPipeline::set_load_store(const std::vector <LoadStoreInfo> &ls) {
+void RenderPipeline::set_load_store(const std::vector<LoadStoreInfo> &ls) {
     load_store = ls;
 }
 
-const std::vector <VkClearValue> &RenderPipeline::get_clear_value() const {
+const std::vector<VkClearValue> &RenderPipeline::get_clear_value() const {
     return clear_value;
 }
 
-void RenderPipeline::set_clear_value(const std::vector <VkClearValue> &cv) {
+void RenderPipeline::set_clear_value(const std::vector<VkClearValue> &cv) {
     clear_value = cv;
 }
 
@@ -90,7 +90,7 @@ void RenderPipeline::draw(CommandBuffer &command_buffer, RenderTarget &render_ta
     active_subpass_index = 0;
 }
 
-std::unique_ptr <Subpass> &RenderPipeline::get_active_subpass() {
+std::unique_ptr<Subpass> &RenderPipeline::get_active_subpass() {
     return subpasses[active_subpass_index];
 }
 

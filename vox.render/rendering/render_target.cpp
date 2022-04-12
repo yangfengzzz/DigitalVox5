@@ -36,7 +36,7 @@ usage{usage} {
 }
 
 const RenderTarget::CreateFunc RenderTarget::DEFAULT_CREATE_FUNC = [](
-                                                                      core::Image &&swapchain_image) -> std::unique_ptr <RenderTarget> {
+                                                                      core::Image &&swapchain_image) -> std::unique_ptr<RenderTarget> {
                                                                           VkFormat depth_format = get_suitable_depth_format(swapchain_image.get_device().get_gpu().get_handle());
                                                                           
                                                                           core::Image depth_image{swapchain_image.get_device(), swapchain_image.get_extent(),
@@ -44,19 +44,19 @@ const RenderTarget::CreateFunc RenderTarget::DEFAULT_CREATE_FUNC = [](
                                                                               VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT,
                                                                               VMA_MEMORY_USAGE_GPU_ONLY};
                                                                           
-                                                                          std::vector <core::Image> images;
+                                                                          std::vector<core::Image> images;
                                                                           images.push_back(std::move(swapchain_image));
                                                                           images.push_back(std::move(depth_image));
                                                                           
                                                                           return std::make_unique<RenderTarget>(std::move(images));
                                                                       };
 
-vox::RenderTarget::RenderTarget(std::vector <core::Image> &&images) :
+vox::RenderTarget::RenderTarget(std::vector<core::Image> &&images) :
 device{images.back().get_device()},
 images{std::move(images)} {
     assert(!this->images.empty() && "Should specify at least 1 image");
     
-    std::set <VkExtent2D, CompareExtent2D> unique_extent;
+    std::set<VkExtent2D, CompareExtent2D> unique_extent;
     
     // Returns the image extent as a VkExtent2D structure from a VkExtent3D
     auto get_image_extent = [](const core::Image &image) {
@@ -85,13 +85,13 @@ images{std::move(images)} {
     }
 }
 
-vox::RenderTarget::RenderTarget(std::vector <core::ImageView> &&image_views) :
+vox::RenderTarget::RenderTarget(std::vector<core::ImageView> &&image_views) :
 device{const_cast<core::Image &>(image_views.back().get_image()).get_device()},
 images{},
 views{std::move(image_views)} {
     assert(!views.empty() && "Should specify at least 1 image view");
     
-    std::set <VkExtent2D, CompareExtent2D> unique_extent;
+    std::set<VkExtent2D, CompareExtent2D> unique_extent;
     
     // Returns the extent of the base mip level pointed at by a view
     auto get_view_extent = [](const core::ImageView &view) {
@@ -118,27 +118,27 @@ const VkExtent2D &RenderTarget::get_extent() const {
     return extent;
 }
 
-const std::vector <core::ImageView> &RenderTarget::get_views() const {
+const std::vector<core::ImageView> &RenderTarget::get_views() const {
     return views;
 }
 
-const std::vector <Attachment> &RenderTarget::get_attachments() const {
+const std::vector<Attachment> &RenderTarget::get_attachments() const {
     return attachments;
 }
 
-void RenderTarget::set_input_attachments(std::vector <uint32_t> &input) {
+void RenderTarget::set_input_attachments(std::vector<uint32_t> &input) {
     input_attachments = input;
 }
 
-const std::vector <uint32_t> &RenderTarget::get_input_attachments() const {
+const std::vector<uint32_t> &RenderTarget::get_input_attachments() const {
     return input_attachments;
 }
 
-void RenderTarget::set_output_attachments(std::vector <uint32_t> &output) {
+void RenderTarget::set_output_attachments(std::vector<uint32_t> &output) {
     output_attachments = output;
 }
 
-const std::vector <uint32_t> &RenderTarget::get_output_attachments() const {
+const std::vector<uint32_t> &RenderTarget::get_output_attachments() const {
     return output_attachments;
 }
 

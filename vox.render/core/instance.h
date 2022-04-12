@@ -29,7 +29,7 @@ class PhysicalDevice;
  * @param supported_instance_layers A list of validation layers to check against
  */
 std::vector<const char *>
-get_optimal_validation_layers(const std::vector <VkLayerProperties> &supported_instance_layers);
+get_optimal_validation_layers(const std::vector<VkLayerProperties> &supported_instance_layers);
 
 /**
  * @brief A wrapper class for VkInstance
@@ -102,7 +102,7 @@ public:
      * @brief Returns a const ref to the properties of all requested layers in this instance
      * @returns The VkLayerProperties for all requested layers in this instance
      */
-    const std::vector <VkLayerProperties> &get_layer_properties();
+    const std::vector<VkLayerProperties> &get_layer_properties();
     
     /**
      * @brief Finds layer properties for the layer with the given name
@@ -138,7 +138,7 @@ private:
     /**
      * @brief The physical devices found on the machine
      */
-    std::vector <std::unique_ptr<PhysicalDevice>> gpus;
+    std::vector<std::unique_ptr<PhysicalDevice>> gpus;
 };        // namespace Instance
 
 

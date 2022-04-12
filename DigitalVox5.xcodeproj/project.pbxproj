@@ -556,6 +556,16 @@
 		0444EA532805767600C6F279 /* apps.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = apps.entitlements; sourceTree = "<group>"; };
 		0444EA54280576F800C6F279 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0444EA562805770F00C6F279 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		0444EA5E28057CEE00C6F279 /* android_platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = android_platform.h; sourceTree = "<group>"; };
+		0444EA5F28057CEE00C6F279 /* android_platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = android_platform.cpp; sourceTree = "<group>"; };
+		0444EA6028057CEE00C6F279 /* android_window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = android_window.cpp; sourceTree = "<group>"; };
+		0444EA6128057CEE00C6F279 /* android_window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = android_window.h; sourceTree = "<group>"; };
+		0444EA6628057D0800C6F279 /* windows_platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = windows_platform.cpp; sourceTree = "<group>"; };
+		0444EA6728057D0800C6F279 /* windows_platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = windows_platform.h; sourceTree = "<group>"; };
+		0444EA6A28057D1300C6F279 /* unix_d2d_platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unix_d2d_platform.h; sourceTree = "<group>"; };
+		0444EA6B28057D1300C6F279 /* unix_d2d_platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unix_d2d_platform.cpp; sourceTree = "<group>"; };
+		0444EA6C28057D1300C6F279 /* direct_window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = direct_window.h; sourceTree = "<group>"; };
+		0444EA6D28057D1300C6F279 /* direct_window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = direct_window.cpp; sourceTree = "<group>"; };
 		047BB5C22803A96500CD5749 /* apps */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apps; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		047BB5D02803A99E00CD5749 /* libvox.render.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.render.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -643,24 +653,24 @@
 				0444E97D2805681700C6F279 /* command_pool.cpp */,
 				0444E9772805681700C6F279 /* command_buffer.h */,
 				0444E9742805681700C6F279 /* command_buffer.cpp */,
-				0444E98A2805681800C6F279 /* descriptor_pool.cpp */,
 				0444E9882805681800C6F279 /* descriptor_pool.h */,
-				0444E9832805681700C6F279 /* descriptor_set_layout.cpp */,
+				0444E98A2805681800C6F279 /* descriptor_pool.cpp */,
 				0444E9892805681800C6F279 /* descriptor_set_layout.h */,
-				0444E9842805681700C6F279 /* descriptor_set.cpp */,
+				0444E9832805681700C6F279 /* descriptor_set_layout.cpp */,
 				0444E9712805681600C6F279 /* descriptor_set.h */,
-				0444E98D2805681800C6F279 /* pipeline_layout.cpp */,
+				0444E9842805681700C6F279 /* descriptor_set.cpp */,
 				0444E9822805681700C6F279 /* pipeline_layout.h */,
-				0444E9762805681700C6F279 /* pipeline.cpp */,
+				0444E98D2805681800C6F279 /* pipeline_layout.cpp */,
 				0444E98B2805681800C6F279 /* pipeline.h */,
-				0444E9782805681700C6F279 /* framebuffer.cpp */,
+				0444E9762805681700C6F279 /* pipeline.cpp */,
 				0444E9872805681800C6F279 /* framebuffer.h */,
-				0444E9852805681800C6F279 /* query_pool.cpp */,
+				0444E9782805681700C6F279 /* framebuffer.cpp */,
 				0444E9862805681800C6F279 /* query_pool.h */,
-				0444E97A2805681700C6F279 /* render_pass.cpp */,
+				0444E9852805681800C6F279 /* query_pool.cpp */,
 				0444E9812805681700C6F279 /* render_pass.h */,
-				0444E97F2805681700C6F279 /* scratch_buffer.cpp */,
+				0444E97A2805681700C6F279 /* render_pass.cpp */,
 				0444E9722805681600C6F279 /* scratch_buffer.h */,
+				0444E97F2805681700C6F279 /* scratch_buffer.cpp */,
 				0444E97C2805681700C6F279 /* shader_binding_table.h */,
 				0444E9752805681700C6F279 /* shader_binding_table.cpp */,
 				0444E97B2805681700C6F279 /* acceleration_structure.h */,
@@ -702,6 +712,10 @@
 		0444E8CD280559C300C6F279 /* android */ = {
 			isa = PBXGroup;
 			children = (
+				0444EA5E28057CEE00C6F279 /* android_platform.h */,
+				0444EA5F28057CEE00C6F279 /* android_platform.cpp */,
+				0444EA6128057CEE00C6F279 /* android_window.h */,
+				0444EA6028057CEE00C6F279 /* android_window.cpp */,
 			);
 			path = android;
 			sourceTree = "<group>";
@@ -730,6 +744,10 @@
 		0444E8D0280559D700C6F279 /* unix */ = {
 			isa = PBXGroup;
 			children = (
+				0444EA6C28057D1300C6F279 /* direct_window.h */,
+				0444EA6D28057D1300C6F279 /* direct_window.cpp */,
+				0444EA6A28057D1300C6F279 /* unix_d2d_platform.h */,
+				0444EA6B28057D1300C6F279 /* unix_d2d_platform.cpp */,
 				0444E8D228055A1E00C6F279 /* unix_platform.h */,
 				0444E8D328055A1E00C6F279 /* unix_platform.cpp */,
 			);
@@ -739,6 +757,8 @@
 		0444E8D1280559DD00C6F279 /* windows */ = {
 			isa = PBXGroup;
 			children = (
+				0444EA6728057D0800C6F279 /* windows_platform.h */,
+				0444EA6628057D0800C6F279 /* windows_platform.cpp */,
 			);
 			path = windows;
 			sourceTree = "<group>";
@@ -856,8 +876,8 @@
 				0444E81A2805556100C6F279 /* core */,
 				0444E8CC280559BC00C6F279 /* platform */,
 				0444E96F280564DB00C6F279 /* rendering */,
-				0444E9CA28056A1900C6F279 /* buffer_pool.cpp */,
 				0444E9CB28056A1900C6F279 /* buffer_pool.h */,
+				0444E9CA28056A1900C6F279 /* buffer_pool.cpp */,
 				0444E944280560A000C6F279 /* fence_pool.h */,
 				0444E943280560A000C6F279 /* fence_pool.cpp */,
 				0444E9C828056A1900C6F279 /* semaphore_pool.h */,

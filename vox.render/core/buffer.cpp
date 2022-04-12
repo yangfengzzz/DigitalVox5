@@ -23,7 +23,7 @@ namespace vox {
 namespace core {
 Buffer::Buffer(Device const &device, VkDeviceSize size, VkBufferUsageFlags buffer_usage,
                VmaMemoryUsage memory_usage, VmaAllocationCreateFlags flags,
-               const std::vector <uint32_t> &queue_family_indices) :
+               const std::vector<uint32_t> &queue_family_indices) :
 VulkanResource{VK_NULL_HANDLE, &device},
 size{size} {
 #ifdef VK_USE_PLATFORM_METAL_EXT
@@ -122,7 +122,7 @@ void Buffer::flush() const {
     vmaFlushAllocation(device->get_memory_allocator(), allocation, 0, size);
 }
 
-void Buffer::update(const std::vector <uint8_t> &data, size_t offset) {
+void Buffer::update(const std::vector<uint8_t> &data, size_t offset) {
     update(data.data(), data.size(), offset);
 }
 

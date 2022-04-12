@@ -43,7 +43,7 @@ optimal_tiling_callback(int mip_level,
                         void *pixels,
                         void *user_data) {
     // Get mipmaps
-    auto &mipmaps = *reinterpret_cast<std::vector <Mipmap> *>(user_data);
+    auto &mipmaps = *reinterpret_cast<std::vector<Mipmap> *>(user_data);
     assert(static_cast<size_t>(mip_level) < mipmaps.size() && "Not enough space in the mipmap vector");
     
     auto &mipmap = mipmaps.at(mip_level);
@@ -61,7 +61,7 @@ optimal_tiling_callback(int mip_level,
     return KTX_SUCCESS;
 }
 
-Ktx::Ktx(const std::string &name, const std::vector <uint8_t> &data) :
+Ktx::Ktx(const std::string &name, const std::vector<uint8_t> &data) :
 Image{name} {
     auto data_buffer = reinterpret_cast<const ktx_uint8_t *>(data.data());
     auto data_size = static_cast<ktx_size_t>(data.size());
@@ -119,9 +119,9 @@ Image{name} {
     if (texture->numLayers > 1 || cubemap) {
         uint32_t layer_count = cubemap ? texture->numFaces : texture->numLayers;
         
-        std::vector <std::vector<VkDeviceSize>> offsets;
+        std::vector<std::vector<VkDeviceSize>> offsets;
         for (uint32_t layer = 0; layer < layer_count; layer++) {
-            std::vector <VkDeviceSize> layer_offsets{};
+            std::vector<VkDeviceSize> layer_offsets{};
             for (uint32_t level = 0; level < texture->numLevels; level++) {
                 ktx_size_t offset;
                 KTX_error_code result;
@@ -136,7 +136,7 @@ Image{name} {
         }
         set_offsets(offsets);
     } else {
-        std::vector <std::vector<VkDeviceSize>> offsets{};
+        std::vector<std::vector<VkDeviceSize>> offsets{};
         offsets.resize(1);
         for (size_t level = 0; level < mipmap_levels.size(); level++) {
             offsets[0].push_back(static_cast<VkDeviceSize>(mipmap_levels[level].offset));

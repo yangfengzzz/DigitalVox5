@@ -59,13 +59,13 @@ public:
     static constexpr uint32_t BUFFER_POOL_BLOCK_SIZE = 256;
     
     // A map of the supported usages to a multiplier for the BUFFER_POOL_BLOCK_SIZE
-    const std::unordered_map <VkBufferUsageFlags, uint32_t> supported_usage_map = {
+    const std::unordered_map<VkBufferUsageFlags, uint32_t> supported_usage_map = {
         {VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, 1},
         {VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, 2},        // x2 the size of BUFFER_POOL_BLOCK_SIZE since SSBOs are normally much larger than other types of buffers
         {VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,  1},
         {VK_BUFFER_USAGE_INDEX_BUFFER_BIT,   1}};
     
-    RenderFrame(Device &device, std::unique_ptr <RenderTarget> &&render_target, size_t thread_count = 1);
+    RenderFrame(Device &device, std::unique_ptr<RenderTarget> &&render_target, size_t thread_count = 1);
     
     RenderFrame(const RenderFrame &) = delete;
     
@@ -95,7 +95,7 @@ public:
      * @brief Called when the swapchain changes
      * @param render_target A new render target with updated images
      */
-    void update_render_target(std::unique_ptr <RenderTarget> &&render_target);
+    void update_render_target(std::unique_ptr<RenderTarget> &&render_target);
     
     RenderTarget &get_render_target();
     
@@ -117,8 +117,8 @@ public:
                                           size_t thread_index = 0);
     
     DescriptorSet &request_descriptor_set(DescriptorSetLayout &descriptor_set_layout,
-                                          const BindingMap <VkDescriptorBufferInfo> &buffer_infos,
-                                          const BindingMap <VkDescriptorImageInfo> &image_infos,
+                                          const BindingMap<VkDescriptorBufferInfo> &buffer_infos,
+                                          const BindingMap<VkDescriptorImageInfo> &image_infos,
                                           size_t thread_index = 0);
     
     void clear_descriptors();
@@ -152,19 +152,19 @@ private:
      *        may trigger a pool re-creation to set necessary flags
      * @return The frame's command pool(s)
      */
-    std::vector <std::unique_ptr<CommandPool>> &
+    std::vector<std::unique_ptr<CommandPool>> &
     get_command_pools(const Queue &queue, CommandBuffer::ResetMode reset_mode);
     
     /// Commands pools associated to the frame
-    std::map <uint32_t, std::vector<std::unique_ptr < CommandPool>>>
+    std::map<uint32_t, std::vector<std::unique_ptr<CommandPool>>>
     command_pools;
     
     /// Descriptor pools for the frame
-    std::vector <std::unique_ptr<std::unordered_map < std::size_t, DescriptorPool>>>
+    std::vector<std::unique_ptr<std::unordered_map<std::size_t, DescriptorPool>>>
     descriptor_pools;
     
     /// Descriptor sets for the frame
-    std::vector <std::unique_ptr<std::unordered_map < std::size_t, DescriptorSet>>>
+    std::vector<std::unique_ptr<std::unordered_map<std::size_t, DescriptorSet>>>
     descriptor_sets;
     
     FencePool fence_pool;
@@ -173,11 +173,11 @@ private:
     
     size_t thread_count;
     
-    std::unique_ptr <RenderTarget> swapchain_render_target;
+    std::unique_ptr<RenderTarget> swapchain_render_target;
     
     BufferAllocationStrategy buffer_allocation_strategy{BufferAllocationStrategy::MultipleAllocationsPerBuffer};
     
-    std::map <VkBufferUsageFlags, std::vector<std::pair < BufferPool, BufferBlock *>>>
+    std::map<VkBufferUsageFlags, std::vector<std::pair<BufferPool, BufferBlock *>>>
     buffer_pools;
 };
 

@@ -67,8 +67,8 @@ inline VkExtent2D choose_extent(
 }
 
 inline VkPresentModeKHR choose_present_mode(VkPresentModeKHR request_present_mode,
-                                            const std::vector <VkPresentModeKHR> &available_present_modes,
-                                            const std::vector <VkPresentModeKHR> &present_mode_priority_list) {
+                                            const std::vector<VkPresentModeKHR> &available_present_modes,
+                                            const std::vector<VkPresentModeKHR> &present_mode_priority_list) {
     auto present_mode_it = std::find(available_present_modes.begin(), available_present_modes.end(),
                                      request_present_mode);
     
@@ -94,8 +94,8 @@ inline VkPresentModeKHR choose_present_mode(VkPresentModeKHR request_present_mod
 }
 
 inline VkSurfaceFormatKHR choose_surface_format(const VkSurfaceFormatKHR requested_surface_format,
-                                                const std::vector <VkSurfaceFormatKHR> &available_surface_formats,
-                                                const std::vector <VkSurfaceFormatKHR> &surface_format_priority_list) {
+                                                const std::vector<VkSurfaceFormatKHR> &available_surface_formats,
+                                                const std::vector<VkSurfaceFormatKHR> &surface_format_priority_list) {
     // Try to find the requested surface format in the supported surface formats
     auto surface_format_it = std::find_if(
                                           available_surface_formats.begin(),
@@ -161,7 +161,7 @@ inline VkCompositeAlphaFlagBitsKHR choose_composite_alpha(VkCompositeAlphaFlagBi
         return request_composite_alpha;
     }
     
-    static const std::vector <VkCompositeAlphaFlagBitsKHR> composite_alpha_flags = {
+    static const std::vector<VkCompositeAlphaFlagBitsKHR> composite_alpha_flags = {
         VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
         VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR,
         VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR,
@@ -187,10 +187,10 @@ inline bool validate_format_feature(VkImageUsageFlagBits image_usage, VkFormatFe
     }
 }
 
-inline std::set <VkImageUsageFlagBits>
-choose_image_usage(const std::set <VkImageUsageFlagBits> &requested_image_usage_flags,
+inline std::set<VkImageUsageFlagBits>
+choose_image_usage(const std::set<VkImageUsageFlagBits> &requested_image_usage_flags,
                    VkImageUsageFlags supported_image_usage, VkFormatFeatureFlags supported_features) {
-    std::set <VkImageUsageFlagBits> validated_image_usage_flags;
+    std::set<VkImageUsageFlagBits> validated_image_usage_flags;
     for (auto flag: requested_image_usage_flags) {
         if ((flag & supported_image_usage) && validate_format_feature(flag, supported_features)) {
             validated_image_usage_flags.insert(flag);
@@ -201,7 +201,7 @@ choose_image_usage(const std::set <VkImageUsageFlagBits> &requested_image_usage_
     
     if (validated_image_usage_flags.empty()) {
         // Pick the first format from list of defaults, if supported
-        static const std::vector <VkImageUsageFlagBits> image_usage_flags = {
+        static const std::vector<VkImageUsageFlagBits> image_usage_flags = {
             VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
             VK_IMAGE_USAGE_STORAGE_BIT,
             VK_IMAGE_USAGE_SAMPLED_BIT,
@@ -230,7 +230,7 @@ choose_image_usage(const std::set <VkImageUsageFlagBits> &requested_image_usage_
     return validated_image_usage_flags;
 }
 
-inline VkImageUsageFlags composite_image_flags(std::set <VkImageUsageFlagBits> &image_usage_flags) {
+inline VkImageUsageFlags composite_image_flags(std::set<VkImageUsageFlagBits> &image_usage_flags) {
     VkImageUsageFlags image_usage{};
     for (auto flag: image_usage_flags) {
         image_usage |= flag;
@@ -258,7 +258,7 @@ Swapchain{old_swapchain, old_swapchain.device, old_swapchain.surface, old_swapch
         create();
     }
 
-Swapchain::Swapchain(Swapchain &old_swapchain, const std::set <VkImageUsageFlagBits> &image_usage_flags) :
+Swapchain::Swapchain(Swapchain &old_swapchain, const std::set<VkImageUsageFlagBits> &image_usage_flags) :
 Swapchain{old_swapchain, old_swapchain.device, old_swapchain.surface, old_swapchain.properties.extent,
     old_swapchain.properties.image_count, old_swapchain.properties.pre_transform,
     old_swapchain.properties.present_mode, image_usage_flags} {
@@ -284,7 +284,7 @@ Swapchain::Swapchain(Device &device,
                      const uint32_t image_count,
                      const VkSurfaceTransformFlagBitsKHR transform,
                      const VkPresentModeKHR present_mode,
-                     const std::set <VkImageUsageFlagBits> &image_usage_flags) :
+                     const std::set<VkImageUsageFlagBits> &image_usage_flags) :
 Swapchain{*this, device, surface, extent, image_count, transform, present_mode, image_usage_flags} {
 }
 
@@ -295,7 +295,7 @@ Swapchain::Swapchain(Swapchain &old_swapchain,
                      const uint32_t image_count,
                      const VkSurfaceTransformFlagBitsKHR transform,
                      const VkPresentModeKHR present_mode,
-                     const std::set <VkImageUsageFlagBits> &image_usage_flags) :
+                     const std::set<VkImageUsageFlagBits> &image_usage_flags) :
 device{device},
 surface{surface} {
     present_mode_priority_list = old_swapchain.present_mode_priority_list;
@@ -433,7 +433,7 @@ VkFormat Swapchain::get_format() const {
     return properties.surface_format.format;
 }
 
-const std::vector <VkImage> &Swapchain::get_images() const {
+const std::vector<VkImage> &Swapchain::get_images() const {
     return images;
 }
 
@@ -449,13 +449,13 @@ VkImageUsageFlags Swapchain::get_usage() const {
     return properties.image_usage;
 }
 
-void Swapchain::set_present_mode_priority(const std::vector <VkPresentModeKHR> &new_present_mode_priority_list) {
+void Swapchain::set_present_mode_priority(const std::vector<VkPresentModeKHR> &new_present_mode_priority_list) {
     assert(!new_present_mode_priority_list.empty() && "Priority list must not be empty");
     present_mode_priority_list = new_present_mode_priority_list;
 }
 
 void
-Swapchain::set_surface_format_priority(const std::vector <VkSurfaceFormatKHR> &new_surface_format_priority_list) {
+Swapchain::set_surface_format_priority(const std::vector<VkSurfaceFormatKHR> &new_surface_format_priority_list) {
     assert(!new_surface_format_priority_list.empty() && "Priority list must not be empty");
     surface_format_priority_list = new_surface_format_priority_list;
 }

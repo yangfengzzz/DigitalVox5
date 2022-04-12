@@ -29,8 +29,8 @@ namespace vox {
  * @param source The shader file
  * @returns A byte array of the final shader
  */
-inline std::vector <std::string> precompile_shader(const std::string &source) {
-    std::vector <std::string> final_file;
+inline std::vector<std::string> precompile_shader(const std::string &source) {
+    std::vector<std::string> final_file;
     
     auto lines = split(source, '\n');
     
@@ -55,12 +55,12 @@ inline std::vector <std::string> precompile_shader(const std::string &source) {
     return final_file;
 }
 
-inline std::vector <uint8_t> convert_to_bytes(std::vector <std::string> &lines) {
-    std::vector <uint8_t> bytes;
+inline std::vector<uint8_t> convert_to_bytes(std::vector<std::string> &lines) {
+    std::vector<uint8_t> bytes;
     
     for (auto &line: lines) {
         line += "\n";
-        std::vector <uint8_t> line_bytes(line.begin(), line.end());
+        std::vector<uint8_t> line_bytes(line.begin(), line.end());
         bytes.insert(bytes.end(), line_bytes.begin(), line_bytes.end());
     }
     
@@ -108,7 +108,7 @@ entry_point{entry_point} {
     }
     
     // Generate a unique id, determined by source and variant
-    std::hash <std::string> hasher{};
+    std::hash<std::string> hasher{};
     id = hasher(std::string{reinterpret_cast<const char *>(spirv.data()),
         reinterpret_cast<const char *>(spirv.data() + spirv.size())});
 }
@@ -137,7 +137,7 @@ const std::string &ShaderModule::get_entry_point() const {
     return entry_point;
 }
 
-const std::vector <ShaderResource> &ShaderModule::get_resources() const {
+const std::vector<ShaderResource> &ShaderModule::get_resources() const {
     return resources;
 }
 
@@ -145,7 +145,7 @@ const std::string &ShaderModule::get_info_log() const {
     return info_log;
 }
 
-const std::vector <uint32_t> &ShaderModule::get_binary() const {
+const std::vector<uint32_t> &ShaderModule::get_binary() const {
     return spirv;
 }
 
@@ -169,7 +169,7 @@ void ShaderModule::set_resource_mode(const std::string &resource_name, const Sha
     }
 }
 
-ShaderVariant::ShaderVariant(std::string &&preamble, std::vector <std::string> &&processes) :
+ShaderVariant::ShaderVariant(std::string &&preamble, std::vector<std::string> &&processes) :
 preamble{std::move(preamble)},
 processes{std::move(processes)} {
     update_id();
@@ -179,7 +179,7 @@ size_t ShaderVariant::get_id() const {
     return id;
 }
 
-void ShaderVariant::add_definitions(const std::vector <std::string> &definitions) {
+void ShaderVariant::add_definitions(const std::vector<std::string> &definitions) {
     for (auto &definition: definitions) {
         add_define(definition);
     }
@@ -217,7 +217,7 @@ void ShaderVariant::add_runtime_array_size(const std::string &runtime_array_name
     }
 }
 
-void ShaderVariant::set_runtime_array_sizes(const std::unordered_map <std::string, size_t> &sizes) {
+void ShaderVariant::set_runtime_array_sizes(const std::unordered_map<std::string, size_t> &sizes) {
     this->runtime_array_sizes = sizes;
 }
 
@@ -225,11 +225,11 @@ const std::string &ShaderVariant::get_preamble() const {
     return preamble;
 }
 
-const std::vector <std::string> &ShaderVariant::get_processes() const {
+const std::vector<std::string> &ShaderVariant::get_processes() const {
     return processes;
 }
 
-const std::unordered_map <std::string, size_t> &ShaderVariant::get_runtime_array_sizes() const {
+const std::unordered_map<std::string, size_t> &ShaderVariant::get_runtime_array_sizes() const {
     return runtime_array_sizes;
 }
 
@@ -241,14 +241,14 @@ void ShaderVariant::clear() {
 }
 
 void ShaderVariant::update_id() {
-    std::hash <std::string> hasher{};
+    std::hash<std::string> hasher{};
     id = hasher(preamble);
 }
 
 ShaderSource::ShaderSource(const std::string &filename) :
 filename{filename},
 source{fs::read_shader(filename)} {
-    std::hash <std::string> hasher{};
+    std::hash<std::string> hasher{};
     id = hasher(std::string{this->source.cbegin(), this->source.cend()});
 }
 
@@ -262,7 +262,7 @@ const std::string &ShaderSource::get_filename() const {
 
 void ShaderSource::set_source(const std::string &source_) {
     source = source_;
-    std::hash <std::string> hasher{};
+    std::hash<std::string> hasher{};
     id = hasher(std::string{this->source.cbegin(), this->source.cend()});
 }
 

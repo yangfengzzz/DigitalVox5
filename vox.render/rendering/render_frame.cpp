@@ -21,14 +21,14 @@
 #include "utils.h"
 
 namespace vox {
-RenderFrame::RenderFrame(Device &device, std::unique_ptr <RenderTarget> &&render_target, size_t thread_count) :
+RenderFrame::RenderFrame(Device &device, std::unique_ptr<RenderTarget> &&render_target, size_t thread_count) :
 device{device},
 fence_pool{device},
 semaphore_pool{device},
 swapchain_render_target{std::move(render_target)},
 thread_count{thread_count} {
     for (auto &usage_it: supported_usage_map) {
-        std::vector <std::pair<BufferPool, BufferBlock *>> usage_buffer_pools;
+        std::vector<std::pair<BufferPool, BufferBlock *>> usage_buffer_pools;
         for (size_t i = 0; i < thread_count; ++i) {
             usage_buffer_pools.push_back(std::make_pair(
                                                         BufferPool{device, BUFFER_POOL_BLOCK_SIZE * 1024 * usage_it.second, usage_it.first}, nullptr));
@@ -42,8 +42,8 @@ thread_count{thread_count} {
     }
     
     for (size_t i = 0; i < thread_count; ++i) {
-        descriptor_pools.push_back(std::make_unique < std::unordered_map < std::size_t, DescriptorPool >> ());
-        descriptor_sets.push_back(std::make_unique < std::unordered_map < std::size_t, DescriptorSet >> ());
+        descriptor_pools.push_back(std::make_unique<std::unordered_map<std::size_t, DescriptorPool >>());
+        descriptor_sets.push_back(std::make_unique<std::unordered_map<std::size_t, DescriptorSet >>());
     }
 }
 
@@ -51,7 +51,7 @@ Device &RenderFrame::get_device() {
     return device;
 }
 
-void RenderFrame::update_render_target(std::unique_ptr <RenderTarget> &&render_target) {
+void RenderFrame::update_render_target(std::unique_ptr<RenderTarget> &&render_target) {
     swapchain_render_target = std::move(render_target);
 }
 
@@ -76,7 +76,7 @@ void RenderFrame::reset() {
     semaphore_pool.reset();
 }
 
-std::vector <std::unique_ptr<CommandPool>> &
+std::vector<std::unique_ptr<CommandPool>> &
 RenderFrame::get_command_pools(const Queue &queue, CommandBuffer::ResetMode reset_mode) {
     auto command_pool_it = command_pools.find(queue.get_family_index());
     
@@ -91,7 +91,7 @@ RenderFrame::get_command_pools(const Queue &queue, CommandBuffer::ResetMode rese
         }
     }
     
-    std::vector <std::unique_ptr<CommandPool>> queue_command_pools;
+    std::vector<std::unique_ptr<CommandPool>> queue_command_pools;
     for (size_t i = 0; i < thread_count; i++) {
         queue_command_pools.push_back(
                                       std::make_unique<CommandPool>(device, queue.get_family_index(), this, i, reset_mode));
@@ -147,7 +147,7 @@ CommandBuffer &RenderFrame::request_command_buffer(const Queue &queue, CommandBu
     auto &command_pools = get_command_pools(queue, reset_mode);
     
     auto command_pool_it = std::find_if(command_pools.begin(), command_pools.end(),
-                                        [&thread_index](std::unique_ptr <CommandPool> &cmd_pool) {
+                                        [&thread_index](std::unique_ptr<CommandPool> &cmd_pool) {
         return cmd_pool->get_thread_index() == thread_index;
     });
     
@@ -155,8 +155,8 @@ CommandBuffer &RenderFrame::request_command_buffer(const Queue &queue, CommandBu
 }
 
 DescriptorSet &RenderFrame::request_descriptor_set(DescriptorSetLayout &descriptor_set_layout,
-                                                   const BindingMap <VkDescriptorBufferInfo> &buffer_infos,
-                                                   const BindingMap <VkDescriptorImageInfo> &image_infos,
+                                                   const BindingMap<VkDescriptorBufferInfo> &buffer_infos,
+                                                   const BindingMap<VkDescriptorImageInfo> &image_infos,
                                                    size_t thread_index) {
     assert(thread_index < thread_count && "Thread index is out of bounds");
     

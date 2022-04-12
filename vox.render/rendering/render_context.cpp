@@ -93,13 +93,13 @@ void RenderContext::prepare(size_t thread_count, RenderTarget::CreateFunc create
 }
 
 void
-RenderContext::set_present_mode_priority(const std::vector <VkPresentModeKHR> &new_present_mode_priority_list) {
+RenderContext::set_present_mode_priority(const std::vector<VkPresentModeKHR> &new_present_mode_priority_list) {
     assert(!new_present_mode_priority_list.empty() && "Priority list must not be empty");
     present_mode_priority_list = new_present_mode_priority_list;
 }
 
 void RenderContext::set_surface_format_priority(
-                                                const std::vector <VkSurfaceFormatKHR> &new_surface_format_priority_list) {
+                                                const std::vector<VkSurfaceFormatKHR> &new_surface_format_priority_list) {
     assert(!new_surface_format_priority_list.empty() && "Priority list must not be empty");
     surface_format_priority_list = new_surface_format_priority_list;
 }
@@ -142,7 +142,7 @@ void RenderContext::update_swapchain(const uint32_t image_count) {
     recreate();
 }
 
-void RenderContext::update_swapchain(const std::set <VkImageUsageFlagBits> &image_usage_flags) {
+void RenderContext::update_swapchain(const std::set<VkImageUsageFlagBits> &image_usage_flags) {
     if (!swapchain) {
         LOGW("Can't update the swapchains image usage in headless mode, skipping.");
         return;
@@ -317,7 +317,7 @@ void RenderContext::begin_frame() {
 
 VkSemaphore RenderContext::submit(const Queue &queue, const std::vector<CommandBuffer *> &command_buffers,
                                   VkSemaphore wait_semaphore, VkPipelineStageFlags wait_pipeline_stage) {
-    std::vector <VkCommandBuffer> cmd_buf_handles(command_buffers.size(), VK_NULL_HANDLE);
+    std::vector<VkCommandBuffer> cmd_buf_handles(command_buffers.size(), VK_NULL_HANDLE);
     std::transform(command_buffers.begin(), command_buffers.end(), cmd_buf_handles.begin(),
                    [](const CommandBuffer *cmd_buf) { return cmd_buf->get_handle(); });
     
@@ -347,7 +347,7 @@ VkSemaphore RenderContext::submit(const Queue &queue, const std::vector<CommandB
 }
 
 void RenderContext::submit(const Queue &queue, const std::vector<CommandBuffer *> &command_buffers) {
-    std::vector <VkCommandBuffer> cmd_buf_handles(command_buffers.size(), VK_NULL_HANDLE);
+    std::vector<VkCommandBuffer> cmd_buf_handles(command_buffers.size(), VK_NULL_HANDLE);
     std::transform(command_buffers.begin(), command_buffers.end(), cmd_buf_handles.begin(),
                    [](const CommandBuffer *cmd_buf) { return cmd_buf->get_handle(); });
     
@@ -477,7 +477,7 @@ uint32_t RenderContext::get_active_frame_index() const {
     return active_frame_index;
 }
 
-std::vector <std::unique_ptr<RenderFrame>> &RenderContext::get_render_frames() {
+std::vector<std::unique_ptr<RenderFrame>> &RenderContext::get_render_frames() {
     return frames;
 }
 

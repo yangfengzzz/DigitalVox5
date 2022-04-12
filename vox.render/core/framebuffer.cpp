@@ -31,7 +31,7 @@ const VkExtent2D &Framebuffer::get_extent() const {
 Framebuffer::Framebuffer(Device &device, const RenderTarget &render_target, const RenderPass &render_pass) :
 device{device},
 extent{render_target.get_extent()} {
-    std::vector <VkImageView> attachments;
+    std::vector<VkImageView> attachments;
     
     for (auto &view: render_target.get_views()) {
         attachments.emplace_back(view.get_handle());

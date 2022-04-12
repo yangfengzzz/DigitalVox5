@@ -37,7 +37,7 @@ namespace vox {
  */
 class RenderPipeline {
 public:
-    RenderPipeline(std::vector <std::unique_ptr<Subpass>> &&subpasses = {});
+    RenderPipeline(std::vector<std::unique_ptr<Subpass>> &&subpasses = {});
     
     RenderPipeline(const RenderPipeline &) = delete;
     
@@ -57,30 +57,30 @@ public:
     /**
      * @return Load store info
      */
-    const std::vector <LoadStoreInfo> &get_load_store() const;
+    const std::vector<LoadStoreInfo> &get_load_store() const;
     
     /**
      * @param load_store Load store info to set
      */
-    void set_load_store(const std::vector <LoadStoreInfo> &load_store);
+    void set_load_store(const std::vector<LoadStoreInfo> &load_store);
     
     /**
      * @return Clear values
      */
-    const std::vector <VkClearValue> &get_clear_value() const;
+    const std::vector<VkClearValue> &get_clear_value() const;
     
     /**
      * @param clear_values Clear values to set
      */
-    void set_clear_value(const std::vector <VkClearValue> &clear_values);
+    void set_clear_value(const std::vector<VkClearValue> &clear_values);
     
     /**
      * @brief Appends a subpass to the pipeline
      * @param subpass Subpass to append
      */
-    void add_subpass(std::unique_ptr <Subpass> &&subpass);
+    void add_subpass(std::unique_ptr<Subpass> &&subpass);
     
-    std::vector <std::unique_ptr<Subpass>> &get_subpasses();
+    std::vector<std::unique_ptr<Subpass>> &get_subpasses();
     
     /**
      * @brief Record draw commands for each Subpass
@@ -92,16 +92,16 @@ public:
      * @return Subpass currently being recorded, or the first one
      *         if drawing has not started
      */
-    std::unique_ptr <Subpass> &get_active_subpass();
+    std::unique_ptr<Subpass> &get_active_subpass();
     
 private:
-    std::vector <std::unique_ptr<Subpass>> subpasses;
+    std::vector<std::unique_ptr<Subpass>> subpasses;
     
     /// Default to two load store
-    std::vector <LoadStoreInfo> load_store = std::vector<LoadStoreInfo>(2);
+    std::vector<LoadStoreInfo> load_store = std::vector<LoadStoreInfo>(2);
     
     /// Default to two clear values
-    std::vector <VkClearValue> clear_value = std::vector<VkClearValue>(2);
+    std::vector<VkClearValue> clear_value = std::vector<VkClearValue>(2);
     
     size_t active_subpass_index{0};
 };

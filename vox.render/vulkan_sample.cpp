@@ -94,12 +94,11 @@ bool VulkanSample::prepare(Platform &platform) {
         VK_CHECK(vkEnumerateInstanceExtensionProperties(nullptr, &instance_extension_count, nullptr));
         
         std::vector<VkExtensionProperties> available_instance_extensions(instance_extension_count);
-        VK_CHECK(vkEnumerateInstanceExtensionProperties(nullptr, &instance_extension_count, available_instance_extensions.data()));
+        VK_CHECK(vkEnumerateInstanceExtensionProperties(nullptr, &instance_extension_count,
+                                                        available_instance_extensions.data()));
         
-        for (const auto &it : available_instance_extensions)
-        {
-            if (strcmp(it.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0)
-            {
+        for (const auto &it: available_instance_extensions) {
+            if (strcmp(it.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0) {
                 LOGI("Vulkan debug utils enabled ({})", VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
                 
                 debug_utils = std::make_unique<DebugUtilsExtDebugUtils>();
@@ -137,18 +136,16 @@ bool VulkanSample::prepare(Platform &platform) {
     }
     
 #ifdef VKB_VULKAN_DEBUG
-    if (!debug_utils)
-    {
+    if (!debug_utils) {
         uint32_t device_extension_count;
         VK_CHECK(vkEnumerateDeviceExtensionProperties(gpu.get_handle(), nullptr, &device_extension_count, nullptr));
         
         std::vector<VkExtensionProperties> available_device_extensions(device_extension_count);
-        VK_CHECK(vkEnumerateDeviceExtensionProperties(gpu.get_handle(), nullptr, &device_extension_count, available_device_extensions.data()));
+        VK_CHECK(vkEnumerateDeviceExtensionProperties(gpu.get_handle(), nullptr, &device_extension_count,
+                                                      available_device_extensions.data()));
         
-        for (const auto &it : available_device_extensions)
-        {
-            if (strcmp(it.extensionName, VK_EXT_DEBUG_MARKER_EXTENSION_NAME) == 0)
-            {
+        for (const auto &it: available_device_extensions) {
+            if (strcmp(it.extensionName, VK_EXT_DEBUG_MARKER_EXTENSION_NAME) == 0) {
                 LOGI("Vulkan debug utils enabled ({})", VK_EXT_DEBUG_MARKER_EXTENSION_NAME);
                 
                 debug_utils = std::make_unique<DebugMarkerExtDebugUtils>();
@@ -158,8 +155,7 @@ bool VulkanSample::prepare(Platform &platform) {
         }
     }
     
-    if (!debug_utils)
-    {
+    if (!debug_utils) {
         LOGW("Vulkan debug utils were requested, but no extension that provides them was found");
     }
 #endif
