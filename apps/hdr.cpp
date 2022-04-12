@@ -20,7 +20,7 @@
  */
 
 #include "hdr.h"
-
+#include "matrix_utils.h"
 #include "sub_mesh.h"
 
 namespace vox {
@@ -491,24 +491,24 @@ void HDR::prepare_offscreen_buffer() {
 }
 
 void HDR::load_assets() {
-//    // Models
-//    models.skybox = load_model("scenes/cube.gltf");
-//    std::vector <std::string> filenames = {"geosphere.gltf", "teapot.gltf", "torusknot.gltf"};
-//    object_names = {"Sphere", "Teapot", "Torusknot"};
-//    for (auto file: filenames) {
-//        auto object = load_model("scenes/" + file);
-//        models.objects.emplace_back(std::move(object));
-//    }
-//
-//    // Transforms
-//    auto geosphere_matrix = glm::mat4(1.0f);
-//    auto teapot_matrix = glm::mat4(1.0f);
-//    teapot_matrix = glm::scale(teapot_matrix, glm::vec3(10.0f, 10.0f, 10.0f));
-//    teapot_matrix = glm::rotate(teapot_matrix, glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-//    auto torus_matrix = glm::mat4(1.0f);
-//    models.transforms.push_back(geosphere_matrix);
-//    models.transforms.push_back(teapot_matrix);
-//    models.transforms.push_back(torus_matrix);
+    // Models
+    models.skybox = load_model("scenes/cube.gltf");
+    std::vector <std::string> filenames = {"geosphere.gltf", "teapot.gltf", "torusknot.gltf"};
+    object_names = {"Sphere", "Teapot", "Torusknot"};
+    for (auto file: filenames) {
+        auto object = load_model("scenes/" + file);
+        models.objects.emplace_back(std::move(object));
+    }
+
+    // Transforms
+    auto geosphere_matrix = Matrix4x4F(1.0f);
+    auto teapot_matrix = Matrix4x4F(1.0f);
+    teapot_matrix *= makeScaleMatrix(10.0f, 10.0f, 10.0f);
+    teapot_matrix *= makeRotationMatrix(Vector3F(1.0f, 0.0f, 0.0f), degreesToRadians(180.0f));
+    auto torus_matrix = Matrix4x4F(1.0f);
+    models.transforms.push_back(geosphere_matrix);
+    models.transforms.push_back(teapot_matrix);
+    models.transforms.push_back(torus_matrix);
     
     // Load HDR cube map
     textures.envmap = load_texture_cubemap("textures/uffizi_rgba16f_cube.ktx");

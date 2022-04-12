@@ -23,6 +23,7 @@
 #include "sampler.h"
 #include "sub_mesh.h"
 #include "texture.h"
+#include "gltf_loader.h"
 
 namespace vox {
 bool ApiVulkanSample::prepare(vox::Platform &platform) {
@@ -1166,18 +1167,18 @@ Texture ApiVulkanSample::load_texture_cubemap(const std::string &file) {
     return texture;
 }
 
-//std::unique_ptr<vox::sg::SubMesh> ApiVulkanSample::load_model(const std::string &file, uint32_t index) {
-//    vox::GLTFLoader loader{*device};
-//    
-//    std::unique_ptr<vox::sg::SubMesh> model = loader.read_model_from_file(file, index);
-//    
-//    if (!model) {
-//        LOGE("Cannot load model from file: {}", file.c_str());
-//        throw std::runtime_error("Cannot load model from: " + file);
-//    }
-//    
-//    return model;
-//}
+std::unique_ptr<vox::sg::SubMesh> ApiVulkanSample::load_model(const std::string &file, uint32_t index) {
+    vox::GLTFLoader loader{*device};
+    
+    std::unique_ptr<vox::sg::SubMesh> model = loader.read_model_from_file(file, index);
+    
+    if (!model) {
+        LOGE("Cannot load model from file: {}", file.c_str());
+        throw std::runtime_error("Cannot load model from: " + file);
+    }
+    
+    return model;
+}
 
 void ApiVulkanSample::draw_model(std::unique_ptr<vox::sg::SubMesh> &model, VkCommandBuffer command_buffer) {
     VkDeviceSize offsets[1] = {0};

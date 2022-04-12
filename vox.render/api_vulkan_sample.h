@@ -209,12 +209,12 @@ protected:
      */
     Texture load_texture_cubemap(const std::string &file);
     
-    //    /**
-    //     * @brief Loads in a single model from a GLTF file
-    //     * @param file The filename of the model to load
-    //     * @param index The index of the model to load from the GLTF file (default: 0)
-    //     */
-    //    std::unique_ptr<vox::sg::SubMesh> load_model(const std::string &file, uint32_t index = 0);
+    /**
+     * @brief Loads in a single model from a GLTF file
+     * @param file The filename of the model to load
+     * @param index The index of the model to load from the GLTF file (default: 0)
+     */
+    std::unique_ptr<vox::sg::SubMesh> load_model(const std::string &file, uint32_t index = 0);
     
     /**
      * @brief Records the necessary drawing commands to a command buffer
