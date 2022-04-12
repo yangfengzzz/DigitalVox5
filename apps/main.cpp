@@ -11,6 +11,8 @@
 #include "platform/platform.h"
 //#include "plugins/plugins.h"
 
+#include "hdr.h"
+
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
 #    include "platform/android/android_platform.h"
 void android_main(android_app *state)
@@ -43,6 +45,7 @@ int main(int argc, char *argv[]) {
     std::vector<vox::Plugin *> plugins{};
     auto code = platform.initialize(plugins);
     if (code == vox::ExitCode::Success) {
+        platform.set_app(std::make_unique<vox::HDR>());
         code = platform.main_loop();
     }
     platform.terminate(code);
