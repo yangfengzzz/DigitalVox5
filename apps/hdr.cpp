@@ -492,11 +492,11 @@ void HDR::prepare_offscreen_buffer() {
 
 void HDR::load_assets() {
     // Models
-    models.skybox = load_model("scenes/cube.gltf");
+    models.skybox = load_model("Scenes/cube.gltf");
     std::vector <std::string> filenames = {"geosphere.gltf", "teapot.gltf", "torusknot.gltf"};
     object_names = {"Sphere", "Teapot", "Torusknot"};
     for (auto file: filenames) {
-        auto object = load_model("scenes/" + file);
+        auto object = load_model("Scenes/" + file);
         models.objects.emplace_back(std::move(object));
     }
 
@@ -511,7 +511,7 @@ void HDR::load_assets() {
     models.transforms.push_back(torus_matrix);
     
     // Load HDR cube map
-    textures.envmap = load_texture_cubemap("textures/uffizi_rgba16f_cube.ktx");
+    textures.envmap = load_texture_cubemap("Textures/uffizi_rgba16f_cube.ktx");
 }
 
 void HDR::setup_descriptor_pool() {
