@@ -18,7 +18,7 @@
 #pragma once
 
 #include "vk_common.h"
-//#include "core/instance.h"
+#include "core/instance.h"
 
 namespace vox {
 /**

@@ -117,6 +117,14 @@
 		0444E8C82805589600C6F279 /* spirv_reflection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E8AC280555E800C6F279 /* spirv_reflection.cpp */; };
 		0444E8C92805589600C6F279 /* glsl_compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E8AE280555E800C6F279 /* glsl_compiler.cpp */; };
 		0444E8CA2805589600C6F279 /* spirv_reflection.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E8AB280555E800C6F279 /* spirv_reflection.h */; };
+		0444E91F28055CE400C6F279 /* instance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E91828055C6D00C6F279 /* instance.cpp */; };
+		0444E92028055CE400C6F279 /* physical_device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E91728055C6D00C6F279 /* physical_device.cpp */; };
+		0444E92128055CE400C6F279 /* physical_device.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E91628055C6D00C6F279 /* physical_device.h */; };
+		0444E92228055CE400C6F279 /* instance.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E91528055C6D00C6F279 /* instance.h */; };
+		0444E92D28055D5D00C6F279 /* timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E92B28055D5D00C6F279 /* timer.cpp */; };
+		0444E92E28055D5D00C6F279 /* timer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E92C28055D5D00C6F279 /* timer.h */; };
+		0444E93128055D9300C6F279 /* debug_info.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E92F28055D9300C6F279 /* debug_info.h */; };
+		0444E93228055D9300C6F279 /* debug_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E93028055D9300C6F279 /* debug_info.cpp */; };
 		047BB5C62803A96500CD5749 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047BB5C52803A96500CD5749 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -277,6 +285,14 @@
 		0444E8F628055A3800C6F279 /* platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = platform.cpp; sourceTree = "<group>"; };
 		0444E8F728055A3800C6F279 /* filesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filesystem.h; sourceTree = "<group>"; };
 		0444E8F828055A3800C6F279 /* configuration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = configuration.cpp; sourceTree = "<group>"; };
+		0444E91528055C6D00C6F279 /* instance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = instance.h; sourceTree = "<group>"; };
+		0444E91628055C6D00C6F279 /* physical_device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = physical_device.h; sourceTree = "<group>"; };
+		0444E91728055C6D00C6F279 /* physical_device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = physical_device.cpp; sourceTree = "<group>"; };
+		0444E91828055C6D00C6F279 /* instance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = instance.cpp; sourceTree = "<group>"; };
+		0444E92B28055D5D00C6F279 /* timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timer.cpp; sourceTree = "<group>"; };
+		0444E92C28055D5D00C6F279 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
+		0444E92F28055D9300C6F279 /* debug_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debug_info.h; sourceTree = "<group>"; };
+		0444E93028055D9300C6F279 /* debug_info.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debug_info.cpp; sourceTree = "<group>"; };
 		047BB5C22803A96500CD5749 /* apps */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apps; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		047BB5D02803A99E00CD5749 /* libvox.render.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.render.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -330,6 +346,10 @@
 		0444E81A2805556100C6F279 /* core */ = {
 			isa = PBXGroup;
 			children = (
+				0444E91528055C6D00C6F279 /* instance.h */,
+				0444E91828055C6D00C6F279 /* instance.cpp */,
+				0444E91628055C6D00C6F279 /* physical_device.h */,
+				0444E91728055C6D00C6F279 /* physical_device.cpp */,
 				0444E8352805559F00C6F279 /* vulkan_resource.h */,
 				0444E857280555A100C6F279 /* vulkan_resource.cpp */,
 				0444E8242805559E00C6F279 /* device.h */,
@@ -458,8 +478,12 @@
 				0444E7FC2805552B00C6F279 /* tags.h */,
 				0444E7FE2805552B00C6F279 /* utils.h */,
 				0444E7F62805552B00C6F279 /* utils.cpp */,
-				0444E8CC280559BC00C6F279 /* platform */,
+				0444E92C28055D5D00C6F279 /* timer.h */,
+				0444E92B28055D5D00C6F279 /* timer.cpp */,
+				0444E92F28055D9300C6F279 /* debug_info.h */,
+				0444E93028055D9300C6F279 /* debug_info.cpp */,
 				0444E81A2805556100C6F279 /* core */,
+				0444E8CC280559BC00C6F279 /* platform */,
 				0444E8AD280555E800C6F279 /* glsl_compiler.h */,
 				0444E8AE280555E800C6F279 /* glsl_compiler.cpp */,
 				0444E8AB280555E800C6F279 /* spirv_reflection.h */,
@@ -569,13 +593,17 @@
 				0444E8B52805567000C6F279 /* logging.h in Headers */,
 				0444E8BA280556B100C6F279 /* vk_common.h in Headers */,
 				0444E8B42805560C00C6F279 /* strings.h in Headers */,
+				0444E93128055D9300C6F279 /* debug_info.h in Headers */,
 				0444E8C0280557ED00C6F279 /* resource_caching.h in Headers */,
 				0444E8BF280557ED00C6F279 /* tags.h in Headers */,
+				0444E92E28055D5D00C6F279 /* timer.h in Headers */,
 				0444E8BD2805579F00C6F279 /* helpers.h in Headers */,
+				0444E92128055CE400C6F279 /* physical_device.h in Headers */,
 				0444E8C72805589600C6F279 /* glsl_compiler.h in Headers */,
 				0444E8BB2805570600C6F279 /* error.h in Headers */,
 				0444E8C62805585800C6F279 /* shader_module.h in Headers */,
 				0444E8CA2805589600C6F279 /* spirv_reflection.h in Headers */,
+				0444E92228055CE400C6F279 /* instance.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,11 +809,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0444E92028055CE400C6F279 /* physical_device.cpp in Sources */,
+				0444E91F28055CE400C6F279 /* instance.cpp in Sources */,
+				0444E93228055D9300C6F279 /* debug_info.cpp in Sources */,
 				0444E8B32805560C00C6F279 /* strings.cpp in Sources */,
 				0444E8C82805589600C6F279 /* spirv_reflection.cpp in Sources */,
 				0444E8B9280556B100C6F279 /* vk_common.cpp in Sources */,
 				0444E8C92805589600C6F279 /* glsl_compiler.cpp in Sources */,
 				0444E8BC2805570600C6F279 /* error.cpp in Sources */,
+				0444E92D28055D5D00C6F279 /* timer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -953,7 +985,10 @@
 					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
 					"$(inherited)",
 				);
-				HEADER_SEARCH_PATHS = ./vox.render;
+				HEADER_SEARCH_PATHS = (
+					./vox.render,
+					./vox.math,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (
@@ -997,7 +1032,10 @@
 					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
 					"$(inherited)",
 				);
-				HEADER_SEARCH_PATHS = ./vox.render;
+				HEADER_SEARCH_PATHS = (
+					./vox.render,
+					./vox.math,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (
