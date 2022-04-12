@@ -22,7 +22,7 @@
 #include <shellapi.h>
 #include <stdexcept>
 
-#include "common/error.h"
+#include "error.h"
 
 #include "platform/glfw_window.h"
 #include "platform/headless_window.h"

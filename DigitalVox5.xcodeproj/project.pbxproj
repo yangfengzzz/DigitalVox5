@@ -265,6 +265,10 @@
 		0444EA5B2805772200C6F279 /* render_frame.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E9B0280568C300C6F279 /* render_frame.h */; };
 		0444EA5C2805772200C6F279 /* render_context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E9B2280568C400C6F279 /* render_context.cpp */; };
 		0444EA5D2805772200C6F279 /* render_context.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E9B4280568C400C6F279 /* render_context.h */; };
+		0444EA75280581C900C6F279 /* gltf_loader.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA73280581C800C6F279 /* gltf_loader.h */; };
+		0444EA78280581F300C6F279 /* heightmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA76280581F300C6F279 /* heightmap.h */; };
+		0444EA79280581F300C6F279 /* heightmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA77280581F300C6F279 /* heightmap.cpp */; };
+		0444EA7A2805832400C6F279 /* gltf_loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA72280581C800C6F279 /* gltf_loader.cpp */; };
 		047BB5C62803A96500CD5749 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047BB5C52803A96500CD5749 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -566,6 +570,10 @@
 		0444EA6B28057D1300C6F279 /* unix_d2d_platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unix_d2d_platform.cpp; sourceTree = "<group>"; };
 		0444EA6C28057D1300C6F279 /* direct_window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = direct_window.h; sourceTree = "<group>"; };
 		0444EA6D28057D1300C6F279 /* direct_window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = direct_window.cpp; sourceTree = "<group>"; };
+		0444EA72280581C800C6F279 /* gltf_loader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gltf_loader.cpp; sourceTree = "<group>"; };
+		0444EA73280581C800C6F279 /* gltf_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gltf_loader.h; sourceTree = "<group>"; };
+		0444EA76280581F300C6F279 /* heightmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = heightmap.h; sourceTree = "<group>"; };
+		0444EA77280581F300C6F279 /* heightmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = heightmap.cpp; sourceTree = "<group>"; };
 		047BB5C22803A96500CD5749 /* apps */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apps; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		047BB5D02803A99E00CD5749 /* libvox.render.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.render.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -911,6 +919,10 @@
 				0444EA452805741800C6F279 /* material.cpp */,
 				0444EA40280573B500C6F279 /* sub_mesh.h */,
 				0444EA41280573B500C6F279 /* sub_mesh.cpp */,
+				0444EA73280581C800C6F279 /* gltf_loader.h */,
+				0444EA72280581C800C6F279 /* gltf_loader.cpp */,
+				0444EA76280581F300C6F279 /* heightmap.h */,
+				0444EA77280581F300C6F279 /* heightmap.cpp */,
 				0444EA1F2805713D00C6F279 /* api_vulkan_sample.h */,
 				0444EA202805713D00C6F279 /* api_vulkan_sample.cpp */,
 			);
@@ -1020,6 +1032,7 @@
 				0444E96C280563E600C6F279 /* input_events.h in Headers */,
 				0444EA382805720800C6F279 /* image.h in Headers */,
 				0444E8B52805567000C6F279 /* logging.h in Headers */,
+				0444EA75280581C900C6F279 /* gltf_loader.h in Headers */,
 				0444E9C5280569C500C6F279 /* subpass.h in Headers */,
 				0444E8BA280556B100C6F279 /* vk_common.h in Headers */,
 				0444E9DA28056A1900C6F279 /* resource_replay.h in Headers */,
@@ -1065,6 +1078,7 @@
 				0444E8C62805585800C6F279 /* shader_module.h in Headers */,
 				0444E9562805633000C6F279 /* headless_window.h in Headers */,
 				0444E96E280563E600C6F279 /* help_formatter.h in Headers */,
+				0444EA78280581F300C6F279 /* heightmap.h in Headers */,
 				0444EA212805713D00C6F279 /* api_vulkan_sample.h in Headers */,
 				0444E9EE28056AFA00C6F279 /* pipeline_layout.h in Headers */,
 				0444EA3C2805732C00C6F279 /* texture.h in Headers */,
@@ -1358,9 +1372,11 @@
 				0444E9F528056B0500C6F279 /* shader_binding_table.cpp in Sources */,
 				0444E9DD28056A1900C6F279 /* resource_binding_state.cpp in Sources */,
 				0444EA0A28056E2700C6F279 /* frame_time_stats_provider.cpp in Sources */,
+				0444EA7A2805832400C6F279 /* gltf_loader.cpp in Sources */,
 				0444E9582805633000C6F279 /* platform.cpp in Sources */,
 				0444EA0E28056E2700C6F279 /* hwcpipe_stats_provider.cpp in Sources */,
 				0444EA43280573B500C6F279 /* sub_mesh.cpp in Sources */,
+				0444EA79280581F300C6F279 /* heightmap.cpp in Sources */,
 				0444E961280563DB00C6F279 /* plugin.cpp in Sources */,
 				0444EA3D2805732C00C6F279 /* texture.cpp in Sources */,
 				0444EA0D28056E2700C6F279 /* stats_provider.cpp in Sources */,

@@ -24,11 +24,11 @@ set(FRAMEWORK_FILES
         gui.h
         glsl_compiler.h
         spirv_reflection.h
-        #    gltf_loader.h
+        gltf_loader.h
         buffer_pool.h
         debug_info.h
         fence_pool.h
-        #    heightmap.h
+        heightmap.h
         semaphore_pool.h
         resource_binding_state.h
         resource_cache.h
@@ -42,11 +42,11 @@ set(FRAMEWORK_FILES
         gui.cpp
         glsl_compiler.cpp
         spirv_reflection.cpp
-        #    gltf_loader.cpp
+        gltf_loader.cpp
         debug_info.cpp
         buffer_pool.cpp
         fence_pool.cpp
-        #    heightmap.cpp
+        heightmap.cpp
         semaphore_pool.cpp
         resource_binding_state.cpp
         resource_cache.cpp

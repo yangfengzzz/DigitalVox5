@@ -21,7 +21,7 @@
 #include <unistd.h>
 #include <unordered_map>
 
-#include "common/error.h"
+#include "error.h"
 
 VKBP_DISABLE_WARNINGS()
 
@@ -34,8 +34,8 @@ VKBP_DISABLE_WARNINGS()
 VKBP_ENABLE_WARNINGS()
 
 #include "apps.h"
-#include "common/logging.h"
-#include "common/strings.h"
+#include "logging.h"
+#include "strings.h"
 #include "platform/android/android_window.h"
 #include "platform/input_events.h"
 

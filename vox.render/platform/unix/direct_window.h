@@ -20,7 +20,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-#include "common/vk_common.h"
+#include "vk_common.h"
 #include "platform/platform.h"
 #include "platform/window.h"
 

@@ -19,7 +19,7 @@
 
 #include <android_native_app_glue.h>
 
-#include "common/vk_common.h"
+#include "vk_common.h"
 #include "platform/window.h"
 
 namespace vox {

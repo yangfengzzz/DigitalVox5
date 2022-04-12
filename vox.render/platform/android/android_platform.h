@@ -94,4 +94,4 @@ private:
     
     bool surface_ready{false};
 };
-}        // namespace vkb
+}        // namespace vox

@@ -17,7 +17,7 @@
 
 #include "unix_d2d_platform.h"
 
-#include "common/error.h"
+#include "error.h"
 
 VKBP_DISABLE_WARNINGS()
 
