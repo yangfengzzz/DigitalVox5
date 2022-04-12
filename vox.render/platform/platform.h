@@ -22,7 +22,7 @@
 #include <vector>
 
 //#include "apps.h"
-//#include "utils.h"
+#include "utils.h"
 #include "vk_common.h"
 #include "core/device.h"
 #include "platform/application.h"
@@ -30,7 +30,7 @@
 #include "platform/parser.h"
 #include "platform/plugins/plugin.h"
 #include "platform/window.h"
-//#include "rendering/render_context.h"
+#include "rendering/render_context.h"
 
 #if defined(VK_USE_PLATFORM_XLIB_KHR)
 #	undef Success
@@ -97,8 +97,8 @@ public:
      */
     virtual const char *get_surface_extension() = 0;
     
-//    virtual std::unique_ptr<RenderContext> create_render_context(Device &device, VkSurfaceKHR surface,
-//                                                                 const std::vector<VkSurfaceFormatKHR> &surface_format_priority) const;
+    virtual std::unique_ptr<RenderContext> create_render_context(Device &device, VkSurfaceKHR surface,
+                                                                 const std::vector<VkSurfaceFormatKHR> &surface_format_priority) const;
     
     virtual void resize(uint32_t width, uint32_t height);
     

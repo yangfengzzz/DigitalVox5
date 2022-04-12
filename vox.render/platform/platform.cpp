@@ -161,36 +161,36 @@ void Platform::update() {
     }
 }
 
-//std::unique_ptr<RenderContext> Platform::create_render_context(Device &device, VkSurfaceKHR surface,
-//                                                               const std::vector<VkSurfaceFormatKHR> &surface_format_priority) const {
-//    assert(!surface_format_priority.empty() &&
-//           "Surface format priority list must contain atleast one preffered surface format");
-//
-//    auto extent = window->get_extent();
-//    auto context = std::make_unique<RenderContext>(device, surface, extent.width, extent.height);
-//
-//    context->set_surface_format_priority(surface_format_priority);
-//
-//    context->request_image_format(surface_format_priority[0].format);
-//
-//    context->set_present_mode_priority({
-//        VK_PRESENT_MODE_MAILBOX_KHR,
-//        VK_PRESENT_MODE_FIFO_KHR,
-//        VK_PRESENT_MODE_IMMEDIATE_KHR,
-//    });
-//
-//    switch (window_properties.vsync) {
-//        case Window::Vsync::ON:
-//            context->request_present_mode(VK_PRESENT_MODE_FIFO_KHR);
-//            break;
-//        case Window::Vsync::OFF:
-//        default:
-//            context->request_present_mode(VK_PRESENT_MODE_MAILBOX_KHR);
-//            break;
-//    }
-//
-//    return std::move(context);
-//}
+std::unique_ptr<RenderContext> Platform::create_render_context(Device &device, VkSurfaceKHR surface,
+                                                               const std::vector<VkSurfaceFormatKHR> &surface_format_priority) const {
+    assert(!surface_format_priority.empty() &&
+           "Surface format priority list must contain atleast one preffered surface format");
+
+    auto extent = window->get_extent();
+    auto context = std::make_unique<RenderContext>(device, surface, extent.width, extent.height);
+
+    context->set_surface_format_priority(surface_format_priority);
+
+    context->request_image_format(surface_format_priority[0].format);
+
+    context->set_present_mode_priority({
+        VK_PRESENT_MODE_MAILBOX_KHR,
+        VK_PRESENT_MODE_FIFO_KHR,
+        VK_PRESENT_MODE_IMMEDIATE_KHR,
+    });
+
+    switch (window_properties.vsync) {
+        case Window::Vsync::ON:
+            context->request_present_mode(VK_PRESENT_MODE_FIFO_KHR);
+            break;
+        case Window::Vsync::OFF:
+        default:
+            context->request_present_mode(VK_PRESENT_MODE_MAILBOX_KHR);
+            break;
+    }
+
+    return context;
+}
 
 void Platform::terminate(ExitCode code) {
     if (code == ExitCode::Help) {
