@@ -20,7 +20,7 @@
 #include <cassert>
 
 #include "CLI11.h"
-#include "common/strings.h"
+#include "strings.h"
 
 namespace vox {
 const std::string SPACER = "  ";

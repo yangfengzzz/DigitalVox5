@@ -80,7 +80,7 @@ public:
      * @param surface to test against
      * @returns A valid physical device
      */
-    PhysicalDevice &get_suitable_gpu(VkSurfaceKHR);
+    PhysicalDevice &get_suitable_gpu(VkSurfaceKHR surface);
     
     /**
      * @brief Tries to find the first available discrete GPU

@@ -24,6 +24,7 @@
 //#include "apps.h"
 //#include "utils.h"
 #include "vk_common.h"
+#include "core/device.h"
 #include "platform/application.h"
 #include "platform/filesystem.h"
 #include "platform/parser.h"
@@ -96,8 +97,8 @@ public:
      */
     virtual const char *get_surface_extension() = 0;
     
-    virtual std::unique_ptr<RenderContext> create_render_context(Device &device, VkSurfaceKHR surface,
-                                                                 const std::vector<VkSurfaceFormatKHR> &surface_format_priority) const;
+//    virtual std::unique_ptr<RenderContext> create_render_context(Device &device, VkSurfaceKHR surface,
+//                                                                 const std::vector<VkSurfaceFormatKHR> &surface_format_priority) const;
     
     virtual void resize(uint32_t width, uint32_t height);
     
@@ -125,11 +126,11 @@ public:
     
     void set_focus(bool focused);
     
-    void request_application(const apps::AppInfo *app);
-    
-    bool app_requested();
-    
-    bool start_app();
+//    void request_application(const apps::AppInfo *app);
+//
+//    bool app_requested();
+//
+//    bool start_app();
     
     void force_simulation_fps(float fps);
     
@@ -182,7 +183,7 @@ protected:
 private:
     Timer timer;
     
-    const apps::AppInfo *requested_app{nullptr};
+//    const apps::AppInfo *requested_app{nullptr};
     
     std::vector<Plugin *> plugins;
     

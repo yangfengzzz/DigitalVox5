@@ -17,7 +17,7 @@
 
 #include "application.h"
 
-#include "common/logging.h"
+#include "logging.h"
 #include "platform/platform.h"
 #include "platform/window.h"
 
