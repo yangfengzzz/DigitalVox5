@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "common/vk_common.h"
+#include "vk_common.h"
 #include <cassert>
 #include <cstdint>
 #include <type_traits>

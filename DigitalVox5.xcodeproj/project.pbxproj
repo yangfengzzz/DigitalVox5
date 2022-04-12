@@ -125,6 +125,24 @@
 		0444E92E28055D5D00C6F279 /* timer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E92C28055D5D00C6F279 /* timer.h */; };
 		0444E93128055D9300C6F279 /* debug_info.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E92F28055D9300C6F279 /* debug_info.h */; };
 		0444E93228055D9300C6F279 /* debug_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E93028055D9300C6F279 /* debug_info.cpp */; };
+		0444E93328055F4900C6F279 /* vulkan_resource.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E8352805559F00C6F279 /* vulkan_resource.h */; };
+		0444E93428055F4900C6F279 /* device.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E8242805559E00C6F279 /* device.h */; };
+		0444E93528055F4900C6F279 /* vulkan_resource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E857280555A100C6F279 /* vulkan_resource.cpp */; };
+		0444E93928055F8100C6F279 /* queue.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E93728055F8100C6F279 /* queue.h */; };
+		0444E93A28055F8100C6F279 /* queue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E93828055F8100C6F279 /* queue.cpp */; };
+		0444E93D28055F9E00C6F279 /* swapchain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E93B28055F9E00C6F279 /* swapchain.cpp */; };
+		0444E93E28055F9E00C6F279 /* swapchain.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E93C28055F9E00C6F279 /* swapchain.h */; };
+		0444E94128055FD400C6F279 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E93F28055FD400C6F279 /* debug.cpp */; };
+		0444E94228055FD400C6F279 /* debug.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E94028055FD400C6F279 /* debug.h */; };
+		0444E945280560A000C6F279 /* fence_pool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E943280560A000C6F279 /* fence_pool.cpp */; };
+		0444E946280560A000C6F279 /* fence_pool.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E944280560A000C6F279 /* fence_pool.h */; };
+		0444E9492805618000C6F279 /* buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E9472805617F00C6F279 /* buffer.cpp */; };
+		0444E94A2805618000C6F279 /* buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E9482805617F00C6F279 /* buffer.h */; };
+		0444E94B2805628200C6F279 /* shader_module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E8C32805585800C6F279 /* shader_module.cpp */; };
+		0444E950280562C700C6F279 /* image_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E94C280562C600C6F279 /* image_view.h */; };
+		0444E951280562C700C6F279 /* image.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E94D280562C600C6F279 /* image.h */; };
+		0444E952280562C700C6F279 /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E94E280562C600C6F279 /* image.cpp */; };
+		0444E953280562C700C6F279 /* image_view.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E94F280562C700C6F279 /* image_view.cpp */; };
 		047BB5C62803A96500CD5749 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047BB5C52803A96500CD5749 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -293,6 +311,20 @@
 		0444E92C28055D5D00C6F279 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
 		0444E92F28055D9300C6F279 /* debug_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debug_info.h; sourceTree = "<group>"; };
 		0444E93028055D9300C6F279 /* debug_info.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debug_info.cpp; sourceTree = "<group>"; };
+		0444E93728055F8100C6F279 /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = queue.h; sourceTree = "<group>"; };
+		0444E93828055F8100C6F279 /* queue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = queue.cpp; sourceTree = "<group>"; };
+		0444E93B28055F9E00C6F279 /* swapchain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = swapchain.cpp; sourceTree = "<group>"; };
+		0444E93C28055F9E00C6F279 /* swapchain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = swapchain.h; sourceTree = "<group>"; };
+		0444E93F28055FD400C6F279 /* debug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debug.cpp; sourceTree = "<group>"; };
+		0444E94028055FD400C6F279 /* debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
+		0444E943280560A000C6F279 /* fence_pool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fence_pool.cpp; sourceTree = "<group>"; };
+		0444E944280560A000C6F279 /* fence_pool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fence_pool.h; sourceTree = "<group>"; };
+		0444E9472805617F00C6F279 /* buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = buffer.cpp; sourceTree = "<group>"; };
+		0444E9482805617F00C6F279 /* buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffer.h; sourceTree = "<group>"; };
+		0444E94C280562C600C6F279 /* image_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_view.h; sourceTree = "<group>"; };
+		0444E94D280562C600C6F279 /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
+		0444E94E280562C600C6F279 /* image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
+		0444E94F280562C700C6F279 /* image_view.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image_view.cpp; sourceTree = "<group>"; };
 		047BB5C22803A96500CD5749 /* apps */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apps; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		047BB5D02803A99E00CD5749 /* libvox.render.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.render.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -354,6 +386,18 @@
 				0444E857280555A100C6F279 /* vulkan_resource.cpp */,
 				0444E8242805559E00C6F279 /* device.h */,
 				0444E84D280555A000C6F279 /* device.cpp */,
+				0444E93728055F8100C6F279 /* queue.h */,
+				0444E93828055F8100C6F279 /* queue.cpp */,
+				0444E93C28055F9E00C6F279 /* swapchain.h */,
+				0444E93B28055F9E00C6F279 /* swapchain.cpp */,
+				0444E94028055FD400C6F279 /* debug.h */,
+				0444E93F28055FD400C6F279 /* debug.cpp */,
+				0444E9482805617F00C6F279 /* buffer.h */,
+				0444E9472805617F00C6F279 /* buffer.cpp */,
+				0444E94D280562C600C6F279 /* image.h */,
+				0444E94E280562C600C6F279 /* image.cpp */,
+				0444E94C280562C600C6F279 /* image_view.h */,
+				0444E94F280562C700C6F279 /* image_view.cpp */,
 				0444E8C42805585800C6F279 /* shader_module.h */,
 				0444E8C32805585800C6F279 /* shader_module.cpp */,
 			);
@@ -484,6 +528,8 @@
 				0444E93028055D9300C6F279 /* debug_info.cpp */,
 				0444E81A2805556100C6F279 /* core */,
 				0444E8CC280559BC00C6F279 /* platform */,
+				0444E944280560A000C6F279 /* fence_pool.h */,
+				0444E943280560A000C6F279 /* fence_pool.cpp */,
 				0444E8AD280555E800C6F279 /* glsl_compiler.h */,
 				0444E8AE280555E800C6F279 /* glsl_compiler.cpp */,
 				0444E8AB280555E800C6F279 /* spirv_reflection.h */,
@@ -589,6 +635,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0444E951280562C700C6F279 /* image.h in Headers */,
 				0444E8B8280556B100C6F279 /* vk_initializers.h in Headers */,
 				0444E8B52805567000C6F279 /* logging.h in Headers */,
 				0444E8BA280556B100C6F279 /* vk_common.h in Headers */,
@@ -601,9 +648,17 @@
 				0444E92128055CE400C6F279 /* physical_device.h in Headers */,
 				0444E8C72805589600C6F279 /* glsl_compiler.h in Headers */,
 				0444E8BB2805570600C6F279 /* error.h in Headers */,
+				0444E93928055F8100C6F279 /* queue.h in Headers */,
 				0444E8C62805585800C6F279 /* shader_module.h in Headers */,
 				0444E8CA2805589600C6F279 /* spirv_reflection.h in Headers */,
 				0444E92228055CE400C6F279 /* instance.h in Headers */,
+				0444E94228055FD400C6F279 /* debug.h in Headers */,
+				0444E946280560A000C6F279 /* fence_pool.h in Headers */,
+				0444E94A2805618000C6F279 /* buffer.h in Headers */,
+				0444E93428055F4900C6F279 /* device.h in Headers */,
+				0444E93E28055F9E00C6F279 /* swapchain.h in Headers */,
+				0444E93328055F4900C6F279 /* vulkan_resource.h in Headers */,
+				0444E950280562C700C6F279 /* image_view.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -811,13 +866,22 @@
 			files = (
 				0444E92028055CE400C6F279 /* physical_device.cpp in Sources */,
 				0444E91F28055CE400C6F279 /* instance.cpp in Sources */,
+				0444E93D28055F9E00C6F279 /* swapchain.cpp in Sources */,
+				0444E93528055F4900C6F279 /* vulkan_resource.cpp in Sources */,
 				0444E93228055D9300C6F279 /* debug_info.cpp in Sources */,
+				0444E945280560A000C6F279 /* fence_pool.cpp in Sources */,
 				0444E8B32805560C00C6F279 /* strings.cpp in Sources */,
 				0444E8C82805589600C6F279 /* spirv_reflection.cpp in Sources */,
 				0444E8B9280556B100C6F279 /* vk_common.cpp in Sources */,
 				0444E8C92805589600C6F279 /* glsl_compiler.cpp in Sources */,
 				0444E8BC2805570600C6F279 /* error.cpp in Sources */,
+				0444E952280562C700C6F279 /* image.cpp in Sources */,
 				0444E92D28055D5D00C6F279 /* timer.cpp in Sources */,
+				0444E9492805618000C6F279 /* buffer.cpp in Sources */,
+				0444E953280562C700C6F279 /* image_view.cpp in Sources */,
+				0444E93A28055F8100C6F279 /* queue.cpp in Sources */,
+				0444E94B2805628200C6F279 /* shader_module.cpp in Sources */,
+				0444E94128055FD400C6F279 /* debug.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
