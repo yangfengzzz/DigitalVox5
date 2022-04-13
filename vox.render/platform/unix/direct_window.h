@@ -61,4 +61,6 @@ private:
     struct termios termio_prev;
     KeyCode key_down = KeyCode::Unknown;
 };
+
+
 }        // namespace vox

@@ -27,20 +27,20 @@
 
 namespace vox {
 struct CLI11CommandContextState {
-    std::string group_name = "";
+    std::string group_name;
 };
 
 class CLI11CommandContext : public CommandParserContext {
 public:
-    CLI11CommandContext(CLI::App *cli, const CLI11CommandContextState &state = {});
+    explicit CLI11CommandContext(CLI::App *cli, CLI11CommandContextState state = {});
     
-    virtual ~CLI11CommandContext() = default;
+    ~CLI11CommandContext() override = default;
     
-    bool has_group_name() const;
+    [[nodiscard]] bool has_group_name() const;
     
-    const std::string &get_group_name() const;
+    [[nodiscard]] const std::string &get_group_name() const;
     
-    CLI11CommandContextState get_state() const;
+    [[nodiscard]] CLI11CommandContextState get_state() const;
     
     CLI::App *cli11;
     
@@ -53,13 +53,13 @@ public:
     CLI11CommandParser(const std::string &name, const std::string &description,
                        const std::vector<std::string> &args);
     
-    virtual ~CLI11CommandParser() = default;
+    ~CLI11CommandParser() override = default;
     
-    virtual std::vector<std::string> help() const override;
+    [[nodiscard]] std::vector<std::string> help() const override;
     
-    virtual bool parse(const std::vector<Plugin *> &plugins) override;
+    bool parse(const std::vector<Plugin *> &plugins) override;
     
-    virtual bool parse(const std::vector<Command *> &commands) override;
+    bool parse(const std::vector<Command *> &commands) override;
     
 protected:
 #define CAST(type) virtual void parse(CommandParserContext *context, type *command) override;
@@ -81,7 +81,7 @@ protected:
     
     void parse(CLI11CommandContext *context, FlagCommand *command);
     
-    virtual bool contains(Command *command) const override;
+    bool contains(Command *command) const override;
     
 private:
     std::vector<const char *> _args;
@@ -92,7 +92,7 @@ private:
     std::unordered_map<Plugin *, std::shared_ptr<CLI::App>> _option_groups;
     std::shared_ptr<HelpFormatter> _formatter;
     
-    virtual std::vector<std::string> get_command_value(Command *command) const override;
+    std::vector<std::string> get_command_value(Command *command) const override;
     
     bool cli11_parse(CLI::App *app);
 };

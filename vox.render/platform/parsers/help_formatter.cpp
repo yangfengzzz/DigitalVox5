@@ -17,19 +17,17 @@
 
 #include "help_formatter.h"
 
-#include <cassert>
-
 #include "CLI11.h"
 #include "strings.h"
 
 namespace vox {
 const std::string SPACER = "  ";
 
-std::string prepend(const std::string &target, const std::string prepended) {
+std::string prepend(const std::string &target, const std::string &prepended) {
     auto lines = split(target, "\n");
     
     if (lines.size() == 1) {
-        if (lines[0].size() > 0) {
+        if (!lines[0].empty()) {
             return prepended + lines[0];
         }
     } else if (lines.size() > 1) {
@@ -97,15 +95,15 @@ out << "\n";                        \
     
     out << prepend(make_positionals(sub), SPACER);
     
-    SPACE();
+    SPACE()
     
     out << prepend(make_groups(sub, CLI::AppFormatMode::Sub), SPACER);
     
-    SPACE();
+    SPACE()
     
     out << prepend(make_subcommands(sub, CLI::AppFormatMode::Sub), SPACER);
     
-    SPACE();
+    SPACE()
     
     return out.str();
     

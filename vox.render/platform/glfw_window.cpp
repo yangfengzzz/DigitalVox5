@@ -26,7 +26,6 @@ VKBP_DISABLE_WARNINGS()
 #define GLFW_INCLUDE_NONE
 
 #include <GLFW/glfw3.h>
-#include <GLFW/glfw3native.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
@@ -37,7 +36,7 @@ VKBP_ENABLE_WARNINGS()
 namespace vox {
 namespace {
 void error_callback(int error, const char *description) {
-    LOGE("GLFW Error (code {}): {}", error, description);
+    LOGE("GLFW Error (code {}): {}", error, description)
 }
 
 void window_close_callback(GLFWwindow *window) {
@@ -254,7 +253,7 @@ Window(properties) {
         case Window::Mode::Fullscreen: {
             auto *monitor = glfwGetPrimaryMonitor();
             const auto *mode = glfwGetVideoMode(monitor);
-            handle = glfwCreateWindow(mode->width, mode->height, properties.title.c_str(), monitor, NULL);
+            handle = glfwCreateWindow(mode->width, mode->height, properties.title.c_str(), monitor, nullptr);
             break;
         }
             
@@ -265,13 +264,13 @@ Window(properties) {
             glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
             glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
             glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-            handle = glfwCreateWindow(mode->width, mode->height, properties.title.c_str(), monitor, NULL);
+            handle = glfwCreateWindow(mode->width, mode->height, properties.title.c_str(), monitor, nullptr);
             break;
         }
             
         default:
             handle = glfwCreateWindow(properties.extent.width, properties.extent.height, properties.title.c_str(),
-                                      NULL, NULL);
+                                      nullptr, nullptr);
             break;
     }
     
@@ -309,7 +308,7 @@ VkSurfaceKHR GlfwWindow::create_surface(VkInstance instance, VkPhysicalDevice) {
     
     VkSurfaceKHR surface;
     
-    VkResult errCode = glfwCreateWindowSurface(instance, handle, NULL, &surface);
+    VkResult errCode = glfwCreateWindowSurface(instance, handle, nullptr, &surface);
     
     if (errCode != VK_SUCCESS) {
         return nullptr;

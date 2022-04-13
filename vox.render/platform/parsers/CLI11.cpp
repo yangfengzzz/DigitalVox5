@@ -17,12 +17,14 @@
 
 #include "CLI11.h"
 
+#include <utility>
+
 #include "logging.h"
 #include "strings.h"
 
 namespace vox {
-CLI11CommandContext::CLI11CommandContext(CLI::App *cli, const CLI11CommandContextState &state) :
-CommandParserContext(), cli11(cli), _state(state) {}
+CLI11CommandContext::CLI11CommandContext(CLI::App *cli, CLI11CommandContextState state) :
+CommandParserContext(), cli11(cli), _state(std::move(state)) {}
 
 bool CLI11CommandContext::has_group_name() const {
     return !_state.group_name.empty();
@@ -57,13 +59,14 @@ void CLI11CommandParser::parse(CommandParserContext *context, type *command)    
 parse(context == nullptr ? throw : dynamic_cast<CLI11CommandContext *>(context), command); \
 }
 
-CAST(CommandGroup);
+CAST(CommandGroup)
 
-CAST(SubCommand);
+CAST(SubCommand)
 
-CAST(PositionalCommand);
+CAST(PositionalCommand)
 
-CAST(FlagCommand);
+CAST(FlagCommand)
+
 #undef CAST
 
 void CLI11CommandParser::parse(CLI11CommandContext *context, CommandGroup *command) {
@@ -144,8 +147,8 @@ std::vector<std::string> CLI11CommandParser::get_command_value(Command *command)
 /*
  
  To create a CLI composed of multiple interoperable plugins using CLI11, we must create a CLI11 app from each plugin.
- This acts as a group for the commands used in said plugin. Once we have groups for each plugin we can then nest then
- nest them inside each other using the CLI11::App::add_subcommand() method.
+ This acts as a group for the commands used in said plugin. Once we have groups for each plugin we can then nest
+ them inside each other using the CLI11::App::add_subcommand() method.
  
  This is required as CLI11 does not allow the redefinition of the same flag. Within the same app context.
  
@@ -200,14 +203,14 @@ bool CLI11CommandParser::cli11_parse(CLI::App *app) {
         _args.insert(_args.begin(), "vulkan_samples");
         app->parse(static_cast<int>(_args.size()), _args.data());
     }
-    catch (CLI::CallForHelp e) {
+    catch (const CLI::CallForHelp &e) {
         return false;
     }
-    catch (CLI::ParseError e) {
+    catch (const CLI::ParseError &e) {
         bool success = e.get_exit_code() == static_cast<int>(CLI::ExitCodes::Success);
         
         if (!success) {
-            LOGE("CLI11 Parse Error: [{}] {}", e.get_name(), e.what());
+            LOGE("CLI11 Parse Error: [{}] {}", e.get_name(), e.what())
             return false;
         }
     }

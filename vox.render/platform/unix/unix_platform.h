@@ -29,12 +29,12 @@ class UnixPlatform : public Platform {
 public:
     UnixPlatform(const UnixType &type, int argc, char **argv);
     
-    virtual ~UnixPlatform() = default;
+    ~UnixPlatform() override = default;
     
-    virtual const char *get_surface_extension() override;
+    const char *get_surface_extension() override;
     
 protected:
-    virtual void create_window(const Window::Properties &properties) override;
+    void create_window(const Window::Properties &properties) override;
     
 private:
     UnixType type;

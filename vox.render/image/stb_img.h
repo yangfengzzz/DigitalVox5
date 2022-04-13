@@ -19,14 +19,12 @@
 
 #include "../image.h"
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 class Stb : public Image {
 public:
     Stb(const std::string &name, const std::vector<uint8_t> &data);
     
-    virtual ~Stb() = default;
+    ~Stb() override = default;
 };
 
-}        // namespace sg
 }        // namespace vox

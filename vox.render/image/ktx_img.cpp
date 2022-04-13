@@ -27,8 +27,7 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 /// Row padding is different between KTX (pad to 4) and Vulkan (none).
 /// Also region->bufferOffset, i.e. the start of each image, has
 /// to be a multiple of 4 and also a multiple of the element size.
@@ -138,8 +137,8 @@ Image{name} {
     } else {
         std::vector<std::vector<VkDeviceSize>> offsets{};
         offsets.resize(1);
-        for (size_t level = 0; level < mipmap_levels.size(); level++) {
-            offsets[0].push_back(static_cast<VkDeviceSize>(mipmap_levels[level].offset));
+        for (auto & mipmap_level : mipmap_levels) {
+            offsets[0].push_back(static_cast<VkDeviceSize>(mipmap_level.offset));
         }
         set_offsets(offsets);
     }
@@ -147,5 +146,4 @@ Image{name} {
     ktxTexture_Destroy(texture);
 }
 
-}        // namespace sg
 }        // namespace vox

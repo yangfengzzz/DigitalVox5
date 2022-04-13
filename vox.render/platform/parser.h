@@ -30,7 +30,7 @@ class Plugin;
  */
 class Command {
 public:
-    Command(const std::string &name, const std::string &help_line);
+    Command(std::string name, std::string help_line);
     
     virtual ~Command() = default;
     
@@ -98,7 +98,7 @@ private:
  */
 class MultipleCommands {
 public:
-    MultipleCommands(const std::vector<Command *> &commands);
+    MultipleCommands(std::vector<Command *> commands);
     
     virtual ~MultipleCommands() = default;
     

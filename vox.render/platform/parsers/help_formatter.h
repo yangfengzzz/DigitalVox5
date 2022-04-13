@@ -38,7 +38,7 @@ public:
     
     std::string make_help(const CLI::App *, std::string, CLI::AppFormatMode) const override;
     
-    virtual std::string make_expanded(const CLI::App *sub) const override;
+    std::string make_expanded(const CLI::App *sub) const override;
     
     void register_meta(const CLI::App *command, const Meta &meta);
     

@@ -20,8 +20,7 @@
 #include "vk_common.h"
 #include "../image.h"
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 struct BlockDim {
     uint8_t x;
     uint8_t y;
@@ -34,7 +33,7 @@ public:
      * @brief Decodes an ASTC image
      * @param image Image to decode
      */
-    Astc(const Image &image);
+    explicit Astc(const Image &image);
     
     /**
      * @brief Decodes ASTC data with an ASTC header
@@ -43,7 +42,7 @@ public:
      */
     Astc(const std::string &name, const std::vector<uint8_t> &data);
     
-    virtual ~Astc() = default;
+    ~Astc() override = default;
     
 private:
     /**
@@ -57,9 +56,8 @@ private:
     /**
      * @brief Initializes ASTC library
      */
-    void init();
+    static void init();
 };
 
 
-}        // namespace sg
 }        // namespace vox

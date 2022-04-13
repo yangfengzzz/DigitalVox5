@@ -44,9 +44,6 @@ std::type_index IntSetting::get_type() {
     return typeid(IntSetting);
 }
 
-EmptySetting::EmptySetting() {
-}
-
 void EmptySetting::set() {
 }
 
@@ -55,7 +52,7 @@ std::type_index EmptySetting::get_type() {
 }
 
 void Configuration::set() {
-    for (auto pair: current_configuration->second) {
+    for (const auto &pair: current_configuration->second) {
         for (auto setting: pair.second) {
             setting->set();
         }
@@ -63,7 +60,7 @@ void Configuration::set() {
 }
 
 bool Configuration::next() {
-    if (configs.size() == 0) {
+    if (configs.empty()) {
         return false;
     }
     

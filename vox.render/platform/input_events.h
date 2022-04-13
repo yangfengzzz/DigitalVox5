@@ -31,9 +31,9 @@ enum class EventSource {
 
 class InputEvent {
 public:
-    InputEvent(EventSource source);
+    explicit InputEvent(EventSource source);
     
-    EventSource get_source() const;
+    [[nodiscard]] EventSource get_source() const;
     
 private:
     EventSource source;
@@ -157,9 +157,9 @@ class KeyInputEvent : public InputEvent {
 public:
     KeyInputEvent(KeyCode code, KeyAction action);
     
-    KeyCode get_code() const;
+    [[nodiscard]] KeyCode get_code() const;
     
-    KeyAction get_action() const;
+    [[nodiscard]] KeyAction get_action() const;
     
 private:
     KeyCode code;
@@ -187,13 +187,13 @@ class MouseButtonInputEvent : public InputEvent {
 public:
     MouseButtonInputEvent(MouseButton button, MouseAction action, float pos_x, float pos_y);
     
-    MouseButton get_button() const;
+    [[nodiscard]] MouseButton get_button() const;
     
-    MouseAction get_action() const;
+    [[nodiscard]] MouseAction get_action() const;
     
-    float get_pos_x() const;
+    [[nodiscard]] float get_pos_x() const;
     
-    float get_pos_y() const;
+    [[nodiscard]] float get_pos_y() const;
     
 private:
     MouseButton button;
@@ -219,15 +219,15 @@ class TouchInputEvent : public InputEvent {
 public:
     TouchInputEvent(int32_t pointer_id, size_t pointer_count, TouchAction action, float pos_x, float pos_y);
     
-    TouchAction get_action() const;
+    [[nodiscard]] TouchAction get_action() const;
     
-    int32_t get_pointer_id() const;
+    [[nodiscard]] int32_t get_pointer_id() const;
     
-    size_t get_touch_points() const;
+    [[nodiscard]] size_t get_touch_points() const;
     
-    float get_pos_x() const;
+    [[nodiscard]] float get_pos_x() const;
     
-    float get_pos_y() const;
+    [[nodiscard]] float get_pos_y() const;
     
 private:
     TouchAction action;

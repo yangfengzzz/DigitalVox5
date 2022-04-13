@@ -21,8 +21,7 @@
 
 #include <stb_image.h>
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 Stb::Stb(const std::string &name, const std::vector<uint8_t> &data) :
 Image{name} {
     int width;
@@ -48,5 +47,4 @@ Image{name} {
     set_depth(1u);
 }
 
-}        // namespace sg
 }        // namespace vox

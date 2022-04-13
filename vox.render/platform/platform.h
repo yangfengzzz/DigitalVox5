@@ -58,7 +58,7 @@ public:
     
     /**
      * @brief Handles the main loop of the platform
-     * This should be overriden if a platform requires a specific main loop setup.
+     * This should be overridden if a platform requires a specific main loop setup.
      * @return An exit code representing the outcome of the loop
      */
     ExitCode main_loop();
@@ -89,12 +89,12 @@ public:
 public:
     Window &get_window();
     
-    Application &get_app() const;
+    [[nodiscard]] Application &get_app() const;
     
     Application &get_app();
     
-    void set_app(std::unique_ptr<Application>&& active_app);
-
+    void set_app(std::unique_ptr<Application> &&active_app);
+    
     bool start_app();
     
 public:
@@ -119,7 +119,7 @@ public:
      */
     static const std::string &get_temp_directory();
     
-    std::vector<std::string> &get_arguments();
+    static std::vector<std::string> &get_arguments();
     
     static void set_arguments(const std::vector<std::string> &args);
     
@@ -140,7 +140,7 @@ public:
     T *get_plugin() const;
     
     template<class T>
-    bool using_plugin() const;
+    [[nodiscard]] bool using_plugin() const;
     
     void on_post_draw(RenderContext &context);
     
@@ -183,7 +183,7 @@ protected:
     
 private:
     Timer timer;
-        
+    
     std::vector<Plugin *> plugins;
     
     /// Static so can be set via JNI code in android_platform.cpp

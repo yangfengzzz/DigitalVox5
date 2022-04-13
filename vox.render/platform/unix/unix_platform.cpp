@@ -25,7 +25,6 @@
 VKBP_DISABLE_WARNINGS()
 
 #include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/spdlog.h>
 
 VKBP_ENABLE_WARNINGS()
 
@@ -51,7 +50,7 @@ VKBP_ENABLE_WARNINGS()
 
 namespace vox {
 namespace {
-inline const std::string get_temp_path_from_environment() {
+inline std::string get_temp_path_from_environment() {
     std::string temp_path = "/tmp/";
     
     if (const char *env_ptr = std::getenv("TMPDIR")) {
@@ -89,7 +88,6 @@ const char *UnixPlatform::get_surface_extension() {
     return VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME;
 #else
     assert(0 && "Platform not supported, no surface extension available");
-    return "";
 #endif
 }
 

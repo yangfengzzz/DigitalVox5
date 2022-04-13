@@ -66,4 +66,6 @@ void UnixD2DPlatform::create_window(const Window::Properties &properties) {
 const char *UnixD2DPlatform::get_surface_extension() {
     return VK_KHR_DISPLAY_EXTENSION_NAME;
 }
+
+
 }        // namespace vox

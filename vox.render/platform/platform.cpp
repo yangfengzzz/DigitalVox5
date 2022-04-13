@@ -18,12 +18,9 @@
 #include "platform.h"
 
 #include <algorithm>
-#include <ctime>
-#include <mutex>
 #include <vector>
 
 #include <spdlog/async_logger.h>
-#include <spdlog/details/thread_pool.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
@@ -40,9 +37,9 @@ const uint32_t Platform::MIN_WINDOW_HEIGHT = 320;
 
 std::vector<std::string> Platform::arguments = {};
 
-std::string Platform::external_storage_directory = "";
+std::string Platform::external_storage_directory;
 
-std::string Platform::temp_directory = "";
+std::string Platform::temp_directory;
 
 ExitCode Platform::initialize(const std::vector<Plugin *> &plugins = {}) {
     auto sinks = get_platform_sinks();
@@ -58,7 +55,7 @@ ExitCode Platform::initialize(const std::vector<Plugin *> &plugins = {}) {
     logger->set_pattern(LOGGER_FORMAT);
     spdlog::set_default_logger(logger);
     
-    LOGI("Logger initialized");
+    LOGI("Logger initialized")
     
     parser = std::make_unique<CLI11CommandParser>("vulkan_samples",
                                                   "\n\tVulkan Samples\n\n\t\tA collection of samples to demonstrate the Vulkan best practice.\n",
@@ -71,7 +68,7 @@ ExitCode Platform::initialize(const std::vector<Plugin *> &plugins = {}) {
     
     // Subscribe plugins to requested hooks and store activated plugins
     for (auto *plugin: plugins) {
-        if (plugin->activate_plugin(this, *parser.get())) {
+        if (plugin->activate_plugin(this, *parser)) {
             auto &plugin_hooks = plugin->get_hooks();
             for (auto hook: plugin_hooks) {
                 auto it = hooks.find(hook);
@@ -91,7 +88,7 @@ ExitCode Platform::initialize(const std::vector<Plugin *> &plugins = {}) {
         }
     }
     
-    // Platform has been closed by a plugins initialization phase
+    // Platform has been closed by a plugin initialization phase
     if (close_requested) {
         return ExitCode::Close;
     }
@@ -99,7 +96,7 @@ ExitCode Platform::initialize(const std::vector<Plugin *> &plugins = {}) {
     create_window(window_properties);
     
     if (!window) {
-        LOGE("Window creation failed!");
+        LOGE("Window creation failed!")
         return ExitCode::FatalError;
     }
     
@@ -109,7 +106,7 @@ ExitCode Platform::initialize(const std::vector<Plugin *> &plugins = {}) {
 ExitCode Platform::main_loop() {
     // Load the requested app
     if (!start_app()) {
-        LOGE("Failed to load requested application");
+        LOGE("Failed to load requested application")
         return ExitCode::FatalError;
     }
     
@@ -124,8 +121,8 @@ ExitCode Platform::main_loop() {
             window->process_events();
         }
         catch (std::exception &e) {
-            LOGE("Error Message: {}", e.what());
-            LOGE("Failed when running application {}", active_app->get_name());
+            LOGE("Error Message: {}", e.what())
+            LOGE("Failed when running application {}", active_app->get_name())
             
             on_app_error(active_app->get_name());
             return ExitCode::FatalError;
@@ -184,7 +181,7 @@ void Platform::terminate(ExitCode code) {
     if (code == ExitCode::Help) {
         auto help = parser->help();
         for (auto &line: help) {
-            LOGI(line);
+            LOGI(line)
         }
     }
     
@@ -290,10 +287,10 @@ std::vector<spdlog::sink_ptr> Platform::get_platform_sinks() {
     return sinks;
 }
 
-void Platform::set_app(std::unique_ptr<Application>&& new_app) {
+void Platform::set_app(std::unique_ptr<Application> &&new_app) {
     if (active_app) {
         auto execution_time = timer.stop();
-        LOGI("Closing App (Runtime: {:.1f})", execution_time);
+        LOGI("Closing App (Runtime: {:.1f})", execution_time)
         
         auto app_id = active_app->get_name();
         
@@ -306,12 +303,12 @@ bool Platform::start_app() {
     active_app->set_name("");
     
     if (!active_app) {
-        LOGE("Failed to create a valid vulkan app.");
+        LOGE("Failed to create a valid vulkan app.")
         return false;
     }
     
     if (!active_app->prepare(*this)) {
-        LOGE("Failed to prepare vulkan app.");
+        LOGE("Failed to prepare vulkan app.")
         return false;
     }
     
@@ -358,27 +355,27 @@ void Platform::resize(uint32_t width, uint32_t height) {
     }
 
 void Platform::on_post_draw(RenderContext &context) {
-    HOOK(Hook::PostDraw, on_post_draw(context));
+    HOOK(Hook::PostDraw, on_post_draw(context))
 }
 
 void Platform::on_app_error(const std::string &app_id) {
-    HOOK(Hook::OnAppError, on_app_error(app_id));
+    HOOK(Hook::OnAppError, on_app_error(app_id))
 }
 
 void Platform::on_update(float delta_time) {
-    HOOK(Hook::OnUpdate, on_update(delta_time));
+    HOOK(Hook::OnUpdate, on_update(delta_time))
 }
 
 void Platform::on_app_start(const std::string &app_id) {
-    HOOK(Hook::OnAppStart, on_app_start(app_id));
+    HOOK(Hook::OnAppStart, on_app_start(app_id))
 }
 
 void Platform::on_app_close(const std::string &app_id) {
-    HOOK(Hook::OnAppClose, on_app_close(app_id));
+    HOOK(Hook::OnAppClose, on_app_close(app_id))
 }
 
 void Platform::on_platform_close() {
-    HOOK(Hook::OnPlatformClose, on_platform_close());
+    HOOK(Hook::OnPlatformClose, on_platform_close())
 }
 
 #undef HOOK

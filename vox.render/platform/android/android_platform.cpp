@@ -520,4 +520,5 @@ std::vector<spdlog::sink_ptr> AndroidPlatform::get_platform_sinks() {
     
     return sinks;
 }
+
 }        // namespace vox

@@ -19,6 +19,7 @@
 #include <cassert>
 #include <string>
 #include <typeindex>
+#include <utility>
 #include <vector>
 
 #include "tags.h"
@@ -83,8 +84,8 @@ enum class Hook {
  */
 class Plugin {
 public:
-    Plugin(const std::string name, const std::string description) :
-    name{name}, description{description} {};
+    Plugin(std::string name, std::string description) :
+    name{std::move(name)}, description{std::move(description)} {};
     
     virtual ~Plugin() = default;
     
@@ -99,14 +100,14 @@ public:
      */
     bool activate_plugin(Platform *platform, const CommandParser &parser, bool force_activation = false);
     
-    virtual const std::vector<Command *> &get_cli_commands() const = 0;
+    [[nodiscard]] virtual const std::vector<Command *> &get_cli_commands() const = 0;
     
     /**
      * @brief Return a list of hooks that an plugin wants to subscribe to
      *
      * @return Hooks that the plugin wants to use
      */
-    virtual const std::vector<Hook> &get_hooks() const = 0;
+    [[nodiscard]] virtual const std::vector<Hook> &get_hooks() const = 0;
     
     /**
      * @brief Called when an application has been updated
@@ -146,17 +147,17 @@ public:
      */
     virtual void on_post_draw(RenderContext &context) = 0;
     
-    const std::string &get_name() const;
+    [[nodiscard]] const std::string &get_name() const;
     
-    const std::string &get_description() const;
+    [[nodiscard]] const std::string &get_description() const;
     
     void excludes(Plugin *plugin);
     
-    const std::vector<Plugin *> &get_exclusions() const;
+    [[nodiscard]] const std::vector<Plugin *> &get_exclusions() const;
     
     void includes(Plugin *plugin);
     
-    const std::vector<Plugin *> &get_inclusions() const;
+    [[nodiscard]] const std::vector<Plugin *> &get_inclusions() const;
     
     /**
      * @brief Test whether the plugin contains a given tag
@@ -166,7 +167,7 @@ public:
      * @return false tag not present
      */
     template<typename C>
-    bool has_tag() const {
+    [[nodiscard]] bool has_tag() const {
         return has_tag(Tag<C>::ID);
     }
     
@@ -178,7 +179,7 @@ public:
      * @return false Does not contain all tags
      */
     template<typename... C>
-    bool has_tags() const {
+    [[nodiscard]] bool has_tags() const {
         std::vector<TagID> query = {Tag<C>::ID...};
         bool res = true;
         for (auto id: query) {
@@ -236,7 +237,7 @@ namespace plugins {
  * @return const std::vector<Plugin *> A list of plugins containing one or more TAGS
  */
 template<typename... TAGS>
-const std::vector<Plugin *> with_tags(const std::vector<Plugin *> &domain = {}) {
+std::vector<Plugin *> with_tags(const std::vector<Plugin *> &domain = {}) {
     std::vector<TagID> tags = {Tag<TAGS>::ID...};
     std::vector<Plugin *> compatable;
     for (auto ext: domain) {
@@ -257,14 +258,14 @@ const std::vector<Plugin *> with_tags(const std::vector<Plugin *> &domain = {}) 
 /**
  * @brief Get all plugins without the given tags
  * 		  Plugin must not include one or more tags
- * 		  Essentially the opoposite of plugins::with_tags<...TAGS>()
+ * 		  Essentially the opposite of plugins::with_tags<...TAGS>()
  *
  * @tparam TAGS Tags that an plugin must not contain
  * @param domain The list of plugins to query
  * @return const std::vector<Plugin *> A list of plugins containing one or more TAGS
  */
 template<typename... TAGS>
-const std::vector<Plugin *> without_tags(const std::vector<Plugin *> &domain = {}) {
+std::vector<Plugin *> without_tags(const std::vector<Plugin *> &domain = {}) {
     std::vector<TagID> tags = {Tag<TAGS>::ID...};
     std::vector<Plugin *> compatable;
     for (auto ext: domain) {

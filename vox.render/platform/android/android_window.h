@@ -69,4 +69,5 @@ private:
     
     bool finish_called{false};
 };
+
 }        // namespace vox

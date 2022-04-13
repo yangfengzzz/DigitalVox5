@@ -58,7 +58,7 @@ public:
     };
     
     struct Properties {
-        std::string title = "";
+        std::string title;
         Mode mode = Mode::Default;
         bool resizable = true;
         Vsync vsync = Vsync::Default;
@@ -69,7 +69,7 @@ public:
      * @brief Constructs a Window
      * @param properties The preferred configuration of the window
      */
-    Window(const Properties &properties);
+    explicit Window(Properties properties);
     
     virtual ~Window() = default;
     
@@ -106,24 +106,24 @@ public:
     /**
      * @return The dot-per-inch scale factor
      */
-    virtual float get_dpi_factor() const = 0;
+    [[nodiscard]] virtual float get_dpi_factor() const = 0;
     
     /**
      * @return The scale factor for systems with heterogeneous window and pixel coordinates
      */
-    virtual float get_content_scale_factor() const;
+    [[nodiscard]] virtual float get_content_scale_factor() const;
     
     /**
-     * @brief Attempt to resize the window - not gauranteed to change
+     * @brief Attempt to resize the window - not guaranteed to change
      *
      * @param extent The preferred window extent
      * @return Extent The new window extent
      */
     Extent resize(const Extent &extent);
     
-    const Extent &get_extent() const;
+    [[nodiscard]] const Extent &get_extent() const;
     
-    Mode get_window_mode() const;
+    [[nodiscard]] Mode get_window_mode() const;
     
 protected:
     Properties properties;

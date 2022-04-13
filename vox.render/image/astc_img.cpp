@@ -34,8 +34,7 @@ VKBP_ENABLE_WARNINGS()
 
 #define MAGIC_FILE_CONSTANT 0x5CA1AB13
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 BlockDim to_blockdim(const VkFormat format) {
     switch (format) {
         case VK_FORMAT_ASTC_4x4_UNORM_BLOCK:
@@ -139,7 +138,7 @@ void Astc::decode(BlockDim blockdim, VkExtent3D extent, const uint8_t *data_) {
     auto astc_image = allocate_image(bitness, xsize, ysize, zsize, 0);
     initialize_image(astc_image);
     
-    imageblock pb;
+    imageblock pb{};
     for (int z = 0; z < zblocks; z++) {
         for (int y = 0; y < yblocks; y++) {
             for (int x = 0; x < xblocks; x++) {
@@ -147,7 +146,7 @@ void Astc::decode(BlockDim blockdim, VkExtent3D extent, const uint8_t *data_) {
                 const uint8_t *bp = data_ + offset;
                 
                 physical_compressed_block pcb = *reinterpret_cast<const physical_compressed_block *>(bp);
-                symbolic_compressed_block scb;
+                symbolic_compressed_block scb{};
                 
                 physical_to_symbolic(xdim, ydim, zdim, pcb, &scb);
                 decompress_symbolic_block(decode_mode, xdim, ydim, zdim, x * xdim, y * ydim, z * zdim, &scb,
@@ -205,5 +204,4 @@ Image{name} {
     decode(blockdim, extent, data.data() + sizeof(AstcHeader));
 }
 
-}        // namespace sg
 }        // namespace vox

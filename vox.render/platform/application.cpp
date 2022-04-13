@@ -19,7 +19,6 @@
 
 #include "logging.h"
 #include "platform/platform.h"
-#include "platform/window.h"
 
 namespace vox {
 Application::Application() :

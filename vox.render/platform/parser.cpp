@@ -17,12 +17,14 @@
 
 #include "parser.h"
 
+#include <utility>
+
 namespace vox {
-Command::Command(const std::string &name, const std::string &help_line) :
-_name(name),
-_help_line(help_line) {
+Command::Command(std::string name, std::string help_line) :
+_name(std::move(name)),
+_help_line(std::move(help_line)) {
     
-};
+}
 
 const std::string &Command::get_name() const {
     assert(!_name.empty() && "Command name unset");
@@ -42,8 +44,8 @@ void Command::set_help_line(const std::string &help_line) {
     _help_line = help_line;
 }
 
-MultipleCommands::MultipleCommands(const std::vector<Command *> &commands) :
-_commands(commands) {}
+MultipleCommands::MultipleCommands(std::vector<Command *> commands) :
+_commands(std::move(commands)) {}
 
 const std::vector<Command *> &MultipleCommands::get_commands() const {
     return _commands;
@@ -54,8 +56,8 @@ TypedCommand<CommandGroup>(name, ""), MultipleCommands(commands) {
 }
 
 SubCommand::SubCommand(const std::string &name, const std::string &help_line,
-                       const std::vector<Command *> &comamnds) :
-TypedCommand<SubCommand>(name, help_line), MultipleCommands(comamnds) {}
+                       const std::vector<Command *> &commands) :
+TypedCommand<SubCommand>(name, help_line), MultipleCommands(commands) {}
 
 PositionalCommand::PositionalCommand(const std::string &name, const std::string &help_line) :
 TypedCommand<PositionalCommand>(name, help_line) {}
@@ -96,10 +98,10 @@ bool CommandParser::parse(CommandParserContext *context, const std::vector<Comma
     }
     
     for (auto *command: commands) {
-        PARSE(SubCommand);
-        PARSE(PositionalCommand);
-        PARSE(FlagCommand);
-        PARSE(CommandGroup);
+        PARSE(SubCommand)
+        PARSE(PositionalCommand)
+        PARSE(FlagCommand)
+        PARSE(CommandGroup)
     }
     
 #undef PARSE

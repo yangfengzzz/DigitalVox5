@@ -29,17 +29,18 @@ VKBP_ENABLE_WARNINGS()
 
 #include "platform/platform.h"
 
-namespace vox {
-namespace fs {
+namespace vox::fs {
 namespace path {
-const std::unordered_map<Type, std::string> relative_paths = {{Type::Assets,      "assets/"},
+const std::unordered_map<Type, std::string> relative_paths = {
+    {Type::Assets,      "assets/"},
     {Type::Shaders,     "shaders/"},
     {Type::Storage,     "output/"},
     {Type::Screenshots, "output/images/"},
     {Type::Logs,        "output/logs/"},
-    {Type::Graphs,      "output/graphs/"}};
+    {Type::Graphs,      "output/graphs/"}
+};
 
-const std::string get(const Type type, const std::string &file) {
+std::string get(const Type type, const std::string &file) {
     assert(relative_paths.size() == Type::TotalRelativePathTypes &&
            "Not all paths are defined in filesystem, please check that each enum is specified");
     
@@ -72,7 +73,7 @@ const std::string get(const Type type, const std::string &file) {
 }        // namespace path
 
 bool is_directory(const std::string &path) {
-    struct stat info;
+    struct stat info{};
     if (stat(path.c_str(), &info) != 0) {
         return false;
     } else if (info.st_mode & S_IFDIR) {
@@ -188,12 +189,12 @@ bool write_json(nlohmann::json &data, const std::string &filename) {
     }
     catch (std::exception &e) {
         // JSON dump errors
-        LOGE(e.what());
+        LOGE(e.what())
         return false;
     }
     
     if (!nlohmann::json::accept(json.str())) {
-        LOGE("Invalid JSON string");
+        LOGE("Invalid JSON string")
         return false;
     }
     
@@ -203,7 +204,7 @@ bool write_json(nlohmann::json &data, const std::string &filename) {
     if (out_stream.good()) {
         out_stream << json.str();
     } else {
-        LOGE("Could not load JSON file " + filename);
+        LOGE("Could not load JSON file " + filename)
         return false;
     }
     
@@ -212,5 +213,4 @@ bool write_json(nlohmann::json &data, const std::string &filename) {
 }
 
 
-}        // namespace fs
 }        // namespace vox

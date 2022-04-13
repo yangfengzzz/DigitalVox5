@@ -17,11 +17,13 @@
 
 #include "window.h"
 
+#include <utility>
+
 #include "platform/platform.h"
 
 namespace vox {
-Window::Window(const Properties &properties) :
-properties{properties} {
+Window::Window(Properties properties) :
+properties{std::move(properties)} {
 }
 
 void Window::process_events() {

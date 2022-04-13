@@ -31,4 +31,6 @@ public:
 protected:
     virtual void create_window(const Window::Properties &properties) override;
 };
+
+
 }        // namespace vox

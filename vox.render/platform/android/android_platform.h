@@ -94,4 +94,5 @@ private:
     
     bool surface_ready{false};
 };
+
 }        // namespace vox

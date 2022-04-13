@@ -27,8 +27,7 @@
 
 #include <json.hpp>
 
-namespace vox {
-namespace fs {
+namespace vox::fs {
 namespace path {
 enum Type {
     //Relative paths
@@ -56,7 +55,7 @@ extern const std::unordered_map<Type, std::string> relative_paths;
  * @throws runtime_error if the platform didn't initialize each path properly, path wasn't found or the path was found but is empty
  * @return Path to the directory of a certain type
  */
-const std::string get(const Type type, const std::string &file = "");
+std::string get(Type type, const std::string &file = "");
 }        // namespace path
 
 /**
@@ -94,7 +93,7 @@ void create_path(const std::string &root, const std::string &path);
  * of the file will be used.
  * @return A vector filled with data read from the file
  */
-std::vector<uint8_t> read_asset(const std::string &filename, const uint32_t count = 0);
+std::vector<uint8_t> read_asset(const std::string &filename, uint32_t count = 0);
 
 /**
  * @brief Helper to read a shader file into a single string
@@ -120,7 +119,7 @@ std::vector<uint8_t> read_shader_binary(const std::string &filename);
  * of the file will be used.
  * @return A vector filled with data read from the file
  */
-std::vector<uint8_t> read_temp(const std::string &filename, const uint32_t count = 0);
+std::vector<uint8_t> read_temp(const std::string &filename, uint32_t count = 0);
 
 /**
  * @brief Helper to write to a file in temporary storage
@@ -130,7 +129,7 @@ std::vector<uint8_t> read_temp(const std::string &filename, const uint32_t count
  * @param count (optional) How many bytes to write. If 0 or not specified, the size
  * of data will be used.
  */
-void write_temp(const std::vector<uint8_t> &data, const std::string &filename, const uint32_t count = 0);
+void write_temp(const std::vector<uint8_t> &data, const std::string &filename, uint32_t count = 0);
 
 /**
  * @brief Helper to write to a png image in permanent storage
@@ -142,8 +141,8 @@ void write_temp(const std::vector<uint8_t> &data, const std::string &filename, c
  * @param components The number of bytes per element
  * @param row_stride The stride in bytes of a row of pixels
  */
-void write_image(const uint8_t *data, const std::string &filename, const uint32_t width, const uint32_t height,
-                 const uint32_t components, const uint32_t row_stride);
+void write_image(const uint8_t *data, const std::string &filename, uint32_t width, uint32_t height,
+                 uint32_t components, uint32_t row_stride);
 
 /**
  * @brief Helper to output a json graph
@@ -154,5 +153,4 @@ void write_image(const uint8_t *data, const std::string &filename, const uint32_
 bool write_json(nlohmann::json &data, const std::string &filename);
 
 
-}        // namespace fs
 }        // namespace vox

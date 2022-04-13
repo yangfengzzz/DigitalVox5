@@ -32,7 +32,7 @@ public:
     
     Setting(Setting &&other) = default;
     
-    virtual ~Setting() {}
+    virtual ~Setting() = default;
     
     virtual void set() = 0;
     
@@ -43,9 +43,9 @@ class BoolSetting : public Setting {
 public:
     BoolSetting(bool &handle, bool value);
     
-    virtual void set() override;
+    void set() override;
     
-    virtual std::type_index get_type() override;
+    std::type_index get_type() override;
     
 private:
     bool &handle;
@@ -57,9 +57,9 @@ class IntSetting : public Setting {
 public:
     IntSetting(int &handle, int value);
     
-    virtual void set() override;
+    void set() override;
     
-    virtual std::type_index get_type() override;
+    std::type_index get_type() override;
     
 private:
     int &handle;
@@ -69,11 +69,11 @@ private:
 
 class EmptySetting : public Setting {
 public:
-    EmptySetting();
+    EmptySetting() = default;
     
-    virtual void set() override;
+    void set() override;
     
-    virtual std::type_index get_type() override;
+    std::type_index get_type() override;
 };
 
 using ConfigMap = std::map<uint32_t, std::unordered_map<std::type_index, std::vector<Setting *>>>;

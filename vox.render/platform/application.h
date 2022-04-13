@@ -57,7 +57,7 @@ public:
      * @param width New width of the window
      * @param height New height of the window
      */
-    virtual bool resize(const uint32_t width, const uint32_t height);
+    virtual bool resize(uint32_t width, uint32_t height);
     
     /**
      * @brief Handles input events of the window
@@ -65,7 +65,7 @@ public:
      */
     virtual void input_event(const InputEvent &input_event);
     
-    const std::string &get_name() const;
+    [[nodiscard]] const std::string &get_name() const;
     
     void set_name(const std::string &name);
     
@@ -80,7 +80,7 @@ protected:
     
     uint32_t last_frame_count{0};
     
-    Platform *platform;
+    Platform *platform{nullptr};
     
 private:
     std::string name{};

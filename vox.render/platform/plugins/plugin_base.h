@@ -18,6 +18,8 @@
 
 #include <spdlog/fmt/fmt.h>
 
+#include <utility>
+
 #include "tags.h"
 #include "platform/parser.h"
 #include "platform/platform.h"
@@ -31,29 +33,29 @@ namespace vox {
 template<typename... TAGS>
 class PluginBase : public Plugin, public Tag<TAGS...> {
 public:
-    PluginBase(const std::string name, const std::string description, const std::vector<Hook> &hooks = {},
-               const std::vector<Command *> &commands = {});
+    PluginBase(std::string name, std::string description, std::vector<Hook> hooks = {},
+               std::vector<Command *> commands = {});
     
-    virtual ~PluginBase() = default;
+    ~PluginBase() override = default;
     
-    virtual const std::vector<Command *> &get_cli_commands() const override;
+    [[nodiscard]] const std::vector<Command *> &get_cli_commands() const override;
     
-    virtual const std::vector<Hook> &get_hooks() const override;
+    [[nodiscard]] const std::vector<Hook> &get_hooks() const override;
     
-    virtual bool has_tag(TagID id) const override;
+    bool has_tag(TagID id) const override;
     
     // hooks that can be implemented by plugins
-    virtual void on_update(float delta_time) override {};
+    void on_update(float delta_time) override {};
     
-    virtual void on_app_start(const std::string &app_id) override {};
+    void on_app_start(const std::string &app_id) override {};
     
-    virtual void on_app_close(const std::string &app_id) override {};
+    void on_app_close(const std::string &app_id) override {};
     
-    virtual void on_platform_close() override {};
+    void on_platform_close() override {};
     
-    virtual void on_post_draw(RenderContext &context) override {};
+    void on_post_draw(RenderContext &context) override {};
     
-    virtual void on_app_error(const std::string &app_id) override {};
+    void on_app_error(const std::string &app_id) override {};
     
 private:
     Tag<TAGS...> *tags = reinterpret_cast<Tag<TAGS...> *>(this);
@@ -64,8 +66,8 @@ private:
 
 template<typename... TAGS>
 PluginBase<TAGS...>::PluginBase(const std::string name, const std::string description,
-                                const std::vector<Hook> &hooks, const std::vector<Command *> &commands) :
-Plugin(name, description), hooks{hooks}, commands{commands} {
+                                std::vector<Hook> hooks, std::vector<Command *> commands) :
+Plugin(name, description), hooks{std::move(hooks)}, commands{std::move(commands)} {
 }
 
 template<typename... TAGS>
