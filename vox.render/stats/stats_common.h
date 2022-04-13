@@ -111,8 +111,8 @@ public:
      * @param has_fixed_max Whether the data should have a fixed max value
      * @param max_value The maximum value to use
      */
-    StatGraphData(const std::string &name,
-                  const std::string &format,
+    StatGraphData(std::string name,
+                  std::string format,
                   float scale_factor = 1.0f,
                   bool has_fixed_max = false,
                   float max_value = 0.0f);
@@ -121,9 +121,9 @@ public:
     
     std::string name;
     std::string format;
-    float scale_factor;
-    bool has_fixed_max;
-    float max_value;
+    float scale_factor{};
+    bool has_fixed_max{};
+    float max_value{};
 };
 
 }        // namespace vox

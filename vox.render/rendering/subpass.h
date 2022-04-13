@@ -66,39 +66,39 @@ public:
     
     RenderContext &get_render_context();
     
-    const ShaderSource &get_vertex_shader() const;
+    [[nodiscard]] const ShaderSource &get_vertex_shader() const;
     
-    const ShaderSource &get_fragment_shader() const;
+    [[nodiscard]] const ShaderSource &get_fragment_shader() const;
     
     DepthStencilState &get_depth_stencil_state();
     
-    const std::vector<uint32_t> &get_input_attachments() const;
+    [[nodiscard]] const std::vector<uint32_t> &get_input_attachments() const;
     
     void set_input_attachments(std::vector<uint32_t> input);
     
-    const std::vector<uint32_t> &get_output_attachments() const;
+    [[nodiscard]] const std::vector<uint32_t> &get_output_attachments() const;
     
     void set_output_attachments(std::vector<uint32_t> output);
     
     void set_sample_count(VkSampleCountFlagBits sample_count);
     
-    const std::vector<uint32_t> &get_color_resolve_attachments() const;
+    [[nodiscard]] const std::vector<uint32_t> &get_color_resolve_attachments() const;
     
     void set_color_resolve_attachments(std::vector<uint32_t> color_resolve);
     
-    const bool &get_disable_depth_stencil_attachment() const;
+    [[nodiscard]] const bool &get_disable_depth_stencil_attachment() const;
     
     void set_disable_depth_stencil_attachment(bool disable_depth_stencil);
     
-    const uint32_t &get_depth_stencil_resolve_attachment() const;
+    [[nodiscard]] const uint32_t &get_depth_stencil_resolve_attachment() const;
     
     void set_depth_stencil_resolve_attachment(uint32_t depth_stencil_resolve);
     
-    const VkResolveModeFlagBits get_depth_stencil_resolve_mode() const;
+    [[nodiscard]] VkResolveModeFlagBits get_depth_stencil_resolve_mode() const;
     
     void set_depth_stencil_resolve_mode(VkResolveModeFlagBits mode);
     
-    const std::string &get_debug_name() const;
+    [[nodiscard]] const std::string &get_debug_name() const;
     
     void set_debug_name(const std::string &name);
     

@@ -79,11 +79,11 @@ public:
     
     Device &get_device();
     
-    const FencePool &get_fence_pool() const;
+    [[nodiscard]] const FencePool &get_fence_pool() const;
     
     VkFence request_fence();
     
-    const SemaphorePool &get_semaphore_pool() const;
+    [[nodiscard]] const SemaphorePool &get_semaphore_pool() const;
     
     VkSemaphore request_semaphore();
     
@@ -99,7 +99,7 @@ public:
     
     RenderTarget &get_render_target();
     
-    const RenderTarget &get_render_target_const() const;
+    [[nodiscard]] const RenderTarget &get_render_target_const() const;
     
     /**
      * @brief Requests a command buffer to the command pool of the active frame

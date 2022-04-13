@@ -20,6 +20,8 @@
 #include "core/query_pool.h"
 #include "stats_provider.h"
 
+#include <utility>
+
 namespace vox {
 class RenderContext;
 
@@ -27,8 +29,8 @@ class VulkanStatsProvider : public StatsProvider {
 private:
     struct StatData {
         StatScaling scaling;
-        uint32_t counter_index;
-        uint32_t divisor_counter_index;
+        uint32_t counter_index{};
+        uint32_t divisor_counter_index{};
         VkPerformanceCounterStorageKHR storage;
         VkPerformanceCounterStorageKHR divisor_storage;
         StatGraphData graph_data;
@@ -47,10 +49,10 @@ private:
     };
     
     struct VendorStat {
-        VendorStat(const std::string &name, const std::string &divisor_name = "") :
-        name(name),
+        VendorStat(std::string name, const std::string &divisor_name = "") :
+        name(std::move(name)),
         divisor_name(divisor_name) {
-            if (divisor_name != "")
+            if (!divisor_name.empty())
                 scaling = StatScaling::ByCounter;
         }
         
@@ -82,20 +84,20 @@ public:
     /**
      * @brief Destructs a VulkanStatsProvider
      */
-    ~VulkanStatsProvider();
+    ~VulkanStatsProvider() override;
     
     /**
      * @brief Checks if this provider can supply the given enabled stat
      * @param index The stat index
      * @return True if the stat is available, false otherwise
      */
-    bool is_available(StatIndex index) const override;
+    [[nodiscard]] bool is_available(StatIndex index) const override;
     
     /**
      * @brief Retrieve graphing data for the given enabled stat
      * @param index The stat index
      */
-    const StatGraphData &get_graph_data(StatIndex index) const override;
+    [[nodiscard]] const StatGraphData &get_graph_data(StatIndex index) const override;
     
     /**
      * @brief Retrieve a new sample set from polled sampling
@@ -116,13 +118,13 @@ public:
     void end_sampling(CommandBuffer &cb) override;
     
 private:
-    bool is_supported(const CounterSamplingConfig &sampling_config) const;
+    [[nodiscard]] bool is_supported(const CounterSamplingConfig &sampling_config) const;
     
     bool fill_vendor_data();
     
     bool create_query_pools(uint32_t queue_family_index);
     
-    float get_best_delta_time(float sw_delta_time) const;
+    [[nodiscard]] float get_best_delta_time(float sw_delta_time) const;
     
 private:
     // The render context

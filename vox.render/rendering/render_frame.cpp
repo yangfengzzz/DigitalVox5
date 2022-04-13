@@ -30,8 +30,8 @@ thread_count{thread_count} {
     for (auto &usage_it: supported_usage_map) {
         std::vector<std::pair<BufferPool, BufferBlock *>> usage_buffer_pools;
         for (size_t i = 0; i < thread_count; ++i) {
-            usage_buffer_pools.push_back(std::make_pair(
-                                                        BufferPool{device, BUFFER_POOL_BLOCK_SIZE * 1024 * usage_it.second, usage_it.first}, nullptr));
+            usage_buffer_pools.emplace_back(
+                                            BufferPool{device, BUFFER_POOL_BLOCK_SIZE * 1024 * usage_it.second, usage_it.first}, nullptr);
         }
         
         auto res_ins_it = buffer_pools.emplace(usage_it.first, std::move(usage_buffer_pools));
@@ -197,14 +197,14 @@ RenderFrame::allocate_buffer(const VkBufferUsageFlags usage, const VkDeviceSize 
     
     if (size > BUFFER_POOL_BLOCK_SIZE * 1024 * block_multiplier) {
         LOGE("Trying to allocate {} buffer of size {}KB which is larger than the buffer pool block size ({} KB)!",
-             buffer_usage_to_string(usage), size / 1024, BUFFER_POOL_BLOCK_SIZE * block_multiplier);
+             buffer_usage_to_string(usage), size / 1024, BUFFER_POOL_BLOCK_SIZE * block_multiplier)
         throw std::runtime_error("Couldn't allocate render frame buffer.");
     }
     
     // Find a pool for this usage
     auto buffer_pool_it = buffer_pools.find(usage);
     if (buffer_pool_it == buffer_pools.end()) {
-        LOGE("No buffer pool for buffer usage {}", usage);
+        LOGE("No buffer pool for buffer usage {}", usage)
         return BufferAllocation{};
     }
     
@@ -212,7 +212,7 @@ RenderFrame::allocate_buffer(const VkBufferUsageFlags usage, const VkDeviceSize 
     auto &buffer_block = buffer_pool_it->second.at(thread_index).second;
     
     if (buffer_allocation_strategy == BufferAllocationStrategy::OneAllocationPerBuffer || !buffer_block) {
-        // If there is no block associated with the pool or we are creating a buffer for each allocation,
+        // If there is no block associated with the pool, we are creating a buffer for each allocation,
         // request a new buffer block
         buffer_block = &buffer_pool.request_buffer_block(to_u32(size));
     }

@@ -40,20 +40,20 @@ public:
     /**
      * @brief Virtual Destructor
      */
-    virtual ~StatsProvider() {}
+    virtual ~StatsProvider() = default;
     
     /**
      * @brief Checks if this provider can supply the given enabled stat
      * @param index The stat index
      * @return True if the stat is available, false otherwise
      */
-    virtual bool is_available(StatIndex index) const = 0;
+    [[nodiscard]] virtual bool is_available(StatIndex index) const = 0;
     
     /**
      * @brief Retrieve graphing data for the given enabled stat
      * @param index The stat index
      */
-    virtual const StatGraphData &get_graph_data(StatIndex index) const {
+    [[nodiscard]] virtual const StatGraphData &get_graph_data(StatIndex index) const {
         return default_graph_map.at(index);
     }
     
@@ -74,7 +74,7 @@ public:
      * @param delta_time Time since last sample
      */
     virtual Counters continuous_sample(float delta_time) {
-        return Counters();
+        return {};
     }
     
     /**

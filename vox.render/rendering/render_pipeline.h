@@ -37,7 +37,7 @@ namespace vox {
  */
 class RenderPipeline {
 public:
-    RenderPipeline(std::vector<std::unique_ptr<Subpass>> &&subpasses = {});
+    explicit RenderPipeline(std::vector<std::unique_ptr<Subpass>> &&subpasses = {});
     
     RenderPipeline(const RenderPipeline &) = delete;
     
@@ -57,7 +57,7 @@ public:
     /**
      * @return Load store info
      */
-    const std::vector<LoadStoreInfo> &get_load_store() const;
+    [[nodiscard]] const std::vector<LoadStoreInfo> &get_load_store() const;
     
     /**
      * @param load_store Load store info to set
@@ -67,7 +67,7 @@ public:
     /**
      * @return Clear values
      */
-    const std::vector<VkClearValue> &get_clear_value() const;
+    [[nodiscard]] const std::vector<VkClearValue> &get_clear_value() const;
     
     /**
      * @param clear_values Clear values to set

@@ -52,7 +52,7 @@ void RenderContext::request_image_format(const VkFormat format) {
     }
 }
 
-void RenderContext::prepare(size_t thread_count, RenderTarget::CreateFunc create_render_target_func) {
+void RenderContext::prepare(size_t thread_count, const RenderTarget::CreateFunc &create_render_target_func) {
     device.wait_idle();
     
     if (swapchain) {
@@ -116,7 +116,7 @@ VkFormat RenderContext::get_format() const {
 
 void RenderContext::update_swapchain(const VkExtent2D &extent) {
     if (!swapchain) {
-        LOGW("Can't update the swapchains extent in headless mode, skipping.");
+        LOGW("Can't update the swapchains extent in headless mode, skipping.")
         return;
     }
     
@@ -129,7 +129,7 @@ void RenderContext::update_swapchain(const VkExtent2D &extent) {
 
 void RenderContext::update_swapchain(const uint32_t image_count) {
     if (!swapchain) {
-        LOGW("Can't update the swapchains image count in headless mode, skipping.");
+        LOGW("Can't update the swapchains image count in headless mode, skipping.")
         return;
     }
     
@@ -144,7 +144,7 @@ void RenderContext::update_swapchain(const uint32_t image_count) {
 
 void RenderContext::update_swapchain(const std::set<VkImageUsageFlagBits> &image_usage_flags) {
     if (!swapchain) {
-        LOGW("Can't update the swapchains image usage in headless mode, skipping.");
+        LOGW("Can't update the swapchains image usage in headless mode, skipping.")
         return;
     }
     
@@ -157,7 +157,7 @@ void RenderContext::update_swapchain(const std::set<VkImageUsageFlagBits> &image
 
 void RenderContext::update_swapchain(const VkExtent2D &extent, const VkSurfaceTransformFlagBitsKHR transform) {
     if (!swapchain) {
-        LOGW("Can't update the swapchains extent and surface transform in headless mode, skipping.");
+        LOGW("Can't update the swapchains extent and surface transform in headless mode, skipping.")
         return;
     }
     
@@ -180,7 +180,7 @@ void RenderContext::update_swapchain(const VkExtent2D &extent, const VkSurfaceTr
 }
 
 void RenderContext::recreate() {
-    LOGI("Recreated swapchain");
+    LOGI("Recreated swapchain")
     
     VkExtent2D swapchain_extent = swapchain->get_extent();
     VkExtent3D extent{swapchain_extent.width, swapchain_extent.height, 1};
@@ -210,7 +210,7 @@ void RenderContext::recreate() {
 
 bool RenderContext::handle_surface_changes(bool force_update) {
     if (!swapchain) {
-        LOGW("Can't handle surface changes in headless mode, skipping.");
+        LOGW("Can't handle surface changes in headless mode, skipping.")
         return false;
     }
     

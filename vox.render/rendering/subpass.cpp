@@ -17,6 +17,8 @@
 
 #include "subpass.h"
 
+#include <utility>
+
 #include "render_context.h"
 
 namespace vox {
@@ -53,7 +55,7 @@ const std::vector<uint32_t> &Subpass::get_input_attachments() const {
 }
 
 void Subpass::set_input_attachments(std::vector<uint32_t> input) {
-    input_attachments = input;
+    input_attachments = std::move(input);
 }
 
 const std::vector<uint32_t> &Subpass::get_output_attachments() const {
@@ -61,7 +63,7 @@ const std::vector<uint32_t> &Subpass::get_output_attachments() const {
 }
 
 void Subpass::set_output_attachments(std::vector<uint32_t> output) {
-    output_attachments = output;
+    output_attachments = std::move(output);
 }
 
 const std::vector<uint32_t> &Subpass::get_color_resolve_attachments() const {
@@ -69,7 +71,7 @@ const std::vector<uint32_t> &Subpass::get_color_resolve_attachments() const {
 }
 
 void Subpass::set_color_resolve_attachments(std::vector<uint32_t> color_resolve) {
-    color_resolve_attachments = color_resolve;
+    color_resolve_attachments = std::move(color_resolve);
 }
 
 const bool &Subpass::get_disable_depth_stencil_attachment() const {
@@ -88,7 +90,7 @@ void Subpass::set_depth_stencil_resolve_attachment(uint32_t depth_stencil_resolv
     depth_stencil_resolve_attachment = depth_stencil_resolve;
 }
 
-const VkResolveModeFlagBits Subpass::get_depth_stencil_resolve_mode() const {
+VkResolveModeFlagBits Subpass::get_depth_stencil_resolve_mode() const {
     return depth_stencil_resolve_mode;
 }
 

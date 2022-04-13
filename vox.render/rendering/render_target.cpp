@@ -35,21 +35,20 @@ samples{samples},
 usage{usage} {
 }
 
-const RenderTarget::CreateFunc RenderTarget::DEFAULT_CREATE_FUNC = [](
-                                                                      core::Image &&swapchain_image) -> std::unique_ptr<RenderTarget> {
-                                                                          VkFormat depth_format = get_suitable_depth_format(swapchain_image.get_device().get_gpu().get_handle());
-                                                                          
-                                                                          core::Image depth_image{swapchain_image.get_device(), swapchain_image.get_extent(),
-                                                                              depth_format,
-                                                                              VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT,
-                                                                              VMA_MEMORY_USAGE_GPU_ONLY};
-                                                                          
-                                                                          std::vector<core::Image> images;
-                                                                          images.push_back(std::move(swapchain_image));
-                                                                          images.push_back(std::move(depth_image));
-                                                                          
-                                                                          return std::make_unique<RenderTarget>(std::move(images));
-                                                                      };
+const RenderTarget::CreateFunc RenderTarget::DEFAULT_CREATE_FUNC = [](core::Image &&swapchain_image) -> std::unique_ptr<RenderTarget> {
+    VkFormat depth_format = get_suitable_depth_format(swapchain_image.get_device().get_gpu().get_handle());
+    
+    core::Image depth_image{swapchain_image.get_device(), swapchain_image.get_extent(),
+        depth_format,
+        VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT,
+        VMA_MEMORY_USAGE_GPU_ONLY};
+    
+    std::vector<core::Image> images;
+    images.push_back(std::move(swapchain_image));
+    images.push_back(std::move(depth_image));
+    
+    return std::make_unique<RenderTarget>(std::move(images));
+};
 
 vox::RenderTarget::RenderTarget(std::vector<core::Image> &&images) :
 device{images.back().get_device()},
@@ -63,7 +62,7 @@ images{std::move(images)} {
         return VkExtent2D{image.get_extent().width, image.get_extent().height};
     };
     
-    // Constructs a set of unique image extens given a vector of images
+    // Constructs a set of unique image extents given a vector of images
     std::transform(this->images.begin(), this->images.end(), std::inserter(unique_extent, unique_extent.end()),
                    get_image_extent);
     

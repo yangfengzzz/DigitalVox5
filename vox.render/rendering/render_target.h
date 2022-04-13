@@ -58,9 +58,9 @@ public:
     
     static const CreateFunc DEFAULT_CREATE_FUNC;
     
-    RenderTarget(std::vector<core::Image> &&images);
+    explicit RenderTarget(std::vector<core::Image> &&images);
     
-    RenderTarget(std::vector<core::ImageView> &&image_views);
+    explicit RenderTarget(std::vector<core::ImageView> &&image_views);
     
     RenderTarget(const RenderTarget &) = delete;
     
@@ -70,11 +70,11 @@ public:
     
     RenderTarget &operator=(RenderTarget &&other) noexcept = delete;
     
-    const VkExtent2D &get_extent() const;
+    [[nodiscard]] const VkExtent2D &get_extent() const;
     
-    const std::vector<core::ImageView> &get_views() const;
+    [[nodiscard]] const std::vector<core::ImageView> &get_views() const;
     
-    const std::vector<Attachment> &get_attachments() const;
+    [[nodiscard]] const std::vector<Attachment> &get_attachments() const;
     
     /**
      * @brief Sets the current input attachments overwriting the current ones
@@ -83,7 +83,7 @@ public:
      */
     void set_input_attachments(std::vector<uint32_t> &input);
     
-    const std::vector<uint32_t> &get_input_attachments() const;
+    [[nodiscard]] const std::vector<uint32_t> &get_input_attachments() const;
     
     /**
      * @brief Sets the current output attachments overwriting the current ones
@@ -92,11 +92,11 @@ public:
      */
     void set_output_attachments(std::vector<uint32_t> &output);
     
-    const std::vector<uint32_t> &get_output_attachments() const;
+    [[nodiscard]] const std::vector<uint32_t> &get_output_attachments() const;
     
     void set_layout(uint32_t attachment, VkImageLayout layout);
     
-    VkImageLayout get_layout(uint32_t attachment) const;
+    [[nodiscard]] VkImageLayout get_layout(uint32_t attachment) const;
     
 private:
     Device const &device;

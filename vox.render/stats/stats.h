@@ -74,28 +74,28 @@ public:
      * @param index The stat index
      * @return True if the stat is available, false otherwise
      */
-    bool is_available(StatIndex index) const;
+    [[nodiscard]] bool is_available(StatIndex index) const;
     
     /**
      * @brief Returns data relevant for graphing a specific statistic
      * @param index The stat index of the data requested
      * @return The data of the specified stat
      */
-    const StatGraphData &get_graph_data(StatIndex index) const;
+    [[nodiscard]] const StatGraphData &get_graph_data(StatIndex index) const;
     
     /**
      * @brief Returns the collected data for a specific statistic
      * @param index The stat index of the data requested
      * @return The data of the specified stat
      */
-    const std::vector<float> &get_data(StatIndex index) const {
+    [[nodiscard]] const std::vector<float> &get_data(StatIndex index) const {
         return counters.at(index);
     };
     
     /**
      * @return The requested stats
      */
-    const std::set<StatIndex> &get_requested_stats() const {
+    [[nodiscard]] const std::set<StatIndex> &get_requested_stats() const {
         return requested_stats;
     }
     
@@ -141,7 +141,7 @@ private:
     std::set<StatIndex> requested_stats;
     
     /// Provider that tracks frame times
-    StatsProvider *frame_time_provider;
+    StatsProvider *frame_time_provider{nullptr};
     
     /// A list of stats providers to use in priority order
     std::vector<std::unique_ptr<StatsProvider>> providers;
