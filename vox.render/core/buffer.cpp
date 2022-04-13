@@ -19,8 +19,7 @@
 
 #include "device.h"
 
-namespace vox {
-namespace core {
+namespace vox::core {
 Buffer::Buffer(Device const &device, VkDeviceSize size, VkBufferUsageFlags buffer_usage,
                VmaMemoryUsage memory_usage, VmaAllocationCreateFlags flags,
                const std::vector<uint32_t> &queue_family_indices) :
@@ -28,7 +27,7 @@ VulkanResource{VK_NULL_HANDLE, &device},
 size{size} {
 #ifdef VK_USE_PLATFORM_METAL_EXT
     // Workaround for Mac (MoltenVK requires unmapping https://github.com/KhronosGroup/MoltenVK/issues/175)
-    // Force cleares the flag VMA_ALLOCATION_CREATE_MAPPED_BIT
+    // Force clears the flag VMA_ALLOCATION_CREATE_MAPPED_BIT
     flags &= ~VMA_ALLOCATION_CREATE_MAPPED_BIT;
 #endif
     
@@ -64,7 +63,7 @@ size{size} {
     }
 }
 
-Buffer::Buffer(Buffer &&other) :
+Buffer::Buffer(Buffer &&other) noexcept:
 VulkanResource{other.handle, other.device},
 allocation{other.allocation},
 memory{other.memory},
@@ -149,5 +148,4 @@ void Buffer::update(const uint8_t *data, const size_t size, const size_t offset)
     }
 }
 
-}        // namespace core
 }        // namespace vox

@@ -48,17 +48,17 @@ public:
      * @param api_version The Vulkan API version that the instance will be using
      * @throws runtime_error if the required extensions and validation layers are not found
      */
-    Instance(const std::string &application_name,
-             const std::unordered_map<const char *, bool> &required_extensions = {},
-             const std::vector<const char *> &required_validation_layers = {},
-             bool headless = false,
-             uint32_t api_version = VK_API_VERSION_1_0);
+    explicit Instance(const std::string &application_name,
+                      const std::unordered_map<const char *, bool> &required_extensions = {},
+                      const std::vector<const char *> &required_validation_layers = {},
+                      bool headless = false,
+                      uint32_t api_version = VK_API_VERSION_1_0);
     
     /**
      * @brief Queries the GPUs of a VkInstance that is already created
      * @param instance A valid VkInstance
      */
-    Instance(VkInstance instance);
+    explicit Instance(VkInstance instance);
     
     Instance(const Instance &) = delete;
     
@@ -94,7 +94,7 @@ public:
      */
     bool is_enabled(const char *extension) const;
     
-    VkInstance get_handle() const;
+    [[nodiscard]] VkInstance get_handle() const;
     
     const std::vector<const char *> &get_extensions();
     

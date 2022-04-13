@@ -50,7 +50,7 @@ public:
     
     void reset();
     
-    const DescriptorSetLayout &get_descriptor_set_layout() const;
+    [[nodiscard]] const DescriptorSetLayout &get_descriptor_set_layout() const;
     
     void set_descriptor_set_layout(const DescriptorSetLayout &set_layout);
     

@@ -39,30 +39,31 @@ public:
     
     PhysicalDevice &operator=(PhysicalDevice &&) = delete;
     
-    Instance &get_instance() const;
+    [[nodiscard]] Instance &get_instance() const;
     
     VkBool32 is_present_supported(VkSurfaceKHR surface, uint32_t queue_family_index) const;
     
-    const VkFormatProperties get_format_properties(VkFormat format) const;
+    [[nodiscard]] VkFormatProperties get_format_properties(VkFormat format) const;
     
-    VkPhysicalDevice get_handle() const;
+    [[nodiscard]] VkPhysicalDevice get_handle() const;
     
-    const VkPhysicalDeviceFeatures &get_features() const;
+    [[nodiscard]] const VkPhysicalDeviceFeatures &get_features() const;
     
-    const VkPhysicalDeviceProperties &get_properties() const;
+    [[nodiscard]] const VkPhysicalDeviceProperties &get_properties() const;
     
-    const VkPhysicalDeviceMemoryProperties &get_memory_properties() const;
+    [[nodiscard]] const VkPhysicalDeviceMemoryProperties &get_memory_properties() const;
     
-    const std::vector<VkQueueFamilyProperties> &get_queue_family_properties() const;
+    [[nodiscard]] const std::vector<VkQueueFamilyProperties> &get_queue_family_properties() const;
     
-    uint32_t get_queue_family_performance_query_passes(const VkQueryPoolPerformanceCreateInfoKHR *perf_query_create_info) const;
+    uint32_t get_queue_family_performance_query_passes(
+                                                       const VkQueryPoolPerformanceCreateInfoKHR *perf_query_create_info) const;
     
     void enumerate_queue_family_performance_query_counters(uint32_t queue_family_index,
                                                            uint32_t *count,
                                                            VkPerformanceCounterKHR *counters,
                                                            VkPerformanceCounterDescriptionKHR *descriptions) const;
     
-    const VkPhysicalDeviceFeatures get_requested_features() const;
+    [[nodiscard]] VkPhysicalDeviceFeatures get_requested_features() const;
     
     VkPhysicalDeviceFeatures &get_mutable_requested_features();
     
@@ -70,7 +71,7 @@ public:
      * @brief Used at logical device creation to pass the extensions feature chain to vkCreateDevice
      * @returns A void pointer to the start of the extension linked list
      */
-    void *get_extension_feature_chain() const;
+    [[nodiscard]] void *get_extension_feature_chain() const;
     
     /**
      * @brief Requests a third party extension to be used by the framework
@@ -80,14 +81,14 @@ public:
      *        VulkanSample::request_gpu_features(vox::PhysicalDevice &gpu).
      *
      *        If the feature extension requires you to ask for certain features to be enabled, you can
-     *        modify the struct returned by this function, it will propegate the changes to the logical
+     *        modify the struct returned by this function, it will propagate the changes to the logical
      *        device.
      * @param type The VkStructureType for the extension you are requesting
      * @returns The extension feature struct
      */
     template<typename T>
     T &request_extension_features(VkStructureType type) {
-        // We cannot request extension features if the physical device properties 2 instance extension isnt enabled
+        // We cannot request extension features if the physical device properties 2 instance extension isn't enabled
         if (!instance.is_enabled(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME)) {
             throw std::runtime_error("Couldn't request feature from device as " +
                                      std::string(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME) +
@@ -136,7 +137,7 @@ public:
      * @brief Returns high priority graphics queue state.
      * @return High priority state.
      */
-    bool has_high_priority_graphics_queue() const {
+    [[nodiscard]] bool has_high_priority_graphics_queue() const {
         return high_priority_graphics_queue;
     }
     
@@ -151,10 +152,10 @@ private:
     VkPhysicalDeviceFeatures features{};
     
     // The GPU properties
-    VkPhysicalDeviceProperties properties;
+    VkPhysicalDeviceProperties properties{};
     
     // The GPU memory properties
-    VkPhysicalDeviceMemoryProperties memory_properties;
+    VkPhysicalDeviceMemoryProperties memory_properties{};
     
     // The GPU queue family properties
     std::vector<VkQueueFamilyProperties> queue_family_properties;

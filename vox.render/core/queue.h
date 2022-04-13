@@ -33,31 +33,31 @@ public:
     
     Queue(const Queue &) = default;
     
-    Queue(Queue &&other);
+    Queue(Queue &&other) noexcept;
     
     Queue &operator=(const Queue &) = delete;
     
     Queue &operator=(Queue &&) = delete;
     
-    const Device &get_device() const;
+    [[nodiscard]] const Device &get_device() const;
     
-    VkQueue get_handle() const;
+    [[nodiscard]] VkQueue get_handle() const;
     
-    uint32_t get_family_index() const;
+    [[nodiscard]] uint32_t get_family_index() const;
     
-    uint32_t get_index() const;
+    [[nodiscard]] uint32_t get_index() const;
     
-    const VkQueueFamilyProperties &get_properties() const;
+    [[nodiscard]] const VkQueueFamilyProperties &get_properties() const;
     
-    VkBool32 support_present() const;
+    [[nodiscard]] VkBool32 support_present() const;
     
     VkResult submit(const std::vector<VkSubmitInfo> &submit_infos, VkFence fence) const;
     
     VkResult submit(const CommandBuffer &command_buffer, VkFence fence) const;
     
-    VkResult present(const VkPresentInfoKHR &present_infos) const;
+    [[nodiscard]] VkResult present(const VkPresentInfoKHR &present_infos) const;
     
-    VkResult wait_idle() const;
+    [[nodiscard]] VkResult wait_idle() const;
     
 private:
     Device &device;

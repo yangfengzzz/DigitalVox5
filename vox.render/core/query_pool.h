@@ -37,7 +37,7 @@ public:
     
     QueryPool(const QueryPool &) = delete;
     
-    QueryPool(QueryPool &&pool);
+    QueryPool(QueryPool &&pool) noexcept;
     
     ~QueryPool();
     
@@ -48,7 +48,7 @@ public:
     /**
      * @return The vulkan query pool handle
      */
-    VkQueryPool get_handle() const;
+    [[nodiscard]] VkQueryPool get_handle() const;
     
     /**
      * @brief Reset a range of queries in the query pool. Only call if VK_EXT_host_query_reset is enabled.

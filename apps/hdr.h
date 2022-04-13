@@ -62,26 +62,26 @@ public:
         VkPipeline reflect;
         VkPipeline composition;
         VkPipeline bloom[2];
-    } pipelines;
+    } pipelines{};
     
     struct {
         VkPipelineLayout models;
         VkPipelineLayout composition;
         VkPipelineLayout bloom_filter;
-    } pipeline_layouts;
+    } pipeline_layouts{};
     
     struct {
         VkDescriptorSet object;
         VkDescriptorSet skybox;
         VkDescriptorSet composition;
         VkDescriptorSet bloom_filter;
-    } descriptor_sets;
+    } descriptor_sets{};
     
     struct {
         VkDescriptorSetLayout models;
         VkDescriptorSetLayout composition;
         VkDescriptorSetLayout bloom_filter;
-    } descriptor_set_layouts;
+    } descriptor_set_layouts{};
     
     // Framebuffer for offscreen rendering
     struct FrameBufferAttachment {
@@ -104,7 +104,7 @@ public:
         FrameBufferAttachment depth;
         VkRenderPass render_pass;
         VkSampler sampler;
-    } offscreen;
+    } offscreen{};
     
     struct {
         int32_t width, height;
@@ -112,7 +112,7 @@ public:
         FrameBufferAttachment color[1];
         VkRenderPass render_pass;
         VkSampler sampler;
-    } filter_pass;
+    } filter_pass{};
     
     std::vector<std::string> object_names;
     
@@ -142,7 +142,7 @@ public:
     
     void update_uniform_buffers();
     
-    void update_params();
+    void update_params() const;
     
     void draw();
     

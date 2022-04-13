@@ -53,7 +53,7 @@ extent{render_target.get_extent()} {
     }
 }
 
-Framebuffer::Framebuffer(Framebuffer &&other) :
+Framebuffer::Framebuffer(Framebuffer &&other) noexcept:
 device{other.device},
 handle{other.handle},
 extent{other.extent} {

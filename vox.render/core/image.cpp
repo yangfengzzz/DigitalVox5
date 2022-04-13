@@ -23,7 +23,7 @@
 namespace vox {
 namespace {
 inline VkImageType find_image_type(VkExtent3D extent) {
-    VkImageType result{};
+    VkImageType result;
     
     uint32_t dim_num{0};
     
@@ -51,7 +51,6 @@ inline VkImageType find_image_type(VkExtent3D extent) {
             break;
         default:
             throw std::runtime_error("No image type found.");
-            break;
     }
     
     return result;
@@ -131,7 +130,7 @@ usage{image_usage} {
     subresource.arrayLayer = 1;
 }
 
-Image::Image(Image &&other) :
+Image::Image(Image &&other) noexcept:
 VulkanResource{std::move(other)},
 memory{other.memory},
 type{other.type},
@@ -167,7 +166,7 @@ VmaAllocation Image::get_memory() const {
 uint8_t *Image::map() {
     if (!mapped_data) {
         if (tiling != VK_IMAGE_TILING_LINEAR) {
-            LOGW("Mapping image memory that is not linear");
+            LOGW("Mapping image memory that is not linear")
         }
         VK_CHECK(vmaMapMemory(device->get_memory_allocator(), memory, reinterpret_cast<void **>(&mapped_data)));
         mapped = true;

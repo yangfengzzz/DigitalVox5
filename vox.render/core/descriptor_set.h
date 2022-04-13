@@ -52,7 +52,7 @@ public:
     
     DescriptorSet(const DescriptorSet &) = delete;
     
-    DescriptorSet(DescriptorSet &&other);
+    DescriptorSet(DescriptorSet &&other) noexcept;
     
     // The descriptor set handle is managed by the pool, and will be destroyed when the pool is reset
     ~DescriptorSet() = default;
@@ -76,9 +76,9 @@ public:
      */
     void update(const std::vector<uint32_t> &bindings_to_update = {});
     
-    const DescriptorSetLayout &get_layout() const;
+    [[nodiscard]] const DescriptorSetLayout &get_layout() const;
     
-    VkDescriptorSet get_handle() const;
+    [[nodiscard]] VkDescriptorSet get_handle() const;
     
     BindingMap<VkDescriptorBufferInfo> &get_buffer_infos();
     
@@ -111,4 +111,5 @@ private:
     // Each binding number is mapped to a hash of the binding description that it will be updated to.
     std::unordered_map<uint32_t, size_t> updated_bindings;
 };
+
 }        // namespace vox

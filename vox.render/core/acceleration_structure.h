@@ -111,13 +111,13 @@ public:
                VkBuildAccelerationStructureFlagsKHR flags = VK_BUILD_ACCELERATION_STRUCTURE_PREFER_FAST_TRACE_BIT_KHR,
                VkBuildAccelerationStructureModeKHR mode = VK_BUILD_ACCELERATION_STRUCTURE_MODE_BUILD_KHR);
     
-    VkAccelerationStructureKHR get_handle() const;
+    [[nodiscard]] VkAccelerationStructureKHR get_handle() const;
     
-    const VkAccelerationStructureKHR *get() const;
+    [[nodiscard]] const VkAccelerationStructureKHR *get() const;
     
-    uint64_t get_device_address() const;
+    [[nodiscard]] uint64_t get_device_address() const;
     
-    vox::core::Buffer *get_buffer() const {
+    [[nodiscard]] vox::core::Buffer *get_buffer() const {
         return buffer.get();
     }
     

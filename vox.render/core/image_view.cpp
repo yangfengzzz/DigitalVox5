@@ -20,8 +20,7 @@
 #include "core/image.h"
 #include "device.h"
 
-namespace vox {
-namespace core {
+namespace vox::core {
 ImageView::ImageView(Image &img, VkImageViewType view_type, VkFormat format,
                      uint32_t mip_level, uint32_t array_layer,
                      uint32_t n_mip_levels, uint32_t n_array_layers) :
@@ -60,7 +59,7 @@ format{format} {
     image->get_views().emplace(this);
 }
 
-ImageView::ImageView(ImageView &&other) :
+ImageView::ImageView(ImageView &&other) noexcept:
 VulkanResource{std::move(other)},
 image{other.image},
 format{other.format},
@@ -106,5 +105,4 @@ VkImageSubresourceLayers ImageView::get_subresource_layers() const {
 }
 
 
-}        // namespace core
 }        // namespace vox

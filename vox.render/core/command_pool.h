@@ -34,7 +34,7 @@ public:
     
     CommandPool(const CommandPool &) = delete;
     
-    CommandPool(CommandPool &&other);
+    CommandPool(CommandPool &&other) noexcept;
     
     ~CommandPool();
     
@@ -44,19 +44,19 @@ public:
     
     Device &get_device();
     
-    uint32_t get_queue_family_index() const;
+    [[nodiscard]] uint32_t get_queue_family_index() const;
     
-    VkCommandPool get_handle() const;
+    [[nodiscard]] VkCommandPool get_handle() const;
     
     RenderFrame *get_render_frame();
     
-    size_t get_thread_index() const;
+    [[nodiscard]] size_t get_thread_index() const;
     
     VkResult reset_pool();
     
     CommandBuffer &request_command_buffer(VkCommandBufferLevel level = VK_COMMAND_BUFFER_LEVEL_PRIMARY);
     
-    const CommandBuffer::ResetMode get_reset_mode() const;
+    [[nodiscard]] CommandBuffer::ResetMode get_reset_mode() const;
     
 private:
     Device &device;

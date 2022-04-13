@@ -76,7 +76,7 @@ public:
     
     Device(Device &&) = delete;
     
-    ~Device();
+    ~Device() override;
     
     Device &operator=(const Device &) = delete;
     
@@ -165,7 +165,8 @@ public:
      * @param copy_region The amount to copy, if null copies the entire buffer
      */
     void
-    copy_buffer(vox::core::Buffer &src, vox::core::Buffer &dst, VkQueue queue, VkBufferCopy *copy_region = nullptr);
+    copy_buffer(vox::core::Buffer &src, vox::core::Buffer &dst, VkQueue queue,
+                VkBufferCopy *copy_region = nullptr) const;
     
     /**
      * @brief Creates a command pool
@@ -179,7 +180,7 @@ public:
     /**
      * @brief Requests a command buffer from the device's command pool
      * @param level The command buffer level
-     * @param begin Whether the command buffer should be implictly started before it's returned
+     * @param begin Whether the command buffer should be implicitly started before it's returned
      * @returns A valid VkCommandBuffer
      */
     VkCommandBuffer create_command_buffer(VkCommandBufferLevel level, bool begin = false) const;
@@ -188,7 +189,7 @@ public:
      * @brief Submits and frees up a given command buffer
      * @param command_buffer The command buffer
      * @param queue The queue to submit the work to
-     * @param free Whether the command buffer should be implictly freed up
+     * @param free Whether the command buffer should be implicitly freed up
      * @param signalSemaphore An optional semaphore to signal when the commands have been executed
      */
     void flush_command_buffer(VkCommandBuffer command_buffer, VkQueue queue, bool free = true,
@@ -250,4 +251,5 @@ private:
     
     ResourceCache resource_cache;
 };
+
 }        // namespace vox

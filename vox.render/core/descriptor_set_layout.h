@@ -43,13 +43,13 @@ public:
      * @param resource_set A grouping of shader resources belonging to the same set
      */
     DescriptorSetLayout(Device &device,
-                        const uint32_t set_index,
-                        const std::vector<ShaderModule *> &shader_modules,
+                        uint32_t set_index,
+                        std::vector<ShaderModule *> shader_modules,
                         const std::vector<ShaderResource> &resource_set);
     
     DescriptorSetLayout(const DescriptorSetLayout &) = delete;
     
-    DescriptorSetLayout(DescriptorSetLayout &&other);
+    DescriptorSetLayout(DescriptorSetLayout &&other) noexcept;
     
     ~DescriptorSetLayout();
     
@@ -57,21 +57,21 @@ public:
     
     DescriptorSetLayout &operator=(DescriptorSetLayout &&) = delete;
     
-    VkDescriptorSetLayout get_handle() const;
+    [[nodiscard]] VkDescriptorSetLayout get_handle() const;
     
-    const uint32_t get_index() const;
+    [[nodiscard]] uint32_t get_index() const;
     
-    const std::vector<VkDescriptorSetLayoutBinding> &get_bindings() const;
+    [[nodiscard]] const std::vector<VkDescriptorSetLayoutBinding> &get_bindings() const;
     
-    std::unique_ptr<VkDescriptorSetLayoutBinding> get_layout_binding(const uint32_t binding_index) const;
+    [[nodiscard]] std::unique_ptr<VkDescriptorSetLayoutBinding> get_layout_binding(uint32_t binding_index) const;
     
-    std::unique_ptr<VkDescriptorSetLayoutBinding> get_layout_binding(const std::string &name) const;
+    [[nodiscard]] std::unique_ptr<VkDescriptorSetLayoutBinding> get_layout_binding(const std::string &name) const;
     
-    const std::vector<VkDescriptorBindingFlagsEXT> &get_binding_flags() const;
+    [[nodiscard]] const std::vector<VkDescriptorBindingFlagsEXT> &get_binding_flags() const;
     
-    VkDescriptorBindingFlagsEXT get_layout_binding_flag(const uint32_t binding_index) const;
+    [[nodiscard]] VkDescriptorBindingFlagsEXT get_layout_binding_flag(uint32_t binding_index) const;
     
-    const std::vector<ShaderModule *> &get_shader_modules() const;
+    [[nodiscard]] const std::vector<ShaderModule *> &get_shader_modules() const;
     
 private:
     Device &device;

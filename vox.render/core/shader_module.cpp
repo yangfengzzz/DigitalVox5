@@ -95,8 +95,8 @@ entry_point{entry_point} {
     
     if (!glsl_compiler.compile_to_spirv(stage, convert_to_bytes(glsl_final_source), entry_point, shader_variant,
                                         spirv, info_log)) {
-        LOGE("Shader compilation failed for shader \"{}\"", glsl_source.get_filename());
-        LOGE("{}", info_log);
+        LOGE("Shader compilation failed for shader \"{}\"", glsl_source.get_filename())
+        LOGE("{}", info_log)
         throw VulkanException{VK_ERROR_INITIALIZATION_FAILED};
     }
     
@@ -113,7 +113,7 @@ entry_point{entry_point} {
         reinterpret_cast<const char *>(spirv.data() + spirv.size())});
 }
 
-ShaderModule::ShaderModule(ShaderModule &&other) :
+ShaderModule::ShaderModule(ShaderModule &&other) noexcept:
 device{other.device},
 id{other.id},
 stage{other.stage},
@@ -159,13 +159,13 @@ void ShaderModule::set_resource_mode(const std::string &resource_name, const Sha
             if (it->type == ShaderResourceType::BufferUniform || it->type == ShaderResourceType::BufferStorage) {
                 it->mode = resource_mode;
             } else {
-                LOGW("Resource `{}` does not support dynamic.", resource_name);
+                LOGW("Resource `{}` does not support dynamic.", resource_name)
             }
         } else {
             it->mode = resource_mode;
         }
     } else {
-        LOGW("Resource `{}` not found for shader.", resource_name);
+        LOGW("Resource `{}` not found for shader.", resource_name)
     }
 }
 

@@ -18,14 +18,13 @@
 #include "pipeline.h"
 
 #include "device.h"
-#include "pipeline_layout.h"
 #include "shader_module.h"
 
 namespace vox {
 Pipeline::Pipeline(Device &device) :
 device{device} {}
 
-Pipeline::Pipeline(Pipeline &&other) :
+Pipeline::Pipeline(Pipeline &&other) noexcept:
 device{other.device},
 handle{other.handle},
 state{other.state} {

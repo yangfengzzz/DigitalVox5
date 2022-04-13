@@ -19,8 +19,7 @@
 
 #include "device.h"
 
-namespace vox {
-namespace core {
+namespace vox::core {
 ShaderBindingTable::ShaderBindingTable(Device &device,
                                        uint32_t handle_count,
                                        VkDeviceSize handle_size_aligned,
@@ -74,5 +73,4 @@ uint8_t *ShaderBindingTable::get_data() const {
 }
 
 
-}        // namespace core
 }        // namespace vox

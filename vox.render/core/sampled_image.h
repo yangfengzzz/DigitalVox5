@@ -35,23 +35,24 @@ public:
      * @brief Constructs a SampledImage referencing the given image and with the given sampler.
      * @remarks If the sampler is null, a default sampler will be used.
      */
-    SampledImage(const ImageView &image_view, Sampler *sampler = nullptr);
+    explicit SampledImage(const ImageView &image_view, Sampler *sampler = nullptr);
     
     /**
      * @brief Constructs a SampledImage referencing a certain attachment of a render target.
      * @remarks If the render target is null, the default is assumed.
      *          If the sampler is null, a default sampler is used.
      */
-    SampledImage(uint32_t target_attachment, RenderTarget *render_target = nullptr, Sampler *sampler = nullptr,
-                 bool isDepthResolve = false);
+    explicit SampledImage(uint32_t target_attachment, RenderTarget *render_target = nullptr,
+                          Sampler *sampler = nullptr,
+                          bool isDepthResolve = false);
     
     SampledImage(const SampledImage &to_copy);
     
     SampledImage &operator=(const SampledImage &to_copy);
     
-    SampledImage(SampledImage &&to_move);
+    SampledImage(SampledImage &&to_move) noexcept;
     
-    SampledImage &operator=(SampledImage &&to_move);
+    SampledImage &operator=(SampledImage &&to_move) noexcept;
     
     ~SampledImage() = default;
     
@@ -75,18 +76,18 @@ public:
      *        otherwise, returns `null`.
      * @remarks The lifetime of the returned pointer matches that of this `SampledImage`.
      */
-    const uint32_t *get_target_attachment() const;
+    [[nodiscard]] const uint32_t *get_target_attachment() const;
     
     /**
      * @brief Returns either the ImageView, if set, or the image view for the set target attachment.
      *        If the view has no render target associated with it, default_target is used.
      */
-    const ImageView &get_image_view(const vox::RenderTarget &default_target) const;
+    [[nodiscard]] const ImageView &get_image_view(const vox::RenderTarget &default_target) const;
     
     /**
      * @brief Returns the currently-set sampler, if any.
      */
-    inline Sampler *get_sampler() const {
+    [[nodiscard]] inline Sampler *get_sampler() const {
         return sampler;
     }
     
@@ -100,7 +101,7 @@ public:
     /**
      * @brief Returns the RenderTarget, if set.
      */
-    inline RenderTarget *get_render_target() const {
+    [[nodiscard]] inline RenderTarget *get_render_target() const {
         return render_target;
     }
     
@@ -116,10 +117,10 @@ public:
      *        Setting it to null will make it use the default instead.
      */
     inline void set_render_target(RenderTarget *new_render_target) {
-        render_target = std::move(new_render_target);
+        render_target = new_render_target;
     }
     
-    inline bool is_depth_resolve() const {
+    [[nodiscard]] inline bool is_depth_resolve() const {
         return isDepthResolve;
     }
     

@@ -25,7 +25,7 @@ class Device;
 
 namespace core {
 /**
- * @brief A simplied buffer class for creating temporary device local scratch buffers, used in e.g. ray tracing
+ * @brief A simplified buffer class for creating temporary device local scratch buffers, used in e.g. ray tracing
  */
 class ScratchBuffer {
 public:
@@ -39,14 +39,14 @@ public:
     
     ~ScratchBuffer();
     
-    VkBuffer get_handle() const;
+    [[nodiscard]] VkBuffer get_handle() const;
     
-    uint64_t get_device_address() const;
+    [[nodiscard]] uint64_t get_device_address() const;
     
     /**
      * @return The size of the buffer
      */
-    VkDeviceSize get_size() const {
+    [[nodiscard]] VkDeviceSize get_size() const {
         return size;
     }
     

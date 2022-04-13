@@ -92,7 +92,7 @@ void HDR::build_command_buffers() {
              First pass: Render scene to offscreen framebuffer
              */
             
-            std::array<VkClearValue, 3> clear_values;
+            std::array<VkClearValue, 3> clear_values{};
             clear_values[0].color = {{0.0f, 0.0f, 0.0f, 0.0f}};
             clear_values[1].color = {{0.0f, 0.0f, 0.0f, 0.0f}};
             clear_values[2].depthStencil = {0.0f, 0};
@@ -120,7 +120,7 @@ void HDR::build_command_buffers() {
             if (display_skybox) {
                 vkCmdBindPipeline(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines.skybox);
                 vkCmdBindDescriptorSets(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                        pipeline_layouts.models, 0, 1, &descriptor_sets.skybox, 0, NULL);
+                                        pipeline_layouts.models, 0, 1, &descriptor_sets.skybox, 0, nullptr);
                 
                 draw_model(models.skybox, draw_cmd_buffers[i]);
             }
@@ -128,7 +128,7 @@ void HDR::build_command_buffers() {
             // 3D object
             vkCmdBindPipeline(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines.reflect);
             vkCmdBindDescriptorSets(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layouts.models,
-                                    0, 1, &descriptor_sets.object, 0, NULL);
+                                    0, 1, &descriptor_sets.object, 0, nullptr);
             
             draw_model(models.objects[models.object_index], draw_cmd_buffers[i]);
             
@@ -162,7 +162,7 @@ void HDR::build_command_buffers() {
             vkCmdSetScissor(draw_cmd_buffers[i], 0, 1, &scissor);
             
             vkCmdBindDescriptorSets(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                    pipeline_layouts.bloom_filter, 0, 1, &descriptor_sets.bloom_filter, 0, NULL);
+                                    pipeline_layouts.bloom_filter, 0, 1, &descriptor_sets.bloom_filter, 0, nullptr);
             
             vkCmdBindPipeline(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines.bloom[1]);
             vkCmdDraw(draw_cmd_buffers[i], 3, 1, 0, 0);
@@ -200,7 +200,7 @@ void HDR::build_command_buffers() {
             vkCmdSetScissor(draw_cmd_buffers[i], 0, 1, &scissor);
             
             vkCmdBindDescriptorSets(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                    pipeline_layouts.composition, 0, 1, &descriptor_sets.composition, 0, NULL);
+                                    pipeline_layouts.composition, 0, 1, &descriptor_sets.composition, 0, nullptr);
             
             // Scene
             vkCmdBindPipeline(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines.composition);
@@ -332,7 +332,7 @@ void HDR::prepare_offscreen_buffer() {
         subpass.pDepthStencilAttachment = &depth_reference;
         
         // Use subpass dependencies for attachment layput transitions
-        std::array<VkSubpassDependency, 2> dependencies;
+        std::array<VkSubpassDependency, 2> dependencies{};
         
         dependencies[0].srcSubpass = VK_SUBPASS_EXTERNAL;
         dependencies[0].dstSubpass = 0;
@@ -362,14 +362,14 @@ void HDR::prepare_offscreen_buffer() {
         VK_CHECK(vkCreateRenderPass(get_device().get_handle(), &render_pass_create_info, nullptr,
                                     &offscreen.render_pass));
         
-        std::array<VkImageView, 3> attachments;
+        std::array<VkImageView, 3> attachments{};
         attachments[0] = offscreen.color[0].view;
         attachments[1] = offscreen.color[1].view;
         attachments[2] = offscreen.depth.view;
         
         VkFramebufferCreateInfo framebuffer_create_info = {};
         framebuffer_create_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-        framebuffer_create_info.pNext = NULL;
+        framebuffer_create_info.pNext = nullptr;
         framebuffer_create_info.renderPass = offscreen.render_pass;
         framebuffer_create_info.pAttachments = attachments.data();
         framebuffer_create_info.attachmentCount = static_cast<uint32_t>(attachments.size());
@@ -428,7 +428,7 @@ void HDR::prepare_offscreen_buffer() {
         subpass.colorAttachmentCount = 1;
         
         // Use subpass dependencies for attachment layput transitions
-        std::array<VkSubpassDependency, 2> dependencies;
+        std::array<VkSubpassDependency, 2> dependencies{};
         
         dependencies[0].srcSubpass = VK_SUBPASS_EXTERNAL;
         dependencies[0].dstSubpass = 0;
@@ -458,12 +458,12 @@ void HDR::prepare_offscreen_buffer() {
         VK_CHECK(vkCreateRenderPass(get_device().get_handle(), &render_pass_create_info, nullptr,
                                     &filter_pass.render_pass));
         
-        std::array<VkImageView, 1> attachments;
+        std::array<VkImageView, 1> attachments{};
         attachments[0] = filter_pass.color[0].view;
         
         VkFramebufferCreateInfo framebuffer_create_info = {};
         framebuffer_create_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-        framebuffer_create_info.pNext = NULL;
+        framebuffer_create_info.pNext = nullptr;
         framebuffer_create_info.renderPass = filter_pass.render_pass;
         framebuffer_create_info.pAttachments = attachments.data();
         framebuffer_create_info.attachmentCount = static_cast<uint32_t>(attachments.size());
@@ -495,7 +495,7 @@ void HDR::load_assets() {
     models.skybox = load_model("Scenes/cube.gltf");
     std::vector<std::string> filenames = {"geosphere.gltf", "teapot.gltf", "torusknot.gltf"};
     object_names = {"Sphere", "Teapot", "Torusknot"};
-    for (auto file: filenames) {
+    for (const auto& file: filenames) {
         auto object = load_model("Scenes/" + file);
         models.objects.emplace_back(std::move(object));
     }
@@ -611,7 +611,7 @@ void HDR::setup_descriptor_sets() {
                                                 &params_buffer_descriptor),
     };
     vkUpdateDescriptorSets(get_device().get_handle(), static_cast<uint32_t>(write_descriptor_sets.size()),
-                           write_descriptor_sets.data(), 0, NULL);
+                           write_descriptor_sets.data(), 0, nullptr);
     
     // Sky box descriptor set
     VK_CHECK(vkAllocateDescriptorSets(get_device().get_handle(), &alloc_info, &descriptor_sets.skybox));
@@ -629,7 +629,7 @@ void HDR::setup_descriptor_sets() {
                                                 &params_buffer_descriptor),
     };
     vkUpdateDescriptorSets(get_device().get_handle(), static_cast<uint32_t>(write_descriptor_sets.size()),
-                           write_descriptor_sets.data(), 0, NULL);
+                           write_descriptor_sets.data(), 0, nullptr);
     
     // Bloom filter
     alloc_info = vox::initializers::descriptor_set_allocate_info(descriptor_pool,
@@ -652,7 +652,7 @@ void HDR::setup_descriptor_sets() {
                                                 &color_descriptors[1]),
     };
     vkUpdateDescriptorSets(get_device().get_handle(), static_cast<uint32_t>(write_descriptor_sets.size()),
-                           write_descriptor_sets.data(), 0, NULL);
+                           write_descriptor_sets.data(), 0, nullptr);
     
     // Composition descriptor set
     alloc_info = vox::initializers::descriptor_set_allocate_info(descriptor_pool,
@@ -675,7 +675,7 @@ void HDR::setup_descriptor_sets() {
                                                 &color_descriptors[1]),
     };
     vkUpdateDescriptorSets(get_device().get_handle(), static_cast<uint32_t>(write_descriptor_sets.size()),
-                           write_descriptor_sets.data(), 0, NULL);
+                           write_descriptor_sets.data(), 0, nullptr);
 }
 
 void HDR::prepare_pipelines() {
@@ -745,12 +745,12 @@ void HDR::prepare_pipelines() {
     pipeline_create_info.pDepthStencilState = &depth_stencil_state;
     pipeline_create_info.pDynamicState = &dynamic_state;
     
-    std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages;
+    std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages{};
     pipeline_create_info.stageCount = static_cast<uint32_t>(shader_stages.size());
     pipeline_create_info.pStages = shader_stages.data();
     
     VkSpecializationInfo specialization_info;
-    std::array<VkSpecializationMapEntry, 1> specialization_map_entries;
+    std::array<VkSpecializationMapEntry, 1> specialization_map_entries{};
     
     // Full screen pipelines
     
@@ -881,7 +881,7 @@ void HDR::update_uniform_buffers() {
     uniform_buffers.matrices->convert_and_update(ubo_vs);
 }
 
-void HDR::update_params() {
+void HDR::update_params() const {
     uniform_buffers.params->convert_and_update(ubo_params);
 }
 

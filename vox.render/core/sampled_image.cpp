@@ -19,8 +19,7 @@
 
 #include "rendering/render_target.h"
 
-namespace vox {
-namespace core {
+namespace vox::core {
 SampledImage::SampledImage(const core::ImageView &image_view, Sampler *sampler) :
 image_view{&image_view},
 target_attachment{0},
@@ -52,19 +51,19 @@ SampledImage &SampledImage::operator=(const SampledImage &to_copy) {
     return *this;
 }
 
-SampledImage::SampledImage(SampledImage &&to_move) :
-image_view{std::move(to_move.image_view)},
-target_attachment{std::move(to_move.target_attachment)},
-render_target{std::move(to_move.render_target)},
-sampler{std::move(to_move.sampler)},
-isDepthResolve{std::move(to_move.isDepthResolve)} {}
+SampledImage::SampledImage(SampledImage &&to_move) noexcept:
+image_view{to_move.image_view},
+target_attachment{to_move.target_attachment},
+render_target{to_move.render_target},
+sampler{to_move.sampler},
+isDepthResolve{to_move.isDepthResolve} {}
 
-SampledImage &SampledImage::operator=(SampledImage &&to_move) {
-    image_view = std::move(to_move.image_view);
-    target_attachment = std::move(to_move.target_attachment);
-    render_target = std::move(to_move.render_target);
-    sampler = std::move(to_move.sampler);
-    isDepthResolve = std::move(to_move.isDepthResolve);
+SampledImage &SampledImage::operator=(SampledImage &&to_move) noexcept {
+    image_view = to_move.image_view;
+    target_attachment = to_move.target_attachment;
+    render_target = to_move.render_target;
+    sampler = to_move.sampler;
+    isDepthResolve = to_move.isDepthResolve;
     return *this;
 }
 
@@ -85,5 +84,4 @@ const uint32_t *SampledImage::get_target_attachment() const {
     }
 }
 
-}        // namespace core
 }        // namespace vox

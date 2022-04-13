@@ -53,7 +53,7 @@ inline VkExtent2D choose_extent(
     
     if (request_extent.width < 1 || request_extent.height < 1) {
         LOGW("(Swapchain) Image extent ({}, {}) not supported. Selecting ({}, {}).", request_extent.width,
-             request_extent.height, current_extent.width, current_extent.height);
+             request_extent.height, current_extent.width, current_extent.height)
         return current_extent;
     }
     
@@ -85,10 +85,10 @@ inline VkPresentModeKHR choose_present_mode(VkPresentModeKHR request_present_mod
         }
         
         LOGW("(Swapchain) Present mode '{}' not supported. Selecting '{}'.", to_string(request_present_mode),
-             to_string(chosen_present_mode));
+             to_string(chosen_present_mode))
         return chosen_present_mode;
     } else {
-        LOGI("(Swapchain) Present mode selected: {}", to_string(request_present_mode));
+        LOGI("(Swapchain) Present mode selected: {}", to_string(request_present_mode))
         return *present_mode_it;
     }
 }
@@ -125,17 +125,17 @@ inline VkSurfaceFormatKHR choose_surface_format(const VkSurfaceFormatKHR request
                                              });
             if (surface_format_it != available_surface_formats.end()) {
                 LOGW("(Swapchain) Surface format ({}) not supported. Selecting ({}).",
-                     to_string(requested_surface_format), to_string(*surface_format_it));
+                     to_string(requested_surface_format), to_string(*surface_format_it))
                 return *surface_format_it;
             }
         }
         
-        // If nothing found, default the first supporte surface format
+        // If nothing found, default the first supported surface format
         surface_format_it = available_surface_formats.begin();
         LOGW("(Swapchain) Surface format ({}) not supported. Selecting ({}).",
-             to_string(requested_surface_format), to_string(*surface_format_it));
+             to_string(requested_surface_format), to_string(*surface_format_it))
     } else {
-        LOGI("(Swapchain) Surface format selected: {}", to_string(requested_surface_format));
+        LOGI("(Swapchain) Surface format selected: {}", to_string(requested_surface_format))
     }
     
     return *surface_format_it;
@@ -150,7 +150,7 @@ inline VkSurfaceTransformFlagBitsKHR choose_transform(
     }
     
     LOGW("(Swapchain) Surface transform '{}' not supported. Selecting '{}'.", to_string(request_transform),
-         to_string(current_transform));
+         to_string(current_transform))
     
     return current_transform;
 }
@@ -170,7 +170,7 @@ inline VkCompositeAlphaFlagBitsKHR choose_composite_alpha(VkCompositeAlphaFlagBi
     for (VkCompositeAlphaFlagBitsKHR composite_alpha: composite_alpha_flags) {
         if (composite_alpha & supported_composite_alpha) {
             LOGW("(Swapchain) Composite alpha '{}' not supported. Selecting '{}.",
-                 to_string(request_composite_alpha), to_string(composite_alpha));
+                 to_string(request_composite_alpha), to_string(composite_alpha))
             return composite_alpha;
         }
     }
@@ -195,7 +195,7 @@ choose_image_usage(const std::set<VkImageUsageFlagBits> &requested_image_usage_f
         if ((flag & supported_image_usage) && validate_format_feature(flag, supported_features)) {
             validated_image_usage_flags.insert(flag);
         } else {
-            LOGW("(Swapchain) Image usage ({}) requested but not supported.", to_string(flag));
+            LOGW("(Swapchain) Image usage ({}) requested but not supported.", to_string(flag))
         }
     }
     
@@ -222,7 +222,7 @@ choose_image_usage(const std::set<VkImageUsageFlagBits> &requested_image_usage_f
         for (VkImageUsageFlagBits image_usage: validated_image_usage_flags) {
             usage_list += to_string(image_usage) + " ";
         }
-        LOGI("(Swapchain) Image usage flags: {}", usage_list);
+        LOGI("(Swapchain) Image usage flags: {}", usage_list)
     } else {
         throw std::runtime_error("No compatible image usage found.");
     }
@@ -311,9 +311,9 @@ surface{surface} {
     VK_CHECK(vkGetPhysicalDeviceSurfaceFormatsKHR(this->device.get_gpu().get_handle(), surface,
                                                   &surface_format_count, surface_formats.data()));
     
-    LOGI("Surface supports the following surface formats:");
+    LOGI("Surface supports the following surface formats:")
     for (auto &surface_format: surface_formats) {
-        LOGI("  \t{}", to_string(surface_format));
+        LOGI("  \t{}", to_string(surface_format))
     }
     
     uint32_t present_mode_count{0U};
@@ -323,12 +323,12 @@ surface{surface} {
     VK_CHECK(vkGetPhysicalDeviceSurfacePresentModesKHR(this->device.get_gpu().get_handle(), surface,
                                                        &present_mode_count, present_modes.data()));
     
-    LOGI("Surface supports the following present modes:");
+    LOGI("Surface supports the following present modes:")
     for (auto &present_mode: present_modes) {
-        LOGI("  \t{}", to_string(present_mode));
+        LOGI("  \t{}", to_string(present_mode))
     }
     
-    // Chose best properties based on surface capabilities
+    // Choose the best properties based on surface capabilities
     properties.image_count = choose_image_count(image_count, surface_capabilities.minImageCount,
                                                 surface_capabilities.maxImageCount);
     properties.extent = choose_extent(extent, surface_capabilities.minImageExtent,
@@ -358,13 +358,13 @@ Swapchain::~Swapchain() {
     }
 }
 
-Swapchain::Swapchain(Swapchain &&other) :
+Swapchain::Swapchain(Swapchain &&other) noexcept:
 device{other.device},
 surface{other.surface},
 handle{other.handle},
 image_usage_flags{std::move(other.image_usage_flags)},
 images{std::move(other.images)},
-properties{std::move(other.properties)} {
+properties{other.properties} {
     other.handle = VK_NULL_HANDLE;
     other.surface = VK_NULL_HANDLE;
 }

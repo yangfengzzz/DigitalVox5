@@ -103,7 +103,7 @@ public:
     
     ShaderVariant(std::string &&preamble, std::vector<std::string> &&processes);
     
-    size_t get_id() const;
+    [[nodiscard]] size_t get_id() const;
     
     /**
      * @brief Add definitions to shader variant
@@ -133,16 +133,16 @@ public:
     
     void set_runtime_array_sizes(const std::unordered_map<std::string, size_t> &sizes);
     
-    const std::string &get_preamble() const;
+    [[nodiscard]] const std::string &get_preamble() const;
     
-    const std::vector<std::string> &get_processes() const;
+    [[nodiscard]] const std::vector<std::string> &get_processes() const;
     
-    const std::unordered_map<std::string, size_t> &get_runtime_array_sizes() const;
+    [[nodiscard]] const std::unordered_map<std::string, size_t> &get_runtime_array_sizes() const;
     
     void clear();
     
 private:
-    size_t id;
+    size_t id{};
     
     std::string preamble;
     
@@ -157,18 +157,18 @@ class ShaderSource {
 public:
     ShaderSource() = default;
     
-    ShaderSource(const std::string &filename);
+    explicit ShaderSource(const std::string &filename);
     
-    size_t get_id() const;
+    [[nodiscard]] size_t get_id() const;
     
-    const std::string &get_filename() const;
+    [[nodiscard]] const std::string &get_filename() const;
     
     void set_source(const std::string &source);
     
-    const std::string &get_source() const;
+    [[nodiscard]] const std::string &get_source() const;
     
 private:
-    size_t id;
+    size_t id{};
     
     std::string filename;
     
@@ -194,25 +194,25 @@ public:
     
     ShaderModule(const ShaderModule &) = delete;
     
-    ShaderModule(ShaderModule &&other);
+    ShaderModule(ShaderModule &&other) noexcept;
     
     ShaderModule &operator=(const ShaderModule &) = delete;
     
     ShaderModule &operator=(ShaderModule &&) = delete;
     
-    size_t get_id() const;
+    [[nodiscard]] size_t get_id() const;
     
-    VkShaderStageFlagBits get_stage() const;
+    [[nodiscard]] VkShaderStageFlagBits get_stage() const;
     
-    const std::string &get_entry_point() const;
+    [[nodiscard]] const std::string &get_entry_point() const;
     
-    const std::vector<ShaderResource> &get_resources() const;
+    [[nodiscard]] const std::vector<ShaderResource> &get_resources() const;
     
-    const std::string &get_info_log() const;
+    [[nodiscard]] const std::string &get_info_log() const;
     
-    const std::vector<uint32_t> &get_binary() const;
+    [[nodiscard]] const std::vector<uint32_t> &get_binary() const;
     
-    inline const std::string &get_debug_name() const {
+    [[nodiscard]] inline const std::string &get_debug_name() const {
         return debug_name;
     }
     

@@ -39,9 +39,9 @@ public:
     
     Sampler(const Sampler &) = delete;
     
-    Sampler(Sampler &&sampler);
+    Sampler(Sampler &&sampler) noexcept;
     
-    ~Sampler();
+    ~Sampler() override;
     
     Sampler &operator=(const Sampler &) = delete;
     

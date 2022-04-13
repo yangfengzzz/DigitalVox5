@@ -61,7 +61,7 @@ CommandPool::~CommandPool() {
     }
 }
 
-CommandPool::CommandPool(CommandPool &&other) :
+CommandPool::CommandPool(CommandPool &&other) noexcept:
 device{other.device},
 handle{other.handle},
 queue_family_index{other.queue_family_index},
@@ -187,7 +187,7 @@ CommandBuffer &CommandPool::request_command_buffer(VkCommandBufferLevel level) {
     }
 }
 
-CommandBuffer::ResetMode const CommandPool::get_reset_mode() const {
+CommandBuffer::ResetMode CommandPool::get_reset_mode() const {
     return reset_mode;
 }
 

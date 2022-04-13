@@ -80,15 +80,15 @@ public:
     
     CommandBuffer(const CommandBuffer &) = delete;
     
-    CommandBuffer(CommandBuffer &&other);
+    CommandBuffer(CommandBuffer &&other) noexcept;
     
-    ~CommandBuffer();
+    ~CommandBuffer() override;
     
     CommandBuffer &operator=(const CommandBuffer &) = delete;
     
     CommandBuffer &operator=(CommandBuffer &&) = delete;
     
-    bool is_recording() const;
+    [[nodiscard]] bool is_recording() const;
     
     /**
      * @brief Flushes the command buffer, pushing the new changes
@@ -160,7 +160,7 @@ public:
         uint32_t size = to_u32(stored_push_constants.size() + data.size());
         
         if (size > max_push_constants_size) {
-            LOGE("Push constant limit exceeded ({} / {} bytes)", size, max_push_constants_size);
+            LOGE("Push constant limit exceeded ({} / {} bytes)", size, max_push_constants_size)
             throw std::runtime_error("Cannot overflow push constant limit");
         }
         
@@ -246,7 +246,7 @@ public:
     void buffer_memory_barrier(const core::Buffer &buffer, VkDeviceSize offset, VkDeviceSize size,
                                const BufferMemoryBarrier &memory_barrier);
     
-    const State get_state() const;
+    [[nodiscard]] State get_state() const;
     
     void set_update_after_bind(bool update_after_bind_);
     
@@ -275,7 +275,7 @@ private:
     
     CommandPool &command_pool;
     
-    RenderPassBinding current_render_pass;
+    RenderPassBinding current_render_pass{};
     
     PipelineState pipeline_state;
     
@@ -283,29 +283,29 @@ private:
     
     std::vector<uint8_t> stored_push_constants;
     
-    uint32_t max_push_constants_size;
+    uint32_t max_push_constants_size{};
     
     VkExtent2D last_framebuffer_extent{};
     
     VkExtent2D last_render_area_extent{};
     
     // If true, it becomes the responsibility of the caller to update ANY descriptor bindings
-    // that contain update after bind, as they wont be implicitly updated
+    // that contain update after bind, as they won't be implicitly updated
     bool update_after_bind{false};
     
     std::unordered_map<uint32_t, DescriptorSetLayout *> descriptor_set_layout_binding_state;
     
-    const RenderPassBinding &get_current_render_pass() const;
+    [[nodiscard]] const RenderPassBinding &get_current_render_pass() const;
     
-    const uint32_t get_current_subpass_index() const;
+    [[nodiscard]] uint32_t get_current_subpass_index() const;
     
     /**
      * @brief Check that the render area is an optimal size by comparing to the render area granularity
      */
-    const bool is_render_size_optimal(const VkExtent2D &extent, const VkRect2D &render_area);
+    bool is_render_size_optimal(const VkExtent2D &extent, const VkRect2D &render_area) const;
     
     /**
-     * @brief Flush the piplines state
+     * @brief Flush the pipelines state
      */
     void flush_pipeline_state(VkPipelineBindPoint pipeline_bind_point);
     

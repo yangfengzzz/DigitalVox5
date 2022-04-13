@@ -45,9 +45,9 @@ public:
     
     Buffer(const Buffer &) = delete;
     
-    Buffer(Buffer &&other);
+    Buffer(Buffer &&other) noexcept;
     
-    ~Buffer();
+    ~Buffer() override;
     
     Buffer &operator=(const Buffer &) = delete;
     
@@ -76,11 +76,11 @@ public:
         return out;
     }
     
-    const VkBuffer *get() const;
+    [[nodiscard]] const VkBuffer *get() const;
     
-    VmaAllocation get_allocation() const;
+    [[nodiscard]] VmaAllocation get_allocation() const;
     
-    VkDeviceMemory get_memory() const;
+    [[nodiscard]] VkDeviceMemory get_memory() const;
     
     /**
      * @brief Flushes memory if it is HOST_VISIBLE and not HOST_COHERENT
@@ -101,9 +101,9 @@ public:
     /**
      * @return The size of the buffer
      */
-    VkDeviceSize get_size() const;
+    [[nodiscard]] VkDeviceSize get_size() const;
     
-    const uint8_t *get_data() const {
+    [[nodiscard]] const uint8_t *get_data() const {
         return mapped_data;
     }
     

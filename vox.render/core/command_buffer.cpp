@@ -20,7 +20,6 @@
 #include "command_pool.h"
 #include "error.h"
 #include "device.h"
-#include "rendering/render_frame.h"
 #include "rendering/subpass.h"
 
 namespace vox {
@@ -49,7 +48,7 @@ CommandBuffer::~CommandBuffer() {
     }
 }
 
-CommandBuffer::CommandBuffer(CommandBuffer &&other) :
+CommandBuffer::CommandBuffer(CommandBuffer &&other) noexcept:
 VulkanResource{std::move(other)},
 command_pool{other.command_pool},
 level{other.level},
@@ -178,7 +177,7 @@ void CommandBuffer::begin_render_pass(const RenderTarget &render_target, const R
             framebuffer_extent.height != last_framebuffer_extent.height ||
             begin_info.renderArea.extent.width != last_render_area_extent.width ||
             begin_info.renderArea.extent.height != last_render_area_extent.height) {
-            LOGW("Render target extent is not an optimal size, this may result in reduced performance.");
+            LOGW("Render target extent is not an optimal size, this may result in reduced performance.")
         }
         
         last_framebuffer_extent = current_render_pass.framebuffer->get_extent();
@@ -242,7 +241,7 @@ void CommandBuffer::push_constants(const std::vector<uint8_t> &values) {
     
     if (push_constant_size > max_push_constants_size) {
         LOGE("Push constant limit of {} exceeded (pushing {} bytes for a total of {} bytes)",
-             max_push_constants_size, values.size(), push_constant_size);
+             max_push_constants_size, values.size(), push_constant_size)
         throw std::runtime_error("Push constant limit exceeded.");
     } else {
         stored_push_constants.insert(stored_push_constants.end(), values.begin(), values.end());
@@ -495,7 +494,7 @@ void CommandBuffer::flush_pipeline_state(VkPipelineBindPoint pipeline_bind_point
                           pipeline_bind_point,
                           pipeline.get_handle());
     } else {
-        throw "Only graphics and compute pipeline bind points are supported now";
+        throw std::runtime_error("Only graphics and compute pipeline bind points are supported now");
     }
 }
 
@@ -535,7 +534,7 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
     if (resource_binding_state.is_dirty() || !update_descriptor_sets.empty()) {
         resource_binding_state.clear_dirty();
         
-        // Iterate over all of the resource sets bound by the command buffer
+        // Iterate over all the resource sets bound by the command buffer
         for (auto &resource_set_it: resource_binding_state.get_resource_sets()) {
             uint32_t descriptor_set_id = resource_set_it.first;
             auto &resource_set = resource_set_it.second;
@@ -604,7 +603,7 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
                                 buffer_info.offset = 0;
                             }
                             
-                            buffer_infos[binding_index][array_element] = std::move(buffer_info);
+                            buffer_infos[binding_index][array_element] = buffer_info;
                         }
                         
                         // Get image info
@@ -636,7 +635,7 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
                                 }
                             }
                             
-                            image_infos[binding_index][array_element] = std::move(image_info);
+                            image_infos[binding_index][array_element] = image_info;
                         }
                     }
                 }
@@ -677,13 +676,13 @@ void CommandBuffer::flush_push_constants() {
         vkCmdPushConstants(get_handle(), pipeline_layout.get_handle(), shader_stage, 0,
                            to_u32(stored_push_constants.size()), stored_push_constants.data());
     } else {
-        LOGW("Push constant range [{}, {}] not found", 0, stored_push_constants.size());
+        LOGW("Push constant range [{}, {}] not found", 0, stored_push_constants.size())
     }
     
     stored_push_constants.clear();
 }
 
-const CommandBuffer::State CommandBuffer::get_state() const {
+CommandBuffer::State CommandBuffer::get_state() const {
     return state;
 }
 
@@ -695,12 +694,12 @@ const CommandBuffer::RenderPassBinding &CommandBuffer::get_current_render_pass()
     return current_render_pass;
 }
 
-const uint32_t CommandBuffer::get_current_subpass_index() const {
+uint32_t CommandBuffer::get_current_subpass_index() const {
     return pipeline_state.get_subpass_index();
 }
 
-const bool
-CommandBuffer::is_render_size_optimal(const VkExtent2D &framebuffer_extent, const VkRect2D &render_area) {
+bool
+CommandBuffer::is_render_size_optimal(const VkExtent2D &framebuffer_extent, const VkRect2D &render_area) const {
     auto render_area_granularity = current_render_pass.render_pass->get_render_area_granularity();
     
     return ((render_area.offset.x % render_area_granularity.width == 0) &&
@@ -747,7 +746,7 @@ RenderPass &CommandBuffer::get_render_pass(const vox::RenderTarget &render_targe
                                            const std::vector<LoadStoreInfo> &load_store_infos,
                                            const std::vector<std::unique_ptr<Subpass>> &subpasses) {
     // Create render pass
-    assert(subpasses.size() > 0 && "Cannot create a render pass without any subpass");
+    assert(!subpasses.empty() && "Cannot create a render pass without any subpass");
     
     std::vector<vox::SubpassInfo> subpass_infos(subpasses.size());
     auto subpass_info_it = subpass_infos.begin();

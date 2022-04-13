@@ -51,17 +51,17 @@ public:
     
     RenderPass(const RenderPass &) = delete;
     
-    RenderPass(RenderPass &&other);
+    RenderPass(RenderPass &&other) noexcept;
     
-    ~RenderPass();
+    ~RenderPass() override;
     
     RenderPass &operator=(const RenderPass &) = delete;
     
     RenderPass &operator=(RenderPass &&) = delete;
     
-    const uint32_t get_color_output_count(uint32_t subpass_index) const;
+    [[nodiscard]] uint32_t get_color_output_count(uint32_t subpass_index) const;
     
-    const VkExtent2D get_render_area_granularity() const;
+    [[nodiscard]] VkExtent2D get_render_area_granularity() const;
     
 private:
     size_t subpass_count;

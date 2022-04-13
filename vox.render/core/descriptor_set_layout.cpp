@@ -17,6 +17,8 @@
 
 #include "descriptor_set_layout.h"
 
+#include <utility>
+
 #include "device.h"
 #include "physical_device.h"
 #include "shader_module.h"
@@ -27,36 +29,28 @@ inline VkDescriptorType find_descriptor_type(ShaderResourceType resource_type, b
     switch (resource_type) {
         case ShaderResourceType::InputAttachment:
             return VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
-            break;
         case ShaderResourceType::Image:
             return VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
-            break;
         case ShaderResourceType::ImageSampler:
             return VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            break;
         case ShaderResourceType::ImageStorage:
             return VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
-            break;
         case ShaderResourceType::Sampler:
             return VK_DESCRIPTOR_TYPE_SAMPLER;
-            break;
         case ShaderResourceType::BufferUniform:
             if (dynamic) {
                 return VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
             } else {
                 return VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
             }
-            break;
         case ShaderResourceType::BufferStorage:
             if (dynamic) {
                 return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC;
             } else {
                 return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
             }
-            break;
         default:
             throw std::runtime_error("No conversion possible for the shader resource type.");
-            break;
     }
 }
 
@@ -77,7 +71,7 @@ validate_flags(const PhysicalDevice &gpu, const std::vector<VkDescriptorSetLayou
     
     // Binding count has to equal flag count as its a 1:1 mapping
     if (bindings.size() != flags.size()) {
-        LOGE("Binding count has to be equal to flag count.");
+        LOGE("Binding count has to be equal to flag count.")
         return false;
     }
     
@@ -87,17 +81,17 @@ validate_flags(const PhysicalDevice &gpu, const std::vector<VkDescriptorSetLayou
 
 DescriptorSetLayout::DescriptorSetLayout(Device &device,
                                          const uint32_t set_index,
-                                         const std::vector<ShaderModule *> &shader_modules,
+                                         std::vector<ShaderModule *> shader_modules,
                                          const std::vector<ShaderResource> &resource_set) :
 device{device},
 set_index{set_index},
-shader_modules{shader_modules} {
+shader_modules{std::move(shader_modules)} {
     // NOTE: `shader_modules` is passed in mainly for hashing their handles in `request_resource`.
     //        This way, different pipelines (with different shaders / shader variants) will get
     //        different descriptor set layouts (incl. appropriate name -> binding lookups)
     
     for (auto &resource: resource_set) {
-        // Skip shader resources whitout a binding point
+        // Skip shader resources without a binding point
         if (resource.type == ShaderResourceType::Input ||
             resource.type == ShaderResourceType::Output ||
             resource.type == ShaderResourceType::PushConstant ||
@@ -113,7 +107,7 @@ shader_modules{shader_modules} {
         } else {
             // When creating a descriptor set layout, if we give a structure to create_info.pNext, each binding needs to have a binding flag
             // (pBindings[i] uses the flags in pBindingFlags[i])
-            // Adding 0 ensures the bindings that dont use any flags are mapped correctly.
+            // Adding 0 ensures the bindings that don't use any flags are mapped correctly.
             binding_flags.push_back(0);
         }
         
@@ -177,7 +171,7 @@ shader_modules{shader_modules} {
     }
 }
 
-DescriptorSetLayout::DescriptorSetLayout(DescriptorSetLayout &&other) :
+DescriptorSetLayout::DescriptorSetLayout(DescriptorSetLayout &&other) noexcept:
 device{other.device},
 shader_modules{other.shader_modules},
 handle{other.handle},
@@ -201,7 +195,7 @@ VkDescriptorSetLayout DescriptorSetLayout::get_handle() const {
     return handle;
 }
 
-const uint32_t DescriptorSetLayout::get_index() const {
+uint32_t DescriptorSetLayout::get_index() const {
     return set_index;
 }
 
