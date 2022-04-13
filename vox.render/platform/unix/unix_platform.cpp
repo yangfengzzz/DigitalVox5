@@ -88,6 +88,7 @@ const char *UnixPlatform::get_surface_extension() {
     return VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME;
 #else
     assert(0 && "Platform not supported, no surface extension available");
+    throw std::runtime_error("");
 #endif
 }
 

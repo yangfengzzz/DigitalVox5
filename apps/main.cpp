@@ -5,8 +5,6 @@
 //  Created by 杨丰 on 2022/4/11.
 //
 
-#include <iostream>
-
 #include "logging.h"
 #include "platform/platform.h"
 //#include "plugins/plugins.h"

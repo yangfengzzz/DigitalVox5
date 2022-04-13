@@ -350,6 +350,7 @@ static double get_counter_value(const VkPerformanceCounterResultKHR &result,
             return double(result.float64);
         default:
             assert(0);
+            throw std::runtime_error("");
     }
 }
 

@@ -1561,8 +1561,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
+				EXCLUDED_ARCHS = arm64;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"'ROOT_PATH_SIZE=39'",
+					VKB_VULKAN_DEBUG,
 					VK_NO_PROTOTYPES,
 					VK_USE_PLATFORM_METAL_EXT,
 					LIBKTX,
@@ -1586,6 +1588,10 @@
 					"./cmake-debug/third_party/hwcpipe/lib/Debug/x86_64",
 					"./cmake-debug/third_party/glslang/OGLCompilersDLL/lib/Debug/x86_64",
 					/usr/local/lib,
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DDEBUG=0",
+					"-fexceptions",
 				);
 				OTHER_LDFLAGS = (
 					"-Wl,-search_paths_first",
@@ -1638,8 +1644,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
+				EXCLUDED_ARCHS = arm64;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"'ROOT_PATH_SIZE=39'",
+					VKB_VULKAN_DEBUG,
 					VK_NO_PROTOTYPES,
 					VK_USE_PLATFORM_METAL_EXT,
 					LIBKTX,
@@ -1663,6 +1671,10 @@
 					"./cmake-release/third_party/hwcpipe/lib/Release/x86_64",
 					"./cmake-release/third_party/glslang/OGLCompilersDLL/lib/Release/x86_64",
 					/usr/local/lib,
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNDEBUG",
+					"-fexceptions",
 				);
 				OTHER_LDFLAGS = (
 					"-Wl,-search_paths_first",
@@ -1713,11 +1725,13 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
+				EXCLUDED_ARCHS = arm64;
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"'ROOT_PATH_SIZE=39'",
+					VKB_VULKAN_DEBUG,
 					VK_NO_PROTOTYPES,
 					VK_USE_PLATFORM_METAL_EXT,
 					LIBKTX,
@@ -1730,6 +1744,10 @@
 				HEADER_SEARCH_PATHS = (
 					./vox.render,
 					./vox.math,
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DDEBUG=0",
+					"-fexceptions",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1760,11 +1778,13 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
+				EXCLUDED_ARCHS = arm64;
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"'ROOT_PATH_SIZE=39'",
+					VKB_VULKAN_DEBUG,
 					VK_NO_PROTOTYPES,
 					VK_USE_PLATFORM_METAL_EXT,
 					LIBKTX,
@@ -1777,6 +1797,10 @@
 				HEADER_SEARCH_PATHS = (
 					./vox.render,
 					./vox.math,
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNDEBUG",
+					"-fexceptions",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1807,6 +1831,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
+				EXCLUDED_ARCHS = arm64;
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
@@ -1820,6 +1845,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
+				EXCLUDED_ARCHS = arm64;
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;

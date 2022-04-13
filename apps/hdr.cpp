@@ -926,7 +926,7 @@ void HDR::render(float delta_time) {
 }
 
 void HDR::on_update_ui_overlay(vox::Drawer &drawer) {
-    if (drawer.header("Settings")) {
+    if (vox::Drawer::header("Settings")) {
         if (drawer.combo_box("Object type", &models.object_index, object_names)) {
             update_uniform_buffers();
             build_command_buffers();
