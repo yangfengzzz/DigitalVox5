@@ -32,12 +32,12 @@ namespace field {
 struct Base {
     std::string label;
     
-    Base(const std::string &label) :
-    label{label} {}
+    explicit Base(std::string label) :
+    label{std::move(label)} {}
     
     virtual ~Base() = default;
     
-    virtual const std::string to_string() = 0;
+    virtual std::string to_string() = 0;
 };
 
 /**
@@ -53,9 +53,9 @@ struct Static : public Base {
     Base(label),
     value{value} {}
     
-    virtual ~Static() = default;
+    ~Static() override = default;
     
-    const std::string to_string() override {
+    std::string to_string() override {
         return vox::to_string(value);
     }
 };
@@ -73,9 +73,9 @@ struct Dynamic : public Base {
     Base(label),
     value{value} {}
     
-    virtual ~Dynamic() = default;
+    ~Dynamic() override = default;
     
-    const std::string to_string() override {
+    std::string to_string() override {
         return vox::to_string(value);
     }
 };
@@ -100,7 +100,7 @@ struct Vector final : public Static<T> {
     
     virtual ~Vector() = default;
     
-    const std::string to_string() override {
+    std::string to_string() override {
         return "x: " + vox::to_string(x) + " " +
         "y: " + vox::to_string(y) + " " +
         "z: " + vox::to_string(z);
@@ -125,7 +125,7 @@ struct MinMax final : public Dynamic<T> {
     
     virtual ~MinMax() = default;
     
-    const std::string to_string() override {
+    std::string to_string() override {
         if (Dynamic<T>::value > max) {
             max = Dynamic<T>::value;
         }
@@ -153,7 +153,7 @@ public:
      * @brief   Calculates the field label with the most amount of characters
      * @returns The length of the longest label
      */
-    float get_longest_label() const;
+    [[nodiscard]] float get_longest_label() const;
     
     /**
      * @brief Constructs and inserts a new field of type C<T>

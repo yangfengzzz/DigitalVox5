@@ -17,13 +17,14 @@
 
 #include "texture.h"
 
+#include <utility>
+
 #include "image.h"
 #include "sampler.h"
 
-namespace vox {
-namespace sg {
-Texture::Texture(const std::string &name) :
-name{name} {}
+namespace vox::sg {
+Texture::Texture(std::string name) :
+name{std::move(name)} {}
 
 void Texture::set_image(Image &i) {
     image = &i;
@@ -42,5 +43,4 @@ Sampler *Texture::get_sampler() {
     return sampler;
 }
 
-}        // namespace sg
 }        // namespace vox

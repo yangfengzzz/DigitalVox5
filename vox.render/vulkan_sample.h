@@ -100,7 +100,7 @@ class VulkanSample : public Application {
 public:
     VulkanSample() = default;
     
-    virtual ~VulkanSample();
+    ~VulkanSample() override;
     
     /**
      * @brief Additional sample initialization
@@ -226,21 +226,21 @@ protected:
      *
      * @return Vector of additional instance layers. Default is empty vector.
      */
-    virtual const std::vector<const char *> get_validation_layers();
+    virtual std::vector<const char *> get_validation_layers();
     
     /**
      * @brief Get sample-specific instance extensions.
      *
      * @return Map of instance extensions and whether or not they are optional. Default is empty map.
      */
-    const std::unordered_map<const char *, bool> get_instance_extensions();
+    std::unordered_map<const char *, bool> get_instance_extensions();
     
     /**
      * @brief Get sample-specific device extensions.
      *
      * @return Map of device extensions and whether or not they are optional. Default is empty map.
      */
-    const std::unordered_map<const char *, bool> get_device_extensions();
+    std::unordered_map<const char *, bool> get_device_extensions();
     
     /**
      * @brief Add a sample-specific device extension

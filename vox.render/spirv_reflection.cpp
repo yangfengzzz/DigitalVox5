@@ -24,7 +24,7 @@ inline void read_shader_resource(const spirv_cross::Compiler &compiler,
                                  VkShaderStageFlagBits stage,
                                  std::vector<ShaderResource> &resources,
                                  const ShaderVariant &variant) {
-    LOGE("Not implemented! Read shader resources of type.");
+    LOGE("Not implemented! Read shader resources of type.")
 }
 
 template<spv::Decoration T>
@@ -32,7 +32,7 @@ inline void read_resource_decoration(const spirv_cross::Compiler & /*compiler*/,
                                      const spirv_cross::Resource & /*resource*/,
                                      ShaderResource & /*shader_resource*/,
                                      const ShaderVariant & /* variant */) {
-    LOGE("Not implemented! Read resources decoration of type.");
+    LOGE("Not implemented! Read resources decoration of type.")
 }
 
 template<>
@@ -100,7 +100,7 @@ inline void read_resource_array_size(const spirv_cross::Compiler &compiler,
                                      const ShaderVariant &variant) {
     const auto &spirv_type = compiler.get_type_from_variable(resource.id);
     
-    shader_resource.array_size = spirv_type.array.size() ? spirv_type.array[0] : 1;
+    shader_resource.array_size = !spirv_type.array.empty() ? spirv_type.array[0] : 1;
 }
 
 inline void read_resource_size(const spirv_cross::Compiler &compiler,

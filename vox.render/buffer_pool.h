@@ -48,11 +48,11 @@ public:
         update(to_bytes(value), offset);
     }
     
-    bool empty() const;
+    [[nodiscard]] bool empty() const;
     
-    VkDeviceSize get_size() const;
+    [[nodiscard]] VkDeviceSize get_size() const;
     
-    VkDeviceSize get_offset() const;
+    [[nodiscard]] VkDeviceSize get_offset() const;
     
     core::Buffer &get_buffer();
     
@@ -76,7 +76,7 @@ public:
      */
     BufferAllocation allocate(uint32_t size);
     
-    VkDeviceSize get_size() const;
+    [[nodiscard]] VkDeviceSize get_size() const;
     
     void reset();
     

@@ -17,12 +17,13 @@
 
 #include "sub_mesh.h"
 
+#include <utility>
+
 #include "material.h"
 
-namespace vox {
-namespace sg {
-SubMesh::SubMesh(const std::string &name) :
-name{name} {}
+namespace vox::sg {
+SubMesh::SubMesh(std::string name) :
+name{std::move(name)} {}
 
 void SubMesh::set_attribute(const std::string &attribute_name, const VertexAttribute &attribute) {
     vertex_attributes[attribute_name] = attribute;
@@ -80,5 +81,4 @@ ShaderVariant &SubMesh::get_mut_shader_variant() {
 }
 
 
-}        // namespace sg
 }        // namespace vox

@@ -17,8 +17,6 @@
 
 #include "buffer_pool.h"
 
-#include <cstddef>
-
 #include "error.h"
 #include "logging.h"
 #include "core/device.h"
@@ -86,7 +84,7 @@ BufferBlock &BufferPool::request_buffer_block(const VkDeviceSize minimum_size) {
         return *it->get();
     }
     
-    LOGD("Building #{} buffer block ({})", buffer_blocks.size(), usage);
+    LOGD("Building #{} buffer block ({})", buffer_blocks.size(), usage)
     
     // Create a new block, store and return it
     buffer_blocks.emplace_back(
@@ -94,7 +92,7 @@ BufferBlock &BufferPool::request_buffer_block(const VkDeviceSize minimum_size) {
     
     auto &block = buffer_blocks[active_buffer_block_count++];
     
-    return *block.get();
+    return *block;
 }
 
 void BufferPool::reset() {
@@ -117,7 +115,7 @@ void BufferAllocation::update(const std::vector<uint8_t> &data, uint32_t offset)
     if (offset + data.size() <= size) {
         buffer->update(data, to_u32(base_offset) + offset);
     } else {
-        LOGE("Ignore buffer allocation update");
+        LOGE("Ignore buffer allocation update")
     }
 }
 

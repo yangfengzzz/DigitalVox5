@@ -52,7 +52,7 @@ class ResourceSet {
 public:
     void reset();
     
-    bool is_dirty() const;
+    [[nodiscard]] bool is_dirty() const;
     
     void clear_dirty();
     
@@ -68,7 +68,7 @@ public:
     
     void bind_input(const core::ImageView &image_view, uint32_t binding, uint32_t array_element);
     
-    const BindingMap<ResourceInfo> &get_resource_bindings() const;
+    [[nodiscard]] const BindingMap<ResourceInfo> &get_resource_bindings() const;
     
 private:
     bool dirty{false};
@@ -86,7 +86,7 @@ class ResourceBindingState {
 public:
     void reset();
     
-    bool is_dirty();
+    [[nodiscard]] bool is_dirty() const;
     
     void clear_dirty();
     

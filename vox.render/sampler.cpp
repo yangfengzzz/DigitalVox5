@@ -17,11 +17,11 @@
 
 #include "sampler.h"
 
-namespace vox {
-namespace sg {
-Sampler::Sampler(const std::string &name, core::Sampler &&vk_sampler) :
-name{name},
+#include <utility>
+
+namespace vox::sg {
+Sampler::Sampler(std::string name, core::Sampler &&vk_sampler) :
+name{std::move(name)},
 vk_sampler{std::move(vk_sampler)} {}
 
-}        // namespace sg
 }        // namespace vox

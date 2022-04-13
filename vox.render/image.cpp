@@ -18,6 +18,7 @@
 #include "image.h"
 
 #include <mutex>
+#include <utility>
 
 #include "error.h"
 
@@ -35,8 +36,7 @@ VKBP_ENABLE_WARNINGS()
 #include "image/ktx_img.h"
 #include "image/stb_img.h"
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 bool is_astc(const VkFormat format) {
     return (format == VK_FORMAT_ASTC_4x4_UNORM_BLOCK ||
             format == VK_FORMAT_ASTC_4x4_SRGB_BLOCK ||
@@ -68,8 +68,8 @@ bool is_astc(const VkFormat format) {
             format == VK_FORMAT_ASTC_12x12_SRGB_BLOCK);
 }
 
-Image::Image(const std::string &name, std::vector<uint8_t> &&d, std::vector<Mipmap> &&m) :
-name{name},
+Image::Image(std::string name, std::vector<uint8_t> &&d, std::vector<Mipmap> &&m) :
+name{std::move(name)},
 data{std::move(d)},
 format{VK_FORMAT_R8G8B8A8_UNORM},
 mipmaps{std::move(m)} {
@@ -92,7 +92,7 @@ const VkExtent3D &Image::get_extent() const {
     return mipmaps.at(0).extent;
 }
 
-const uint32_t Image::get_layers() const {
+uint32_t Image::get_layers() const {
     return layers;
 }
 
@@ -168,7 +168,7 @@ void Image::generate_mipmaps() {
                            data.data() + next_mipmap.offset, next_mipmap.extent.width,
                            next_mipmap.extent.height, 0, channels);
         
-        mipmaps.emplace_back(std::move(next_mipmap));
+        mipmaps.emplace_back(next_mipmap);
         
         // Next mipmap values
         next_width = std::max<uint32_t>(1u, next_width / 2);
@@ -239,5 +239,4 @@ std::unique_ptr<Image> Image::load(const std::string &name, const std::string &u
     return image;
 }
 
-}        // namespace sg
 }        // namespace vox

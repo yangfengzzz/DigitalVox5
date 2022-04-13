@@ -26,13 +26,12 @@
 #include "error.h"
 #include "material.h"
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 class PBRMaterial : public Material {
 public:
-    PBRMaterial(const std::string &name);
+    explicit PBRMaterial(const std::string &name);
     
-    virtual ~PBRMaterial() = default;
+    ~PBRMaterial() override = default;
     
     Vector4F base_color_factor{0.0f, 0.0f, 0.0f, 0.0f};
     
@@ -41,5 +40,4 @@ public:
     float roughness_factor{0.0f};
 };
 
-}        // namespace sg
 }        // namespace vox

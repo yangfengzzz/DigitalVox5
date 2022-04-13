@@ -25,8 +25,7 @@
 #include "vector3.h"
 #include "error.h"
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 class Texture;
 
 /**
@@ -45,7 +44,7 @@ class Material {
 public:
     std::string name;
     
-    Material(const std::string &name);
+    explicit Material(std::string name);
     
     Material(Material &&other) = default;
     
@@ -66,5 +65,4 @@ public:
     AlphaMode alpha_mode{AlphaMode::Opaque};
 };
 
-}        // namespace sg
 }        // namespace vox

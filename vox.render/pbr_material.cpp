@@ -17,10 +17,8 @@
 
 #include "pbr_material.h"
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 PBRMaterial::PBRMaterial(const std::string &name) :
 Material{name} {}
 
-}        // namespace sg
 }        // namespace vox

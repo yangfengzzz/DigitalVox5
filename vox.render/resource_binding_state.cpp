@@ -24,7 +24,7 @@ void ResourceBindingState::reset() {
     resource_sets.clear();
 }
 
-bool ResourceBindingState::is_dirty() {
+bool ResourceBindingState::is_dirty() const {
     return dirty;
 }
 

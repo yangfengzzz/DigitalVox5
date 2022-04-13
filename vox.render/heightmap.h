@@ -31,7 +31,7 @@ public:
      * @param filename The ktx file to load
      * @param patchsize The patch size
      */
-    HeightMap(const std::string &filename, const uint32_t patchsize);
+    HeightMap(const std::string &filename, uint32_t patchsize);
     
     ~HeightMap();
     
@@ -41,7 +41,7 @@ public:
      * @param y The y coordinate
      * @returns A float height value
      */
-    float get_height(const uint32_t x, const uint32_t y);
+    float get_height(uint32_t x, uint32_t y);
     
 private:
     uint16_t *data;

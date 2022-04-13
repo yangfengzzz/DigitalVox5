@@ -24,8 +24,7 @@
 
 #include "sampler.h"
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 class Image;
 
 class Sampler;
@@ -34,7 +33,7 @@ class Texture {
 public:
     std::string name;
     
-    Texture(const std::string &name);
+    explicit Texture(std::string name);
     
     Texture(Texture &&other) = default;
     
@@ -54,5 +53,4 @@ private:
     Sampler *sampler{nullptr};
 };
 
-}        // namespace sg
 }        // namespace vox

@@ -32,7 +32,7 @@ public:
     
     // Update camera passing separate axis data (gamepad)
     // Returns true if view or position has been changed
-    bool update_gamepad(Vector2F axis_left, Vector2F axis_right, float delta_time);
+    bool update_gamepad(const Vector2F &axis_left, const Vector2F &axis_right, float delta_time);
     
     CameraType type = CameraType::LookAt;
     
@@ -56,11 +56,11 @@ public:
         bool down = false;
     } keys;
     
-    bool moving();
+    [[nodiscard]] bool moving() const;
     
-    float get_near_clip();
+    [[nodiscard]] float get_near_clip() const;
     
-    float get_far_clip();
+    [[nodiscard]] float get_far_clip() const;
     
     void set_perspective(float fov, float aspect, float znear, float zfar);
     
@@ -82,4 +82,5 @@ private:
     
     void update_view_matrix();
 };
+
 }        // namespace vox

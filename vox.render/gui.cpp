@@ -26,13 +26,10 @@
 
 #include "buffer_pool.h"
 #include "logging.h"
-#include "utils.h"
 #include "vk_common.h"
 #include "vk_initializers.h"
 #include "core/descriptor_set.h"
-#include "core/descriptor_set_layout.h"
 #include "core/pipeline.h"
-#include "core/pipeline_layout.h"
 #include "core/shader_module.h"
 #include "imgui_internal.h"
 #include "platform/filesystem.h"
@@ -44,8 +41,8 @@
 namespace vox {
 namespace {
 void upload_draw_data(ImDrawData *draw_data, const uint8_t *vertex_data, const uint8_t *index_data) {
-    ImDrawVert *vtx_dst = (ImDrawVert *) vertex_data;
-    ImDrawIdx *idx_dst = (ImDrawIdx *) index_data;
+    auto *vtx_dst = (ImDrawVert *) vertex_data;
+    auto *idx_dst = (ImDrawIdx *) index_data;
     
     for (int n = 0; n < draw_data->CmdListsCount; n++) {
         const ImDrawList *cmd_list = draw_data->CmdLists[n];
@@ -171,7 +168,7 @@ stats_view(stats) {
         FencePool fence_pool{device};
         
         // Begin recording
-        command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT, 0);
+        command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT, nullptr);
         
         {
             // Prepare for transfer
@@ -484,7 +481,7 @@ void Gui::update_buffers(CommandBuffer &command_buffer, RenderFrame &render_fram
                                      VK_INDEX_TYPE_UINT16);
 }
 
-void Gui::resize(const uint32_t width, const uint32_t height) const {
+void Gui::resize(const uint32_t width, const uint32_t height) {
     auto &io = ImGui::GetIO();
     io.DisplaySize.x = static_cast<float>(width);
     io.DisplaySize.y = static_cast<float>(height);
@@ -581,7 +578,7 @@ void Gui::draw(CommandBuffer &command_buffer) {
         update_buffers(command_buffer, sample.get_render_context().get_active_frame());
     } else {
         std::vector<std::reference_wrapper<const vox::core::Buffer>> buffers;
-        buffers.push_back(*vertex_buffer);
+        buffers.emplace_back(*vertex_buffer);
         command_buffer.bind_vertex_buffers(0, buffers, {0});
         
         command_buffer.bind_index_buffer(*index_buffer, 0, VK_INDEX_TYPE_UINT16);
@@ -651,7 +648,7 @@ void Gui::draw(VkCommandBuffer command_buffer) {
     
     vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
     vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout->get_handle(), 0, 1,
-                            &descriptor_set, 0, NULL);
+                            &descriptor_set, 0, nullptr);
     
     // Push constants
     auto push_transform = Matrix4x4F(1.0f);
@@ -715,7 +712,7 @@ Font &Gui::get_font(const std::string &font_name) {
     if (it != fonts.end()) {
         return *it;
     } else {
-        LOGW("Couldn't find font with name {}", font_name);
+        LOGW("Couldn't find font with name {}", font_name)
         return *fonts.begin();
     }
 }
@@ -911,7 +908,7 @@ void Gui::show_stats(const Stats &stats) {
     }
 }
 
-void Gui::show_options_window(std::function<void()> body, const uint32_t lines) {
+void Gui::show_options_window(const std::function<void()> &body, const uint32_t lines) {
     // Add padding around the text so that the options are not
     // too close to the edges and are easier to interact with.
     // Also add double vertical padding to avoid rounded corners.
@@ -939,7 +936,7 @@ void Gui::show_options_window(std::function<void()> body, const uint32_t lines) 
     ImGui::PopStyleVar();
 }
 
-void Gui::show_simple_window(const std::string &name, uint32_t last_fps, std::function<void()> body) {
+void Gui::show_simple_window(const std::string &name, uint32_t last_fps, const std::function<void()> &body) {
     ImGuiIO &io = ImGui::GetIO();
     
     ImGui::NewFrame();
@@ -1054,7 +1051,7 @@ void Drawer::clear() {
     dirty = false;
 }
 
-bool Drawer::is_dirty() {
+bool Drawer::is_dirty() const {
     return dirty;
 }
 
@@ -1070,7 +1067,7 @@ bool Drawer::checkbox(const char *caption, bool *value) {
     bool res = ImGui::Checkbox(caption, value);
     if (res) {
         dirty = true;
-    };
+    }
     return res;
 }
 
@@ -1080,7 +1077,7 @@ bool Drawer::checkbox(const char *caption, int32_t *value) {
     *value = val;
     if (res) {
         dirty = true;
-    };
+    }
     return res;
 }
 
@@ -1088,7 +1085,7 @@ bool Drawer::input_float(const char *caption, float *value, float step) {
     bool res = ImGui::InputFloat(caption, value, step, step * 10.0f);
     if (res) {
         dirty = true;
-    };
+    }
     return res;
 }
 
@@ -1096,7 +1093,7 @@ bool Drawer::slider_float(const char *caption, float *value, float min, float ma
     bool res = ImGui::SliderFloat(caption, value, min, max);
     if (res) {
         dirty = true;
-    };
+    }
     return res;
 }
 
@@ -1104,24 +1101,24 @@ bool Drawer::slider_int(const char *caption, int32_t *value, int32_t min, int32_
     bool res = ImGui::SliderInt(caption, value, min, max);
     if (res) {
         dirty = true;
-    };
+    }
     return res;
 }
 
-bool Drawer::combo_box(const char *caption, int32_t *itemindex, std::vector<std::string> items) {
+bool Drawer::combo_box(const char *caption, int32_t *itemindex, const std::vector<std::string> &items) {
     if (items.empty()) {
         return false;
     }
     std::vector<const char *> charitems;
     charitems.reserve(items.size());
-    for (size_t i = 0; i < items.size(); i++) {
-        charitems.push_back(items[i].c_str());
+    for (auto &item: items) {
+        charitems.push_back(item.c_str());
     }
-    uint32_t itemCount = static_cast<uint32_t>(charitems.size());
+    auto itemCount = static_cast<uint32_t>(charitems.size());
     bool res = ImGui::Combo(caption, itemindex, &charitems[0], itemCount, itemCount);
     if (res) {
         dirty = true;
-    };
+    }
     return res;
 }
 
@@ -1129,7 +1126,7 @@ bool Drawer::button(const char *caption) {
     bool res = ImGui::Button(caption);
     if (res) {
         dirty = true;
-    };
+    }
     return res;
 }
 

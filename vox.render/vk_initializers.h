@@ -20,8 +20,7 @@
 #include "volk.h"
 #include <vector>
 
-namespace vox {
-namespace initializers {
+namespace vox::initializers {
 inline VkMemoryAllocateInfo memory_allocate_info() {
     VkMemoryAllocateInfo memory_allocation{};
     memory_allocation.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
@@ -569,5 +568,4 @@ specialization_info(uint32_t map_entry_count, const VkSpecializationMapEntry *ma
 }
 
 
-}        // namespace initializers
 }        // namespace vox

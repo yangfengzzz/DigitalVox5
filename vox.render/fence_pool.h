@@ -24,7 +24,7 @@ class Device;
 
 class FencePool {
 public:
-    FencePool(Device &device);
+    explicit FencePool(Device &device);
     
     FencePool(const FencePool &) = delete;
     
@@ -38,7 +38,7 @@ public:
     
     VkFence request_fence();
     
-    VkResult wait(uint32_t timeout = std::numeric_limits<uint32_t>::max()) const;
+    [[nodiscard]] VkResult wait(uint32_t timeout = std::numeric_limits<uint32_t>::max()) const;
     
     VkResult reset();
     

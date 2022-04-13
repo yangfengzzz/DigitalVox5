@@ -27,8 +27,7 @@
 #include "core/buffer.h"
 #include "core/shader_module.h"
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 class Material;
 
 struct VertexAttribute {
@@ -43,7 +42,7 @@ class SubMesh {
 public:
     std::string name{};
     
-    SubMesh(const std::string &name = {});
+    explicit SubMesh(std::string name = {});
     
     virtual ~SubMesh() = default;
     
@@ -65,9 +64,9 @@ public:
     
     void set_material(const Material &material);
     
-    const Material *get_material() const;
+    [[nodiscard]] const Material *get_material() const;
     
-    const ShaderVariant &get_shader_variant() const;
+    [[nodiscard]] const ShaderVariant &get_shader_variant() const;
     
     ShaderVariant &get_mut_shader_variant();
     
@@ -82,5 +81,4 @@ private:
 };
 
 
-}        // namespace sg
 }        // namespace vox

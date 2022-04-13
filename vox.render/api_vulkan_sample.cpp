@@ -20,9 +20,7 @@
 #include "core/device.h"
 #include "core/swapchain.h"
 #include "image.h"
-#include "sampler.h"
 #include "sub_mesh.h"
-#include "texture.h"
 #include "gltf_loader.h"
 
 namespace vox {
@@ -124,9 +122,9 @@ bool ApiVulkanSample::resize(const uint32_t _width, const uint32_t _height) {
     vkDestroyImage(device->get_handle(), depth_stencil.image, nullptr);
     vkFreeMemory(device->get_handle(), depth_stencil.mem, nullptr);
     setup_depth_stencil();
-    for (uint32_t i = 0; i < framebuffers.size(); i++) {
-        vkDestroyFramebuffer(device->get_handle(), framebuffers[i], nullptr);
-        framebuffers[i] = VK_NULL_HANDLE;
+    for (auto &framebuffer: framebuffers) {
+        vkDestroyFramebuffer(device->get_handle(), framebuffer, nullptr);
+        framebuffer = VK_NULL_HANDLE;
     }
     setup_framebuffer();
     
@@ -165,7 +163,7 @@ void ApiVulkanSample::create_render_context(vox::Platform &platform) {
         {VK_FORMAT_B8G8R8A8_SRGB,  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
         {VK_FORMAT_R8G8B8A8_SRGB,  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR}};
     
-    render_context = platform.create_render_context(*device.get(), surface, surface_priority_list);
+    render_context = platform.create_render_context(*device, surface, surface_priority_list);
 }
 
 void ApiVulkanSample::prepare_render_context() {
@@ -241,8 +239,8 @@ void ApiVulkanSample::input_event(const vox::InputEvent &input_event) {
                     handled = io.WantCaptureMouse;
                 }
                 if (!handled) {
-                    int32_t eventX = static_cast<int32_t>(touch_event.get_pos_x());
-                    int32_t eventY = static_cast<int32_t>(touch_event.get_pos_y());
+                    auto eventX = static_cast<int32_t>(touch_event.get_pos_x());
+                    auto eventY = static_cast<int32_t>(touch_event.get_pos_y());
                     
                     float deltaX = (float) (touch_pos.y - eventY) * rotation_speed * 0.5f;
                     float deltaY = (float) (touch_pos.x - eventX) * rotation_speed * 0.5f;
@@ -380,7 +378,7 @@ VkPipelineShaderStageCreateInfo ApiVulkanSample::load_shader(const std::string &
     VkPipelineShaderStageCreateInfo shader_stage = {};
     shader_stage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
     shader_stage.stage = stage;
-    shader_stage.module = vox::load_shader(file.c_str(), device->get_handle(), stage);
+    shader_stage.module = vox::load_shader(file, device->get_handle(), stage);
     shader_stage.pName = "main";
     assert(shader_stage.module != VK_NULL_HANDLE);
     shader_modules.push_back(shader_stage.module);
@@ -439,7 +437,7 @@ void ApiVulkanSample::submit_frame() {
         
         VkPresentInfoKHR present_info = {};
         present_info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-        present_info.pNext = NULL;
+        present_info.pNext = nullptr;
         present_info.swapchainCount = 1;
         present_info.pSwapchains = &sc;
         present_info.pImageIndices = &current_buffer;
@@ -478,8 +476,8 @@ ApiVulkanSample::~ApiVulkanSample() {
         }
         destroy_command_buffers();
         vkDestroyRenderPass(device->get_handle(), render_pass, nullptr);
-        for (uint32_t i = 0; i < framebuffers.size(); i++) {
-            vkDestroyFramebuffer(device->get_handle(), framebuffers[i], nullptr);
+        for (auto &framebuffer: framebuffers) {
+            vkDestroyFramebuffer(device->get_handle(), framebuffer, nullptr);
         }
         
         for (auto &swapchain_buffer: swapchain_buffers) {
@@ -579,7 +577,7 @@ void ApiVulkanSample::setup_framebuffer() {
     
     VkFramebufferCreateInfo framebuffer_create_info = {};
     framebuffer_create_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-    framebuffer_create_info.pNext = NULL;
+    framebuffer_create_info.pNext = nullptr;
     framebuffer_create_info.renderPass = render_pass;
     framebuffer_create_info.attachmentCount = 2;
     framebuffer_create_info.pAttachments = attachments;
@@ -588,10 +586,10 @@ void ApiVulkanSample::setup_framebuffer() {
     framebuffer_create_info.layers = 1;
     
     // Delete existing frame buffers
-    if (framebuffers.size() > 0) {
-        for (uint32_t i = 0; i < framebuffers.size(); i++) {
-            if (framebuffers[i] != VK_NULL_HANDLE) {
-                vkDestroyFramebuffer(device->get_handle(), framebuffers[i], nullptr);
+    if (!framebuffers.empty()) {
+        for (auto &framebuffer: framebuffers) {
+            if (framebuffer != VK_NULL_HANDLE) {
+                vkDestroyFramebuffer(device->get_handle(), framebuffer, nullptr);
             }
         }
     }
@@ -645,7 +643,7 @@ void ApiVulkanSample::setup_render_pass() {
     subpass_description.pResolveAttachments = nullptr;
     
     // Subpass dependencies for layout transitions
-    std::array<VkSubpassDependency, 2> dependencies;
+    std::array<VkSubpassDependency, 2> dependencies{};
     
     dependencies[0].srcSubpass = VK_SUBPASS_EXTERNAL;
     dependencies[0].dstSubpass = 0;
@@ -736,7 +734,7 @@ void ApiVulkanSample::update_render_pass_flags(uint32_t flags) {
     subpass_description.pResolveAttachments = nullptr;
     
     // Subpass dependencies for layout transitions
-    std::array<VkSubpassDependency, 2> dependencies;
+    std::array<VkSubpassDependency, 2> dependencies{};
     
     dependencies[0].srcSubpass = VK_SUBPASS_EXTERNAL;
     dependencies[0].dstSubpass = 0;
@@ -781,7 +779,7 @@ void ApiVulkanSample::create_swapchain_buffers() {
         for (uint32_t i = 0; i < images.size(); i++) {
             VkImageViewCreateInfo color_attachment_view = {};
             color_attachment_view.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-            color_attachment_view.pNext = NULL;
+            color_attachment_view.pNext = nullptr;
             color_attachment_view.format = render_context->get_swapchain().get_format();
             color_attachment_view.components = {
                 VK_COMPONENT_SWIZZLE_R,
@@ -818,7 +816,7 @@ void ApiVulkanSample::create_swapchain_buffers() {
     }
 }
 
-void ApiVulkanSample::update_swapchain_image_usage_flags(std::set<VkImageUsageFlagBits> image_usage_flags) {
+void ApiVulkanSample::update_swapchain_image_usage_flags(const std::set<VkImageUsageFlagBits> &image_usage_flags) {
     get_render_context().update_swapchain(image_usage_flags);
     create_swapchain_buffers();
     setup_framebuffer();
@@ -1060,7 +1058,8 @@ Texture ApiVulkanSample::load_texture_array(const std::string &file) {
     sampler_create_info.maxLod = static_cast<float>(mipmaps.size());
     // Only enable anisotropic filtering if enabled on the devicec
     sampler_create_info.maxAnisotropy = get_device().get_gpu().get_features().samplerAnisotropy
-    ? get_device().get_gpu().get_properties().limits.maxSamplerAnisotropy : 1.0f;
+    ? get_device().get_gpu().get_properties().limits.maxSamplerAnisotropy
+    : 1.0f;
     sampler_create_info.anisotropyEnable = get_device().get_gpu().get_features().samplerAnisotropy;
     sampler_create_info.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
     VK_CHECK(vkCreateSampler(device->get_handle(), &sampler_create_info, nullptr, &texture.sampler));
@@ -1159,7 +1158,8 @@ Texture ApiVulkanSample::load_texture_cubemap(const std::string &file) {
     sampler_create_info.maxLod = static_cast<float>(mipmaps.size());
     // Only enable anisotropic filtering if enabled on the devicec
     sampler_create_info.maxAnisotropy = get_device().get_gpu().get_features().samplerAnisotropy
-    ? get_device().get_gpu().get_properties().limits.maxSamplerAnisotropy : 1.0f;
+    ? get_device().get_gpu().get_properties().limits.maxSamplerAnisotropy
+    : 1.0f;
     sampler_create_info.anisotropyEnable = get_device().get_gpu().get_features().samplerAnisotropy;
     sampler_create_info.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
     VK_CHECK(vkCreateSampler(device->get_handle(), &sampler_create_info, nullptr, &texture.sampler));
@@ -1173,7 +1173,7 @@ std::unique_ptr<vox::sg::SubMesh> ApiVulkanSample::load_model(const std::string 
     std::unique_ptr<vox::sg::SubMesh> model = loader.read_model_from_file(file, index);
     
     if (!model) {
-        LOGE("Cannot load model from file: {}", file.c_str());
+        LOGE("Cannot load model from file: {}", file.c_str())
         throw std::runtime_error("Cannot load model from: " + file);
     }
     

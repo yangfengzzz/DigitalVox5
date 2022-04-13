@@ -17,8 +17,6 @@
 
 #include "error.h"
 
-#include "helpers.h"
-
 namespace vox {
 VulkanException::VulkanException(const VkResult result, const std::string &msg) :
 result{result},

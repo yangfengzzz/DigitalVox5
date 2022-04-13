@@ -18,8 +18,6 @@
 #include "heightmap.h"
 
 #include <cstring>
-
-#include "error.h"
 #include "platform/filesystem.h"
 
 namespace vox {

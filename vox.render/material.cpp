@@ -17,10 +17,10 @@
 
 #include "material.h"
 
-namespace vox {
-namespace sg {
-Material::Material(const std::string &name) :
-name{name} {}
+#include <utility>
 
-}        // namespace sg
+namespace vox::sg {
+Material::Material(std::string name) :
+name{std::move(name)} {}
+
 }        // namespace vox

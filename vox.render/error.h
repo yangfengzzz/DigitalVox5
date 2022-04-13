@@ -63,13 +63,13 @@ public:
     /**
      * @brief Vulkan exception constructor
      */
-    VulkanException(VkResult result, const std::string &msg = "Vulkan error");
+    explicit VulkanException(VkResult result, const std::string &msg = "Vulkan error");
     
     /**
      * @brief Returns the Vulkan error code as string
      * @return String message of exception
      */
-    const char *what() const noexcept override;
+    [[nodiscard]] const char *what() const noexcept override;
     
     VkResult result;
     

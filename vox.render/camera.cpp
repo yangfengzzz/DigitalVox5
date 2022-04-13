@@ -20,7 +20,7 @@
 
 namespace vox {
 void Camera::update_view_matrix() {
-    Matrix4x4F rotation_matrix = Matrix4x4F(1.0f);
+    auto rotation_matrix = Matrix4x4F(1.0f);
     Matrix4x4F transformation_matrix;
     
     rotation_matrix *= makeRotationMatrix(Vector3F(1.0f, 0.0f, 0.0f), degreesToRadians(rotation.x));
@@ -38,15 +38,15 @@ void Camera::update_view_matrix() {
     updated = true;
 }
 
-bool Camera::moving() {
+bool Camera::moving() const {
     return keys.left || keys.right || keys.up || keys.down;
 }
 
-float Camera::get_near_clip() {
+float Camera::get_near_clip() const {
     return znear;
 }
 
-float Camera::get_far_clip() {
+float Camera::get_far_clip() const {
     return zfar;
 }
 
@@ -116,7 +116,7 @@ void Camera::update(float deltaTime) {
     }
 }
 
-bool Camera::update_gamepad(Vector2F axis_left, Vector2F axis_right, float delta_time) {
+bool Camera::update_gamepad(const Vector2F &axis_left, const Vector2F &axis_right, float delta_time) {
     bool changed = false;
     
     if (type == CameraType::FirstPerson) {
@@ -143,7 +143,8 @@ bool Camera::update_gamepad(Vector2F axis_left, Vector2F axis_right, float delta
         }
         if (fabsf(axis_left.x) > dead_zone) {
             float pos = (fabsf(axis_left.x) - dead_zone) / range;
-            position += front.cross(Vector3F(0.0f, 1.0f, 0.0f)).normalized() * pos * ((axis_left.x < 0.0f) ? -1.0f : 1.0f) * move_speed;
+            position += front.cross(Vector3F(0.0f, 1.0f, 0.0f)).normalized() * pos *
+            ((axis_left.x < 0.0f) ? -1.0f : 1.0f) * move_speed;
             changed = true;
         }
         

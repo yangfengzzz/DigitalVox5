@@ -39,7 +39,7 @@
 #include "texture.h"
 #include "sampler.h"
 #include "sub_mesh.h"
-//#include "pbr_material.h"
+#include "pbr_material.h"
 
 //#include "scene_graph/components/camera.h"
 //#include "scene_graph/components/light.h"
@@ -67,7 +67,7 @@ inline VkFilter find_min_filter(int min_filter) {
         default:
             return VK_FILTER_LINEAR;
     }
-};
+}
 
 inline VkSamplerMipmapMode find_mipmap_mode(int min_filter) {
     switch (min_filter) {
@@ -80,7 +80,7 @@ inline VkSamplerMipmapMode find_mipmap_mode(int min_filter) {
         default:
             return VK_SAMPLER_MIPMAP_MODE_LINEAR;
     }
-};
+}
 
 inline VkFilter find_mag_filter(int mag_filter) {
     switch (mag_filter) {
@@ -91,7 +91,7 @@ inline VkFilter find_mag_filter(int mag_filter) {
         default:
             return VK_FILTER_LINEAR;
     }
-};
+}
 
 inline VkSamplerAddressMode find_wrap_mode(int wrap) {
     switch (wrap) {
@@ -104,7 +104,7 @@ inline VkSamplerAddressMode find_wrap_mode(int wrap) {
         default:
             return VK_SAMPLER_ADDRESS_MODE_REPEAT;
     }
-};
+}
 
 inline std::vector<uint8_t> get_attribute_data(const tinygltf::Model *model, uint32_t accessorId) {
     auto &accessor = model->accessors.at(accessorId);
@@ -116,18 +116,18 @@ inline std::vector<uint8_t> get_attribute_data(const tinygltf::Model *model, uin
     size_t endByte = startByte + accessor.count * stride;
     
     return {buffer.data.begin() + startByte, buffer.data.begin() + endByte};
-};
+}
 
 inline size_t get_attribute_size(const tinygltf::Model *model, uint32_t accessorId) {
     return model->accessors.at(accessorId).count;
-};
+}
 
 inline size_t get_attribute_stride(const tinygltf::Model *model, uint32_t accessorId) {
     auto &accessor = model->accessors.at(accessorId);
     auto &bufferView = model->bufferViews.at(accessor.bufferView);
     
     return accessor.ByteStride(bufferView);
-};
+}
 
 inline VkFormat get_attribute_format(const tinygltf::Model *model, uint32_t accessorId) {
     auto &accessor = model->accessors.at(accessorId);
@@ -230,7 +230,7 @@ inline VkFormat get_attribute_format(const tinygltf::Model *model, uint32_t acce
     }
     
     return format;
-};
+}
 
 inline std::vector<uint8_t>
 convert_underlying_data_stride(const std::vector<uint8_t> &src_data, uint32_t src_stride, uint32_t dst_stride) {
@@ -347,22 +347,22 @@ std::unique_ptr<sg::SubMesh> GLTFLoader::read_model_from_file(const std::string 
     
     std::string gltf_file = vox::fs::path::get(vox::fs::path::Type::Assets) + file_name;
     
-    bool importResult = gltf_loader.LoadASCIIFromFile(&model, &err, &warn, gltf_file.c_str());
+    bool importResult = gltf_loader.LoadASCIIFromFile(&model, &err, &warn, gltf_file);
     
     if (!importResult) {
-        LOGE("Failed to load gltf file {}.", gltf_file.c_str());
+        LOGE("Failed to load gltf file {}.", gltf_file.c_str())
         
         return nullptr;
     }
     
     if (!err.empty()) {
-        LOGE("Error loading gltf model: {}.", err.c_str());
+        LOGE("Error loading gltf model: {}.", err.c_str())
         
         return nullptr;
     }
     
     if (!warn.empty()) {
-        LOGI("{}", warn.c_str());
+        LOGI("{}", warn.c_str())
     }
     
     size_t pos = file_name.find_last_of('/');
@@ -916,11 +916,14 @@ std::unique_ptr<sg::SubMesh> GLTFLoader::load_model(uint32_t index) {
     for (size_t v = 0; v < vertex_count; v++) {
         Vertex vert{};
         vert.pos = Vector3F(pos[v * 3], pos[v * 3 + 1], pos[v * 3 + 2]);
-        vert.normal = (normals ? Vector3F(normals[v * 3], normals[v * 3 + 1], normals[v * 3 + 2]) : Vector3F()).normalized();
+        vert.normal = (normals ? Vector3F(normals[v * 3], normals[v * 3 + 1], normals[v * 3 + 2])
+                       : Vector3F()).normalized();
         vert.uv = uvs ? Vector2F(uvs[v * 2], uvs[v * 2 + 1]) : Vector2F();
         
-        vert.joint0 = has_skin ? Vector4F(joints[v * 4], joints[v * 4 + 1], joints[v * 4 + 2], joints[v * 4 + 3]) : Vector4F();
-        vert.weight0 = has_skin ? Vector4F(weights[v * 4], weights[v * 4 + 1], weights[v * 4 + 2], weights[v * 4 + 3]) : Vector4F();
+        vert.joint0 = has_skin ? Vector4F(joints[v * 4], joints[v * 4 + 1], joints[v * 4 + 2], joints[v * 4 + 3])
+        : Vector4F();
+        vert.weight0 = has_skin ? Vector4F(weights[v * 4], weights[v * 4 + 1], weights[v * 4 + 2],
+                                           weights[v * 4 + 3]) : Vector4F();
         vertex_data.push_back(vert);
     }
     

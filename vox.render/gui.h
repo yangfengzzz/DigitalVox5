@@ -86,7 +86,7 @@ public:
     /**
      * @brief Returns true if the drawer has been updated
      */
-    bool is_dirty();
+    [[nodiscard]] bool is_dirty() const;
     
     /**
      * @brief May be used to force drawer update
@@ -98,7 +98,7 @@ public:
      * @param caption The text to display
      * @returns True if adding item was successful
      */
-    bool header(const char *caption);
+    static bool header(const char *caption);
     
     /**
      * @brief Adds a checkbox to the gui
@@ -152,7 +152,7 @@ public:
      * @param items The items to display in the box
      * @returns True if adding item was successful
      */
-    bool combo_box(const char *caption, int32_t *itemindex, std::vector<std::string> items);
+    bool combo_box(const char *caption, int32_t *itemindex, const std::vector<std::string> &items);
     
     /**
      * @brief Adds a clickable button to the gui
@@ -165,7 +165,7 @@ public:
      * @brief Adds a label to the gui
      * @param formatstr The format string
      */
-    void text(const char *formatstr, ...);
+    static void text(const char *formatstr, ...);
     
 private:
     bool dirty{false};
@@ -187,7 +187,7 @@ public:
          * @brief Constructs a StatsView
          * @param stats Const pointer to the Stats data object; may be null
          */
-        StatsView(const Stats *stats);
+        explicit StatsView(const Stats *stats);
         
         /**
          * @brief Resets the max values for the stats
@@ -198,7 +198,7 @@ public:
         /**
          * @brief Resets the max value for a specific stat
          */
-        void reset_max_value(const StatIndex index);
+        void reset_max_value(StatIndex index);
         
         std::map<StatIndex, StatGraphData> graph_map;
         
@@ -238,14 +238,14 @@ public:
      * @param explicit_update If true, update buffers every frame
      */
     Gui(VulkanSample &sample, const Window &window, const Stats *stats = nullptr,
-        const float font_size = 21.0f, bool explicit_update = false);
+        float font_size = 21.0f, bool explicit_update = false);
     
     /**
      * @brief Destroys the Gui
      */
     ~Gui();
     
-    void prepare(const VkPipelineCache pipeline_cache, const VkRenderPass render_pass,
+    void prepare(VkPipelineCache pipeline_cache, VkRenderPass render_pass,
                  const std::vector<VkPipelineShaderStageCreateInfo> &shader_stages);
     
     /**
@@ -253,19 +253,19 @@ public:
      * @param width New width of the window
      * @param height New height of the window
      */
-    void resize(const uint32_t width, const uint32_t height) const;
+    static void resize(uint32_t width, uint32_t height);
     
     /**
      * @brief Starts a new ImGui frame
      *        to be called before drawing any window
      */
-    inline void new_frame();
+    static inline void new_frame();
     
     /**
      * @brief Updates the Gui
      * @param delta_time Time passed since last update
      */
-    void update(const float delta_time);
+    void update(float delta_time);
     
     bool update_buffers();
     
@@ -293,7 +293,7 @@ public:
     /**
      * @brief Shows the ImGui Demo window
      */
-    void show_demo_window();
+    static void show_demo_window();
     
     /**
      * @brief Shows an child with app info
@@ -321,9 +321,9 @@ public:
      * @param lines The number of lines of text to draw in the window
      *        These will help the gui to calculate the height of the window
      */
-    void show_options_window(std::function<void()> body, const uint32_t lines = 3);
+    static void show_options_window(const std::function<void()> &body, uint32_t lines = 3);
     
-    void show_simple_window(const std::string &name, uint32_t last_fps, std::function<void()> body);
+    void show_simple_window(const std::string &name, uint32_t last_fps, const std::function<void()> &body);
     
     bool input_event(const InputEvent &input_event);
     
@@ -336,7 +336,7 @@ public:
     
     Font &get_font(const std::string &font_name = Gui::default_font);
     
-    bool is_debug_view_active() const;
+    [[nodiscard]] bool is_debug_view_active() const;
     
 private:
     /**
@@ -366,9 +366,9 @@ private:
     
     std::unique_ptr<core::Buffer> index_buffer;
     
-    size_t last_vertex_buffer_size;
+    size_t last_vertex_buffer_size{};
     
-    size_t last_index_buffer_size;
+    size_t last_index_buffer_size{};
     
     ///  Scale factor to apply due to a difference between the window and GL pixel sizes
     float content_scale_factor{1.0f};

@@ -24,13 +24,12 @@
 
 #include "core/sampler.h"
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 class Sampler {
 public:
     std::string name;
     
-    Sampler(const std::string &name, core::Sampler &&vk_sampler);
+    Sampler(std::string name, core::Sampler &&vk_sampler);
     
     Sampler(Sampler &&other) = default;
     
@@ -39,5 +38,4 @@ public:
     core::Sampler vk_sampler;
 };
 
-}        // namespace sg
 }        // namespace vox

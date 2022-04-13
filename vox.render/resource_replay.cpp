@@ -75,7 +75,7 @@ void ResourceReplay::play(ResourceCache &resource_cache, ResourceRecord &recorde
             // Run command function
             cmd_it->second(resource_cache, stream);
         } else {
-            LOGE("Replay command not supported.");
+            LOGE("Replay command not supported.")
         }
     }
 }
@@ -96,7 +96,7 @@ void ResourceReplay::create_shader_module(ResourceCache &resource_cache, std::is
     read_processes(stream, processes);
     
     ShaderSource shader_source{};
-    shader_source.set_source(std::move(glsl_source));
+    shader_source.set_source(glsl_source);
     ShaderVariant shader_variant(std::move(preamble), std::move(processes));
     
     auto &shader_module = resource_cache.request_shader_module(stage, shader_source, shader_variant);

@@ -27,8 +27,7 @@
 #include "core/image.h"
 #include "core/image_view.h"
 
-namespace vox {
-namespace sg {
+namespace vox::sg {
 /**
  * @param format Vulkan format
  * @return Whether the vulkan format is ASTC
@@ -53,34 +52,34 @@ class Image {
 public:
     std::string name;
     
-    Image(const std::string &name, std::vector<uint8_t> &&data = {}, std::vector<Mipmap> &&mipmaps = {{}});
+    explicit Image(std::string name, std::vector<uint8_t> &&data = {}, std::vector<Mipmap> &&mipmaps = {{}});
     
     static std::unique_ptr<Image> load(const std::string &name, const std::string &uri);
     
     virtual ~Image() = default;
     
-    const std::vector<uint8_t> &get_data() const;
+    [[nodiscard]] const std::vector<uint8_t> &get_data() const;
     
     void clear_data();
     
-    VkFormat get_format() const;
+    [[nodiscard]] VkFormat get_format() const;
     
-    const VkExtent3D &get_extent() const;
+    [[nodiscard]] const VkExtent3D &get_extent() const;
     
-    const uint32_t get_layers() const;
+    [[nodiscard]] uint32_t get_layers() const;
     
-    const std::vector<Mipmap> &get_mipmaps() const;
+    [[nodiscard]] const std::vector<Mipmap> &get_mipmaps() const;
     
-    const std::vector<std::vector<VkDeviceSize>> &get_offsets() const;
+    [[nodiscard]] const std::vector<std::vector<VkDeviceSize>> &get_offsets() const;
     
     void generate_mipmaps();
     
     void create_vk_image(Device const &device, VkImageViewType image_view_type = VK_IMAGE_VIEW_TYPE_2D,
                          VkImageCreateFlags flags = 0);
     
-    const core::Image &get_vk_image() const;
+    [[nodiscard]] const core::Image &get_vk_image() const;
     
-    const core::ImageView &get_vk_image_view() const;
+    [[nodiscard]] const core::ImageView &get_vk_image_view() const;
     
 protected:
     std::vector<uint8_t> &get_mut_data();
@@ -120,5 +119,4 @@ private:
     std::unique_ptr<core::ImageView> vk_image_view;
 };
 
-}        // namespace sg
 }        // namespace vox

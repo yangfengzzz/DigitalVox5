@@ -74,7 +74,7 @@ bool VulkanSample::prepare(Platform &platform) {
         return false;
     }
     
-    LOGI("Initializing Vulkan sample");
+    LOGI("Initializing Vulkan sample")
     
     bool headless = platform.get_window().get_window_mode() == Window::Mode::Headless;
     
@@ -99,7 +99,7 @@ bool VulkanSample::prepare(Platform &platform) {
         
         for (const auto &it: available_instance_extensions) {
             if (strcmp(it.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0) {
-                LOGI("Vulkan debug utils enabled ({})", VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+                LOGI("Vulkan debug utils enabled ({})", VK_EXT_DEBUG_UTILS_EXTENSION_NAME)
                 
                 debug_utils = std::make_unique<DebugUtilsExtDebugUtils>();
                 add_instance_extension(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
@@ -146,7 +146,7 @@ bool VulkanSample::prepare(Platform &platform) {
         
         for (const auto &it: available_device_extensions) {
             if (strcmp(it.extensionName, VK_EXT_DEBUG_MARKER_EXTENSION_NAME) == 0) {
-                LOGI("Vulkan debug utils enabled ({})", VK_EXT_DEBUG_MARKER_EXTENSION_NAME);
+                LOGI("Vulkan debug utils enabled ({})", VK_EXT_DEBUG_MARKER_EXTENSION_NAME)
                 
                 debug_utils = std::make_unique<DebugMarkerExtDebugUtils>();
                 add_device_extension(VK_EXT_DEBUG_MARKER_EXTENSION_NAME);
@@ -156,7 +156,7 @@ bool VulkanSample::prepare(Platform &platform) {
     }
     
     if (!debug_utils) {
-        LOGW("Vulkan debug utils were requested, but no extension that provides them was found");
+        LOGW("Vulkan debug utils were requested, but no extension that provides them was found")
     }
 #endif
     
@@ -500,15 +500,15 @@ RenderContext &VulkanSample::get_render_context() {
     return *render_context;
 }
 
-const std::vector<const char *> VulkanSample::get_validation_layers() {
+std::vector<const char *> VulkanSample::get_validation_layers() {
     return {};
 }
 
-const std::unordered_map<const char *, bool> VulkanSample::get_instance_extensions() {
+std::unordered_map<const char *, bool> VulkanSample::get_instance_extensions() {
     return instance_extensions;
 }
 
-const std::unordered_map<const char *, bool> VulkanSample::get_device_extensions() {
+std::unordered_map<const char *, bool> VulkanSample::get_device_extensions() {
     return device_extensions;
 }
 
