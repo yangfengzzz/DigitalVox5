@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef ui_manager_hpp
-#define ui_manager_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_UI_MANAGER_H_
+#define DIGITALVOX_VOX_RENDER_UI_UI_MANAGER_H_
 
 #include <string>
 #include <unordered_map>
@@ -14,8 +14,7 @@
 
 struct GLFWwindow;
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Some styles that you can use to modify the UI looks
  */
@@ -31,119 +30,117 @@ enum class Style {
 /**
  * Handle the creation and drawing of the UI
  */
-class UIManager {
+class UiManager {
 public:
     /**
      * Create the UI manager. Will setup ImGui internally\
-     * @param p_glfwWindow p_glfwWindow
+     * @param p_glfw_window p_glfw_window
      * @param p_style p_style
      */
-    UIManager(GLFWwindow *p_glfwWindow,
-              RenderContext* context, Style p_style = Style::IM_DARK_STYLE);
+    UiManager(GLFWwindow *p_glfw_window,
+              RenderContext *context, Style p_style = Style::IM_DARK_STYLE);
     
     /**
      * Destroy the UI manager. Will handle ImGui destruction internally
      */
-    ~UIManager();
+    ~UiManager();
     
     /**
      * Apply a new style to the UI elements
      * @param p_style p_style
      */
-    void applyStyle(Style p_style);
+    static void apply_style(Style p_style);
     
     /**
      * Load a font (Returns true on success)
      * @param p_id p_id
      * @param p_path p_path
-     * @param p_fontSize p_fontSize
+     * @param p_font_size p_font_size
      */
-    bool loadFont(const std::string &p_id, const std::string &p_path, float p_fontSize);
+    bool load_font(const std::string &p_id, const std::string &p_path, float p_font_size);
     
     /**
      * Unload a font (Returns true on success)
      * @param p_id p_id
      */
-    bool unloadFont(const std::string &p_id);
+    bool unload_font(const std::string &p_id);
     
     /**
      * Set the given font as the current one (Returns true on success)
      */
-    bool useFont(const std::string &p_id);
+    bool use_font(const std::string &p_id);
     
     /**
      * Use the default font (ImGui default font)
      */
-    void useDefaultFont();
+    static void use_default_font();
     
     /**
      * Allow the user to enable/disable .ini generation to save his editor layout
      * @param p_value p_value
      */
-    void enableEditorLayoutSave(bool p_value);
+    void enable_editor_layout_save(bool p_value);
     
     /**
      *  Return true if the editor layout save system is on
      */
-    bool isEditorLayoutSaveEnabled() const;
+    [[nodiscard]] static bool is_editor_layout_save_enabled();
     
     /**
      * Defines a filename for the editor layout save file
      */
-    void setEditorLayoutSaveFilename(const std::string &p_filename);
+    void set_editor_layout_save_filename(const std::string &p_filename);
     
     /**
      * Defines a frequency (in seconds) for the auto saving system of the editor layout
      * @param p_frequency p_frequency
      */
-    void setEditorLayoutAutosaveFrequency(float p_frequency);
+    static void set_editor_layout_autosave_frequency(float p_frequency);
     
     /**
      * Returns the current frequency (in seconds) for the auto saving system of the editor layout
      */
-    float editorLayoutAutosaveFrequency(float p_frequeny);
+    static float editor_layout_autosave_frequency(float p_frequeny);
     
     /**
      * Enable the docking system
      * @param p_value p_value
      */
-    void enableDocking(bool p_value);
+    void enable_docking(bool p_value);
     
     /**
      * Reset the UI layout to the given configuration file
      * @param p_config p_config
      */
-    void resetLayout(const std::string &p_config) const;
+    static void reset_layout(const std::string &p_config);
     
     /**
      * Return true if the docking system is enabled
      */
-    bool isDockingEnabled() const;
+    [[nodiscard]] bool is_docking_enabled() const;
     
     /**
      * Defines the canvas to use
      * @param p_canvas p_canvas
      */
-    void setCanvas(Canvas &p_canvas);
+    void set_canvas(Canvas &p_canvas);
     
     /**
      * Stop considering the current canvas (if any)
      */
-    void removeCanvas();
+    void remove_canvas();
     
 private:
-    void pushCurrentFont();
+    void push_current_font();
     
-    void popCurrentFont();
+    void pop_current_font();
     
 private:
-    bool _dockingState;
-    Canvas *_currentCanvas{nullptr};
-    std::unordered_map<std::string, ImFont *> _fonts;
-    std::string _layoutSaveFilename = "imgui.ini";
+    bool docking_state_{};
+    Canvas *current_canvas_{nullptr};
+    std::unordered_map<std::string, ImFont *> fonts_;
+    std::string layout_save_filename_ = "imgui.ini";
 };
 
-
 }
-}
-#endif /* ui_manager_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_UI_MANAGER_H_ */

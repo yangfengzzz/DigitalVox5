@@ -7,37 +7,33 @@
 #include "ui_manager.h"
 #include <GLFW/glfw3.h>
 
-namespace vox {
-namespace ui {
-UIManager::UIManager(GLFWwindow *p_glfwWindow,
-                     RenderContext* context, Style p_style) {
+namespace vox::ui {
+UiManager::UiManager(GLFWwindow *p_glfw_window,
+                     RenderContext *context, Style p_style) {
     ImGui::CreateContext();
     
-    ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true; /* Disable moving windows by dragging another thing than the title bar */
-    enableDocking(false);
+    ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly =
+    true; /* Disable moving windows by dragging another thing than the title bar */
+    enable_docking(false);
     
-    applyStyle(p_style);
+    apply_style(p_style);
 }
 
-UIManager::~UIManager() {
+UiManager::~UiManager() {
     ImGui::DestroyContext();
 }
 
-void UIManager::applyStyle(Style p_style) {
+void UiManager::apply_style(Style p_style) {
     ImGuiStyle *style = &ImGui::GetStyle();
     
     switch (p_style) {
-        case Style::IM_CLASSIC_STYLE:
-            ImGui::StyleColorsClassic();
+        case Style::IM_CLASSIC_STYLE:ImGui::StyleColorsClassic();
             break;
-        case Style::IM_DARK_STYLE:
-            ImGui::StyleColorsDark();
+        case Style::IM_DARK_STYLE:ImGui::StyleColorsDark();
             break;
-        case Style::IM_LIGHT_STYLE:
-            ImGui::StyleColorsLight();
+        case Style::IM_LIGHT_STYLE:ImGui::StyleColorsLight();
             break;
-        default:
-            break;
+        default:break;
     }
     
     if (p_style == Style::DUNE_DARK) {
@@ -168,13 +164,13 @@ void UIManager::applyStyle(Style p_style) {
     }
 }
 
-bool UIManager::loadFont(const std::string &p_id, const std::string &p_path, float p_fontSize) {
-    if (_fonts.find(p_id) == _fonts.end()) {
+bool UiManager::load_font(const std::string &p_id, const std::string &p_path, float p_font_size) {
+    if (fonts_.find(p_id) == fonts_.end()) {
         auto &io = ImGui::GetIO();
-        ImFont *fontInstance = io.Fonts->AddFontFromFileTTF(p_path.c_str(), p_fontSize);
+        ImFont *font_instance = io.Fonts->AddFontFromFileTTF(p_path.c_str(), p_font_size);
         
-        if (fontInstance) {
-            _fonts[p_id] = fontInstance;
+        if (font_instance) {
+            fonts_[p_id] = font_instance;
             return true;
         }
     }
@@ -182,57 +178,57 @@ bool UIManager::loadFont(const std::string &p_id, const std::string &p_path, flo
     return false;
 }
 
-bool UIManager::unloadFont(const std::string &p_id) {
-    if (_fonts.find(p_id) != _fonts.end()) {
-        _fonts.erase(p_id);
+bool UiManager::unload_font(const std::string &p_id) {
+    if (fonts_.find(p_id) != fonts_.end()) {
+        fonts_.erase(p_id);
         return true;
     }
     
     return false;
 }
 
-bool UIManager::useFont(const std::string &p_id) {
-    auto foundFont = _fonts.find(p_id);
+bool UiManager::use_font(const std::string &p_id) {
+    auto found_font = fonts_.find(p_id);
     
-    if (foundFont != _fonts.end()) {
-        ImGui::GetIO().FontDefault = foundFont->second;
+    if (found_font != fonts_.end()) {
+        ImGui::GetIO().FontDefault = found_font->second;
         return true;
     }
     
     return false;
 }
 
-void UIManager::useDefaultFont() {
+void UiManager::use_default_font() {
     ImGui::GetIO().FontDefault = nullptr;
 }
 
-void UIManager::enableEditorLayoutSave(bool p_value) {
+void UiManager::enable_editor_layout_save(bool p_value) {
     if (p_value)
-        ImGui::GetIO().IniFilename = _layoutSaveFilename.c_str();
+        ImGui::GetIO().IniFilename = layout_save_filename_.c_str();
     else
         ImGui::GetIO().IniFilename = nullptr;
 }
 
-bool UIManager::isEditorLayoutSaveEnabled() const {
+bool UiManager::is_editor_layout_save_enabled() {
     return ImGui::GetIO().IniFilename != nullptr;
 }
 
-void UIManager::setEditorLayoutSaveFilename(const std::string &p_filename) {
-    _layoutSaveFilename = p_filename;
-    if (isEditorLayoutSaveEnabled())
-        ImGui::GetIO().IniFilename = _layoutSaveFilename.c_str();
+void UiManager::set_editor_layout_save_filename(const std::string &p_filename) {
+    layout_save_filename_ = p_filename;
+    if (is_editor_layout_save_enabled())
+        ImGui::GetIO().IniFilename = layout_save_filename_.c_str();
 }
 
-void UIManager::setEditorLayoutAutosaveFrequency(float p_frequency) {
+void UiManager::set_editor_layout_autosave_frequency(float p_frequency) {
     ImGui::GetIO().IniSavingRate = p_frequency;
 }
 
-float UIManager::editorLayoutAutosaveFrequency(float p_frequeny) {
+float UiManager::editor_layout_autosave_frequency(float p_frequeny) {
     return ImGui::GetIO().IniSavingRate;
 }
 
-void UIManager::enableDocking(bool p_value) {
-    _dockingState = p_value;
+void UiManager::enable_docking(bool p_value) {
+    docking_state_ = p_value;
     
     if (p_value)
         ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -240,31 +236,30 @@ void UIManager::enableDocking(bool p_value) {
         ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_DockingEnable;
 }
 
-void UIManager::resetLayout(const std::string &p_config) const {
+void UiManager::reset_layout(const std::string &p_config) {
     ImGui::LoadIniSettingsFromDisk(p_config.c_str());
 }
 
-bool UIManager::isDockingEnabled() const {
-    return _dockingState;
+bool UiManager::is_docking_enabled() const {
+    return docking_state_;
 }
 
-void UIManager::setCanvas(Canvas &p_canvas) {
-    removeCanvas();
+void UiManager::set_canvas(Canvas &p_canvas) {
+    remove_canvas();
     
-    _currentCanvas = &p_canvas;
+    current_canvas_ = &p_canvas;
 }
 
-void UIManager::removeCanvas() {
-    _currentCanvas = nullptr;
+void UiManager::remove_canvas() {
+    current_canvas_ = nullptr;
 }
 
-void UIManager::pushCurrentFont() {
-    
-}
-
-void UIManager::popCurrentFont() {
+void UiManager::push_current_font() {
     
 }
 
+void UiManager::pop_current_font() {
+    
 }
+
 }

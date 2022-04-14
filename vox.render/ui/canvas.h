@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef canvas_hpp
-#define canvas_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_CANVAS_H_
+#define DIGITALVOX_VOX_RENDER_UI_CANVAS_H_
 
 #include <algorithm>
 
@@ -14,8 +14,7 @@
 #include "ui/drawable.h"
 #include "ui/widgets/panel.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * A Canvas represents the whole frame available for UI drawing
  */
@@ -24,27 +23,27 @@ public:
     /**
      * Adds a panel to the canvas
      */
-    void addPanel(Panel &p_panel);
+    void add_panel(Panel &p_panel);
     
     /**
      * Removes a panel from the canvas
      */
-    void removePanel(Panel &p_panel);
+    void remove_panel(Panel &p_panel);
     
     /**
      * Removes every panels from the canvas
      */
-    void removeAllPanels();
+    void remove_all_panels();
     
     /**
      * Makes the canvas a dockspace (Dockable panels will be able to attach themselves to the canvas)
      */
-    void makeDockspace(bool p_state);
+    void make_dock_space(bool p_state);
     
     /**
      * Returns true if the canvas is a dockspace
      */
-    bool isDockspace() const;
+    [[nodiscard]] bool is_dock_space() const;
     
     /**
      * Draw the canvas (Draw every panels)
@@ -52,11 +51,9 @@ public:
     void draw() override;
     
 private:
-    std::vector<std::reference_wrapper<Panel>> _panels;
-    bool _isDockspace = false;
+    std::vector<std::reference_wrapper<Panel>> panels_;
+    bool is_dockspace_ = false;
 };
 
-
 }
-}
-#endif /* canvas_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_CANVAS_H_ */

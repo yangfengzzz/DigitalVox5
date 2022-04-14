@@ -4,11 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef drawable_h
-#define drawable_h
+#ifndef DIGITALVOX_VOX_RENDER_UI_DRAWABLE_H_
+#define DIGITALVOX_VOX_RENDER_UI_DRAWABLE_H_
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Interface for any drawable class
  */
@@ -20,7 +19,5 @@ protected:
     virtual ~Drawable() = default;
 };
 
-
 }
-}
-#endif /* drawable_h */
+#endif /* DIGITALVOX_VOX_RENDER_UI_DRAWABLE_H_ */

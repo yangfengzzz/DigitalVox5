@@ -6,13 +6,12 @@
 
 #include "canvas.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 void Canvas::draw() {
-    if (!_panels.empty()) {
+    if (!panels_.empty()) {
         ImGui::NewFrame();
         
-        if (_isDockspace) {
+        if (is_dockspace_) {
             ImGuiViewport *viewport = ImGui::GetMainViewport();
             ImGui::SetNextWindowPos(viewport->Pos);
             ImGui::SetNextWindowSize(viewport->Size);
@@ -28,43 +27,41 @@ void Canvas::draw() {
             ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
             ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
             ImGui::SetWindowPos({0.f, 0.f});
-            ImVec2 displaySize = ImGui::GetIO().DisplaySize;
-            ImGui::SetWindowSize({(float) displaySize.x, (float) displaySize.y});
+            ImVec2 display_size = ImGui::GetIO().DisplaySize;
+            ImGui::SetWindowSize({(float)display_size.x, (float)display_size.y});
             ImGui::End();
             
             ImGui::PopStyleVar(3);
         }
         
-        for (auto &panel: _panels)
+        for (auto &panel : panels_)
             panel.get().draw();
         
         ImGui::Render();
     }
 }
 
-void Canvas::addPanel(Panel &p_panel) {
-    _panels.push_back(std::ref(p_panel));
+void Canvas::add_panel(Panel &p_panel) {
+    panels_.push_back(std::ref(p_panel));
 }
 
-void Canvas::removePanel(Panel &p_panel) {
-    _panels.erase(std::remove_if(_panels.begin(), _panels.end(),
+void Canvas::remove_panel(Panel &p_panel) {
+    panels_.erase(std::remove_if(panels_.begin(), panels_.end(),
                                  [&p_panel](std::reference_wrapper<Panel> &p_item) {
         return &p_panel == &p_item.get();
-    }));
+    }), panels_.end());
 }
 
-void Canvas::removeAllPanels() {
-    _panels.clear();
+void Canvas::remove_all_panels() {
+    panels_.clear();
 }
 
-void Canvas::makeDockspace(bool p_state) {
-    _isDockspace = p_state;
+void Canvas::make_dock_space(bool p_state) {
+    is_dockspace_ = p_state;
 }
 
-bool Canvas::isDockspace() const {
-    return _isDockspace;
+bool Canvas::is_dock_space() const {
+    return is_dockspace_;
 }
 
-
-}
 }
