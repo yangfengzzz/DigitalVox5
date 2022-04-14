@@ -75,12 +75,6 @@ set(COMMON_FILES
         utils.cpp
         strings.cpp)
 
-#set(GEOMETRY_FILES
-#    # Header Files
-#    geometry/frustum.h
-#    # Source Files
-#    geometry/frustum.cpp)
-
 set(RENDERING_FILES
         # Header files
         rendering/pipeline_state.h
@@ -310,6 +304,8 @@ set(PARSER_FILES
         platform/parsers/help_formatter.cpp
         )
 
+set(UI_FILES ui)
+
 #set(GRAPHING_FILES
 #    # Header Files
 #    graphing/graph.h
@@ -383,6 +379,7 @@ set(PROJECT_FILES
         #    ${SCENE_GRAPH_COMPONENT_FILES}
         #    ${SCENE_GRAPH_SCRIPTS_FILES}
         ${STATS_FILES}
+        ${UI_FILES}
         #    ${GRAPHING_FILES}
         )
 
