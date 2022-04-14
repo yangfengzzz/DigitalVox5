@@ -114,8 +114,6 @@ void HDR::build_command_buffers() {
             VkRect2D scissor = vox::initializers::rect2D(offscreen.width, offscreen.height, 0, 0);
             vkCmdSetScissor(draw_cmd_buffers[i], 0, 1, &scissor);
             
-            VkDeviceSize offsets[1] = {0};
-            
             // Skybox
             if (display_skybox) {
                 vkCmdBindPipeline(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines.skybox);
@@ -501,11 +499,11 @@ void HDR::load_assets() {
     }
     
     // Transforms
-    auto geosphere_matrix = Matrix4x4F(1.0f);
-    auto teapot_matrix = Matrix4x4F(1.0f);
+    auto geosphere_matrix = Matrix4x4F();
+    auto teapot_matrix = Matrix4x4F();
     teapot_matrix *= makeScaleMatrix(10.0f, 10.0f, 10.0f);
     teapot_matrix *= makeRotationMatrix(Vector3F(1.0f, 0.0f, 0.0f), degreesToRadians(180.0f));
-    auto torus_matrix = Matrix4x4F(1.0f);
+    auto torus_matrix = Matrix4x4F();
     models.transforms.push_back(geosphere_matrix);
     models.transforms.push_back(teapot_matrix);
     models.transforms.push_back(torus_matrix);

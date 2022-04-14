@@ -551,7 +551,7 @@ void Gui::draw(CommandBuffer &command_buffer) {
     
     // Pre-rotation
     auto &io = ImGui::GetIO();
-    auto push_transform = Matrix4x4F(1.0f);
+    auto push_transform = Matrix4x4F();
     
     if (sample.get_render_context().has_swapchain()) {
         auto transform = sample.get_render_context().get_swapchain().get_transform();
@@ -651,7 +651,7 @@ void Gui::draw(VkCommandBuffer command_buffer) {
                             &descriptor_set, 0, nullptr);
     
     // Push constants
-    auto push_transform = Matrix4x4F(1.0f);
+    auto push_transform = Matrix4x4F();
     push_transform *= makeTranslationMatrix(Point3F(-1.0f, -1.0f, 0.0f));
     push_transform *= makeScaleMatrix(2.0f / io.DisplaySize.x, 2.0f / io.DisplaySize.y, 0.0f);
     vkCmdPushConstants(command_buffer, pipeline_layout->get_handle(), VK_SHADER_STAGE_VERTEX_BIT, 0,

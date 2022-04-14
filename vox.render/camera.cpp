@@ -20,7 +20,7 @@
 
 namespace vox {
 void Camera::update_view_matrix() {
-    auto rotation_matrix = Matrix4x4F(1.0f);
+    auto rotation_matrix = Matrix4x4F();
     Matrix4x4F transformation_matrix;
     
     rotation_matrix *= makeRotationMatrix(Vector3F(1.0f, 0.0f, 0.0f), degreesToRadians(rotation.x));
@@ -54,11 +54,11 @@ void Camera::set_perspective(float fov, float aspect, float znear, float zfar) {
     this->fov = fov;
     this->znear = znear;
     this->zfar = zfar;
-    matrices.perspective = makepPerspective(fov, aspect, znear, zfar);
+    matrices.perspective = makepPerspective(degreesToRadians(fov), aspect, znear, zfar);
 }
 
 void Camera::update_aspect_ratio(float aspect) {
-    matrices.perspective = makepPerspective(fov, aspect, znear, zfar);
+    matrices.perspective = makepPerspective(degreesToRadians(fov), aspect, znear, zfar);
 }
 
 void Camera::set_position(const Point3F &position) {

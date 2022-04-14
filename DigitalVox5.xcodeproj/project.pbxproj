@@ -1769,6 +1769,7 @@
 					./third_party/ktx/include,
 					./third_party/CTPL,
 					/usr/local/include,
+					/Users/yangfeng/Desktop/DigitalVox5/third_party/glm,
 				);
 			};
 			name = Debug;
@@ -1822,6 +1823,7 @@
 					./third_party/ktx/include,
 					./third_party/CTPL,
 					/usr/local/include,
+					/Users/yangfeng/Desktop/DigitalVox5/third_party/glm,
 				);
 			};
 			name = Release;
