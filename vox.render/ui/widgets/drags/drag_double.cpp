@@ -6,8 +6,7 @@
 
 #include "drag_double.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 DragDouble::DragDouble(double p_min,
                        double p_max,
                        double p_value,
@@ -18,6 +17,4 @@ DragSingleScalar<double>(ImGuiDataType_::ImGuiDataType_Double, p_min, p_max,
                          p_value, p_speed, p_label, p_format) {
 }
 
-
-}
 }

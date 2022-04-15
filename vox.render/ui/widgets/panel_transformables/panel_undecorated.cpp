@@ -6,30 +6,29 @@
 
 #include "panel_undecorated.h"
 
-namespace vox {
-namespace ui {
-void PanelUndecorated::_draw_Impl() {
+namespace vox::ui {
+void PanelUndecorated::draw_impl() {
     auto &style = ImGui::GetStyle();
-    ImVec2 previousPadding = style.WindowPadding;
-    ImVec2 previousMinSize = style.WindowMinSize;
+    ImVec2 previous_padding = style.WindowPadding;
+    ImVec2 previous_min_size = style.WindowMinSize;
     style.WindowPadding = {0, 0};
     style.WindowMinSize = {0, 0};
     
-    if (ImGui::Begin(_panelID.c_str(), nullptr, collectFlags())) {
-        style.WindowPadding = previousPadding;
-        style.WindowMinSize = previousMinSize;
+    if (ImGui::Begin(panel_id_.c_str(), nullptr, collect_flags())) {
+        style.WindowPadding = previous_padding;
+        style.WindowMinSize = previous_min_size;
         
         update();
         
-        drawWidgets();
+        draw_widgets();
         
         ImGui::End();
     } else {
-        style.WindowPadding = previousPadding;
+        style.WindowPadding = previous_padding;
     }
 }
 
-int PanelUndecorated::collectFlags() {
+int PanelUndecorated::collect_flags() {
     ImGuiWindowFlags flags =
     ImGuiWindowFlags_AlwaysUseWindowPadding |
     ImGuiWindowFlags_NoResize |
@@ -40,11 +39,9 @@ int PanelUndecorated::collectFlags() {
     ImGuiWindowFlags_NoTitleBar |
     ImGuiWindowFlags_NoBackground;
     
-    if (autoSize) flags |= ImGuiWindowFlags_AlwaysAutoResize;
+    if (auto_size_) flags |= ImGuiWindowFlags_AlwaysAutoResize;
     
     return flags;
 }
 
-
-}
 }

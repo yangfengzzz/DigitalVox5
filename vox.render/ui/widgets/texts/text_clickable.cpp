@@ -6,26 +6,22 @@
 
 #include "text_clickable.h"
 
-
-namespace vox {
-namespace ui {
+namespace vox::ui {
 TextClickable::TextClickable(const std::string &p_content) :
 Text(p_content) {
 }
 
-void TextClickable::_draw_Impl() {
+void TextClickable::draw_impl() {
     bool useless = false;
     
-    if (ImGui::Selectable((content + _widgetID).c_str(), &useless,
+    if (ImGui::Selectable((content_ + widget_id_).c_str(), &useless,
                           ImGuiSelectableFlags_AllowDoubleClick)) {
         if (ImGui::IsMouseDoubleClicked(0)) {
-            doubleClickedEvent.invoke();
+            double_clicked_event_.invoke();
         } else {
-            clickedEvent.invoke();
+            clicked_event_.invoke();
         }
     }
 }
 
-
-}
 }

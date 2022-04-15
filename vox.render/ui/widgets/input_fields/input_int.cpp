@@ -6,13 +6,11 @@
 
 #include "input_int.h"
 
-namespace vox {
-namespace ui {
-InputInt::InputInt(int p_defaultValue, int p_step, int p_fastStep,
-                   const std::string &p_label, const std::string &p_format, bool p_selectAllOnClick)
-: InputSingleScalar<int>(ImGuiDataType_::ImGuiDataType_S32, p_defaultValue,
-                         p_step, p_fastStep, p_label, p_format, p_selectAllOnClick) {
+namespace vox::ui {
+InputInt::InputInt(int p_default_value, int p_step, int p_fast_step,
+                   const std::string &p_label, const std::string &p_format, bool p_select_all_on_click)
+: InputSingleScalar<int>(ImGuiDataType_::ImGuiDataType_S32, p_default_value,
+                         p_step, p_fast_step, p_label, p_format, p_select_all_on_click) {
 }
 
-}
 }

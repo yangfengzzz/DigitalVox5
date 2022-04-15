@@ -6,22 +6,19 @@
 
 #include "button_image.h"
 #include "ui/widgets/converter.h"
-#include <imgui_internal.h>
 
-namespace vox {
-namespace ui {
-ButtonImage::ButtonImage(VkDescriptorSet p_textureID, const Vector2F &p_size) :
-textureID{p_textureID}, size(p_size) {
+namespace vox::ui {
+ButtonImage::ButtonImage(VkDescriptorSet p_texture_id, const Vector2F &p_size) :
+texture_id_{p_texture_id}, size_(p_size) {
 }
 
-void ButtonImage::_draw_Impl() {
-    ImVec4 bg = Converter::ToImVec4(background);
-    ImVec4 tn = Converter::ToImVec4(tint);
+void ButtonImage::draw_impl() {
+    ImVec4 bg = Converter::to_imVec4(background_);
+    ImVec4 tn = Converter::to_imVec4(tint_);
     
-    if (ImGui::ImageButton((ImTextureID) textureID, Converter::ToImVec2(size),
+    if (ImGui::ImageButton((ImTextureID)texture_id_, Converter::to_imVec2(size_),
                            ImVec2(0.f, 0.f), ImVec2(1.f, 1.f), -1, bg, tn))
-        clickedEvent.invoke();
+        clicked_event_.invoke();
 }
 
-}
 }

@@ -4,14 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef radio_button_hpp
-#define radio_button_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_RADIO_BUTTON_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_RADIO_BUTTON_H_
 
 #include "ui/widgets/data_widget.h"
 #include "event.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Widget that represent a button that is selectable. Only one radio button can be selected
  * in the same RadioButtonLinker
@@ -25,7 +24,7 @@ public:
      * @param p_selected p_selected
      * @param p_label p_label
      */
-    RadioButton(bool p_selected = false, const std::string &p_label = "");
+    explicit RadioButton(bool p_selected = false, std::string p_label = "");
     
     /**
      * Make the radio button selected
@@ -35,26 +34,24 @@ public:
     /**
      * Returns true if the radio button is selected
      */
-    bool isSelected() const;
+    [[nodiscard]] bool is_selected() const;
     
     /**
      * Returns the radio button ID
      */
-    bool radioID() const;
+    [[nodiscard]] bool radio_id() const;
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    std::string label;
-    Event<int> clickedEvent;
+    std::string label_;
+    Event<int> clicked_event_;
     
 private:
-    bool _selected = false;
-    int _radioID = 0;
+    bool selected_ = false;
+    int radio_id_ = 0;
 };
 
-
 }
-}
-#endif /* radio_button_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_RADIO_BUTTON_H_ */

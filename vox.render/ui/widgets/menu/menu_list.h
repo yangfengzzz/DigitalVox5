@@ -4,14 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef menu_list_hpp
-#define menu_list_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_MENU_MENU_LIST_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_MENU_MENU_LIST_H_
 
 #include "ui/widgets/layout/group.h"
 #include "event.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Widget that behave like a group with a menu display
  */
@@ -22,20 +21,19 @@ public:
      * @param p_name p_name
      * @param p_locked p_locked
      */
-    MenuList(const std::string &p_name, bool p_locked = false);
+    explicit MenuList(std::string p_name, bool p_locked = false);
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    std::string name;
-    bool locked;
-    Event<> clickedEvent;
+    std::string name_;
+    bool locked_;
+    Event<> clicked_event_;
     
 private:
-    bool m_opened;
+    bool opened_{};
 };
 
 }
-}
-#endif /* menu_list_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_MENU_MENU_LIST_H_ */

@@ -6,17 +6,17 @@
 
 #include "plot.h"
 
-namespace vox {
-namespace ui {
-Plot::Plot(const std::vector<float> &p_data,
-           float p_minScale,
-           float p_maxScale,
+#include <utility>
+
+namespace vox::ui {
+Plot::Plot(std::vector<float> p_data,
+           float p_min_scale,
+           float p_max_scale,
            const Vector2F &p_size,
-           const std::string &p_overlay,
-           const std::string &p_label) :
-DataWidget(data), data(p_data), minScale(p_minScale), maxScale(p_maxScale),
-size(p_size), overlay(p_overlay), label(p_label) {
+           std::string p_overlay,
+           std::string p_label) :
+DataWidget(data_), data_(std::move(p_data)), min_scale_(p_min_scale), max_scale_(p_max_scale),
+size_(p_size), overlay_(std::move(p_overlay)), label_(std::move(p_label)) {
 }
 
-}
 }

@@ -4,15 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef tree_node_hpp
-#define tree_node_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_TREE_NODE_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_TREE_NODE_H_
 
 #include "ui/widgets/widget_container.h"
 #include "ui/widgets/data_widget.h"
 #include "event.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Widget that allow columnification
  */
@@ -21,9 +20,9 @@ public:
     /**
      * Constructor
      * @param p_name p_name
-     * @param p_arrowClickToOpen p_arrowClickToOpen
+     * @param p_arrow_click_to_open p_arrowClickToOpen
      */
-    TreeNode(const std::string &p_name = "", bool p_arrowClickToOpen = false);
+    explicit TreeNode(std::string p_name = "", bool p_arrow_click_to_open = false);
     
     /**
      * Open the tree node
@@ -38,29 +37,27 @@ public:
     /**
      * Returns true if the TreeNode is currently opened
      */
-    bool isOpened() const;
+    [[nodiscard]] bool is_opened() const;
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    std::string name;
-    bool selected = false;
-    bool leaf = false;
+    std::string name_;
+    bool selected_ = false;
+    bool leaf_ = false;
     
-    Event<> clickedEvent;
-    Event<> doubleClickedEvent;
-    Event<> openedEvent;
-    Event<> closedEvent;
+    Event<> clicked_event_;
+    Event<> double_clicked_event_;
+    Event<> opened_event_;
+    Event<> closed_event_;
     
 private:
-    bool _arrowClickToOpen = false;
-    bool _shouldOpen = false;
-    bool _shouldClose = false;
-    bool _opened = false;
+    bool arrow_click_to_open_ = false;
+    bool should_open_ = false;
+    bool should_close_ = false;
+    bool opened_ = false;
 };
 
-
 }
-}
-#endif /* tree_node_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_TREE_NODE_H_ */

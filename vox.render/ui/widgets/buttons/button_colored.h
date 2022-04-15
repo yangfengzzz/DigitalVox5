@@ -4,15 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef button_colored_hpp
-#define button_colored_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_COLORED_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_COLORED_H_
 
 #include "button.h"
 #include "vector2.h"
 #include "color.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Button widget of a single color (Color palette element)
  */
@@ -23,22 +22,20 @@ public:
      * @param p_label p_label
      * @param p_color p_color
      * @param p_size p_size
-     * @param p_enableAlpha p_enableAlpha
+     * @param p_enable_alpha p_enableAlpha
      */
-    ButtonColored(const std::string &p_label = "", const Color &p_color = {},
-                  const Vector2F &p_size = Vector2F(0.f, 0.f), bool p_enableAlpha = true);
+    explicit ButtonColored(std::string p_label = "", const Color &p_color = {},
+                           const Vector2F &p_size = Vector2F(0.f, 0.f), bool p_enable_alpha = true);
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    std::string label;
-    Color color;
-    Vector2F size;
-    bool enableAlpha;
+    std::string label_;
+    Color color_;
+    Vector2F size_;
+    bool enableAlpha_;
 };
 
-
 }
-}
-#endif /* button_colored_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_COLORED_H_ */

@@ -6,15 +6,13 @@
 
 #include "input_float.h"
 
-namespace vox {
-namespace ui {
-InputFloat::InputFloat(float p_defaultValue, float p_step, float p_fastStep,
+namespace vox::ui {
+InputFloat::InputFloat(float p_default_value, float p_step, float p_fast_step,
                        const std::string &p_label, const std::string &p_format,
-                       bool p_selectAllOnClick)
+                       bool p_select_all_on_click)
 : InputSingleScalar<float>(ImGuiDataType_::ImGuiDataType_Float,
-                           p_defaultValue, p_step, p_fastStep,
-                           p_label, p_format, p_selectAllOnClick) {
+                           p_default_value, p_step, p_fast_step,
+                           p_label, p_format, p_select_all_on_click) {
 }
 
-}
 }

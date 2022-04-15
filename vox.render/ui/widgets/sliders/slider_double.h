@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef slider_double_hpp
-#define slider_double_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_DOUBLE_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_DOUBLE_H_
 
 #include "slider_single_scalar.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Slider widget of type double
  */
@@ -25,15 +24,13 @@ public:
      * @param p_label p_label
      * @param p_format p_format
      */
-    SliderDouble(double p_min = 0.0,
-                 double p_max = 1.0,
-                 double p_value = 0.5,
-                 SliderOrientation p_orientation = SliderOrientation::HORIZONTAL,
-                 const std::string &p_label = "",
-                 const std::string &p_format = "%.6f");
+    explicit SliderDouble(double p_min = 0.0,
+                          double p_max = 1.0,
+                          double p_value = 0.5,
+                          SliderOrientation p_orientation = SliderOrientation::HORIZONTAL,
+                          const std::string &p_label = "",
+                          const std::string &p_format = "%.6f");
 };
 
-
 }
-}
-#endif /* slider_double_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_DOUBLE_H_ */

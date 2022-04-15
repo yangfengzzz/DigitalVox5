@@ -6,8 +6,7 @@
 
 #include "slider_float.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 SliderFloat::SliderFloat(float p_min,
                          float p_max,
                          float p_value,
@@ -18,6 +17,4 @@ SliderSingleScalar<float>(ImGuiDataType_::ImGuiDataType_Float, p_min, p_max,
                           p_value, p_orientation, p_label, p_format) {
 }
 
-
-}
 }

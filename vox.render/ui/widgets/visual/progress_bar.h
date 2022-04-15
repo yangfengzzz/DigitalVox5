@@ -4,14 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef progress_bar_hpp
-#define progress_bar_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_VISUAL_PROGRESS_BAR_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_VISUAL_PROGRESS_BAR_H_
 
 #include "ui/widgets/widget.h"
 #include "vector2.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Simple widget that display a progress bar
  */
@@ -23,18 +22,17 @@ public:
      * @param p_size p_size
      * @param p_overlay p_overlay
      */
-    ProgressBar(float p_fraction = 0.0f, const Vector2F &p_size = {0.0f, 0.0f},
-                const std::string &p_overlay = "");
+    explicit ProgressBar(float p_fraction = 0.0f, const Vector2F &p_size = {0.0f, 0.0f},
+                         std::string p_overlay = "");
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    float fraction;
-    Vector2F size;
-    std::string overlay;
+    float fraction_;
+    Vector2F size_;
+    std::string overlay_;
 };
 
 }
-}
-#endif /* progress_bar_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_VISUAL_PROGRESS_BAR_H_ */

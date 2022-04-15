@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef plot_hpp
-#define plot_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_PLOT_PLOT_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_PLOT_PLOT_H_
 
 #include <vector>
 #include <limits>
@@ -15,8 +15,7 @@
 #include "ui/widgets/widget.h"
 #include "ui/widgets/data_widget.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Base class for any plot widget
  */
@@ -25,32 +24,30 @@ public:
     /**
      * Constructor
      * @param p_data p_data
-     * @param p_minScale p_minScale
-     * @param p_maxScale p_maxScale
+     * @param p_min_scale p_minScale
+     * @param p_max_scale p_maxScale
      * @param p_size p_size
      * @param p_overlay p_overlay
      * @param p_label p_label
      */
-    Plot(const std::vector<float> &p_data = std::vector<float>(),
-         float p_minScale = std::numeric_limits<float>::min(),
-         float p_maxScale = std::numeric_limits<float>::max(),
-         const Vector2F &p_size = {0.0f, 0.0f},
-         const std::string &p_overlay = "",
-         const std::string &p_label = "");
+    explicit Plot(std::vector<float> p_data = std::vector<float>(),
+                  float p_min_scale = std::numeric_limits<float>::min(),
+                  float p_max_scale = std::numeric_limits<float>::max(),
+                  const Vector2F &p_size = {0.0f, 0.0f},
+                  std::string p_overlay = "",
+                  std::string p_label = "");
     
 protected:
-    virtual void _draw_Impl() override = 0;
+    void draw_impl() override = 0;
     
 public:
-    std::vector<float> data;
-    float minScale;
-    float maxScale;
-    Vector2F size;
-    std::string overlay;
-    std::string label;
+    std::vector<float> data_;
+    float min_scale_;
+    float max_scale_;
+    Vector2F size_;
+    std::string overlay_;
+    std::string label_;
 };
 
-
 }
-}
-#endif /* plot_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_PLOT_PLOT_H_ */

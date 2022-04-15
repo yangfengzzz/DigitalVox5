@@ -6,21 +6,18 @@
 
 #include "spacing.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 Spacing::Spacing(uint16_t p_spaces) :
-spaces(p_spaces) {
+spaces_(p_spaces) {
 }
 
-void Spacing::_draw_Impl() {
-    for (uint16_t i = 0; i < spaces; ++i) {
+void Spacing::draw_impl() {
+    for (uint16_t i = 0; i < spaces_; ++i) {
         ImGui::Spacing();
         
-        if (i + 1 < spaces)
+        if (i + 1 < spaces_)
             ImGui::SameLine();
     }
 }
 
-
-}
 }

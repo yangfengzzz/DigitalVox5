@@ -6,16 +6,13 @@
 
 #include "text_wrapped.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 TextWrapped::TextWrapped(const std::string &p_content) :
 Text(p_content) {
 }
 
-void TextWrapped::_draw_Impl() {
-    ImGui::TextWrapped(content.c_str());
+void TextWrapped::draw_impl() {
+    ImGui::TextWrapped("%s", content_.c_str());
 }
 
-
-}
 }

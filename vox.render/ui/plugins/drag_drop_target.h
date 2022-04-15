@@ -4,14 +4,16 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef drag_drop_target_h
-#define drag_drop_target_h
+#ifndef DIGITALVOX_VOX_RENDER_UI_PLUGINS_DRAG_DROP_TARGET_H_
+#define DIGITALVOX_VOX_RENDER_UI_PLUGINS_DRAG_DROP_TARGET_H_
 
 #include "event.h"
 #include "plugin.h"
+#include <string>
+#include <utility>
+#include <imgui.h>
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Represents a drag and drop target
  */
@@ -22,59 +24,57 @@ public:
      * Create the drag and drop target
      * @param p_identifier p_identifier
      */
-    DDTarget(const std::string &p_identifier) : identifier(p_identifier) {
+    explicit DDTarget(std::string p_identifier) : identifier_(std::move(p_identifier)) {
     }
     
     /**
      * Execute the drag and drop target behaviour
      */
-    virtual void execute() override {
+    void execute() override {
         if (ImGui::BeginDragDropTarget()) {
-            if (!_isHovered)
-                hoverStartEvent.invoke();
+            if (!is_hovered_)
+                hover_start_event_.invoke();
             
-            _isHovered = true;
+            is_hovered_ = true;
             
             ImGuiDragDropFlags target_flags = 0;
             // Don't wait until the delivery (release mouse button on a target) to do something
             // target_flags |= ImGuiDragDropFlags_AcceptBeforeDelivery;
             
-            if (!showYellowRect)
+            if (!show_yellow_rect_)
                 target_flags |= ImGuiDragDropFlags_AcceptNoDrawDefaultRect; // Don't display the yellow rectangle
             
-            if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(identifier.c_str(), target_flags)) {
-                T data = *(T *) payload->Data;
-                dataReceivedEvent.invoke(data);
+            if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(identifier_.c_str(), target_flags)) {
+                T data = *(T *)payload->Data;
+                data_received_event_.invoke(data);
             }
             ImGui::EndDragDropTarget();
         } else {
-            if (_isHovered)
-                hoverEndEvent.invoke();
+            if (is_hovered_)
+                hover_end_event_.invoke();
             
-            _isHovered = false;
+            is_hovered_ = false;
         }
     }
     
     /**
      * Returns true if the drag and drop target is hovered by a drag and drop source
      */
-    bool IsHovered() const {
-        return _isHovered;
+    [[nodiscard]] bool is_hovered() const {
+        return is_hovered_;
     }
     
 public:
-    std::string identifier;
-    Event<T> dataReceivedEvent;
-    Event<> hoverStartEvent;
-    Event<> hoverEndEvent;
+    std::string identifier_;
+    Event<T> data_received_event_;
+    Event<> hover_start_event_;
+    Event<> hover_end_event_;
     
-    bool showYellowRect = true;
+    bool show_yellow_rect_ = true;
     
 private:
-    bool _isHovered;
+    bool is_hovered_{};
 };
 
-
 }
-}
-#endif /* drag_drop_target_h */
+#endif /* DIGITALVOX_VOX_RENDER_UI_PLUGINS_DRAG_DROP_TARGET_H_ */

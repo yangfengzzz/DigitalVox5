@@ -6,8 +6,7 @@
 
 #include "drag_int.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 DragInt::DragInt(int p_min,
                  int p_max,
                  int p_value,
@@ -18,6 +17,4 @@ DragSingleScalar<int>(ImGuiDataType_::ImGuiDataType_S32, p_min, p_max,
                       p_value, p_speed, p_label, p_format) {
 }
 
-
-}
 }

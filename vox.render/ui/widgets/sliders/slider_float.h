@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef slider_float_hpp
-#define slider_float_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_FLOAT_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_FLOAT_H_
 
 #include "slider_single_scalar.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Slider widget of type float
  */
@@ -25,15 +24,13 @@ public:
      * @param p_label p_label
      * @param p_format p_format
      */
-    SliderFloat(float p_min = 0.0f,
-                float p_max = 1.0f,
-                float p_value = 0.5f,
-                SliderOrientation p_orientation = SliderOrientation::HORIZONTAL,
-                const std::string &p_label = "",
-                const std::string &p_format = "%.3f");
+    explicit SliderFloat(float p_min = 0.0f,
+                         float p_max = 1.0f,
+                         float p_value = 0.5f,
+                         SliderOrientation p_orientation = SliderOrientation::HORIZONTAL,
+                         const std::string &p_label = "",
+                         const std::string &p_format = "%.3f");
 };
 
-
 }
-}
-#endif /* slider_float_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_FLOAT_H_ */

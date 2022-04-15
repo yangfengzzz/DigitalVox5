@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef radio_button_linker_hpp
-#define radio_button_linker_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_RADIO_BUTTON_LINKER_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_RADIO_BUTTON_LINKER_H_
 
 #include "radio_button.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Handle the link of radio buttons. Necessary to enable the correct behaviour
  * of radio buttons
@@ -25,33 +24,32 @@ public:
     /**
      * Link the given radio button
      */
-    void link(RadioButton &p_radioButton);
+    void link(RadioButton &p_radio_button);
     
     /**
      * Unlink the given radio button
      */
-    void unlink(RadioButton &p_radioButton);
+    void unlink(RadioButton &p_radio_button);
     
     /**
      * Returns the id of the selected radio button
      */
-    int selected() const;
+    [[nodiscard]] int selected() const;
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 private:
-    void onRadioButtonClicked(int p_radioID);
+    void on_radio_button_clicked(int p_radio_id);
     
 public:
-    Event<int> valueChangedEvent;
+    Event<int> value_changed_event_;
     
 private:
-    int _availableRadioID = 0;
-    int _selected = -1;
-    std::vector<std::pair<ListenerID, std::reference_wrapper<RadioButton>>> _radioButtons;
+    int available_radio_id_ = 0;
+    int selected_ = -1;
+    std::vector<std::pair<ListenerID, std::reference_wrapper<RadioButton>>> radio_buttons_;
 };
 
 }
-}
-#endif /* radio_button_linker_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_RADIO_BUTTON_LINKER_H_ */

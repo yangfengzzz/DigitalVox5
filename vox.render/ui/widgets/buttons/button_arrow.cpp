@@ -6,16 +6,14 @@
 
 #include "button_arrow.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 ButtonArrow::ButtonArrow(ImGuiDir p_direction) :
-direction(p_direction) {
+direction_(p_direction) {
 }
 
-void ButtonArrow::_draw_Impl() {
-    if (ImGui::ArrowButton(_widgetID.c_str(), direction))
-        clickedEvent.invoke();
+void ButtonArrow::draw_impl() {
+    if (ImGui::ArrowButton(widget_id_.c_str(), direction_))
+        clicked_event_.invoke();
 }
 
-}
 }

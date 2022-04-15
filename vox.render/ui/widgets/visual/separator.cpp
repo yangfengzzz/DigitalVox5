@@ -6,12 +6,9 @@
 
 #include "separator.h"
 
-namespace vox {
-namespace ui {
-void Separator::_draw_Impl() {
+namespace vox::ui {
+void Separator::draw_impl() {
     ImGui::Separator();
 }
 
-
-}
 }

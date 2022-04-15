@@ -4,11 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef panel_window_settings_h
-#define panel_window_settings_h
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_WINDOW_SETTINGS_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_WINDOW_SETTINGS_H_
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Data structure to send to the panel window constructor to define its settings
  */
@@ -18,18 +17,16 @@ struct PanelWindowSettings {
     bool movable = true;
     bool dockable = false;
     bool scrollable = true;
-    bool hideBackground = false;
-    bool forceHorizontalScrollbar = false;
-    bool forceVerticalScrollbar = false;
-    bool allowHorizontalScrollbar = false;
-    bool bringToFrontOnFocus = true;
+    bool hide_background = false;
+    bool force_horizontal_scrollbar = false;
+    bool force_vertical_scrollbar = false;
+    bool allow_horizontal_scrollbar = false;
+    bool bring_to_front_on_focus = true;
     bool collapsable = false;
-    bool allowInputs = true;
-    bool titleBar = true;
-    bool autoSize = false;
+    bool allow_inputs = true;
+    bool title_bar = true;
+    bool auto_size = false;
 };
 
-
 }
-}
-#endif /* panel_window_settings_h */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_WINDOW_SETTINGS_H_ */

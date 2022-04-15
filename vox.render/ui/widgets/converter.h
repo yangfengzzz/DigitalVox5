@@ -4,16 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef converter_hpp
-#define converter_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_CONVERTER_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_CONVERTER_H_
 
 #include <imgui.h>
 #include "vector2.h"
 #include "vector4.h"
 #include "color.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Handles imgui conversion to/from arche types
  */
@@ -22,25 +21,23 @@ public:
     /**
      * Convert the given Color to ImVec4
      */
-    static ImVec4 ToImVec4(const Color &p_value);
+    static ImVec4 to_imVec4(const Color &p_value);
     
     /**
      * Convert the given ImVec4 to Color
      */
-    static Color ToColor(const ImVec4 &p_value);
+    static Color to_color(const ImVec4 &p_value);
     
     /**
      * Convert the given FVector2 to ImVec2
      */
-    static ImVec2 ToImVec2(const Vector2F &p_value);
+    static ImVec2 to_imVec2(const Vector2F &p_value);
     
     /**
      * Convert the given ImVec2 to FVector2
      */
-    static Vector2F ToVector2F(const ImVec2 &p_value);
+    static Vector2F to_vector2F(const ImVec2 &p_value);
 };
 
-
 }
-}
-#endif /* converter_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_CONVERTER_H_ */

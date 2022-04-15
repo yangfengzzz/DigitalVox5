@@ -4,14 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef input_text_hpp
-#define input_text_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_INPUT_FIELDS_INPUT_TEXT_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_INPUT_FIELDS_INPUT_TEXT_H_
 
 #include "ui/widgets/data_widget.h"
 #include "event.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Input widget of type string
  */
@@ -22,19 +21,18 @@ public:
      * @param p_content p_content
      * @param p_label p_label
      */
-    InputText(const std::string &p_content = "", const std::string &p_label = "");
+    explicit InputText(std::string p_content = "", std::string p_label = "");
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    std::string content;
-    std::string label;
-    bool selectAllOnClick = false;
-    Event<std::string> contentChangedEvent;
-    Event<std::string> enterPressedEvent;
+    std::string content_;
+    std::string label_;
+    bool select_all_on_click_ = false;
+    Event<std::string> content_changed_event_;
+    Event<std::string> enter_pressed_event_;
 };
 
 }
-}
-#endif /* input_text_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_INPUT_FIELDS_INPUT_TEXT_H_ */

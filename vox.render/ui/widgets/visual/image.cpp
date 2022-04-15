@@ -7,21 +7,19 @@
 #include "image.h"
 #include "ui/widgets/converter.h"
 
-namespace vox {
-namespace ui {
-Image::Image(VkDescriptorSet p_textureID, const Vector2F &p_size) :
-textureID{p_textureID}, size(p_size) {
+namespace vox::ui {
+Image::Image(VkDescriptorSet p_texture_id, const Vector2F &p_size) :
+texture_id_{p_texture_id}, size_(p_size) {
     
 }
 
-void Image::setTextureView(VkDescriptorSet p_textureID) {
-    textureID = p_textureID;
+void Image::set_texture_view(VkDescriptorSet p_texture_id) {
+    texture_id_ = p_texture_id;
 }
 
-void Image::_draw_Impl() {
-    ImGui::Image(textureID, Converter::ToImVec2(size),
+void Image::draw_impl() {
+    ImGui::Image(texture_id_, Converter::to_imVec2(size_),
                  ImVec2(0.f, 0.f), ImVec2(1.f, 1.f));
 }
 
-}
 }

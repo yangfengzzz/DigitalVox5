@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef text_wrapped_hpp
-#define text_wrapped_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_WRAPPED_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_WRAPPED_H_
 
 #include "text.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Simple widget to display a long text with word-wrap on a panel
  */
@@ -20,13 +19,11 @@ public:
      * Constructor
      * @param p_content p_content
      */
-    TextWrapped(const std::string &p_content = "");
+    explicit TextWrapped(const std::string &p_content = "");
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
 };
 
-
 }
-}
-#endif /* text_wrapped_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_WRAPPED_H_ */

@@ -4,14 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef menu_item_hpp
-#define menu_item_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_MENU_MENU_ITEM_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_MENU_MENU_ITEM_H_
 
 #include "ui/widgets/data_widget.h"
 #include "event.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Widget that can be added to a menu list. It is clickable and can be checkable
  */
@@ -24,25 +23,23 @@ public:
      * @param p_checkable p_checkable
      * @param p_checked p_checked
      */
-    MenuItem(const std::string &p_name, const std::string &p_shortcut = "",
-             bool p_checkable = false, bool p_checked = false);
+    explicit MenuItem(std::string p_name, std::string p_shortcut = "",
+                      bool p_checkable = false, bool p_checked = false);
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    std::string name;
-    std::string shortcut;
-    bool checkable;
-    bool checked;
-    Event<> clickedEvent;
-    Event<bool> valueChangedEvent;
+    std::string name_;
+    std::string shortcut_;
+    bool checkable_;
+    bool checked_;
+    Event<> clicked_event_;
+    Event<bool> value_changed_event_;
     
 private:
-    bool m_selected;
+    bool selected_{};
 };
 
-
 }
-}
-#endif /* menu_item_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_MENU_MENU_ITEM_H_ */

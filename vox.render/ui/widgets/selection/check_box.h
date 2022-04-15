@@ -4,14 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef check_box_hpp
-#define check_box_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_CHECK_BOX_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_CHECK_BOX_H_
 
 #include "ui/widgets/data_widget.h"
 #include "event.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Checkbox widget that can be checked or not
  */
@@ -22,18 +21,16 @@ public:
      * @param p_value p_value
      * @param p_label p_label
      */
-    CheckBox(bool p_value = false, const std::string &p_label = "");
+    explicit CheckBox(bool p_value = false, std::string p_label = "");
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    bool value;
-    std::string label;
-    Event<bool> valueChangedEvent;
+    bool value_;
+    std::string label_;
+    Event<bool> value_changed_event_;
 };
 
-
 }
-}
-#endif /* check_box_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_CHECK_BOX_H_ */

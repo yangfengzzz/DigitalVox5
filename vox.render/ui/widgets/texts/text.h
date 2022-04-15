@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef text_hpp
-#define text_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_H_
 
 #include "ui/widgets/data_widget.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Simple widget to display text on a panel
  */
@@ -20,15 +19,14 @@ public:
      * Constructor
      * @param p_content p_content
      */
-    Text(const std::string &p_content = "");
+    explicit Text(std::string p_content = "");
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    std::string content;
+    std::string content_;
 };
 
 }
-}
-#endif /* text_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_H_ */

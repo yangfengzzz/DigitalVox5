@@ -6,50 +6,47 @@
 
 #include "widget.h"
 
-namespace vox {
-namespace ui {
-uint64_t Widget::__WIDGET_ID_INCREMENT = 0;
+namespace vox::ui {
+uint64_t Widget::widget_id_increment_ = 0;
 
 Widget::Widget() {
-    _widgetID = "##" + std::to_string(__WIDGET_ID_INCREMENT++);
+    widget_id_ = "##" + std::to_string(widget_id_increment_++);
 }
 
-void Widget::linkTo(const Widget &p_widget) {
-    _widgetID = p_widget._widgetID;
+void Widget::link_to(const Widget &p_widget) {
+    widget_id_ = p_widget.widget_id_;
 }
 
 void Widget::destroy() {
-    _destroyed = true;
+    destroyed_ = true;
 }
 
-bool Widget::isDestroyed() const {
-    return _destroyed;
+bool Widget::is_destroyed() const {
+    return destroyed_;
 }
 
-void Widget::setParent(WidgetContainer *p_parent) {
-    _parent = p_parent;
+void Widget::set_parent(WidgetContainer *p_parent) {
+    parent_ = p_parent;
 }
 
-bool Widget::hasParent() const {
-    return _parent != nullptr;
+bool Widget::has_parent() const {
+    return parent_ != nullptr;
 }
 
 WidgetContainer *Widget::parent() {
-    return _parent;
+    return parent_;
 }
 
 void Widget::draw() {
-    if (enabled) {
-        _draw_Impl();
+    if (enabled_) {
+        draw_impl();
         
-        if (_autoExecutePlugins)
-            executePlugins();
+        if (auto_execute_plugins_)
+            execute_plugins();
         
-        if (!lineBreak)
+        if (!line_break_)
             ImGui::SameLine();
     }
 }
 
-
-}
 }

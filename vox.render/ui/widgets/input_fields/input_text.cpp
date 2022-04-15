@@ -6,28 +6,28 @@
 
 #include "input_text.h"
 
-namespace vox {
-namespace ui {
-InputText::InputText(const std::string &p_content, const std::string &p_label) :
-DataWidget<std::string>(content), content(p_content), label(p_label) {
+#include <utility>
+
+namespace vox::ui {
+InputText::InputText(std::string p_content, std::string p_label) :
+DataWidget<std::string>(content_), content_(std::move(p_content)), label_(std::move(p_label)) {
 }
 
-void InputText::_draw_Impl() {
-    std::string previousContent = content;
+void InputText::draw_impl() {
+    std::string previous_content = content_;
     
-    content.resize(256, '\0');
-    bool enterPressed = ImGui::InputText((label + _widgetID).c_str(), &content[0], 256,
-                                         ImGuiInputTextFlags_EnterReturnsTrue | (selectAllOnClick ? ImGuiInputTextFlags_AutoSelectAll : 0));
-    content = content.c_str();
+    content_.resize(256, '\0');
+    bool enter_pressed = ImGui::InputText((label_ + widget_id_).c_str(), &content_[0], 256,
+                                          ImGuiInputTextFlags_EnterReturnsTrue
+                                          | (select_all_on_click_ ? ImGuiInputTextFlags_AutoSelectAll : 0));
     
-    if (content != previousContent) {
-        contentChangedEvent.invoke(content);
-        notifyChange();
+    if (content_ != previous_content) {
+        content_changed_event_.invoke(content_);
+        notify_change();
     }
     
-    if (enterPressed)
-        enterPressedEvent.invoke(content);
+    if (enter_pressed)
+        enter_pressed_event_.invoke(content_);
 }
 
-}
 }

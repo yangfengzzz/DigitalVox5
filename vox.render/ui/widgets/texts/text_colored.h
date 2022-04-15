@@ -4,14 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef text_colored_hpp
-#define text_colored_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_COLORED_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_COLORED_H_
 
 #include "text.h"
 #include "color.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Widget to display text on a panel that can be colored
  */
@@ -22,17 +21,15 @@ public:
      * @param p_content p_content
      * @param p_color p_color
      */
-    TextColored(const std::string &p_content = "",
-                const Color &p_color = Color(1.0f, 1.0f, 1.0f, 1.0f));
+    explicit TextColored(const std::string &p_content = "",
+                         const Color &p_color = Color(1.0f, 1.0f, 1.0f, 1.0f));
     
 public:
-    Color color;
+    Color color_;
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
 };
 
-
 }
-}
-#endif /* text_colored_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_COLORED_H_ */

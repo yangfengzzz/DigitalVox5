@@ -7,77 +7,76 @@
 #include "widget_container.h"
 #include <algorithm>
 
-namespace vox {
-namespace ui {
-void WidgetContainer::removeWidget(Widget &p_widget) {
-    auto found = std::find_if(_widgets.begin(), _widgets.end(), [&p_widget](std::pair<Widget *, MemoryMode> &p_pair) {
+namespace vox::ui {
+void WidgetContainer::remove_widget(Widget &p_widget) {
+    auto found = std::find_if(widgets_.begin(), widgets_.end(), [&p_widget](std::pair<Widget *, MemoryMode> &p_pair) {
         return p_pair.first == &p_widget;
     });
     
-    if (found != _widgets.end()) {
+    if (found != widgets_.end()) {
         if (found->second == MemoryMode::INTERNAL_MANAGEMENT)
             delete found->first;
         
-        _widgets.erase(found);
+        widgets_.erase(found);
     }
 }
 
-void WidgetContainer::removeAllWidgets() {
-    std::for_each(_widgets.begin(), _widgets.end(), [](auto &pair) {
+void WidgetContainer::remove_all_widgets() {
+    std::for_each(widgets_.begin(), widgets_.end(), [](auto &pair) {
         if (pair.second == MemoryMode::INTERNAL_MANAGEMENT)
             delete pair.first;
     });
     
-    _widgets.clear();
+    widgets_.clear();
 }
 
-void WidgetContainer::considerWidget(Widget &p_widget, bool p_manageMemory) {
-    _widgets.emplace_back(std::make_pair(&p_widget, p_manageMemory ? MemoryMode::INTERNAL_MANAGEMENT : MemoryMode::EXTERNAL_MANAGEMENT));
-    p_widget.setParent(this);
+void WidgetContainer::consider_widget(Widget &p_widget, bool p_manage_memory) {
+    widgets_.emplace_back(std::make_pair(&p_widget,
+                                         p_manage_memory ? MemoryMode::INTERNAL_MANAGEMENT :
+                                         MemoryMode::EXTERNAL_MANAGEMENT));
+    p_widget.set_parent(this);
 }
 
-void WidgetContainer::unconsiderWidget(Widget &p_widget) {
-    auto found = std::find_if(_widgets.begin(), _widgets.end(), [&p_widget](std::pair<Widget *, MemoryMode> &p_pair) {
+void WidgetContainer::unconsider_widget(Widget &p_widget) {
+    auto found = std::find_if(widgets_.begin(), widgets_.end(), [&p_widget](std::pair<Widget *, MemoryMode> &p_pair) {
         return p_pair.first == &p_widget;
     });
     
-    if (found != _widgets.end()) {
-        p_widget.setParent(nullptr);
-        _widgets.erase(found);
+    if (found != widgets_.end()) {
+        p_widget.set_parent(nullptr);
+        widgets_.erase(found);
     }
 }
 
-void WidgetContainer::collectGarbages() {
-    _widgets.erase(std::remove_if(_widgets.begin(), _widgets.end(), [](std::pair<Widget *, MemoryMode> &p_item) {
-        bool toDestroy = p_item.first && p_item.first->isDestroyed();
+void WidgetContainer::collect_garbages() {
+    widgets_.erase(std::remove_if(widgets_.begin(), widgets_.end(), [](std::pair<Widget *, MemoryMode> &p_item) {
+        bool to_destroy = p_item.first && p_item.first->is_destroyed();
         
-        if (toDestroy && p_item.second == MemoryMode::INTERNAL_MANAGEMENT)
+        if (to_destroy && p_item.second == MemoryMode::INTERNAL_MANAGEMENT)
             delete p_item.first;
         
-        return toDestroy;
-    }), _widgets.end());
+        return to_destroy;
+    }), widgets_.end());
 }
 
-void WidgetContainer::drawWidgets() {
-    collectGarbages();
+void WidgetContainer::draw_widgets() {
+    collect_garbages();
     
-    if (_reversedDrawOrder) {
-        for (auto it = _widgets.crbegin(); it != _widgets.crend(); ++it)
+    if (reversed_draw_order_) {
+        for (auto it = widgets_.crbegin(); it != widgets_.crend(); ++it)
             it->first->draw();
     } else {
-        for (const auto &widget: _widgets)
+        for (const auto &widget : widgets_)
             widget.first->draw();
     }
 }
 
-void WidgetContainer::reverseDrawOrder(const bool reversed) {
-    _reversedDrawOrder = reversed;
+void WidgetContainer::reverse_draw_order(const bool reversed) {
+    reversed_draw_order_ = reversed;
 }
 
 std::vector<std::pair<Widget *, MemoryMode>> &WidgetContainer::widgets() {
-    return _widgets;
+    return widgets_;
 }
 
-
-}
 }

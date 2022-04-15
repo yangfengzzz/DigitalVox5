@@ -6,11 +6,9 @@
 
 #include "bullet.h"
 
-namespace vox {
-namespace ui {
-void Bullet::_draw_Impl() {
+namespace vox::ui {
+void Bullet::draw_impl() {
     ImGui::Bullet();
 }
 
-}
 }

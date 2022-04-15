@@ -4,51 +4,50 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef columns_hpp
-#define columns_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_COLUMNS_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_COLUMNS_H_
 
 #include <array>
 
 #include "ui/widgets/widget_container.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Widget that allow columnification
  */
-template<size_t _Size>
+template<size_t Size>
 class Columns : public Widget, public WidgetContainer {
 public:
     /**
      * Constructor
      */
     Columns() {
-        widths.fill(-1.f);
+        widths_.fill(-1.f);
     }
     
 protected:
-    virtual void _draw_Impl() override {
-        ImGui::Columns(static_cast<int>(_Size), ("##" + _widgetID).c_str(), false);
+    void draw_impl() override {
+        ImGui::Columns(static_cast<int>(Size), ("##" + widget_id_).c_str(), false);
         
         int counter = 0;
         
-        collectGarbages();
+        collect_garbages();
         
-        for (auto it = _widgets.begin(); it != _widgets.end();) {
+        for (auto it = widgets_.begin(); it != widgets_.end();) {
             it->first->draw();
             
             ++it;
             
-            if (it != _widgets.end()) {
-                if (widths[counter] != -1.f)
-                    ImGui::SetColumnWidth(counter, widths[counter]);
+            if (it != widgets_.end()) {
+                if (widths_[counter] != -1.f)
+                    ImGui::SetColumnWidth(counter, widths_[counter]);
                 
                 ImGui::NextColumn();
             }
             
             ++counter;
             
-            if (counter == _Size)
+            if (counter == Size)
                 counter = 0;
         }
         
@@ -56,9 +55,8 @@ protected:
     }
     
 public:
-    std::array<float, _Size> widths;
+    std::array<float, Size> widths_;
 };
 
 }
-}
-#endif /* columns_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_COLUMNS_H_ */

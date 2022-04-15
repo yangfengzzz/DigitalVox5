@@ -6,24 +6,21 @@
 
 #include "text_selectable.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 TextSelectable::TextSelectable(const std::string &p_content, bool p_selected, bool p_disabled) :
-Text(p_content), selected(p_selected), disabled(p_disabled) {
+Text(p_content), selected_(p_selected), disabled_(p_disabled) {
 }
 
-void TextSelectable::_draw_Impl() {
-    if (ImGui::Selectable((content + _widgetID).c_str(), &selected,
-                          disabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None)) {
-        clickedEvent.invoke(selected);
+void TextSelectable::draw_impl() {
+    if (ImGui::Selectable((content_ + widget_id_).c_str(), &selected_,
+                          disabled_ ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None)) {
+        clicked_event_.invoke(selected_);
         
-        if (selected)
-            selectedEvent.invoke();
+        if (selected_)
+            selected_event_.invoke();
         else
-            unselectedEvent.invoke();
+            unselected_event_.invoke();
     }
 }
 
-
-}
 }

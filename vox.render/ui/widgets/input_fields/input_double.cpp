@@ -6,15 +6,13 @@
 
 #include "input_double.h"
 
-namespace vox {
-namespace ui {
-InputDouble::InputDouble(double p_defaultValue, double p_step, double p_fastStep,
+namespace vox::ui {
+InputDouble::InputDouble(double p_default_value, double p_step, double p_fast_step,
                          const std::string &p_label, const std::string &p_format,
-                         bool p_selectAllOnClick) :
+                         bool p_select_all_on_click) :
 InputSingleScalar<double>(ImGuiDataType_::ImGuiDataType_Double,
-                          p_defaultValue, p_step, p_fastStep,
-                          p_label, p_format, p_selectAllOnClick) {
+                          p_default_value, p_step, p_fast_step,
+                          p_label, p_format, p_select_all_on_click) {
 }
 
-}
 }

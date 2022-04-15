@@ -4,15 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef ui_image_hpp
-#define ui_image_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_VISUAL_IMAGE_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_VISUAL_IMAGE_H_
 
 #include "ui/widgets/widget.h"
 #include "vector2.h"
 #include <volk.h>
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Simple widget that display an image
  */
@@ -20,21 +19,20 @@ class Image : public Widget {
 public:
     /**
      * Constructor
-     * @param p_textureID p_textureID
+     * @param p_texture_id p_textureID
      * @parma p_size p_size
      */
-    Image(VkDescriptorSet p_textureID, const Vector2F &p_size);
+    Image(VkDescriptorSet p_texture_id, const Vector2F &p_size);
     
-    void setTextureView(VkDescriptorSet p_textureID);
+    void set_texture_view(VkDescriptorSet p_texture_id);
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    VkDescriptorSet textureID;
-    Vector2F size;
+    VkDescriptorSet texture_id_;
+    Vector2F size_;
 };
 
 }
-}
-#endif /* ui_image_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_VISUAL_IMAGE_H_ */

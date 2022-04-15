@@ -6,76 +6,76 @@
 
 #include "tree_node.h"
 
-namespace vox {
-namespace ui {
-TreeNode::TreeNode(const std::string &p_name, bool p_arrowClickToOpen) :
-DataWidget(name),
-name(p_name),
-_arrowClickToOpen(p_arrowClickToOpen) {
-    _autoExecutePlugins = false;
+#include <utility>
+
+namespace vox::ui {
+TreeNode::TreeNode(std::string p_name, bool p_arrow_click_to_open) :
+DataWidget(name_),
+name_(std::move(p_name)),
+arrow_click_to_open_(p_arrow_click_to_open) {
+    auto_execute_plugins_ = false;
 }
 
 void TreeNode::open() {
-    _shouldOpen = true;
-    _shouldClose = false;
+    should_open_ = true;
+    should_close_ = false;
 }
 
 void TreeNode::close() {
-    _shouldClose = true;
-    _shouldOpen = false;
+    should_close_ = true;
+    should_open_ = false;
 }
 
-bool TreeNode::isOpened() const {
-    return _opened;
+bool TreeNode::is_opened() const {
+    return opened_;
 }
 
-void TreeNode::_draw_Impl() {
-    bool prevOpened = _opened;
+void TreeNode::draw_impl() {
+    bool prev_opened = opened_;
     
-    if (_shouldOpen) {
+    if (should_open_) {
         ImGui::SetNextItemOpen(true);
-        _shouldOpen = false;
-    } else if (_shouldClose) {
+        should_open_ = false;
+    } else if (should_close_) {
         ImGui::SetNextItemOpen(false);
-        _shouldClose = false;
+        should_close_ = false;
     }
     
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_None;
-    if (_arrowClickToOpen) flags |= ImGuiTreeNodeFlags_OpenOnArrow;
-    if (selected) flags |= ImGuiTreeNodeFlags_Selected;
-    if (leaf) flags |= ImGuiTreeNodeFlags_Leaf;
+    if (arrow_click_to_open_) flags |= ImGuiTreeNodeFlags_OpenOnArrow;
+    if (selected_) flags |= ImGuiTreeNodeFlags_Selected;
+    if (leaf_) flags |= ImGuiTreeNodeFlags_Leaf;
     
-    bool opened = ImGui::TreeNodeEx((name + _widgetID).c_str(), flags);
+    bool opened = ImGui::TreeNodeEx((name_ + widget_id_).c_str(), flags);
     
-    if (ImGui::IsItemClicked() && (ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) > ImGui::GetTreeNodeToLabelSpacing()) {
-        clickedEvent.invoke();
+    if (ImGui::IsItemClicked()
+        && (ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) > ImGui::GetTreeNodeToLabelSpacing()) {
+        clicked_event_.invoke();
         
         if (ImGui::IsMouseDoubleClicked(0)) {
-            doubleClickedEvent.invoke();
+            double_clicked_event_.invoke();
         }
     }
     
     if (opened) {
-        if (!prevOpened)
-            openedEvent.invoke();
+        if (!prev_opened)
+            opened_event_.invoke();
         
-        _opened = true;
+        opened_ = true;
         
-        executePlugins(); // Manually execute plugins to make plugins considering the TreeNode and no childs
+        execute_plugins(); // Manually execute plugins to make plugins considering the TreeNode and no childs
         
-        drawWidgets();
+        draw_widgets();
         
         ImGui::TreePop();
     } else {
-        if (prevOpened)
-            closedEvent.invoke();
+        if (prev_opened)
+            closed_event_.invoke();
         
-        _opened = false;
+        opened_ = false;
         
-        executePlugins(); // Manually execute plugins to make plugins considering the TreeNode and no childs
+        execute_plugins(); // Manually execute plugins to make plugins considering the TreeNode and no childs
     }
 }
 
-
-}
 }

@@ -4,8 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef slider_single_scalar_h
-#define slider_single_scalar_h
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_SINGLE_SCALAR_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_SINGLE_SCALAR_H_
+
+#include <utility>
 
 #include "vector2.h"
 #include "event.h"
@@ -13,8 +15,7 @@
 #include "ui/widgets/data_widget.h"
 #include "ui/widgets/converter.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Defines the slider orientation
  */
@@ -33,7 +34,7 @@ class SliderSingleScalar : public DataWidget<T> {
 public:
     /**
      * Constructor
-     * @param p_dataType p_dataType
+     * @param p_data_type p_dataType
      * @param p_min p_min
      * @param p_max p_max
      * @param p_value p_value
@@ -41,63 +42,61 @@ public:
      * @param p_label p_label
      * @param p_format p_format
      */
-    SliderSingleScalar(ImGuiDataType p_dataType,
+    SliderSingleScalar(ImGuiDataType p_data_type,
                        T p_min,
                        T p_max,
                        T p_value,
                        SliderOrientation p_orientation,
-                       const std::string &p_label,
-                       const std::string &p_format) :
-    DataWidget<T>(value), _dataType(p_dataType), min(p_min), max(p_max),
-    value(p_value), orientation(p_orientation), label(p_label), format(p_format) {
+                       std::string p_label,
+                       std::string p_format) :
+    DataWidget<T>(value_), data_type_(p_data_type), min_(p_min), max_(p_max),
+    value_(p_value), orientation_(p_orientation), label_(std::move(p_label)), format_(std::move(p_format)) {
     }
     
 protected:
-    void _draw_Impl() override {
-        if (max < min)
-            max = min;
+    void draw_impl() override {
+        if (max_ < min_)
+            max_ = min_;
         
-        if (value < min)
-            value = min;
-        else if (value > max)
-            value = max;
+        if (value_ < min_)
+            value_ = min_;
+        else if (value_ > max_)
+            value_ = max_;
         
-        bool valueChanged = false;
+        bool value_changed = false;
         
-        switch (orientation) {
+        switch (orientation_) {
             case SliderOrientation::HORIZONTAL:
-                valueChanged = ImGui::SliderScalar((label + DataWidget<T>::_widgetID).c_str(),
-                                                   _dataType, &value, &min, &max, format.c_str());
+                value_changed = ImGui::SliderScalar((label_ + DataWidget<T>::widget_id_).c_str(),
+                                                    data_type_, &value_, &min_, &max_, format_.c_str());
                 break;
             case SliderOrientation::VERTICAL:
-                valueChanged = ImGui::VSliderScalar((label + DataWidget<T>::_widgetID).c_str(),
-                                                    Converter::ToImVec2(verticalModeSize),
-                                                    _dataType, &value, &min, &max, format.c_str());
+                value_changed = ImGui::VSliderScalar((label_ + DataWidget<T>::widget_id_).c_str(),
+                                                     Converter::to_imVec2(vertical_mode_size_),
+                                                     data_type_, &value_, &min_, &max_, format_.c_str());
                 break;
         }
         
-        if (valueChanged) {
-            valueChangedEvent.invoke(value);
-            DataWidget<T>::notifyChange();
+        if (value_changed) {
+            value_changed_event_.invoke(value_);
+            DataWidget<T>::notify_change();
         }
     }
     
 public:
-    T min;
-    T max;
-    T value;
-    SliderOrientation orientation;
-    Vector2F verticalModeSize; /* Only applied with SliderOrientation::VERTICAL */
-    std::string label;
-    std::string format;
-    Event<T> valueChangedEvent;
+    T min_;
+    T max_;
+    T value_;
+    SliderOrientation orientation_;
+    Vector2F vertical_mode_size_; /* Only applied with SliderOrientation::VERTICAL */
+    std::string label_;
+    std::string format_;
+    Event<T> value_changed_event_;
     
 private:
-    ImGuiDataType _dataType;
+    ImGuiDataType data_type_;
 };
 
-
-}
 }
 
-#endif /* slider_single_scalar_h */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_SINGLE_SCALAR_H_ */

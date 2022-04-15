@@ -6,11 +6,10 @@
 
 #include "contextual_menu.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 void ContextualMenu::execute() {
     if (ImGui::BeginPopupContextItem()) {
-        drawWidgets();
+        draw_widgets();
         ImGui::EndPopup();
     }
 }
@@ -19,6 +18,4 @@ void ContextualMenu::close() {
     ImGui::CloseCurrentPopup();
 }
 
-
-}
 }

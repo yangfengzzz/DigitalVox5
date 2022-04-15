@@ -6,16 +6,16 @@
 
 #include "text.h"
 
-namespace vox {
-namespace ui {
-Text::Text(const std::string &p_content) :
-DataWidget(content),
-content(p_content) {
+#include <utility>
+
+namespace vox::ui {
+Text::Text(std::string p_content) :
+DataWidget(content_),
+content_(std::move(p_content)) {
 }
 
-void Text::_draw_Impl() {
-    ImGui::Text(content.c_str());
+void Text::draw_impl() {
+    ImGui::Text("%s", content_.c_str());
 }
 
-}
 }

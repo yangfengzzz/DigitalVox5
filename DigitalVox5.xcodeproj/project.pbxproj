@@ -1206,14 +1206,14 @@
 				0444EBDB28084BDE00C6F279 /* button.h */,
 				0444EBDA28084BDE00C6F279 /* button_arrow.cpp */,
 				0444EBD428084BDD00C6F279 /* button_arrow.h */,
-				0444EBD528084BDD00C6F279 /* button_colored.cpp */,
 				0444EBD728084BDE00C6F279 /* button_colored.h */,
-				0444EBDC28084BDE00C6F279 /* button_image.cpp */,
+				0444EBD528084BDD00C6F279 /* button_colored.cpp */,
 				0444EBD628084BDD00C6F279 /* button_image.h */,
+				0444EBDC28084BDE00C6F279 /* button_image.cpp */,
 				0444EBDD28084BDE00C6F279 /* button_simple.cpp */,
 				0444EBD828084BDE00C6F279 /* button_simple.h */,
-				0444EBD928084BDE00C6F279 /* button_small.cpp */,
 				0444EBDE28084BDE00C6F279 /* button_small.h */,
+				0444EBD928084BDE00C6F279 /* button_small.cpp */,
 			);
 			path = buttons;
 			sourceTree = "<group>";
@@ -1221,17 +1221,17 @@
 		0444EACD28084AB800C6F279 /* drags */ = {
 			isa = PBXGroup;
 			children = (
-				0444EBBF28084BD600C6F279 /* drag_double.cpp */,
-				0444EBC528084BD600C6F279 /* drag_double.h */,
-				0444EBC328084BD600C6F279 /* drag_float.cpp */,
-				0444EBC628084BD600C6F279 /* drag_float.h */,
-				0444EBC228084BD600C6F279 /* drag_int.cpp */,
-				0444EBC728084BD600C6F279 /* drag_int.h */,
-				0444EBC128084BD600C6F279 /* drag_multiple_doubles.h */,
-				0444EBC428084BD600C6F279 /* drag_multiple_floats.h */,
-				0444EBC828084BD600C6F279 /* drag_multiple_ints.h */,
-				0444EBC028084BD600C6F279 /* drag_multiple_scalars.h */,
 				0444EBBE28084BD600C6F279 /* drag_single_scalar.h */,
+				0444EBC728084BD600C6F279 /* drag_int.h */,
+				0444EBC228084BD600C6F279 /* drag_int.cpp */,
+				0444EBC628084BD600C6F279 /* drag_float.h */,
+				0444EBC328084BD600C6F279 /* drag_float.cpp */,
+				0444EBC528084BD600C6F279 /* drag_double.h */,
+				0444EBBF28084BD600C6F279 /* drag_double.cpp */,
+				0444EBC028084BD600C6F279 /* drag_multiple_scalars.h */,
+				0444EBC828084BD600C6F279 /* drag_multiple_ints.h */,
+				0444EBC428084BD600C6F279 /* drag_multiple_floats.h */,
+				0444EBC128084BD600C6F279 /* drag_multiple_doubles.h */,
 			);
 			path = drags;
 			sourceTree = "<group>";
@@ -1239,19 +1239,19 @@
 		0444EACE28084AC100C6F279 /* input_fields */ = {
 			isa = PBXGroup;
 			children = (
-				0444EBA828084BCE00C6F279 /* input_double.cpp */,
-				0444EBB028084BCE00C6F279 /* input_double.h */,
-				0444EBAD28084BCE00C6F279 /* input_float.cpp */,
-				0444EBAA28084BCE00C6F279 /* input_float.h */,
-				0444EBA428084BCD00C6F279 /* input_int.cpp */,
-				0444EBA928084BCE00C6F279 /* input_int.h */,
-				0444EBAB28084BCE00C6F279 /* input_multiple_doubles.h */,
-				0444EBA728084BCE00C6F279 /* input_multiple_floats.h */,
-				0444EBA528084BCD00C6F279 /* input_multiple_ints.h */,
-				0444EBA628084BCE00C6F279 /* input_multiple_scalars.h */,
 				0444EBAE28084BCE00C6F279 /* input_single_scalar.h */,
-				0444EBAC28084BCE00C6F279 /* input_text.cpp */,
+				0444EBA928084BCE00C6F279 /* input_int.h */,
+				0444EBA428084BCD00C6F279 /* input_int.cpp */,
+				0444EBAA28084BCE00C6F279 /* input_float.h */,
+				0444EBAD28084BCE00C6F279 /* input_float.cpp */,
+				0444EBB028084BCE00C6F279 /* input_double.h */,
+				0444EBA828084BCE00C6F279 /* input_double.cpp */,
+				0444EBA628084BCE00C6F279 /* input_multiple_scalars.h */,
+				0444EBA528084BCD00C6F279 /* input_multiple_ints.h */,
+				0444EBA728084BCE00C6F279 /* input_multiple_floats.h */,
+				0444EBAB28084BCE00C6F279 /* input_multiple_doubles.h */,
 				0444EBAF28084BCE00C6F279 /* input_text.h */,
+				0444EBAC28084BCE00C6F279 /* input_text.cpp */,
 			);
 			path = input_fields;
 			sourceTree = "<group>";
@@ -1260,18 +1260,18 @@
 			isa = PBXGroup;
 			children = (
 				0444EB9428084BC500C6F279 /* columns.h */,
-				0444EB9028084BC400C6F279 /* dummy.cpp */,
 				0444EB9128084BC400C6F279 /* dummy.h */,
-				0444EB9228084BC400C6F279 /* group_collapsable.cpp */,
-				0444EB9628084BC500C6F279 /* group_collapsable.h */,
-				0444EB9328084BC500C6F279 /* group.cpp */,
+				0444EB9028084BC400C6F279 /* dummy.cpp */,
 				0444EB8A28084BC400C6F279 /* group.h */,
-				0444EB8E28084BC400C6F279 /* new_line.cpp */,
+				0444EB9328084BC500C6F279 /* group.cpp */,
+				0444EB9628084BC500C6F279 /* group_collapsable.h */,
+				0444EB9228084BC400C6F279 /* group_collapsable.cpp */,
 				0444EB9528084BC500C6F279 /* new_line.h */,
-				0444EB8D28084BC400C6F279 /* spacing.cpp */,
+				0444EB8E28084BC400C6F279 /* new_line.cpp */,
 				0444EB8F28084BC400C6F279 /* spacing.h */,
-				0444EB8B28084BC400C6F279 /* tree_node.cpp */,
+				0444EB8D28084BC400C6F279 /* spacing.cpp */,
 				0444EB8C28084BC400C6F279 /* tree_node.h */,
+				0444EB8B28084BC400C6F279 /* tree_node.cpp */,
 			);
 			path = layout;
 			sourceTree = "<group>";
@@ -1279,10 +1279,10 @@
 		0444EAD028084AD300C6F279 /* menu */ = {
 			isa = PBXGroup;
 			children = (
-				0444EB8228084BBD00C6F279 /* menu_item.cpp */,
-				0444EB8428084BBD00C6F279 /* menu_item.h */,
-				0444EB8528084BBD00C6F279 /* menu_list.cpp */,
 				0444EB8328084BBD00C6F279 /* menu_list.h */,
+				0444EB8528084BBD00C6F279 /* menu_list.cpp */,
+				0444EB8428084BBD00C6F279 /* menu_item.h */,
+				0444EB8228084BBD00C6F279 /* menu_item.cpp */,
 			);
 			path = menu;
 			sourceTree = "<group>";
@@ -1290,12 +1290,12 @@
 		0444EAD128084ADC00C6F279 /* plot */ = {
 			isa = PBXGroup;
 			children = (
-				0444EB7728084BB600C6F279 /* plot_histogram.cpp */,
-				0444EB7828084BB600C6F279 /* plot_histogram.h */,
-				0444EB7628084BB600C6F279 /* plot_lines.cpp */,
-				0444EB7B28084BB600C6F279 /* plot_lines.h */,
-				0444EB7928084BB600C6F279 /* plot.cpp */,
 				0444EB7A28084BB600C6F279 /* plot.h */,
+				0444EB7928084BB600C6F279 /* plot.cpp */,
+				0444EB7B28084BB600C6F279 /* plot_lines.h */,
+				0444EB7628084BB600C6F279 /* plot_lines.cpp */,
+				0444EB7828084BB600C6F279 /* plot_histogram.h */,
+				0444EB7728084BB600C6F279 /* plot_histogram.cpp */,
 			);
 			path = plot;
 			sourceTree = "<group>";
@@ -1303,18 +1303,18 @@
 		0444EAD228084AE800C6F279 /* selection */ = {
 			isa = PBXGroup;
 			children = (
-				0444EB6828084BAF00C6F279 /* check_box.cpp */,
 				0444EB6628084BAE00C6F279 /* check_box.h */,
-				0444EB5F28084BAE00C6F279 /* color_edit.cpp */,
+				0444EB6828084BAF00C6F279 /* check_box.cpp */,
 				0444EB6228084BAE00C6F279 /* color_edit.h */,
-				0444EB6428084BAE00C6F279 /* color_picker.cpp */,
+				0444EB5F28084BAE00C6F279 /* color_edit.cpp */,
 				0444EB6928084BAF00C6F279 /* color_picker.h */,
-				0444EB6728084BAE00C6F279 /* combo_box.cpp */,
+				0444EB6428084BAE00C6F279 /* color_picker.cpp */,
 				0444EB6328084BAE00C6F279 /* combo_box.h */,
-				0444EB5E28084BAE00C6F279 /* radio_button_linker.cpp */,
-				0444EB6028084BAE00C6F279 /* radio_button_linker.h */,
-				0444EB6128084BAE00C6F279 /* radio_button.cpp */,
+				0444EB6728084BAE00C6F279 /* combo_box.cpp */,
 				0444EB6528084BAE00C6F279 /* radio_button.h */,
+				0444EB6128084BAE00C6F279 /* radio_button.cpp */,
+				0444EB6028084BAE00C6F279 /* radio_button_linker.h */,
+				0444EB5E28084BAE00C6F279 /* radio_button_linker.cpp */,
 			);
 			path = selection;
 			sourceTree = "<group>";
@@ -1322,17 +1322,17 @@
 		0444EAD328084AF300C6F279 /* sliders */ = {
 			isa = PBXGroup;
 			children = (
-				0444EB4828084BA500C6F279 /* slider_double.cpp */,
-				0444EB4A28084BA500C6F279 /* slider_double.h */,
-				0444EB5228084BA600C6F279 /* slider_float.cpp */,
-				0444EB4B28084BA500C6F279 /* slider_float.h */,
-				0444EB4C28084BA500C6F279 /* slider_int.cpp */,
-				0444EB4D28084BA500C6F279 /* slider_int.h */,
-				0444EB4E28084BA600C6F279 /* slider_multiple_doubles.h */,
-				0444EB4928084BA500C6F279 /* slider_multiple_floats.h */,
-				0444EB5128084BA600C6F279 /* slider_multiple_ints.h */,
-				0444EB4F28084BA600C6F279 /* slider_multiple_scalars.h */,
 				0444EB5028084BA600C6F279 /* slider_single_scalar.h */,
+				0444EB4D28084BA500C6F279 /* slider_int.h */,
+				0444EB4C28084BA500C6F279 /* slider_int.cpp */,
+				0444EB4B28084BA500C6F279 /* slider_float.h */,
+				0444EB5228084BA600C6F279 /* slider_float.cpp */,
+				0444EB4A28084BA500C6F279 /* slider_double.h */,
+				0444EB4828084BA500C6F279 /* slider_double.cpp */,
+				0444EB4F28084BA600C6F279 /* slider_multiple_scalars.h */,
+				0444EB5128084BA600C6F279 /* slider_multiple_ints.h */,
+				0444EB4928084BA500C6F279 /* slider_multiple_floats.h */,
+				0444EB4E28084BA600C6F279 /* slider_multiple_doubles.h */,
 			);
 			path = sliders;
 			sourceTree = "<group>";
@@ -1340,20 +1340,20 @@
 		0444EAD428084AFD00C6F279 /* texts */ = {
 			isa = PBXGroup;
 			children = (
-				0444EB3328084B9E00C6F279 /* text_clickable.cpp */,
-				0444EB3128084B9E00C6F279 /* text_clickable.h */,
-				0444EB2F28084B9E00C6F279 /* text_colored.cpp */,
-				0444EB3928084B9E00C6F279 /* text_colored.h */,
-				0444EB2E28084B9D00C6F279 /* text_disabled.cpp */,
-				0444EB3228084B9E00C6F279 /* text_disabled.h */,
-				0444EB3028084B9E00C6F279 /* text_labelled.cpp */,
-				0444EB3528084B9E00C6F279 /* text_labelled.h */,
-				0444EB3828084B9E00C6F279 /* text_selectable.cpp */,
-				0444EB2C28084B9D00C6F279 /* text_selectable.h */,
-				0444EB3728084B9E00C6F279 /* text_wrapped.cpp */,
-				0444EB3628084B9E00C6F279 /* text_wrapped.h */,
-				0444EB2D28084B9D00C6F279 /* text.cpp */,
 				0444EB3428084B9E00C6F279 /* text.h */,
+				0444EB2D28084B9D00C6F279 /* text.cpp */,
+				0444EB3128084B9E00C6F279 /* text_clickable.h */,
+				0444EB3328084B9E00C6F279 /* text_clickable.cpp */,
+				0444EB3928084B9E00C6F279 /* text_colored.h */,
+				0444EB2F28084B9E00C6F279 /* text_colored.cpp */,
+				0444EB3228084B9E00C6F279 /* text_disabled.h */,
+				0444EB2E28084B9D00C6F279 /* text_disabled.cpp */,
+				0444EB3528084B9E00C6F279 /* text_labelled.h */,
+				0444EB3028084B9E00C6F279 /* text_labelled.cpp */,
+				0444EB2C28084B9D00C6F279 /* text_selectable.h */,
+				0444EB3828084B9E00C6F279 /* text_selectable.cpp */,
+				0444EB3628084B9E00C6F279 /* text_wrapped.h */,
+				0444EB3728084B9E00C6F279 /* text_wrapped.cpp */,
 			);
 			path = texts;
 			sourceTree = "<group>";
@@ -1376,8 +1376,8 @@
 		0444EAD628084B0F00C6F279 /* panels */ = {
 			isa = PBXGroup;
 			children = (
-				0444EB1928084B8F00C6F279 /* panel_menu_bar.cpp */,
 				0444EB1828084B8F00C6F279 /* panel_menu_bar.h */,
+				0444EB1928084B8F00C6F279 /* panel_menu_bar.cpp */,
 			);
 			path = panels;
 			sourceTree = "<group>";
@@ -1385,8 +1385,8 @@
 		0444EAD728084B1800C6F279 /* panel_transformables */ = {
 			isa = PBXGroup;
 			children = (
-				0444EB1028084B8700C6F279 /* panel_undecorated.cpp */,
 				0444EB1128084B8700C6F279 /* panel_undecorated.h */,
+				0444EB1028084B8700C6F279 /* panel_undecorated.cpp */,
 				0444EB1228084B8700C6F279 /* panel_window.cpp */,
 				0444EB1328084B8700C6F279 /* panel_window.h */,
 			);

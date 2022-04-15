@@ -4,15 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef button_simple_hpp
-#define button_simple_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_SIMPLE_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_SIMPLE_H_
 
 #include "button.h"
 #include "vector2.h"
 #include "color.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Simple button widget
  */
@@ -24,26 +23,24 @@ public:
      * @param p_size p_size
      * @param p_disabled p_disabled
      */
-    ButtonSimple(const std::string &p_label = "",
-                 const Vector2F &p_size = Vector2F(0.f, 0.f),
-                 bool p_disabled = false);
+    explicit ButtonSimple(std::string p_label = "",
+                          const Vector2F &p_size = Vector2F(0.f, 0.f),
+                          bool p_disabled = false);
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    std::string label;
-    Vector2F size;
-    bool disabled = false;
+    std::string label_;
+    Vector2F size_;
+    bool disabled_ = false;
     
-    Color idleBackgroundColor;
-    Color hoveredBackgroundColor;
-    Color clickedBackgroundColor;
+    Color idle_background_color_;
+    Color hovered_background_color_;
+    Color clicked_background_color_;
     
-    Color textColor;
+    Color text_color_;
 };
 
-
 }
-}
-#endif /* button_simple_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_SIMPLE_H_ */

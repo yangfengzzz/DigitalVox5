@@ -7,16 +7,14 @@
 #include "text_colored.h"
 #include "ui/widgets/converter.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 TextColored::TextColored(const std::string &p_content,
                          const Color &p_color) :
-Text(p_content), color(p_color) {
+Text(p_content), color_(p_color) {
 }
 
-void TextColored::_draw_Impl() {
-    ImGui::TextColored(Converter::ToImVec4(color), content.c_str());
+void TextColored::draw_impl() {
+    ImGui::TextColored(Converter::to_imVec4(color_), "%s", content_.c_str());
 }
 
-}
 }

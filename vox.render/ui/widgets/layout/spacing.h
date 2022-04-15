@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef spacing_hpp
-#define spacing_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_SPACING_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_SPACING_H_
 
 #include "ui/widgets/widget.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Widget that adds a space to the panel line
  */
@@ -20,15 +19,14 @@ public:
      * Constructor
      * @param p_spaces p_spaces
      */
-    Spacing(uint16_t p_spaces = 1);
+    explicit Spacing(uint16_t p_spaces = 1);
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    uint16_t spaces = 1;
+    uint16_t spaces_ = 1;
 };
 
 }
-}
-#endif /* spacing_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_SPACING_H_ */

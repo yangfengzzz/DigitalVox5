@@ -6,24 +6,22 @@
 
 #include "check_box.h"
 
+#include <utility>
 
-namespace vox {
-namespace ui {
-CheckBox::CheckBox(bool p_value, const std::string &p_label) :
-DataWidget<bool>(value), value(p_value), label(p_label) {
+namespace vox::ui {
+CheckBox::CheckBox(bool p_value, std::string p_label) :
+DataWidget<bool>(value_), value_(p_value), label_(std::move(p_label)) {
 }
 
-void CheckBox::_draw_Impl() {
-    bool previousValue = value;
+void CheckBox::draw_impl() {
+    bool previous_value = value_;
     
-    ImGui::Checkbox((label + _widgetID).c_str(), &value);
+    ImGui::Checkbox((label_ + widget_id_).c_str(), &value_);
     
-    if (value != previousValue) {
-        valueChangedEvent.invoke(value);
-        notifyChange();
+    if (value_ != previous_value) {
+        value_changed_event_.invoke(value_);
+        notify_change();
     }
 }
 
-
-}
 }

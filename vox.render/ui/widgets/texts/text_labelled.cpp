@@ -6,15 +6,15 @@
 
 #include "text_labelled.h"
 
-namespace vox {
-namespace ui {
-TextLabelled::TextLabelled(const std::string &p_content, const std::string &p_label) :
-Text(p_content), label(p_label) {
+#include <utility>
+
+namespace vox::ui {
+TextLabelled::TextLabelled(const std::string &p_content, std::string p_label) :
+Text(p_content), label_(std::move(p_label)) {
 }
 
-void TextLabelled::_draw_Impl() {
-    ImGui::LabelText((label + _widgetID).c_str(), content.c_str());
+void TextLabelled::draw_impl() {
+    ImGui::LabelText((label_ + widget_id_).c_str(), "%s", content_.c_str());
 }
 
-}
 }

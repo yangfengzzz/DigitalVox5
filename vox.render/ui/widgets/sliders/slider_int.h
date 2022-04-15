@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef slider_int_hpp
-#define slider_int_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_INT_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_INT_H_
 
 #include "slider_single_scalar.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Slider widget of type int
  */
@@ -25,15 +24,13 @@ public:
      * @param p_label p_label
      * @param p_format p_format
      */
-    SliderInt(int p_min = 0,
-              int p_max = 100,
-              int p_value = 50,
-              SliderOrientation p_orientation = SliderOrientation::HORIZONTAL,
-              const std::string &p_label = "",
-              const std::string &p_format = "%d");
+    explicit SliderInt(int p_min = 0,
+                       int p_max = 100,
+                       int p_value = 50,
+                       SliderOrientation p_orientation = SliderOrientation::HORIZONTAL,
+                       const std::string &p_label = "",
+                       const std::string &p_format = "%d");
 };
 
-
 }
-}
-#endif /* slider_int_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_INT_H_ */

@@ -4,16 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef panel_hpp
-#define panel_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_H_
 
 #include <vector>
 #include <unordered_map>
 
 #include "widget_container.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * A Panel is a component of a canvas. It is a sort of window in the UI
  */
@@ -32,22 +31,20 @@ public:
     /**
      * Returns the panel identifier
      */
-    const std::string &panelID() const;
+    [[nodiscard]] const std::string &panel_id() const;
     
 protected:
-    virtual void _draw_Impl() = 0;
+    virtual void draw_impl() = 0;
     
 public:
-    bool enabled = true;
+    bool enabled_ = true;
     
 protected:
-    std::string _panelID;
+    std::string panel_id_;
     
 private:
-    static uint64_t __PANEL_ID_INCREMENT;
+    static uint64_t panel_id_increment_;
 };
 
-
 }
-}
-#endif /* panel_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_H_ */

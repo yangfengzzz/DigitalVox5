@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef drag_int_hpp
-#define drag_int_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_DRAGS_DRAG_INT_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_DRAGS_DRAG_INT_H_
 
 #include "drag_single_scalar.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Drag widget of type int
  */
@@ -25,15 +24,13 @@ public:
      * @param p_label p_label
      * @param p_format p_format
      */
-    DragInt(int p_min = 0,
-            int p_max = 100,
-            int p_value = 50,
-            float p_speed = 0.1f,
-            const std::string &p_label = "",
-            const std::string &p_format = "%d");
+    explicit DragInt(int p_min = 0,
+                     int p_max = 100,
+                     int p_value = 50,
+                     float p_speed = 0.1f,
+                     const std::string &p_label = "",
+                     const std::string &p_format = "%d");
 };
 
-
 }
-}
-#endif /* drag_int_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_DRAGS_DRAG_INT_H_ */

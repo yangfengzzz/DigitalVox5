@@ -6,8 +6,7 @@
 
 #include "slider_double.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 SliderDouble::SliderDouble(double p_min,
                            double p_max,
                            double p_value,
@@ -18,6 +17,4 @@ SliderSingleScalar<double>(ImGuiDataType_::ImGuiDataType_Double, p_min, p_max,
                            p_value, p_orientation, p_label, p_format) {
 }
 
-
-}
 }

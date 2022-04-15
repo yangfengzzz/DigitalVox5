@@ -6,25 +6,25 @@
 
 #include "menu_list.h"
 
-namespace vox {
-namespace ui {
-MenuList::MenuList(const std::string &p_name, bool p_locked) :
-name(p_name), locked(p_locked) {
+#include <utility>
+
+namespace vox::ui {
+MenuList::MenuList(std::string p_name, bool p_locked) :
+name_(std::move(p_name)), locked_(p_locked) {
 }
 
-void MenuList::_draw_Impl() {
-    if (ImGui::BeginMenu(name.c_str(), !locked)) {
-        if (!m_opened) {
-            clickedEvent.invoke();
-            m_opened = true;
+void MenuList::draw_impl() {
+    if (ImGui::BeginMenu(name_.c_str(), !locked_)) {
+        if (!opened_) {
+            clicked_event_.invoke();
+            opened_ = true;
         }
         
-        drawWidgets();
+        draw_widgets();
         ImGui::EndMenu();
     } else {
-        m_opened = false;
+        opened_ = false;
     }
 }
 
-}
 }

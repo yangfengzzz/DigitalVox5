@@ -4,18 +4,17 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef slider_multiple_doubles_h
-#define slider_multiple_doubles_h
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_MULTIPLE_DOUBLES_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_MULTIPLE_DOUBLES_H_
 
 #include "ui/widgets/sliders/slider_multiple_scalars.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Slider widget of multiple type double
  */
-template<size_t _Size>
-class SliderMultipleDoubles : public SliderMultipleScalars<double, _Size> {
+template<size_t Size>
+class SliderMultipleDoubles : public SliderMultipleScalars<double, Size> {
 public:
     /**
      * Constructor
@@ -25,16 +24,15 @@ public:
      * @param p_label
      * @param p_format
      */
-    SliderMultipleDoubles(double p_min = 0.0,
-                          double p_max = 1.0,
-                          double p_value = 0.5,
-                          const std::string &p_label = "",
-                          const std::string &p_format = "%.6f") :
-    SliderMultipleScalars<double, _Size>(ImGuiDataType_::ImGuiDataType_Double,
-                                         p_min, p_max, p_value, p_label, p_format) {
+    explicit SliderMultipleDoubles(double p_min = 0.0,
+                                   double p_max = 1.0,
+                                   double p_value = 0.5,
+                                   const std::string &p_label = "",
+                                   const std::string &p_format = "%.6f") :
+    SliderMultipleScalars<double, Size>(ImGuiDataType_::ImGuiDataType_Double,
+                                        p_min, p_max, p_value, p_label, p_format) {
     }
 };
 
 }
-}
-#endif /* slider_multiple_doubles_h */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_MULTIPLE_DOUBLES_H_ */

@@ -4,16 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef button_image_hpp
-#define button_image_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_IMAGE_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_IMAGE_H_
 
 #include "button.h"
 #include "vector2.h"
 #include "color.h"
 #include <volk.h>
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Button widget with an image
  */
@@ -21,25 +20,23 @@ class ButtonImage : public Button {
 public:
     /**
      * Constructor
-     * @param p_textureID p_textureID
+     * @param p_texture_id p_textureID
      * @param p_size p_size
      */
-    ButtonImage(VkDescriptorSet p_textureID, const Vector2F &p_size);
+    ButtonImage(VkDescriptorSet p_texture_id, const Vector2F &p_size);
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    bool disabled = false;
+    bool disabled_ = false;
     
-    Color background = {0, 0, 0, 0};
-    Color tint = {1, 1, 1, 1};
+    Color background_ = {0, 0, 0, 0};
+    Color tint_ = {1, 1, 1, 1};
     
-    VkDescriptorSet textureID;
-    Vector2F size;
+    VkDescriptorSet texture_id_;
+    Vector2F size_;
 };
 
-
 }
-}
-#endif /* button_image_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_IMAGE_H_ */

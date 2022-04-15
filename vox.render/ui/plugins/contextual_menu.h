@@ -4,16 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef contextual_menu_hpp
-#define contextual_menu_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_PLUGINS_CONTEXTUAL_MENU_H_
+#define DIGITALVOX_VOX_RENDER_UI_PLUGINS_CONTEXTUAL_MENU_H_
 
 #include "ui/plugins/plugin.h"
 #include "ui/widgets/widget_container.h"
 #include "ui/widgets/menu/menu_list.h"
 #include "ui/widgets/menu/menu_item.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * A simple plugin that will show a contextual menu on right click
  * You can add widgets to a contextual menu
@@ -23,15 +22,13 @@ public:
     /**
      * Execute the plugin
      */
-    void execute();
+    void execute() override;
     
     /**
      * Force close the contextual menu
      */
-    void close();
+    static void close();
 };
 
-
 }
-}
-#endif /* contextual_menu_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_PLUGINS_CONTEXTUAL_MENU_H_ */

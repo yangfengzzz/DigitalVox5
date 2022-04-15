@@ -4,15 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef data_widget_h
-#define data_widget_h
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_DATA_WIDGET_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_DATA_WIDGET_H_
 
-#include "button.h"
+#include "buttons/button.h"
+#include "../plugins/data_dispatcher.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
- * DataWidget are widgets that contains a value. It is very usefull in combination with
+ * DataWidget are widgets that contains a value. It is very usefully in combination with
  * DataDispatcher plugin
  */
 template<typename T>
@@ -20,9 +20,9 @@ class DataWidget : public Widget {
 public:
     /**
      * Create a DataWidget with the data specification
-     * @param p_dataHolder p_dataHolder
+     * @param p_data_holder p_dataHolder
      */
-    DataWidget(T &p_dataHolder) : _data(p_dataHolder) {
+    explicit DataWidget(T &p_data_holder) : data_(p_data_holder) {
     };
     
     /**
@@ -33,27 +33,25 @@ public:
     /**
      * Notify that the widget data has changed to allow the data dispatcher to execute its behaviour
      */
-    void notifyChange();
+    void notify_change();
     
 private:
-    T &_data;
+    T &data_;
 };
 
 template<typename T>
 inline void DataWidget<T>::draw() {
-    if (enabled) {
-        TRY_GATHER(T, _data);
+    if (enabled_) {
+        TRY_GATHER(T, data_)
         Widget::draw();
-        TRY_PROVIDE(T, _data);
+        TRY_PROVIDE(T, data_)
     }
 }
 
 template<typename T>
-inline void DataWidget<T>::notifyChange() {
-    TRY_NOTIFY_CHANGE(T);
+inline void DataWidget<T>::notify_change() {
+    TRY_NOTIFY_CHANGE(T)
 }
 
-
 }
-}
-#endif /* data_widget_h */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_DATA_WIDGET_H_ */

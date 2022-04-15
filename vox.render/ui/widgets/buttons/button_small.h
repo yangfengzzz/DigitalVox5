@@ -4,15 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef button_small_hpp
-#define button_small_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_SMALL_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_SMALL_H_
 
 #include "button.h"
 #include "vector2.h"
 #include "color.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Small button widget
  */
@@ -21,21 +20,20 @@ public:
     /**
      * Constructor
      */
-    ButtonSmall(const std::string &p_label = "");
+    explicit ButtonSmall(std::string p_label = "");
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    std::string label;
+    std::string label_;
     
-    Color idleBackgroundColor;
-    Color hoveredBackgroundColor;
-    Color clickedBackgroundColor;
+    Color idle_background_color_;
+    Color hovered_background_color_;
+    Color clicked_background_color_;
     
-    Color textColor;
+    Color text_color_;
 };
 
 }
-}
-#endif /* button_small_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_SMALL_H_ */

@@ -4,14 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef pluginable_h
-#define pluginable_h
+#ifndef DIGITALVOX_VOX_RENDER_UI_PLUGINS_PLUGINABLE_H_
+#define DIGITALVOX_VOX_RENDER_UI_PLUGINS_PLUGINABLE_H_
 
 #include "plugin.h"
 #include <vector>
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Inherit from this class to make your class "Pluginable" (Able to have plugins)
  */
@@ -21,7 +20,7 @@ public:
      * Destructor (Destroys every plugins)
      */
     ~Pluginable() {
-        removeAllPlugins();
+        remove_all_plugins();
     }
     
     /**
@@ -29,23 +28,23 @@ public:
      * @param p_args p_args
      */
     template<typename T, typename... Args>
-    T &addPlugin(Args &&... p_args) {
+    T &add_plugin(Args &&... p_args) {
         static_assert(std::is_base_of<Plugin, T>::value, "T should derive from IPlugin");
         
-        T *newPlugin = new T(std::forward<Args>(p_args)...);
-        _plugins.push_back(newPlugin);
-        return *newPlugin;
+        T *new_plugin = new T(std::forward<Args>(p_args)...);
+        plugins_.push_back(new_plugin);
+        return *new_plugin;
     }
     
     /**
      * Returns the plugin of the given type, or nullptr if not found
      */
     template<typename T>
-    T *getPlugin() {
+    T *get_plugin() {
         static_assert(std::is_base_of<Plugin, T>::value, "T should derive from IPlugin");
         
-        for (auto it = _plugins.begin(); it != _plugins.end(); ++it) {
-            T *result = dynamic_cast<T *>(*it);
+        for (auto &plugin : plugins_) {
+            T *result = dynamic_cast<T *>(plugin);
             if (result)
                 return result;
         }
@@ -56,26 +55,24 @@ public:
     /**
      * Execute every plugins
      */
-    void executePlugins() {
-        for (auto &plugin: _plugins)
+    void execute_plugins() {
+        for (auto &plugin : plugins_)
             plugin->execute();
     }
     
     /**
      * Remove every plugins
      */
-    void removeAllPlugins() {
-        for (auto &plugin: _plugins)
+    void remove_all_plugins() {
+        for (auto &plugin : plugins_)
             delete plugin;
         
-        _plugins.clear();
+        plugins_.clear();
     }
     
 private:
-    std::vector<Plugin *> _plugins;
+    std::vector<Plugin *> plugins_;
 };
 
-
 }
-}
-#endif /* pluginable_h */
+#endif /* DIGITALVOX_VOX_RENDER_UI_PLUGINS_PLUGINABLE_H_ */

@@ -6,11 +6,9 @@
 
 #include "new_line.h"
 
-namespace vox {
-namespace ui {
-void NewLine::_draw_Impl() {
+namespace vox::ui {
+void NewLine::draw_impl() {
     ImGui::NewLine();
 }
 
-}
 }

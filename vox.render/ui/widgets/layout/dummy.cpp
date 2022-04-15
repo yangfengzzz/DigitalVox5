@@ -7,14 +7,12 @@
 #include "dummy.h"
 #include "ui/widgets/converter.h"
 
-namespace vox {
-namespace ui {
-Dummy::Dummy(const Vector2F &p_size) : size(p_size) {
+namespace vox::ui {
+Dummy::Dummy(const Vector2F &p_size) : size_(p_size) {
 }
 
-void Dummy::_draw_Impl() {
-    ImGui::Dummy(Converter::ToImVec2(size));
+void Dummy::draw_impl() {
+    ImGui::Dummy(Converter::to_imVec2(size_));
 }
 
-}
 }

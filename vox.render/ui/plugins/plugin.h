@@ -4,19 +4,17 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef plugin_h
-#define plugin_h
+#ifndef DIGITALVOX_VOX_RENDER_UI_PLUGINS_PLUGIN_H_
+#define DIGITALVOX_VOX_RENDER_UI_PLUGINS_PLUGIN_H_
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Interface to any plugin of UI.
  * A plugin is basically a behaviour that you can plug to a widget
  */
 class Plugin {
 public:
-    virtual ~Plugin() {
-    }
+    virtual ~Plugin() = default;
     
     /**
      * Execute the plugin behaviour
@@ -24,9 +22,8 @@ public:
     virtual void execute() = 0;
     
     /* Feel free to store any data you want here */
-    void *userData = nullptr;
+    void *user_data_ = nullptr;
 };
 
 }
-}
-#endif /* plugin_h */
+#endif /* DIGITALVOX_VOX_RENDER_UI_PLUGINS_PLUGIN_H_ */

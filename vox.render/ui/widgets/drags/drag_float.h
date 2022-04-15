@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef drag_float_hpp
-#define drag_float_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_DRAGS_DRAG_FLOAT_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_DRAGS_DRAG_FLOAT_H_
 
 #include "drag_single_scalar.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Drag widget of type double
  */
@@ -25,15 +24,13 @@ public:
      * @param p_label p_label
      * @param p_format p_format
      */
-    DragFloat(float p_min = 0.0,
-              float p_max = 1.0,
-              float p_value = 0.5,
-              float p_speed = 0.1f,
-              const std::string &p_label = "",
-              const std::string &p_format = "%.3f");
+    explicit DragFloat(float p_min = 0.0,
+                       float p_max = 1.0,
+                       float p_value = 0.5,
+                       float p_speed = 0.1f,
+                       const std::string &p_label = "",
+                       const std::string &p_format = "%.3f");
 };
 
-
 }
-}
-#endif /* drag_float_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_DRAGS_DRAG_FLOAT_H_ */

@@ -6,25 +6,25 @@
 
 #include "group_collapsable.h"
 
-namespace vox {
-namespace ui {
-GroupCollapsable::GroupCollapsable(const std::string &p_name) :
-name(p_name) {
+#include <utility>
+
+namespace vox::ui {
+GroupCollapsable::GroupCollapsable(std::string p_name) :
+name_(std::move(p_name)) {
 }
 
-void GroupCollapsable::_draw_Impl() {
-    bool previouslyOpened = opened;
+void GroupCollapsable::draw_impl() {
+    bool previously_opened = opened_;
     
-    if (ImGui::CollapsingHeader(name.c_str(), closable ? &opened : nullptr))
-        Group::_draw_Impl();
+    if (ImGui::CollapsingHeader(name_.c_str(), closable_ ? &opened_ : nullptr))
+        Group::draw_impl();
     
-    if (opened != previouslyOpened) {
-        if (opened)
-            openEvent.invoke();
+    if (opened_ != previously_opened) {
+        if (opened_)
+            open_event_.invoke();
         else
-            closeEvent.invoke();
+            close_event_.invoke();
     }
 }
 
-}
 }

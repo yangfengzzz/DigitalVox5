@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef text_labelled_hpp
-#define text_labelled_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_LABELLED_H_
+#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_LABELLED_H_
 
 #include "text.h"
 
-namespace vox {
-namespace ui {
+namespace vox::ui {
 /**
  * Simple widget to display a labelled text on a panel
  */
@@ -21,15 +20,14 @@ public:
      * @param p_content p_content
      * @param p_label p_label
      */
-    TextLabelled(const std::string &p_content = "", const std::string &p_label = "");
+    explicit TextLabelled(const std::string &p_content = "", std::string p_label = "");
     
 protected:
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 public:
-    std::string label;
+    std::string label_;
 };
 
 }
-}
-#endif /* text_labelled_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_LABELLED_H_ */
