@@ -131,5 +131,4 @@ private:
     std::unique_ptr<sg::SubMesh> load_model(uint32_t index);
 };
 
-
 }        // namespace vox

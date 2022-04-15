@@ -8,13 +8,13 @@
 #include "update_flag_manager.h"
 
 namespace vox {
-UpdateFlag::UpdateFlag(UpdateFlagManager *_flags) : _flags(_flags) {
-    _flags->_updateFlags.push_back(this);
+UpdateFlag::UpdateFlag(UpdateFlagManager *flags) : flags_(flags) {
+    flags->update_flags_.push_back(this);
 }
 
 UpdateFlag::~UpdateFlag() {
-    _flags->_updateFlags.erase(std::remove(_flags->_updateFlags.begin(),
-                                           _flags->_updateFlags.end(), this), _flags->_updateFlags.end());
+    flags_->update_flags_.erase(std::remove(flags_->update_flags_.begin(),
+                                            flags_->update_flags_.end(), this), flags_->update_flags_.end());
 }
 
 }        // namespace vox

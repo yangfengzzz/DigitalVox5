@@ -168,19 +168,19 @@ void screenshot(RenderContext &render_context, const std::string &filename) {
 std::string to_snake_case(const std::string &text) {
     std::stringstream result;
     
-    for (const auto ch: text) {
-        if (std::isalpha(ch)) {
-            if (std::isspace(ch)) {
+    for (const auto kCh : text) {
+        if (std::isalpha(kCh)) {
+            if (std::isspace(kCh)) {
                 result << "_";
             } else {
-                if (std::isupper(ch)) {
+                if (std::isupper(kCh)) {
                     result << "_";
                 }
                 
-                result << static_cast<char>(std::tolower(ch));
+                result << static_cast<char>(std::tolower(kCh));
             }
         } else {
-            result << ch;
+            result << kCh;
         }
     }
     

@@ -43,16 +43,15 @@ protected:
 private:
     using ResourceFunc = std::function<void(ResourceCache &, std::istringstream &)>;
     
-    std::unordered_map<ResourceType, ResourceFunc> stream_resources;
+    std::unordered_map<ResourceType, ResourceFunc> stream_resources_;
     
-    std::vector<ShaderModule *> shader_modules;
+    std::vector<ShaderModule *> shader_modules_;
     
-    std::vector<PipelineLayout *> pipeline_layouts;
+    std::vector<PipelineLayout *> pipeline_layouts_;
     
-    std::vector<const RenderPass *> render_passes;
+    std::vector<const RenderPass *> render_passes_;
     
-    std::vector<const GraphicsPipeline *> graphics_pipelines;
+    std::vector<const GraphicsPipeline *> graphics_pipelines_;
 };
-
 
 }        // namespace vox

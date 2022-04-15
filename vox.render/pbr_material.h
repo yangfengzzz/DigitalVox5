@@ -22,11 +22,11 @@ public:
     
     ~PBRMaterial() override = default;
     
-    Vector4F base_color_factor{0.0f, 0.0f, 0.0f, 0.0f};
+    Vector4F base_color_factor_{0.0f, 0.0f, 0.0f, 0.0f};
     
-    float metallic_factor{0.0f};
+    float metallic_factor_{0.0f};
     
-    float roughness_factor{0.0f};
+    float roughness_factor_{0.0f};
 };
 
 }        // namespace vox

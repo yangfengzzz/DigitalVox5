@@ -19,13 +19,13 @@
 
 namespace vox {
 VulkanException::VulkanException(const VkResult result, const std::string &msg) :
-result{result},
+result_{result},
 std::runtime_error{msg} {
-    error_message = std::string(std::runtime_error::what()) + std::string{" : "} + to_string(result);
+    error_message_ = std::string(std::runtime_error::what()) + std::string{" : "} + to_string(result);
 }
 
 const char *VulkanException::what() const noexcept {
-    return error_message.c_str();
+    return error_message_.c_str();
 }
 
 }        // namespace vox

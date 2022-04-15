@@ -98,64 +98,64 @@ public:
     vox::Device &get_device();
     
     enum RenderPassCreateFlags {
-        ColorAttachmentLoad = 0x00000001
+        COLOR_ATTACHMENT_LOAD = 0x00000001
     };
     
 protected:
     /// Stores the swapchain image buffers
-    std::vector<SwapchainBuffer> swapchain_buffers;
+    std::vector<SwapchainBuffer> swapchain_buffers_;
     
     void create_render_context(vox::Platform &platform) override;
     
     void prepare_render_context() override;
     
     // Handle to the device graphics queue that command buffers are submitted to
-    VkQueue queue{};
+    VkQueue queue_{};
     
     // Depth buffer format (selected during Vulkan initialization)
-    VkFormat depth_format;
+    VkFormat depth_format_;
     
     // Command buffer pool
-    VkCommandPool cmd_pool{};
+    VkCommandPool cmd_pool_{};
     
     /** @brief Pipeline stages used to wait at for graphics queue submissions */
-    VkPipelineStageFlags submit_pipeline_stages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    VkPipelineStageFlags submit_pipeline_stages_ = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
     
     // Contains command buffers and semaphores to be presented to the queue
-    VkSubmitInfo submit_info{};
+    VkSubmitInfo submit_info_{};
     
     // Command buffers used for rendering
-    std::vector<VkCommandBuffer> draw_cmd_buffers;
+    std::vector<VkCommandBuffer> draw_cmd_buffers_;
     
     // Global render pass for frame buffer writes
-    VkRenderPass render_pass{};
+    VkRenderPass render_pass_{};
     
     // List of available frame buffers (same as number of swap chain images)
-    std::vector<VkFramebuffer> framebuffers;
+    std::vector<VkFramebuffer> framebuffers_;
     
     // Active frame buffer index
-    uint32_t current_buffer = 0;
+    uint32_t current_buffer_ = 0;
     
     // Descriptor set pool
-    VkDescriptorPool descriptor_pool = VK_NULL_HANDLE;
+    VkDescriptorPool descriptor_pool_ = VK_NULL_HANDLE;
     
     // List of shader modules created (stored for cleanup)
-    std::vector<VkShaderModule> shader_modules;
+    std::vector<VkShaderModule> shader_modules_;
     
     // Pipeline cache object
-    VkPipelineCache pipeline_cache{};
+    VkPipelineCache pipeline_cache_{};
     
     // Synchronization semaphores
     struct {
         // Swap chain image presentation
-        VkSemaphore acquired_image_ready;
+        VkSemaphore acquired_image_ready_;
         
         // Command buffer submission and execution
-        VkSemaphore render_complete;
-    } semaphores{};
+        VkSemaphore render_complete_;
+    } semaphores_{};
     
     // Synchronization fences
-    std::vector<VkFence> wait_fences;
+    std::vector<VkFence> wait_fences_;
     
     /**
      * @brief Populates the swapchain_buffers vector with the image and imageviews
@@ -226,10 +226,10 @@ protected:
     /**
      * @brief Synchronously execute a block code within a command buffer, then submit the command buffer and wait for completion.
      * @param f a block of code which is passed a command buffer which is already in the begin state.
-     * @param signalSemaphore An optional semaphore to signal when the commands have completed execution.
+     * @param signal_semaphore An optional semaphore to signal when the commands have completed execution.
      */
     void with_command_buffer(const std::function<void(VkCommandBuffer command_buffer)> &f,
-                             VkSemaphore signalSemaphore = VK_NULL_HANDLE);
+                             VkSemaphore signal_semaphore = VK_NULL_HANDLE);
     
 public:
     /**
@@ -342,23 +342,23 @@ public:
     
 private:
     /** brief Indicates that the view (position, rotation) has changed and buffers containing camera matrices need to be updated */
-    bool view_updated = false;
+    bool view_updated_ = false;
     // Destination dimensions for resizing the window
-    uint32_t dest_width{};
-    uint32_t dest_height{};
-    bool resizing = false;
+    uint32_t dest_width_{};
+    uint32_t dest_height_{};
+    bool resizing_ = false;
     
     void handle_mouse_move(int32_t x, int32_t y);
     
 #if defined(VKB_DEBUG) || defined(VKB_VALIDATION_LAYERS)
     /// The debug report callback
-    VkDebugReportCallbackEXT debug_report_callback{VK_NULL_HANDLE};
+    VkDebugReportCallbackEXT debug_report_callback_{VK_NULL_HANDLE};
 #endif
     
 public:
-    bool prepared = false;
-    uint32_t width = 1280;
-    uint32_t height = 720;
+    bool prepared_ = false;
+    uint32_t width_ = 1280;
+    uint32_t height_ = 720;
     
     /** @brief Example settings that can be changed e.g. by command line arguments */
     struct Settings {
@@ -366,58 +366,58 @@ public:
         bool fullscreen = false;
         /** @brief Set to true if v-sync will be forced for the swapchain */
         bool vsync = false;
-    } settings;
+    } settings_;
     
-    VkClearColorValue default_clear_color = {{0.025f, 0.025f, 0.025f, 1.0f}};
+    VkClearColorValue default_clear_color_ = {{0.025f, 0.025f, 0.025f, 1.0f}};
     
-    float zoom = 0;
+    float zoom_ = 0;
     
     // Defines a frame rate independent timer value clamped from -1.0...1.0
     // For use in animations, rotations, etc.
-    float timer = 0.0f;
+    float timer_ = 0.0f;
     // Multiplier for speeding up (or slowing down) the global timer
-    float timer_speed = 0.0025f;
+    float timer_speed_ = 0.0025f;
     
-    bool paused = false;
+    bool paused_ = false;
     
     // Use to adjust mouse rotation speed
-    float rotation_speed = 1.0f;
+    float rotation_speed_ = 1.0f;
     // Use to adjust mouse zoom speed
-    float zoom_speed = 1.0f;
+    float zoom_speed_ = 1.0f;
     
-    vox::Camera camera;
+    vox::Camera camera_;
     
-    Vector3F rotation = Vector3F();
-    Vector3F camera_pos = Vector3F();
-    Vector2F mouse_pos;
+    Vector3F rotation_ = Vector3F();
+    Vector3F camera_pos_ = Vector3F();
+    Vector2F mouse_pos_;
     
-    std::string title = "Vulkan Example";
-    std::string name = "vulkanExample";
-    
-    struct {
-        VkImage image;
-        VkDeviceMemory mem;
-        VkImageView view;
-    } depth_stencil{};
+    std::string title_ = "Vulkan Example";
+    std::string name_ = "vulkanExample";
     
     struct {
-        Vector2F axis_left = Vector2F();
-        Vector2F axis_right = Vector2F();
-    } game_pad_state;
+        VkImage image_;
+        VkDeviceMemory mem_;
+        VkImageView view_;
+    } depth_stencil_{};
     
     struct {
-        bool left = false;
-        bool right = false;
-        bool middle = false;
-    } mouse_buttons;
+        Vector2F axis_left_ = Vector2F();
+        Vector2F axis_right_ = Vector2F();
+    } game_pad_state_;
+    
+    struct {
+        bool left_ = false;
+        bool right_ = false;
+        bool middle_ = false;
+    } mouse_buttons_;
     
     struct TouchPos {
         int32_t x;
         int32_t y;
-    } touch_pos{};
-    bool touch_down = false;
-    double touch_timer = 0.0;
-    int64_t last_tap_time = 0;
+    } touch_pos_{};
+    bool touch_down_ = false;
+    double touch_timer_ = 0.0;
+    int64_t last_tap_time_ = 0;
 };
 
 }

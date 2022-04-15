@@ -71,10 +71,10 @@ public:
      */
     [[nodiscard]] const char *what() const noexcept override;
     
-    VkResult result;
+    VkResult result_;
     
 private:
-    std::string error_message;
+    std::string error_message_;
 };
 }        // namespace vox
 

@@ -34,7 +34,7 @@ VKBP_ENABLE_WARNINGS()
 
 namespace vox {
 /// Generate a list of shader resource based on SPIRV reflection code, and provided ShaderVariant
-class SPIRVReflection {
+class SpirvReflection {
 public:
     /// @brief Reflects shader resources from SPIRV code
     /// @param stage The Vulkan shader stage flag
@@ -62,6 +62,5 @@ private:
                                                std::vector<ShaderResource> &resources,
                                                const ShaderVariant &variant);
 };
-
 
 }        // namespace vox

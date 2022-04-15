@@ -88,7 +88,7 @@ entry_point_{entry_point} {
     }
     
     // Reflect all shader resources
-    if (!SPIRVReflection::reflect_shader_resources(stage, spirv_, resources_, shader_variant)) {
+    if (!SpirvReflection::reflect_shader_resources(stage, spirv_, resources_, shader_variant)) {
         throw VulkanException{VK_ERROR_INITIALIZATION_FAILED};
     }
     

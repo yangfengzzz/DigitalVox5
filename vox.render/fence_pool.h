@@ -32,12 +32,11 @@ public:
     VkResult reset();
     
 private:
-    Device &device;
+    Device &device_;
     
-    std::vector<VkFence> fences;
+    std::vector<VkFence> fences_;
     
-    uint32_t active_fence_count{0};
+    uint32_t active_fence_count_{0};
 };
-
 
 }        // namespace vox

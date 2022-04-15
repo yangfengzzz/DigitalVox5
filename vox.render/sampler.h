@@ -16,7 +16,7 @@
 namespace vox::sg {
 class Sampler {
 public:
-    std::string name;
+    std::string name_;
     
     Sampler(std::string name, core::Sampler &&vk_sampler);
     
@@ -24,7 +24,7 @@ public:
     
     virtual ~Sampler() = default;
     
-    core::Sampler vk_sampler;
+    core::Sampler vk_sampler_;
 };
 
 }        // namespace vox

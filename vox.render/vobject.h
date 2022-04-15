@@ -4,15 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef vobject_hpp
-#define vobject_hpp
+#ifndef DIGITALVOX_VOX_RENDER_VOBJECT_H_
+#define DIGITALVOX_VOX_RENDER_VOBJECT_H_
 
 #include <json.hpp>
 
 namespace vox {
 class VObject {
 public:
-    virtual ~VObject() {}
+    virtual ~VObject() = default;
     
     /**
      * Called when the serialization is asked
@@ -27,4 +27,4 @@ public:
 
 }
 
-#endif /* vobject_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_VOBJECT_H_ */

@@ -60,9 +60,9 @@ public:
     [[nodiscard]] const BindingMap<ResourceInfo> &get_resource_bindings() const;
     
 private:
-    bool dirty{false};
+    bool dirty_{false};
     
-    BindingMap<ResourceInfo> resource_bindings;
+    BindingMap<ResourceInfo> resource_bindings_;
 };
 
 /**
@@ -95,10 +95,9 @@ public:
     const std::unordered_map<uint32_t, ResourceSet> &get_resource_sets();
     
 private:
-    bool dirty{false};
+    bool dirty_{false};
     
-    std::unordered_map<uint32_t, ResourceSet> resource_sets;
+    std::unordered_map<uint32_t, ResourceSet> resource_sets_;
 };
-
 
 }        // namespace vox

@@ -119,32 +119,31 @@ public:
     const ResourceCacheState &get_internal_state() const;
     
 private:
-    Device &device;
+    Device &device_;
     
-    ResourceRecord recorder;
+    ResourceRecord recorder_;
     
-    ResourceReplay replayer;
+    ResourceReplay replayer_;
     
-    VkPipelineCache pipeline_cache{VK_NULL_HANDLE};
+    VkPipelineCache pipeline_cache_{VK_NULL_HANDLE};
     
-    ResourceCacheState state;
+    ResourceCacheState state_;
     
-    std::mutex descriptor_set_mutex;
+    std::mutex descriptor_set_mutex_;
     
-    std::mutex pipeline_layout_mutex;
+    std::mutex pipeline_layout_mutex_;
     
-    std::mutex shader_module_mutex;
+    std::mutex shader_module_mutex_;
     
-    std::mutex descriptor_set_layout_mutex;
+    std::mutex descriptor_set_layout_mutex_;
     
-    std::mutex graphics_pipeline_mutex;
+    std::mutex graphics_pipeline_mutex_;
     
-    std::mutex render_pass_mutex;
+    std::mutex render_pass_mutex_;
     
-    std::mutex compute_pipeline_mutex;
+    std::mutex compute_pipeline_mutex_;
     
-    std::mutex framebuffer_mutex;
+    std::mutex framebuffer_mutex_;
 };
-
 
 }        // namespace vox

@@ -34,24 +34,24 @@ HeightMap::HeightMap(const std::string &file_name, const uint32_t patchsize) {
     ktx_size_t ktx_size = ktxTexture_GetImageSize(ktx_texture, 0);
     ktx_uint8_t *ktx_image = ktxTexture_GetData(ktx_texture);
     
-    dim = ktx_texture->baseWidth;
-    data = new uint16_t[dim * dim];
+    dim_ = ktx_texture->baseWidth;
+    data_ = new uint16_t[dim_ * dim_];
     
-    memcpy(data, ktx_image, ktx_size);
+    memcpy(data_, ktx_image, ktx_size);
     
-    this->scale = dim / patchsize;
+    scale_ = dim_ / patchsize;
     
     ktxTexture_Destroy(ktx_texture);
 }
 
 HeightMap::~HeightMap() {
-    delete[] data;
+    delete[] data_;
 }
 
 float HeightMap::get_height(const uint32_t x, const uint32_t y) {
-    uint32_t rposx = std::max(0u, std::min(x * scale, dim - 1));
-    uint32_t rposy = std::max(0u, std::min(y * scale, dim - 1));
-    return *(data + rposx + rposy * dim) / 65535.0f;
+    uint32_t rposx = std::max(0u, std::min(x * scale_, dim_ - 1));
+    uint32_t rposy = std::max(0u, std::min(y * scale_, dim_ - 1));
+    return *(data_ + rposx + rposy * dim_) / 65535.0f;
 }
 
 }        // namespace vox

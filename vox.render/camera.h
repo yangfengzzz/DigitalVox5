@@ -22,39 +22,39 @@
 
 namespace vox {
 enum CameraType {
-    LookAt,
-    FirstPerson
+    LOOK_AT,
+    FIRST_PERSON
 };
 
 class Camera {
 public:
-    void update(float deltaTime);
+    void update(float delta_time);
     
     // Update camera passing separate axis data (gamepad)
     // Returns true if view or position has been changed
     bool update_gamepad(const Vector2F &axis_left, const Vector2F &axis_right, float delta_time);
     
-    CameraType type = CameraType::LookAt;
+    CameraType type_ = CameraType::LOOK_AT;
     
-    Vector3F rotation = Vector3F();
-    Point3F position = Point3F();
+    Vector3F rotation_ = Vector3F();
+    Point3F position_ = Point3F();
     
-    float rotation_speed = 1.0f;
-    float translation_speed = 1.0f;
+    float rotation_speed_ = 1.0f;
+    float translation_speed_ = 1.0f;
     
-    bool updated = false;
-    
-    struct {
-        Matrix4x4F perspective;
-        Matrix4x4F view;
-    } matrices;
+    bool updated_ = false;
     
     struct {
-        bool left = false;
-        bool right = false;
-        bool up = false;
-        bool down = false;
-    } keys;
+        Matrix4x4F perspective_;
+        Matrix4x4F view_;
+    } matrices_;
+    
+    struct {
+        bool left_ = false;
+        bool right_ = false;
+        bool up_ = false;
+        bool down_ = false;
+    } keys_;
     
     [[nodiscard]] bool moving() const;
     
@@ -77,8 +77,8 @@ public:
     void translate(const Vector3F &delta);
     
 private:
-    float fov;
-    float znear, zfar;
+    float fov_;
+    float znear_, zfar_;
     
     void update_view_matrix();
 };

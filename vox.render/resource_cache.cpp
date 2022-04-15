@@ -23,74 +23,74 @@ T &request_resource(Device &device, ResourceRecord &recorder, std::mutex &resour
 }        // namespace
 
 ResourceCache::ResourceCache(Device &device) :
-device{device} {
+device_{device} {
 }
 
 void ResourceCache::warmup(const std::vector<uint8_t> &data) {
-    recorder.set_data(data);
+    recorder_.set_data(data);
     
-    replayer.play(*this, recorder);
+    replayer_.play(*this, recorder_);
 }
 
 std::vector<uint8_t> ResourceCache::serialize() {
-    return recorder.get_data();
+    return recorder_.get_data();
 }
 
 void ResourceCache::set_pipeline_cache(VkPipelineCache new_pipeline_cache) {
-    pipeline_cache = new_pipeline_cache;
+    pipeline_cache_ = new_pipeline_cache;
 }
 
 ShaderModule &ResourceCache::request_shader_module(VkShaderStageFlagBits stage, const ShaderSource &glsl_source,
                                                    const ShaderVariant &shader_variant) {
     std::string entry_point{"main"};
-    return request_resource(device, recorder, shader_module_mutex, state.shader_modules, stage, glsl_source,
+    return request_resource(device_, recorder_, shader_module_mutex_, state_.shader_modules, stage, glsl_source,
                             entry_point, shader_variant);
 }
 
 PipelineLayout &ResourceCache::request_pipeline_layout(const std::vector<ShaderModule *> &shader_modules) {
-    return request_resource(device, recorder, pipeline_layout_mutex, state.pipeline_layouts, shader_modules);
+    return request_resource(device_, recorder_, pipeline_layout_mutex_, state_.pipeline_layouts, shader_modules);
 }
 
 DescriptorSetLayout &ResourceCache::request_descriptor_set_layout(const uint32_t set_index,
                                                                   const std::vector<ShaderModule *> &shader_modules,
                                                                   const std::vector<ShaderResource> &set_resources) {
-    return request_resource(device, recorder, descriptor_set_layout_mutex, state.descriptor_set_layouts, set_index,
+    return request_resource(device_, recorder_, descriptor_set_layout_mutex_, state_.descriptor_set_layouts, set_index,
                             shader_modules, set_resources);
 }
 
 GraphicsPipeline &ResourceCache::request_graphics_pipeline(PipelineState &pipeline_state) {
-    return request_resource(device, recorder, graphics_pipeline_mutex, state.graphics_pipelines, pipeline_cache,
+    return request_resource(device_, recorder_, graphics_pipeline_mutex_, state_.graphics_pipelines, pipeline_cache_,
                             pipeline_state);
 }
 
 ComputePipeline &ResourceCache::request_compute_pipeline(PipelineState &pipeline_state) {
-    return request_resource(device, recorder, compute_pipeline_mutex, state.compute_pipelines, pipeline_cache,
+    return request_resource(device_, recorder_, compute_pipeline_mutex_, state_.compute_pipelines, pipeline_cache_,
                             pipeline_state);
 }
 
 DescriptorSet &ResourceCache::request_descriptor_set(DescriptorSetLayout &descriptor_set_layout,
                                                      const BindingMap<VkDescriptorBufferInfo> &buffer_infos,
                                                      const BindingMap<VkDescriptorImageInfo> &image_infos) {
-    auto &descriptor_pool = request_resource(device, recorder, descriptor_set_mutex, state.descriptor_pools,
+    auto &descriptor_pool = request_resource(device_, recorder_, descriptor_set_mutex_, state_.descriptor_pools,
                                              descriptor_set_layout);
-    return request_resource(device, recorder, descriptor_set_mutex, state.descriptor_sets, descriptor_set_layout,
+    return request_resource(device_, recorder_, descriptor_set_mutex_, state_.descriptor_sets, descriptor_set_layout,
                             descriptor_pool, buffer_infos, image_infos);
 }
 
 RenderPass &ResourceCache::request_render_pass(const std::vector<Attachment> &attachments,
                                                const std::vector<LoadStoreInfo> &load_store_infos,
                                                const std::vector<SubpassInfo> &subpasses) {
-    return request_resource(device, recorder, render_pass_mutex, state.render_passes, attachments, load_store_infos,
+    return request_resource(device_, recorder_, render_pass_mutex_, state_.render_passes, attachments, load_store_infos,
                             subpasses);
 }
 
 Framebuffer &ResourceCache::request_framebuffer(const RenderTarget &render_target, const RenderPass &render_pass) {
-    return request_resource(device, recorder, framebuffer_mutex, state.framebuffers, render_target, render_pass);
+    return request_resource(device_, recorder_, framebuffer_mutex_, state_.framebuffers, render_target, render_pass);
 }
 
 void ResourceCache::clear_pipelines() {
-    state.graphics_pipelines.clear();
-    state.compute_pipelines.clear();
+    state_.graphics_pipelines.clear();
+    state_.compute_pipelines.clear();
 }
 
 void ResourceCache::update_descriptor_sets(const std::vector<core::ImageView> &old_views,
@@ -103,17 +103,17 @@ void ResourceCache::update_descriptor_sets(const std::vector<core::ImageView> &o
         auto &old_view = old_views[i];
         auto &new_view = new_views[i];
         
-        for (auto &kd_pair: state.descriptor_sets) {
+        for (auto &kd_pair : state_.descriptor_sets) {
             auto &key = kd_pair.first;
             auto &descriptor_set = kd_pair.second;
             
             auto &image_infos = descriptor_set.get_image_infos();
             
-            for (auto &ba_pair: image_infos) {
+            for (auto &ba_pair : image_infos) {
                 auto &binding = ba_pair.first;
                 auto &array = ba_pair.second;
                 
-                for (auto &ai_pair: array) {
+                for (auto &ai_pair : array) {
                     auto &array_element = ai_pair.first;
                     auto &image_info = ai_pair.second;
                     
@@ -148,16 +148,16 @@ void ResourceCache::update_descriptor_sets(const std::vector<core::ImageView> &o
     }
     
     if (!set_updates.empty()) {
-        vkUpdateDescriptorSets(device.get_handle(), to_u32(set_updates.size()), set_updates.data(),
+        vkUpdateDescriptorSets(device_.get_handle(), to_u32(set_updates.size()), set_updates.data(),
                                0, nullptr);
     }
     
     // Delete old entries (moved out descriptor sets)
-    for (auto &match: matches) {
+    for (auto &match : matches) {
         // Move out of the map
-        auto it = state.descriptor_sets.find(match);
+        auto it = state_.descriptor_sets.find(match);
         auto descriptor_set = std::move(it->second);
-        state.descriptor_sets.erase(match);
+        state_.descriptor_sets.erase(match);
         
         // Generate new key
         size_t new_key = 0U;
@@ -165,27 +165,26 @@ void ResourceCache::update_descriptor_sets(const std::vector<core::ImageView> &o
                    descriptor_set.get_image_infos());
         
         // Add (key, resource) to the cache
-        state.descriptor_sets.emplace(new_key, std::move(descriptor_set));
+        state_.descriptor_sets.emplace(new_key, std::move(descriptor_set));
     }
 }
 
 void ResourceCache::clear_framebuffers() {
-    state.framebuffers.clear();
+    state_.framebuffers.clear();
 }
 
 void ResourceCache::clear() {
-    state.shader_modules.clear();
-    state.pipeline_layouts.clear();
-    state.descriptor_sets.clear();
-    state.descriptor_set_layouts.clear();
-    state.render_passes.clear();
+    state_.shader_modules.clear();
+    state_.pipeline_layouts.clear();
+    state_.descriptor_sets.clear();
+    state_.descriptor_set_layouts.clear();
+    state_.render_passes.clear();
     clear_pipelines();
     clear_framebuffers();
 }
 
 const ResourceCacheState &ResourceCache::get_internal_state() const {
-    return state;
+    return state_;
 }
-
 
 }        // namespace vox

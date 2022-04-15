@@ -20,10 +20,10 @@ class RenderPass;
 class ShaderModule;
 
 enum class ResourceType {
-    ShaderModule,
-    PipelineLayout,
-    RenderPass,
-    GraphicsPipeline
+    SHADER_MODULE,
+    PIPELINE_LAYOUT,
+    RENDER_PASS,
+    GRAPHICS_PIPELINE
 };
 
 /**
@@ -60,24 +60,23 @@ public:
     void set_graphics_pipeline(size_t index, const GraphicsPipeline &graphics_pipeline);
     
 private:
-    std::ostringstream stream;
+    std::ostringstream stream_;
     
-    std::vector<size_t> shader_module_indices;
+    std::vector<size_t> shader_module_indices_;
     
-    std::vector<size_t> pipeline_layout_indices;
+    std::vector<size_t> pipeline_layout_indices_;
     
-    std::vector<size_t> render_pass_indices;
+    std::vector<size_t> render_pass_indices_;
     
-    std::vector<size_t> graphics_pipeline_indices;
+    std::vector<size_t> graphics_pipeline_indices_;
     
-    std::unordered_map<const ShaderModule *, size_t> shader_module_to_index;
+    std::unordered_map<const ShaderModule *, size_t> shader_module_to_index_;
     
-    std::unordered_map<const PipelineLayout *, size_t> pipeline_layout_to_index;
+    std::unordered_map<const PipelineLayout *, size_t> pipeline_layout_to_index_;
     
-    std::unordered_map<const RenderPass *, size_t> render_pass_to_index;
+    std::unordered_map<const RenderPass *, size_t> render_pass_to_index_;
     
-    std::unordered_map<const GraphicsPipeline *, size_t> graphics_pipeline_to_index;
+    std::unordered_map<const GraphicsPipeline *, size_t> graphics_pipeline_to_index_;
 };
-
 
 }        // namespace vox

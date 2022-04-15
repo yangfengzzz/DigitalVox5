@@ -10,6 +10,6 @@
 
 namespace vox::sg {
 Material::Material(std::string name) :
-name{std::move(name)} {}
+name_{std::move(name)} {}
 
 }        // namespace vox

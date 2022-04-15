@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef singleton_h
-#define singleton_h
+#ifndef DIGITALVOX_VOX_RENDER_SINGLETON_H_
+#define DIGITALVOX_VOX_RENDER_SINGLETON_H_
 
 #include <cassert>
 
@@ -15,37 +15,37 @@ namespace vox {
  */
 template<typename T>
 class Singleton {
-private:
+public:
     /** @brief Explicit private copy constructor. This is a forbidden operation.*/
-    Singleton(const Singleton<T> &);
+    Singleton(const Singleton<T> &) = delete;
     
     /** @brief Private operator= . This is a forbidden operation. */
-    Singleton &operator=(const Singleton<T> &);
+    Singleton &operator=(const Singleton<T> &) = delete;
     
 protected:
     
-    static T *msSingleton;
+    static T *ms_singleton_;
     
 public:
-    Singleton(void) {
-        assert(!msSingleton);
-        msSingleton = static_cast< T * >( this );
+    Singleton() {
+        assert(!ms_singleton_);
+        ms_singleton_ = static_cast< T * >( this );
     }
     
-    ~Singleton(void) {
-        assert(msSingleton);
-        msSingleton = 0;
+    ~Singleton() {
+        assert(ms_singleton_);
+        ms_singleton_ = 0;
     }
     
-    static T &getSingleton(void) {
-        assert(msSingleton);
-        return (*msSingleton);
+    static T &get_singleton() {
+        assert(ms_singleton_);
+        return (*ms_singleton_);
     }
     
-    static T *getSingletonPtr(void) {
-        return msSingleton;
+    static T *get_singleton_ptr() {
+        return ms_singleton_;
     }
 };
 
 }
-#endif /* singleton_h */
+#endif /* DIGITALVOX_VOX_RENDER_SINGLETON_H_ */

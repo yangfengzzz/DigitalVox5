@@ -48,13 +48,12 @@ public:
     [[nodiscard]] uint32_t get_active_semaphore_count() const;
     
 private:
-    Device &device;
+    Device &device_;
     
-    std::vector<VkSemaphore> semaphores;
-    std::vector<VkSemaphore> released_semaphores;
+    std::vector<VkSemaphore> semaphores_;
+    std::vector<VkSemaphore> released_semaphores_;
     
-    uint32_t active_semaphore_count{0};
+    uint32_t active_semaphore_count_{0};
 };
-
 
 }        // namespace vox

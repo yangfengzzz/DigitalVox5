@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef updateFlag_manager_hpp
-#define updateFlag_manager_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UPDATE_FLAG_MANAGER_H_
+#define DIGITALVOX_VOX_RENDER_UPDATE_FLAG_MANAGER_H_
 
 #include <memory>
 #include <vector>
@@ -21,8 +21,8 @@ public:
 private:
     friend class UpdateFlag;
     
-    std::vector<UpdateFlag *> _updateFlags;
+    std::vector<UpdateFlag *> update_flags_;
 };
 
 }        // namespace vox
-#endif /* updateFlag_manager_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UPDATE_FLAG_MANAGER_H_ */

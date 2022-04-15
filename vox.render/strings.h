@@ -210,7 +210,7 @@ template<typename T>
 inline std::string to_string(uint32_t bitmask, const std::map<T, const char *> string_map) {
     std::stringstream result;
     bool append = false;
-    for (const auto &s: string_map) {
+    for (const auto &s : string_map) {
         if (bitmask & s.first) {
             if (append) {
                 result << " / ";
@@ -271,6 +271,5 @@ std::string color_component_to_string(VkColorComponentFlags bitmask);
  * @return The vector of tokenized strings
  */
 std::vector<std::string> split(const std::string &input, char delim);
-
 
 }        // namespace vox

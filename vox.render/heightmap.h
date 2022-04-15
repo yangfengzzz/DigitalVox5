@@ -44,12 +44,11 @@ public:
     float get_height(uint32_t x, uint32_t y);
     
 private:
-    uint16_t *data;
+    uint16_t *data_;
     
-    uint32_t dim;
+    uint32_t dim_;
     
-    uint32_t scale;
+    uint32_t scale_;
 };
-
 
 }        // namespace vox

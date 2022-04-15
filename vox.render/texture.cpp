@@ -13,23 +13,23 @@
 
 namespace vox::sg {
 Texture::Texture(std::string name) :
-name{std::move(name)} {}
+name_{std::move(name)} {}
 
 void Texture::set_image(Image &i) {
-    image = &i;
+    image_ = &i;
 }
 
 Image *Texture::get_image() {
-    return image;
+    return image_;
 }
 
 void Texture::set_sampler(Sampler &s) {
-    sampler = &s;
+    sampler_ = &s;
 }
 
 Sampler *Texture::get_sampler() {
-    assert(sampler && "Texture has no sampler");
-    return sampler;
+    assert(sampler_ && "Texture has no sampler");
+    return sampler_;
 }
 
 }        // namespace vox

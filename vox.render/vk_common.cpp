@@ -112,7 +112,7 @@ VkFormat get_suitable_depth_format(VkPhysicalDevice physical_device, bool depth_
                                    const std::vector<VkFormat> &depth_format_priority_list) {
     VkFormat depth_format{VK_FORMAT_UNDEFINED};
     
-    for (auto &format: depth_format_priority_list) {
+    for (auto &format : depth_format_priority_list) {
         if (depth_only && !is_depth_only_format(format)) {
             continue;
         }
@@ -593,7 +593,6 @@ std::vector<VkClearValue> get_clear_value() {
     
     return clear_value;
 }
-
 
 }        // namespace gbuffer
 }        // namespace vox

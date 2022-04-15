@@ -158,7 +158,7 @@ public:
      */
     template<typename C>
     [[nodiscard]] bool has_tag() const {
-        return has_tag(Tag<C>::ID);
+        return has_tag(Tag<C>::id_);
     }
     
     /**
@@ -170,7 +170,7 @@ public:
      */
     template<typename... C>
     [[nodiscard]] bool has_tags() const {
-        std::vector<TagID> query = {Tag<C>::ID...};
+        std::vector<TagId> query = {Tag<C>::id_...};
         bool res = true;
         for (auto id : query) {
             res &= has_tag(id);
@@ -185,7 +185,7 @@ public:
      * @return true contains tag
      * @return false does not contain tag
      */
-    virtual bool has_tag(TagID id) const = 0;
+    virtual bool has_tag(TagId id) const = 0;
     
 protected:
     /**
@@ -228,7 +228,7 @@ namespace plugins {
  */
 template<typename... TAGS>
 std::vector<Plugin *> with_tags(const std::vector<Plugin *> &domain = {}) {
-    std::vector<TagID> tags = {Tag<TAGS>::ID...};
+    std::vector<TagId> tags = {Tag<TAGS>::id_...};
     std::vector<Plugin *> compatable;
     for (auto ext : domain) {
         assert(ext != nullptr);
@@ -256,7 +256,7 @@ std::vector<Plugin *> with_tags(const std::vector<Plugin *> &domain = {}) {
  */
 template<typename... TAGS>
 std::vector<Plugin *> without_tags(const std::vector<Plugin *> &domain = {}) {
-    std::vector<TagID> tags = {Tag<TAGS>::ID...};
+    std::vector<TagId> tags = {Tag<TAGS>::id_...};
     std::vector<Plugin *> compatable;
     for (auto ext : domain) {
         assert(ext != nullptr);

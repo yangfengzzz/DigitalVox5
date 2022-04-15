@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef scene_forward_h
-#define scene_forward_h
+#ifndef DIGITALVOX_VOX_RENDER_SCENE_FORWARD_H_
+#define DIGITALVOX_VOX_RENDER_SCENE_FORWARD_H_
 
 #include <memory>
 
@@ -74,4 +74,4 @@ class DirectLight;
 
 }
 
-#endif /* scene_forward_h */
+#endif /* DIGITALVOX_VOX_RENDER_SCENE_FORWARD_H_ */

@@ -164,7 +164,7 @@ public:
     void insert(const std::string &label, A &&... args) {
         static_assert(std::is_base_of<field::Base, C<T>>::value, "C is not a type of field::Base.");
         
-        for (auto &field: fields) {
+        for (auto &field : fields_) {
             if (field->label == label) {
                 if (dynamic_cast<typename field::Static<T> *>(field.get())) {
                     field = std::make_unique<C<T>>(label, args...);
@@ -174,12 +174,11 @@ public:
         }
         
         auto field = std::make_unique<C<T>>(label, std::forward<A>(args)...);
-        fields.push_back(std::move(field));
+        fields_.push_back(std::move(field));
     }
     
 private:
-    std::vector<std::unique_ptr<field::Base>> fields;
+    std::vector<std::unique_ptr<field::Base>> fields_;
 };
-
 
 }        // namespace vox

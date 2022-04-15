@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef event_h
-#define event_h
+#ifndef DIGITALVOX_VOX_RENDER_EVENT_H_
+#define DIGITALVOX_VOX_RENDER_EVENT_H_
 
 #include <functional>
 #include <unordered_map>
@@ -15,7 +15,7 @@ namespace vox {
  * The ID of a listener (Registered callback).
  * This value is needed to remove a listener from an event
  */
-using ListenerID = uint64_t;
+using ListenerId = uint64_t;
 
 /**
  * A simple event that contains a set of function callbacks. These functions will be called on invoke
@@ -33,36 +33,36 @@ public:
      * Also return the ID of the new listener (You should store the returned ID if you want to remove the listener later)
      * @param p_callback p_callback
      */
-    ListenerID addListener(Callback p_callback);
+    ListenerId add_listener(Callback p_callback);
     
     /**
      * Add a function callback to this event
      * Also return the ID of the new listener (You should store the returned ID if you want to remove the listener later)
      * @param p_callback p_callback
      */
-    ListenerID operator+=(Callback p_callback);
+    ListenerId operator+=(Callback p_callback);
     
     /**
      * Remove a function callback to this event using a Listener (Created when calling AddListener)
-     * @param p_listenerID p_listenerID
+     * @param p_listener_id p_listenerID
      */
-    bool removeListener(ListenerID p_listenerID);
+    bool remove_listener(ListenerId p_listener_id);
     
     /**
      * Remove a function callback to this event using a Listener (Created when calling AddListener)
-     * @param p_listenerID p_listenerID
+     * @param p_listener_id p_listenerID
      */
-    bool operator-=(ListenerID p_listenerID);
+    bool operator-=(ListenerId p_listener_id);
     
     /**
      * Remove every listeners to this event
      */
-    void removeAllListeners();
+    void remove_all_listeners();
     
     /**
      * Return the number of callback registered
      */
-    uint64_t listenerCount();
+    uint64_t listener_count();
     
     /**
      * Call every callbacks attached to this event
@@ -71,11 +71,11 @@ public:
     void invoke(ArgTypes... p_args);
     
 private:
-    std::unordered_map<ListenerID, Callback> _callbacks;
-    ListenerID _availableListenerID = 0;
+    std::unordered_map<ListenerId, Callback> callbacks_;
+    ListenerId available_listener_id_ = 0;
 };
 }
 
 #include "event-inl.h"
 
-#endif /* event_h */
+#endif /* DIGITALVOX_VOX_RENDER_EVENT_H_ */

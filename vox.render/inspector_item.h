@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef inspector_item_hpp
-#define inspector_item_hpp
+#ifndef DIGITALVOX_VOX_RENDER_INSPECTOR_ITEM_H_
+#define DIGITALVOX_VOX_RENDER_INSPECTOR_ITEM_H_
 
 #include "vobject.h"
 #include "ui/widgets/widget_container.h"
@@ -28,6 +28,5 @@ public:
     virtual void on_inspector(ui::WidgetContainer &p_root) = 0;
 };
 
-
 }
-#endif /* inspector_item_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_INSPECTOR_ITEM_H_ */

@@ -157,31 +157,31 @@ protected:
     /**
      * @brief The Vulkan instance
      */
-    std::unique_ptr<Instance> instance{nullptr};
+    std::unique_ptr<Instance> instance_{nullptr};
     
     /**
      * @brief The Vulkan device
      */
-    std::unique_ptr<Device> device{nullptr};
+    std::unique_ptr<Device> device_{nullptr};
     
     /**
      * @brief Context used for rendering, it is responsible for managing the frames and their underlying images
      */
-    std::unique_ptr<RenderContext> render_context{nullptr};
+    std::unique_ptr<RenderContext> render_context_{nullptr};
     
     /**
      * @brief Pipeline used for rendering, it should be set up by the concrete sample
      */
-    std::unique_ptr<RenderPipeline> render_pipeline{nullptr};
+    std::unique_ptr<RenderPipeline> render_pipeline_{nullptr};
     
     /**
      * @brief Holds all scene information
      */
     //	std::unique_ptr<sg::Scene> scene{nullptr};
     
-    std::unique_ptr<Gui> gui{nullptr};
+    std::unique_ptr<Gui> gui_{nullptr};
     
-    std::unique_ptr<Stats> stats{nullptr};
+    std::unique_ptr<Stats> stats_{nullptr};
     
     //	/**
     //	 * @brief Update scene
@@ -298,17 +298,17 @@ protected:
      */
     static void set_viewport_and_scissor(vox::CommandBuffer &command_buffer, const VkExtent2D &extent);
     
-    static constexpr float STATS_VIEW_RESET_TIME{10.0f};        // 10 seconds
+    static constexpr float stats_view_reset_time_{10.0f};        // 10 seconds
     
     /**
      * @brief The Vulkan surface
      */
-    VkSurfaceKHR surface{VK_NULL_HANDLE};
+    VkSurfaceKHR surface_{VK_NULL_HANDLE};
     
     /**
      * @brief The configuration of the sample
      */
-    Configuration configuration{};
+    Configuration configuration_{};
     
     /**
      * @brief Sets whether or not the first graphics queue should have higher priority than other queues.
@@ -318,22 +318,21 @@ protected:
      * Default state is false, where all queues have 0.5 priority.
      */
     void set_high_priority_graphics_queue_enable(bool enable) {
-        high_priority_graphics_queue = enable;
+        high_priority_graphics_queue_ = enable;
     }
     
 private:
     /** @brief Set of device extensions to be enabled for this example and whether they are optional (must be set in the derived constructor) */
-    std::unordered_map<const char *, bool> device_extensions;
+    std::unordered_map<const char *, bool> device_extensions_;
     
     /** @brief Set of instance extensions to be enabled for this example and whether they are optional (must be set in the derived constructor) */
-    std::unordered_map<const char *, bool> instance_extensions;
+    std::unordered_map<const char *, bool> instance_extensions_;
     
     /** @brief The Vulkan API version to request for this sample at instance creation time */
-    uint32_t api_version = VK_API_VERSION_1_0;
+    uint32_t api_version_ = VK_API_VERSION_1_0;
     
     /** @brief Whether or not we want a high priority graphics queue. */
-    bool high_priority_graphics_queue{false};
+    bool high_priority_graphics_queue_{false};
 };
-
 
 }        // namespace vox

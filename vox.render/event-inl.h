@@ -4,49 +4,49 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef event_inl_h
-#define event_inl_h
+#ifndef DIGITALVOX_VOX_RENDER_EVENT_INL_H_
+#define DIGITALVOX_VOX_RENDER_EVENT_INL_H_
 
 #include "event.h"
 
 namespace vox {
 template<class... ArgTypes>
-ListenerID Event<ArgTypes...>::addListener(Callback p_callback) {
-    ListenerID listenerID = _availableListenerID++;
-    _callbacks.emplace(listenerID, p_callback);
-    return listenerID;
+ListenerId Event<ArgTypes...>::add_listener(Callback p_callback) {
+    ListenerId listener_id = available_listener_id_++;
+    callbacks_.emplace(listener_id, p_callback);
+    return listener_id;
 }
 
 template<class... ArgTypes>
-ListenerID Event<ArgTypes...>::operator+=(Callback p_callback) {
-    return addListener(p_callback);
+ListenerId Event<ArgTypes...>::operator+=(Callback p_callback) {
+    return add_listener(p_callback);
 }
 
 template<class... ArgTypes>
-bool Event<ArgTypes...>::removeListener(ListenerID p_listenerID) {
-    return _callbacks.erase(p_listenerID) != 0;
+bool Event<ArgTypes...>::remove_listener(ListenerId p_listener_id) {
+    return callbacks_.erase(p_listener_id) != 0;
 }
 
 template<class... ArgTypes>
-bool Event<ArgTypes...>::operator-=(ListenerID p_listenerID) {
-    return removeListener(p_listenerID);
+bool Event<ArgTypes...>::operator-=(ListenerId p_listener_id) {
+    return remove_listener(p_listener_id);
 }
 
 template<class... ArgTypes>
-void Event<ArgTypes...>::removeAllListeners() {
-    _callbacks.clear();
+void Event<ArgTypes...>::remove_all_listeners() {
+    callbacks_.clear();
 }
 
 template<class... ArgTypes>
-uint64_t Event<ArgTypes...>::listenerCount() {
-    return _callbacks.size();
+uint64_t Event<ArgTypes...>::listener_count() {
+    return callbacks_.size();
 }
 
 template<class... ArgTypes>
 void Event<ArgTypes...>::invoke(ArgTypes... p_args) {
-    for (auto const& [key, value] : _callbacks)
-        value(p_args...);
+    for (auto const&[kEy, kValue] : callbacks_)
+        kValue(p_args...);
 }
 }
 
-#endif /* event_inl_h */
+#endif /* DIGITALVOX_VOX_RENDER_EVENT_INL_H_ */

@@ -168,7 +168,7 @@ public:
     static void text(const char *formatstr, ...);
     
 private:
-    bool dirty{false};
+    bool dirty_{false};
 };
 
 class VulkanSample;
@@ -200,11 +200,11 @@ public:
          */
         void reset_max_value(StatIndex index);
         
-        std::map<StatIndex, StatGraphData> graph_map;
+        std::map<StatIndex, StatGraphData> graph_map_;
         
-        float graph_height{50.0f};
+        float graph_height_{50.0f};
         
-        float top_padding{1.1f};
+        float top_padding_{1.1f};
     };
     
     /**
@@ -212,22 +212,22 @@ public:
      */
     class DebugView {
     public:
-        bool active{false};
+        bool active_{false};
         
-        float scale{1.7f};
+        float scale_{1.7f};
         
-        uint32_t max_fields{8};
+        uint32_t max_fields_{8};
         
-        float label_column_width{0};
+        float label_column_width_{0};
     };
     
     // The name of the default font file to use
-    static const std::string default_font;
+    static const std::string default_font_;
     
     struct PushConstBlock {
         Vector2F scale;
         Vector2F translate;
-    } push_const_block;
+    } push_const_block_;
     
     /**
      * @brief Initializes the Gui
@@ -334,7 +334,7 @@ public:
     
     Drawer &get_drawer();
     
-    Font &get_font(const std::string &font_name = Gui::default_font);
+    Font &get_font(const std::string &font_name = Gui::default_font_);
     
     [[nodiscard]] bool is_debug_view_active() const;
     
@@ -342,7 +342,7 @@ private:
     /**
      * @brief Block size of a buffer pool in kilobytes
      */
-    static constexpr uint32_t BUFFER_POOL_BLOCK_SIZE = 256;
+    static constexpr uint32_t buffer_pool_block_size_ = 256;
     
     /**
      * @brief Updates Vulkan buffers
@@ -350,74 +350,73 @@ private:
      */
     void update_buffers(CommandBuffer &command_buffer, RenderFrame &render_frame);
     
-    static const double press_time_ms;
+    static const double press_time_ms_;
     
-    static const float overlay_alpha;
+    static const float overlay_alpha_;
     
-    static const ImGuiWindowFlags common_flags;
+    static const ImGuiWindowFlags common_flags_;
     
-    static const ImGuiWindowFlags options_flags;
+    static const ImGuiWindowFlags options_flags_;
     
-    static const ImGuiWindowFlags info_flags;
+    static const ImGuiWindowFlags info_flags_;
     
-    VulkanSample &sample;
+    VulkanSample &sample_;
     
-    std::unique_ptr<core::Buffer> vertex_buffer;
+    std::unique_ptr<core::Buffer> vertex_buffer_;
     
-    std::unique_ptr<core::Buffer> index_buffer;
+    std::unique_ptr<core::Buffer> index_buffer_;
     
-    size_t last_vertex_buffer_size{};
+    size_t last_vertex_buffer_size_{};
     
-    size_t last_index_buffer_size{};
+    size_t last_index_buffer_size_{};
     
     ///  Scale factor to apply due to a difference between the window and GL pixel sizes
-    float content_scale_factor{1.0f};
+    float content_scale_factor_{1.0f};
     
     /// Scale factor to apply to the size of gui elements (expressed in dp)
-    float dpi_factor{1.0f};
+    float dpi_factor_{1.0f};
     
-    bool explicit_update{false};
+    bool explicit_update_{false};
     
-    Drawer drawer;
+    Drawer drawer_;
     
-    std::vector<Font> fonts;
+    std::vector<Font> fonts_;
     
-    std::unique_ptr<core::Image> font_image;
-    std::unique_ptr<core::ImageView> font_image_view;
+    std::unique_ptr<core::Image> font_image_;
+    std::unique_ptr<core::ImageView> font_image_view_;
     
-    std::unique_ptr<core::Sampler> sampler{nullptr};
+    std::unique_ptr<core::Sampler> sampler_{nullptr};
     
-    PipelineLayout *pipeline_layout{nullptr};
+    PipelineLayout *pipeline_layout_{nullptr};
     
-    StatsView stats_view;
+    StatsView stats_view_;
     
-    DebugView debug_view;
+    DebugView debug_view_;
     
-    VkDescriptorPool descriptor_pool{VK_NULL_HANDLE};
+    VkDescriptorPool descriptor_pool_{VK_NULL_HANDLE};
     
-    VkDescriptorSetLayout descriptor_set_layout{VK_NULL_HANDLE};
+    VkDescriptorSetLayout descriptor_set_layout_{VK_NULL_HANDLE};
     
-    VkDescriptorSet descriptor_set{VK_NULL_HANDLE};
+    VkDescriptorSet descriptor_set_{VK_NULL_HANDLE};
     
-    VkPipeline pipeline{VK_NULL_HANDLE};
+    VkPipeline pipeline_{VK_NULL_HANDLE};
     
     /// Used to measure duration of input events
-    Timer timer;
+    Timer timer_;
     
     /// Used to show/hide the GUI
-    bool visible{true};
+    bool visible_{true};
     
-    bool prev_visible{true};
+    bool prev_visible_{true};
     
     /// Whether or not the GUI has detected a multi touch gesture
-    bool two_finger_tap = false;
+    bool two_finger_tap_ = false;
     
-    bool show_graph_file_output = false;
+    bool show_graph_file_output_ = false;
 };
 
 void Gui::new_frame() {
     ImGui::NewFrame();
 }
-
 
 }        // namespace vox

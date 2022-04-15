@@ -12,8 +12,8 @@ std::unique_ptr<UpdateFlag> UpdateFlagManager::registration() {
 }
 
 void UpdateFlagManager::distribute() {
-    for (size_t i = 0; i < _updateFlags.size(); i++) {
-        _updateFlags[i]->flag = true;
+    for (auto &update_flag : update_flags_) {
+        update_flag->flag_ = true;
     }
 }
 

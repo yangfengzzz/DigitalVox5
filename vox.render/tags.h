@@ -22,7 +22,7 @@
 /**
  * @brief Used to represent a tag
  */
-typedef void (*TagID)();
+typedef void (*TagId)();
 
 /**
  * @brief Tag acts as a unique identifier to categories objects
@@ -38,7 +38,7 @@ template<typename... TAGS>
 class Tag {
 public:
     Tag() {
-        tags = {Tag<TAGS>::ID...};
+        tags_ = {Tag<TAGS>::id_...};
     }
     
     static void member() {};
@@ -46,34 +46,34 @@ public:
     /**
      * @brief Unique TagID for a given Tag<TagName>
      */
-    constexpr static TagID ID = &member;
+    constexpr static TagId id_ = &member;
     
-    static bool has_tag(TagID id) {
-        return std::find(tags.begin(), tags.end(), id) != tags.end();
+    static bool has_tag(TagId id) {
+        return std::find(tags_.begin(), tags_.end(), id) != tags_.end();
     }
     
     template<typename C>
     static bool has_tag() {
-        return has_tag(Tag<C>::ID);
+        return has_tag(Tag<C>::id_);
     }
     
     template<typename... C>
     static bool has_tags() {
-        std::vector<TagID> query = {Tag<C>::ID...};
+        std::vector<TagId> query = {Tag<C>::id_...};
         bool res = true;
-        for (auto id: query) {
+        for (auto id : query) {
             res &= has_tag(id);
         }
         return res;
     }
     
 private:
-    static std::vector<TagID> tags;
+    static std::vector<TagId> tags_;
 };
 
 #ifndef DOXYGEN_SKIP
 
 template<typename... TAGS>
-std::vector<TagID> Tag<TAGS...>::tags;
+std::vector<TagId> Tag<TAGS...>::tags_;
 
 #endif

@@ -97,15 +97,15 @@ void Image::create_vk_image(Device const &device, VkImageViewType image_view_typ
     assert(!vk_image_ && !vk_image_view_ && "Vulkan image already constructed");
     
     vk_image_ = std::make_unique<core::Image>(device,
-                                             get_extent(),
-                                             format_,
-                                             VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
-                                             VMA_MEMORY_USAGE_GPU_ONLY,
-                                             VK_SAMPLE_COUNT_1_BIT,
-                                             to_u32(mipmaps_.size()),
-                                             layers_,
-                                             VK_IMAGE_TILING_OPTIMAL,
-                                             flags);
+                                              get_extent(),
+                                              format_,
+                                              VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
+                                              VMA_MEMORY_USAGE_GPU_ONLY,
+                                              VK_SAMPLE_COUNT_1_BIT,
+                                              to_u32(mipmaps_.size()),
+                                              layers_,
+                                              VK_IMAGE_TILING_OPTIMAL,
+                                              flags);
     vk_image_->set_debug_name(name_);
     
     vk_image_view_ = std::make_unique<core::ImageView>(*vk_image_, image_view_type);

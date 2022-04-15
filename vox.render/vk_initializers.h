@@ -52,9 +52,9 @@ inline VkCommandPoolCreateInfo command_pool_create_info() {
 }
 
 inline VkCommandBufferBeginInfo command_buffer_begin_info() {
-    VkCommandBufferBeginInfo cmdBufferBeginInfo{};
-    cmdBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    return cmdBufferBeginInfo;
+    VkCommandBufferBeginInfo cmd_buffer_begin_info{};
+    cmd_buffer_begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    return cmd_buffer_begin_info;
 }
 
 inline VkCommandBufferInheritanceInfo command_buffer_inheritance_info() {
@@ -86,7 +86,7 @@ inline VkRenderingAttachmentInfoKHR rendering_attachment_info() {
 /** @brief Initialize VkRenderingInfoKHR, e.g. for use with dynamic rendering extension */
 inline VkRenderingInfoKHR rendering_info(VkRect2D render_area = {},
                                          uint32_t color_attachment_count = 0,
-                                         const VkRenderingAttachmentInfoKHR *pColorAttachments = VK_NULL_HANDLE,
+                                         const VkRenderingAttachmentInfoKHR *p_color_attachments = VK_NULL_HANDLE,
                                          VkRenderingFlagsKHR flags = 0) {
     VkRenderingInfoKHR rendering_info = {};
     rendering_info.sType = VK_STRUCTURE_TYPE_RENDERING_INFO_KHR;
@@ -96,7 +96,7 @@ inline VkRenderingInfoKHR rendering_info(VkRect2D render_area = {},
     rendering_info.layerCount = 0;
     rendering_info.viewMask = 0;
     rendering_info.colorAttachmentCount = color_attachment_count;
-    rendering_info.pColorAttachments = pColorAttachments;
+    rendering_info.pColorAttachments = p_color_attachments;
     rendering_info.pDepthAttachment = VK_NULL_HANDLE;
     rendering_info.pStencilAttachment = VK_NULL_HANDLE;
     return rendering_info;
@@ -189,17 +189,17 @@ inline VkViewport viewport(
     return viewport;
 }
 
-inline VkRect2D rect2D(
-                       int32_t width,
-                       int32_t height,
-                       int32_t offset_x,
-                       int32_t offset_y) {
-    VkRect2D rect2D{};
-    rect2D.extent.width = width;
-    rect2D.extent.height = height;
-    rect2D.offset.x = offset_x;
-    rect2D.offset.y = offset_y;
-    return rect2D;
+inline VkRect2D rect_2d(
+                        int32_t width,
+                        int32_t height,
+                        int32_t offset_x,
+                        int32_t offset_y) {
+    VkRect2D rect_2d{};
+    rect_2d.extent.width = width;
+    rect_2d.extent.height = height;
+    rect_2d.offset.x = offset_x;
+    rect_2d.offset.y = offset_y;
+    return rect_2d;
 }
 
 inline VkBufferCreateInfo buffer_create_info() {
@@ -468,12 +468,12 @@ inline VkPipelineMultisampleStateCreateInfo pipeline_multisample_state_create_in
 
 inline VkPipelineDynamicStateCreateInfo pipeline_dynamic_state_create_info(
                                                                            const VkDynamicState *dynamic_states,
-                                                                           uint32_t dynamicStateCount,
+                                                                           uint32_t dynamic_state_count,
                                                                            VkPipelineDynamicStateCreateFlags flags = 0) {
     VkPipelineDynamicStateCreateInfo pipeline_dynamic_state_create_info{};
     pipeline_dynamic_state_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
     pipeline_dynamic_state_create_info.pDynamicStates = dynamic_states;
-    pipeline_dynamic_state_create_info.dynamicStateCount = dynamicStateCount;
+    pipeline_dynamic_state_create_info.dynamicStateCount = dynamic_state_count;
     pipeline_dynamic_state_create_info.flags = flags;
     return pipeline_dynamic_state_create_info;
 }
@@ -566,6 +566,5 @@ specialization_info(uint32_t map_entry_count, const VkSpecializationMapEntry *ma
     specialization_info.pData = data;
     return specialization_info;
 }
-
 
 }        // namespace vox

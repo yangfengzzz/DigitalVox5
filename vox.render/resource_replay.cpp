@@ -28,7 +28,7 @@ inline void read_subpass_info(std::istringstream &is, std::vector<SubpassInfo> &
     std::size_t size;
     read(is, size);
     value.resize(size);
-    for (SubpassInfo &subpass: value) {
+    for (SubpassInfo &subpass : value) {
         read(is, subpass.input_attachments);
         read(is, subpass.output_attachments);
     }
@@ -38,21 +38,21 @@ inline void read_processes(std::istringstream &is, std::vector<std::string> &val
     std::size_t size;
     read(is, size);
     value.resize(size);
-    for (std::string &item: value) {
+    for (std::string &item : value) {
         read(is, item);
     }
 }
 }        // namespace
 
 ResourceReplay::ResourceReplay() {
-    stream_resources[ResourceType::ShaderModule] = std::bind(&ResourceReplay::create_shader_module, this,
-                                                             std::placeholders::_1, std::placeholders::_2);
-    stream_resources[ResourceType::PipelineLayout] = std::bind(&ResourceReplay::create_pipeline_layout, this,
+    stream_resources_[ResourceType::SHADER_MODULE] = std::bind(&ResourceReplay::create_shader_module, this,
                                                                std::placeholders::_1, std::placeholders::_2);
-    stream_resources[ResourceType::RenderPass] = std::bind(&ResourceReplay::create_render_pass, this,
-                                                           std::placeholders::_1, std::placeholders::_2);
-    stream_resources[ResourceType::GraphicsPipeline] = std::bind(&ResourceReplay::create_graphics_pipeline, this,
+    stream_resources_[ResourceType::PIPELINE_LAYOUT] = std::bind(&ResourceReplay::create_pipeline_layout, this,
                                                                  std::placeholders::_1, std::placeholders::_2);
+    stream_resources_[ResourceType::RENDER_PASS] = std::bind(&ResourceReplay::create_render_pass, this,
+                                                             std::placeholders::_1, std::placeholders::_2);
+    stream_resources_[ResourceType::GRAPHICS_PIPELINE] = std::bind(&ResourceReplay::create_graphics_pipeline, this,
+                                                                   std::placeholders::_1, std::placeholders::_2);
 }
 
 void ResourceReplay::play(ResourceCache &resource_cache, ResourceRecord &recorder) {
@@ -68,10 +68,10 @@ void ResourceReplay::play(ResourceCache &resource_cache, ResourceRecord &recorde
         }
         
         // Find command function for the given command id
-        auto cmd_it = stream_resources.find(resource_type);
+        auto cmd_it = stream_resources_.find(resource_type);
         
         // Check if command replayer supports the given command
-        if (cmd_it != stream_resources.end()) {
+        if (cmd_it != stream_resources_.end()) {
             // Run command function
             cmd_it->second(resource_cache, stream);
         } else {
@@ -101,7 +101,7 @@ void ResourceReplay::create_shader_module(ResourceCache &resource_cache, std::is
     
     auto &shader_module = resource_cache.request_shader_module(stage, shader_source, shader_variant);
     
-    shader_modules.push_back(&shader_module);
+    shader_modules_.push_back(&shader_module);
 }
 
 void ResourceReplay::create_pipeline_layout(ResourceCache &resource_cache, std::istringstream &stream) {
@@ -112,11 +112,11 @@ void ResourceReplay::create_pipeline_layout(ResourceCache &resource_cache, std::
     
     std::vector<ShaderModule *> shader_stages(shader_indices.size());
     std::transform(shader_indices.begin(), shader_indices.end(), shader_stages.begin(),
-                   [&](size_t shader_index) { return shader_modules.at(shader_index); });
+                   [&](size_t shader_index) { return shader_modules_.at(shader_index); });
     
     auto &pipeline_layout = resource_cache.request_pipeline_layout(shader_stages);
     
-    pipeline_layouts.push_back(&pipeline_layout);
+    pipeline_layouts_.push_back(&pipeline_layout);
 }
 
 void ResourceReplay::create_render_pass(ResourceCache &resource_cache, std::istringstream &stream) {
@@ -132,7 +132,7 @@ void ResourceReplay::create_render_pass(ResourceCache &resource_cache, std::istr
     
     auto &render_pass = resource_cache.request_render_pass(attachments, load_store_infos, subpasses);
     
-    render_passes.push_back(&render_pass);
+    render_passes_.push_back(&render_pass);
 }
 
 void ResourceReplay::create_graphics_pipeline(ResourceCache &resource_cache, std::istringstream &stream) {
@@ -176,10 +176,10 @@ void ResourceReplay::create_graphics_pipeline(ResourceCache &resource_cache, std
          color_blend_state.attachments);
     
     PipelineState pipeline_state{};
-    pipeline_state.set_pipeline_layout(*pipeline_layouts.at(pipeline_layout_index));
-    pipeline_state.set_render_pass(*render_passes.at(render_pass_index));
+    pipeline_state.set_pipeline_layout(*pipeline_layouts_.at(pipeline_layout_index));
+    pipeline_state.set_render_pass(*render_passes_.at(render_pass_index));
     
-    for (auto &item: specialization_constant_state) {
+    for (auto &item : specialization_constant_state) {
         pipeline_state.set_specialization_constant(item.first, item.second);
     }
     
@@ -194,8 +194,7 @@ void ResourceReplay::create_graphics_pipeline(ResourceCache &resource_cache, std
     
     auto &graphics_pipeline = resource_cache.request_graphics_pipeline(pipeline_state);
     
-    graphics_pipelines.push_back(&graphics_pipeline);
+    graphics_pipelines_.push_back(&graphics_pipeline);
 }
-
 
 }        // namespace vox

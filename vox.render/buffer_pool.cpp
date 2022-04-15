@@ -23,17 +23,17 @@
 
 namespace vox {
 BufferBlock::BufferBlock(Device &device, VkDeviceSize size, VkBufferUsageFlags usage, VmaMemoryUsage memory_usage) :
-buffer{device, size, usage, memory_usage} {
+buffer_{device, size, usage, memory_usage} {
     if (usage == VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) {
-        alignment = device.get_gpu().get_properties().limits.minUniformBufferOffsetAlignment;
+        alignment_ = device.get_gpu().get_properties().limits.minUniformBufferOffsetAlignment;
     } else if (usage == VK_BUFFER_USAGE_STORAGE_BUFFER_BIT) {
-        alignment = device.get_gpu().get_properties().limits.minStorageBufferOffsetAlignment;
+        alignment_ = device.get_gpu().get_properties().limits.minStorageBufferOffsetAlignment;
     } else if (usage == VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT) {
-        alignment = device.get_gpu().get_properties().limits.minTexelBufferOffsetAlignment;
+        alignment_ = device.get_gpu().get_properties().limits.minTexelBufferOffsetAlignment;
     } else if (usage == VK_BUFFER_USAGE_INDEX_BUFFER_BIT || usage == VK_BUFFER_USAGE_VERTEX_BUFFER_BIT ||
                usage == VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT) {
         // Used to calculate the offset, required when allocating memory (its value should be power of 2)
-        alignment = 16;
+        alignment_ = 16;
     } else {
         throw std::runtime_error("Usage not recognised");
     }
@@ -42,98 +42,98 @@ buffer{device, size, usage, memory_usage} {
 BufferAllocation BufferBlock::allocate(const uint32_t allocate_size) {
     assert(allocate_size > 0 && "Allocation size must be greater than zero");
     
-    auto aligned_offset = (offset + alignment - 1) & ~(alignment - 1);
+    auto aligned_offset = (offset_ + alignment_ - 1) & ~(alignment_ - 1);
     
-    if (aligned_offset + allocate_size > buffer.get_size()) {
+    if (aligned_offset + allocate_size > buffer_.get_size()) {
         // No more space available from the underlying buffer, return empty allocation
         return BufferAllocation{};
     }
     
     // Move the current offset and return an allocation
-    offset = aligned_offset + allocate_size;
-    return BufferAllocation{buffer, allocate_size, aligned_offset};
+    offset_ = aligned_offset + allocate_size;
+    return BufferAllocation{buffer_, allocate_size, aligned_offset};
 }
 
 VkDeviceSize BufferBlock::get_size() const {
-    return buffer.get_size();
+    return buffer_.get_size();
 }
 
 void BufferBlock::reset() {
-    offset = 0;
+    offset_ = 0;
 }
 
 BufferPool::BufferPool(Device &device, VkDeviceSize block_size, VkBufferUsageFlags usage,
                        VmaMemoryUsage memory_usage) :
-device{device},
-block_size{block_size},
-usage{usage},
-memory_usage{memory_usage} {
+device_{device},
+block_size_{block_size},
+usage_{usage},
+memory_usage_{memory_usage} {
 }
 
 BufferBlock &BufferPool::request_buffer_block(const VkDeviceSize minimum_size) {
     // Find the first block in the range of the inactive blocks
     // which can fit the minimum size
-    auto it = std::upper_bound(buffer_blocks.begin() + active_buffer_block_count, buffer_blocks.end(), minimum_size,
+    auto it = std::upper_bound(buffer_blocks_.begin() + active_buffer_block_count_, buffer_blocks_.end(), minimum_size,
                                [](const VkDeviceSize &a, const std::unique_ptr<BufferBlock> &b) -> bool {
         return a <= b->get_size();
     });
     
-    if (it != buffer_blocks.end()) {
+    if (it != buffer_blocks_.end()) {
         // Recycle inactive block
-        active_buffer_block_count++;
+        active_buffer_block_count_++;
         return *it->get();
     }
     
-    LOGD("Building #{} buffer block ({})", buffer_blocks.size(), usage)
+    LOGD("Building #{} buffer block ({})", buffer_blocks_.size(), usage_)
     
     // Create a new block, store and return it
-    buffer_blocks.emplace_back(
-                               std::make_unique<BufferBlock>(device, std::max(block_size, minimum_size), usage, memory_usage));
+    buffer_blocks_.emplace_back(
+                                std::make_unique<BufferBlock>(device_, std::max(block_size_, minimum_size), usage_, memory_usage_));
     
-    auto &block = buffer_blocks[active_buffer_block_count++];
+    auto &block = buffer_blocks_[active_buffer_block_count_++];
     
     return *block;
 }
 
 void BufferPool::reset() {
-    for (auto &buffer_block: buffer_blocks) {
+    for (auto &buffer_block : buffer_blocks_) {
         buffer_block->reset();
     }
     
-    active_buffer_block_count = 0;
+    active_buffer_block_count_ = 0;
 }
 
 BufferAllocation::BufferAllocation(core::Buffer &buffer, VkDeviceSize size, VkDeviceSize offset) :
-buffer{&buffer},
-size{size},
-base_offset{offset} {
+buffer_{&buffer},
+size_{size},
+base_offset_{offset} {
 }
 
 void BufferAllocation::update(const std::vector<uint8_t> &data, uint32_t offset) {
-    assert(buffer && "Invalid buffer pointer");
+    assert(buffer_ && "Invalid buffer pointer");
     
-    if (offset + data.size() <= size) {
-        buffer->update(data, to_u32(base_offset) + offset);
+    if (offset + data.size() <= size_) {
+        buffer_->update(data, to_u32(base_offset_) + offset);
     } else {
         LOGE("Ignore buffer allocation update")
     }
 }
 
 bool BufferAllocation::empty() const {
-    return size == 0 || buffer == nullptr;
+    return size_ == 0 || buffer_ == nullptr;
 }
 
 VkDeviceSize BufferAllocation::get_size() const {
-    return size;
+    return size_;
 }
 
 VkDeviceSize BufferAllocation::get_offset() const {
-    return base_offset;
+    return base_offset_;
 }
 
 core::Buffer &BufferAllocation::get_buffer() {
-    assert(buffer && "Invalid buffer pointer");
-    return *buffer;
+    assert(buffer_ && "Invalid buffer pointer");
+    return *buffer_;
 }
 
 }        // namespace vox

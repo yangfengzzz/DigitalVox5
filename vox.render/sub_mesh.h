@@ -29,23 +29,23 @@ struct VertexAttribute {
 
 class SubMesh {
 public:
-    std::string name{};
+    std::string name_{};
     
     explicit SubMesh(std::string name = {});
     
     virtual ~SubMesh() = default;
     
-    VkIndexType index_type{};
+    VkIndexType index_type_{};
     
-    std::uint32_t index_offset = 0;
+    std::uint32_t index_offset_ = 0;
     
-    std::uint32_t vertices_count = 0;
+    std::uint32_t vertices_count_ = 0;
     
-    std::uint32_t vertex_indices = 0;
+    std::uint32_t vertex_indices_ = 0;
     
-    std::unordered_map<std::string, core::Buffer> vertex_buffers;
+    std::unordered_map<std::string, core::Buffer> vertex_buffers_;
     
-    std::unique_ptr<core::Buffer> index_buffer;
+    std::unique_ptr<core::Buffer> index_buffer_;
     
     void set_attribute(const std::string &name, const VertexAttribute &attribute);
     
@@ -60,14 +60,13 @@ public:
     ShaderVariant &get_mut_shader_variant();
     
 private:
-    std::unordered_map<std::string, VertexAttribute> vertex_attributes;
+    std::unordered_map<std::string, VertexAttribute> vertex_attributes_;
     
-    const Material *material{nullptr};
+    const Material *material_{nullptr};
     
-    ShaderVariant shader_variant;
+    ShaderVariant shader_variant_;
     
     void compute_shader_variant();
 };
-
 
 }        // namespace vox

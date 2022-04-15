@@ -107,7 +107,7 @@ inline void write(std::ostringstream &os, const std::string &value) {
 template<class T>
 inline void write(std::ostringstream &os, const std::set<T> &value) {
     write(os, value.size());
-    for (const T &item: value) {
+    for (const T &item : value) {
         os.write(reinterpret_cast<const char *>(&item), sizeof(T));
     }
 }
@@ -122,7 +122,7 @@ template<class T, class S>
 inline void write(std::ostringstream &os, const std::map<T, S> &value) {
     write(os, value.size());
     
-    for (const std::pair<T, S> &item: value) {
+    for (const std::pair<T, S> &item : value) {
         write(os, item.first);
         write(os, item.second);
     }

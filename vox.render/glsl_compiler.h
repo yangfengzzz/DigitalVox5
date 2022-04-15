@@ -25,8 +25,8 @@ namespace vox {
 /// A very simple version of the glslValidator application
 class GLSLCompiler {
 private:
-    static glslang::EShTargetLanguage env_target_language;
-    static glslang::EShTargetLanguageVersion env_target_language_version;
+    static glslang::EShTargetLanguage env_target_language_;
+    static glslang::EShTargetLanguageVersion env_target_language_version_;
     
 public:
     /**

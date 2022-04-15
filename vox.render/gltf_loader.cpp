@@ -33,7 +33,6 @@
 #include "core/image.h"
 #include "platform/filesystem.h"
 
-
 #include "image.h"
 #include "image/astc_img.h"
 #include "texture.h"
@@ -58,51 +57,38 @@ inline VkFilter find_min_filter(int min_filter) {
     switch (min_filter) {
         case TINYGLTF_TEXTURE_FILTER_NEAREST:
         case TINYGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST:
-        case TINYGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
-            return VK_FILTER_NEAREST;
+        case TINYGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:return VK_FILTER_NEAREST;
         case TINYGLTF_TEXTURE_FILTER_LINEAR:
         case TINYGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
-        case TINYGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR:
-            return VK_FILTER_LINEAR;
-        default:
-            return VK_FILTER_LINEAR;
+        case TINYGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR:return VK_FILTER_LINEAR;
+        default:return VK_FILTER_LINEAR;
     }
 }
 
 inline VkSamplerMipmapMode find_mipmap_mode(int min_filter) {
     switch (min_filter) {
         case TINYGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST:
-        case TINYGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:
-            return VK_SAMPLER_MIPMAP_MODE_NEAREST;
+        case TINYGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST:return VK_SAMPLER_MIPMAP_MODE_NEAREST;
         case TINYGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR:
-        case TINYGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR:
-            return VK_SAMPLER_MIPMAP_MODE_LINEAR;
-        default:
-            return VK_SAMPLER_MIPMAP_MODE_LINEAR;
+        case TINYGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR:return VK_SAMPLER_MIPMAP_MODE_LINEAR;
+        default:return VK_SAMPLER_MIPMAP_MODE_LINEAR;
     }
 }
 
 inline VkFilter find_mag_filter(int mag_filter) {
     switch (mag_filter) {
-        case TINYGLTF_TEXTURE_FILTER_NEAREST:
-            return VK_FILTER_NEAREST;
-        case TINYGLTF_TEXTURE_FILTER_LINEAR:
-            return VK_FILTER_LINEAR;
-        default:
-            return VK_FILTER_LINEAR;
+        case TINYGLTF_TEXTURE_FILTER_NEAREST:return VK_FILTER_NEAREST;
+        case TINYGLTF_TEXTURE_FILTER_LINEAR:return VK_FILTER_LINEAR;
+        default:return VK_FILTER_LINEAR;
     }
 }
 
 inline VkSamplerAddressMode find_wrap_mode(int wrap) {
     switch (wrap) {
-        case TINYGLTF_TEXTURE_WRAP_REPEAT:
-            return VK_SAMPLER_ADDRESS_MODE_REPEAT;
-        case TINYGLTF_TEXTURE_WRAP_CLAMP_TO_EDGE:
-            return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-        case TINYGLTF_TEXTURE_WRAP_MIRRORED_REPEAT:
-            return VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT;
-        default:
-            return VK_SAMPLER_ADDRESS_MODE_REPEAT;
+        case TINYGLTF_TEXTURE_WRAP_REPEAT:return VK_SAMPLER_ADDRESS_MODE_REPEAT;
+        case TINYGLTF_TEXTURE_WRAP_CLAMP_TO_EDGE:return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+        case TINYGLTF_TEXTURE_WRAP_MIRRORED_REPEAT:return VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT;
+        default:return VK_SAMPLER_ADDRESS_MODE_REPEAT;
     }
 }
 
@@ -137,9 +123,9 @@ inline VkFormat get_attribute_format(const tinygltf::Model *model, uint32_t acce
     switch (accessor.componentType) {
         case TINYGLTF_COMPONENT_TYPE_BYTE: {
             static const std::map<int, VkFormat> mapped_format = {{TINYGLTF_TYPE_SCALAR, VK_FORMAT_R8_SINT},
-                {TINYGLTF_TYPE_VEC2,   VK_FORMAT_R8G8_SINT},
-                {TINYGLTF_TYPE_VEC3,   VK_FORMAT_R8G8B8_SINT},
-                {TINYGLTF_TYPE_VEC4,   VK_FORMAT_R8G8B8A8_SINT}};
+                {TINYGLTF_TYPE_VEC2, VK_FORMAT_R8G8_SINT},
+                {TINYGLTF_TYPE_VEC3, VK_FORMAT_R8G8B8_SINT},
+                {TINYGLTF_TYPE_VEC4, VK_FORMAT_R8G8B8A8_SINT}};
             
             format = mapped_format.at(accessor.type);
             
@@ -147,14 +133,14 @@ inline VkFormat get_attribute_format(const tinygltf::Model *model, uint32_t acce
         }
         case TINYGLTF_COMPONENT_TYPE_UNSIGNED_BYTE: {
             static const std::map<int, VkFormat> mapped_format = {{TINYGLTF_TYPE_SCALAR, VK_FORMAT_R8_UINT},
-                {TINYGLTF_TYPE_VEC2,   VK_FORMAT_R8G8_UINT},
-                {TINYGLTF_TYPE_VEC3,   VK_FORMAT_R8G8B8_UINT},
-                {TINYGLTF_TYPE_VEC4,   VK_FORMAT_R8G8B8A8_UINT}};
+                {TINYGLTF_TYPE_VEC2, VK_FORMAT_R8G8_UINT},
+                {TINYGLTF_TYPE_VEC3, VK_FORMAT_R8G8B8_UINT},
+                {TINYGLTF_TYPE_VEC4, VK_FORMAT_R8G8B8A8_UINT}};
             
             static const std::map<int, VkFormat> mapped_format_normalize = {{TINYGLTF_TYPE_SCALAR, VK_FORMAT_R8_UNORM},
-                {TINYGLTF_TYPE_VEC2,   VK_FORMAT_R8G8_UNORM},
-                {TINYGLTF_TYPE_VEC3,   VK_FORMAT_R8G8B8_UNORM},
-                {TINYGLTF_TYPE_VEC4,   VK_FORMAT_R8G8B8A8_UNORM}};
+                {TINYGLTF_TYPE_VEC2, VK_FORMAT_R8G8_UNORM},
+                {TINYGLTF_TYPE_VEC3, VK_FORMAT_R8G8B8_UNORM},
+                {TINYGLTF_TYPE_VEC4, VK_FORMAT_R8G8B8A8_UNORM}};
             
             if (accessor.normalized) {
                 format = mapped_format_normalize.at(accessor.type);
@@ -166,9 +152,9 @@ inline VkFormat get_attribute_format(const tinygltf::Model *model, uint32_t acce
         }
         case TINYGLTF_COMPONENT_TYPE_SHORT: {
             static const std::map<int, VkFormat> mapped_format = {{TINYGLTF_TYPE_SCALAR, VK_FORMAT_R8_SINT},
-                {TINYGLTF_TYPE_VEC2,   VK_FORMAT_R8G8_SINT},
-                {TINYGLTF_TYPE_VEC3,   VK_FORMAT_R8G8B8_SINT},
-                {TINYGLTF_TYPE_VEC4,   VK_FORMAT_R8G8B8A8_SINT}};
+                {TINYGLTF_TYPE_VEC2, VK_FORMAT_R8G8_SINT},
+                {TINYGLTF_TYPE_VEC3, VK_FORMAT_R8G8B8_SINT},
+                {TINYGLTF_TYPE_VEC4, VK_FORMAT_R8G8B8A8_SINT}};
             
             format = mapped_format.at(accessor.type);
             
@@ -176,14 +162,14 @@ inline VkFormat get_attribute_format(const tinygltf::Model *model, uint32_t acce
         }
         case TINYGLTF_COMPONENT_TYPE_UNSIGNED_SHORT: {
             static const std::map<int, VkFormat> mapped_format = {{TINYGLTF_TYPE_SCALAR, VK_FORMAT_R16_UINT},
-                {TINYGLTF_TYPE_VEC2,   VK_FORMAT_R16G16_UINT},
-                {TINYGLTF_TYPE_VEC3,   VK_FORMAT_R16G16B16_UINT},
-                {TINYGLTF_TYPE_VEC4,   VK_FORMAT_R16G16B16A16_UINT}};
+                {TINYGLTF_TYPE_VEC2, VK_FORMAT_R16G16_UINT},
+                {TINYGLTF_TYPE_VEC3, VK_FORMAT_R16G16B16_UINT},
+                {TINYGLTF_TYPE_VEC4, VK_FORMAT_R16G16B16A16_UINT}};
             
             static const std::map<int, VkFormat> mapped_format_normalize = {{TINYGLTF_TYPE_SCALAR, VK_FORMAT_R16_UNORM},
-                {TINYGLTF_TYPE_VEC2,   VK_FORMAT_R16G16_UNORM},
-                {TINYGLTF_TYPE_VEC3,   VK_FORMAT_R16G16B16_UNORM},
-                {TINYGLTF_TYPE_VEC4,   VK_FORMAT_R16G16B16A16_UNORM}};
+                {TINYGLTF_TYPE_VEC2, VK_FORMAT_R16G16_UNORM},
+                {TINYGLTF_TYPE_VEC3, VK_FORMAT_R16G16B16_UNORM},
+                {TINYGLTF_TYPE_VEC4, VK_FORMAT_R16G16B16A16_UNORM}};
             
             if (accessor.normalized) {
                 format = mapped_format_normalize.at(accessor.type);
@@ -195,9 +181,9 @@ inline VkFormat get_attribute_format(const tinygltf::Model *model, uint32_t acce
         }
         case TINYGLTF_COMPONENT_TYPE_INT: {
             static const std::map<int, VkFormat> mapped_format = {{TINYGLTF_TYPE_SCALAR, VK_FORMAT_R32_SINT},
-                {TINYGLTF_TYPE_VEC2,   VK_FORMAT_R32G32_SINT},
-                {TINYGLTF_TYPE_VEC3,   VK_FORMAT_R32G32B32_SINT},
-                {TINYGLTF_TYPE_VEC4,   VK_FORMAT_R32G32B32A32_SINT}};
+                {TINYGLTF_TYPE_VEC2, VK_FORMAT_R32G32_SINT},
+                {TINYGLTF_TYPE_VEC3, VK_FORMAT_R32G32B32_SINT},
+                {TINYGLTF_TYPE_VEC4, VK_FORMAT_R32G32B32A32_SINT}};
             
             format = mapped_format.at(accessor.type);
             
@@ -205,9 +191,9 @@ inline VkFormat get_attribute_format(const tinygltf::Model *model, uint32_t acce
         }
         case TINYGLTF_COMPONENT_TYPE_UNSIGNED_INT: {
             static const std::map<int, VkFormat> mapped_format = {{TINYGLTF_TYPE_SCALAR, VK_FORMAT_R32_UINT},
-                {TINYGLTF_TYPE_VEC2,   VK_FORMAT_R32G32_UINT},
-                {TINYGLTF_TYPE_VEC3,   VK_FORMAT_R32G32B32_UINT},
-                {TINYGLTF_TYPE_VEC4,   VK_FORMAT_R32G32B32A32_UINT}};
+                {TINYGLTF_TYPE_VEC2, VK_FORMAT_R32G32_UINT},
+                {TINYGLTF_TYPE_VEC3, VK_FORMAT_R32G32B32_UINT},
+                {TINYGLTF_TYPE_VEC4, VK_FORMAT_R32G32B32A32_UINT}};
             
             format = mapped_format.at(accessor.type);
             
@@ -215,9 +201,9 @@ inline VkFormat get_attribute_format(const tinygltf::Model *model, uint32_t acce
         }
         case TINYGLTF_COMPONENT_TYPE_FLOAT: {
             static const std::map<int, VkFormat> mapped_format = {{TINYGLTF_TYPE_SCALAR, VK_FORMAT_R32_SFLOAT},
-                {TINYGLTF_TYPE_VEC2,   VK_FORMAT_R32G32_SFLOAT},
-                {TINYGLTF_TYPE_VEC3,   VK_FORMAT_R32G32B32_SFLOAT},
-                {TINYGLTF_TYPE_VEC4,   VK_FORMAT_R32G32B32A32_SFLOAT}};
+                {TINYGLTF_TYPE_VEC2, VK_FORMAT_R32G32_SFLOAT},
+                {TINYGLTF_TYPE_VEC3, VK_FORMAT_R32G32B32_SFLOAT},
+                {TINYGLTF_TYPE_VEC4, VK_FORMAT_R32G32B32A32_SFLOAT}};
             
             format = mapped_format.at(accessor.type);
             
@@ -942,12 +928,12 @@ std::unique_ptr<sg::SubMesh> GLTFLoader::load_model(uint32_t index) {
     command_buffer.copy_buffer(stage_buffer, buffer, vertex_data.size() * sizeof(Vertex));
     
     auto pair = std::make_pair("vertex_buffer", std::move(buffer));
-    submesh->vertex_buffers.insert(std::move(pair));
+    submesh->vertex_buffers_.insert(std::move(pair));
     
     transient_buffers.push_back(std::move(stage_buffer));
     
     if (gltf_primitive.indices >= 0) {
-        submesh->vertex_indices = to_u32(get_attribute_size(&model, gltf_primitive.indices));
+        submesh->vertex_indices_ = to_u32(get_attribute_size(&model, gltf_primitive.indices));
         
         auto format = get_attribute_format(&model, gltf_primitive.indices);
         auto index_data = get_attribute_data(&model, gltf_primitive.indices);
@@ -971,7 +957,7 @@ std::unique_ptr<sg::SubMesh> GLTFLoader::load_model(uint32_t index) {
         }
         
         //Always do uint32
-        submesh->index_type = VK_INDEX_TYPE_UINT32;
+        submesh->index_type_ = VK_INDEX_TYPE_UINT32;
         
         core::Buffer stage_buffer{device,
             index_data.size(),
@@ -980,13 +966,13 @@ std::unique_ptr<sg::SubMesh> GLTFLoader::load_model(uint32_t index) {
         
         stage_buffer.update(index_data);
         
-        submesh->index_buffer = std::make_unique<core::Buffer>(device,
-                                                               index_data.size(),
-                                                               VK_BUFFER_USAGE_TRANSFER_DST_BIT |
-                                                               VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
-                                                               VMA_MEMORY_USAGE_GPU_ONLY);
+        submesh->index_buffer_ = std::make_unique<core::Buffer>(device,
+                                                                index_data.size(),
+                                                                VK_BUFFER_USAGE_TRANSFER_DST_BIT |
+                                                                VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
+                                                                VMA_MEMORY_USAGE_GPU_ONLY);
         
-        command_buffer.copy_buffer(stage_buffer, *submesh->index_buffer, index_data.size());
+        command_buffer.copy_buffer(stage_buffer, *submesh->index_buffer_, index_data.size());
         
         transient_buffers.push_back(std::move(stage_buffer));
     }
@@ -1312,6 +1298,5 @@ GLTFLoader::get_extension(tinygltf::ExtensionMap &tinygltf_extensions, const std
         return nullptr;
     }
 }
-
 
 }        // namespace vox

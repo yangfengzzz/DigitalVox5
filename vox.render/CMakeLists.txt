@@ -60,6 +60,9 @@ set(FRAMEWORK_FILES
 
 set(COMMON_FILES
         # Header Files
+        singleton.h
+        event.h
+        event-inl.h
         vk_common.h
         vk_initializers.h
         resource_caching.h
@@ -306,6 +309,19 @@ set(PARSER_FILES
 
 set(UI_FILES ui)
 
+set(SCENE_FILES
+        background.h
+        layer.h
+        update_flag.h
+        update_flag.cpp
+        update_flag_manager.h
+        update_flag_manager.cpp
+        vobject.h
+        inspector_item.h
+        inspector_item.cpp
+        scene_forward.h
+        )
+
 #set(GRAPHING_FILES
 #    # Header Files
 #    graphing/graph.h
@@ -380,6 +396,7 @@ set(PROJECT_FILES
         #    ${SCENE_GRAPH_SCRIPTS_FILES}
         ${STATS_FILES}
         ${UI_FILES}
+        ${SCENE_FILES}
         #    ${GRAPHING_FILES}
         )
 

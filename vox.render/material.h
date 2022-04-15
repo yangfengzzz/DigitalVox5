@@ -22,16 +22,16 @@ class Texture;
  */
 enum class AlphaMode {
     /// Alpha value is ignored
-    Opaque,
+    OPAQUE,
     /// Either full opaque or fully transparent
-    Mask,
+    MASK,
     /// Output is combined with the background
-    Blend
+    BLEND
 };
 
 class Material {
 public:
-    std::string name;
+    std::string name_;
     
     explicit Material(std::string name);
     
@@ -39,19 +39,19 @@ public:
     
     virtual ~Material() = default;
     
-    std::unordered_map<std::string, Texture *> textures;
+    std::unordered_map<std::string, Texture *> textures_;
     
     /// Emissive color of the material
-    Vector3F emissive{0.0f, 0.0f, 0.0f};
+    Vector3F emissive_{0.0f, 0.0f, 0.0f};
     
     /// Whether the material is double sided
-    bool double_sided{false};
+    bool double_sided_{false};
     
     /// Cutoff threshold when in Mask mode
-    float alpha_cutoff{0.5f};
+    float alpha_cutoff_{0.5f};
     
     /// Alpha rendering mode
-    AlphaMode alpha_mode{AlphaMode::Opaque};
+    AlphaMode alpha_mode_{AlphaMode::OPAQUE};
 };
 
 }        // namespace vox

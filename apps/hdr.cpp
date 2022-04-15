@@ -25,41 +25,41 @@
 
 namespace vox {
 HDR::HDR() {
-    title = "High dynamic range rendering";
+    title_ = "High dynamic range rendering";
 }
 
 HDR::~HDR() {
-    if (device) {
-        vkDestroyPipeline(get_device().get_handle(), pipelines.skybox, nullptr);
-        vkDestroyPipeline(get_device().get_handle(), pipelines.reflect, nullptr);
-        vkDestroyPipeline(get_device().get_handle(), pipelines.composition, nullptr);
-        vkDestroyPipeline(get_device().get_handle(), pipelines.bloom[0], nullptr);
-        vkDestroyPipeline(get_device().get_handle(), pipelines.bloom[1], nullptr);
+    if (device_) {
+        vkDestroyPipeline(get_device().get_handle(), pipelines_.skybox_, nullptr);
+        vkDestroyPipeline(get_device().get_handle(), pipelines_.reflect_, nullptr);
+        vkDestroyPipeline(get_device().get_handle(), pipelines_.composition_, nullptr);
+        vkDestroyPipeline(get_device().get_handle(), pipelines_.bloom_[0], nullptr);
+        vkDestroyPipeline(get_device().get_handle(), pipelines_.bloom_[1], nullptr);
         
-        vkDestroyPipelineLayout(get_device().get_handle(), pipeline_layouts.models, nullptr);
-        vkDestroyPipelineLayout(get_device().get_handle(), pipeline_layouts.composition, nullptr);
-        vkDestroyPipelineLayout(get_device().get_handle(), pipeline_layouts.bloom_filter, nullptr);
+        vkDestroyPipelineLayout(get_device().get_handle(), pipeline_layouts_.models_, nullptr);
+        vkDestroyPipelineLayout(get_device().get_handle(), pipeline_layouts_.composition_, nullptr);
+        vkDestroyPipelineLayout(get_device().get_handle(), pipeline_layouts_.bloom_filter_, nullptr);
         
-        vkDestroyDescriptorSetLayout(get_device().get_handle(), descriptor_set_layouts.models, nullptr);
-        vkDestroyDescriptorSetLayout(get_device().get_handle(), descriptor_set_layouts.composition, nullptr);
-        vkDestroyDescriptorSetLayout(get_device().get_handle(), descriptor_set_layouts.bloom_filter, nullptr);
+        vkDestroyDescriptorSetLayout(get_device().get_handle(), descriptor_set_layouts_.models_, nullptr);
+        vkDestroyDescriptorSetLayout(get_device().get_handle(), descriptor_set_layouts_.composition_, nullptr);
+        vkDestroyDescriptorSetLayout(get_device().get_handle(), descriptor_set_layouts_.bloom_filter_, nullptr);
         
-        vkDestroyRenderPass(get_device().get_handle(), offscreen.render_pass, nullptr);
-        vkDestroyRenderPass(get_device().get_handle(), filter_pass.render_pass, nullptr);
+        vkDestroyRenderPass(get_device().get_handle(), offscreen_.render_pass, nullptr);
+        vkDestroyRenderPass(get_device().get_handle(), filter_pass_.render_pass_, nullptr);
         
-        vkDestroyFramebuffer(get_device().get_handle(), offscreen.framebuffer, nullptr);
-        vkDestroyFramebuffer(get_device().get_handle(), filter_pass.framebuffer, nullptr);
+        vkDestroyFramebuffer(get_device().get_handle(), offscreen_.framebuffer, nullptr);
+        vkDestroyFramebuffer(get_device().get_handle(), filter_pass_.framebuffer_, nullptr);
         
-        vkDestroySampler(get_device().get_handle(), offscreen.sampler, nullptr);
-        vkDestroySampler(get_device().get_handle(), filter_pass.sampler, nullptr);
+        vkDestroySampler(get_device().get_handle(), offscreen_.sampler, nullptr);
+        vkDestroySampler(get_device().get_handle(), filter_pass_.sampler_, nullptr);
         
-        offscreen.depth.destroy(get_device().get_handle());
-        offscreen.color[0].destroy(get_device().get_handle());
-        offscreen.color[1].destroy(get_device().get_handle());
+        offscreen_.depth.destroy(get_device().get_handle());
+        offscreen_.color[0].destroy(get_device().get_handle());
+        offscreen_.color[1].destroy(get_device().get_handle());
         
-        filter_pass.color[0].destroy(get_device().get_handle());
+        filter_pass_.color_[0].destroy(get_device().get_handle());
         
-        vkDestroySampler(get_device().get_handle(), textures.envmap.sampler, nullptr);
+        vkDestroySampler(get_device().get_handle(), textures_.envmap_.sampler, nullptr);
     }
 }
 
@@ -78,14 +78,14 @@ void HDR::build_command_buffers() {
     clear_values[1].depthStencil = {0.0f, 0};
     
     VkRenderPassBeginInfo render_pass_begin_info = vox::initializers::render_pass_begin_info();
-    render_pass_begin_info.renderPass = render_pass;
+    render_pass_begin_info.renderPass = render_pass_;
     render_pass_begin_info.renderArea.offset.x = 0;
     render_pass_begin_info.renderArea.offset.y = 0;
     render_pass_begin_info.clearValueCount = 2;
     render_pass_begin_info.pClearValues = clear_values;
     
-    for (int32_t i = 0; i < draw_cmd_buffers.size(); ++i) {
-        VK_CHECK(vkBeginCommandBuffer(draw_cmd_buffers[i], &command_buffer_begin_info));
+    for (int32_t i = 0; i < draw_cmd_buffers_.size(); ++i) {
+        VK_CHECK(vkBeginCommandBuffer(draw_cmd_buffers_[i], &command_buffer_begin_info));
         
         {
             /*
@@ -98,74 +98,74 @@ void HDR::build_command_buffers() {
             clear_values[2].depthStencil = {0.0f, 0};
             
             VkRenderPassBeginInfo render_pass_begin_info = vox::initializers::render_pass_begin_info();
-            render_pass_begin_info.renderPass = offscreen.render_pass;
-            render_pass_begin_info.framebuffer = offscreen.framebuffer;
-            render_pass_begin_info.renderArea.extent.width = offscreen.width;
-            render_pass_begin_info.renderArea.extent.height = offscreen.height;
+            render_pass_begin_info.renderPass = offscreen_.render_pass;
+            render_pass_begin_info.framebuffer = offscreen_.framebuffer;
+            render_pass_begin_info.renderArea.extent.width = offscreen_.width;
+            render_pass_begin_info.renderArea.extent.height = offscreen_.height;
             render_pass_begin_info.clearValueCount = 3;
             render_pass_begin_info.pClearValues = clear_values.data();
             
-            vkCmdBeginRenderPass(draw_cmd_buffers[i], &render_pass_begin_info, VK_SUBPASS_CONTENTS_INLINE);
+            vkCmdBeginRenderPass(draw_cmd_buffers_[i], &render_pass_begin_info, VK_SUBPASS_CONTENTS_INLINE);
             
-            VkViewport viewport = vox::initializers::viewport((float) offscreen.width, (float) offscreen.height,
+            VkViewport viewport = vox::initializers::viewport((float) offscreen_.width, (float) offscreen_.height,
                                                               0.0f, 1.0f);
-            vkCmdSetViewport(draw_cmd_buffers[i], 0, 1, &viewport);
+            vkCmdSetViewport(draw_cmd_buffers_[i], 0, 1, &viewport);
             
-            VkRect2D scissor = vox::initializers::rect2D(offscreen.width, offscreen.height, 0, 0);
-            vkCmdSetScissor(draw_cmd_buffers[i], 0, 1, &scissor);
+            VkRect2D scissor = vox::initializers::rect_2d(offscreen_.width, offscreen_.height, 0, 0);
+            vkCmdSetScissor(draw_cmd_buffers_[i], 0, 1, &scissor);
             
             // Skybox
-            if (display_skybox) {
-                vkCmdBindPipeline(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines.skybox);
-                vkCmdBindDescriptorSets(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                        pipeline_layouts.models, 0, 1, &descriptor_sets.skybox, 0, nullptr);
+            if (display_skybox_) {
+                vkCmdBindPipeline(draw_cmd_buffers_[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines_.skybox_);
+                vkCmdBindDescriptorSets(draw_cmd_buffers_[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
+                                        pipeline_layouts_.models_, 0, 1, &descriptor_sets_.skybox_, 0, nullptr);
                 
-                draw_model(models.skybox, draw_cmd_buffers[i]);
+                draw_model(models_.skybox, draw_cmd_buffers_[i]);
             }
             
             // 3D object
-            vkCmdBindPipeline(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines.reflect);
-            vkCmdBindDescriptorSets(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layouts.models,
-                                    0, 1, &descriptor_sets.object, 0, nullptr);
+            vkCmdBindPipeline(draw_cmd_buffers_[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines_.reflect_);
+            vkCmdBindDescriptorSets(draw_cmd_buffers_[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layouts_.models_,
+                                    0, 1, &descriptor_sets_.object_, 0, nullptr);
             
-            draw_model(models.objects[models.object_index], draw_cmd_buffers[i]);
+            draw_model(models_.objects[models_.object_index], draw_cmd_buffers_[i]);
             
-            vkCmdEndRenderPass(draw_cmd_buffers[i]);
+            vkCmdEndRenderPass(draw_cmd_buffers_[i]);
         }
         
         /*
          Second render pass: First bloom pass
          */
-        if (bloom) {
+        if (bloom_) {
             VkClearValue clear_values[2];
             clear_values[0].color = {{0.0f, 0.0f, 0.0f, 0.0f}};
             clear_values[1].depthStencil = {0.0f, 0};
             
             // Bloom filter
             VkRenderPassBeginInfo render_pass_begin_info = vox::initializers::render_pass_begin_info();
-            render_pass_begin_info.framebuffer = filter_pass.framebuffer;
-            render_pass_begin_info.renderPass = filter_pass.render_pass;
+            render_pass_begin_info.framebuffer = filter_pass_.framebuffer_;
+            render_pass_begin_info.renderPass = filter_pass_.render_pass_;
             render_pass_begin_info.clearValueCount = 1;
-            render_pass_begin_info.renderArea.extent.width = filter_pass.width;
-            render_pass_begin_info.renderArea.extent.height = filter_pass.height;
+            render_pass_begin_info.renderArea.extent.width = filter_pass_.width_;
+            render_pass_begin_info.renderArea.extent.height = filter_pass_.height_;
             render_pass_begin_info.pClearValues = clear_values;
             
-            vkCmdBeginRenderPass(draw_cmd_buffers[i], &render_pass_begin_info, VK_SUBPASS_CONTENTS_INLINE);
+            vkCmdBeginRenderPass(draw_cmd_buffers_[i], &render_pass_begin_info, VK_SUBPASS_CONTENTS_INLINE);
             
-            VkViewport viewport = vox::initializers::viewport((float) filter_pass.width, (float) filter_pass.height,
+            VkViewport viewport = vox::initializers::viewport((float) filter_pass_.width_, (float) filter_pass_.height_,
                                                               0.0f, 1.0f);
-            vkCmdSetViewport(draw_cmd_buffers[i], 0, 1, &viewport);
+            vkCmdSetViewport(draw_cmd_buffers_[i], 0, 1, &viewport);
             
-            VkRect2D scissor = vox::initializers::rect2D(filter_pass.width, filter_pass.height, 0, 0);
-            vkCmdSetScissor(draw_cmd_buffers[i], 0, 1, &scissor);
+            VkRect2D scissor = vox::initializers::rect_2d(filter_pass_.width_, filter_pass_.height_, 0, 0);
+            vkCmdSetScissor(draw_cmd_buffers_[i], 0, 1, &scissor);
             
-            vkCmdBindDescriptorSets(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                    pipeline_layouts.bloom_filter, 0, 1, &descriptor_sets.bloom_filter, 0, nullptr);
+            vkCmdBindDescriptorSets(draw_cmd_buffers_[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
+                                    pipeline_layouts_.bloom_filter_, 0, 1, &descriptor_sets_.bloom_filter_, 0, nullptr);
             
-            vkCmdBindPipeline(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines.bloom[1]);
-            vkCmdDraw(draw_cmd_buffers[i], 3, 1, 0, 0);
+            vkCmdBindPipeline(draw_cmd_buffers_[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines_.bloom_[1]);
+            vkCmdDraw(draw_cmd_buffers_[i], 3, 1, 0, 0);
             
-            vkCmdEndRenderPass(draw_cmd_buffers[i]);
+            vkCmdEndRenderPass(draw_cmd_buffers_[i]);
         }
         
         /*
@@ -182,40 +182,40 @@ void HDR::build_command_buffers() {
             
             // Final composition
             VkRenderPassBeginInfo render_pass_begin_info = vox::initializers::render_pass_begin_info();
-            render_pass_begin_info.framebuffer = framebuffers[i];
-            render_pass_begin_info.renderPass = render_pass;
+            render_pass_begin_info.framebuffer = framebuffers_[i];
+            render_pass_begin_info.renderPass = render_pass_;
             render_pass_begin_info.clearValueCount = 2;
-            render_pass_begin_info.renderArea.extent.width = width;
-            render_pass_begin_info.renderArea.extent.height = height;
+            render_pass_begin_info.renderArea.extent.width = width_;
+            render_pass_begin_info.renderArea.extent.height = height_;
             render_pass_begin_info.pClearValues = clear_values;
             
-            vkCmdBeginRenderPass(draw_cmd_buffers[i], &render_pass_begin_info, VK_SUBPASS_CONTENTS_INLINE);
+            vkCmdBeginRenderPass(draw_cmd_buffers_[i], &render_pass_begin_info, VK_SUBPASS_CONTENTS_INLINE);
             
-            VkViewport viewport = vox::initializers::viewport((float) width, (float) height, 0.0f, 1.0f);
-            vkCmdSetViewport(draw_cmd_buffers[i], 0, 1, &viewport);
+            VkViewport viewport = vox::initializers::viewport((float) width_, (float) height_, 0.0f, 1.0f);
+            vkCmdSetViewport(draw_cmd_buffers_[i], 0, 1, &viewport);
             
-            VkRect2D scissor = vox::initializers::rect2D(width, height, 0, 0);
-            vkCmdSetScissor(draw_cmd_buffers[i], 0, 1, &scissor);
+            VkRect2D scissor = vox::initializers::rect_2d(width_, height_, 0, 0);
+            vkCmdSetScissor(draw_cmd_buffers_[i], 0, 1, &scissor);
             
-            vkCmdBindDescriptorSets(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                    pipeline_layouts.composition, 0, 1, &descriptor_sets.composition, 0, nullptr);
+            vkCmdBindDescriptorSets(draw_cmd_buffers_[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
+                                    pipeline_layouts_.composition_, 0, 1, &descriptor_sets_.composition_, 0, nullptr);
             
             // Scene
-            vkCmdBindPipeline(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines.composition);
-            vkCmdDraw(draw_cmd_buffers[i], 3, 1, 0, 0);
+            vkCmdBindPipeline(draw_cmd_buffers_[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines_.composition_);
+            vkCmdDraw(draw_cmd_buffers_[i], 3, 1, 0, 0);
             
             // Bloom
-            if (bloom) {
-                vkCmdBindPipeline(draw_cmd_buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines.bloom[0]);
-                vkCmdDraw(draw_cmd_buffers[i], 3, 1, 0, 0);
+            if (bloom_) {
+                vkCmdBindPipeline(draw_cmd_buffers_[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines_.bloom_[0]);
+                vkCmdDraw(draw_cmd_buffers_[i], 3, 1, 0, 0);
             }
             
-            draw_ui(draw_cmd_buffers[i]);
+            draw_ui(draw_cmd_buffers_[i]);
             
-            vkCmdEndRenderPass(draw_cmd_buffers[i]);
+            vkCmdEndRenderPass(draw_cmd_buffers_[i]);
         }
         
-        VK_CHECK(vkEndCommandBuffer(draw_cmd_buffers[i]));
+        VK_CHECK(vkEndCommandBuffer(draw_cmd_buffers_[i]));
     }
 }
 
@@ -243,8 +243,8 @@ void HDR::create_attachment(VkFormat format, VkImageUsageFlagBits usage, FrameBu
     VkImageCreateInfo image = vox::initializers::image_create_info();
     image.imageType = VK_IMAGE_TYPE_2D;
     image.format = format;
-    image.extent.width = offscreen.width;
-    image.extent.height = offscreen.height;
+    image.extent.width = offscreen_.width;
+    image.extent.height = offscreen_.height;
     image.extent.depth = 1;
     image.mipLevels = 1;
     image.arrayLayers = 1;
@@ -279,17 +279,17 @@ void HDR::create_attachment(VkFormat format, VkImageUsageFlagBits usage, FrameBu
 // Prepare a new framebuffer and attachments for offscreen rendering (G-Buffer)
 void HDR::prepare_offscreen_buffer() {
     {
-        offscreen.width = width;
-        offscreen.height = height;
+        offscreen_.width = width_;
+        offscreen_.height = height_;
         
         // Color attachments
         
         // We are using two 128-Bit RGBA floating point color buffers for this sample
         // In a performance or bandwith-limited scenario you should consider using a format with lower precision
-        create_attachment(VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, &offscreen.color[0]);
-        create_attachment(VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, &offscreen.color[1]);
+        create_attachment(VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, &offscreen_.color[0]);
+        create_attachment(VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, &offscreen_.color[1]);
         // Depth attachment
-        create_attachment(depth_format, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, &offscreen.depth);
+        create_attachment(depth_format_, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, &offscreen_.depth);
         
         // Set up separate renderpass with references to the colorand depth attachments
         std::array<VkAttachmentDescription, 3> attachment_descriptions = {};
@@ -311,9 +311,9 @@ void HDR::prepare_offscreen_buffer() {
         }
         
         // Formats
-        attachment_descriptions[0].format = offscreen.color[0].format;
-        attachment_descriptions[1].format = offscreen.color[1].format;
-        attachment_descriptions[2].format = offscreen.depth.format;
+        attachment_descriptions[0].format = offscreen_.color[0].format;
+        attachment_descriptions[1].format = offscreen_.color[1].format;
+        attachment_descriptions[2].format = offscreen_.depth.format;
         
         std::vector<VkAttachmentReference> color_references;
         color_references.push_back({0, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL});
@@ -358,24 +358,24 @@ void HDR::prepare_offscreen_buffer() {
         render_pass_create_info.pDependencies = dependencies.data();
         
         VK_CHECK(vkCreateRenderPass(get_device().get_handle(), &render_pass_create_info, nullptr,
-                                    &offscreen.render_pass));
+                                    &offscreen_.render_pass));
         
         std::array<VkImageView, 3> attachments{};
-        attachments[0] = offscreen.color[0].view;
-        attachments[1] = offscreen.color[1].view;
-        attachments[2] = offscreen.depth.view;
+        attachments[0] = offscreen_.color[0].view;
+        attachments[1] = offscreen_.color[1].view;
+        attachments[2] = offscreen_.depth.view;
         
         VkFramebufferCreateInfo framebuffer_create_info = {};
         framebuffer_create_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
         framebuffer_create_info.pNext = nullptr;
-        framebuffer_create_info.renderPass = offscreen.render_pass;
+        framebuffer_create_info.renderPass = offscreen_.render_pass;
         framebuffer_create_info.pAttachments = attachments.data();
         framebuffer_create_info.attachmentCount = static_cast<uint32_t>(attachments.size());
-        framebuffer_create_info.width = offscreen.width;
-        framebuffer_create_info.height = offscreen.height;
+        framebuffer_create_info.width = offscreen_.width;
+        framebuffer_create_info.height = offscreen_.height;
         framebuffer_create_info.layers = 1;
         VK_CHECK(vkCreateFramebuffer(get_device().get_handle(), &framebuffer_create_info, nullptr,
-                                     &offscreen.framebuffer));
+                                     &offscreen_.framebuffer));
         
         // Create sampler to sample from the color attachments
         VkSamplerCreateInfo sampler = vox::initializers::sampler_create_info();
@@ -390,19 +390,19 @@ void HDR::prepare_offscreen_buffer() {
         sampler.minLod = 0.0f;
         sampler.maxLod = 1.0f;
         sampler.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
-        VK_CHECK(vkCreateSampler(get_device().get_handle(), &sampler, nullptr, &offscreen.sampler));
+        VK_CHECK(vkCreateSampler(get_device().get_handle(), &sampler, nullptr, &offscreen_.sampler));
     }
     
     // Bloom separable filter pass
     {
-        filter_pass.width = width;
-        filter_pass.height = height;
+        filter_pass_.width_ = width_;
+        filter_pass_.height_ = height_;
         
         // Color attachments
         
         // Two floating point color buffers
         create_attachment(VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
-                          &filter_pass.color[0]);
+                          &filter_pass_.color_[0]);
         
         // Set up separate renderpass with references to the colorand depth attachments
         std::array<VkAttachmentDescription, 1> attachment_descriptions = {};
@@ -415,7 +415,7 @@ void HDR::prepare_offscreen_buffer() {
         attachment_descriptions[0].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
         attachment_descriptions[0].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
         attachment_descriptions[0].finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-        attachment_descriptions[0].format = filter_pass.color[0].format;
+        attachment_descriptions[0].format = filter_pass_.color_[0].format;
         
         std::vector<VkAttachmentReference> color_references;
         color_references.push_back({0, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL});
@@ -454,22 +454,22 @@ void HDR::prepare_offscreen_buffer() {
         render_pass_create_info.pDependencies = dependencies.data();
         
         VK_CHECK(vkCreateRenderPass(get_device().get_handle(), &render_pass_create_info, nullptr,
-                                    &filter_pass.render_pass));
+                                    &filter_pass_.render_pass_));
         
         std::array<VkImageView, 1> attachments{};
-        attachments[0] = filter_pass.color[0].view;
+        attachments[0] = filter_pass_.color_[0].view;
         
         VkFramebufferCreateInfo framebuffer_create_info = {};
         framebuffer_create_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
         framebuffer_create_info.pNext = nullptr;
-        framebuffer_create_info.renderPass = filter_pass.render_pass;
+        framebuffer_create_info.renderPass = filter_pass_.render_pass_;
         framebuffer_create_info.pAttachments = attachments.data();
         framebuffer_create_info.attachmentCount = static_cast<uint32_t>(attachments.size());
-        framebuffer_create_info.width = filter_pass.width;
-        framebuffer_create_info.height = filter_pass.height;
+        framebuffer_create_info.width = filter_pass_.width_;
+        framebuffer_create_info.height = filter_pass_.height_;
         framebuffer_create_info.layers = 1;
         VK_CHECK(vkCreateFramebuffer(get_device().get_handle(), &framebuffer_create_info, nullptr,
-                                     &filter_pass.framebuffer));
+                                     &filter_pass_.framebuffer_));
         
         // Create sampler to sample from the color attachments
         VkSamplerCreateInfo sampler = vox::initializers::sampler_create_info();
@@ -484,18 +484,18 @@ void HDR::prepare_offscreen_buffer() {
         sampler.minLod = 0.0f;
         sampler.maxLod = 1.0f;
         sampler.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
-        VK_CHECK(vkCreateSampler(get_device().get_handle(), &sampler, nullptr, &filter_pass.sampler));
+        VK_CHECK(vkCreateSampler(get_device().get_handle(), &sampler, nullptr, &filter_pass_.sampler_));
     }
 }
 
 void HDR::load_assets() {
     // Models
-    models.skybox = load_model("Scenes/cube.gltf");
+    models_.skybox = load_model("Scenes/cube.gltf");
     std::vector<std::string> filenames = {"geosphere.gltf", "teapot.gltf", "torusknot.gltf"};
-    object_names = {"Sphere", "Teapot", "Torusknot"};
+    object_names_ = {"Sphere", "Teapot", "Torusknot"};
     for (const auto& file: filenames) {
         auto object = load_model("Scenes/" + file);
-        models.objects.emplace_back(std::move(object));
+        models_.objects.emplace_back(std::move(object));
     }
     
     // Transforms
@@ -504,12 +504,12 @@ void HDR::load_assets() {
     teapot_matrix *= makeScaleMatrix(10.0f, 10.0f, 10.0f);
     teapot_matrix *= makeRotationMatrix(Vector3F(1.0f, 0.0f, 0.0f), degreesToRadians(180.0f));
     auto torus_matrix = Matrix4x4F();
-    models.transforms.push_back(geosphere_matrix);
-    models.transforms.push_back(teapot_matrix);
-    models.transforms.push_back(torus_matrix);
+    models_.transforms.push_back(geosphere_matrix);
+    models_.transforms.push_back(teapot_matrix);
+    models_.transforms.push_back(torus_matrix);
     
     // Load HDR cube map
-    textures.envmap = load_texture_cubemap("Textures/uffizi_rgba16f_cube.ktx");
+    textures_.envmap_ = load_texture_cubemap("Textures/uffizi_rgba16f_cube.ktx");
 }
 
 void HDR::setup_descriptor_pool() {
@@ -521,7 +521,7 @@ void HDR::setup_descriptor_pool() {
     vox::initializers::descriptor_pool_create_info(static_cast<uint32_t>(pool_sizes.size()),
                                                    pool_sizes.data(), num_descriptor_sets);
     VK_CHECK(vkCreateDescriptorPool(get_device().get_handle(), &descriptor_pool_create_info, nullptr,
-                                    &descriptor_pool));
+                                    &descriptor_pool_));
 }
 
 void HDR::setup_descriptor_set_layout() {
@@ -539,15 +539,15 @@ void HDR::setup_descriptor_set_layout() {
                                                          static_cast<uint32_t>(set_layout_bindings.size()));
     
     VK_CHECK(vkCreateDescriptorSetLayout(get_device().get_handle(), &descriptor_layout_create_info, nullptr,
-                                         &descriptor_set_layouts.models));
+                                         &descriptor_set_layouts_.models_));
     
     VkPipelineLayoutCreateInfo pipeline_layout_create_info =
     vox::initializers::pipeline_layout_create_info(
-                                                   &descriptor_set_layouts.models,
+                                                   &descriptor_set_layouts_.models_,
                                                    1);
     
     VK_CHECK(vkCreatePipelineLayout(get_device().get_handle(), &pipeline_layout_create_info, nullptr,
-                                    &pipeline_layouts.models));
+                                    &pipeline_layouts_.models_));
     
     // Bloom filter
     set_layout_bindings = {
@@ -560,12 +560,12 @@ void HDR::setup_descriptor_set_layout() {
     descriptor_layout_create_info = vox::initializers::descriptor_set_layout_create_info(set_layout_bindings.data(),
                                                                                          static_cast<uint32_t>(set_layout_bindings.size()));
     VK_CHECK(vkCreateDescriptorSetLayout(get_device().get_handle(), &descriptor_layout_create_info, nullptr,
-                                         &descriptor_set_layouts.bloom_filter));
+                                         &descriptor_set_layouts_.bloom_filter_));
     
     pipeline_layout_create_info = vox::initializers::pipeline_layout_create_info(
-                                                                                 &descriptor_set_layouts.bloom_filter, 1);
+                                                                                 &descriptor_set_layouts_.bloom_filter_, 1);
     VK_CHECK(vkCreatePipelineLayout(get_device().get_handle(), &pipeline_layout_create_info, nullptr,
-                                    &pipeline_layouts.bloom_filter));
+                                    &pipeline_layouts_.bloom_filter_));
     
     // G-Buffer composition
     set_layout_bindings = {
@@ -578,74 +578,74 @@ void HDR::setup_descriptor_set_layout() {
     descriptor_layout_create_info = vox::initializers::descriptor_set_layout_create_info(set_layout_bindings.data(),
                                                                                          static_cast<uint32_t>(set_layout_bindings.size()));
     VK_CHECK(vkCreateDescriptorSetLayout(get_device().get_handle(), &descriptor_layout_create_info, nullptr,
-                                         &descriptor_set_layouts.composition));
+                                         &descriptor_set_layouts_.composition_));
     
     pipeline_layout_create_info = vox::initializers::pipeline_layout_create_info(
-                                                                                 &descriptor_set_layouts.composition, 1);
+                                                                                 &descriptor_set_layouts_.composition_, 1);
     VK_CHECK(vkCreatePipelineLayout(get_device().get_handle(), &pipeline_layout_create_info, nullptr,
-                                    &pipeline_layouts.composition));
+                                    &pipeline_layouts_.composition_));
 }
 
 void HDR::setup_descriptor_sets() {
     VkDescriptorSetAllocateInfo alloc_info =
     vox::initializers::descriptor_set_allocate_info(
-                                                    descriptor_pool,
-                                                    &descriptor_set_layouts.models,
+                                                    descriptor_pool_,
+                                                    &descriptor_set_layouts_.models_,
                                                     1);
     
     // 3D object descriptor set
-    VK_CHECK(vkAllocateDescriptorSets(get_device().get_handle(), &alloc_info, &descriptor_sets.object));
+    VK_CHECK(vkAllocateDescriptorSets(get_device().get_handle(), &alloc_info, &descriptor_sets_.object_));
     
-    VkDescriptorBufferInfo matrix_buffer_descriptor = create_descriptor(*uniform_buffers.matrices);
-    VkDescriptorImageInfo environment_image_descriptor = create_descriptor(textures.envmap);
-    VkDescriptorBufferInfo params_buffer_descriptor = create_descriptor(*uniform_buffers.params);
+    VkDescriptorBufferInfo matrix_buffer_descriptor = create_descriptor(*uniform_buffers_.matrices_);
+    VkDescriptorImageInfo environment_image_descriptor = create_descriptor(textures_.envmap_);
+    VkDescriptorBufferInfo params_buffer_descriptor = create_descriptor(*uniform_buffers_.params_);
     std::vector<VkWriteDescriptorSet> write_descriptor_sets = {
-        vox::initializers::write_descriptor_set(descriptor_sets.object, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 0,
+        vox::initializers::write_descriptor_set(descriptor_sets_.object_, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 0,
                                                 &matrix_buffer_descriptor),
-        vox::initializers::write_descriptor_set(descriptor_sets.object,
+        vox::initializers::write_descriptor_set(descriptor_sets_.object_,
                                                 VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1,
                                                 &environment_image_descriptor),
-        vox::initializers::write_descriptor_set(descriptor_sets.object, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2,
+        vox::initializers::write_descriptor_set(descriptor_sets_.object_, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2,
                                                 &params_buffer_descriptor),
     };
     vkUpdateDescriptorSets(get_device().get_handle(), static_cast<uint32_t>(write_descriptor_sets.size()),
                            write_descriptor_sets.data(), 0, nullptr);
     
     // Sky box descriptor set
-    VK_CHECK(vkAllocateDescriptorSets(get_device().get_handle(), &alloc_info, &descriptor_sets.skybox));
+    VK_CHECK(vkAllocateDescriptorSets(get_device().get_handle(), &alloc_info, &descriptor_sets_.skybox_));
     
-    matrix_buffer_descriptor = create_descriptor(*uniform_buffers.matrices);
-    environment_image_descriptor = create_descriptor(textures.envmap);
-    params_buffer_descriptor = create_descriptor(*uniform_buffers.params);
+    matrix_buffer_descriptor = create_descriptor(*uniform_buffers_.matrices_);
+    environment_image_descriptor = create_descriptor(textures_.envmap_);
+    params_buffer_descriptor = create_descriptor(*uniform_buffers_.params_);
     write_descriptor_sets = {
-        vox::initializers::write_descriptor_set(descriptor_sets.skybox, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 0,
+        vox::initializers::write_descriptor_set(descriptor_sets_.skybox_, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 0,
                                                 &matrix_buffer_descriptor),
-        vox::initializers::write_descriptor_set(descriptor_sets.skybox,
+        vox::initializers::write_descriptor_set(descriptor_sets_.skybox_,
                                                 VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1,
                                                 &environment_image_descriptor),
-        vox::initializers::write_descriptor_set(descriptor_sets.skybox, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2,
+        vox::initializers::write_descriptor_set(descriptor_sets_.skybox_, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2,
                                                 &params_buffer_descriptor),
     };
     vkUpdateDescriptorSets(get_device().get_handle(), static_cast<uint32_t>(write_descriptor_sets.size()),
                            write_descriptor_sets.data(), 0, nullptr);
     
     // Bloom filter
-    alloc_info = vox::initializers::descriptor_set_allocate_info(descriptor_pool,
-                                                                 &descriptor_set_layouts.bloom_filter, 1);
-    VK_CHECK(vkAllocateDescriptorSets(get_device().get_handle(), &alloc_info, &descriptor_sets.bloom_filter));
+    alloc_info = vox::initializers::descriptor_set_allocate_info(descriptor_pool_,
+                                                                 &descriptor_set_layouts_.bloom_filter_, 1);
+    VK_CHECK(vkAllocateDescriptorSets(get_device().get_handle(), &alloc_info, &descriptor_sets_.bloom_filter_));
     
     std::vector<VkDescriptorImageInfo> color_descriptors = {
-        vox::initializers::descriptor_image_info(offscreen.sampler, offscreen.color[0].view,
+        vox::initializers::descriptor_image_info(offscreen_.sampler, offscreen_.color[0].view,
                                                  VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL),
-        vox::initializers::descriptor_image_info(offscreen.sampler, offscreen.color[1].view,
+        vox::initializers::descriptor_image_info(offscreen_.sampler, offscreen_.color[1].view,
                                                  VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL),
     };
     
     write_descriptor_sets = {
-        vox::initializers::write_descriptor_set(descriptor_sets.bloom_filter,
+        vox::initializers::write_descriptor_set(descriptor_sets_.bloom_filter_,
                                                 VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 0,
                                                 &color_descriptors[0]),
-        vox::initializers::write_descriptor_set(descriptor_sets.bloom_filter,
+        vox::initializers::write_descriptor_set(descriptor_sets_.bloom_filter_,
                                                 VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1,
                                                 &color_descriptors[1]),
     };
@@ -653,22 +653,22 @@ void HDR::setup_descriptor_sets() {
                            write_descriptor_sets.data(), 0, nullptr);
     
     // Composition descriptor set
-    alloc_info = vox::initializers::descriptor_set_allocate_info(descriptor_pool,
-                                                                 &descriptor_set_layouts.composition, 1);
-    VK_CHECK(vkAllocateDescriptorSets(get_device().get_handle(), &alloc_info, &descriptor_sets.composition));
+    alloc_info = vox::initializers::descriptor_set_allocate_info(descriptor_pool_,
+                                                                 &descriptor_set_layouts_.composition_, 1);
+    VK_CHECK(vkAllocateDescriptorSets(get_device().get_handle(), &alloc_info, &descriptor_sets_.composition_));
     
     color_descriptors = {
-        vox::initializers::descriptor_image_info(offscreen.sampler, offscreen.color[0].view,
+        vox::initializers::descriptor_image_info(offscreen_.sampler, offscreen_.color[0].view,
                                                  VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL),
-        vox::initializers::descriptor_image_info(offscreen.sampler, filter_pass.color[0].view,
+        vox::initializers::descriptor_image_info(offscreen_.sampler, filter_pass_.color_[0].view,
                                                  VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL),
     };
     
     write_descriptor_sets = {
-        vox::initializers::write_descriptor_set(descriptor_sets.composition,
+        vox::initializers::write_descriptor_set(descriptor_sets_.composition_,
                                                 VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 0,
                                                 &color_descriptors[0]),
-        vox::initializers::write_descriptor_set(descriptor_sets.composition,
+        vox::initializers::write_descriptor_set(descriptor_sets_.composition_,
                                                 VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1,
                                                 &color_descriptors[1]),
     };
@@ -726,8 +726,8 @@ void HDR::prepare_pipelines() {
     
     VkGraphicsPipelineCreateInfo pipeline_create_info =
     vox::initializers::pipeline_create_info(
-                                            pipeline_layouts.models,
-                                            render_pass,
+                                            pipeline_layouts_.models_,
+                                            render_pass_,
                                             0);
     
     std::vector<VkPipelineColorBlendAttachmentState> blend_attachment_states = {
@@ -759,13 +759,13 @@ void HDR::prepare_pipelines() {
     // Final fullscreen composition pass pipeline
     shader_stages[0] = load_shader("hdr/composition.vert", VK_SHADER_STAGE_VERTEX_BIT);
     shader_stages[1] = load_shader("hdr/composition.frag", VK_SHADER_STAGE_FRAGMENT_BIT);
-    pipeline_create_info.layout = pipeline_layouts.composition;
-    pipeline_create_info.renderPass = render_pass;
+    pipeline_create_info.layout = pipeline_layouts_.composition_;
+    pipeline_create_info.renderPass = render_pass_;
     rasterization_state.cullMode = VK_CULL_MODE_FRONT_BIT;
     color_blend_state.attachmentCount = 1;
     color_blend_state.pAttachments = blend_attachment_states.data();
-    VK_CHECK(vkCreateGraphicsPipelines(get_device().get_handle(), pipeline_cache, 1, &pipeline_create_info, nullptr,
-                                       &pipelines.composition));
+    VK_CHECK(vkCreateGraphicsPipelines(get_device().get_handle(), pipeline_cache_, 1, &pipeline_create_info, nullptr,
+                                       &pipelines_.composition_));
     
     // Bloom pass
     shader_stages[0] = load_shader("hdr/bloom.vert", VK_SHADER_STAGE_VERTEX_BIT);
@@ -787,14 +787,14 @@ void HDR::prepare_pipelines() {
                                                                  &dir);
     shader_stages[1].pSpecializationInfo = &specialization_info;
     
-    VK_CHECK(vkCreateGraphicsPipelines(get_device().get_handle(), pipeline_cache, 1, &pipeline_create_info, nullptr,
-                                       &pipelines.bloom[0]));
+    VK_CHECK(vkCreateGraphicsPipelines(get_device().get_handle(), pipeline_cache_, 1, &pipeline_create_info, nullptr,
+                                       &pipelines_.bloom_[0]));
     
     // Second blur pass (into separate framebuffer)
-    pipeline_create_info.renderPass = filter_pass.render_pass;
+    pipeline_create_info.renderPass = filter_pass_.render_pass_;
     dir = 0;
-    VK_CHECK(vkCreateGraphicsPipelines(get_device().get_handle(), pipeline_cache, 1, &pipeline_create_info, nullptr,
-                                       &pipelines.bloom[1]));
+    VK_CHECK(vkCreateGraphicsPipelines(get_device().get_handle(), pipeline_cache_, 1, &pipeline_create_info, nullptr,
+                                       &pipelines_.bloom_[1]));
     
     // Object rendering pipelines
     rasterization_state.cullMode = VK_CULL_MODE_BACK_BIT;
@@ -823,8 +823,8 @@ void HDR::prepare_pipelines() {
     
     // Skybox pipeline (background cube)
     blend_attachment_state.blendEnable = VK_FALSE;
-    pipeline_create_info.layout = pipeline_layouts.models;
-    pipeline_create_info.renderPass = offscreen.render_pass;
+    pipeline_create_info.layout = pipeline_layouts_.models_;
+    pipeline_create_info.renderPass = offscreen_.render_pass;
     color_blend_state.attachmentCount = 2;
     color_blend_state.pAttachments = blend_attachment_states.data();
     
@@ -839,8 +839,8 @@ void HDR::prepare_pipelines() {
     shader_stages[0].pSpecializationInfo = &specialization_info;
     shader_stages[1].pSpecializationInfo = &specialization_info;
     
-    VK_CHECK(vkCreateGraphicsPipelines(get_device().get_handle(), pipeline_cache, 1, &pipeline_create_info, nullptr,
-                                       &pipelines.skybox));
+    VK_CHECK(vkCreateGraphicsPipelines(get_device().get_handle(), pipeline_cache_, 1, &pipeline_create_info, nullptr,
+                                       &pipelines_.skybox_));
     
     // Object rendering pipeline
     shadertype = 1;
@@ -850,21 +850,21 @@ void HDR::prepare_pipelines() {
     depth_stencil_state.depthTestEnable = VK_TRUE;
     // Flip cull mode
     rasterization_state.cullMode = VK_CULL_MODE_FRONT_BIT;
-    VK_CHECK(vkCreateGraphicsPipelines(get_device().get_handle(), pipeline_cache, 1, &pipeline_create_info, nullptr,
-                                       &pipelines.reflect));
+    VK_CHECK(vkCreateGraphicsPipelines(get_device().get_handle(), pipeline_cache_, 1, &pipeline_create_info, nullptr,
+                                       &pipelines_.reflect_));
 }
 
 // Prepare and initialize uniform buffer containing shader uniforms
 void HDR::prepare_uniform_buffers() {
     // Matrices vertex shader uniform buffer
-    uniform_buffers.matrices = std::make_unique<vox::core::Buffer>(get_device(),
-                                                                   sizeof(ubo_vs),
+    uniform_buffers_.matrices_ = std::make_unique<vox::core::Buffer>(get_device(),
+                                                                   sizeof(ubo_vs_),
                                                                    VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                                                                    VMA_MEMORY_USAGE_CPU_TO_GPU);
     
     // Params
-    uniform_buffers.params = std::make_unique<vox::core::Buffer>(get_device(),
-                                                                 sizeof(ubo_params),
+    uniform_buffers_.params_ = std::make_unique<vox::core::Buffer>(get_device(),
+                                                                 sizeof(ubo_params_),
                                                                  VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                                                                  VMA_MEMORY_USAGE_CPU_TO_GPU);
     
@@ -873,21 +873,21 @@ void HDR::prepare_uniform_buffers() {
 }
 
 void HDR::update_uniform_buffers() {
-    ubo_vs.projection = camera.matrices.perspective;
-    ubo_vs.modelview = camera.matrices.view * models.transforms[models.object_index];
-    ubo_vs.skybox_modelview = camera.matrices.view;
-    uniform_buffers.matrices->convert_and_update(ubo_vs);
+    ubo_vs_.projection = camera_.matrices_.perspective_;
+    ubo_vs_.modelview = camera_.matrices_.view_ * models_.transforms[models_.object_index];
+    ubo_vs_.skybox_modelview = camera_.matrices_.view_;
+    uniform_buffers_.matrices_->convert_and_update(ubo_vs_);
 }
 
 void HDR::update_params() const {
-    uniform_buffers.params->convert_and_update(ubo_params);
+    uniform_buffers_.params_->convert_and_update(ubo_params_);
 }
 
 void HDR::draw() {
     ApiVulkanSample::prepare_frame();
-    submit_info.commandBufferCount = 1;
-    submit_info.pCommandBuffers = &draw_cmd_buffers[current_buffer];
-    VK_CHECK(vkQueueSubmit(queue, 1, &submit_info, VK_NULL_HANDLE));
+    submit_info_.commandBufferCount = 1;
+    submit_info_.pCommandBuffers = &draw_cmd_buffers_[current_buffer_];
+    VK_CHECK(vkQueueSubmit(queue_, 1, &submit_info_, VK_NULL_HANDLE));
     ApiVulkanSample::submit_frame();
 }
 
@@ -896,12 +896,12 @@ bool HDR::prepare(vox::Platform &platform) {
         return false;
     }
     
-    camera.type = vox::CameraType::LookAt;
-    camera.set_position(Point3F(0.0f, 0.0f, -4.0f));
-    camera.set_rotation(Vector3F(0.0f, 180.0f, 0.0f));
+    camera_.type_ = vox::CameraType::LOOK_AT;
+    camera_.set_position(Point3F(0.0f, 0.0f, -4.0f));
+    camera_.set_rotation(Vector3F(0.0f, 180.0f, 0.0f));
     
     // Note: Using Revsered depth-buffer for increased precision, so Znear and Zfar are flipped
-    camera.set_perspective(60.0f, (float) width / (float) height, 256.0f, 0.1f);
+    camera_.set_perspective(60.0f, (float) width_ / (float) height_, 256.0f, 0.1f);
     
     load_assets();
     prepare_uniform_buffers();
@@ -911,31 +911,31 @@ bool HDR::prepare(vox::Platform &platform) {
     setup_descriptor_pool();
     setup_descriptor_sets();
     build_command_buffers();
-    prepared = true;
+    prepared_ = true;
     return true;
 }
 
 void HDR::render(float delta_time) {
-    if (!prepared)
+    if (!prepared_)
         return;
     draw();
-    if (camera.updated)
+    if (camera_.updated_)
         update_uniform_buffers();
 }
 
 void HDR::on_update_ui_overlay(vox::Drawer &drawer) {
     if (vox::Drawer::header("Settings")) {
-        if (drawer.combo_box("Object type", &models.object_index, object_names)) {
+        if (drawer.combo_box("Object type", &models_.object_index, object_names_)) {
             update_uniform_buffers();
             build_command_buffers();
         }
-        if (drawer.input_float("Exposure", &ubo_params.exposure, 0.025f)) {
+        if (drawer.input_float("Exposure", &ubo_params_.exposure, 0.025f)) {
             update_params();
         }
-        if (drawer.checkbox("Bloom", &bloom)) {
+        if (drawer.checkbox("Bloom", &bloom_)) {
             build_command_buffers();
         }
-        if (drawer.checkbox("Skybox", &display_skybox)) {
+        if (drawer.checkbox("Skybox", &display_skybox_)) {
             build_command_buffers();
         }
     }

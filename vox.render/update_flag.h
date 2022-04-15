@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef updateFlag_hpp
-#define updateFlag_hpp
+#ifndef DIGITALVOX_VOX_RENDER_UPDATE_FLAG_H_
+#define DIGITALVOX_VOX_RENDER_UPDATE_FLAG_H_
 
-#include <stdio.h>
+#include <cstdio>
 
 namespace vox {
 class UpdateFlagManager;
@@ -17,16 +17,16 @@ class UpdateFlagManager;
  */
 class UpdateFlag {
 public:
-    bool flag = true;
+    bool flag_ = true;
     
-    UpdateFlag(UpdateFlagManager *_flags);
+    explicit UpdateFlag(UpdateFlagManager *flags);
     
     ~UpdateFlag();
     
 private:
-    UpdateFlagManager *_flags{nullptr};
+    UpdateFlagManager *flags_{nullptr};
 };
 
 }        // namespace vox
 
-#endif /* updateFlag_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_UPDATE_FLAG_H_ */

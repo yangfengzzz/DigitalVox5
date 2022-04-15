@@ -27,61 +27,61 @@
 namespace vox {
 class HDR : public ApiVulkanSample {
 public:
-    bool bloom = true;
-    bool display_skybox = true;
+    bool bloom_ = true;
+    bool display_skybox_ = true;
     
     struct {
-        Texture envmap;
-    } textures;
+        Texture envmap_;
+    } textures_;
     
     struct Models {
         std::unique_ptr<vox::sg::SubMesh> skybox;
         std::vector<std::unique_ptr<vox::sg::SubMesh>> objects;
         std::vector<Matrix4x4F> transforms;
         int32_t object_index = 0;
-    } models;
+    } models_;
     
     struct {
-        std::unique_ptr<vox::core::Buffer> matrices;
-        std::unique_ptr<vox::core::Buffer> params;
-    } uniform_buffers;
+        std::unique_ptr<vox::core::Buffer> matrices_;
+        std::unique_ptr<vox::core::Buffer> params_;
+    } uniform_buffers_;
     
     struct UBOVS {
         Matrix4x4F projection;
         Matrix4x4F modelview;
         Matrix4x4F skybox_modelview;
         float modelscale = 0.05f;
-    } ubo_vs;
+    } ubo_vs_;
     
     struct UBOParams {
         float exposure = 1.0f;
-    } ubo_params;
+    } ubo_params_;
     
     struct {
-        VkPipeline skybox;
-        VkPipeline reflect;
-        VkPipeline composition;
-        VkPipeline bloom[2];
-    } pipelines{};
+        VkPipeline skybox_;
+        VkPipeline reflect_;
+        VkPipeline composition_;
+        VkPipeline bloom_[2];
+    } pipelines_{};
     
     struct {
-        VkPipelineLayout models;
-        VkPipelineLayout composition;
-        VkPipelineLayout bloom_filter;
-    } pipeline_layouts{};
+        VkPipelineLayout models_;
+        VkPipelineLayout composition_;
+        VkPipelineLayout bloom_filter_;
+    } pipeline_layouts_{};
     
     struct {
-        VkDescriptorSet object;
-        VkDescriptorSet skybox;
-        VkDescriptorSet composition;
-        VkDescriptorSet bloom_filter;
-    } descriptor_sets{};
+        VkDescriptorSet object_;
+        VkDescriptorSet skybox_;
+        VkDescriptorSet composition_;
+        VkDescriptorSet bloom_filter_;
+    } descriptor_sets_{};
     
     struct {
-        VkDescriptorSetLayout models;
-        VkDescriptorSetLayout composition;
-        VkDescriptorSetLayout bloom_filter;
-    } descriptor_set_layouts{};
+        VkDescriptorSetLayout models_;
+        VkDescriptorSetLayout composition_;
+        VkDescriptorSetLayout bloom_filter_;
+    } descriptor_set_layouts_{};
     
     // Framebuffer for offscreen rendering
     struct FrameBufferAttachment {
@@ -104,17 +104,17 @@ public:
         FrameBufferAttachment depth;
         VkRenderPass render_pass;
         VkSampler sampler;
-    } offscreen{};
+    } offscreen_{};
     
     struct {
-        int32_t width, height;
-        VkFramebuffer framebuffer;
-        FrameBufferAttachment color[1];
-        VkRenderPass render_pass;
-        VkSampler sampler;
-    } filter_pass{};
+        int32_t width_, height_;
+        VkFramebuffer framebuffer_;
+        FrameBufferAttachment color_[1];
+        VkRenderPass render_pass_;
+        VkSampler sampler_;
+    } filter_pass_{};
     
-    std::vector<std::string> object_names;
+    std::vector<std::string> object_names_;
     
     HDR();
     

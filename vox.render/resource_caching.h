@@ -141,15 +141,15 @@ struct hash<vox::SubpassInfo> {
     std::size_t operator()(const vox::SubpassInfo &subpass_info) const {
         std::size_t result = 0;
         
-        for (uint32_t output_attachment: subpass_info.output_attachments) {
+        for (uint32_t output_attachment : subpass_info.output_attachments) {
             vox::hash_combine(result, output_attachment);
         }
         
-        for (uint32_t input_attachment: subpass_info.input_attachments) {
+        for (uint32_t input_attachment : subpass_info.input_attachments) {
             vox::hash_combine(result, input_attachment);
         }
         
-        for (uint32_t resolve_attachment: subpass_info.color_resolve_attachments) {
+        for (uint32_t resolve_attachment : subpass_info.color_resolve_attachments) {
             vox::hash_combine(result, resolve_attachment);
         }
         
@@ -166,10 +166,10 @@ struct hash<vox::SpecializationConstantState> {
     std::size_t operator()(const vox::SpecializationConstantState &specialization_constant_state) const {
         std::size_t result = 0;
         
-        for (auto constants: specialization_constant_state.get_specialization_constant_state()) {
+        for (auto constants : specialization_constant_state.get_specialization_constant_state()) {
             vox::hash_combine(result, constants.first);
-            for (const auto data: constants.second) {
-                vox::hash_combine(result, data);
+            for (const auto kData : constants.second) {
+                vox::hash_combine(result, kData);
             }
         }
         
@@ -379,13 +379,17 @@ struct hash<vox::ColorBlendAttachmentState> {
                           static_cast<std::underlying_type<VkBlendOp>::type>(color_blend_attachment.color_blend_op));
         vox::hash_combine(result, color_blend_attachment.color_write_mask);
         vox::hash_combine(result,
-                          static_cast<std::underlying_type<VkBlendFactor>::type>(color_blend_attachment.dst_alpha_blend_factor));
+                          static_cast<std::underlying_type<VkBlendFactor>::type>(color_blend_attachment
+                                                                                 .dst_alpha_blend_factor));
         vox::hash_combine(result,
-                          static_cast<std::underlying_type<VkBlendFactor>::type>(color_blend_attachment.dst_color_blend_factor));
+                          static_cast<std::underlying_type<VkBlendFactor>::type>(color_blend_attachment
+                                                                                 .dst_color_blend_factor));
         vox::hash_combine(result,
-                          static_cast<std::underlying_type<VkBlendFactor>::type>(color_blend_attachment.src_alpha_blend_factor));
+                          static_cast<std::underlying_type<VkBlendFactor>::type>(color_blend_attachment
+                                                                                 .src_alpha_blend_factor));
         vox::hash_combine(result,
-                          static_cast<std::underlying_type<VkBlendFactor>::type>(color_blend_attachment.src_color_blend_factor));
+                          static_cast<std::underlying_type<VkBlendFactor>::type>(color_blend_attachment
+                                                                                 .src_color_blend_factor));
         
         return result;
     }
@@ -396,7 +400,7 @@ struct hash<vox::RenderTarget> {
     std::size_t operator()(const vox::RenderTarget &render_target) const {
         std::size_t result = 0;
         
-        for (auto &view: render_target.get_views()) {
+        for (auto &view : render_target.get_views()) {
             vox::hash_combine(result, view.get_handle());
             vox::hash_combine(result, view.get_image().get_handle());
         }
@@ -421,23 +425,24 @@ struct hash<vox::PipelineState> {
         
         vox::hash_combine(result, pipeline_state.get_subpass_index());
         
-        for (auto shader_module: pipeline_state.get_pipeline_layout().get_shader_modules()) {
+        for (auto shader_module : pipeline_state.get_pipeline_layout().get_shader_modules()) {
             vox::hash_combine(result, shader_module->get_id());
         }
         
         // VkPipelineVertexInputStateCreateInfo
-        for (auto &attribute: pipeline_state.get_vertex_input_state().attributes) {
+        for (auto &attribute : pipeline_state.get_vertex_input_state().attributes) {
             vox::hash_combine(result, attribute);
         }
         
-        for (auto &binding: pipeline_state.get_vertex_input_state().bindings) {
+        for (auto &binding : pipeline_state.get_vertex_input_state().bindings) {
             vox::hash_combine(result, binding);
         }
         
         // VkPipelineInputAssemblyStateCreateInfo
         vox::hash_combine(result, pipeline_state.get_input_assembly_state().primitive_restart_enable);
         vox::hash_combine(result,
-                          static_cast<std::underlying_type<VkPrimitiveTopology>::type>(pipeline_state.get_input_assembly_state().topology));
+                          static_cast<std::underlying_type<VkPrimitiveTopology>::type>(pipeline_state
+                                                                                       .get_input_assembly_state().topology));
         
         //VkPipelineViewportStateCreateInfo
         vox::hash_combine(result, pipeline_state.get_viewport_state().viewport_count);
@@ -448,9 +453,11 @@ struct hash<vox::PipelineState> {
         vox::hash_combine(result, pipeline_state.get_rasterization_state().depth_bias_enable);
         vox::hash_combine(result, pipeline_state.get_rasterization_state().depth_clamp_enable);
         vox::hash_combine(result,
-                          static_cast<std::underlying_type<VkFrontFace>::type>(pipeline_state.get_rasterization_state().front_face));
+                          static_cast<std::underlying_type<VkFrontFace>::type>(pipeline_state.get_rasterization_state()
+                                                                               .front_face));
         vox::hash_combine(result,
-                          static_cast<std::underlying_type<VkPolygonMode>::type>(pipeline_state.get_rasterization_state().polygon_mode));
+                          static_cast<std::underlying_type<VkPolygonMode>::type>(pipeline_state.get_rasterization_state()
+                                                                                 .polygon_mode));
         vox::hash_combine(result, pipeline_state.get_rasterization_state().rasterizer_discard_enable);
         
         // VkPipelineMultisampleStateCreateInfo
@@ -458,7 +465,8 @@ struct hash<vox::PipelineState> {
         vox::hash_combine(result, pipeline_state.get_multisample_state().alpha_to_one_enable);
         vox::hash_combine(result, pipeline_state.get_multisample_state().min_sample_shading);
         vox::hash_combine(result,
-                          static_cast<std::underlying_type<VkSampleCountFlagBits>::type>(pipeline_state.get_multisample_state().rasterization_samples));
+                          static_cast<std::underlying_type<VkSampleCountFlagBits>::type>(pipeline_state
+                                                                                         .get_multisample_state().rasterization_samples));
         vox::hash_combine(result, pipeline_state.get_multisample_state().sample_shading_enable);
         vox::hash_combine(result, pipeline_state.get_multisample_state().sample_mask);
         
@@ -466,7 +474,8 @@ struct hash<vox::PipelineState> {
         vox::hash_combine(result, pipeline_state.get_depth_stencil_state().back);
         vox::hash_combine(result, pipeline_state.get_depth_stencil_state().depth_bounds_test_enable);
         vox::hash_combine(result,
-                          static_cast<std::underlying_type<VkCompareOp>::type>(pipeline_state.get_depth_stencil_state().depth_compare_op));
+                          static_cast<std::underlying_type<VkCompareOp>::type>(pipeline_state.get_depth_stencil_state()
+                                                                               .depth_compare_op));
         vox::hash_combine(result, pipeline_state.get_depth_stencil_state().depth_test_enable);
         vox::hash_combine(result, pipeline_state.get_depth_stencil_state().depth_write_enable);
         vox::hash_combine(result, pipeline_state.get_depth_stencil_state().front);
@@ -474,10 +483,11 @@ struct hash<vox::PipelineState> {
         
         // VkPipelineColorBlendStateCreateInfo
         vox::hash_combine(result,
-                          static_cast<std::underlying_type<VkLogicOp>::type>(pipeline_state.get_color_blend_state().logic_op));
+                          static_cast<std::underlying_type<VkLogicOp>::type>(pipeline_state.get_color_blend_state()
+                                                                             .logic_op));
         vox::hash_combine(result, pipeline_state.get_color_blend_state().logic_op_enable);
         
-        for (auto &attachment: pipeline_state.get_color_blend_state().attachments) {
+        for (auto &attachment : pipeline_state.get_color_blend_state().attachments) {
             vox::hash_combine(result, attachment);
         }
         
@@ -508,7 +518,7 @@ template<>
 inline void hash_param<std::vector<Attachment>>(
                                                 size_t &seed,
                                                 const std::vector<Attachment> &value) {
-    for (auto &attachment: value) {
+    for (auto &attachment : value) {
         hash_combine(seed, attachment);
     }
 }
@@ -517,7 +527,7 @@ template<>
 inline void hash_param<std::vector<LoadStoreInfo>>(
                                                    size_t &seed,
                                                    const std::vector<LoadStoreInfo> &value) {
-    for (auto &load_store_info: value) {
+    for (auto &load_store_info : value) {
         hash_combine(seed, load_store_info);
     }
 }
@@ -526,7 +536,7 @@ template<>
 inline void hash_param<std::vector<SubpassInfo>>(
                                                  size_t &seed,
                                                  const std::vector<SubpassInfo> &value) {
-    for (auto &subpass_info: value) {
+    for (auto &subpass_info : value) {
         hash_combine(seed, subpass_info);
     }
 }
@@ -535,7 +545,7 @@ template<>
 inline void hash_param<std::vector<ShaderModule *>>(
                                                     size_t &seed,
                                                     const std::vector<ShaderModule *> &value) {
-    for (auto &shader_module: value) {
+    for (auto &shader_module : value) {
         hash_combine(seed, shader_module->get_id());
     }
 }
@@ -544,18 +554,20 @@ template<>
 inline void hash_param<std::vector<ShaderResource>>(
                                                     size_t &seed,
                                                     const std::vector<ShaderResource> &value) {
-    for (auto &resource: value) {
+    for (auto &resource : value) {
         hash_combine(seed, resource);
     }
 }
 
 template<>
 inline void hash_param<std::map<uint32_t, std::map<uint32_t, VkDescriptorBufferInfo>>>(size_t &seed,
-                                                                                       const std::map<uint32_t, std::map<uint32_t, VkDescriptorBufferInfo>> &value) {
-    for (auto &binding_set: value) {
+                                                                                       const std::map<uint32_t,
+                                                                                       std::map<uint32_t,
+                                                                                       VkDescriptorBufferInfo>> &value) {
+    for (auto &binding_set : value) {
         hash_combine(seed, binding_set.first);
         
-        for (auto &binding_element: binding_set.second) {
+        for (auto &binding_element : binding_set.second) {
             hash_combine(seed, binding_element.first);
             hash_combine(seed, binding_element.second);
         }
@@ -564,11 +576,13 @@ inline void hash_param<std::map<uint32_t, std::map<uint32_t, VkDescriptorBufferI
 
 template<>
 inline void hash_param<std::map<uint32_t, std::map<uint32_t, VkDescriptorImageInfo>>>(size_t &seed,
-                                                                                      const std::map<uint32_t, std::map<uint32_t, VkDescriptorImageInfo>> &value) {
-    for (auto &binding_set: value) {
+                                                                                      const std::map<uint32_t,
+                                                                                      std::map<uint32_t,
+                                                                                      VkDescriptorImageInfo>> &value) {
+    for (auto &binding_set : value) {
         hash_combine(seed, binding_set.first);
         
-        for (auto &binding_element: binding_set.second) {
+        for (auto &binding_element : binding_set.second) {
             hash_combine(seed, binding_element.first);
             hash_combine(seed, binding_element.second);
         }
@@ -688,6 +702,5 @@ T &request_resource(Device &device, ResourceRecord *recorder, std::unordered_map
     
     return res_it->second;
 }
-
 
 }        // namespace vox

@@ -20,7 +20,7 @@ class Sampler;
 
 class Texture {
 public:
-    std::string name;
+    std::string name_;
     
     explicit Texture(std::string name);
     
@@ -37,9 +37,9 @@ public:
     Sampler *get_sampler();
     
 private:
-    Image *image{nullptr};
+    Image *image_{nullptr};
     
-    Sampler *sampler{nullptr};
+    Sampler *sampler_{nullptr};
 };
 
 }        // namespace vox

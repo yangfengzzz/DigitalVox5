@@ -23,12 +23,12 @@ void RadioButtonLinker::link(RadioButton &p_radio_button) {
 
 void RadioButtonLinker::unlink(RadioButton &p_radio_button) {
     auto it = std::find_if(radio_buttons_.begin(), radio_buttons_.end(),
-                           [&p_radio_button](std::pair<ListenerID, std::reference_wrapper<RadioButton>> &p_pair) {
+                           [&p_radio_button](std::pair<ListenerId, std::reference_wrapper<RadioButton>> &p_pair) {
         return &p_pair.second.get() == &p_radio_button;
     });
     
     if (it != radio_buttons_.end()) {
-        it->second.get().clicked_event_.removeListener(it->first);
+		it->second.get().clicked_event_.remove_listener(it->first);
         radio_buttons_.erase(it);
     }
 }

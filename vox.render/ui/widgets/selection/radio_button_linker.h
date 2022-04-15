@@ -48,7 +48,7 @@ public:
 private:
     int available_radio_id_ = 0;
     int selected_ = -1;
-    std::vector<std::pair<ListenerID, std::reference_wrapper<RadioButton>>> radio_buttons_;
+    std::vector<std::pair<ListenerId, std::reference_wrapper<RadioButton>>> radio_buttons_;
 };
 
 }

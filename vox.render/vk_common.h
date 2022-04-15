@@ -202,6 +202,5 @@ std::vector<LoadStoreInfo> get_clear_store_all();
  */
 std::vector<VkClearValue> get_clear_value();
 
-
 }        // namespace gbuffer
 }        // namespace vox

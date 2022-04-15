@@ -46,11 +46,11 @@ public:
     core::Buffer &get_buffer();
     
 private:
-    core::Buffer *buffer{nullptr};
+    core::Buffer *buffer_{nullptr};
     
-    VkDeviceSize base_offset{0};
+    VkDeviceSize base_offset_{0};
     
-    VkDeviceSize size{0};
+    VkDeviceSize size_{0};
 };
 
 /**
@@ -70,13 +70,13 @@ public:
     void reset();
     
 private:
-    core::Buffer buffer;
+    core::Buffer buffer_;
     
     // Memory alignment, it may change according to the usage
-    VkDeviceSize alignment{0};
+    VkDeviceSize alignment_{0};
     
     // Current offset, it increases on every allocation
-    VkDeviceSize offset{0};
+    VkDeviceSize offset_{0};
 };
 
 /**
@@ -105,21 +105,20 @@ public:
     void reset();
     
 private:
-    Device &device;
+    Device &device_;
     
     /// List of blocks requested
-    std::vector<std::unique_ptr<BufferBlock>> buffer_blocks;
+    std::vector<std::unique_ptr<BufferBlock>> buffer_blocks_;
     
     /// Minimum size of the blocks
-    VkDeviceSize block_size{0};
+    VkDeviceSize block_size_{0};
     
-    VkBufferUsageFlags usage{};
+    VkBufferUsageFlags usage_{};
     
-    VmaMemoryUsage memory_usage{};
+    VmaMemoryUsage memory_usage_{};
     
     /// Numbers of active blocks from the start of buffer_blocks
-    uint32_t active_buffer_block_count{0};
+    uint32_t active_buffer_block_count_{0};
 };
-
 
 }        // namespace vox

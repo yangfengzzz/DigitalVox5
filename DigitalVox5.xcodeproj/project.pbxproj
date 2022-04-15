@@ -2307,10 +2307,7 @@
 					"./cmake-debug/third_party/glslang/OGLCompilersDLL/lib/Debug/x86_64",
 					/usr/local/lib,
 				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DDEBUG=0",
-					"-fexceptions",
-				);
+				OTHER_CPLUSPLUSFLAGS = "-fexceptions";
 				OTHER_LDFLAGS = (
 					"-Wl,-search_paths_first",
 					"-Wl,-headerpad_max_install_names",
@@ -2390,10 +2387,7 @@
 					"./cmake-release/third_party/glslang/OGLCompilersDLL/lib/Release/x86_64",
 					/usr/local/lib,
 				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DNDEBUG",
-					"-fexceptions",
-				);
+				OTHER_CPLUSPLUSFLAGS = "-fexceptions";
 				OTHER_LDFLAGS = (
 					"-Wl,-search_paths_first",
 					"-Wl,-headerpad_max_install_names",
@@ -2463,10 +2457,7 @@
 					./vox.render,
 					./vox.math,
 				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DDEBUG=0",
-					"-fexceptions",
-				);
+				OTHER_CPLUSPLUSFLAGS = "-fexceptions";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (
@@ -2517,10 +2508,7 @@
 					./vox.render,
 					./vox.math,
 				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DNDEBUG",
-					"-fexceptions",
-				);
+				OTHER_CPLUSPLUSFLAGS = "-fexceptions";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (

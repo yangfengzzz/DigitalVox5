@@ -32,7 +32,7 @@ public:
     
     [[nodiscard]] const std::vector<Hook> &get_hooks() const override;
     
-    bool has_tag(TagID id) const override;
+    bool has_tag(TagId id) const override;
     
     // hooks that can be implemented by plugins
     void on_update(float delta_time) override {};
@@ -66,7 +66,7 @@ const std::vector<Command *> &PluginBase<TAGS...>::get_cli_commands() const {
 }
 
 template<typename... TAGS>
-bool PluginBase<TAGS...>::has_tag(TagID id) const {
+bool PluginBase<TAGS...>::has_tag(TagId id) const {
     return tags_->has_tag(id);
 }
 
