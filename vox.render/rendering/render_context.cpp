@@ -210,7 +210,7 @@ void RenderContext::recreate() {
 
 bool RenderContext::handle_surface_changes(bool force_update) {
     if (!swapchain) {
-        LOGW("Can't handle surface changes in headless mode, skipping.")
+        LOGW("Can't handle_ surface changes in headless mode, skipping.")
         return false;
     }
     
@@ -278,7 +278,7 @@ void RenderContext::submit(const std::vector<CommandBuffer *> &command_buffers) 
 }
 
 void RenderContext::begin_frame() {
-    // Only handle surface changes if a swapchain exists
+    // Only handle_ surface changes if a swapchain exists
     if (swapchain) {
         handle_surface_changes();
     }

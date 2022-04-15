@@ -1,19 +1,8 @@
-/* Copyright (c) 2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -44,7 +33,7 @@ public:
      */
     explicit SampledImage(uint32_t target_attachment, RenderTarget *render_target = nullptr,
                           Sampler *sampler = nullptr,
-                          bool isDepthResolve = false);
+                          bool is_depth_resolve = false);
     
     SampledImage(const SampledImage &to_copy);
     
@@ -60,15 +49,15 @@ public:
      * @brief Replaces the current image view with the given one.
      */
     inline void set_image_view(const ImageView &new_view) {
-        image_view = &new_view;
+        image_view_ = &new_view;
     }
     
     /**
      * @brief Replaces the image view with an attachment of the PostProcessingPipeline's render target.
      */
     inline void set_image_view(uint32_t new_attachment) {
-        image_view = nullptr;
-        target_attachment = new_attachment;
+        image_view_ = nullptr;
+        target_attachment_ = new_attachment;
     }
     
     /**
@@ -88,28 +77,28 @@ public:
      * @brief Returns the currently-set sampler, if any.
      */
     [[nodiscard]] inline Sampler *get_sampler() const {
-        return sampler;
+        return sampler_;
     }
     
     /**
      * @brief Sets the sampler for this SampledImage.
      */
     inline void set_sampler(Sampler *new_sampler) {
-        sampler = new_sampler;
+        sampler_ = new_sampler;
     }
     
     /**
      * @brief Returns the RenderTarget, if set.
      */
     [[nodiscard]] inline RenderTarget *get_render_target() const {
-        return render_target;
+        return render_target_;
     }
     
     /**
      * @brief Returns either the RenderTarget, if set, or - if not - the given fallback render target.
      */
     inline RenderTarget &get_render_target(RenderTarget &fallback) const {
-        return render_target ? *render_target : fallback;
+        return render_target_ ? *render_target_ : fallback;
     }
     
     /**
@@ -117,19 +106,19 @@ public:
      *        Setting it to null will make it use the default instead.
      */
     inline void set_render_target(RenderTarget *new_render_target) {
-        render_target = new_render_target;
+        render_target_ = new_render_target;
     }
     
     [[nodiscard]] inline bool is_depth_resolve() const {
-        return isDepthResolve;
+        return is_depth_resolve_;
     }
     
 private:
-    const ImageView *image_view;
-    uint32_t target_attachment;
-    RenderTarget *render_target;
-    Sampler *sampler;
-    bool isDepthResolve;
+    const ImageView *image_view_;
+    uint32_t target_attachment_;
+    RenderTarget *render_target_;
+    Sampler *sampler_;
+    bool is_depth_resolve_;
 };
 
 }        // namespace core

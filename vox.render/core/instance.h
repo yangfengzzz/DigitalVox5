@@ -1,19 +1,8 @@
-/* Copyright (c) 2018-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -106,39 +95,39 @@ public:
     
     /**
      * @brief Finds layer properties for the layer with the given name
-     * @param layerName The layer to search for
+     * @param layer_name The layer to search for
      * @param properties A reference to a VkLayerProperties struct to populate
      * @returns True if the layer was found and populated, false otherwise
      */
-    bool get_layer_properties(const char *layerName, VkLayerProperties &properties);
+    bool get_layer_properties(const char *layer_name, VkLayerProperties &properties);
     
 private:
     /**
      * @brief The Vulkan instance
      */
-    VkInstance handle{VK_NULL_HANDLE};
+    VkInstance handle_{VK_NULL_HANDLE};
     
     /**
      * @brief The enabled extensions
      */
-    std::vector<const char *> enabled_extensions;
+    std::vector<const char *> enabled_extensions_;
     
 #if defined(VKB_DEBUG) || defined(VKB_VALIDATION_LAYERS)
     /**
      * @brief Debug utils messenger callback for VK_EXT_Debug_Utils
      */
-    VkDebugUtilsMessengerEXT debug_utils_messenger{VK_NULL_HANDLE};
+    VkDebugUtilsMessengerEXT debug_utils_messenger_{VK_NULL_HANDLE};
     
     /**
      * @brief The debug report callback
      */
-    VkDebugReportCallbackEXT debug_report_callback{VK_NULL_HANDLE};
+    VkDebugReportCallbackEXT debug_report_callback_{VK_NULL_HANDLE};
 #endif
     
     /**
      * @brief The physical devices found on the machine
      */
-    std::vector<std::unique_ptr<PhysicalDevice>> gpus;
+    std::vector<std::unique_ptr<PhysicalDevice>> gpus_;
 };        // namespace Instance
 
 

@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -93,31 +82,31 @@ public:
     std::unordered_set<ImageView *> &get_views();
     
 private:
-    VmaAllocation memory{VK_NULL_HANDLE};
+    VmaAllocation memory_{VK_NULL_HANDLE};
     
-    VkImageType type{};
+    VkImageType type_{};
     
-    VkExtent3D extent{};
+    VkExtent3D extent_{};
     
-    VkFormat format{};
+    VkFormat format_{};
     
-    VkImageUsageFlags usage{};
+    VkImageUsageFlags usage_{};
     
-    VkSampleCountFlagBits sample_count{};
+    VkSampleCountFlagBits sample_count_{};
     
-    VkImageTiling tiling{};
+    VkImageTiling tiling_{};
     
-    VkImageSubresource subresource{};
+    VkImageSubresource subresource_{};
     
-    uint32_t array_layer_count{0};
+    uint32_t array_layer_count_{0};
     
     /// Image views referring to this image
-    std::unordered_set<ImageView *> views;
+    std::unordered_set<ImageView *> views_;
     
-    uint8_t *mapped_data{nullptr};
+    uint8_t *mapped_data_{nullptr};
     
     /// Whether it was mapped with vmaMapMemory
-    bool mapped{false};
+    bool mapped_{false};
 };
 
 }        // namespace core

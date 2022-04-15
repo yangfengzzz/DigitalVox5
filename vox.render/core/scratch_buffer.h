@@ -1,19 +1,8 @@
-/* Copyright (c) 2021, Sascha Willems
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -47,23 +36,22 @@ public:
      * @return The size of the buffer
      */
     [[nodiscard]] VkDeviceSize get_size() const {
-        return size;
+        return size_;
     }
     
 private:
-    Device &device;
+    Device &device_;
     
-    uint64_t device_address{0};
+    uint64_t device_address_{0};
     
-    VkBuffer handle{VK_NULL_HANDLE};
+    VkBuffer handle_{VK_NULL_HANDLE};
     
-    VmaAllocation allocation{VK_NULL_HANDLE};
+    VmaAllocation allocation_{VK_NULL_HANDLE};
     
-    VkDeviceMemory memory{VK_NULL_HANDLE};
+    VkDeviceMemory memory_{VK_NULL_HANDLE};
     
-    VkDeviceSize size{0};
+    VkDeviceSize size_{0};
 };
-
 
 }        // namespace core
 }        // namespace vox

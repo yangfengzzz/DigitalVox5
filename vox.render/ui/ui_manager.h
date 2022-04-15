@@ -41,7 +41,7 @@ public:
               RenderContext *context, Style p_style = Style::IM_DARK_STYLE);
     
     /**
-     * Destroy the UI manager. Will handle ImGui destruction internally
+     * Destroy the UI manager. Will handle_ ImGui destruction internally
      */
     ~UiManager();
     

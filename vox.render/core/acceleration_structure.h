@@ -1,19 +1,8 @@
-/* Copyright (c) 2021, Sascha Willems
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -70,7 +59,7 @@ public:
                                    uint64_t index_buffer_data_address = 0,
                                    uint64_t transform_buffer_data_address = 0);
     
-    void update_triangle_geometry(uint64_t triangleUUID, std::unique_ptr<vox::core::Buffer> &vertex_buffer,
+    void update_triangle_geometry(uint64_t triangle_uuid, std::unique_ptr<vox::core::Buffer> &vertex_buffer,
                                   std::unique_ptr<vox::core::Buffer> &index_buffer,
                                   std::unique_ptr<vox::core::Buffer> &transform_buffer,
                                   uint32_t triangle_count,
@@ -96,7 +85,7 @@ public:
                                    uint32_t transform_offset = 0,
                                    VkGeometryFlagsKHR flags = VK_GEOMETRY_OPAQUE_BIT_KHR);
     
-    void update_instance_geometry(uint64_t instance_UID, std::unique_ptr<vox::core::Buffer> &instance_buffer,
+    void update_instance_geometry(uint64_t instance_uid, std::unique_ptr<vox::core::Buffer> &instance_buffer,
                                   uint32_t instance_count,
                                   uint32_t transform_offset = 0,
                                   VkGeometryFlagsKHR flags = VK_GEOMETRY_OPAQUE_BIT_KHR);
@@ -118,23 +107,23 @@ public:
     [[nodiscard]] uint64_t get_device_address() const;
     
     [[nodiscard]] vox::core::Buffer *get_buffer() const {
-        return buffer.get();
+        return buffer_.get();
     }
     
-    void resetGeometries() {
-        geometries.clear();
+    void reset_geometries() {
+        geometries_.clear();
     }
     
 private:
-    Device &device;
+    Device &device_;
     
-    VkAccelerationStructureKHR handle{VK_NULL_HANDLE};
+    VkAccelerationStructureKHR handle_{VK_NULL_HANDLE};
     
-    uint64_t device_address{0};
+    uint64_t device_address_{0};
     
-    VkAccelerationStructureTypeKHR type{};
+    VkAccelerationStructureTypeKHR type_{};
     
-    VkAccelerationStructureBuildSizesInfoKHR build_sizes_info{};
+    VkAccelerationStructureBuildSizesInfoKHR build_sizes_info_{};
     
     struct Geometry {
         VkAccelerationStructureGeometryKHR geometry{};
@@ -143,13 +132,12 @@ private:
         bool updated = false;
     };
     
-    std::unique_ptr<vox::core::ScratchBuffer> scratch_buffer;
+    std::unique_ptr<vox::core::ScratchBuffer> scratch_buffer_;
     
-    std::map<uint64_t, Geometry> geometries{};
+    std::map<uint64_t, Geometry> geometries_{};
     
-    std::unique_ptr<vox::core::Buffer> buffer{nullptr};
+    std::unique_ptr<vox::core::Buffer> buffer_{nullptr};
 };
-
 
 }        // namespace core
 }        // namespace vox

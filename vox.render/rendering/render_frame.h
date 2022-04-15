@@ -112,7 +112,7 @@ public:
      * @return A command buffer related to the current active frame
      */
     CommandBuffer &request_command_buffer(const Queue &queue,
-                                          CommandBuffer::ResetMode reset_mode = CommandBuffer::ResetMode::ResetPool,
+                                          CommandBuffer::ResetMode reset_mode = CommandBuffer::ResetMode::RESET_POOL,
                                           VkCommandBufferLevel level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
                                           size_t thread_index = 0);
     

@@ -74,17 +74,17 @@ public:
     virtual ~Window() = default;
     
     /**
-     * @brief Gets a handle from the platform's Vulkan surface
+     * @brief Gets a handle_ from the platform's Vulkan surface
      * @param instance A Vulkan instance
-     * @returns A VkSurfaceKHR handle, for use by the application
+     * @returns A VkSurfaceKHR handle_, for use by the application
      */
     virtual VkSurfaceKHR create_surface(Instance &instance) = 0;
     
     /**
-     * @brief Gets a handle from the platform's Vulkan surface
+     * @brief Gets a handle_ from the platform's Vulkan surface
      * @param instance A Vulkan instance
      * @param physical_device A Vulkan PhysicalDevice
-     * @returns A VkSurfaceKHR handle, for use by the application
+     * @returns A VkSurfaceKHR handle_, for use by the application
      */
     virtual VkSurfaceKHR create_surface(VkInstance instance, VkPhysicalDevice physical_device) = 0;
     

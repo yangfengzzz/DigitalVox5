@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "render_pass.h"
 
@@ -77,7 +66,8 @@ get_depth_resolve_reference(const VkSubpassDescription &subpass_description) {
 
 inline const VkAttachmentReference2KHR *
 get_depth_resolve_reference(const VkSubpassDescription2KHR &subpass_description) {
-    auto description_depth_resolve = static_cast<const VkSubpassDescriptionDepthStencilResolveKHR *>(subpass_description.pNext);
+    auto description_depth_resolve =
+    static_cast<const VkSubpassDescriptionDepthStencilResolveKHR *>(subpass_description.pNext);
     
     const VkAttachmentReference2KHR *depth_resolve_attachment = nullptr;
     if (description_depth_resolve) {
@@ -131,7 +121,7 @@ template<typename T_SubpassDescription, typename T_AttachmentDescription, typena
 void set_attachment_layouts(std::vector<T_SubpassDescription> &subpass_descriptions,
                             std::vector<T_AttachmentDescription> &attachment_descriptions) {
     // Make the initial layout same as in the first subpass using that attachment
-    for (auto &subpass: subpass_descriptions) {
+    for (auto &subpass : subpass_descriptions) {
         for (size_t k = 0U; k < subpass.colorAttachmentCount; ++k) {
             auto &reference = subpass.pColorAttachments[k];
             // Set it only if not defined yet
@@ -254,11 +244,11 @@ void RenderPass::create_renderpass(const std::vector<Attachment> &attachments,
                                                                                         load_store_infos);
     
     // Store attachments for every subpass
-    std::vector<std::vector<T_AttachmentReference>> input_attachments{subpass_count};
-    std::vector<std::vector<T_AttachmentReference>> color_attachments{subpass_count};
-    std::vector<std::vector<T_AttachmentReference>> depth_stencil_attachments{subpass_count};
-    std::vector<std::vector<T_AttachmentReference>> color_resolve_attachments{subpass_count};
-    std::vector<std::vector<T_AttachmentReference>> depth_resolve_attachments{subpass_count};
+    std::vector<std::vector<T_AttachmentReference>> input_attachments{subpass_count_};
+    std::vector<std::vector<T_AttachmentReference>> color_attachments{subpass_count_};
+    std::vector<std::vector<T_AttachmentReference>> depth_stencil_attachments{subpass_count_};
+    std::vector<std::vector<T_AttachmentReference>> color_resolve_attachments{subpass_count_};
+    std::vector<std::vector<T_AttachmentReference>> depth_resolve_attachments{subpass_count_};
     
     std::string new_debug_name{};
     const bool needs_debug_name = get_debug_name().empty();
@@ -274,7 +264,7 @@ void RenderPass::create_renderpass(const std::vector<Attachment> &attachments,
         }
         
         // Fill color attachments references
-        for (auto o_attachment: subpass.output_attachments) {
+        for (auto o_attachment : subpass.output_attachments) {
             auto initial_layout = attachments[o_attachment].initial_layout == VK_IMAGE_LAYOUT_UNDEFINED
             ? VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
             : attachments[o_attachment].initial_layout;
@@ -286,7 +276,7 @@ void RenderPass::create_renderpass(const std::vector<Attachment> &attachments,
         }
         
         // Fill input attachments references
-        for (auto i_attachment: subpass.input_attachments) {
+        for (auto i_attachment : subpass.input_attachments) {
             auto default_layout = is_depth_stencil_format(attachment_descriptions[i_attachment].format)
             ? VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL
             : VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -297,7 +287,7 @@ void RenderPass::create_renderpass(const std::vector<Attachment> &attachments,
                                            get_attachment_reference<T_AttachmentReference>(i_attachment, initial_layout));
         }
         
-        for (auto r_attachment: subpass.color_resolve_attachments) {
+        for (auto r_attachment : subpass.color_resolve_attachments) {
             auto initial_layout = attachments[r_attachment].initial_layout == VK_IMAGE_LAYOUT_UNDEFINED
             ? VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
             : attachments[r_attachment].initial_layout;
@@ -332,7 +322,7 @@ void RenderPass::create_renderpass(const std::vector<Attachment> &attachments,
     }
     
     std::vector<T_SubpassDescription> subpass_descriptions;
-    subpass_descriptions.reserve(subpass_count);
+    subpass_descriptions.reserve(subpass_count_);
     VkSubpassDescriptionDepthStencilResolveKHR depth_resolve{};
     for (size_t i = 0; i < subpasses.size(); ++i) {
         auto &subpass = subpasses[i];
@@ -409,12 +399,12 @@ void RenderPass::create_renderpass(const std::vector<Attachment> &attachments,
     set_attachment_layouts<T_SubpassDescription, T_AttachmentDescription, T_AttachmentReference>(
                                                                                                  subpass_descriptions, attachment_descriptions);
     
-    color_output_count.reserve(subpass_count);
-    for (size_t i = 0; i < subpass_count; i++) {
-        color_output_count.push_back(to_u32(color_attachments[i].size()));
+    color_output_count_.reserve(subpass_count_);
+    for (size_t i = 0; i < subpass_count_; i++) {
+        color_output_count_.push_back(to_u32(color_attachments[i].size()));
     }
     
-    const auto &subpass_dependencies = get_subpass_dependencies<T_SubpassDependency>(subpass_count);
+    const auto &subpass_dependencies = get_subpass_dependencies<T_SubpassDependency>(subpass_count_);
     
     T_RenderPassCreateInfo create_info{};
     set_structure_type(create_info);
@@ -425,7 +415,7 @@ void RenderPass::create_renderpass(const std::vector<Attachment> &attachments,
     create_info.dependencyCount = to_u32(subpass_dependencies.size());
     create_info.pDependencies = subpass_dependencies.data();
     
-    auto result = create_vk_renderpass(device->get_handle(), create_info, &handle);
+    auto result = create_vk_renderpass(device_->get_handle(), create_info, &handle_);
     
     if (result != VK_SUCCESS) {
         throw VulkanException{result, "Cannot create RenderPass"};
@@ -440,41 +430,52 @@ RenderPass::RenderPass(Device &device, const std::vector<Attachment> &attachment
                        const std::vector<LoadStoreInfo> &load_store_infos,
                        const std::vector<SubpassInfo> &subpasses) :
 VulkanResource{VK_NULL_HANDLE, &device},
-subpass_count{std::max<size_t>(1, subpasses.size())},        // At least 1 subpass
-color_output_count{} {
+subpass_count_{std::max<size_t>(1, subpasses.size())},        // At least 1 subpass
+color_output_count_{} {
     if (device.is_enabled(VK_KHR_CREATE_RENDERPASS_2_EXTENSION_NAME)) {
-        create_renderpass<VkSubpassDescription2KHR, VkAttachmentDescription2KHR, VkAttachmentReference2KHR, VkSubpassDependency2KHR, VkRenderPassCreateInfo2KHR>(
-                                                                                                                                                                 attachments, load_store_infos, subpasses);
+        create_renderpass<VkSubpassDescription2KHR,
+        VkAttachmentDescription2KHR,
+        VkAttachmentReference2KHR,
+        VkSubpassDependency2KHR,
+        VkRenderPassCreateInfo2KHR>(
+                                    attachments,
+                                    load_store_infos,
+                                    subpasses);
     } else {
-        create_renderpass<VkSubpassDescription, VkAttachmentDescription, VkAttachmentReference, VkSubpassDependency, VkRenderPassCreateInfo>(
-                                                                                                                                             attachments, load_store_infos, subpasses);
+        create_renderpass<VkSubpassDescription,
+        VkAttachmentDescription,
+        VkAttachmentReference,
+        VkSubpassDependency,
+        VkRenderPassCreateInfo>(
+                                attachments,
+                                load_store_infos,
+                                subpasses);
     }
 }
 
 RenderPass::RenderPass(RenderPass &&other) noexcept:
 VulkanResource{std::move(other)},
-subpass_count{other.subpass_count},
-color_output_count{other.color_output_count} {
-    other.handle = VK_NULL_HANDLE;
+subpass_count_{other.subpass_count_},
+color_output_count_{other.color_output_count_} {
+    other.handle_ = VK_NULL_HANDLE;
 }
 
 RenderPass::~RenderPass() {
     // Destroy render pass
-    if (handle != VK_NULL_HANDLE) {
-        vkDestroyRenderPass(device->get_handle(), handle, nullptr);
+    if (handle_ != VK_NULL_HANDLE) {
+        vkDestroyRenderPass(device_->get_handle(), handle_, nullptr);
     }
 }
 
 uint32_t RenderPass::get_color_output_count(uint32_t subpass_index) const {
-    return color_output_count[subpass_index];
+    return color_output_count_[subpass_index];
 }
 
 VkExtent2D RenderPass::get_render_area_granularity() const {
     VkExtent2D render_area_granularity = {};
-    vkGetRenderAreaGranularity(device->get_handle(), get_handle(), &render_area_granularity);
+    vkGetRenderAreaGranularity(device_->get_handle(), get_handle(), &render_area_granularity);
     
     return render_area_granularity;
 }
-
 
 }        // namespace vox

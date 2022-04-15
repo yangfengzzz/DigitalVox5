@@ -58,7 +58,7 @@ public:
     
     /**
      * @brief Constructor
-     * @param device A valid device
+     * @param device A valid device_
      * @param surface A surface, VK_NULL_HANDLE if in headless mode
      * @param window_width The width of the window where the surface was created
      * @param window_height The height of the window where the surface was created
@@ -149,7 +149,7 @@ public:
      * @returns A valid command buffer to record commands to be submitted
      * Also ensures that there is an active frame if there is no existing active frame already
      */
-    CommandBuffer &begin(CommandBuffer::ResetMode reset_mode = CommandBuffer::ResetMode::ResetPool);
+    CommandBuffer &begin(CommandBuffer::ResetMode reset_mode = CommandBuffer::ResetMode::RESET_POOL);
     
     /**
      * @brief Submits the command buffer to the right queue

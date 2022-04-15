@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -24,7 +13,7 @@ namespace vox {
 class Device;
 
 enum ImageFormat {
-    sRGB,
+    S_RGB,
     UNORM
 };
 
@@ -140,34 +129,33 @@ public:
     void set_surface_format_priority(const std::vector<VkSurfaceFormatKHR> &surface_format_priority_list);
     
 private:
-    Device &device;
+    Device &device_;
     
-    VkSurfaceKHR surface{VK_NULL_HANDLE};
+    VkSurfaceKHR surface_{VK_NULL_HANDLE};
     
-    VkSwapchainKHR handle{VK_NULL_HANDLE};
+    VkSwapchainKHR handle_{VK_NULL_HANDLE};
     
-    std::vector<VkImage> images;
+    std::vector<VkImage> images_;
     
-    std::vector<VkSurfaceFormatKHR> surface_formats{};
+    std::vector<VkSurfaceFormatKHR> surface_formats_{};
     
-    std::vector<VkPresentModeKHR> present_modes{};
+    std::vector<VkPresentModeKHR> present_modes_{};
     
-    SwapchainProperties properties;
+    SwapchainProperties properties_;
     
     // A list of present modes in order of priority (vector[0] has high priority, vector[size-1] has low priority)
-    std::vector<VkPresentModeKHR> present_mode_priority_list = {
+    std::vector<VkPresentModeKHR> present_mode_priority_list_ = {
         VK_PRESENT_MODE_FIFO_KHR,
         VK_PRESENT_MODE_MAILBOX_KHR};
     
     // A list of surface formats in order of priority (vector[0] has high priority, vector[size-1] has low priority)
-    std::vector<VkSurfaceFormatKHR> surface_format_priority_list = {
-        {VK_FORMAT_R8G8B8A8_SRGB,  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
-        {VK_FORMAT_B8G8R8A8_SRGB,  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
+    std::vector<VkSurfaceFormatKHR> surface_format_priority_list_ = {
+        {VK_FORMAT_R8G8B8A8_SRGB, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
+        {VK_FORMAT_B8G8R8A8_SRGB, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
         {VK_FORMAT_R8G8B8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
         {VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR}};
     
-    std::set<VkImageUsageFlagBits> image_usage_flags;
+    std::set<VkImageUsageFlagBits> image_usage_flags_;
 };
-
 
 }        // namespace vox

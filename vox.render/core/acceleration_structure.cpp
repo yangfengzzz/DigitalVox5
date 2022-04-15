@@ -1,19 +1,8 @@
-/* Copyright (c) 2021, Sascha Willems
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "acceleration_structure.h"
 
@@ -22,13 +11,13 @@
 namespace vox::core {
 AccelerationStructure::AccelerationStructure(Device &device,
                                              VkAccelerationStructureTypeKHR type) :
-device{device},
-type{type} {
+device_{device},
+type_{type} {
 }
 
 AccelerationStructure::~AccelerationStructure() {
-    if (handle != VK_NULL_HANDLE) {
-        vkDestroyAccelerationStructureKHR(device.get_handle(), handle, nullptr);
+    if (handle_ != VK_NULL_HANDLE) {
+        vkDestroyAccelerationStructureKHR(device_.get_handle(), handle_, nullptr);
     }
 }
 
@@ -58,12 +47,12 @@ uint64_t AccelerationStructure::add_triangle_geometry(std::unique_ptr<vox::core:
     transform_buffer_data_address == 0 ? transform_buffer->get_device_address()
     : transform_buffer_data_address;
     
-    uint64_t index = geometries.size();
-    geometries.insert({index, {geometry, triangle_count, transform_offset}});
+    uint64_t index = geometries_.size();
+    geometries_.insert({index, {geometry, triangle_count, transform_offset}});
     return index;
 }
 
-void AccelerationStructure::update_triangle_geometry(uint64_t triangleUUID,
+void AccelerationStructure::update_triangle_geometry(uint64_t triangle_uuid,
                                                      std::unique_ptr<vox::core::Buffer> &vertex_buffer,
                                                      std::unique_ptr<vox::core::Buffer> &index_buffer,
                                                      std::unique_ptr<vox::core::Buffer> &transform_buffer,
@@ -73,7 +62,7 @@ void AccelerationStructure::update_triangle_geometry(uint64_t triangleUUID,
                                                      uint64_t vertex_buffer_data_address,
                                                      uint64_t index_buffer_data_address,
                                                      uint64_t transform_buffer_data_address) {
-    VkAccelerationStructureGeometryKHR *geometry = &geometries[triangleUUID].geometry;
+    VkAccelerationStructureGeometryKHR *geometry = &geometries_[triangle_uuid].geometry;
     geometry->sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_KHR;
     geometry->geometryType = VK_GEOMETRY_TYPE_TRIANGLES_KHR;
     geometry->flags = flags;
@@ -89,9 +78,9 @@ void AccelerationStructure::update_triangle_geometry(uint64_t triangleUUID,
     geometry->geometry.triangles.transformData.deviceAddress =
     transform_buffer_data_address == 0 ? transform_buffer->get_device_address()
     : transform_buffer_data_address;
-    geometries[triangleUUID].primitive_count = triangle_count;
-    geometries[triangleUUID].transform_offset = transform_offset;
-    geometries[triangleUUID].updated = true;
+    geometries_[triangle_uuid].primitive_count = triangle_count;
+    geometries_[triangle_uuid].transform_offset = transform_offset;
+    geometries_[triangle_uuid].updated = true;
 }
 
 uint64_t AccelerationStructure::add_instance_geometry(std::unique_ptr<vox::core::Buffer> &instance_buffer,
@@ -105,35 +94,35 @@ uint64_t AccelerationStructure::add_instance_geometry(std::unique_ptr<vox::core:
     geometry.geometry.instances.arrayOfPointers = VK_FALSE;
     geometry.geometry.instances.data.deviceAddress = instance_buffer->get_device_address();
     
-    uint64_t index = geometries.size();
-    geometries.insert({index, {geometry, instance_count, transform_offset}});
+    uint64_t index = geometries_.size();
+    geometries_.insert({index, {geometry, instance_count, transform_offset}});
     return index;
 }
 
-void AccelerationStructure::update_instance_geometry(uint64_t instance_UID,
+void AccelerationStructure::update_instance_geometry(uint64_t instance_uid,
                                                      std::unique_ptr<vox::core::Buffer> &instance_buffer,
                                                      uint32_t instance_count, uint32_t transform_offset,
                                                      VkGeometryFlagsKHR flags) {
-    VkAccelerationStructureGeometryKHR *geometry = &geometries[instance_UID].geometry;
+    VkAccelerationStructureGeometryKHR *geometry = &geometries_[instance_uid].geometry;
     geometry->sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_KHR;
     geometry->geometryType = VK_GEOMETRY_TYPE_INSTANCES_KHR;
     geometry->flags = flags;
     geometry->geometry.instances.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_INSTANCES_DATA_KHR;
     geometry->geometry.instances.arrayOfPointers = VK_FALSE;
     geometry->geometry.instances.data.deviceAddress = instance_buffer->get_device_address();
-    geometries[instance_UID].primitive_count = instance_count;
-    geometries[instance_UID].transform_offset = transform_offset;
-    geometries[instance_UID].updated = true;
+    geometries_[instance_uid].primitive_count = instance_count;
+    geometries_[instance_uid].transform_offset = transform_offset;
+    geometries_[instance_uid].updated = true;
 }
 
 void AccelerationStructure::build(VkQueue queue, VkBuildAccelerationStructureFlagsKHR flags,
                                   VkBuildAccelerationStructureModeKHR mode) {
-    assert(!geometries.empty());
+    assert(!geometries_.empty());
     
     std::vector<VkAccelerationStructureGeometryKHR> acceleration_structure_geometries;
     std::vector<VkAccelerationStructureBuildRangeInfoKHR> acceleration_structure_build_range_infos;
     std::vector<uint32_t> primitive_counts;
-    for (auto &geometry: geometries) {
+    for (auto &geometry : geometries_) {
         if (mode == VK_BUILD_ACCELERATION_STRUCTURE_MODE_UPDATE_KHR && !geometry.second.updated) {
             continue;
         }
@@ -151,82 +140,82 @@ void AccelerationStructure::build(VkQueue queue, VkBuildAccelerationStructureFla
     
     VkAccelerationStructureBuildGeometryInfoKHR build_geometry_info{};
     build_geometry_info.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_BUILD_GEOMETRY_INFO_KHR;
-    build_geometry_info.type = type;
+    build_geometry_info.type = type_;
     build_geometry_info.flags = flags;
     build_geometry_info.mode = mode;
-    if (mode == VK_BUILD_ACCELERATION_STRUCTURE_MODE_UPDATE_KHR && handle != VK_NULL_HANDLE) {
-        build_geometry_info.srcAccelerationStructure = handle;
-        build_geometry_info.dstAccelerationStructure = handle;
+    if (mode == VK_BUILD_ACCELERATION_STRUCTURE_MODE_UPDATE_KHR && handle_ != VK_NULL_HANDLE) {
+        build_geometry_info.srcAccelerationStructure = handle_;
+        build_geometry_info.dstAccelerationStructure = handle_;
     }
     build_geometry_info.geometryCount = static_cast<uint32_t>(acceleration_structure_geometries.size());
     build_geometry_info.pGeometries = acceleration_structure_geometries.data();
     
     // Get required build sizes
-    build_sizes_info.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_BUILD_SIZES_INFO_KHR;
+    build_sizes_info_.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_BUILD_SIZES_INFO_KHR;
     vkGetAccelerationStructureBuildSizesKHR(
-                                            device.get_handle(),
+                                            device_.get_handle(),
                                             VK_ACCELERATION_STRUCTURE_BUILD_TYPE_DEVICE_KHR,
                                             &build_geometry_info,
                                             primitive_counts.data(),
-                                            &build_sizes_info);
+                                            &build_sizes_info_);
     
     // Create a buffer for the acceleration structure
-    if (!buffer || buffer->get_size() != build_sizes_info.accelerationStructureSize) {
-        buffer = std::make_unique<vox::core::Buffer>(
-                                                     device,
-                                                     build_sizes_info.accelerationStructureSize,
-                                                     VK_BUFFER_USAGE_ACCELERATION_STRUCTURE_STORAGE_BIT_KHR,
-                                                     VMA_MEMORY_USAGE_GPU_ONLY);
+    if (!buffer_ || buffer_->get_size() != build_sizes_info_.accelerationStructureSize) {
+        buffer_ = std::make_unique<vox::core::Buffer>(
+                                                      device_,
+                                                      build_sizes_info_.accelerationStructureSize,
+                                                      VK_BUFFER_USAGE_ACCELERATION_STRUCTURE_STORAGE_BIT_KHR,
+                                                      VMA_MEMORY_USAGE_GPU_ONLY);
         
         VkAccelerationStructureCreateInfoKHR acceleration_structure_create_info{};
         acceleration_structure_create_info.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_INFO_KHR;
-        acceleration_structure_create_info.buffer = buffer->get_handle();
-        acceleration_structure_create_info.size = build_sizes_info.accelerationStructureSize;
-        acceleration_structure_create_info.type = type;
-        VkResult result = vkCreateAccelerationStructureKHR(device.get_handle(),
+        acceleration_structure_create_info.buffer = buffer_->get_handle();
+        acceleration_structure_create_info.size = build_sizes_info_.accelerationStructureSize;
+        acceleration_structure_create_info.type = type_;
+        VkResult result = vkCreateAccelerationStructureKHR(device_.get_handle(),
                                                            &acceleration_structure_create_info, nullptr,
-                                                           &handle);
+                                                           &handle_);
         
         if (result != VK_SUCCESS) {
             throw VulkanException{result, "Could not create acceleration structure"};
         }
     }
     
-    // Get the acceleration structure's handle
+    // Get the acceleration structure's handle_
     VkAccelerationStructureDeviceAddressInfoKHR acceleration_device_address_info{};
     acceleration_device_address_info.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_DEVICE_ADDRESS_INFO_KHR;
-    acceleration_device_address_info.accelerationStructure = handle;
-    device_address = vkGetAccelerationStructureDeviceAddressKHR(device.get_handle(),
-                                                                &acceleration_device_address_info);
+    acceleration_device_address_info.accelerationStructure = handle_;
+    device_address_ = vkGetAccelerationStructureDeviceAddressKHR(device_.get_handle(),
+                                                                 &acceleration_device_address_info);
     
     // Create a scratch buffer as a temporary storage for the acceleration structure build
-    scratch_buffer = std::make_unique<vox::core::ScratchBuffer>(device, build_sizes_info.buildScratchSize);
+    scratch_buffer_ = std::make_unique<vox::core::ScratchBuffer>(device_, build_sizes_info_.buildScratchSize);
     
-    build_geometry_info.scratchData.deviceAddress = scratch_buffer->get_device_address();
-    build_geometry_info.dstAccelerationStructure = handle;
+    build_geometry_info.scratchData.deviceAddress = scratch_buffer_->get_device_address();
+    build_geometry_info.dstAccelerationStructure = handle_;
     
-    // Build the acceleration structure on the device via a one-time command buffer submission
-    VkCommandBuffer command_buffer = device.create_command_buffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
+    // Build the acceleration structure on the device_ via a one-time command buffer submission
+    VkCommandBuffer command_buffer = device_.create_command_buffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
     auto as_build_range_infos = &*acceleration_structure_build_range_infos.data();
     vkCmdBuildAccelerationStructuresKHR(
                                         command_buffer,
                                         1,
                                         &build_geometry_info,
                                         &as_build_range_infos);
-    device.flush_command_buffer(command_buffer, queue);
-    scratch_buffer.reset();
+    device_.flush_command_buffer(command_buffer, queue);
+    scratch_buffer_.reset();
 }
 
 VkAccelerationStructureKHR AccelerationStructure::get_handle() const {
-    return handle;
+    return handle_;
 }
 
 const VkAccelerationStructureKHR *AccelerationStructure::get() const {
-    return &handle;
+    return &handle_;
 }
 
 uint64_t AccelerationStructure::get_device_address() const {
-    return device_address;
+    return device_address_;
 }
 
 }        // namespace vox

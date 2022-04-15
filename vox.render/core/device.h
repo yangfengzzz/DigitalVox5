@@ -1,21 +1,8 @@
-/* Copyright (c) 2019-2022, Arm Limited and Contributors
- * Copyright (c) 2019-2022, Sascha Willems
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 #pragma once
 
 #include "helpers.h"
@@ -90,7 +77,7 @@ public:
      * @brief Returns the debug utils associated with this Device.
      */
     inline const DebugUtils &get_debug_utils() const {
-        return *debug_utils;
+        return *debug_utils_;
     }
     
     /**
@@ -190,10 +177,10 @@ public:
      * @param command_buffer The command buffer
      * @param queue The queue to submit the work to
      * @param free Whether the command buffer should be implicitly freed up
-     * @param signalSemaphore An optional semaphore to signal when the commands have been executed
+     * @param signal_semaphore An optional semaphore to signal when the commands have been executed
      */
     void flush_command_buffer(VkCommandBuffer command_buffer, VkQueue queue, bool free = true,
-                              VkSemaphore signalSemaphore = VK_NULL_HANDLE) const;
+                              VkSemaphore signal_semaphore = VK_NULL_HANDLE) const;
     
     /**
      * @brief Requests a command buffer from the general command_pool
@@ -229,27 +216,27 @@ public:
     ResourceCache &get_resource_cache();
     
 private:
-    const PhysicalDevice &gpu;
+    const PhysicalDevice &gpu_;
     
-    VkSurfaceKHR surface{VK_NULL_HANDLE};
+    VkSurfaceKHR surface_{VK_NULL_HANDLE};
     
-    std::unique_ptr<DebugUtils> debug_utils;
+    std::unique_ptr<DebugUtils> debug_utils_;
     
-    std::vector<VkExtensionProperties> device_extensions;
+    std::vector<VkExtensionProperties> device_extensions_;
     
-    std::vector<const char *> enabled_extensions{};
+    std::vector<const char *> enabled_extensions_{};
     
-    VmaAllocator memory_allocator{VK_NULL_HANDLE};
+    VmaAllocator memory_allocator_{VK_NULL_HANDLE};
     
-    std::vector<std::vector<Queue>> queues;
+    std::vector<std::vector<Queue>> queues_;
     
     /// A command pool associated to the primary queue
-    std::unique_ptr<CommandPool> command_pool;
+    std::unique_ptr<CommandPool> command_pool_;
     
     /// A fence pool associated to the primary queue
-    std::unique_ptr<FencePool> fence_pool;
+    std::unique_ptr<FencePool> fence_pool_;
     
-    ResourceCache resource_cache;
+    ResourceCache resource_cache_;
 };
 
 }        // namespace vox

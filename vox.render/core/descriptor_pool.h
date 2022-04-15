@@ -1,19 +1,8 @@
-/* Copyright (c) 2019, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -32,11 +21,11 @@ class DescriptorSetLayout;
  */
 class DescriptorPool {
 public:
-    static const uint32_t MAX_SETS_PER_POOL = 16;
+    static const uint32_t max_sets_per_pool_ = 16;
     
     DescriptorPool(Device &device,
                    const DescriptorSetLayout &descriptor_set_layout,
-                   uint32_t pool_size = MAX_SETS_PER_POOL);
+                   uint32_t pool_size = max_sets_per_pool_);
     
     DescriptorPool(const DescriptorPool &) = delete;
     
@@ -59,27 +48,27 @@ public:
     VkResult free(VkDescriptorSet descriptor_set);
     
 private:
-    Device &device;
+    Device &device_;
     
-    const DescriptorSetLayout *descriptor_set_layout{nullptr};
+    const DescriptorSetLayout *descriptor_set_layout_{nullptr};
     
     // Descriptor pool size
-    std::vector<VkDescriptorPoolSize> pool_sizes;
+    std::vector<VkDescriptorPoolSize> pool_sizes_;
     
     // Number of sets to allocate for each pool
-    uint32_t pool_max_sets{0};
+    uint32_t pool_max_sets_{0};
     
     // Total descriptor pools created
-    std::vector<VkDescriptorPool> pools;
+    std::vector<VkDescriptorPool> pools_;
     
     // Count sets for each pool
-    std::vector<uint32_t> pool_sets_count;
+    std::vector<uint32_t> pool_sets_count_;
     
     // Current pool index to allocate descriptor set
-    uint32_t pool_index{0};
+    uint32_t pool_index_{0};
     
     // Map between descriptor set and pool index
-    std::unordered_map<VkDescriptorSet, uint32_t> set_pool_mapping;
+    std::unordered_map<VkDescriptorSet, uint32_t> set_pool_mapping_;
     
     // Find next pool index or create new pool
     uint32_t find_available_pool(uint32_t pool_index);

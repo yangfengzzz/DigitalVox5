@@ -55,16 +55,16 @@ class Subpass;
 class CommandBuffer : public core::VulkanResource<VkCommandBuffer, VK_OBJECT_TYPE_COMMAND_BUFFER> {
 public:
     enum class ResetMode {
-        ResetPool,
-        ResetIndividually,
-        AlwaysAllocate,
+        RESET_POOL,
+        RESET_INDIVIDUALLY,
+        ALWAYS_ALLOCATE,
     };
     
     enum class State {
-        Invalid,
-        Initial,
-        Recording,
-        Executable,
+        INVALID,
+        INITIAL,
+        RECORDING,
+        EXECUTABLE,
     };
     
     /**
@@ -157,14 +157,14 @@ public:
     void push_constants(const T &value) {
         auto data = to_bytes(value);
         
-        uint32_t size = to_u32(stored_push_constants.size() + data.size());
+        uint32_t size = to_u32(stored_push_constants_.size() + data.size());
         
-        if (size > max_push_constants_size) {
-            LOGE("Push constant limit exceeded ({} / {} bytes)", size, max_push_constants_size)
+        if (size > max_push_constants_size_) {
+            LOGE("Push constant limit exceeded ({} / {} bytes)", size, max_push_constants_size_)
             throw std::runtime_error("Cannot overflow push constant limit");
         }
         
-        stored_push_constants.insert(stored_push_constants.end(), data.begin(), data.end());
+        stored_push_constants_.insert(stored_push_constants_.end(), data.begin(), data.end());
     }
     
     void
@@ -268,32 +268,32 @@ public:
     get_render_pass(const vox::RenderTarget &render_target, const std::vector<LoadStoreInfo> &load_store_infos,
                     const std::vector<std::unique_ptr<Subpass>> &subpasses);
     
-    const VkCommandBufferLevel level;
+    const VkCommandBufferLevel level_;
     
 private:
-    State state{State::Initial};
+    State state_{State::INITIAL};
     
-    CommandPool &command_pool;
+    CommandPool &command_pool_;
     
-    RenderPassBinding current_render_pass{};
+    RenderPassBinding current_render_pass_{};
     
-    PipelineState pipeline_state;
+    PipelineState pipeline_state_;
     
-    ResourceBindingState resource_binding_state;
+    ResourceBindingState resource_binding_state_;
     
-    std::vector<uint8_t> stored_push_constants;
+    std::vector<uint8_t> stored_push_constants_;
     
-    uint32_t max_push_constants_size{};
+    uint32_t max_push_constants_size_{};
     
-    VkExtent2D last_framebuffer_extent{};
+    VkExtent2D last_framebuffer_extent_{};
     
-    VkExtent2D last_render_area_extent{};
+    VkExtent2D last_render_area_extent_{};
     
     // If true, it becomes the responsibility of the caller to update ANY descriptor bindings
     // that contain update after bind, as they won't be implicitly updated
-    bool update_after_bind{false};
+    bool update_after_bind_{false};
     
-    std::unordered_map<uint32_t, DescriptorSetLayout *> descriptor_set_layout_binding_state;
+    std::unordered_map<uint32_t, DescriptorSetLayout *> descriptor_set_layout_binding_state_;
     
     [[nodiscard]] const RenderPassBinding &get_current_render_pass() const;
     
@@ -302,7 +302,7 @@ private:
     /**
      * @brief Check that the render area is an optimal size by comparing to the render area granularity
      */
-    bool is_render_size_optimal(const VkExtent2D &extent, const VkRect2D &render_area) const;
+    [[nodiscard]] bool is_render_size_optimal(const VkExtent2D &extent, const VkRect2D &render_area) const;
     
     /**
      * @brief Flush the pipelines state
@@ -329,6 +329,5 @@ template<>
 inline void CommandBuffer::set_specialization_constant<bool>(std::uint32_t constant_id, const bool &data) {
     set_specialization_constant(constant_id, to_bytes(to_u32(data)));
 }
-
 
 }        // namespace vox

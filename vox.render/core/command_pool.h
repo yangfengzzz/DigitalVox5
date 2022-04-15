@@ -1,19 +1,8 @@
-/* Copyright (c) 2019, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -30,7 +19,7 @@ class CommandPool {
 public:
     CommandPool(Device &device, uint32_t queue_family_index, RenderFrame *render_frame = nullptr,
                 size_t thread_index = 0,
-                CommandBuffer::ResetMode reset_mode = CommandBuffer::ResetMode::ResetPool);
+                CommandBuffer::ResetMode reset_mode = CommandBuffer::ResetMode::RESET_POOL);
     
     CommandPool(const CommandPool &) = delete;
     
@@ -59,25 +48,25 @@ public:
     [[nodiscard]] CommandBuffer::ResetMode get_reset_mode() const;
     
 private:
-    Device &device;
+    Device &device_;
     
-    VkCommandPool handle{VK_NULL_HANDLE};
+    VkCommandPool handle_{VK_NULL_HANDLE};
     
-    RenderFrame *render_frame{nullptr};
+    RenderFrame *render_frame_{nullptr};
     
-    size_t thread_index{0};
+    size_t thread_index_{0};
     
-    uint32_t queue_family_index{0};
+    uint32_t queue_family_index_{0};
     
-    std::vector<std::unique_ptr<CommandBuffer>> primary_command_buffers;
+    std::vector<std::unique_ptr<CommandBuffer>> primary_command_buffers_;
     
-    uint32_t active_primary_command_buffer_count{0};
+    uint32_t active_primary_command_buffer_count_{0};
     
-    std::vector<std::unique_ptr<CommandBuffer>> secondary_command_buffers;
+    std::vector<std::unique_ptr<CommandBuffer>> secondary_command_buffers_;
     
-    uint32_t active_secondary_command_buffer_count{0};
+    uint32_t active_secondary_command_buffer_count_{0};
     
-    CommandBuffer::ResetMode reset_mode{CommandBuffer::ResetMode::ResetPool};
+    CommandBuffer::ResetMode reset_mode_{CommandBuffer::ResetMode::RESET_POOL};
     
     VkResult reset_command_buffers();
 };

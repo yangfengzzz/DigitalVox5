@@ -999,27 +999,27 @@ std::string to_string(bool flag) {
 
 std::string to_string(ShaderResourceType type) {
     switch (type) {
-        case ShaderResourceType::Input:
+        case ShaderResourceType::INPUT:
             return "Input";
-        case ShaderResourceType::InputAttachment:
+        case ShaderResourceType::INPUT_ATTACHMENT:
             return "InputAttachment";
-        case ShaderResourceType::Output:
+        case ShaderResourceType::OUTPUT:
             return "Output";
-        case ShaderResourceType::Image:
+        case ShaderResourceType::IMAGE:
             return "Image";
-        case ShaderResourceType::ImageSampler:
+        case ShaderResourceType::IMAGE_SAMPLER:
             return "ImageSampler";
-        case ShaderResourceType::ImageStorage:
+        case ShaderResourceType::IMAGE_STORAGE:
             return "ImageStorage";
-        case ShaderResourceType::Sampler:
+        case ShaderResourceType::SAMPLER:
             return "Sampler";
-        case ShaderResourceType::BufferUniform:
+        case ShaderResourceType::BUFFER_UNIFORM:
             return "BufferUniform";
-        case ShaderResourceType::BufferStorage:
+        case ShaderResourceType::BUFFER_STORAGE:
             return "BufferStorage";
-        case ShaderResourceType::PushConstant:
+        case ShaderResourceType::PUSH_CONSTANT:
             return "PushConstant";
-        case ShaderResourceType::SpecializationConstant:
+        case ShaderResourceType::SPECIALIZATION_CONSTANT:
             return "SpecializationConstant";
         default:
             return "Unkown Type";

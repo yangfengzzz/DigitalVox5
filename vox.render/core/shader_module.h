@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -29,33 +18,33 @@ class Device;
 
 /// Types of shader resources
 enum class ShaderResourceType {
-    Input,
-    InputAttachment,
-    Output,
-    Image,
-    ImageSampler,
-    ImageStorage,
-    Sampler,
-    BufferUniform,
-    BufferStorage,
-    PushConstant,
-    SpecializationConstant,
-    All
+    INPUT,
+    INPUT_ATTACHMENT,
+    OUTPUT,
+    IMAGE,
+    IMAGE_SAMPLER,
+    IMAGE_STORAGE,
+    SAMPLER,
+    BUFFER_UNIFORM,
+    BUFFER_STORAGE,
+    PUSH_CONSTANT,
+    SPECIALIZATION_CONSTANT,
+    ALL
 };
 
 /// This determines the type and method of how descriptor set should be created and bound
 enum class ShaderResourceMode {
-    Static,
-    Dynamic,
-    UpdateAfterBind
+    STATIC,
+    DYNAMIC,
+    UPDATE_AFTER_BIND
 };
 
 /// A bitmask of qualifiers applied to a resource
 struct ShaderResourceQualifiers {
     enum : uint32_t {
-        None = 0,
-        NonReadable = 1,
-        NonWritable = 2,
+        NONE = 0,
+        NON_READABLE = 1,
+        NON_WRITABLE = 2,
     };
 };
 
@@ -142,13 +131,13 @@ public:
     void clear();
     
 private:
-    size_t id{};
+    size_t id_{};
     
-    std::string preamble;
+    std::string preamble_;
     
-    std::vector<std::string> processes;
+    std::vector<std::string> processes_;
     
-    std::unordered_map<std::string, size_t> runtime_array_sizes;
+    std::unordered_map<std::string, size_t> runtime_array_sizes_;
     
     void update_id();
 };
@@ -168,11 +157,11 @@ public:
     [[nodiscard]] const std::string &get_source() const;
     
 private:
-    size_t id{};
+    size_t id_{};
     
-    std::string filename;
+    std::string filename_;
     
-    std::string source;
+    std::string source_;
 };
 
 /**
@@ -213,11 +202,11 @@ public:
     [[nodiscard]] const std::vector<uint32_t> &get_binary() const;
     
     [[nodiscard]] inline const std::string &get_debug_name() const {
-        return debug_name;
+        return debug_name_;
     }
     
     inline void set_debug_name(const std::string &name) {
-        debug_name = name;
+        debug_name_ = name;
     }
     
     /**
@@ -228,27 +217,26 @@ public:
     void set_resource_mode(const std::string &resource_name, const ShaderResourceMode &resource_mode);
     
 private:
-    Device &device;
+    Device &device_;
     
     /// Shader unique id
-    size_t id;
+    size_t id_;
     
     /// Stage of the shader (vertex, fragment, etc)
-    VkShaderStageFlagBits stage{};
+    VkShaderStageFlagBits stage_{};
     
     /// Name of the main function
-    std::string entry_point;
+    std::string entry_point_;
     
     /// Human-readable name for the shader
-    std::string debug_name;
+    std::string debug_name_;
     
     /// Compiled source
-    std::vector<uint32_t> spirv;
+    std::vector<uint32_t> spirv_;
     
-    std::vector<ShaderResource> resources;
+    std::vector<ShaderResource> resources_;
     
-    std::string info_log;
+    std::string info_log_;
 };
-
 
 }        // namespace vox

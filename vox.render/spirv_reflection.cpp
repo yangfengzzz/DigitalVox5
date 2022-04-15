@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2020, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "spirv_reflection.h"
 
@@ -73,7 +62,7 @@ inline void read_resource_decoration<spv::DecorationNonWritable>(const spirv_cro
                                                                  const spirv_cross::Resource &resource,
                                                                  ShaderResource &shader_resource,
                                                                  const ShaderVariant &variant) {
-    shader_resource.qualifiers |= ShaderResourceQualifiers::NonWritable;
+    shader_resource.qualifiers |= ShaderResourceQualifiers::NON_WRITABLE;
 }
 
 template<>
@@ -81,7 +70,7 @@ inline void read_resource_decoration<spv::DecorationNonReadable>(const spirv_cro
                                                                  const spirv_cross::Resource &resource,
                                                                  ShaderResource &shader_resource,
                                                                  const ShaderVariant &variant) {
-    shader_resource.qualifiers |= ShaderResourceQualifiers::NonReadable;
+    shader_resource.qualifiers |= ShaderResourceQualifiers::NON_READABLE;
 }
 
 inline void read_resource_vec_size(const spirv_cross::Compiler &compiler,
@@ -143,15 +132,15 @@ inline void read_resource_size(const spirv_cross::Compiler &compiler,
 }
 
 template<>
-inline void read_shader_resource<ShaderResourceType::Input>(const spirv_cross::Compiler &compiler,
-                                                            VkShaderStageFlagBits stage,
-                                                            std::vector<ShaderResource> &resources,
-                                                            const ShaderVariant &variant) {
+inline void read_shader_resource<ShaderResourceType::INPUT>(const spirv_cross::Compiler &compiler,
+															VkShaderStageFlagBits stage,
+															std::vector<ShaderResource> &resources,
+															const ShaderVariant &variant) {
     auto input_resources = compiler.get_shader_resources().stage_inputs;
     
     for (auto &resource: input_resources) {
         ShaderResource shader_resource{};
-        shader_resource.type = ShaderResourceType::Input;
+        shader_resource.type = ShaderResourceType::INPUT;
         shader_resource.stages = stage;
         shader_resource.name = resource.name;
         
@@ -164,15 +153,15 @@ inline void read_shader_resource<ShaderResourceType::Input>(const spirv_cross::C
 }
 
 template<>
-inline void read_shader_resource<ShaderResourceType::InputAttachment>(const spirv_cross::Compiler &compiler,
-                                                                      VkShaderStageFlagBits /*stage*/,
-                                                                      std::vector<ShaderResource> &resources,
-                                                                      const ShaderVariant &variant) {
+inline void read_shader_resource<ShaderResourceType::INPUT_ATTACHMENT>(const spirv_cross::Compiler &compiler,
+																	   VkShaderStageFlagBits /*stage*/,
+																	   std::vector<ShaderResource> &resources,
+																	   const ShaderVariant &variant) {
     auto subpass_resources = compiler.get_shader_resources().subpass_inputs;
     
     for (auto &resource: subpass_resources) {
         ShaderResource shader_resource{};
-        shader_resource.type = ShaderResourceType::InputAttachment;
+        shader_resource.type = ShaderResourceType::INPUT_ATTACHMENT;
         shader_resource.stages = VK_SHADER_STAGE_FRAGMENT_BIT;
         shader_resource.name = resource.name;
         
@@ -187,15 +176,15 @@ inline void read_shader_resource<ShaderResourceType::InputAttachment>(const spir
 }
 
 template<>
-inline void read_shader_resource<ShaderResourceType::Output>(const spirv_cross::Compiler &compiler,
-                                                             VkShaderStageFlagBits stage,
-                                                             std::vector<ShaderResource> &resources,
-                                                             const ShaderVariant &variant) {
+inline void read_shader_resource<ShaderResourceType::OUTPUT>(const spirv_cross::Compiler &compiler,
+															 VkShaderStageFlagBits stage,
+															 std::vector<ShaderResource> &resources,
+															 const ShaderVariant &variant) {
     auto output_resources = compiler.get_shader_resources().stage_outputs;
     
     for (auto &resource: output_resources) {
         ShaderResource shader_resource{};
-        shader_resource.type = ShaderResourceType::Output;
+        shader_resource.type = ShaderResourceType::OUTPUT;
         shader_resource.stages = stage;
         shader_resource.name = resource.name;
         
@@ -208,15 +197,15 @@ inline void read_shader_resource<ShaderResourceType::Output>(const spirv_cross::
 }
 
 template<>
-inline void read_shader_resource<ShaderResourceType::Image>(const spirv_cross::Compiler &compiler,
-                                                            VkShaderStageFlagBits stage,
-                                                            std::vector<ShaderResource> &resources,
-                                                            const ShaderVariant &variant) {
+inline void read_shader_resource<ShaderResourceType::IMAGE>(const spirv_cross::Compiler &compiler,
+															VkShaderStageFlagBits stage,
+															std::vector<ShaderResource> &resources,
+															const ShaderVariant &variant) {
     auto image_resources = compiler.get_shader_resources().separate_images;
     
     for (auto &resource: image_resources) {
         ShaderResource shader_resource{};
-        shader_resource.type = ShaderResourceType::Image;
+        shader_resource.type = ShaderResourceType::IMAGE;
         shader_resource.stages = stage;
         shader_resource.name = resource.name;
         
@@ -229,15 +218,15 @@ inline void read_shader_resource<ShaderResourceType::Image>(const spirv_cross::C
 }
 
 template<>
-inline void read_shader_resource<ShaderResourceType::ImageSampler>(const spirv_cross::Compiler &compiler,
-                                                                   VkShaderStageFlagBits stage,
-                                                                   std::vector<ShaderResource> &resources,
-                                                                   const ShaderVariant &variant) {
+inline void read_shader_resource<ShaderResourceType::IMAGE_SAMPLER>(const spirv_cross::Compiler &compiler,
+																	VkShaderStageFlagBits stage,
+																	std::vector<ShaderResource> &resources,
+																	const ShaderVariant &variant) {
     auto image_resources = compiler.get_shader_resources().sampled_images;
     
     for (auto &resource: image_resources) {
         ShaderResource shader_resource{};
-        shader_resource.type = ShaderResourceType::ImageSampler;
+        shader_resource.type = ShaderResourceType::IMAGE_SAMPLER;
         shader_resource.stages = stage;
         shader_resource.name = resource.name;
         
@@ -250,15 +239,15 @@ inline void read_shader_resource<ShaderResourceType::ImageSampler>(const spirv_c
 }
 
 template<>
-inline void read_shader_resource<ShaderResourceType::ImageStorage>(const spirv_cross::Compiler &compiler,
-                                                                   VkShaderStageFlagBits stage,
-                                                                   std::vector<ShaderResource> &resources,
-                                                                   const ShaderVariant &variant) {
+inline void read_shader_resource<ShaderResourceType::IMAGE_STORAGE>(const spirv_cross::Compiler &compiler,
+																	VkShaderStageFlagBits stage,
+																	std::vector<ShaderResource> &resources,
+																	const ShaderVariant &variant) {
     auto storage_resources = compiler.get_shader_resources().storage_images;
     
     for (auto &resource: storage_resources) {
         ShaderResource shader_resource{};
-        shader_resource.type = ShaderResourceType::ImageStorage;
+        shader_resource.type = ShaderResourceType::IMAGE_STORAGE;
         shader_resource.stages = stage;
         shader_resource.name = resource.name;
         
@@ -273,15 +262,15 @@ inline void read_shader_resource<ShaderResourceType::ImageStorage>(const spirv_c
 }
 
 template<>
-inline void read_shader_resource<ShaderResourceType::Sampler>(const spirv_cross::Compiler &compiler,
-                                                              VkShaderStageFlagBits stage,
-                                                              std::vector<ShaderResource> &resources,
-                                                              const ShaderVariant &variant) {
+inline void read_shader_resource<ShaderResourceType::SAMPLER>(const spirv_cross::Compiler &compiler,
+															  VkShaderStageFlagBits stage,
+															  std::vector<ShaderResource> &resources,
+															  const ShaderVariant &variant) {
     auto sampler_resources = compiler.get_shader_resources().separate_samplers;
     
     for (auto &resource: sampler_resources) {
         ShaderResource shader_resource{};
-        shader_resource.type = ShaderResourceType::Sampler;
+        shader_resource.type = ShaderResourceType::SAMPLER;
         shader_resource.stages = stage;
         shader_resource.name = resource.name;
         
@@ -294,15 +283,15 @@ inline void read_shader_resource<ShaderResourceType::Sampler>(const spirv_cross:
 }
 
 template<>
-inline void read_shader_resource<ShaderResourceType::BufferUniform>(const spirv_cross::Compiler &compiler,
-                                                                    VkShaderStageFlagBits stage,
-                                                                    std::vector<ShaderResource> &resources,
-                                                                    const ShaderVariant &variant) {
+inline void read_shader_resource<ShaderResourceType::BUFFER_UNIFORM>(const spirv_cross::Compiler &compiler,
+																	 VkShaderStageFlagBits stage,
+																	 std::vector<ShaderResource> &resources,
+																	 const ShaderVariant &variant) {
     auto uniform_resources = compiler.get_shader_resources().uniform_buffers;
     
     for (auto &resource: uniform_resources) {
         ShaderResource shader_resource{};
-        shader_resource.type = ShaderResourceType::BufferUniform;
+        shader_resource.type = ShaderResourceType::BUFFER_UNIFORM;
         shader_resource.stages = stage;
         shader_resource.name = resource.name;
         
@@ -316,15 +305,15 @@ inline void read_shader_resource<ShaderResourceType::BufferUniform>(const spirv_
 }
 
 template<>
-inline void read_shader_resource<ShaderResourceType::BufferStorage>(const spirv_cross::Compiler &compiler,
-                                                                    VkShaderStageFlagBits stage,
-                                                                    std::vector<ShaderResource> &resources,
-                                                                    const ShaderVariant &variant) {
+inline void read_shader_resource<ShaderResourceType::BUFFER_STORAGE>(const spirv_cross::Compiler &compiler,
+																	 VkShaderStageFlagBits stage,
+																	 std::vector<ShaderResource> &resources,
+																	 const ShaderVariant &variant) {
     auto storage_resources = compiler.get_shader_resources().storage_buffers;
     
     for (auto &resource: storage_resources) {
         ShaderResource shader_resource;
-        shader_resource.type = ShaderResourceType::BufferStorage;
+        shader_resource.type = ShaderResourceType::BUFFER_STORAGE;
         shader_resource.stages = stage;
         shader_resource.name = resource.name;
         
@@ -359,15 +348,15 @@ bool SPIRVReflection::reflect_shader_resources(VkShaderStageFlagBits stage, cons
 
 void SPIRVReflection::parse_shader_resources(const spirv_cross::Compiler &compiler, VkShaderStageFlagBits stage,
                                              std::vector<ShaderResource> &resources, const ShaderVariant &variant) {
-    read_shader_resource<ShaderResourceType::Input>(compiler, stage, resources, variant);
-    read_shader_resource<ShaderResourceType::InputAttachment>(compiler, stage, resources, variant);
-    read_shader_resource<ShaderResourceType::Output>(compiler, stage, resources, variant);
-    read_shader_resource<ShaderResourceType::Image>(compiler, stage, resources, variant);
-    read_shader_resource<ShaderResourceType::ImageSampler>(compiler, stage, resources, variant);
-    read_shader_resource<ShaderResourceType::ImageStorage>(compiler, stage, resources, variant);
-    read_shader_resource<ShaderResourceType::Sampler>(compiler, stage, resources, variant);
-    read_shader_resource<ShaderResourceType::BufferUniform>(compiler, stage, resources, variant);
-    read_shader_resource<ShaderResourceType::BufferStorage>(compiler, stage, resources, variant);
+    read_shader_resource<ShaderResourceType::INPUT>(compiler, stage, resources, variant);
+    read_shader_resource<ShaderResourceType::INPUT_ATTACHMENT>(compiler, stage, resources, variant);
+    read_shader_resource<ShaderResourceType::OUTPUT>(compiler, stage, resources, variant);
+    read_shader_resource<ShaderResourceType::IMAGE>(compiler, stage, resources, variant);
+    read_shader_resource<ShaderResourceType::IMAGE_SAMPLER>(compiler, stage, resources, variant);
+    read_shader_resource<ShaderResourceType::IMAGE_STORAGE>(compiler, stage, resources, variant);
+    read_shader_resource<ShaderResourceType::SAMPLER>(compiler, stage, resources, variant);
+    read_shader_resource<ShaderResourceType::BUFFER_UNIFORM>(compiler, stage, resources, variant);
+    read_shader_resource<ShaderResourceType::BUFFER_STORAGE>(compiler, stage, resources, variant);
 }
 
 void SPIRVReflection::parse_push_constants(const spirv_cross::Compiler &compiler, VkShaderStageFlagBits stage,
@@ -386,7 +375,7 @@ void SPIRVReflection::parse_push_constants(const spirv_cross::Compiler &compiler
         }
         
         ShaderResource shader_resource{};
-        shader_resource.type = ShaderResourceType::PushConstant;
+        shader_resource.type = ShaderResourceType::PUSH_CONSTANT;
         shader_resource.stages = stage;
         shader_resource.name = resource.name;
         shader_resource.offset = offset;
@@ -409,7 +398,7 @@ SPIRVReflection::parse_specialization_constants(const spirv_cross::Compiler &com
         auto &spirv_value = compiler.get_constant(resource.id);
         
         ShaderResource shader_resource{};
-        shader_resource.type = ShaderResourceType::SpecializationConstant;
+        shader_resource.type = ShaderResourceType::SPECIALIZATION_CONSTANT;
         shader_resource.stages = stage;
         shader_resource.name = compiler.get_name(resource.id);
         shader_resource.offset = 0;

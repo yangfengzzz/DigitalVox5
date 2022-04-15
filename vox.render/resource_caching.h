@@ -182,10 +182,10 @@ struct hash<vox::ShaderResource> {
     std::size_t operator()(const vox::ShaderResource &shader_resource) const {
         std::size_t result = 0;
         
-        if (shader_resource.type == vox::ShaderResourceType::Input ||
-            shader_resource.type == vox::ShaderResourceType::Output ||
-            shader_resource.type == vox::ShaderResourceType::PushConstant ||
-            shader_resource.type == vox::ShaderResourceType::SpecializationConstant) {
+        if (shader_resource.type == vox::ShaderResourceType::INPUT ||
+            shader_resource.type == vox::ShaderResourceType::OUTPUT ||
+            shader_resource.type == vox::ShaderResourceType::PUSH_CONSTANT ||
+            shader_resource.type == vox::ShaderResourceType::SPECIALIZATION_CONSTANT) {
             return result;
         }
         

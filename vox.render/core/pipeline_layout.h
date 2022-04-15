@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2020, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -48,7 +37,7 @@ public:
     [[nodiscard]] const std::vector<ShaderModule *> &get_shader_modules() const;
     
     [[nodiscard]] std::vector<ShaderResource>
-    get_resources(const ShaderResourceType &type = ShaderResourceType::All,
+    get_resources(const ShaderResourceType &type = ShaderResourceType::ALL,
                   VkShaderStageFlagBits stage = VK_SHADER_STAGE_ALL) const;
     
     [[nodiscard]] const std::unordered_map<uint32_t, std::vector<ShaderResource>> &get_shader_sets() const;
@@ -60,21 +49,21 @@ public:
     [[nodiscard]] VkShaderStageFlags get_push_constant_range_stage(uint32_t size, uint32_t offset = 0) const;
     
 private:
-    Device &device;
+    Device &device_;
     
-    VkPipelineLayout handle{VK_NULL_HANDLE};
+    VkPipelineLayout handle_{VK_NULL_HANDLE};
     
     // The shader modules that this pipeline layout uses
-    std::vector<ShaderModule *> shader_modules;
+    std::vector<ShaderModule *> shader_modules_;
     
     // The shader resources that this pipeline layout uses, indexed by their name
-    std::unordered_map<std::string, ShaderResource> shader_resources;
+    std::unordered_map<std::string, ShaderResource> shader_resources_;
     
     // A map of each set and the resources it owns used by the pipeline layout
-    std::unordered_map<uint32_t, std::vector<ShaderResource>> shader_sets;
+    std::unordered_map<uint32_t, std::vector<ShaderResource>> shader_sets_;
     
     // The different descriptor set layouts for this pipeline layout
-    std::vector<DescriptorSetLayout *> descriptor_set_layouts;
+    std::vector<DescriptorSetLayout *> descriptor_set_layouts_;
 };
 
 }        // namespace vox

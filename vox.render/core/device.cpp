@@ -1,20 +1,8 @@
-/* Copyright (c) 2019-2022, Arm Limited and Contributors
- * Copyright (c) 2019-2022, Sascha Willems
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "device.h"
 
@@ -32,9 +20,9 @@ Device::Device(PhysicalDevice &gpu,
                std::unique_ptr<DebugUtils> &&debug_utils,
                std::unordered_map<const char *, bool> requested_extensions) :
 VulkanResource{VK_NULL_HANDLE, this},        // Recursive, but valid
-debug_utils{std::move(debug_utils)},
-gpu{gpu},
-resource_cache{*this} {
+debug_utils_{std::move(debug_utils)},
+gpu_{gpu},
+resource_cache_{*this} {
     LOGI("Selected GPU: {}", gpu.get_properties().deviceName)
     
     // Prepare the device queues
@@ -72,14 +60,14 @@ resource_cache{*this} {
     // Check extensions to enable Vma Dedicated Allocation
     uint32_t device_extension_count;
     VK_CHECK(vkEnumerateDeviceExtensionProperties(gpu.get_handle(), nullptr, &device_extension_count, nullptr));
-    device_extensions = std::vector<VkExtensionProperties>(device_extension_count);
+    device_extensions_ = std::vector<VkExtensionProperties>(device_extension_count);
     VK_CHECK(vkEnumerateDeviceExtensionProperties(gpu.get_handle(), nullptr, &device_extension_count,
-                                                  device_extensions.data()));
+                                                  device_extensions_.data()));
     
     // Display supported extensions
-    if (!device_extensions.empty()) {
+    if (!device_extensions_.empty()) {
         LOGD("Device supports the following extensions:")
-        for (auto &extension: device_extensions) {
+        for (auto &extension : device_extensions_) {
             LOGD("  \t{}", extension.extensionName)
         }
     }
@@ -88,8 +76,8 @@ resource_cache{*this} {
     bool has_dedicated_allocation = is_extension_supported("VK_KHR_dedicated_allocation");
     
     if (can_get_memory_requirements && has_dedicated_allocation) {
-        enabled_extensions.push_back("VK_KHR_get_memory_requirements2");
-        enabled_extensions.push_back("VK_KHR_dedicated_allocation");
+        enabled_extensions_.push_back("VK_KHR_get_memory_requirements2");
+        enabled_extensions_.push_back("VK_KHR_dedicated_allocation");
         
         LOGI("Dedicated Allocation enabled")
     }
@@ -104,32 +92,32 @@ resource_cache{*this} {
                                                                                                                 VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES);
         
         if (perf_counter_features.performanceCounterQueryPools && host_query_reset_features.hostQueryReset) {
-            enabled_extensions.push_back("VK_KHR_performance_query");
-            enabled_extensions.push_back("VK_EXT_host_query_reset");
+            enabled_extensions_.push_back("VK_KHR_performance_query");
+            enabled_extensions_.push_back("VK_EXT_host_query_reset");
             LOGI("Performance query enabled")
         }
     }
     
     // Check that extensions are supported before trying to create the device
     std::vector<const char *> unsupported_extensions{};
-    for (auto &extension: requested_extensions) {
+    for (auto &extension : requested_extensions) {
         if (is_extension_supported(extension.first)) {
-            enabled_extensions.emplace_back(extension.first);
+            enabled_extensions_.emplace_back(extension.first);
         } else {
             unsupported_extensions.emplace_back(extension.first);
         }
     }
     
-    if (!enabled_extensions.empty()) {
+    if (!enabled_extensions_.empty()) {
         LOGI("Device supports the following requested extensions:")
-        for (auto &extension: enabled_extensions) {
+        for (auto &extension : enabled_extensions_) {
             LOGI("  \t{}", extension)
         }
     }
     
     if (!unsupported_extensions.empty()) {
         auto error = false;
-        for (auto &extension: unsupported_extensions) {
+        for (auto &extension : unsupported_extensions) {
             auto extension_is_optional = requested_extensions[extension];
             if (extension_is_optional) {
                 LOGW("Optional device extension {} not available, some features may be disabled", extension)
@@ -151,19 +139,19 @@ resource_cache{*this} {
     
     create_info.pQueueCreateInfos = queue_create_infos.data();
     create_info.queueCreateInfoCount = to_u32(queue_create_infos.size());
-    create_info.enabledExtensionCount = to_u32(enabled_extensions.size());
-    create_info.ppEnabledExtensionNames = enabled_extensions.data();
+    create_info.enabledExtensionCount = to_u32(enabled_extensions_.size());
+    create_info.ppEnabledExtensionNames = enabled_extensions_.data();
     
-    const auto requested_gpu_features = gpu.get_requested_features();
-    create_info.pEnabledFeatures = &requested_gpu_features;
+    const auto kRequestedGpuFeatures = gpu.get_requested_features();
+    create_info.pEnabledFeatures = &kRequestedGpuFeatures;
     
-    VkResult result = vkCreateDevice(gpu.get_handle(), &create_info, nullptr, &handle);
+    VkResult result = vkCreateDevice(gpu.get_handle(), &create_info, nullptr, &handle_);
     
     if (result != VK_SUCCESS) {
         throw VulkanException{result, "Cannot create device"};
     }
     
-    queues.resize(queue_family_properties_count);
+    queues_.resize(queue_family_properties_count);
     
     for (uint32_t queue_family_index = 0U;
          queue_family_index < queue_family_properties_count; ++queue_family_index) {
@@ -172,8 +160,8 @@ resource_cache{*this} {
         VkBool32 present_supported = gpu.is_present_supported(surface, queue_family_index);
         
         for (uint32_t queue_index = 0U; queue_index < queue_family_property.queueCount; ++queue_index) {
-            queues[queue_family_index].emplace_back(*this, queue_family_index, queue_family_property,
-                                                    present_supported, queue_index);
+            queues_[queue_family_index].emplace_back(*this, queue_family_index, queue_family_property,
+                                                     present_supported, queue_index);
         }
     }
     
@@ -198,7 +186,7 @@ resource_cache{*this} {
     
     VmaAllocatorCreateInfo allocator_info{};
     allocator_info.physicalDevice = gpu.get_handle();
-    allocator_info.device = handle;
+    allocator_info.device = handle_;
     allocator_info.instance = gpu.get_instance().get_handle();
     
     if (can_get_memory_requirements && has_dedicated_allocation) {
@@ -214,83 +202,83 @@ resource_cache{*this} {
     
     allocator_info.pVulkanFunctions = &vma_vulkan_func;
     
-    result = vmaCreateAllocator(&allocator_info, &memory_allocator);
+    result = vmaCreateAllocator(&allocator_info, &memory_allocator_);
     
     if (result != VK_SUCCESS) {
         throw VulkanException{result, "Cannot create allocator"};
     }
     
-    command_pool = std::make_unique<CommandPool>(*this,
-                                                 get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT,
-                                                                    0).get_family_index());
-    fence_pool = std::make_unique<FencePool>(*this);
+    command_pool_ = std::make_unique<CommandPool>(*this,
+                                                  get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT,
+                                                                     0).get_family_index());
+    fence_pool_ = std::make_unique<FencePool>(*this);
 }
 
 Device::Device(PhysicalDevice &gpu, VkDevice &vulkan_device, VkSurfaceKHR surface) :
-gpu{gpu},
-resource_cache{*this} {
-    this->handle = vulkan_device;
-    debug_utils = std::make_unique<DummyDebugUtils>();
+gpu_{gpu},
+resource_cache_{*this} {
+    handle_ = vulkan_device;
+    debug_utils_ = std::make_unique<DummyDebugUtils>();
 }
 
 Device::~Device() {
-    resource_cache.clear();
+    resource_cache_.clear();
     
-    command_pool.reset();
-    fence_pool.reset();
+    command_pool_.reset();
+    fence_pool_.reset();
     
-    if (memory_allocator != VK_NULL_HANDLE) {
+    if (memory_allocator_ != VK_NULL_HANDLE) {
         VmaStats stats;
-        vmaCalculateStats(memory_allocator, &stats);
+        vmaCalculateStats(memory_allocator_, &stats);
         
         LOGI("Total device memory leaked: {} bytes.", stats.total.usedBytes)
         
-        vmaDestroyAllocator(memory_allocator);
+        vmaDestroyAllocator(memory_allocator_);
     }
     
-    if (handle != VK_NULL_HANDLE) {
-        vkDestroyDevice(handle, nullptr);
+    if (handle_ != VK_NULL_HANDLE) {
+        vkDestroyDevice(handle_, nullptr);
     }
 }
 
 bool Device::is_extension_supported(const std::string &requested_extension) {
-    return std::find_if(device_extensions.begin(), device_extensions.end(),
+    return std::find_if(device_extensions_.begin(), device_extensions_.end(),
                         [requested_extension](auto &device_extension) {
         return std::strcmp(device_extension.extensionName, requested_extension.c_str()) == 0;
-    }) != device_extensions.end();
+    }) != device_extensions_.end();
 }
 
 bool Device::is_enabled(const char *extension) {
-    return std::find_if(enabled_extensions.begin(), enabled_extensions.end(),
+    return std::find_if(enabled_extensions_.begin(), enabled_extensions_.end(),
                         [extension](const char *enabled_extension) {
         return strcmp(extension, enabled_extension) == 0;
-    }) != enabled_extensions.end();
+    }) != enabled_extensions_.end();
 }
 
 const PhysicalDevice &Device::get_gpu() const {
-    return gpu;
+    return gpu_;
 }
 
 VmaAllocator Device::get_memory_allocator() const {
-    return memory_allocator;
+    return memory_allocator_;
 }
 
 DriverVersion Device::get_driver_version() const {
     DriverVersion version{};
     
-    switch (gpu.get_properties().vendorID) {
+    switch (gpu_.get_properties().vendorID) {
         case 0x10DE: {
             // Nvidia
-            version.major = (gpu.get_properties().driverVersion >> 22) & 0x3ff;
-            version.minor = (gpu.get_properties().driverVersion >> 14) & 0x0ff;
-            version.patch = (gpu.get_properties().driverVersion >> 6) & 0x0ff;
+            version.major = (gpu_.get_properties().driverVersion >> 22) & 0x3ff;
+            version.minor = (gpu_.get_properties().driverVersion >> 14) & 0x0ff;
+            version.patch = (gpu_.get_properties().driverVersion >> 6) & 0x0ff;
             // Ignoring optional tertiary info in lower 6 bits
             break;
         }
         default: {
-            version.major = VK_VERSION_MAJOR(gpu.get_properties().driverVersion);
-            version.minor = VK_VERSION_MINOR(gpu.get_properties().driverVersion);
-            version.patch = VK_VERSION_PATCH(gpu.get_properties().driverVersion);
+            version.major = VK_VERSION_MAJOR(gpu_.get_properties().driverVersion);
+            version.minor = VK_VERSION_MINOR(gpu_.get_properties().driverVersion);
+            version.patch = VK_VERSION_PATCH(gpu_.get_properties().driverVersion);
         }
     }
     
@@ -300,7 +288,7 @@ DriverVersion Device::get_driver_version() const {
 bool Device::is_image_format_supported(VkFormat format) const {
     VkImageFormatProperties format_properties;
     
-    auto result = vkGetPhysicalDeviceImageFormatProperties(gpu.get_handle(),
+    auto result = vkGetPhysicalDeviceImageFormatProperties(gpu_.get_handle(),
                                                            format,
                                                            VK_IMAGE_TYPE_2D,
                                                            VK_IMAGE_TILING_OPTIMAL,
@@ -312,9 +300,9 @@ bool Device::is_image_format_supported(VkFormat format) const {
 
 uint32_t
 Device::get_memory_type(uint32_t bits, VkMemoryPropertyFlags properties, VkBool32 *memory_type_found) const {
-    for (uint32_t i = 0; i < gpu.get_memory_properties().memoryTypeCount; i++) {
+    for (uint32_t i = 0; i < gpu_.get_memory_properties().memoryTypeCount; i++) {
         if ((bits & 1) == 1) {
-            if ((gpu.get_memory_properties().memoryTypes[i].propertyFlags & properties) == properties) {
+            if ((gpu_.get_memory_properties().memoryTypes[i].propertyFlags & properties) == properties) {
                 if (memory_type_found) {
                     *memory_type_found = true;
                 }
@@ -333,11 +321,11 @@ Device::get_memory_type(uint32_t bits, VkMemoryPropertyFlags properties, VkBool3
 }
 
 const Queue &Device::get_queue(uint32_t queue_family_index, uint32_t queue_index) {
-    return queues[queue_family_index][queue_index];
+    return queues_[queue_family_index][queue_index];
 }
 
 const Queue &Device::get_queue_by_flags(VkQueueFlags required_queue_flags, uint32_t queue_index) const {
-    for (const auto &queue: queues) {
+    for (const auto &queue : queues_) {
         Queue const &first_queue = queue[0];
         
         VkQueueFlags queue_flags = first_queue.get_properties().queueFlags;
@@ -352,7 +340,7 @@ const Queue &Device::get_queue_by_flags(VkQueueFlags required_queue_flags, uint3
 }
 
 const Queue &Device::get_queue_by_present(uint32_t queue_index) const {
-    for (const auto &queue: queues) {
+    for (const auto &queue : queues_) {
         Queue const &first_queue = queue[0];
         
         uint32_t queue_count = first_queue.get_properties().queueCount;
@@ -367,19 +355,19 @@ const Queue &Device::get_queue_by_present(uint32_t queue_index) const {
 
 void Device::add_queue(size_t global_index, uint32_t family_index, VkQueueFamilyProperties properties,
                        VkBool32 can_present) {
-    if (queues.size() < global_index + 1) {
-        queues.resize(global_index + 1);
+    if (queues_.size() < global_index + 1) {
+        queues_.resize(global_index + 1);
     }
-    queues[global_index].emplace_back(*this, family_index, properties, can_present, 0);
+    queues_[global_index].emplace_back(*this, family_index, properties, can_present, 0);
 }
 
 uint32_t Device::get_num_queues_for_queue_family(uint32_t queue_family_index) {
-    const auto &queue_family_properties = gpu.get_queue_family_properties();
+    const auto &queue_family_properties = gpu_.get_queue_family_properties();
     return queue_family_properties[queue_family_index].queueCount;
 }
 
 uint32_t Device::get_queue_family_index(VkQueueFlagBits queue_flag) {
-    const auto &queue_family_properties = gpu.get_queue_family_properties();
+    const auto &queue_family_properties = gpu_.get_queue_family_properties();
     
     // Dedicated queue for compute
     // Try to find a queue family index that supports compute but not graphics
@@ -415,7 +403,7 @@ uint32_t Device::get_queue_family_index(VkQueueFlagBits queue_flag) {
 }
 
 const Queue &Device::get_suitable_graphics_queue() const {
-    for (const auto &queue: queues) {
+    for (const auto &queue : queues_) {
         Queue const &first_queue = queue[0];
         
         uint32_t queue_count = first_queue.get_properties().queueCount;
@@ -432,28 +420,28 @@ VkBuffer Device::create_buffer(VkBufferUsageFlags usage, VkMemoryPropertyFlags p
                                VkDeviceMemory *memory, void *data) {
     VkBuffer buffer = VK_NULL_HANDLE;
     
-    // Create the buffer handle
+    // Create the buffer handle_
     VkBufferCreateInfo buffer_create_info{};
     buffer_create_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
     buffer_create_info.usage = usage;
     buffer_create_info.size = size;
     buffer_create_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-    VK_CHECK(vkCreateBuffer(handle, &buffer_create_info, nullptr, &buffer));
+    VK_CHECK(vkCreateBuffer(handle_, &buffer_create_info, nullptr, &buffer));
     
-    // Create the memory backing up the buffer handle
+    // Create the memory backing up the buffer handle_
     VkMemoryRequirements memory_requirements;
     VkMemoryAllocateInfo memory_allocation{};
     memory_allocation.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-    vkGetBufferMemoryRequirements(handle, buffer, &memory_requirements);
+    vkGetBufferMemoryRequirements(handle_, buffer, &memory_requirements);
     memory_allocation.allocationSize = memory_requirements.size;
     // Find a memory type index that fits the properties of the buffer
     memory_allocation.memoryTypeIndex = get_memory_type(memory_requirements.memoryTypeBits, properties);
-    VK_CHECK(vkAllocateMemory(handle, &memory_allocation, nullptr, memory));
+    VK_CHECK(vkAllocateMemory(handle_, &memory_allocation, nullptr, memory));
     
     // If a pointer to the buffer data has been passed, map the buffer and copy over the
     if (data != nullptr) {
         void *mapped;
-        VK_CHECK(vkMapMemory(handle, *memory, 0, size, 0, &mapped));
+        VK_CHECK(vkMapMemory(handle_, *memory, 0, size, 0, &mapped));
         memcpy(mapped, data, static_cast<size_t>(size));
         // If host coherency hasn't been requested, do a manual flush to make writes visible
         if ((properties & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) == 0) {
@@ -462,13 +450,13 @@ VkBuffer Device::create_buffer(VkBufferUsageFlags usage, VkMemoryPropertyFlags p
             mapped_range.memory = *memory;
             mapped_range.offset = 0;
             mapped_range.size = size;
-            vkFlushMappedMemoryRanges(handle, 1, &mapped_range);
+            vkFlushMappedMemoryRanges(handle_, 1, &mapped_range);
         }
-        vkUnmapMemory(handle, *memory);
+        vkUnmapMemory(handle_, *memory);
     }
     
     // Attach the memory to the buffer object
-    VK_CHECK(vkBindBufferMemory(handle, buffer, *memory, 0));
+    VK_CHECK(vkBindBufferMemory(handle_, buffer, *memory, 0));
     
     return buffer;
 }
@@ -498,21 +486,21 @@ VkCommandPool Device::create_command_pool(uint32_t queue_index, VkCommandPoolCre
     command_pool_info.queueFamilyIndex = queue_index;
     command_pool_info.flags = flags;
     VkCommandPool command_pool;
-    VK_CHECK(vkCreateCommandPool(handle, &command_pool_info, nullptr, &command_pool));
+    VK_CHECK(vkCreateCommandPool(handle_, &command_pool_info, nullptr, &command_pool));
     return command_pool;
 }
 
 VkCommandBuffer Device::create_command_buffer(VkCommandBufferLevel level, bool begin) const {
-    assert(command_pool && "No command pool exists in the device");
+    assert(command_pool_ && "No command pool exists in the device");
     
     VkCommandBufferAllocateInfo cmd_buf_allocate_info{};
     cmd_buf_allocate_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-    cmd_buf_allocate_info.commandPool = command_pool->get_handle();
+    cmd_buf_allocate_info.commandPool = command_pool_->get_handle();
     cmd_buf_allocate_info.level = level;
     cmd_buf_allocate_info.commandBufferCount = 1;
     
     VkCommandBuffer command_buffer;
-    VK_CHECK(vkAllocateCommandBuffers(handle, &cmd_buf_allocate_info, &command_buffer));
+    VK_CHECK(vkAllocateCommandBuffers(handle_, &cmd_buf_allocate_info, &command_buffer));
     
     // If requested, also start recording for the new command buffer
     if (begin) {
@@ -525,7 +513,7 @@ VkCommandBuffer Device::create_command_buffer(VkCommandBufferLevel level, bool b
 }
 
 void Device::flush_command_buffer(VkCommandBuffer command_buffer, VkQueue queue, bool free,
-                                  VkSemaphore signalSemaphore) const {
+                                  VkSemaphore signal_semaphore) const {
     if (command_buffer == VK_NULL_HANDLE) {
         return;
     }
@@ -536,8 +524,8 @@ void Device::flush_command_buffer(VkCommandBuffer command_buffer, VkQueue queue,
     submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
     submit_info.commandBufferCount = 1;
     submit_info.pCommandBuffers = &command_buffer;
-    if (signalSemaphore) {
-        submit_info.pSignalSemaphores = &signalSemaphore;
+    if (signal_semaphore) {
+        submit_info.pSignalSemaphores = &signal_semaphore;
         submit_info.signalSemaphoreCount = 1;
     }
     
@@ -547,36 +535,36 @@ void Device::flush_command_buffer(VkCommandBuffer command_buffer, VkQueue queue,
     fence_info.flags = VK_FLAGS_NONE;
     
     VkFence fence;
-    VK_CHECK(vkCreateFence(handle, &fence_info, nullptr, &fence));
+    VK_CHECK(vkCreateFence(handle_, &fence_info, nullptr, &fence));
     
     // Submit to the queue
     VkResult result = vkQueueSubmit(queue, 1, &submit_info, fence);
     // Wait for the fence to signal that command buffer has finished executing
-    VK_CHECK(vkWaitForFences(handle, 1, &fence, VK_TRUE, DEFAULT_FENCE_TIMEOUT));
+    VK_CHECK(vkWaitForFences(handle_, 1, &fence, VK_TRUE, DEFAULT_FENCE_TIMEOUT));
     
-    vkDestroyFence(handle, fence, nullptr);
+    vkDestroyFence(handle_, fence, nullptr);
     
-    if (command_pool && free) {
-        vkFreeCommandBuffers(handle, command_pool->get_handle(), 1, &command_buffer);
+    if (command_pool_ && free) {
+        vkFreeCommandBuffers(handle_, command_pool_->get_handle(), 1, &command_buffer);
     }
 }
 
 CommandPool &Device::get_command_pool() const {
-    return *command_pool;
+    return *command_pool_;
 }
 
 FencePool &Device::get_fence_pool() const {
-    return *fence_pool;
+    return *fence_pool_;
 }
 
 void Device::create_internal_fence_pool() {
-    fence_pool = std::make_unique<FencePool>(*this);
+    fence_pool_ = std::make_unique<FencePool>(*this);
 }
 
 void Device::create_internal_command_pool() {
-    command_pool = std::make_unique<CommandPool>(*this,
-                                                 get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT,
-                                                                    0).get_family_index());
+    command_pool_ = std::make_unique<CommandPool>(*this,
+                                                  get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT,
+                                                                     0).get_family_index());
 }
 
 void Device::prepare_memory_allocator() {
@@ -603,9 +591,9 @@ void Device::prepare_memory_allocator() {
     vma_vulkan_func.vkCmdCopyBuffer = vkCmdCopyBuffer;
     
     VmaAllocatorCreateInfo allocator_info{};
-    allocator_info.physicalDevice = gpu.get_handle();
-    allocator_info.device = handle;
-    allocator_info.instance = gpu.get_instance().get_handle();
+    allocator_info.physicalDevice = gpu_.get_handle();
+    allocator_info.device = handle_;
+    allocator_info.instance = gpu_.get_instance().get_handle();
     
     if (can_get_memory_requirements && has_dedicated_allocation) {
         allocator_info.flags |= VMA_ALLOCATOR_CREATE_KHR_DEDICATED_ALLOCATION_BIT;
@@ -620,7 +608,7 @@ void Device::prepare_memory_allocator() {
     
     allocator_info.pVulkanFunctions = &vma_vulkan_func;
     
-    VkResult result = vmaCreateAllocator(&allocator_info, &memory_allocator);
+    VkResult result = vmaCreateAllocator(&allocator_info, &memory_allocator_);
     
     if (result != VK_SUCCESS) {
         throw VulkanException{result, "Cannot create allocator"};
@@ -628,19 +616,19 @@ void Device::prepare_memory_allocator() {
 }
 
 CommandBuffer &Device::request_command_buffer() const {
-    return command_pool->request_command_buffer();
+    return command_pool_->request_command_buffer();
 }
 
 VkFence Device::request_fence() const {
-    return fence_pool->request_fence();
+    return fence_pool_->request_fence();
 }
 
 VkResult Device::wait_idle() const {
-    return vkDeviceWaitIdle(handle);
+    return vkDeviceWaitIdle(handle_);
 }
 
 ResourceCache &Device::get_resource_cache() {
-    return resource_cache;
+    return resource_cache_;
 }
 
 }        // namespace vox

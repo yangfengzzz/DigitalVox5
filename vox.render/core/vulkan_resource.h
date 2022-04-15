@@ -1,19 +1,8 @@
-/* Copyright (c) 2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -39,7 +28,7 @@ template<typename THandle, VkObjectType OBJECT_TYPE, typename Device = vox::Devi
 class VulkanResource {
 public:
     explicit VulkanResource(THandle handle = VK_NULL_HANDLE, Device *device = nullptr) :
-    handle{handle}, device{device} {
+    handle_{handle}, device_{device} {
     }
     
     VulkanResource(const VulkanResource &) = delete;
@@ -47,15 +36,15 @@ public:
     VulkanResource &operator=(const VulkanResource &) = delete;
     
     VulkanResource(VulkanResource &&other) noexcept:
-    handle{other.handle}, device{other.device} {
-        set_debug_name(other.debug_name);
+    handle_{other.handle_}, device_{other.device_} {
+        set_debug_name(other.debug_name_);
         
-        other.handle = VK_NULL_HANDLE;
+        other.handle_ = VK_NULL_HANDLE;
     }
     
     VulkanResource &operator=(VulkanResource &&other) noexcept {
-        handle = other.handle;
-        device = other.device;
+        handle_ = other.handle;
+        device_ = other.device;
         set_debug_name(other.debug_name);
         
         other.handle = VK_NULL_HANDLE;
@@ -70,12 +59,12 @@ public:
     }
     
     inline Device &get_device() const {
-        assert(device && "Device handle not set");
-        return *device;
+        assert(device_ && "Device handle not set");
+        return *device_;
     }
     
     inline const THandle &get_handle() const {
-        return handle;
+        return handle_;
     }
     
     [[nodiscard]] inline uint64_t get_handle_u64() const {
@@ -85,22 +74,22 @@ public:
         using UintHandle = typename std::conditional<
         sizeof(THandle) == sizeof(uint32_t), uint32_t, uint64_t>::type;
         
-        return static_cast<uint64_t>(reinterpret_cast<UintHandle>(handle));
+        return static_cast<uint64_t>(reinterpret_cast<UintHandle>(handle_));
     }
     
     [[nodiscard]] inline const std::string &get_debug_name() const {
-        return debug_name;
+        return debug_name_;
     }
     
     inline void set_debug_name(const std::string &name) {
-        debug_name = name;
-        detail::set_debug_name(device, OBJECT_TYPE, get_handle_u64(), debug_name.c_str());
+        debug_name_ = name;
+        detail::set_debug_name(device_, OBJECT_TYPE, get_handle_u64(), debug_name_.c_str());
     }
     
 protected:
-    THandle handle;
-    Device *device;
-    std::string debug_name;
+    THandle handle_;
+    Device *device_;
+    std::string debug_name_;
 };
 
 }        // namespace core

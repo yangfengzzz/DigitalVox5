@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2020, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -74,23 +63,23 @@ public:
     [[nodiscard]] const std::vector<ShaderModule *> &get_shader_modules() const;
     
 private:
-    Device &device;
+    Device &device_;
     
-    VkDescriptorSetLayout handle{VK_NULL_HANDLE};
+    VkDescriptorSetLayout handle_{VK_NULL_HANDLE};
     
-    const uint32_t set_index;
+    const uint32_t set_index_;
     
-    std::vector<VkDescriptorSetLayoutBinding> bindings;
+    std::vector<VkDescriptorSetLayoutBinding> bindings_;
     
-    std::vector<VkDescriptorBindingFlagsEXT> binding_flags;
+    std::vector<VkDescriptorBindingFlagsEXT> binding_flags_;
     
-    std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings_lookup;
+    std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings_lookup_;
     
-    std::unordered_map<uint32_t, VkDescriptorBindingFlagsEXT> binding_flags_lookup;
+    std::unordered_map<uint32_t, VkDescriptorBindingFlagsEXT> binding_flags_lookup_;
     
-    std::unordered_map<std::string, uint32_t> resources_lookup;
+    std::unordered_map<std::string, uint32_t> resources_lookup_;
     
-    std::vector<ShaderModule *> shader_modules;
+    std::vector<ShaderModule *> shader_modules_;
 };
 
 }        // namespace vox

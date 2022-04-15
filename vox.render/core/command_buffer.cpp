@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2022, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "command_buffer.h"
 
@@ -25,16 +14,16 @@
 namespace vox {
 CommandBuffer::CommandBuffer(CommandPool &command_pool, VkCommandBufferLevel level) :
 VulkanResource{VK_NULL_HANDLE, &command_pool.get_device()},
-command_pool{command_pool},
-max_push_constants_size{device->get_gpu().get_properties().limits.maxPushConstantsSize},
-level{level} {
+command_pool_{command_pool},
+max_push_constants_size_{device_->get_gpu().get_properties().limits.maxPushConstantsSize},
+level_{level} {
     VkCommandBufferAllocateInfo allocate_info{VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO};
     
     allocate_info.commandPool = command_pool.get_handle();
     allocate_info.commandBufferCount = 1;
     allocate_info.level = level;
     
-    VkResult result = vkAllocateCommandBuffers(device->get_handle(), &allocate_info, &handle);
+    VkResult result = vkAllocateCommandBuffers(device_->get_handle(), &allocate_info, &handle_);
     
     if (result != VK_SUCCESS) {
         throw VulkanException{result, "Failed to allocate command buffer"};
@@ -43,30 +32,30 @@ level{level} {
 
 CommandBuffer::~CommandBuffer() {
     // Destroy command buffer
-    if (handle != VK_NULL_HANDLE) {
-        vkFreeCommandBuffers(command_pool.get_device().get_handle(), command_pool.get_handle(), 1, &handle);
+    if (handle_ != VK_NULL_HANDLE) {
+        vkFreeCommandBuffers(command_pool_.get_device().get_handle(), command_pool_.get_handle(), 1, &handle_);
     }
 }
 
 CommandBuffer::CommandBuffer(CommandBuffer &&other) noexcept:
 VulkanResource{std::move(other)},
-command_pool{other.command_pool},
-level{other.level},
-state{other.state},
-update_after_bind{other.update_after_bind} {
-    other.state = State::Invalid;
+command_pool_{other.command_pool_},
+level_{other.level_},
+state_{other.state_},
+update_after_bind_{other.update_after_bind_} {
+    other.state_ = State::INVALID;
 }
 
 bool CommandBuffer::is_recording() const {
-    return state == State::Recording;
+    return state_ == State::RECORDING;
 }
 
 void CommandBuffer::clear(VkClearAttachment attachment, VkClearRect rect) {
-    vkCmdClearAttachments(handle, 1, &attachment, 1, &rect);
+    vkCmdClearAttachments(handle_, 1, &attachment, 1, &rect);
 }
 
 VkResult CommandBuffer::begin(VkCommandBufferUsageFlags flags, CommandBuffer *primary_cmd_buf) {
-    if (level == VK_COMMAND_BUFFER_LEVEL_SECONDARY) {
+    if (level_ == VK_COMMAND_BUFFER_LEVEL_SECONDARY) {
         assert(primary_cmd_buf &&
                "A primary command buffer pointer must be provided when calling begin from a secondary one");
         auto render_pass_binding = primary_cmd_buf->get_current_render_pass();
@@ -87,27 +76,27 @@ CommandBuffer::begin(VkCommandBufferUsageFlags flags, const RenderPass *render_p
         return VK_NOT_READY;
     }
     
-    state = State::Recording;
+    state_ = State::RECORDING;
     
     // Reset state
-    pipeline_state.reset();
-    resource_binding_state.reset();
-    descriptor_set_layout_binding_state.clear();
-    stored_push_constants.clear();
+    pipeline_state_.reset();
+    resource_binding_state_.reset();
+    descriptor_set_layout_binding_state_.clear();
+    stored_push_constants_.clear();
     
     VkCommandBufferBeginInfo begin_info{VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
     VkCommandBufferInheritanceInfo inheritance = {VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO};
     begin_info.flags = flags;
     
-    if (level == VK_COMMAND_BUFFER_LEVEL_SECONDARY) {
+    if (level_ == VK_COMMAND_BUFFER_LEVEL_SECONDARY) {
         assert((render_pass && framebuffer) &&
                "Render pass and framebuffer must be provided when calling begin from a secondary one");
         
-        current_render_pass.render_pass = render_pass;
-        current_render_pass.framebuffer = framebuffer;
+        current_render_pass_.render_pass = render_pass;
+        current_render_pass_.framebuffer = framebuffer;
         
-        inheritance.renderPass = current_render_pass.render_pass->get_handle();
-        inheritance.framebuffer = current_render_pass.framebuffer->get_handle();
+        inheritance.renderPass = current_render_pass_.render_pass->get_handle();
+        inheritance.framebuffer = current_render_pass_.framebuffer->get_handle();
         inheritance.subpass = subpass_index;
         
         begin_info.pInheritanceInfo = &inheritance;
@@ -125,7 +114,7 @@ VkResult CommandBuffer::end() {
     
     vkEndCommandBuffer(get_handle());
     
-    state = State::Executable;
+    state_ = State::EXECUTABLE;
     
     return VK_SUCCESS;
 }
@@ -144,9 +133,9 @@ void CommandBuffer::begin_render_pass(const RenderTarget &render_target,
                                       const std::vector<std::unique_ptr<Subpass>> &subpasses,
                                       VkSubpassContents contents) {
     // Reset state
-    pipeline_state.reset();
-    resource_binding_state.reset();
-    descriptor_set_layout_binding_state.clear();
+    pipeline_state_.reset();
+    resource_binding_state_.reset();
+    descriptor_set_layout_binding_state_.clear();
     
     auto &render_pass = get_render_pass(render_target, load_store_infos, subpasses);
     auto &framebuffer = get_device().get_resource_cache().request_framebuffer(render_target, render_pass);
@@ -157,58 +146,58 @@ void CommandBuffer::begin_render_pass(const RenderTarget &render_target,
 void CommandBuffer::begin_render_pass(const RenderTarget &render_target, const RenderPass &render_pass,
                                       const Framebuffer &framebuffer, const std::vector<VkClearValue> &clear_values,
                                       VkSubpassContents contents) {
-    current_render_pass.render_pass = &render_pass;
-    current_render_pass.framebuffer = &framebuffer;
+    current_render_pass_.render_pass = &render_pass;
+    current_render_pass_.framebuffer = &framebuffer;
     
     // Begin render pass
     VkRenderPassBeginInfo begin_info{VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO};
-    begin_info.renderPass = current_render_pass.render_pass->get_handle();
-    begin_info.framebuffer = current_render_pass.framebuffer->get_handle();
+    begin_info.renderPass = current_render_pass_.render_pass->get_handle();
+    begin_info.framebuffer = current_render_pass_.framebuffer->get_handle();
     begin_info.renderArea.extent = render_target.get_extent();
     begin_info.clearValueCount = to_u32(clear_values.size());
     begin_info.pClearValues = clear_values.data();
     
-    const auto &framebuffer_extent = current_render_pass.framebuffer->get_extent();
+    const auto &framebuffer_extent = current_render_pass_.framebuffer->get_extent();
     
     // Test the requested render area to confirm that it is optimal and could not cause a performance reduction
     if (!is_render_size_optimal(framebuffer_extent, begin_info.renderArea)) {
         // Only prints the warning if the framebuffer or render area are different since the last time the render size was not optimal
-        if (framebuffer_extent.width != last_framebuffer_extent.width ||
-            framebuffer_extent.height != last_framebuffer_extent.height ||
-            begin_info.renderArea.extent.width != last_render_area_extent.width ||
-            begin_info.renderArea.extent.height != last_render_area_extent.height) {
+        if (framebuffer_extent.width != last_framebuffer_extent_.width ||
+            framebuffer_extent.height != last_framebuffer_extent_.height ||
+            begin_info.renderArea.extent.width != last_render_area_extent_.width ||
+            begin_info.renderArea.extent.height != last_render_area_extent_.height) {
             LOGW("Render target extent is not an optimal size, this may result in reduced performance.")
         }
         
-        last_framebuffer_extent = current_render_pass.framebuffer->get_extent();
-        last_render_area_extent = begin_info.renderArea.extent;
+        last_framebuffer_extent_ = current_render_pass_.framebuffer->get_extent();
+        last_render_area_extent_ = begin_info.renderArea.extent;
     }
     
     vkCmdBeginRenderPass(get_handle(), &begin_info, contents);
     
     // Update blend state attachments for first subpass
-    auto blend_state = pipeline_state.get_color_blend_state();
+    auto blend_state = pipeline_state_.get_color_blend_state();
     blend_state.attachments.resize(
-                                   current_render_pass.render_pass->get_color_output_count(pipeline_state.get_subpass_index()));
-    pipeline_state.set_color_blend_state(blend_state);
+                                   current_render_pass_.render_pass->get_color_output_count(pipeline_state_.get_subpass_index()));
+    pipeline_state_.set_color_blend_state(blend_state);
 }
 
 void CommandBuffer::next_subpass() {
     // Increment subpass index
-    pipeline_state.set_subpass_index(pipeline_state.get_subpass_index() + 1);
+    pipeline_state_.set_subpass_index(pipeline_state_.get_subpass_index() + 1);
     
     // Update blend state attachments
-    auto blend_state = pipeline_state.get_color_blend_state();
+    auto blend_state = pipeline_state_.get_color_blend_state();
     blend_state.attachments.resize(
-                                   current_render_pass.render_pass->get_color_output_count(pipeline_state.get_subpass_index()));
-    pipeline_state.set_color_blend_state(blend_state);
+                                   current_render_pass_.render_pass->get_color_output_count(pipeline_state_.get_subpass_index()));
+    pipeline_state_.set_color_blend_state(blend_state);
     
     // Reset descriptor sets
-    resource_binding_state.reset();
-    descriptor_set_layout_binding_state.clear();
+    resource_binding_state_.reset();
+    descriptor_set_layout_binding_state_.clear();
     
     // Clear stored push constants
-    stored_push_constants.clear();
+    stored_push_constants_.clear();
     
     vkCmdNextSubpass(get_handle(), VK_SUBPASS_CONTENTS_INLINE);
 }
@@ -229,43 +218,43 @@ void CommandBuffer::end_render_pass() {
 }
 
 void CommandBuffer::bind_pipeline_layout(PipelineLayout &pipeline_layout) {
-    pipeline_state.set_pipeline_layout(pipeline_layout);
+    pipeline_state_.set_pipeline_layout(pipeline_layout);
 }
 
 void CommandBuffer::set_specialization_constant(uint32_t constant_id, const std::vector<uint8_t> &data) {
-    pipeline_state.set_specialization_constant(constant_id, data);
+    pipeline_state_.set_specialization_constant(constant_id, data);
 }
 
 void CommandBuffer::push_constants(const std::vector<uint8_t> &values) {
-    uint32_t push_constant_size = to_u32(stored_push_constants.size() + values.size());
+    uint32_t push_constant_size = to_u32(stored_push_constants_.size() + values.size());
     
-    if (push_constant_size > max_push_constants_size) {
+    if (push_constant_size > max_push_constants_size_) {
         LOGE("Push constant limit of {} exceeded (pushing {} bytes for a total of {} bytes)",
-             max_push_constants_size, values.size(), push_constant_size)
+             max_push_constants_size_, values.size(), push_constant_size)
         throw std::runtime_error("Push constant limit exceeded.");
     } else {
-        stored_push_constants.insert(stored_push_constants.end(), values.begin(), values.end());
+        stored_push_constants_.insert(stored_push_constants_.end(), values.begin(), values.end());
     }
 }
 
 void CommandBuffer::bind_buffer(const core::Buffer &buffer, VkDeviceSize offset, VkDeviceSize range, uint32_t set,
                                 uint32_t binding, uint32_t array_element) {
-    resource_binding_state.bind_buffer(buffer, offset, range, set, binding, array_element);
+    resource_binding_state_.bind_buffer(buffer, offset, range, set, binding, array_element);
 }
 
 void CommandBuffer::bind_image(const core::ImageView &image_view, const core::Sampler &sampler, uint32_t set,
                                uint32_t binding, uint32_t array_element) {
-    resource_binding_state.bind_image(image_view, sampler, set, binding, array_element);
+    resource_binding_state_.bind_image(image_view, sampler, set, binding, array_element);
 }
 
 void CommandBuffer::bind_image(const core::ImageView &image_view, uint32_t set, uint32_t binding,
                                uint32_t array_element) {
-    resource_binding_state.bind_image(image_view, set, binding, array_element);
+    resource_binding_state_.bind_image(image_view, set, binding, array_element);
 }
 
 void CommandBuffer::bind_input(const core::ImageView &image_view, uint32_t set, uint32_t binding,
                                uint32_t array_element) {
-    resource_binding_state.bind_input(image_view, set, binding, array_element);
+    resource_binding_state_.bind_input(image_view, set, binding, array_element);
 }
 
 void CommandBuffer::bind_vertex_buffers(uint32_t first_binding,
@@ -283,31 +272,31 @@ void CommandBuffer::bind_index_buffer(const core::Buffer &buffer, VkDeviceSize o
 }
 
 void CommandBuffer::set_viewport_state(const ViewportState &state_info) {
-    pipeline_state.set_viewport_state(state_info);
+    pipeline_state_.set_viewport_state(state_info);
 }
 
 void CommandBuffer::set_vertex_input_state(const VertexInputState &state_info) {
-    pipeline_state.set_vertex_input_state(state_info);
+    pipeline_state_.set_vertex_input_state(state_info);
 }
 
 void CommandBuffer::set_input_assembly_state(const InputAssemblyState &state_info) {
-    pipeline_state.set_input_assembly_state(state_info);
+    pipeline_state_.set_input_assembly_state(state_info);
 }
 
 void CommandBuffer::set_rasterization_state(const RasterizationState &state_info) {
-    pipeline_state.set_rasterization_state(state_info);
+    pipeline_state_.set_rasterization_state(state_info);
 }
 
 void CommandBuffer::set_multisample_state(const MultisampleState &state_info) {
-    pipeline_state.set_multisample_state(state_info);
+    pipeline_state_.set_multisample_state(state_info);
 }
 
 void CommandBuffer::set_depth_stencil_state(const DepthStencilState &state_info) {
-    pipeline_state.set_depth_stencil_state(state_info);
+    pipeline_state_.set_depth_stencil_state(state_info);
 }
 
 void CommandBuffer::set_color_blend_state(const ColorBlendState &state_info) {
-    pipeline_state.set_color_blend_state(state_info);
+    pipeline_state_.set_color_blend_state(state_info);
 }
 
 void CommandBuffer::set_viewport(uint32_t first_viewport, const std::vector<VkViewport> &viewports) {
@@ -473,22 +462,22 @@ void CommandBuffer::buffer_memory_barrier(const core::Buffer &buffer, VkDeviceSi
 
 void CommandBuffer::flush_pipeline_state(VkPipelineBindPoint pipeline_bind_point) {
     // Create a new pipeline only if the graphics state changed
-    if (!pipeline_state.is_dirty()) {
+    if (!pipeline_state_.is_dirty()) {
         return;
     }
     
-    pipeline_state.clear_dirty();
+    pipeline_state_.clear_dirty();
     
     // Create and bind pipeline
     if (pipeline_bind_point == VK_PIPELINE_BIND_POINT_GRAPHICS) {
-        pipeline_state.set_render_pass(*current_render_pass.render_pass);
-        auto &pipeline = get_device().get_resource_cache().request_graphics_pipeline(pipeline_state);
+        pipeline_state_.set_render_pass(*current_render_pass_.render_pass);
+        auto &pipeline = get_device().get_resource_cache().request_graphics_pipeline(pipeline_state_);
         
         vkCmdBindPipeline(get_handle(),
                           pipeline_bind_point,
                           pipeline.get_handle());
     } else if (pipeline_bind_point == VK_PIPELINE_BIND_POINT_COMPUTE) {
-        auto &pipeline = get_device().get_resource_cache().request_compute_pipeline(pipeline_state);
+        auto &pipeline = get_device().get_resource_cache().request_compute_pipeline(pipeline_state_);
         
         vkCmdBindPipeline(get_handle(),
                           pipeline_bind_point,
@@ -499,20 +488,20 @@ void CommandBuffer::flush_pipeline_state(VkPipelineBindPoint pipeline_bind_point
 }
 
 void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_point) {
-    assert(command_pool.get_render_frame() && "The command pool must be associated to a render frame");
+    assert(command_pool_.get_render_frame() && "The command pool must be associated to a render frame");
     
-    const auto &pipeline_layout = pipeline_state.get_pipeline_layout();
+    const auto &pipeline_layout = pipeline_state_.get_pipeline_layout();
     
     std::unordered_set<uint32_t> update_descriptor_sets;
     
     // Iterate over the shader sets to check if they have already been bound
     // If they have, add the set so that the command buffer later updates it
-    for (auto &set_it: pipeline_layout.get_shader_sets()) {
+    for (auto &set_it : pipeline_layout.get_shader_sets()) {
         uint32_t descriptor_set_id = set_it.first;
         
-        auto descriptor_set_layout_it = descriptor_set_layout_binding_state.find(descriptor_set_id);
+        auto descriptor_set_layout_it = descriptor_set_layout_binding_state_.find(descriptor_set_id);
         
-        if (descriptor_set_layout_it != descriptor_set_layout_binding_state.end()) {
+        if (descriptor_set_layout_it != descriptor_set_layout_binding_state_.end()) {
             if (descriptor_set_layout_it->second->get_handle() !=
                 pipeline_layout.get_descriptor_set_layout(descriptor_set_id).get_handle()) {
                 update_descriptor_sets.emplace(descriptor_set_id);
@@ -521,21 +510,21 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
     }
     
     // Validate that the bound descriptor set layouts exist in the pipeline layout
-    for (auto set_it = descriptor_set_layout_binding_state.begin();
-         set_it != descriptor_set_layout_binding_state.end();) {
+    for (auto set_it = descriptor_set_layout_binding_state_.begin();
+         set_it != descriptor_set_layout_binding_state_.end();) {
         if (!pipeline_layout.has_descriptor_set_layout(set_it->first)) {
-            set_it = descriptor_set_layout_binding_state.erase(set_it);
+            set_it = descriptor_set_layout_binding_state_.erase(set_it);
         } else {
             ++set_it;
         }
     }
     
     // Check if a descriptor set needs to be created
-    if (resource_binding_state.is_dirty() || !update_descriptor_sets.empty()) {
-        resource_binding_state.clear_dirty();
+    if (resource_binding_state_.is_dirty() || !update_descriptor_sets.empty()) {
+        resource_binding_state_.clear_dirty();
         
         // Iterate over all the resource sets bound by the command buffer
-        for (auto &resource_set_it: resource_binding_state.get_resource_sets()) {
+        for (auto &resource_set_it : resource_binding_state_.get_resource_sets()) {
             uint32_t descriptor_set_id = resource_set_it.first;
             auto &resource_set = resource_set_it.second;
             
@@ -546,7 +535,7 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
             }
             
             // Clear dirty flag for resource set
-            resource_binding_state.clear_dirty(descriptor_set_id);
+            resource_binding_state_.clear_dirty(descriptor_set_id);
             
             // Skip resource set if a descriptor set layout doesn't exist for it
             if (!pipeline_layout.has_descriptor_set_layout(descriptor_set_id)) {
@@ -556,7 +545,7 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
             auto &descriptor_set_layout = pipeline_layout.get_descriptor_set_layout(descriptor_set_id);
             
             // Make descriptor set layout bound for current set
-            descriptor_set_layout_binding_state[descriptor_set_id] = &descriptor_set_layout;
+            descriptor_set_layout_binding_state_[descriptor_set_id] = &descriptor_set_layout;
             
             BindingMap<VkDescriptorBufferInfo> buffer_infos;
             BindingMap<VkDescriptorImageInfo> image_infos;
@@ -567,20 +556,20 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
             std::vector<uint32_t> bindings_to_update;
             
             // Iterate over all resource bindings
-            for (auto &binding_it: resource_set.get_resource_bindings()) {
+            for (auto &binding_it : resource_set.get_resource_bindings()) {
                 auto binding_index = binding_it.first;
                 auto &binding_resources = binding_it.second;
                 
                 // Check if binding exists in the pipeline layout
                 if (auto binding_info = descriptor_set_layout.get_layout_binding(binding_index)) {
                     // If update after bind is enabled, we store the binding index of each binding that need to be updated before being bound
-                    if (update_after_bind && !(descriptor_set_layout.get_layout_binding_flag(binding_index) &
-                                               VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT)) {
+                    if (update_after_bind_ && !(descriptor_set_layout.get_layout_binding_flag(binding_index) &
+                                                VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT)) {
                         bindings_to_update.push_back(binding_index);
                     }
                     
                     // Iterate over all binding resources
-                    for (auto &element_it: binding_resources) {
+                    for (auto &element_it : binding_resources) {
                         auto array_element = element_it.first;
                         auto &resource_info = element_it.second;
                         
@@ -630,8 +619,7 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
                                         image_info.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
                                         break;
                                         
-                                    default:
-                                        continue;
+                                    default:continue;
                                 }
                             }
                             
@@ -642,10 +630,11 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
             }
             
             // Request a descriptor set from the render frame, and write the buffer infos and image infos of all the specified bindings
-            auto &descriptor_set = command_pool.get_render_frame()->request_descriptor_set(descriptor_set_layout,
-                                                                                           buffer_infos,
-                                                                                           image_infos,
-                                                                                           command_pool.get_thread_index());
+            auto &descriptor_set = command_pool_.get_render_frame()->request_descriptor_set(descriptor_set_layout,
+                                                                                            buffer_infos,
+                                                                                            image_infos,
+                                                                                            command_pool_
+                                                                                            .get_thread_index());
             descriptor_set.update(bindings_to_update);
             
             VkDescriptorSet descriptor_set_handle = descriptor_set.get_handle();
@@ -663,44 +652,44 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
 }
 
 void CommandBuffer::flush_push_constants() {
-    if (stored_push_constants.empty()) {
+    if (stored_push_constants_.empty()) {
         return;
     }
     
-    const PipelineLayout &pipeline_layout = pipeline_state.get_pipeline_layout();
+    const PipelineLayout &pipeline_layout = pipeline_state_.get_pipeline_layout();
     
     VkShaderStageFlags shader_stage = pipeline_layout.get_push_constant_range_stage(
-                                                                                    to_u32(stored_push_constants.size()));
+                                                                                    to_u32(stored_push_constants_.size()));
     
     if (shader_stage) {
         vkCmdPushConstants(get_handle(), pipeline_layout.get_handle(), shader_stage, 0,
-                           to_u32(stored_push_constants.size()), stored_push_constants.data());
+                           to_u32(stored_push_constants_.size()), stored_push_constants_.data());
     } else {
-        LOGW("Push constant range [{}, {}] not found", 0, stored_push_constants.size())
+        LOGW("Push constant range [{}, {}] not found", 0, stored_push_constants_.size())
     }
     
-    stored_push_constants.clear();
+    stored_push_constants_.clear();
 }
 
 CommandBuffer::State CommandBuffer::get_state() const {
-    return state;
+    return state_;
 }
 
-void CommandBuffer::set_update_after_bind(bool update_after_bind_) {
-    update_after_bind = update_after_bind_;
+void CommandBuffer::set_update_after_bind(bool update_after_bind) {
+    update_after_bind_ = update_after_bind;
 }
 
 const CommandBuffer::RenderPassBinding &CommandBuffer::get_current_render_pass() const {
-    return current_render_pass;
+    return current_render_pass_;
 }
 
 uint32_t CommandBuffer::get_current_subpass_index() const {
-    return pipeline_state.get_subpass_index();
+    return pipeline_state_.get_subpass_index();
 }
 
 bool
 CommandBuffer::is_render_size_optimal(const VkExtent2D &framebuffer_extent, const VkRect2D &render_area) const {
-    auto render_area_granularity = current_render_pass.render_pass->get_render_area_granularity();
+    auto render_area_granularity = current_render_pass_.render_pass->get_render_area_granularity();
     
     return ((render_area.offset.x % render_area_granularity.width == 0) &&
             (render_area.offset.y % render_area_granularity.height == 0) &&
@@ -730,13 +719,13 @@ void CommandBuffer::write_timestamp(VkPipelineStageFlagBits pipeline_stage,
 VkResult CommandBuffer::reset(ResetMode reset_mode) {
     VkResult result = VK_SUCCESS;
     
-    assert(reset_mode == command_pool.get_reset_mode() &&
+    assert(reset_mode == command_pool_.get_reset_mode() &&
            "Command buffer reset mode must match the one used by the pool to allocate it");
     
-    state = State::Initial;
+    state_ = State::INITIAL;
     
-    if (reset_mode == ResetMode::ResetIndividually) {
-        result = vkResetCommandBuffer(handle, VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
+    if (reset_mode == ResetMode::RESET_INDIVIDUALLY) {
+        result = vkResetCommandBuffer(handle_, VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
     }
     
     return result;
@@ -750,7 +739,7 @@ RenderPass &CommandBuffer::get_render_pass(const vox::RenderTarget &render_targe
     
     std::vector<vox::SubpassInfo> subpass_infos(subpasses.size());
     auto subpass_info_it = subpass_infos.begin();
-    for (auto &subpass: subpasses) {
+    for (auto &subpass : subpasses) {
         subpass_info_it->input_attachments = subpass->get_input_attachments();
         subpass_info_it->output_attachments = subpass->get_output_attachments();
         subpass_info_it->color_resolve_attachments = subpass->get_color_resolve_attachments();
@@ -765,6 +754,5 @@ RenderPass &CommandBuffer::get_render_pass(const vox::RenderTarget &render_targe
     return get_device().get_resource_cache().request_render_pass(render_target.get_attachments(), load_store_infos,
                                                                  subpass_infos);
 }
-
 
 }        // namespace vox

@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -63,14 +52,14 @@ public:
         auto &buffer = iter->second;
         std::vector<T> out;
         
-        const size_t sz = buffer.get_size();
-        out.resize(sz / sizeof(T));
-        const bool already_mapped = buffer.get_data() != nullptr;
-        if (!already_mapped) {
+        const size_t kSz = buffer.get_size();
+        out.resize(kSz / sizeof(T));
+        const bool kAlreadyMapped = buffer.get_data() != nullptr;
+        if (!kAlreadyMapped) {
             buffer.map();
         }
-        memcpy(&out[0], buffer.get_data(), sz);
-        if (!already_mapped) {
+        memcpy(&out[0], buffer.get_data(), kSz);
+        if (!kAlreadyMapped) {
             buffer.unmap();
         }
         return out;
@@ -104,7 +93,7 @@ public:
     [[nodiscard]] VkDeviceSize get_size() const;
     
     [[nodiscard]] const uint8_t *get_data() const {
-        return mapped_data;
+        return mapped_data_;
     }
     
     /**
@@ -147,21 +136,20 @@ public:
     uint64_t get_device_address();
     
 private:
-    VmaAllocation allocation{VK_NULL_HANDLE};
+    VmaAllocation allocation_{VK_NULL_HANDLE};
     
-    VkDeviceMemory memory{VK_NULL_HANDLE};
+    VkDeviceMemory memory_{VK_NULL_HANDLE};
     
-    VkDeviceSize size{0};
+    VkDeviceSize size_{0};
     
-    uint8_t *mapped_data{nullptr};
+    uint8_t *mapped_data_{nullptr};
     
     /// Whether the buffer is persistently mapped or not
-    bool persistent{false};
+    bool persistent_{false};
     
     /// Whether the buffer has been mapped with vmaMapMemory
-    bool mapped{false};
+    bool mapped_{false};
 };
-
 
 }        // namespace core
 }        // namespace vox

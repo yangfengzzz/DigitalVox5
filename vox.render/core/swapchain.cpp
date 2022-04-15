@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "core/swapchain.h"
 
@@ -76,7 +65,7 @@ inline VkPresentModeKHR choose_present_mode(VkPresentModeKHR request_present_mod
         // If nothing found, always default to FIFO
         VkPresentModeKHR chosen_present_mode = VK_PRESENT_MODE_FIFO_KHR;
         
-        for (auto &present_mode: present_mode_priority_list) {
+        for (auto &present_mode : present_mode_priority_list) {
             if (std::find(available_present_modes.begin(), available_present_modes.end(), present_mode) !=
                 available_present_modes.end()) {
                 chosen_present_mode = present_mode;
@@ -111,7 +100,7 @@ inline VkSurfaceFormatKHR choose_surface_format(const VkSurfaceFormatKHR request
     
     // If the requested surface format isn't found, then try to request a format from the priority list
     if (surface_format_it == available_surface_formats.end()) {
-        for (auto &surface_format: surface_format_priority_list) {
+        for (auto &surface_format : surface_format_priority_list) {
             surface_format_it = std::find_if(
                                              available_surface_formats.begin(),
                                              available_surface_formats.end(),
@@ -161,13 +150,13 @@ inline VkCompositeAlphaFlagBitsKHR choose_composite_alpha(VkCompositeAlphaFlagBi
         return request_composite_alpha;
     }
     
-    static const std::vector<VkCompositeAlphaFlagBitsKHR> composite_alpha_flags = {
+    static const std::vector<VkCompositeAlphaFlagBitsKHR> kCompositeAlphaFlags = {
         VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
         VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR,
         VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR,
         VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR};
     
-    for (VkCompositeAlphaFlagBitsKHR composite_alpha: composite_alpha_flags) {
+    for (VkCompositeAlphaFlagBitsKHR composite_alpha : kCompositeAlphaFlags) {
         if (composite_alpha & supported_composite_alpha) {
             LOGW("(Swapchain) Composite alpha '{}' not supported. Selecting '{}.",
                  to_string(request_composite_alpha), to_string(composite_alpha))
@@ -180,10 +169,8 @@ inline VkCompositeAlphaFlagBitsKHR choose_composite_alpha(VkCompositeAlphaFlagBi
 
 inline bool validate_format_feature(VkImageUsageFlagBits image_usage, VkFormatFeatureFlags supported_features) {
     switch (image_usage) {
-        case VK_IMAGE_USAGE_STORAGE_BIT:
-            return VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT & supported_features;
-        default:
-            return true;
+        case VK_IMAGE_USAGE_STORAGE_BIT:return VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT & supported_features;
+        default:return true;
     }
 }
 
@@ -191,7 +178,7 @@ inline std::set<VkImageUsageFlagBits>
 choose_image_usage(const std::set<VkImageUsageFlagBits> &requested_image_usage_flags,
                    VkImageUsageFlags supported_image_usage, VkFormatFeatureFlags supported_features) {
     std::set<VkImageUsageFlagBits> validated_image_usage_flags;
-    for (auto flag: requested_image_usage_flags) {
+    for (auto flag : requested_image_usage_flags) {
         if ((flag & supported_image_usage) && validate_format_feature(flag, supported_features)) {
             validated_image_usage_flags.insert(flag);
         } else {
@@ -201,13 +188,13 @@ choose_image_usage(const std::set<VkImageUsageFlagBits> &requested_image_usage_f
     
     if (validated_image_usage_flags.empty()) {
         // Pick the first format from list of defaults, if supported
-        static const std::vector<VkImageUsageFlagBits> image_usage_flags = {
+        static const std::vector<VkImageUsageFlagBits> kImageUsageFlags = {
             VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
             VK_IMAGE_USAGE_STORAGE_BIT,
             VK_IMAGE_USAGE_SAMPLED_BIT,
             VK_IMAGE_USAGE_TRANSFER_DST_BIT};
         
-        for (VkImageUsageFlagBits image_usage: image_usage_flags) {
+        for (VkImageUsageFlagBits image_usage : kImageUsageFlags) {
             if ((image_usage & supported_image_usage) &&
                 validate_format_feature(image_usage, supported_features)) {
                 validated_image_usage_flags.insert(image_usage);
@@ -219,7 +206,7 @@ choose_image_usage(const std::set<VkImageUsageFlagBits> &requested_image_usage_f
     if (!validated_image_usage_flags.empty()) {
         // Log image usage flags used
         std::string usage_list;
-        for (VkImageUsageFlagBits image_usage: validated_image_usage_flags) {
+        for (VkImageUsageFlagBits image_usage : validated_image_usage_flags) {
             usage_list += to_string(image_usage) + " ";
         }
         LOGI("(Swapchain) Image usage flags: {}", usage_list)
@@ -232,7 +219,7 @@ choose_image_usage(const std::set<VkImageUsageFlagBits> &requested_image_usage_f
 
 inline VkImageUsageFlags composite_image_flags(std::set<VkImageUsageFlagBits> &image_usage_flags) {
     VkImageUsageFlags image_usage{};
-    for (auto flag: image_usage_flags) {
+    for (auto flag : image_usage_flags) {
         image_usage |= flag;
     }
     return image_usage;
@@ -241,40 +228,40 @@ inline VkImageUsageFlags composite_image_flags(std::set<VkImageUsageFlagBits> &i
 }        // namespace
 
 Swapchain::Swapchain(Swapchain &old_swapchain, const VkExtent2D &extent) :
-Swapchain{old_swapchain, old_swapchain.device, old_swapchain.surface, extent,
-    old_swapchain.properties.image_count, old_swapchain.properties.pre_transform,
-    old_swapchain.properties.present_mode, old_swapchain.image_usage_flags} {
-        present_mode_priority_list = old_swapchain.present_mode_priority_list;
-        surface_format_priority_list = old_swapchain.surface_format_priority_list;
+Swapchain{old_swapchain, old_swapchain.device_, old_swapchain.surface_, extent,
+    old_swapchain.properties_.image_count, old_swapchain.properties_.pre_transform,
+    old_swapchain.properties_.present_mode, old_swapchain.image_usage_flags_} {
+        present_mode_priority_list_ = old_swapchain.present_mode_priority_list_;
+        surface_format_priority_list_ = old_swapchain.surface_format_priority_list_;
         create();
     }
 
 Swapchain::Swapchain(Swapchain &old_swapchain, const uint32_t image_count) :
-Swapchain{old_swapchain, old_swapchain.device, old_swapchain.surface, old_swapchain.properties.extent,
-    image_count, old_swapchain.properties.pre_transform, old_swapchain.properties.present_mode,
-    old_swapchain.image_usage_flags} {
-        present_mode_priority_list = old_swapchain.present_mode_priority_list;
-        surface_format_priority_list = old_swapchain.surface_format_priority_list;
+Swapchain{old_swapchain, old_swapchain.device_, old_swapchain.surface_, old_swapchain.properties_.extent,
+    image_count, old_swapchain.properties_.pre_transform, old_swapchain.properties_.present_mode,
+    old_swapchain.image_usage_flags_} {
+        present_mode_priority_list_ = old_swapchain.present_mode_priority_list_;
+        surface_format_priority_list_ = old_swapchain.surface_format_priority_list_;
         create();
     }
 
 Swapchain::Swapchain(Swapchain &old_swapchain, const std::set<VkImageUsageFlagBits> &image_usage_flags) :
-Swapchain{old_swapchain, old_swapchain.device, old_swapchain.surface, old_swapchain.properties.extent,
-    old_swapchain.properties.image_count, old_swapchain.properties.pre_transform,
-    old_swapchain.properties.present_mode, image_usage_flags} {
-        present_mode_priority_list = old_swapchain.present_mode_priority_list;
-        surface_format_priority_list = old_swapchain.surface_format_priority_list;
+Swapchain{old_swapchain, old_swapchain.device_, old_swapchain.surface_, old_swapchain.properties_.extent,
+    old_swapchain.properties_.image_count, old_swapchain.properties_.pre_transform,
+    old_swapchain.properties_.present_mode, image_usage_flags} {
+        present_mode_priority_list_ = old_swapchain.present_mode_priority_list_;
+        surface_format_priority_list_ = old_swapchain.surface_format_priority_list_;
         create();
     }
 
 Swapchain::Swapchain(Swapchain &old_swapchain, const VkExtent2D &extent,
                      const VkSurfaceTransformFlagBitsKHR transform) :
 
-Swapchain{old_swapchain, old_swapchain.device, old_swapchain.surface, extent,
-    old_swapchain.properties.image_count, transform, old_swapchain.properties.present_mode,
-    old_swapchain.image_usage_flags} {
-        present_mode_priority_list = old_swapchain.present_mode_priority_list;
-        surface_format_priority_list = old_swapchain.surface_format_priority_list;
+Swapchain{old_swapchain, old_swapchain.device_, old_swapchain.surface_, extent,
+    old_swapchain.properties_.image_count, transform, old_swapchain.properties_.present_mode,
+    old_swapchain.image_usage_flags_} {
+        present_mode_priority_list_ = old_swapchain.present_mode_priority_list_;
+        surface_format_priority_list_ = old_swapchain.surface_format_priority_list_;
         create();
     }
 
@@ -296,173 +283,172 @@ Swapchain::Swapchain(Swapchain &old_swapchain,
                      const VkSurfaceTransformFlagBitsKHR transform,
                      const VkPresentModeKHR present_mode,
                      const std::set<VkImageUsageFlagBits> &image_usage_flags) :
-device{device},
-surface{surface} {
-    present_mode_priority_list = old_swapchain.present_mode_priority_list;
-    surface_format_priority_list = old_swapchain.surface_format_priority_list;
+device_{device},
+surface_{surface} {
+    present_mode_priority_list_ = old_swapchain.present_mode_priority_list_;
+    surface_format_priority_list_ = old_swapchain.surface_format_priority_list_;
     
     VkSurfaceCapabilitiesKHR surface_capabilities{};
-    vkGetPhysicalDeviceSurfaceCapabilitiesKHR(this->device.get_gpu().get_handle(), surface, &surface_capabilities);
+    vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device_.get_gpu().get_handle(), surface, &surface_capabilities);
     
     uint32_t surface_format_count{0U};
-    VK_CHECK(vkGetPhysicalDeviceSurfaceFormatsKHR(this->device.get_gpu().get_handle(), surface,
+    VK_CHECK(vkGetPhysicalDeviceSurfaceFormatsKHR(device_.get_gpu().get_handle(), surface,
                                                   &surface_format_count, nullptr));
-    surface_formats.resize(surface_format_count);
-    VK_CHECK(vkGetPhysicalDeviceSurfaceFormatsKHR(this->device.get_gpu().get_handle(), surface,
-                                                  &surface_format_count, surface_formats.data()));
+    surface_formats_.resize(surface_format_count);
+    VK_CHECK(vkGetPhysicalDeviceSurfaceFormatsKHR(device_.get_gpu().get_handle(), surface,
+                                                  &surface_format_count, surface_formats_.data()));
     
     LOGI("Surface supports the following surface formats:")
-    for (auto &surface_format: surface_formats) {
+    for (auto &surface_format : surface_formats_) {
         LOGI("  \t{}", to_string(surface_format))
     }
     
     uint32_t present_mode_count{0U};
-    VK_CHECK(vkGetPhysicalDeviceSurfacePresentModesKHR(this->device.get_gpu().get_handle(), surface,
+    VK_CHECK(vkGetPhysicalDeviceSurfacePresentModesKHR(device_.get_gpu().get_handle(), surface,
                                                        &present_mode_count, nullptr));
-    present_modes.resize(present_mode_count);
-    VK_CHECK(vkGetPhysicalDeviceSurfacePresentModesKHR(this->device.get_gpu().get_handle(), surface,
-                                                       &present_mode_count, present_modes.data()));
+    present_modes_.resize(present_mode_count);
+    VK_CHECK(vkGetPhysicalDeviceSurfacePresentModesKHR(device_.get_gpu().get_handle(), surface,
+                                                       &present_mode_count, present_modes_.data()));
     
     LOGI("Surface supports the following present modes:")
-    for (auto &present_mode: present_modes) {
+    for (auto &present_mode : present_modes_) {
         LOGI("  \t{}", to_string(present_mode))
     }
     
     // Choose the best properties based on surface capabilities
-    properties.image_count = choose_image_count(image_count, surface_capabilities.minImageCount,
-                                                surface_capabilities.maxImageCount);
-    properties.extent = choose_extent(extent, surface_capabilities.minImageExtent,
-                                      surface_capabilities.maxImageExtent, surface_capabilities.currentExtent);
-    properties.array_layers = choose_image_array_layers(1U, surface_capabilities.maxImageArrayLayers);
-    properties.surface_format = choose_surface_format(properties.surface_format, surface_formats,
-                                                      surface_format_priority_list);
+    properties_.image_count = choose_image_count(image_count, surface_capabilities.minImageCount,
+                                                 surface_capabilities.maxImageCount);
+    properties_.extent = choose_extent(extent, surface_capabilities.minImageExtent,
+                                       surface_capabilities.maxImageExtent, surface_capabilities.currentExtent);
+    properties_.array_layers = choose_image_array_layers(1U, surface_capabilities.maxImageArrayLayers);
+    properties_.surface_format = choose_surface_format(properties_.surface_format, surface_formats_,
+                                                       surface_format_priority_list_);
     VkFormatProperties format_properties;
-    vkGetPhysicalDeviceFormatProperties(this->device.get_gpu().get_handle(), properties.surface_format.format,
+    vkGetPhysicalDeviceFormatProperties(device_.get_gpu().get_handle(), properties_.surface_format.format,
                                         &format_properties);
-    this->image_usage_flags = choose_image_usage(image_usage_flags, surface_capabilities.supportedUsageFlags,
-                                                 format_properties.optimalTilingFeatures);
-    properties.image_usage = composite_image_flags(this->image_usage_flags);
-    properties.pre_transform = choose_transform(transform, surface_capabilities.supportedTransforms,
-                                                surface_capabilities.currentTransform);
-    properties.composite_alpha = choose_composite_alpha(VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR,
-                                                        surface_capabilities.supportedCompositeAlpha);
+    image_usage_flags_ = choose_image_usage(image_usage_flags, surface_capabilities.supportedUsageFlags,
+                                            format_properties.optimalTilingFeatures);
+    properties_.image_usage = composite_image_flags(image_usage_flags_);
+    properties_.pre_transform = choose_transform(transform, surface_capabilities.supportedTransforms,
+                                                 surface_capabilities.currentTransform);
+    properties_.composite_alpha = choose_composite_alpha(VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR,
+                                                         surface_capabilities.supportedCompositeAlpha);
     
     // Pass through defaults to the create function
-    properties.old_swapchain = old_swapchain.get_handle();
-    properties.present_mode = present_mode;
+    properties_.old_swapchain = old_swapchain.get_handle();
+    properties_.present_mode = present_mode;
 }
 
 Swapchain::~Swapchain() {
-    if (handle != VK_NULL_HANDLE) {
-        vkDestroySwapchainKHR(device.get_handle(), handle, nullptr);
+    if (handle_ != VK_NULL_HANDLE) {
+        vkDestroySwapchainKHR(device_.get_handle(), handle_, nullptr);
     }
 }
 
 Swapchain::Swapchain(Swapchain &&other) noexcept:
-device{other.device},
-surface{other.surface},
-handle{other.handle},
-image_usage_flags{std::move(other.image_usage_flags)},
-images{std::move(other.images)},
-properties{other.properties} {
-    other.handle = VK_NULL_HANDLE;
-    other.surface = VK_NULL_HANDLE;
+device_{other.device_},
+surface_{other.surface_},
+handle_{other.handle_},
+image_usage_flags_{std::move(other.image_usage_flags_)},
+images_{std::move(other.images_)},
+properties_{other.properties_} {
+    other.handle_ = VK_NULL_HANDLE;
+    other.surface_ = VK_NULL_HANDLE;
 }
 
 void Swapchain::create() {
     // Revalidate the present mode and surface format
-    properties.present_mode = choose_present_mode(properties.present_mode, present_modes,
-                                                  present_mode_priority_list);
-    properties.surface_format = choose_surface_format(properties.surface_format, surface_formats,
-                                                      surface_format_priority_list);
+    properties_.present_mode = choose_present_mode(properties_.present_mode, present_modes_,
+                                                   present_mode_priority_list_);
+    properties_.surface_format = choose_surface_format(properties_.surface_format, surface_formats_,
+                                                       surface_format_priority_list_);
     
     VkSwapchainCreateInfoKHR create_info{VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR};
-    create_info.minImageCount = properties.image_count;
-    create_info.imageExtent = properties.extent;
-    create_info.presentMode = properties.present_mode;
-    create_info.imageFormat = properties.surface_format.format;
-    create_info.imageColorSpace = properties.surface_format.colorSpace;
-    create_info.imageArrayLayers = properties.array_layers;
-    create_info.imageUsage = properties.image_usage;
-    create_info.preTransform = properties.pre_transform;
-    create_info.compositeAlpha = properties.composite_alpha;
-    create_info.oldSwapchain = properties.old_swapchain;
-    create_info.surface = surface;
+    create_info.minImageCount = properties_.image_count;
+    create_info.imageExtent = properties_.extent;
+    create_info.presentMode = properties_.present_mode;
+    create_info.imageFormat = properties_.surface_format.format;
+    create_info.imageColorSpace = properties_.surface_format.colorSpace;
+    create_info.imageArrayLayers = properties_.array_layers;
+    create_info.imageUsage = properties_.image_usage;
+    create_info.preTransform = properties_.pre_transform;
+    create_info.compositeAlpha = properties_.composite_alpha;
+    create_info.oldSwapchain = properties_.old_swapchain;
+    create_info.surface = surface_;
     
-    VkResult result = vkCreateSwapchainKHR(device.get_handle(), &create_info, nullptr, &handle);
+    VkResult result = vkCreateSwapchainKHR(device_.get_handle(), &create_info, nullptr, &handle_);
     
     if (result != VK_SUCCESS) {
         throw VulkanException{result, "Cannot create Swapchain"};
     }
     
     uint32_t image_available{0u};
-    VK_CHECK(vkGetSwapchainImagesKHR(device.get_handle(), handle, &image_available, nullptr));
+    VK_CHECK(vkGetSwapchainImagesKHR(device_.get_handle(), handle_, &image_available, nullptr));
     
-    images.resize(image_available);
+    images_.resize(image_available);
     
-    VK_CHECK(vkGetSwapchainImagesKHR(device.get_handle(), handle, &image_available, images.data()));
+    VK_CHECK(vkGetSwapchainImagesKHR(device_.get_handle(), handle_, &image_available, images_.data()));
 }        // namespace vox
 
 bool Swapchain::is_valid() const {
-    return handle != VK_NULL_HANDLE;
+    return handle_ != VK_NULL_HANDLE;
 }
 
 Device &Swapchain::get_device() {
-    return device;
+    return device_;
 }
 
 VkSwapchainKHR Swapchain::get_handle() const {
-    return handle;
+    return handle_;
 }
 
 SwapchainProperties &Swapchain::get_properties() {
-    return properties;
+    return properties_;
 }
 
 VkResult
 Swapchain::acquire_next_image(uint32_t &image_index, VkSemaphore image_acquired_semaphore, VkFence fence) const {
-    return vkAcquireNextImageKHR(device.get_handle(), handle, std::numeric_limits<uint64_t>::max(),
+    return vkAcquireNextImageKHR(device_.get_handle(), handle_, std::numeric_limits<uint64_t>::max(),
                                  image_acquired_semaphore, fence, &image_index);
 }
 
 const VkExtent2D &Swapchain::get_extent() const {
-    return properties.extent;
+    return properties_.extent;
 }
 
 VkFormat Swapchain::get_format() const {
-    return properties.surface_format.format;
+    return properties_.surface_format.format;
 }
 
 const std::vector<VkImage> &Swapchain::get_images() const {
-    return images;
+    return images_;
 }
 
 VkSurfaceTransformFlagBitsKHR Swapchain::get_transform() const {
-    return properties.pre_transform;
+    return properties_.pre_transform;
 }
 
 VkSurfaceKHR Swapchain::get_surface() const {
-    return surface;
+    return surface_;
 }
 
 VkImageUsageFlags Swapchain::get_usage() const {
-    return properties.image_usage;
+    return properties_.image_usage;
 }
 
 void Swapchain::set_present_mode_priority(const std::vector<VkPresentModeKHR> &new_present_mode_priority_list) {
     assert(!new_present_mode_priority_list.empty() && "Priority list must not be empty");
-    present_mode_priority_list = new_present_mode_priority_list;
+    present_mode_priority_list_ = new_present_mode_priority_list;
 }
 
 void
 Swapchain::set_surface_format_priority(const std::vector<VkSurfaceFormatKHR> &new_surface_format_priority_list) {
     assert(!new_surface_format_priority_list.empty() && "Priority list must not be empty");
-    surface_format_priority_list = new_surface_format_priority_list;
+    surface_format_priority_list_ = new_surface_format_priority_list;
 }
 
 VkPresentModeKHR Swapchain::get_present_mode() const {
-    return properties.present_mode;
+    return properties_.present_mode;
 }
-
 
 }        // namespace vox
