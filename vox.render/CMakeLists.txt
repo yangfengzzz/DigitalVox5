@@ -327,6 +327,8 @@ set(SCENE_FILES
         script.cpp
         )
 
+set(CONTROL_FILES controls)
+
 #set(GRAPHING_FILES
 #    # Header Files
 #    graphing/graph.h
@@ -402,6 +404,7 @@ set(PROJECT_FILES
         ${STATS_FILES}
         ${UI_FILES}
         ${SCENE_FILES}
+        ${CONTROL_FILES}
         #    ${GRAPHING_FILES}
         )
 

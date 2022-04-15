@@ -439,6 +439,12 @@
 		04D95C3E2809A23400E54DC2 /* script.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C382809A23400E54DC2 /* script.cpp */; };
 		04D95C3F2809A23400E54DC2 /* components_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C392809A23400E54DC2 /* components_manager.h */; };
 		04D95C402809A23400E54DC2 /* components_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C3A2809A23400E54DC2 /* components_manager.cpp */; };
+		04D95C482809B28400E54DC2 /* free_control.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C422809B28300E54DC2 /* free_control.h */; };
+		04D95C492809B28400E54DC2 /* free_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C432809B28300E54DC2 /* free_control.cpp */; };
+		04D95C4A2809B28400E54DC2 /* orbit_control.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C442809B28300E54DC2 /* orbit_control.h */; };
+		04D95C4B2809B28400E54DC2 /* orbit_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C452809B28400E54DC2 /* orbit_control.cpp */; };
+		04D95C4C2809B28400E54DC2 /* spherical.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C462809B28400E54DC2 /* spherical.cpp */; };
+		04D95C4D2809B28400E54DC2 /* spherical.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C472809B28400E54DC2 /* spherical.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -917,6 +923,12 @@
 		04D95C382809A23400E54DC2 /* script.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = script.cpp; sourceTree = "<group>"; };
 		04D95C392809A23400E54DC2 /* components_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = components_manager.h; sourceTree = "<group>"; };
 		04D95C3A2809A23400E54DC2 /* components_manager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = components_manager.cpp; sourceTree = "<group>"; };
+		04D95C422809B28300E54DC2 /* free_control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = free_control.h; sourceTree = "<group>"; };
+		04D95C432809B28300E54DC2 /* free_control.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = free_control.cpp; sourceTree = "<group>"; };
+		04D95C442809B28300E54DC2 /* orbit_control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orbit_control.h; sourceTree = "<group>"; };
+		04D95C452809B28400E54DC2 /* orbit_control.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = orbit_control.cpp; sourceTree = "<group>"; };
+		04D95C462809B28400E54DC2 /* spherical.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spherical.cpp; sourceTree = "<group>"; };
+		04D95C472809B28400E54DC2 /* spherical.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spherical.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1554,6 +1566,7 @@
 				04D95C372809A23400E54DC2 /* camera.cpp */,
 				04D95C362809A23400E54DC2 /* script.h */,
 				04D95C382809A23400E54DC2 /* script.cpp */,
+				04D95C412809B24700E54DC2 /* controls */,
 			);
 			path = vox.render;
 			sourceTree = "<group>";
@@ -1648,6 +1661,19 @@
 			path = vox.math;
 			sourceTree = "<group>";
 		};
+		04D95C412809B24700E54DC2 /* controls */ = {
+			isa = PBXGroup;
+			children = (
+				04D95C472809B28400E54DC2 /* spherical.h */,
+				04D95C462809B28400E54DC2 /* spherical.cpp */,
+				04D95C422809B28300E54DC2 /* free_control.h */,
+				04D95C432809B28300E54DC2 /* free_control.cpp */,
+				04D95C442809B28300E54DC2 /* orbit_control.h */,
+				04D95C452809B28400E54DC2 /* orbit_control.cpp */,
+			);
+			path = controls;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1698,6 +1724,7 @@
 				0444EB5628084BA600C6F279 /* slider_float.h in Headers */,
 				0444EAE028084B5E00C6F279 /* canvas.h in Headers */,
 				0444E8C0280557ED00C6F279 /* resource_caching.h in Headers */,
+				04D95C482809B28400E54DC2 /* free_control.h in Headers */,
 				04D95C1B2808EE0500E54DC2 /* scratch_buffer.h in Headers */,
 				0444E969280563E600C6F279 /* application.h in Headers */,
 				0444EB4328084B9E00C6F279 /* text_labelled.h in Headers */,
@@ -1747,6 +1774,7 @@
 				0444E93928055F8100C6F279 /* queue.h in Headers */,
 				0444E9D428056A1900C6F279 /* semaphore_pool.h in Headers */,
 				0444EA0C28056E2700C6F279 /* frame_time_stats_provider.h in Headers */,
+				04D95C4A2809B28400E54DC2 /* orbit_control.h in Headers */,
 				0444E9D928056A1900C6F279 /* resource_record.h in Headers */,
 				0444EB7528084BAF00C6F279 /* color_picker.h in Headers */,
 				0444E95A2805633000C6F279 /* window.h in Headers */,
@@ -1819,6 +1847,7 @@
 				0444E95E280563DB00C6F279 /* plugin.h in Headers */,
 				0444E95F280563DB00C6F279 /* unix_platform.h in Headers */,
 				0444EB5B28084BA600C6F279 /* slider_single_scalar.h in Headers */,
+				04D95C4D2809B28400E54DC2 /* spherical.h in Headers */,
 				04D95C3F2809A23400E54DC2 /* components_manager.h in Headers */,
 				0444EA7E28059CDC00C6F279 /* old_camera.h in Headers */,
 				0444EAF528084B6600C6F279 /* drag_drop_source.h in Headers */,
@@ -2071,6 +2100,7 @@
 				0444EAE728084B5E00C6F279 /* ui_manager.cpp in Sources */,
 				0444E93D28055F9E00C6F279 /* swapchain.cpp in Sources */,
 				0444E9592805633000C6F279 /* window.cpp in Sources */,
+				04D95C4B2809B28400E54DC2 /* orbit_control.cpp in Sources */,
 				0444E9542805633000C6F279 /* headless_window.cpp in Sources */,
 				0444EB7C28084BB600C6F279 /* plot_lines.cpp in Sources */,
 				0444E9AF2805689000C6F279 /* sampler.cpp in Sources */,
@@ -2084,7 +2114,9 @@
 				0444EA3E2805732C00C6F279 /* sampler.cpp in Sources */,
 				0444E96A280563E600C6F279 /* application.cpp in Sources */,
 				0444E95C280563DB00C6F279 /* unix_platform.cpp in Sources */,
+				04D95C492809B28400E54DC2 /* free_control.cpp in Sources */,
 				0444E9C4280569C500C6F279 /* subpass.cpp in Sources */,
+				04D95C4C2809B28400E54DC2 /* spherical.cpp in Sources */,
 				0444EB4128084B9E00C6F279 /* text_clickable.cpp in Sources */,
 				0444E93528055F4900C6F279 /* vulkan_resource.cpp in Sources */,
 				0444EAC428083EC100C6F279 /* update_flag_manager.cpp in Sources */,
