@@ -5,158 +5,321 @@
 //  property of any third parties.
 
 #include "camera.h"
+#include "entity.h"
+#include "scene.h"
 #include "matrix_utils.h"
+//#include "shader/shader.h"
 
 namespace vox {
-void Camera::update_view_matrix() {
-    auto rotation_matrix = Matrix4x4F();
-    Matrix4x4F transformation_matrix;
-    
-    rotation_matrix *= makeRotationMatrix(Vector3F(1.0f, 0.0f, 0.0f), degreesToRadians(rotation_.x));
-    rotation_matrix *= makeRotationMatrix(Vector3F(0.0f, 1.0f, 0.0f), degreesToRadians(rotation_.y));
-    rotation_matrix *= makeRotationMatrix(Vector3F(0.0f, 0.0f, 1.0f), degreesToRadians(rotation_.z));
-    
-    transformation_matrix = makeTranslationMatrix(position_);
-    
-    if (type_ == CameraType::FIRST_PERSON) {
-        matrices_.view_ = rotation_matrix * transformation_matrix;
+std::string Camera::name() {
+    return "Camera";
+}
+
+Camera::Camera(Entity *entity) :
+Component(entity) {
+//shaderData(entity->scene()->device()),
+//_cameraProperty(Shader::createProperty("u_cameraData", ShaderDataGroup::Camera)) {
+    auto transform = entity->transform_;
+    _transform = transform;
+    _isViewMatrixDirty = transform->register_world_change_flag();
+    _isInvViewProjDirty = transform->register_world_change_flag();
+    _frustumViewChangeFlag = transform->register_world_change_flag();
+}
+
+const BoundingFrustum &Camera::frustum() const {
+    return _frustum;
+}
+
+float Camera::nearClipPlane() const {
+    return _nearClipPlane;
+}
+
+void Camera::setNearClipPlane(float value) {
+    _nearClipPlane = value;
+    _projMatChange();
+}
+
+float Camera::farClipPlane() const {
+    return _farClipPlane;
+}
+
+void Camera::setFarClipPlane(float value) {
+    _farClipPlane = value;
+    _projMatChange();
+}
+
+float Camera::fieldOfView() const {
+    return _fieldOfView;
+}
+
+void Camera::setFieldOfView(float value) {
+    _fieldOfView = value;
+    _projMatChange();
+}
+
+float Camera::aspectRatio() const {
+    if (_customAspectRatio == std::nullopt) {
+        return (_width * _viewport.z) / (_height * _viewport.w);
     } else {
-        matrices_.view_ = transformation_matrix * rotation_matrix;
-    }
-    
-    updated_ = true;
-}
-
-bool Camera::moving() const {
-    return keys_.left_ || keys_.right_ || keys_.up_ || keys_.down_;
-}
-
-float Camera::get_near_clip() const {
-    return znear_;
-}
-
-float Camera::get_far_clip() const {
-    return zfar_;
-}
-
-void Camera::set_perspective(float fov, float aspect, float znear, float zfar) {
-    fov_ = fov;
-    znear_ = znear;
-    zfar_ = zfar;
-    matrices_.perspective_ = makepPerspective(degreesToRadians(fov), aspect, znear, zfar);
-}
-
-void Camera::update_aspect_ratio(float aspect) {
-    matrices_.perspective_ = makepPerspective(degreesToRadians(fov_), aspect, znear_, zfar_);
-}
-
-void Camera::set_position(const Point3F &position) {
-    position_ = position;
-    update_view_matrix();
-}
-
-void Camera::set_rotation(const Vector3F &rotation) {
-    rotation_ = rotation;
-    update_view_matrix();
-}
-
-void Camera::rotate(const Vector3F &delta) {
-    rotation_ += delta;
-    update_view_matrix();
-}
-
-void Camera::set_translation(const Vector3F &translation) {
-    position_ = Point3F(translation.x, translation.y, translation.z);
-    update_view_matrix();
-}
-
-void Camera::translate(const Vector3F &delta) {
-    position_ += delta;
-    update_view_matrix();
-}
-
-void Camera::update(float delta_time) {
-    updated_ = false;
-    if (type_ == CameraType::FIRST_PERSON) {
-        if (moving()) {
-            Vector3F front;
-            front.x = -cos(degreesToRadians(rotation_.x)) * sin(degreesToRadians(rotation_.y));
-            front.y = sin(degreesToRadians(rotation_.x));
-            front.z = cos(degreesToRadians(rotation_.x)) * cos(degreesToRadians(rotation_.y));
-            front.normalize();
-            
-            float move_speed = delta_time * translation_speed_;
-            
-            if (keys_.up_) {
-                position_ += front * move_speed;
-            }
-            if (keys_.down_) {
-                position_ -= front * move_speed;
-            }
-            if (keys_.left_) {
-                position_ -= front.cross(Vector3F(0.0f, 1.0f, 0.0f)).normalized() * move_speed;
-            }
-            if (keys_.right_) {
-                position_ += front.cross(Vector3F(0.0f, 1.0f, 0.0f)).normalized() * move_speed;
-            }
-            
-            update_view_matrix();
-        }
+        return _customAspectRatio.value();
     }
 }
 
-bool Camera::update_gamepad(const Vector2F &axis_left, const Vector2F &axis_right, float delta_time) {
-    bool changed = false;
-    
-    if (type_ == CameraType::FIRST_PERSON) {
-        // Use the common console thumbstick layout
-        // Left = view, right = move
-        
-        const float kDeadZone = 0.0015f;
-        const float kRange = 1.0f - kDeadZone;
-        
-        Vector3F front;
-        front.x = -cos(degreesToRadians(rotation_.x)) * sin(degreesToRadians(rotation_.y));
-        front.y = sin(degreesToRadians(rotation_.x));
-        front.z = cos(degreesToRadians(rotation_.x)) * cos(degreesToRadians(rotation_.y));
-        front.normalize();
-        
-        float move_speed = delta_time * translation_speed_ * 2.0f;
-        float new_rotation_speed = delta_time * rotation_speed_ * 50.0f;
-        
-        // Move
-        if (fabsf(axis_left.y) > kDeadZone) {
-            float pos = (fabsf(axis_left.y) - kDeadZone) / kRange;
-            position_ -= front * pos * ((axis_left.y < 0.0f) ? -1.0f : 1.0f) * move_speed;
-            changed = true;
-        }
-        if (fabsf(axis_left.x) > kDeadZone) {
-            float pos = (fabsf(axis_left.x) - kDeadZone) / kRange;
-            position_ += front.cross(Vector3F(0.0f, 1.0f, 0.0f)).normalized() * pos *
-            ((axis_left.x < 0.0f) ? -1.0f : 1.0f) * move_speed;
-            changed = true;
-        }
-        
-        // Rotate
-        if (fabsf(axis_right.x) > kDeadZone) {
-            float pos = (fabsf(axis_right.x) - kDeadZone) / kRange;
-            rotation_.y += pos * ((axis_right.x < 0.0f) ? -1.0f : 1.0f) * new_rotation_speed;
-            changed = true;
-        }
-        if (fabsf(axis_right.y) > kDeadZone) {
-            float pos = (fabsf(axis_right.y) - kDeadZone) / kRange;
-            rotation_.x -= pos * ((axis_right.y < 0.0f) ? -1.0f : 1.0f) * new_rotation_speed;
-            changed = true;
-        }
+void Camera::setAspectRatio(float value) {
+    _customAspectRatio = value;
+    _projMatChange();
+}
+
+Vector4F Camera::viewport() const {
+    return _viewport;
+}
+
+void Camera::setViewport(const Vector4F &value) {
+    _viewport = value;
+    _projMatChange();
+}
+
+bool Camera::isOrthographic() const {
+    return _isOrthographic;
+}
+
+void Camera::setIsOrthographic(bool value) {
+    _isOrthographic = value;
+    _projMatChange();
+}
+
+float Camera::orthographicSize() const {
+    return _orthographicSize;
+}
+
+void Camera::setOrthographicSize(float value) {
+    _orthographicSize = value;
+    _projMatChange();
+}
+
+Matrix4x4F Camera::viewMatrix() {
+    // Remove scale
+    if (_isViewMatrixDirty->flag_) {
+        _isViewMatrixDirty->flag_ = false;
+        _viewMatrix = _transform->world_matrix().inverse();
+    }
+    return _viewMatrix;
+}
+
+void Camera::setProjectionMatrix(const Matrix4x4F &value) {
+    _projectionMatrix = value;
+    _isProjMatSetting = true;
+    _projMatChange();
+}
+
+Matrix4x4F Camera::projectionMatrix() {
+    if ((!_isProjectionDirty || _isProjMatSetting) &&
+        _lastAspectSize.x == _width &&
+        _lastAspectSize.y == _height) {
+        return _projectionMatrix;
+    }
+    _isProjectionDirty = false;
+    _lastAspectSize.x = _width;
+    _lastAspectSize.y = _height;
+    if (!_isOrthographic) {
+        _projectionMatrix = makepPerspective(degreesToRadians(_fieldOfView),
+                                             aspectRatio(),
+                                             _nearClipPlane,
+                                             _farClipPlane);
     } else {
-        // todo: move code from example base class for look-at
+        const auto width = _orthographicSize * aspectRatio();
+        const auto height = _orthographicSize;
+        _projectionMatrix = makeOrtho(-width, width, -height, height, _nearClipPlane, _farClipPlane);
     }
-    
-    if (changed) {
-        update_view_matrix();
-    }
-    
-    return changed;
+    return _projectionMatrix;
 }
 
-}        // namespace vox
+bool Camera::enableHDR() {
+    return false;
+}
+
+void Camera::setEnableHDR(bool value) {
+    assert(false && "not implementation");
+}
+
+void Camera::resetProjectionMatrix() {
+    _isProjMatSetting = false;
+    _projMatChange();
+}
+
+void Camera::resetAspectRatio() {
+    _customAspectRatio = std::nullopt;
+    _projMatChange();
+}
+
+Vector4F Camera::worldToViewportPoint(const Point3F &point) {
+    auto tempMat4 = projectionMatrix() * viewMatrix();
+    auto tempVec4 = Vector4F(point.x, point.y, point.z, 1.0);
+    tempVec4 = tempMat4 * tempVec4;
+    
+    const auto w = tempVec4.w;
+    const auto nx = tempVec4.x / w;
+    const auto ny = tempVec4.y / w;
+    const auto nz = tempVec4.z / w;
+    
+    // Transform of coordinate axis.
+    return Vector4F((nx + 1.0) * 0.5, (1.0 - ny) * 0.5, nz, w);
+}
+
+Point3F Camera::viewportToWorldPoint(const Vector3F &point) {
+    return _innerViewportToWorldPoint(point, invViewProjMat());
+}
+
+Ray3F Camera::viewportPointToRay(const Vector2F &point) {
+    Ray3F out;
+    // Use the intersection of the near clipping plane as the origin point.
+    Vector3F clipPoint = Vector3F(point.x, point.y, 0);
+    out.origin = viewportToWorldPoint(clipPoint);
+    // Use the intersection of the far clipping plane as the origin point.
+    clipPoint.z = 1.0;
+    Point3F farPoint = _innerViewportToWorldPoint(clipPoint, _invViewProjMat);
+    out.direction = farPoint - out.origin;
+    out.direction = out.direction.normalized();
+    
+    return out;
+}
+
+Vector2F Camera::screenToViewportPoint(const Vector2F &point) {
+    const Vector4F viewport = this->viewport();
+    return Vector2F((point.x / _width - viewport.x) / viewport.z,
+                    (point.y / _height - viewport.y) / viewport.w);
+}
+
+Vector3F Camera::screenToViewportPoint(const Vector3F &point) {
+    const Vector4F viewport = this->viewport();
+    return Vector3F((point.x / _width - viewport.x) / viewport.z,
+                    (point.y / _height - viewport.y) / viewport.w, 0);
+}
+
+Vector2F Camera::viewportToScreenPoint(const Vector2F &point) {
+    const Vector4F viewport = this->viewport();
+    return Vector2F((viewport.x + point.x * viewport.z) * _width,
+                    (viewport.y + point.y * viewport.w) * _height);
+}
+
+Vector3F Camera::viewportToScreenPoint(const Vector3F &point) {
+    const Vector4F viewport = this->viewport();
+    return Vector3F((viewport.x + point.x * viewport.z) * _width,
+                    (viewport.y + point.y * viewport.w) * _height, 0);
+}
+
+Vector4F Camera::viewportToScreenPoint(const Vector4F &point) {
+    const Vector4F viewport = this->viewport();
+    return Vector4F((viewport.x + point.x * viewport.z) * _width,
+                    (viewport.y + point.y * viewport.w) * _height, 0, 0);
+}
+
+Vector4F Camera::worldToScreenPoint(const Point3F &point) {
+    auto out = worldToViewportPoint(point);
+    return viewportToScreenPoint(out);
+}
+
+Point3F Camera::screenToWorldPoint(const Vector3F &point) {
+    auto out = screenToViewportPoint(point);
+    return viewportToWorldPoint(out);
+}
+
+Ray3F Camera::screenPointToRay(const Vector2F &point) {
+    Vector2F viewportPoint = screenToViewportPoint(point);
+    return viewportPointToRay(viewportPoint);
+}
+
+void Camera::on_active() {
+    entity()->scene()->attachRenderCamera(this);
+}
+
+void Camera::on_in_active() {
+    entity()->scene()->detachRenderCamera(this);
+}
+
+void Camera::_projMatChange() {
+    _isFrustumProjectDirty = true;
+    _isProjectionDirty = true;
+    _isInvProjMatDirty = true;
+    _isInvViewProjDirty->flag_ = true;
+}
+
+Point3F Camera::_innerViewportToWorldPoint(const Vector3F &point, const Matrix4x4F &invViewProjMat) {
+    // Depth is a normalized value, 0 is nearPlane, 1 is farClipPlane.
+    const auto depth = point.z * 2 - 1;
+    // Transform to clipping space matrix
+    Point3F clipPoint = Point3F(point.x * 2 - 1, 1 - point.y * 2, depth);
+    clipPoint = invViewProjMat * clipPoint;
+    return clipPoint;
+}
+
+void Camera::update() {
+    _cameraData.u_viewMat = viewMatrix();
+    _cameraData.u_projMat = projectionMatrix();
+    _cameraData.u_VPMat = projectionMatrix() * viewMatrix();
+    _cameraData.u_viewInvMat = _transform->world_matrix();
+    _cameraData.u_projInvMat = inverseProjectionMatrix();
+    _cameraData.u_cameraPos = _transform->world_position();
+//    shaderData.setData(Camera::_cameraProperty, _cameraData);
+    
+    if (enableFrustumCulling && (_frustumViewChangeFlag->flag_ || _isFrustumProjectDirty)) {
+        _frustum.calculateFromMatrix(_cameraData.u_VPMat);
+        _frustumViewChangeFlag->flag_ = false;
+        _isFrustumProjectDirty = false;
+    }
+}
+
+Matrix4x4F Camera::invViewProjMat() {
+    if (_isInvViewProjDirty->flag_) {
+        _isInvViewProjDirty->flag_ = false;
+        _invViewProjMat = _transform->world_matrix() * inverseProjectionMatrix();
+    }
+    return _invViewProjMat;
+}
+
+Matrix4x4F Camera::inverseProjectionMatrix() {
+    if (_isInvProjMatDirty) {
+        _isInvProjMatDirty = false;
+        _inverseProjectionMatrix = projectionMatrix().inverse();
+    }
+    return _inverseProjectionMatrix;
+}
+
+void Camera::resize(uint32_t win_width, uint32_t win_height,
+                    uint32_t fb_width, uint32_t fb_height) {
+    _width = win_width;
+    _height = win_height;
+    _fbWidth = fb_width;
+    _fbHeight = fb_height;
+}
+
+uint32_t Camera::width() const {
+    return _width;
+}
+
+uint32_t Camera::height() const {
+    return _height;
+}
+
+uint32_t Camera::framebufferWidth() const {
+    return _fbWidth;
+}
+
+uint32_t Camera::framebufferHeight() const {
+    return _fbHeight;
+}
+
+//MARK: - Reflection
+void Camera::on_serialize(nlohmann::json &data) {
+    
+}
+
+void Camera::on_deserialize(const nlohmann::json &data) {
+    
+}
+
+void Camera::on_inspector(ui::WidgetContainer &p_root) {
+    
+}
+
+}

@@ -136,21 +136,21 @@ Entity *Scene::find_entity_by_name(const std::string &name) {
     return nullptr;
 }
 
-//void Scene::attachRenderCamera(Camera *camera) {
-//    auto iter = std::find(_activeCameras.begin(), _activeCameras.end(), camera);
-//    if (iter == _activeCameras.end()) {
-//        _activeCameras.push_back(camera);
-//    } else {
-//        LOG(INFO) << "Camera already attached." << std::endl;
-//    }
-//}
-//
-//void Scene::detachRenderCamera(Camera *camera) {
-//    auto iter = std::find(_activeCameras.begin(), _activeCameras.end(), camera);
-//    if (iter != _activeCameras.end()) {
-//        _activeCameras.erase(iter);
-//    }
-//}
+void Scene::attachRenderCamera(Camera *camera) {
+    auto iter = std::find(active_cameras_.begin(), active_cameras_.end(), camera);
+    if (iter == active_cameras_.end()) {
+        active_cameras_.push_back(camera);
+    } else {
+        LOGI("Camera already attached.");
+    }
+}
+
+void Scene::detachRenderCamera(Camera *camera) {
+    auto iter = std::find(active_cameras_.begin(), active_cameras_.end(), camera);
+    if (iter != active_cameras_.end()) {
+        active_cameras_.erase(iter);
+    }
+}
 
 void Scene::process_active(bool active) {
     is_active_in_engine_ = active;
@@ -171,12 +171,12 @@ void Scene::remove_entity(Entity *entity) {
 }
 
 //MARK: - Update Loop
-//void Scene::update_shader_data() {
-//    // union scene and camera macro.
-//    for (auto &camera: _activeCameras) {
-//        camera->update();
-//    }
-//}
+void Scene::update_shader_data() {
+    // union scene and camera macro.
+    for (auto &camera: active_cameras_) {
+        camera->update();
+    }
+}
 
 //MARK: - Reflection
 void Scene::on_serialize(nlohmann::json &data) {

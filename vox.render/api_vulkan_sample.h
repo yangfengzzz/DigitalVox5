@@ -19,7 +19,7 @@
 #include <random>
 #include <sys/stat.h>
 
-#include "camera.h"
+#include "old_camera.h"
 #include "vector4.h"
 #include "sub_mesh.h"
 #include "error.h"

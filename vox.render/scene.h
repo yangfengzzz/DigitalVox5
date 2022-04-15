@@ -105,9 +105,9 @@ public:
      */
     Entity *find_entity_by_name(const std::string &name);
     
-    //    void attachRenderCamera(Camera *camera);
-    //
-    //    void detachRenderCamera(Camera *camera);
+    void attachRenderCamera(Camera *camera);
+    
+    void detachRenderCamera(Camera *camera);
     
 public:
     void update_shader_data();
