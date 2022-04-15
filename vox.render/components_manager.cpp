@@ -14,104 +14,99 @@
 #include "logging.h"
 
 namespace vox {
-ComponentsManager *ComponentsManager::getSingletonPtr(void) {
+ComponentsManager *ComponentsManager::get_singleton_ptr() {
     return ms_singleton_;
 }
 
-ComponentsManager &ComponentsManager::getSingleton(void) {
+ComponentsManager &ComponentsManager::get_singleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }
 
-void ComponentsManager::addOnStartScript(Script *script) {
-    auto iter = std::find(_onStartScripts.begin(), _onStartScripts.end(), script);
-    if (iter == _onStartScripts.end()) {
-        _onStartScripts.push_back(script);
+void ComponentsManager::add_on_start_script(Script *script) {
+    auto iter = std::find(on_start_scripts_.begin(), on_start_scripts_.end(), script);
+    if (iter == on_start_scripts_.end()) {
+        on_start_scripts_.push_back(script);
     } else {
         LOGE("Script already attached.")
     }
 }
 
-void ComponentsManager::removeOnStartScript(Script *script) {
-    auto iter = std::find(_onStartScripts.begin(), _onStartScripts.end(), script);
-    if (iter != _onStartScripts.end()) {
-        _onStartScripts.erase(iter);
+void ComponentsManager::remove_on_start_script(Script *script) {
+    auto iter = std::find(on_start_scripts_.begin(), on_start_scripts_.end(), script);
+    if (iter != on_start_scripts_.end()) {
+        on_start_scripts_.erase(iter);
     }
 }
 
-void ComponentsManager::addOnUpdateScript(Script *script) {
-    auto iter = std::find(_onUpdateScripts.begin(), _onUpdateScripts.end(), script);
-    if (iter == _onUpdateScripts.end()) {
-        _onUpdateScripts.push_back(script);
+void ComponentsManager::add_on_update_script(Script *script) {
+    auto iter = std::find(on_update_scripts_.begin(), on_update_scripts_.end(), script);
+    if (iter == on_update_scripts_.end()) {
+        on_update_scripts_.push_back(script);
     } else {
         LOGE("Script already attached.")
     }
 }
 
-void ComponentsManager::removeOnUpdateScript(Script *script) {
-    auto iter = std::find(_onUpdateScripts.begin(), _onUpdateScripts.end(), script);
-    if (iter != _onUpdateScripts.end()) {
-        _onUpdateScripts.erase(iter);
+void ComponentsManager::remove_on_update_script(Script *script) {
+    auto iter = std::find(on_update_scripts_.begin(), on_update_scripts_.end(), script);
+    if (iter != on_update_scripts_.end()) {
+        on_update_scripts_.erase(iter);
     }
 }
 
-void ComponentsManager::addDestroyComponent(Script *component) {
-    _destroyComponents.push_back(component);
+void ComponentsManager::add_destroy_component(Script *component) {
+    destroy_components_.push_back(component);
 }
 
-void ComponentsManager::callComponentDestroy() {
-    if (_destroyComponents.size() > 0) {
-        for (size_t i = 0; i < _destroyComponents.size(); i++) {
-            _destroyComponents[i]->onDestroy();
+void ComponentsManager::call_component_destroy() {
+    if (!destroy_components_.empty()) {
+        for (auto &destroy_component : destroy_components_) {
+            destroy_component->on_destroy();
         }
-        _destroyComponents.clear();
+        destroy_components_.clear();
     }
 }
 
-void ComponentsManager::callScriptOnStart() {
-    if (_onStartScripts.size() > 0) {
-        // The 'onStartScripts.length' maybe add if you add some Script with addComponent() in some Script's onStart()
-        for (size_t i = 0; i < _onStartScripts.size(); i++) {
-            const auto &script = _onStartScripts[i];
-            script->setIsStarted(true);
-            script->onStart();
+void ComponentsManager::call_script_on_start() {
+    if (!on_start_scripts_.empty()) {
+        // The 'onStartScripts.length' maybe add if you add some Script with addComponent() in some Script's on_start()
+        for (auto &script : on_start_scripts_) {
+            script->set_is_started(true);
+            script->on_start();
         }
-        _onStartScripts.clear();
+        on_start_scripts_.clear();
     }
 }
 
-void ComponentsManager::callScriptOnUpdate(float deltaTime) {
-    for (size_t i = 0; i < _onUpdateScripts.size(); i++) {
-        const auto &element = _onUpdateScripts[i];
-        if (element->isStarted()) {
-            element->onUpdate(deltaTime);
+void ComponentsManager::call_script_on_update(float delta_time) {
+    for (auto &element : on_update_scripts_) {
+        if (element->is_started()) {
+            element->on_update(delta_time);
         }
     }
 }
 
-void ComponentsManager::callScriptOnLateUpdate(float deltaTime) {
-    for (size_t i = 0; i < _onUpdateScripts.size(); i++) {
-        const auto &element = _onUpdateScripts[i];
-        if (element->isStarted()) {
-            element->onLateUpdate(deltaTime);
+void ComponentsManager::call_script_on_late_update(float delta_time) {
+    for (auto &element : on_update_scripts_) {
+        if (element->is_started()) {
+            element->on_late_update(delta_time);
         }
     }
 }
 
-void ComponentsManager::callScriptInputEvent(const InputEvent &inputEvent) {
-    for (size_t i = 0; i < _onUpdateScripts.size(); i++) {
-        const auto &element = _onUpdateScripts[i];
-        if (element->isStarted()) {
-            element->inputEvent(inputEvent);
+void ComponentsManager::call_script_input_event(const InputEvent &input_event) {
+    for (auto &element : on_update_scripts_) {
+        if (element->is_started()) {
+            element->input_event(input_event);
         }
     }
 }
 
-void ComponentsManager::callScriptResize(uint32_t win_width, uint32_t win_height,
-                                         uint32_t fb_width, uint32_t fb_height) {
-    for (size_t i = 0; i < _onUpdateScripts.size(); i++) {
-        const auto &element = _onUpdateScripts[i];
-        if (element->isStarted()) {
+void ComponentsManager::call_script_resize(uint32_t win_width, uint32_t win_height,
+                                           uint32_t fb_width, uint32_t fb_height) {
+    for (auto &element : on_update_scripts_) {
+        if (element->is_started()) {
             element->resize(win_width, win_height, fb_width, fb_height);
         }
     }
@@ -163,7 +158,7 @@ void ComponentsManager::callScriptResize(uint32_t win_width, uint32_t win_height
 //        const auto &transform = camera->entity()->transform;
 //        const auto position = transform->worldPosition();
 //        auto center = element->bounds().midPoint();
-//        if (camera->isOrthographic()) {
+//        if (camera->is_orthographic()) {
 //            const auto forward = transform->worldForward();
 //            const auto offset = center - position;
 //            element->setDistanceForSort(offset.dot(forward));
@@ -189,27 +184,27 @@ void ComponentsManager::callScriptResize(uint32_t win_width, uint32_t win_height
 //}
 
 //MARK: - Camera
-void ComponentsManager::callCameraOnBeginRender(Camera *camera) {
-    const auto &camComps = camera->entity()->scripts();
-    for (size_t i = 0; i < camComps.size(); i++) {
-        camComps[i]->onBeginRender(camera);
+void ComponentsManager::call_camera_on_begin_render(Camera *camera) {
+    const auto &cam_comps = camera->entity()->scripts();
+    for (auto cam_comp : cam_comps) {
+        cam_comp->on_begin_render(camera);
     }
 }
 
-void ComponentsManager::callCameraOnEndRender(Camera *camera) {
-    const auto &camComps = camera->entity()->scripts();
-    for (size_t i = 0; i < camComps.size(); i++) {
-        camComps[i]->onEndRender(camera);
+void ComponentsManager::call_camera_on_end_render(Camera *camera) {
+    const auto &cam_comps = camera->entity()->scripts();
+    for (auto cam_comp : cam_comps) {
+        cam_comp->on_end_render(camera);
     }
 }
 
-std::vector<Component *> ComponentsManager::getActiveChangedTempList() {
-    return _componentsContainerPool.size() ? *(_componentsContainerPool.end() - 1) : std::vector<Component *>{};
+std::vector<Component *> ComponentsManager::get_active_changed_temp_list() {
+    return !components_container_pool_.empty() ? *(components_container_pool_.end() - 1) : std::vector<Component *>{};
 }
 
-void ComponentsManager::putActiveChangedTempList(std::vector<Component *> &componentContainer) {
-    componentContainer.clear();
-    _componentsContainerPool.push_back(componentContainer);
+void ComponentsManager::put_active_changed_temp_list(std::vector<Component *> &component_container) {
+    component_container.clear();
+    components_container_pool_.push_back(component_container);
 }
 
 //MARK: - Animation

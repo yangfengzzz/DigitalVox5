@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef script_hpp
-#define script_hpp
+#ifndef DIGITALVOX_VOX_RENDER_SCRIPT_H_
+#define DIGITALVOX_VOX_RENDER_SCRIPT_H_
 
 #include "component.h"
-#include "input_events.h"
+#include "platform/input_events.h"
 
 namespace vox {
 namespace physics {
@@ -52,71 +52,71 @@ public:
     /**
      * Called at the end of the destroyed frame.
      */
-    virtual void onDestroy() {
+    virtual void on_destroy() {
     }
     
 public:
-    void setIsStarted(bool value);
+    void set_is_started(bool value);
     
-    bool isStarted();
+    [[nodiscard]] bool is_started() const;
     
     /**
      * Called before the frame-level loop start for the first time, only once.
      */
-    virtual void onStart() {
+    virtual void on_start() {
     }
     
     /**
      * The main loop, called frame by frame.
-     * @param deltaTime - The deltaTime when the script update.
+     * @param delta_time - The deltaTime when the script update.
      */
-    virtual void onUpdate(float deltaTime) {
+    virtual void on_update(float delta_time) {
     }
     
     /**
-     * Called after the onUpdate finished, called frame by frame.
-     * @param deltaTime - The deltaTime when the script update.
+     * Called after the on_update finished, called frame by frame.
+     * @param delta_time - The deltaTime when the script update.
      */
-    virtual void onLateUpdate(float deltaTime) {
+    virtual void on_late_update(float delta_time) {
     }
     
     /**
      * Called before camera rendering, called per camera.
      * @param camera - Current camera.
      */
-    virtual void onBeginRender(Camera *camera) {
+    virtual void on_begin_render(Camera *camera) {
     }
     
     /**
      * Called after camera rendering, called per camera.
      * @param camera - Current camera.
      */
-    virtual void onEndRender(Camera *camera) {
+    virtual void on_end_render(Camera *camera) {
     }
     
     /**
      * Called when the collision enter.
      * @param other ColliderShape
      */
-    virtual void onTriggerEnter(physics::ColliderShapePtr other) {
+    virtual void on_trigger_enter(const physics::ColliderShapePtr &other) {
     }
     
     /**
      * Called when the collision stay.
-     * @remarks onTriggerStay is called every frame while the collision stay.
+     * @remarks on_trigger_stay is called every frame while the collision stay.
      * @param other ColliderShape
      */
-    virtual void onTriggerExit(physics::ColliderShapePtr other) {
+    virtual void on_trigger_exit(const physics::ColliderShapePtr &other) {
     }
     
     /**
      * Called when the collision exit.
      * @param other ColliderShape
      */
-    virtual void onTriggerStay(physics::ColliderShapePtr other) {
+    virtual void on_trigger_stay(const physics::ColliderShapePtr &other) {
     }
     
-    virtual void inputEvent(const InputEvent &inputEvent) {
+    virtual void input_event(const InputEvent &input_event) {
     }
     
     virtual void resize(uint32_t win_width, uint32_t win_height,
@@ -146,9 +146,9 @@ protected:
     
     void on_disable() override;
     
-    bool _started = false;
+    bool started_ = false;
 };
 
 }
 
-#endif /* script_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_SCRIPT_H_ */

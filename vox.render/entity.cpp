@@ -253,13 +253,13 @@ std::unique_ptr<Entity> Entity::remove_from_parent() {
 }
 
 //void Entity::process_active() {
-//    _activeChangedComponents = ComponentsManager::getSingleton().getActiveChangedTempList();
+//    _activeChangedComponents = ComponentsManager::get_singleton().get_active_changed_temp_list();
 //    set_active_in_hierarchy(_activeChangedComponents);
 //    set_active_components(true);
 //}
 //
 //void Entity::process_in_active() {
-//    _activeChangedComponents = ComponentsManager::getSingleton().getActiveChangedTempList();
+//    _activeChangedComponents = ComponentsManager::get_singleton().get_active_changed_temp_list();
 //    set_in_active_in_hierarchy(_activeChangedComponents);
 //    set_active_components(false);
 //}
@@ -269,7 +269,7 @@ std::unique_ptr<Entity> Entity::remove_from_parent() {
 //    for (size_t i = 0, length = activeChangedComponents.size(); i < length; ++i) {
 //        activeChangedComponents[i]->set_active(is_active);
 //    }
-//    ComponentsManager::getSingleton().putActiveChangedTempList(activeChangedComponents);
+//    ComponentsManager::get_singleton().put_active_changed_temp_list(activeChangedComponents);
 //    _activeChangedComponents.clear();
 //}
 

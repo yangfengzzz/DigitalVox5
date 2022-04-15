@@ -317,8 +317,14 @@ set(SCENE_FILES
         entity.cpp
         component.h
         component.cpp
+        components_manager.h
+        components_manager.cpp
         transform.h
         transform.cpp
+        camera.h
+        camera.cpp
+        script.h
+        script.cpp
         )
 
 #set(GRAPHING_FILES

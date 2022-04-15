@@ -20,15 +20,15 @@ Component(entity) {
 }
 
 Script::~Script() {
-    ComponentsManager::getSingleton().addDestroyComponent(this);
+    ComponentsManager::get_singleton().add_destroy_component(this);
 }
 
-void Script::setIsStarted(bool value) {
-    _started = value;
+void Script::set_is_started(bool value) {
+    started_ = value;
 }
 
-bool Script::isStarted() {
-    return _started;
+bool Script::is_started() const {
+    return started_;
 }
 
 void Script::on_awake() {
@@ -36,19 +36,19 @@ void Script::on_awake() {
 }
 
 void Script::on_enable() {
-    auto componentsManager = ComponentsManager::getSingletonPtr();
-    if (!_started) {
-        componentsManager->addOnStartScript(this);
+    auto components_manager = ComponentsManager::get_singleton_ptr();
+    if (!started_) {
+        components_manager->add_on_start_script(this);
     }
-    componentsManager->addOnUpdateScript(this);
+    components_manager->add_on_update_script(this);
     entity_->add_script(this);
     onEnable();
 }
 
 void Script::on_disable() {
-    auto componentsManager = ComponentsManager::getSingletonPtr();
-    componentsManager->removeOnStartScript(this);
-    componentsManager->removeOnUpdateScript(this);
+    auto components_manager = ComponentsManager::get_singleton_ptr();
+    components_manager->remove_on_start_script(this);
+    components_manager->remove_on_update_script(this);
     entity_->remove_script(this);
     onDisable();
 }
