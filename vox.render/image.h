@@ -39,7 +39,7 @@ struct Mipmap {
 
 class Image {
 public:
-    std::string name;
+    std::string name_;
     
     explicit Image(std::string name, std::vector<uint8_t> &&data = {}, std::vector<Mipmap> &&mipmaps = {{}});
     
@@ -92,20 +92,20 @@ protected:
     std::vector<Mipmap> &get_mut_mipmaps();
     
 private:
-    std::vector<uint8_t> data;
+    std::vector<uint8_t> data_;
     
-    VkFormat format{VK_FORMAT_UNDEFINED};
+    VkFormat format_{VK_FORMAT_UNDEFINED};
     
-    uint32_t layers{1};
+    uint32_t layers_{1};
     
-    std::vector<Mipmap> mipmaps{{}};
+    std::vector<Mipmap> mipmaps_{{}};
     
     // Offsets stored like offsets[array_layer][mipmap_layer]
-    std::vector<std::vector<VkDeviceSize>> offsets;
+    std::vector<std::vector<VkDeviceSize>> offsets_;
     
-    std::unique_ptr<core::Image> vk_image;
+    std::unique_ptr<core::Image> vk_image_;
     
-    std::unique_ptr<core::ImageView> vk_image_view;
+    std::unique_ptr<core::ImageView> vk_image_view_;
 };
 
 }        // namespace vox

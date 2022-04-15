@@ -1,19 +1,9 @@
-/* Copyright (c) 2018-2022, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
+
 
 #pragma once
 
@@ -37,16 +27,16 @@ public:
     };
     
     enum class Mode {
-        Headless,
-        Fullscreen,
-        FullscreenBorderless,
-        Default
+        HEADLESS,
+        FULLSCREEN,
+        FULLSCREEN_BORDERLESS,
+        DEFAULT
     };
     
     enum class Vsync {
         OFF,
         ON,
-        Default
+        DEFAULT
     };
     
     struct OptionalProperties {
@@ -59,9 +49,9 @@ public:
     
     struct Properties {
         std::string title;
-        Mode mode = Mode::Default;
+        Mode mode = Mode::DEFAULT;
         bool resizable = true;
-        Vsync vsync = Vsync::Default;
+        Vsync vsync = Vsync::DEFAULT;
         Extent extent = {1280, 720};
     };
     
@@ -126,7 +116,7 @@ public:
     [[nodiscard]] Mode get_window_mode() const;
     
 protected:
-    Properties properties;
+    Properties properties_;
 };
 
 }        // namespace vox

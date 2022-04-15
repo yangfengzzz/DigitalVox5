@@ -1,19 +1,8 @@
-/* Copyright (c) 2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -30,11 +19,11 @@ struct CLI11CommandContextState {
     std::string group_name;
 };
 
-class CLI11CommandContext : public CommandParserContext {
+class Cli11CommandContext : public CommandParserContext {
 public:
-    explicit CLI11CommandContext(CLI::App *cli, CLI11CommandContextState state = {});
+    explicit Cli11CommandContext(CLI::App *cli, CLI11CommandContextState state = {});
     
-    ~CLI11CommandContext() override = default;
+    ~Cli11CommandContext() override = default;
     
     [[nodiscard]] bool has_group_name() const;
     
@@ -42,18 +31,18 @@ public:
     
     [[nodiscard]] CLI11CommandContextState get_state() const;
     
-    CLI::App *cli11;
+    CLI::App *cli_11_;
     
 private:
-    CLI11CommandContextState _state;
+    CLI11CommandContextState state_;
 };
 
-class CLI11CommandParser : public CommandParser {
+class Cli11CommandParser : public CommandParser {
 public:
-    CLI11CommandParser(const std::string &name, const std::string &description,
-                       const std::vector<std::string> &args);
+    Cli11CommandParser(const std::string &name, const std::string &description,
+					   const std::vector<std::string> &args);
     
-    ~CLI11CommandParser() override = default;
+    ~Cli11CommandParser() override = default;
     
     [[nodiscard]] std::vector<std::string> help() const override;
     
@@ -73,28 +62,28 @@ protected:
     CAST(FlagCommand);
 #undef CAST
     
-    void parse(CLI11CommandContext *context, CommandGroup *command);
+    void parse(Cli11CommandContext *context, CommandGroup *command);
     
-    void parse(CLI11CommandContext *context, SubCommand *command);
+    void parse(Cli11CommandContext *context, SubCommand *command);
     
-    void parse(CLI11CommandContext *context, PositionalCommand *command);
+    void parse(Cli11CommandContext *context, PositionalCommand *command);
     
-    void parse(CLI11CommandContext *context, FlagCommand *command);
+    void parse(Cli11CommandContext *context, FlagCommand *command);
     
     bool contains(Command *command) const override;
     
 private:
-    std::vector<const char *> _args;
+    std::vector<const char *> args_;
     
-    std::unique_ptr<CLI::App> _cli11;
-    std::unordered_map<Command *, CLI::Option *> _options;
-    std::unordered_map<Command *, CLI::App *> _sub_commands;
-    std::unordered_map<Plugin *, std::shared_ptr<CLI::App>> _option_groups;
-    std::shared_ptr<HelpFormatter> _formatter;
+    std::unique_ptr<CLI::App> cli_11_;
+    std::unordered_map<Command *, CLI::Option *> options_;
+    std::unordered_map<Command *, CLI::App *> sub_commands_;
+    std::unordered_map<Plugin *, std::shared_ptr<CLI::App>> option_groups_;
+    std::shared_ptr<HelpFormatter> formatter_;
     
     std::vector<std::string> get_command_value(Command *command) const override;
     
-    bool cli11_parse(CLI::App *app);
+    bool cli_11_parse(CLI::App *app);
 };
 
 

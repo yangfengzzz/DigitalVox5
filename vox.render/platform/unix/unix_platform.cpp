@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "unix_platform.h"
 
@@ -70,13 +59,13 @@ void create_directory(const std::string &path) {
 }        // namespace fs
 
 UnixPlatform::UnixPlatform(const UnixType &type, int argc, char **argv) :
-type{type} {
+type_{type} {
     Platform::set_arguments({argv + 1, argv + argc});
     Platform::set_temp_directory(get_temp_path_from_environment());
 }
 
 const char *UnixPlatform::get_surface_extension() {
-    if (type == UnixType::Mac) {
+    if (type_ == UnixType::MAC) {
         return VK_EXT_METAL_SURFACE_EXTENSION_NAME;
     }
     
@@ -93,10 +82,10 @@ const char *UnixPlatform::get_surface_extension() {
 }
 
 void UnixPlatform::create_window(const Window::Properties &properties) {
-    if (properties.mode == vox::Window::Mode::Headless) {
-        window = std::make_unique<HeadlessWindow>(properties);
+    if (properties.mode == vox::Window::Mode::HEADLESS) {
+        window_ = std::make_unique<HeadlessWindow>(properties);
     } else {
-        window = std::make_unique<GlfwWindow>(this, properties);
+        window_ = std::make_unique<GlfwWindow>(this, properties);
     }
 }
 

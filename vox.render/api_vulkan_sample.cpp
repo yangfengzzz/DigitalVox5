@@ -48,7 +48,7 @@ bool ApiVulkanSample::prepare(vox::Platform &platform) {
     submit_info = vox::initializers::submit_info();
     submit_info.pWaitDstStageMask = &submit_pipeline_stages;
     
-    if (platform.get_window().get_window_mode() != vox::Window::Mode::Headless) {
+    if (platform.get_window().get_window_mode() != vox::Window::Mode::HEADLESS) {
         submit_info.waitSemaphoreCount = 1;
         submit_info.pWaitSemaphores = &semaphores.acquired_image_ready;
         submit_info.signalSemaphoreCount = 1;
@@ -91,7 +91,7 @@ void ApiVulkanSample::update(float delta_time) {
         view_updated = true;
     }
     
-    platform->on_post_draw(get_render_context());
+    platform_->on_post_draw(get_render_context());
 }
 
 bool ApiVulkanSample::resize(const uint32_t _width, const uint32_t _height) {
@@ -180,59 +180,59 @@ void ApiVulkanSample::input_event(const vox::InputEvent &input_event) {
     }
     
     if (!gui_captures_event) {
-        if (input_event.get_source() == vox::EventSource::Mouse) {
+        if (input_event.get_source() == vox::EventSource::MOUSE) {
             const auto &mouse_button = static_cast<const vox::MouseButtonInputEvent &>(input_event);
             
             handle_mouse_move(static_cast<int32_t>(mouse_button.get_pos_x()),
                               static_cast<int32_t>(mouse_button.get_pos_y()));
             
-            if (mouse_button.get_action() == vox::MouseAction::Down) {
+            if (mouse_button.get_action() == vox::MouseAction::DOWN) {
                 switch (mouse_button.get_button()) {
-                    case vox::MouseButton::Left:
+                    case vox::MouseButton::LEFT:
                         mouse_buttons.left = true;
                         break;
-                    case vox::MouseButton::Right:
+                    case vox::MouseButton::RIGHT:
                         mouse_buttons.right = true;
                         break;
-                    case vox::MouseButton::Middle:
+                    case vox::MouseButton::MIDDLE:
                         mouse_buttons.middle = true;
                         break;
                     default:
                         break;
                 }
-            } else if (mouse_button.get_action() == vox::MouseAction::Up) {
+            } else if (mouse_button.get_action() == vox::MouseAction::UP) {
                 switch (mouse_button.get_button()) {
-                    case vox::MouseButton::Left:
+                    case vox::MouseButton::LEFT:
                         mouse_buttons.left = false;
                         break;
-                    case vox::MouseButton::Right:
+                    case vox::MouseButton::RIGHT:
                         mouse_buttons.right = false;
                         break;
-                    case vox::MouseButton::Middle:
+                    case vox::MouseButton::MIDDLE:
                         mouse_buttons.middle = false;
                         break;
                     default:
                         break;
                 }
             }
-        } else if (input_event.get_source() == vox::EventSource::Touchscreen) {
+        } else if (input_event.get_source() == vox::EventSource::TOUCHSCREEN) {
             const auto &touch_event = static_cast<const vox::TouchInputEvent &>(input_event);
             
-            if (touch_event.get_action() == vox::TouchAction::Down) {
+            if (touch_event.get_action() == vox::TouchAction::DOWN) {
                 touch_down = true;
                 touch_pos.x = static_cast<int32_t>(touch_event.get_pos_x());
                 touch_pos.y = static_cast<int32_t>(touch_event.get_pos_y());
                 mouse_pos.x = touch_event.get_pos_x();
                 mouse_pos.y = touch_event.get_pos_y();
                 mouse_buttons.left = true;
-            } else if (touch_event.get_action() == vox::TouchAction::Up) {
+            } else if (touch_event.get_action() == vox::TouchAction::UP) {
                 touch_pos.x = static_cast<int32_t>(touch_event.get_pos_x());
                 touch_pos.y = static_cast<int32_t>(touch_event.get_pos_y());
                 touch_timer = 0.0;
                 touch_down = false;
                 camera.keys.up = false;
                 mouse_buttons.left = false;
-            } else if (touch_event.get_action() == vox::TouchAction::Move) {
+            } else if (touch_event.get_action() == vox::TouchAction::MOVE) {
                 bool handled = false;
                 if (gui) {
                     ImGuiIO &io = ImGui::GetIO();
@@ -257,10 +257,10 @@ void ApiVulkanSample::input_event(const vox::InputEvent &input_event) {
                     touch_pos.y = eventY;
                 }
             }
-        } else if (input_event.get_source() == vox::EventSource::Keyboard) {
+        } else if (input_event.get_source() == vox::EventSource::KEYBOARD) {
             const auto &key_button = static_cast<const vox::KeyInputEvent &>(input_event);
             
-            if (key_button.get_action() == vox::KeyAction::Down) {
+            if (key_button.get_action() == vox::KeyAction::DOWN) {
                 switch (key_button.get_code()) {
                     case vox::KeyCode::W:
                         camera.keys.up = true;
@@ -280,7 +280,7 @@ void ApiVulkanSample::input_event(const vox::InputEvent &input_event) {
                     default:
                         break;
                 }
-            } else if (key_button.get_action() == vox::KeyAction::Up) {
+            } else if (key_button.get_action() == vox::KeyAction::UP) {
                 switch (key_button.get_code()) {
                     case vox::KeyCode::W:
                         camera.keys.up = false;

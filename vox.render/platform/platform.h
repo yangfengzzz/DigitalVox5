@@ -1,19 +1,9 @@
-/* Copyright (c) 2019-2022, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
+
 
 #pragma once
 
@@ -37,10 +27,10 @@
 
 namespace vox {
 enum class ExitCode {
-    Success = 0, /* App executed as expected */
-    Help,        /* App should show help */
-    Close,       /* App has been requested to close at initialization */
-    FatalError   /* App encountered an unexpected error */
+    SUCCESS = 0, /* App executed as expected */
+    HELP,        /* App should show help */
+    CLOSE,       /* App has been requested to close at initialization */
+    FATAL_ERROR   /* App encountered an unexpected error */
 };
 
 class Platform {
@@ -127,8 +117,8 @@ public:
     
     static void set_temp_directory(const std::string &dir);
     
-    static const uint32_t MIN_WINDOW_WIDTH;
-    static const uint32_t MIN_WINDOW_HEIGHT;
+    static const uint32_t min_window_width_;
+    static const uint32_t min_window_height_;
     
 public:
     /**
@@ -145,15 +135,15 @@ public:
     void on_post_draw(RenderContext &context);
     
 protected:
-    std::unique_ptr<CommandParser> parser;
+    std::unique_ptr<CommandParser> parser_;
     
-    std::vector<Plugin *> active_plugins;
+    std::vector<Plugin *> active_plugins_;
     
-    std::unordered_map<Hook, std::vector<Plugin *>> hooks;
+    std::unordered_map<Hook, std::vector<Plugin *>> hooks_;
     
-    std::unique_ptr<Window> window{nullptr};
+    std::unique_ptr<Window> window_{nullptr};
     
-    std::unique_ptr<Application> active_app{nullptr};
+    std::unique_ptr<Application> active_app_{nullptr};
     
     virtual std::vector<spdlog::sink_ptr> get_platform_sinks();
     
@@ -174,36 +164,36 @@ protected:
     
     void on_platform_close();
     
-    Window::Properties window_properties;              /* Source of truth for window state */
-    bool fixed_simulation_fps{false};    /* Delta time should be fixed with a fabricated value */
-    float simulation_frame_time = 0.016f; /* A fabricated delta time */
-    bool process_input_events{true};     /* App should continue processing input events */
-    bool focused{true};                  /* App is currently in focus at an operating system level */
-    bool close_requested{false};         /* Close requested */
+    Window::Properties window_properties_;              /* Source of truth for window state */
+    bool fixed_simulation_fps_{false};    /* Delta time should be fixed with a fabricated value */
+    float simulation_frame_time_ = 0.016f; /* A fabricated delta time */
+    bool process_input_events_{true};     /* App should continue processing input events */
+    bool focused_{true};                  /* App is currently in focus at an operating system level */
+    bool close_requested_{false};         /* Close requested */
     
 private:
-    Timer timer;
+    Timer timer_;
     
-    std::vector<Plugin *> plugins;
+    std::vector<Plugin *> plugins_;
     
     /// Static so can be set via JNI code in android_platform.cpp
-    static std::vector<std::string> arguments;
+    static std::vector<std::string> arguments_;
     
-    static std::string external_storage_directory;
+    static std::string external_storage_directory_;
     
-    static std::string temp_directory;
+    static std::string temp_directory_;
 };
 
 template<class T>
 bool Platform::using_plugin() const {
-    return !plugins::with_tags<T>(active_plugins).empty();
+    return !plugins::with_tags<T>(active_plugins_).empty();
 }
 
 template<class T>
 T *Platform::get_plugin() const {
     assert(using_plugin<T>() && "Plugin is not enabled but was requested");
-    const auto plugins = plugins::with_tags<T>(active_plugins);
-    return dynamic_cast<T *>(plugins[0]);
+    const auto kPlugins = plugins::with_tags<T>(active_plugins_);
+    return dynamic_cast<T *>(kPlugins[0]);
 }
 
 }        // namespace vox

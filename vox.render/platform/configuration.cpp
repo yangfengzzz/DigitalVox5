@@ -1,30 +1,20 @@
-/* Copyright (c) 2019, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
+
 
 #include "configuration.h"
 
 namespace vox {
 BoolSetting::BoolSetting(bool &handle, bool value) :
-handle{handle},
-value{value} {
+handle_{handle},
+value_{value} {
 }
 
 void BoolSetting::set() {
-    handle = value;
+    handle_ = value_;
 }
 
 std::type_index BoolSetting::get_type() {
@@ -32,12 +22,12 @@ std::type_index BoolSetting::get_type() {
 }
 
 IntSetting::IntSetting(int &handle, int value) :
-handle{handle},
-value{value} {
+handle_{handle},
+value_{value} {
 }
 
 void IntSetting::set() {
-    handle = value;
+    handle_ = value_;
 }
 
 std::type_index IntSetting::get_type() {
@@ -52,7 +42,7 @@ std::type_index EmptySetting::get_type() {
 }
 
 void Configuration::set() {
-    for (const auto &pair: current_configuration->second) {
+    for (const auto &pair: current_configuration_->second) {
         for (auto setting: pair.second) {
             setting->set();
         }
@@ -60,13 +50,13 @@ void Configuration::set() {
 }
 
 bool Configuration::next() {
-    if (configs.empty()) {
+    if (configs_.empty()) {
         return false;
     }
     
-    current_configuration++;
+    current_configuration_++;
     
-    if (current_configuration == configs.end()) {
+    if (current_configuration_ == configs_.end()) {
         return false;
     }
     
@@ -74,12 +64,12 @@ bool Configuration::next() {
 }
 
 void Configuration::reset() {
-    current_configuration = configs.begin();
+    current_configuration_ = configs_.begin();
 }
 
 void Configuration::insert_setting(uint32_t config_index, std::unique_ptr<Setting> setting) {
-    settings.push_back(std::move(setting));
-    configs[config_index][settings.back()->get_type()].push_back(settings.back().get());
+    settings_.push_back(std::move(setting));
+    configs_[config_index][settings_.back()->get_type()].push_back(settings_.back().get());
 }
 
 }        // namespace vox

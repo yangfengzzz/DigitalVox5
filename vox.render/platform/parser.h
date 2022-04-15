@@ -1,19 +1,9 @@
-/* Copyright (c) 2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
+
 
 #pragma once
 
@@ -42,7 +32,7 @@ public:
      * @return false Can not be casted
      */
     template<class U>
-    bool is() const {
+    [[nodiscard]] bool is() const {
         return is_impl(typeid(U));
     }
     
@@ -70,11 +60,11 @@ public:
         return static_cast<const U *>(this);
     }
     
-    const std::string &get_name() const;
+    [[nodiscard]] const std::string &get_name() const;
     
     void set_name(const std::string &name);
     
-    const std::string &get_help_line() const;
+    [[nodiscard]] const std::string &get_help_line() const;
     
     void set_help_line(const std::string &help_line);
     
@@ -86,11 +76,11 @@ protected:
      * @return true Is equal to the given index
      * @return false Is not the equal to the given index
      */
-    virtual bool is_impl(const std::type_index &index) const = 0;
+    [[nodiscard]] virtual bool is_impl(const std::type_index &index) const = 0;
     
 private:
-    std::string _name;
-    std::string _help_line;
+    std::string name_;
+    std::string help_line_;
 };
 
 /**
@@ -98,14 +88,14 @@ private:
  */
 class MultipleCommands {
 public:
-    MultipleCommands(std::vector<Command *> commands);
+    explicit MultipleCommands(std::vector<Command *> commands);
     
     virtual ~MultipleCommands() = default;
     
-    const std::vector<Command *> &get_commands() const;
+    [[nodiscard]] const std::vector<Command *> &get_commands() const;
     
 private:
-    std::vector<Command *> _commands;
+    std::vector<Command *> commands_;
 };
 
 /**
@@ -120,15 +110,15 @@ public:
     Command(name, help_line) {
     }
     
-    virtual ~TypedCommand() = default;
+    ~TypedCommand() override = default;
     
 protected:
-    virtual bool is_impl(const std::type_index &index) const override {
-        return _type == index;
+    bool is_impl(const std::type_index &index) const override {
+        return type_ == index;
     }
     
 private:
-    std::type_index _type = std::type_index(typeid(Type));
+    std::type_index type_ = std::type_index(typeid(Type));
 };
 
 /**
@@ -138,7 +128,7 @@ class CommandGroup : public TypedCommand<CommandGroup>, public MultipleCommands 
 public:
     CommandGroup(const std::string &name, const std::vector<Command *> &commands);
     
-    virtual ~CommandGroup() = default;
+    ~CommandGroup() override = default;
 };
 
 /**
@@ -148,7 +138,7 @@ class SubCommand : public TypedCommand<SubCommand>, public MultipleCommands {
 public:
     SubCommand(const std::string &name, const std::string &help_line, const std::vector<Command *> &commands);
     
-    virtual ~SubCommand() = default;
+    ~SubCommand() override = default;
 };
 
 /**
@@ -158,13 +148,13 @@ class PositionalCommand : public TypedCommand<PositionalCommand> {
 public:
     PositionalCommand(const std::string &name, const std::string &help_line);
     
-    virtual ~PositionalCommand() = default;
+    ~PositionalCommand() override = default;
 };
 
 enum class FlagType {
-    FlagOnly,
-    OneValue,
-    ManyValues,
+    FLAG_ONLY,
+    ONE_VALUE,
+    MANY_VALUES,
 };
 
 /**
@@ -175,12 +165,12 @@ public:
     FlagCommand(FlagType type, const std::string &long_name, const std::string &short_name,
                 const std::string &help_line);
     
-    virtual ~FlagCommand() = default;
+    ~FlagCommand() override = default;
     
-    FlagType get_flag_type() const;
+    [[nodiscard]] FlagType get_flag_type() const;
     
 private:
-    FlagType _type;
+    FlagType type_;
 };
 
 /**
@@ -223,7 +213,7 @@ public:
      *
      * @return std::vector<std::string> A list of individual lines
      */
-    virtual std::vector<std::string> help() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> help() const = 0;
     
     virtual bool parse(const std::vector<Plugin *> &plugins) = 0;
     
@@ -272,7 +262,7 @@ inline bool CommandParser::convert_type(const std::vector<std::string> &values, 
     if (values.size() != 1) {
         *type = 0;
     } else {
-        auto number = atoi(values[0].c_str());
+        auto number =  atoi(values[0].c_str());
         *type = static_cast<uint32_t>(number);
     }
     return true;
@@ -283,7 +273,7 @@ inline bool CommandParser::convert_type(const std::vector<std::string> &values, 
     if (values.size() != 1) {
         *type = 0.0f;
     } else {
-        *type = std::stof(values[0].c_str());
+        *type = std::stof(values[0]);
     }
     return true;
 }
@@ -297,7 +287,7 @@ CommandParser::convert_type(const std::vector<std::string> &values, std::vector<
 
 template<>
 inline bool CommandParser::convert_type(const std::vector<std::string> &values, std::string *type) const {
-    if (values.size() > 0) {
+    if (!values.empty()) {
         *type = values[0];
     } else {
         *type = "";

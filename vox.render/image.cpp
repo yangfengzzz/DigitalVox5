@@ -58,78 +58,78 @@ bool is_astc(const VkFormat format) {
 }
 
 Image::Image(std::string name, std::vector<uint8_t> &&d, std::vector<Mipmap> &&m) :
-name{std::move(name)},
-data{std::move(d)},
-format{VK_FORMAT_R8G8B8A8_UNORM},
-mipmaps{std::move(m)} {
+name_{std::move(name)},
+data_{std::move(d)},
+format_{VK_FORMAT_R8G8B8A8_UNORM},
+mipmaps_{std::move(m)} {
 }
 
 const std::vector<uint8_t> &Image::get_data() const {
-    return data;
+    return data_;
 }
 
 void Image::clear_data() {
-    data.clear();
-    data.shrink_to_fit();
+    data_.clear();
+    data_.shrink_to_fit();
 }
 
 VkFormat Image::get_format() const {
-    return format;
+    return format_;
 }
 
 const VkExtent3D &Image::get_extent() const {
-    return mipmaps.at(0).extent;
+    return mipmaps_.at(0).extent;
 }
 
 uint32_t Image::get_layers() const {
-    return layers;
+    return layers_;
 }
 
 const std::vector<Mipmap> &Image::get_mipmaps() const {
-    return mipmaps;
+    return mipmaps_;
 }
 
 const std::vector<std::vector<VkDeviceSize>> &Image::get_offsets() const {
-    return offsets;
+    return offsets_;
 }
 
 void Image::create_vk_image(Device const &device, VkImageViewType image_view_type, VkImageCreateFlags flags) {
-    assert(!vk_image && !vk_image_view && "Vulkan image already constructed");
+    assert(!vk_image_ && !vk_image_view_ && "Vulkan image already constructed");
     
-    vk_image = std::make_unique<core::Image>(device,
+    vk_image_ = std::make_unique<core::Image>(device,
                                              get_extent(),
-                                             format,
+                                             format_,
                                              VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
                                              VMA_MEMORY_USAGE_GPU_ONLY,
                                              VK_SAMPLE_COUNT_1_BIT,
-                                             to_u32(mipmaps.size()),
-                                             layers,
+                                             to_u32(mipmaps_.size()),
+                                             layers_,
                                              VK_IMAGE_TILING_OPTIMAL,
                                              flags);
-    vk_image->set_debug_name(name);
+    vk_image_->set_debug_name(name_);
     
-    vk_image_view = std::make_unique<core::ImageView>(*vk_image, image_view_type);
-    vk_image_view->set_debug_name("View on " + name);
+    vk_image_view_ = std::make_unique<core::ImageView>(*vk_image_, image_view_type);
+    vk_image_view_->set_debug_name("View on " + name_);
 }
 
 const core::Image &Image::get_vk_image() const {
-    assert(vk_image && "Vulkan image was not created");
-    return *vk_image;
+    assert(vk_image_ && "Vulkan image was not created");
+    return *vk_image_;
 }
 
 const core::ImageView &Image::get_vk_image_view() const {
-    assert(vk_image_view && "Vulkan image view was not created");
-    return *vk_image_view;
+    assert(vk_image_view_ && "Vulkan image view was not created");
+    return *vk_image_view_;
 }
 
 Mipmap &Image::get_mipmap(const size_t index) {
-    return mipmaps.at(index);
+    return mipmaps_.at(index);
 }
 
 void Image::generate_mipmaps() {
-    assert(mipmaps.size() == 1 && "Mipmaps already generated");
+    assert(mipmaps_.size() == 1 && "Mipmaps already generated");
     
-    if (mipmaps.size() > 1) {
+    if (mipmaps_.size() > 1) {
         return;        // Do not generate again
     }
     
@@ -141,10 +141,10 @@ void Image::generate_mipmaps() {
     
     while (true) {
         // Make space for next mipmap
-        auto old_size = to_u32(data.size());
-        data.resize(old_size + next_size);
+        auto old_size = to_u32(data_.size());
+        data_.resize(old_size + next_size);
         
-        auto &prev_mipmap = mipmaps.back();
+        auto &prev_mipmap = mipmaps_.back();
         // Update mipmaps
         Mipmap next_mipmap{};
         next_mipmap.level = prev_mipmap.level + 1;
@@ -152,12 +152,12 @@ void Image::generate_mipmaps() {
         next_mipmap.extent = {next_width, next_height, 1u};
         
         // Fill next mipmap memory
-        stbir_resize_uint8(data.data() + prev_mipmap.offset, prev_mipmap.extent.width,
+        stbir_resize_uint8(data_.data() + prev_mipmap.offset, prev_mipmap.extent.width,
                            prev_mipmap.extent.height, 0,
-                           data.data() + next_mipmap.offset, next_mipmap.extent.width,
+                           data_.data() + next_mipmap.offset, next_mipmap.extent.width,
                            next_mipmap.extent.height, 0, channels);
         
-        mipmaps.emplace_back(next_mipmap);
+        mipmaps_.emplace_back(next_mipmap);
         
         // Next mipmap values
         next_width = std::max<uint32_t>(1u, next_width / 2);
@@ -171,40 +171,40 @@ void Image::generate_mipmaps() {
 }
 
 std::vector<Mipmap> &Image::get_mut_mipmaps() {
-    return mipmaps;
+    return mipmaps_;
 }
 
 std::vector<uint8_t> &Image::get_mut_data() {
-    return data;
+    return data_;
 }
 
 void Image::set_data(const uint8_t *raw_data, size_t size) {
-    assert(data.empty() && "Image data already set");
-    data = {raw_data, raw_data + size};
+    assert(data_.empty() && "Image data already set");
+    data_ = {raw_data, raw_data + size};
 }
 
 void Image::set_format(const VkFormat f) {
-    format = f;
+    format_ = f;
 }
 
 void Image::set_width(const uint32_t width) {
-    mipmaps.at(0).extent.width = width;
+    mipmaps_.at(0).extent.width = width;
 }
 
 void Image::set_height(const uint32_t height) {
-    mipmaps.at(0).extent.height = height;
+    mipmaps_.at(0).extent.height = height;
 }
 
 void Image::set_depth(const uint32_t depth) {
-    mipmaps.at(0).extent.depth = depth;
+    mipmaps_.at(0).extent.depth = depth;
 }
 
 void Image::set_layers(uint32_t l) {
-    layers = l;
+    layers_ = l;
 }
 
 void Image::set_offsets(const std::vector<std::vector<VkDeviceSize>> &o) {
-    offsets = o;
+    offsets_ = o;
 }
 
 std::unique_ptr<Image> Image::load(const std::string &name, const std::string &uri) {

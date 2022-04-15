@@ -345,7 +345,7 @@ std::unique_ptr<sg::SubMesh> GLTFLoader::read_model_from_file(const std::string 
     
     tinygltf::TinyGLTF gltf_loader;
     
-    std::string gltf_file = vox::fs::path::get(vox::fs::path::Type::Assets) + file_name;
+    std::string gltf_file = vox::fs::path::get(vox::fs::path::Type::ASSETS) + file_name;
     
     bool importResult = gltf_loader.LoadASCIIFromFile(&model, &err, &warn, gltf_file);
     

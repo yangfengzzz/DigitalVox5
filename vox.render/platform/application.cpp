@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "application.h"
 
@@ -22,15 +11,15 @@
 
 namespace vox {
 Application::Application() :
-name{"Sample Name"} {
+name_{"Sample Name"} {
 }
 
-bool Application::prepare(Platform &_platform) {
-    auto &_debug_info = get_debug_info();
-    _debug_info.insert<field::MinMax, float>("fps", fps);
-    _debug_info.insert<field::MinMax, float>("frame_time", frame_time);
+bool Application::prepare(Platform &platform) {
+    auto &debug_info = get_debug_info();
+    debug_info.insert<field::MinMax, float>("fps", fps_);
+    debug_info.insert<field::MinMax, float>("frame_time", frame_time_);
     
-    this->platform = &_platform;
+    platform_ = &platform;
     
     return true;
 }
@@ -46,20 +35,20 @@ void Application::input_event(const InputEvent &input_event) {
 }
 
 void Application::update(float delta_time) {
-    fps = 1.0f / delta_time;
-    frame_time = delta_time * 1000.0f;
+    fps_ = 1.0f / delta_time;
+    frame_time_ = delta_time * 1000.0f;
 }
 
 const std::string &Application::get_name() const {
-    return name;
+    return name_;
 }
 
-void Application::set_name(const std::string &name_) {
-    name = name_;
+void Application::set_name(const std::string &name) {
+    name_ = name;
 }
 
 DebugInfo &Application::get_debug_info() {
-    return debug_info;
+    return debug_info_;
 }
 
 

@@ -1,19 +1,9 @@
-/* Copyright (c) 2019-2022, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
+
 
 #include "glfw_window.h"
 
@@ -56,14 +46,14 @@ void window_focus_callback(GLFWwindow *window, int focused) {
 }
 
 inline KeyCode translate_key_code(int key) {
-    static const std::unordered_map<int, KeyCode> key_lookup =
+    static const std::unordered_map<int, KeyCode> kEyLookup =
     {
-        {GLFW_KEY_SPACE,         KeyCode::Space},
-        {GLFW_KEY_APOSTROPHE,    KeyCode::Apostrophe},
-        {GLFW_KEY_COMMA,         KeyCode::Comma},
-        {GLFW_KEY_MINUS,         KeyCode::Minus},
-        {GLFW_KEY_PERIOD,        KeyCode::Period},
-        {GLFW_KEY_SLASH,         KeyCode::Slash},
+        {GLFW_KEY_SPACE,         KeyCode::SPACE},
+        {GLFW_KEY_APOSTROPHE,    KeyCode::APOSTROPHE},
+        {GLFW_KEY_COMMA,         KeyCode::COMMA},
+        {GLFW_KEY_MINUS,         KeyCode::MINUS},
+        {GLFW_KEY_PERIOD,        KeyCode::PERIOD},
+        {GLFW_KEY_SLASH,         KeyCode::SLASH},
         {GLFW_KEY_0,             KeyCode::_0},
         {GLFW_KEY_1,             KeyCode::_1},
         {GLFW_KEY_2,             KeyCode::_2},
@@ -74,8 +64,8 @@ inline KeyCode translate_key_code(int key) {
         {GLFW_KEY_7,             KeyCode::_7},
         {GLFW_KEY_8,             KeyCode::_8},
         {GLFW_KEY_9,             KeyCode::_9},
-        {GLFW_KEY_SEMICOLON,     KeyCode::Semicolon},
-        {GLFW_KEY_EQUAL,         KeyCode::Equal},
+        {GLFW_KEY_SEMICOLON,     KeyCode::SEMICOLON},
+        {GLFW_KEY_EQUAL,         KeyCode::EQUAL},
         {GLFW_KEY_A,             KeyCode::A},
         {GLFW_KEY_B,             KeyCode::B},
         {GLFW_KEY_C,             KeyCode::C},
@@ -102,29 +92,29 @@ inline KeyCode translate_key_code(int key) {
         {GLFW_KEY_X,             KeyCode::X},
         {GLFW_KEY_Y,             KeyCode::Y},
         {GLFW_KEY_Z,             KeyCode::Z},
-        {GLFW_KEY_LEFT_BRACKET,  KeyCode::LeftBracket},
-        {GLFW_KEY_BACKSLASH,     KeyCode::Backslash},
-        {GLFW_KEY_RIGHT_BRACKET, KeyCode::RightBracket},
-        {GLFW_KEY_GRAVE_ACCENT,  KeyCode::GraveAccent},
-        {GLFW_KEY_ESCAPE,        KeyCode::Escape},
-        {GLFW_KEY_ENTER,         KeyCode::Enter},
-        {GLFW_KEY_TAB,           KeyCode::Tab},
-        {GLFW_KEY_BACKSPACE,     KeyCode::Backspace},
-        {GLFW_KEY_INSERT,        KeyCode::Insert},
-        {GLFW_KEY_DELETE,        KeyCode::DelKey},
-        {GLFW_KEY_RIGHT,         KeyCode::Right},
-        {GLFW_KEY_LEFT,          KeyCode::Left},
-        {GLFW_KEY_DOWN,          KeyCode::Down},
-        {GLFW_KEY_UP,            KeyCode::Up},
-        {GLFW_KEY_PAGE_UP,       KeyCode::PageUp},
-        {GLFW_KEY_PAGE_DOWN,     KeyCode::PageDown},
-        {GLFW_KEY_HOME,          KeyCode::Home},
-        {GLFW_KEY_END,           KeyCode::End},
-        {GLFW_KEY_CAPS_LOCK,     KeyCode::CapsLock},
-        {GLFW_KEY_SCROLL_LOCK,   KeyCode::ScrollLock},
-        {GLFW_KEY_NUM_LOCK,      KeyCode::NumLock},
-        {GLFW_KEY_PRINT_SCREEN,  KeyCode::PrintScreen},
-        {GLFW_KEY_PAUSE,         KeyCode::Pause},
+        {GLFW_KEY_LEFT_BRACKET,  KeyCode::LEFT_BRACKET},
+        {GLFW_KEY_BACKSLASH,     KeyCode::BACKSLASH},
+        {GLFW_KEY_RIGHT_BRACKET, KeyCode::RIGHT_BRACKET},
+        {GLFW_KEY_GRAVE_ACCENT,  KeyCode::GRAVE_ACCENT},
+        {GLFW_KEY_ESCAPE,        KeyCode::ESCAPE},
+        {GLFW_KEY_ENTER,         KeyCode::ENTER},
+        {GLFW_KEY_TAB,           KeyCode::TAB},
+        {GLFW_KEY_BACKSPACE,     KeyCode::BACKSPACE},
+        {GLFW_KEY_INSERT,        KeyCode::INSERT},
+        {GLFW_KEY_DELETE,        KeyCode::DEL_KEY},
+        {GLFW_KEY_RIGHT,         KeyCode::RIGHT},
+        {GLFW_KEY_LEFT,          KeyCode::LEFT},
+        {GLFW_KEY_DOWN,          KeyCode::DOWN},
+        {GLFW_KEY_UP,            KeyCode::UP},
+        {GLFW_KEY_PAGE_UP,       KeyCode::PAGE_UP},
+        {GLFW_KEY_PAGE_DOWN,     KeyCode::PAGE_DOWN},
+        {GLFW_KEY_HOME,          KeyCode::HOME},
+        {GLFW_KEY_END,           KeyCode::END},
+        {GLFW_KEY_CAPS_LOCK,     KeyCode::CAPS_LOCK},
+        {GLFW_KEY_SCROLL_LOCK,   KeyCode::SCROLL_LOCK},
+        {GLFW_KEY_NUM_LOCK,      KeyCode::NUM_LOCK},
+        {GLFW_KEY_PRINT_SCREEN,  KeyCode::PRINT_SCREEN},
+        {GLFW_KEY_PAUSE,         KeyCode::PAUSE},
         {GLFW_KEY_F1,            KeyCode::F1},
         {GLFW_KEY_F2,            KeyCode::F2},
         {GLFW_KEY_F3,            KeyCode::F3},
@@ -147,25 +137,25 @@ inline KeyCode translate_key_code(int key) {
         {GLFW_KEY_KP_7,          KeyCode::KP_7},
         {GLFW_KEY_KP_8,          KeyCode::KP_8},
         {GLFW_KEY_KP_9,          KeyCode::KP_9},
-        {GLFW_KEY_KP_DECIMAL,    KeyCode::KP_Decimal},
-        {GLFW_KEY_KP_DIVIDE,     KeyCode::KP_Divide},
-        {GLFW_KEY_KP_MULTIPLY,   KeyCode::KP_Multiply},
-        {GLFW_KEY_KP_SUBTRACT,   KeyCode::KP_Subtract},
-        {GLFW_KEY_KP_ADD,        KeyCode::KP_Add},
-        {GLFW_KEY_KP_ENTER,      KeyCode::KP_Enter},
-        {GLFW_KEY_KP_EQUAL,      KeyCode::KP_Equal},
-        {GLFW_KEY_LEFT_SHIFT,    KeyCode::LeftShift},
-        {GLFW_KEY_LEFT_CONTROL,  KeyCode::LeftControl},
-        {GLFW_KEY_LEFT_ALT,      KeyCode::LeftAlt},
-        {GLFW_KEY_RIGHT_SHIFT,   KeyCode::RightShift},
-        {GLFW_KEY_RIGHT_CONTROL, KeyCode::RightControl},
-        {GLFW_KEY_RIGHT_ALT,     KeyCode::RightAlt},
+        {GLFW_KEY_KP_DECIMAL,    KeyCode::KP_DECIMAL},
+        {GLFW_KEY_KP_DIVIDE,     KeyCode::KP_DIVIDE},
+        {GLFW_KEY_KP_MULTIPLY,   KeyCode::KP_MULTIPLY},
+        {GLFW_KEY_KP_SUBTRACT,   KeyCode::KP_SUBTRACT},
+        {GLFW_KEY_KP_ADD,        KeyCode::KP_ADD},
+        {GLFW_KEY_KP_ENTER,      KeyCode::KP_ENTER},
+        {GLFW_KEY_KP_EQUAL,      KeyCode::KP_EQUAL},
+        {GLFW_KEY_LEFT_SHIFT,    KeyCode::LEFT_SHIFT},
+        {GLFW_KEY_LEFT_CONTROL,  KeyCode::LEFT_CONTROL},
+        {GLFW_KEY_LEFT_ALT,      KeyCode::LEFT_ALT},
+        {GLFW_KEY_RIGHT_SHIFT,   KeyCode::RIGHT_SHIFT},
+        {GLFW_KEY_RIGHT_CONTROL, KeyCode::RIGHT_CONTROL},
+        {GLFW_KEY_RIGHT_ALT,     KeyCode::RIGHT_ALT},
     };
     
-    auto key_it = key_lookup.find(key);
+    auto key_it = kEyLookup.find(key);
     
-    if (key_it == key_lookup.end()) {
-        return KeyCode::Unknown;
+    if (key_it == kEyLookup.end()) {
+        return KeyCode::UNKNOWN;
     }
     
     return key_it->second;
@@ -173,14 +163,14 @@ inline KeyCode translate_key_code(int key) {
 
 inline KeyAction translate_key_action(int action) {
     if (action == GLFW_PRESS) {
-        return KeyAction::Down;
+        return KeyAction::DOWN;
     } else if (action == GLFW_RELEASE) {
-        return KeyAction::Up;
+        return KeyAction::UP;
     } else if (action == GLFW_REPEAT) {
-        return KeyAction::Repeat;
+        return KeyAction::REPEAT;
     }
     
-    return KeyAction::Unknown;
+    return KeyAction::UNKNOWN;
 }
 
 void key_callback(GLFWwindow *window, int key, int /*scancode*/, int action, int /*mods*/) {
@@ -197,24 +187,24 @@ inline MouseButton translate_mouse_button(int button) {
         return static_cast<MouseButton>(button);
     }
     
-    return MouseButton::Unknown;
+    return MouseButton::UNKNOWN;
 }
 
 inline MouseAction translate_mouse_action(int action) {
     if (action == GLFW_PRESS) {
-        return MouseAction::Down;
+        return MouseAction::DOWN;
     } else if (action == GLFW_RELEASE) {
-        return MouseAction::Up;
+        return MouseAction::UP;
     }
     
-    return MouseAction::Unknown;
+    return MouseAction::UNKNOWN;
 }
 
 void cursor_position_callback(GLFWwindow *window, double xpos, double ypos) {
     if (auto *platform = reinterpret_cast<Platform *>(glfwGetWindowUserPointer(window))) {
         platform->input_event(MouseButtonInputEvent{
-            MouseButton::Unknown,
-            MouseAction::Move,
+            MouseButton::UNKNOWN,
+            MouseAction::MOVE,
             static_cast<float>(xpos),
             static_cast<float>(ypos)});
     }
@@ -250,47 +240,47 @@ Window(properties) {
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     
     switch (properties.mode) {
-        case Window::Mode::Fullscreen: {
+        case Window::Mode::FULLSCREEN: {
             auto *monitor = glfwGetPrimaryMonitor();
             const auto *mode = glfwGetVideoMode(monitor);
-            handle = glfwCreateWindow(mode->width, mode->height, properties.title.c_str(), monitor, nullptr);
+            handle_ = glfwCreateWindow(mode->width, mode->height, properties.title.c_str(), monitor, nullptr);
             break;
         }
             
-        case Window::Mode::FullscreenBorderless: {
+        case Window::Mode::FULLSCREEN_BORDERLESS: {
             auto *monitor = glfwGetPrimaryMonitor();
             const auto *mode = glfwGetVideoMode(monitor);
             glfwWindowHint(GLFW_RED_BITS, mode->redBits);
             glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
             glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
             glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-            handle = glfwCreateWindow(mode->width, mode->height, properties.title.c_str(), monitor, nullptr);
+            handle_ = glfwCreateWindow(mode->width, mode->height, properties.title.c_str(), monitor, nullptr);
             break;
         }
             
         default:
-            handle = glfwCreateWindow(properties.extent.width, properties.extent.height, properties.title.c_str(),
+            handle_ = glfwCreateWindow(properties.extent.width, properties.extent.height, properties.title.c_str(),
                                       nullptr, nullptr);
             break;
     }
     
     resize(Extent{properties.extent.width, properties.extent.height});
     
-    if (!handle) {
+    if (!handle_) {
         throw std::runtime_error("Couldn't create glfw window.");
     }
     
-    glfwSetWindowUserPointer(handle, platform);
+    glfwSetWindowUserPointer(handle_, platform);
     
-    glfwSetWindowCloseCallback(handle, window_close_callback);
-    glfwSetWindowSizeCallback(handle, window_size_callback);
-    glfwSetWindowFocusCallback(handle, window_focus_callback);
-    glfwSetKeyCallback(handle, key_callback);
-    glfwSetCursorPosCallback(handle, cursor_position_callback);
-    glfwSetMouseButtonCallback(handle, mouse_button_callback);
+    glfwSetWindowCloseCallback(handle_, window_close_callback);
+    glfwSetWindowSizeCallback(handle_, window_size_callback);
+    glfwSetWindowFocusCallback(handle_, window_focus_callback);
+    glfwSetKeyCallback(handle_, key_callback);
+    glfwSetCursorPosCallback(handle_, cursor_position_callback);
+    glfwSetMouseButtonCallback(handle_, mouse_button_callback);
     
-    glfwSetInputMode(handle, GLFW_STICKY_KEYS, 1);
-    glfwSetInputMode(handle, GLFW_STICKY_MOUSE_BUTTONS, 1);
+    glfwSetInputMode(handle_, GLFW_STICKY_KEYS, 1);
+    glfwSetInputMode(handle_, GLFW_STICKY_MOUSE_BUTTONS, 1);
 }
 
 GlfwWindow::~GlfwWindow() {
@@ -302,15 +292,15 @@ VkSurfaceKHR GlfwWindow::create_surface(Instance &instance) {
 }
 
 VkSurfaceKHR GlfwWindow::create_surface(VkInstance instance, VkPhysicalDevice) {
-    if (instance == VK_NULL_HANDLE || !handle) {
+    if (instance == VK_NULL_HANDLE || !handle_) {
         return VK_NULL_HANDLE;
     }
     
     VkSurfaceKHR surface;
     
-    VkResult errCode = glfwCreateWindowSurface(instance, handle, nullptr, &surface);
+    VkResult err_code = glfwCreateWindowSurface(instance, handle_, nullptr, &surface);
     
-    if (errCode != VK_SUCCESS) {
+    if (err_code != VK_SUCCESS) {
         return nullptr;
     }
     
@@ -318,7 +308,7 @@ VkSurfaceKHR GlfwWindow::create_surface(VkInstance instance, VkPhysicalDevice) {
 }
 
 bool GlfwWindow::should_close() {
-    return glfwWindowShouldClose(handle);
+    return glfwWindowShouldClose(handle_);
 }
 
 void GlfwWindow::process_events() {
@@ -326,7 +316,7 @@ void GlfwWindow::process_events() {
 }
 
 void GlfwWindow::close() {
-    glfwSetWindowShouldClose(handle, GLFW_TRUE);
+    glfwSetWindowShouldClose(handle_, GLFW_TRUE);
 }
 
 /// @brief It calculates the dpi factor using the density from GLFW physical size
@@ -339,19 +329,19 @@ float GlfwWindow::get_dpi_factor() const {
     glfwGetMonitorPhysicalSize(primary_monitor, &width_mm, &height_mm);
     
     // As suggested by the GLFW monitor guide
-    static const float inch_to_mm = 25.0f;
-    static const float win_base_density = 96.0f;
+    static const float kInchToMm = 25.0f;
+    static const float kWinBaseDensity = 96.0f;
     
-    auto dpi = static_cast<uint32_t>(vidmode->width / (width_mm / inch_to_mm));
-    auto dpi_factor = dpi / win_base_density;
+    auto dpi = static_cast<uint32_t>(vidmode->width / (width_mm / kInchToMm));
+    auto dpi_factor = dpi / kWinBaseDensity;
     return dpi_factor;
 }
 
 float GlfwWindow::get_content_scale_factor() const {
     int fb_width, fb_height;
-    glfwGetFramebufferSize(handle, &fb_width, &fb_height);
+    glfwGetFramebufferSize(handle_, &fb_width, &fb_height);
     int win_width, win_height;
-    glfwGetWindowSize(handle, &win_width, &win_height);
+    glfwGetWindowSize(handle_, &win_width, &win_height);
     
     // We could return a 2D result here instead of a scalar,
     // but non-uniform scaling is very unlikely, and would

@@ -1,19 +1,9 @@
-/* Copyright (c) 2020-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
+
 #pragma once
 
 #include <cassert>
@@ -64,18 +54,18 @@ std::vector<Plugin *> associate_plugins(const std::vector<Plugin *> &plugins);
 /**
  * @brief Hooks are points in the project that an plugin can subscribe too. These can be expanded on to implement more behaviour in the future
  *
- * Update - Executed at each update() loop
- * OnAppStart - Executed when an app starts
- * OnAppClose - Executed when an app closes
- * OnPlatformClose - Executed when the platform closes (End off the apps lifecycle)
+ * ON_UPDATE - Executed at each update() loop
+ * ON_APP_START - Executed when an app starts
+ * ON_APP_CLOSE - Executed when an app closes
+ * ON_PLATFORM_CLOSE - Executed when the platform closes (End off the apps lifecycle)
  */
 enum class Hook {
-    OnUpdate,
-    OnAppStart,
-    OnAppClose,
-    OnAppError,
-    OnPlatformClose,
-    PostDraw
+    ON_UPDATE,
+    ON_APP_START,
+    ON_APP_CLOSE,
+    ON_APP_ERROR,
+    ON_PLATFORM_CLOSE,
+    POST_DRAW
 };
 
 /**
@@ -85,7 +75,7 @@ enum class Hook {
 class Plugin {
 public:
     Plugin(std::string name, std::string description) :
-    name{std::move(name)}, description{std::move(description)} {};
+    name_{std::move(name)}, description_{std::move(description)} {};
     
     virtual ~Plugin() = default;
     
@@ -214,14 +204,14 @@ protected:
      */
     virtual void init(const CommandParser &parser) = 0;
     
-    Platform *platform = nullptr;
+    Platform *platform_ = nullptr;
     
 private:
-    std::string name;
-    std::string description;
+    std::string name_;
+    std::string description_;
     
-    std::vector<Plugin *> exclusions;
-    std::vector<Plugin *> inclusions;
+    std::vector<Plugin *> exclusions_;
+    std::vector<Plugin *> inclusions_;
 };
 
 /**

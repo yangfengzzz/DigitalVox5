@@ -1,19 +1,8 @@
-/* Copyright (c) 2019, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "image/astc_img.h"
 
@@ -107,7 +96,7 @@ void Astc::init() {
     }
 }
 
-void Astc::decode(BlockDim blockdim, VkExtent3D extent, const uint8_t *data_) {
+void Astc::decode(BlockDim blockdim, VkExtent3D extent, const uint8_t *data) {
     // Actual decoding
     astc_decode_mode decode_mode = DECODE_LDR_SRGB;
     uint32_t bitness = 8;
@@ -143,7 +132,7 @@ void Astc::decode(BlockDim blockdim, VkExtent3D extent, const uint8_t *data_) {
         for (int y = 0; y < yblocks; y++) {
             for (int x = 0; x < xblocks; x++) {
                 int offset = (((z * yblocks + y) * xblocks) + x) * 16;
-                const uint8_t *bp = data_ + offset;
+                const uint8_t *bp = data + offset;
                 
                 physical_compressed_block pcb = *reinterpret_cast<const physical_compressed_block *>(bp);
                 symbolic_compressed_block scb{};
@@ -166,7 +155,7 @@ void Astc::decode(BlockDim blockdim, VkExtent3D extent, const uint8_t *data_) {
 }
 
 Astc::Astc(const Image &image) :
-Image{image.name} {
+Image{image.name_} {
     init();
     decode(to_blockdim(image.get_format()), image.get_extent(), image.get_data().data());
 }

@@ -1,19 +1,8 @@
-/* Copyright (c) 2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "help_formatter.h"
 
@@ -21,7 +10,7 @@
 #include "strings.h"
 
 namespace vox {
-const std::string SPACER = "  ";
+const std::string kSpacer = "  ";
 
 std::string prepend(const std::string &target, const std::string &prepended) {
     auto lines = split(target, "\n");
@@ -52,10 +41,10 @@ std::string HelpFormatter::make_help(const CLI::App *app, std::string name, CLI:
     
     out << make_description(app);
     out << make_usage(app, name);
-    out << prepend(make_positionals(app), SPACER);
-    out << prepend(make_groups(app, mode), SPACER);
+    out << prepend(make_positionals(app), kSpacer);
+    out << prepend(make_groups(app, mode), kSpacer);
     out << "\n"
-    << prepend(make_subcommands(app, mode), SPACER);
+    << prepend(make_subcommands(app, mode), kSpacer);
     
     return out.str();
 }
@@ -82,9 +71,9 @@ out << "\n";                        \
     }
     
     if (meta != nullptr) {
-        out << SPACER << meta->description << "\n";
+        out << kSpacer << meta->description << "\n";
     } else {
-        out << prepend(make_description(sub), SPACER);
+        out << prepend(make_description(sub), kSpacer);
     }
     
     if (sub->get_name().empty() && !sub->get_aliases().empty()) {
@@ -93,15 +82,15 @@ out << "\n";                        \
     
     size_t last_size = out.str().size();
     
-    out << prepend(make_positionals(sub), SPACER);
+    out << prepend(make_positionals(sub), kSpacer);
     
     SPACE()
     
-    out << prepend(make_groups(sub, CLI::AppFormatMode::Sub), SPACER);
+    out << prepend(make_groups(sub, CLI::AppFormatMode::Sub), kSpacer);
     
     SPACE()
     
-    out << prepend(make_subcommands(sub, CLI::AppFormatMode::Sub), SPACER);
+    out << prepend(make_subcommands(sub, CLI::AppFormatMode::Sub), kSpacer);
     
     SPACE()
     
@@ -111,12 +100,12 @@ out << "\n";                        \
 }
 
 void HelpFormatter::register_meta(const CLI::App *command, const HelpFormatter::Meta &meta) {
-    _meta.insert({command, meta});
+    meta_.insert({command, meta});
 }
 
 const HelpFormatter::Meta *HelpFormatter::get_meta(const CLI::App *command) const {
-    auto it = _meta.find(command);
-    return it == _meta.end() ? nullptr : &it->second;
+    auto it = meta_.find(command);
+    return it == meta_.end() ? nullptr : &it->second;
 }
 
 }        // namespace vox

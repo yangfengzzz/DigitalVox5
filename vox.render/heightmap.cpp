@@ -22,7 +22,7 @@
 
 namespace vox {
 HeightMap::HeightMap(const std::string &file_name, const uint32_t patchsize) {
-    std::string file_path = fs::path::get(fs::path::Assets, file_name);
+    std::string file_path = fs::path::get(fs::path::ASSETS, file_name);
     
     ktxTexture *ktx_texture;
     ktxResult ktx_result;

@@ -1,19 +1,9 @@
-/* Copyright (c) 2019, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
+
 
 #pragma once
 
@@ -48,9 +38,9 @@ public:
     std::type_index get_type() override;
     
 private:
-    bool &handle;
+    bool &handle_;
     
-    bool value;
+    bool value_;
 };
 
 class IntSetting : public Setting {
@@ -62,9 +52,9 @@ public:
     std::type_index get_type() override;
     
 private:
-    int &handle;
+    int &handle_;
     
-    int value;
+    int value_;
 };
 
 class EmptySetting : public Setting {
@@ -125,11 +115,11 @@ public:
     }
     
 protected:
-    ConfigMap configs;
+    ConfigMap configs_;
     
-    std::vector<std::unique_ptr<Setting>> settings;
+    std::vector<std::unique_ptr<Setting>> settings_;
     
-    ConfigMap::iterator current_configuration;
+    ConfigMap::iterator current_configuration_;
 };
 
 

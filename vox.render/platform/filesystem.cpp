@@ -20,32 +20,32 @@ VKBP_ENABLE_WARNINGS()
 
 namespace vox::fs {
 namespace path {
-const std::unordered_map<Type, std::string> relative_paths = {
-    {Type::Assets,      "assets/"},
-    {Type::Shaders,     "shaders/"},
-    {Type::Storage,     "output/"},
-    {Type::Screenshots, "output/images/"},
-    {Type::Logs,        "output/logs/"},
-    {Type::Graphs,      "output/graphs/"}
+const std::unordered_map<Type, std::string> kRelativePaths = {
+    {Type::ASSETS,      "assets/"},
+    {Type::SHADERS,     "shaders/"},
+    {Type::STORAGE,     "output/"},
+    {Type::SCREENSHOTS, "output/images/"},
+    {Type::LOGS,        "output/logs/"},
+    {Type::GRAPHS,      "output/graphs/"}
 };
 
 std::string get(const Type type, const std::string &file) {
-    assert(relative_paths.size() == Type::TotalRelativePathTypes &&
+    assert(kRelativePaths.size() == Type::TOTAL_RELATIVE_PATH_TYPES &&
            "Not all paths are defined in filesystem, please check that each enum is specified");
     
     // Check for special cases first
-    if (type == Type::WorkingDir) {
+    if (type == Type::WORKING_DIR) {
         return Platform::get_external_storage_directory();
-    } else if (type == Type::Temp) {
+    } else if (type == Type::TEMP) {
         return Platform::get_temp_directory();
     }
     
     // Check for relative paths
-    auto it = relative_paths.find(type);
+    auto it = kRelativePaths.find(type);
     
-    if (relative_paths.size() < Type::TotalRelativePathTypes) {
+    if (kRelativePaths.size() < Type::TOTAL_RELATIVE_PATH_TYPES) {
         throw std::runtime_error("Platform hasn't initialized the paths correctly");
-    } else if (it == relative_paths.end()) {
+    } else if (it == kRelativePaths.end()) {
         throw std::runtime_error("Path enum doesn't exist, or wasn't specified in the path map");
     } else if (it->second.empty()) {
         throw std::runtime_error("Path was found, but it is empty");
@@ -144,29 +144,29 @@ write_binary_file(const std::vector<uint8_t> &data, const std::string &filename,
 }
 
 std::vector<uint8_t> read_asset(const std::string &filename, const uint32_t count) {
-    return read_binary_file(path::get(path::Type::Assets) + filename, count);
+    return read_binary_file(path::get(path::Type::ASSETS) + filename, count);
 }
 
 std::string read_shader(const std::string &filename) {
-    return read_text_file(path::get(path::Type::Shaders) + filename);
+    return read_text_file(path::get(path::Type::SHADERS) + filename);
 }
 
 std::vector<uint8_t> read_shader_binary(const std::string &filename) {
-    return read_binary_file(path::get(path::Type::Shaders) + filename, 0);
+    return read_binary_file(path::get(path::Type::SHADERS) + filename, 0);
 }
 
 std::vector<uint8_t> read_temp(const std::string &filename, const uint32_t count) {
-    return read_binary_file(path::get(path::Type::Temp) + filename, count);
+    return read_binary_file(path::get(path::Type::TEMP) + filename, count);
 }
 
 void write_temp(const std::vector<uint8_t> &data, const std::string &filename, const uint32_t count) {
-    write_binary_file(data, path::get(path::Type::Temp) + filename, count);
+    write_binary_file(data, path::get(path::Type::TEMP) + filename, count);
 }
 
 void write_image(const uint8_t *data, const std::string &filename, const uint32_t width, const uint32_t height,
                  const uint32_t components, const uint32_t row_stride) {
-    stbi_write_png((path::get(path::Type::Screenshots) + filename + ".png").c_str(), width, height, components,
-                   data, row_stride);
+    stbi_write_png((path::get(path::Type::SCREENSHOTS) + filename + ".png").c_str(), width, height, components,
+				   data, row_stride);
 }
 
 bool write_json(nlohmann::json &data, const std::string &filename) {
@@ -188,7 +188,7 @@ bool write_json(nlohmann::json &data, const std::string &filename) {
     }
     
     std::ofstream out_stream;
-    out_stream.open(fs::path::get(vox::fs::path::Type::Graphs) + filename, std::ios::out | std::ios::trunc);
+    out_stream.open(fs::path::get(vox::fs::path::Type::GRAPHS) + filename, std::ios::out | std::ios::trunc);
     
     if (out_stream.good()) {
         out_stream << json.str();

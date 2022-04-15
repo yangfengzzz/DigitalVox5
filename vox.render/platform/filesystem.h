@@ -20,22 +20,22 @@ namespace vox::fs {
 namespace path {
 enum Type {
     //Relative paths
-    Assets,
-    Shaders,
-    Storage,
-    Screenshots,
-    Logs,
-    Graphs,
+    ASSETS,
+    SHADERS,
+    STORAGE,
+    SCREENSHOTS,
+    LOGS,
+    GRAPHS,
     /* NewFolder */
-    TotalRelativePathTypes,
+    TOTAL_RELATIVE_PATH_TYPES,
     
     //Special paths
-    ExternalStorage,
-    WorkingDir = ExternalStorage,
-    Temp
+    EXTERNAL_STORAGE,
+    WORKING_DIR = EXTERNAL_STORAGE,
+    TEMP
 };
 
-extern const std::unordered_map<Type, std::string> relative_paths;
+extern const std::unordered_map<Type, std::string> kRelativePaths;
 
 /**
  * @brief Gets the absolute path of a given type or a specific file

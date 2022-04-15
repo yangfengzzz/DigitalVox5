@@ -76,7 +76,7 @@ bool VulkanSample::prepare(Platform &platform) {
     
     LOGI("Initializing Vulkan sample")
     
-    bool headless = platform.get_window().get_window_mode() == Window::Mode::Headless;
+    bool headless = platform.get_window().get_window_mode() == Window::Mode::HEADLESS;
     
     VkResult result = volkInitialize();
     if (result) {
@@ -280,7 +280,7 @@ void VulkanSample::update(float delta_time) {
     
     render_context->submit(command_buffer);
     
-    platform->on_post_draw(get_render_context());
+    platform_->on_post_draw(get_render_context());
 }
 
 void VulkanSample::draw(CommandBuffer &command_buffer, RenderTarget &render_target) {
@@ -394,10 +394,10 @@ void VulkanSample::input_event(const InputEvent &input_event) {
         //		}
     }
     
-    if (input_event.get_source() == EventSource::Keyboard) {
+    if (input_event.get_source() == EventSource::KEYBOARD) {
         const auto &key_event = static_cast<const KeyInputEvent &>(input_event);
-        if (key_event.get_action() == KeyAction::Down &&
-            (key_event.get_code() == KeyCode::PrintScreen || key_event.get_code() == KeyCode::F12)) {
+        if (key_event.get_action() == KeyAction::DOWN &&
+            (key_event.get_code() == KeyCode::PRINT_SCREEN || key_event.get_code() == KeyCode::F12)) {
             screenshot(*render_context, "screenshot-" + get_name());
         }
         

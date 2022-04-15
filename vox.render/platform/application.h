@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -72,21 +61,21 @@ public:
     DebugInfo &get_debug_info();
     
 protected:
-    float fps{0.0f};
+    float fps_{0.0f};
     
-    float frame_time{0.0f};        // In ms
+    float frame_time_{0.0f};        // In ms
     
-    uint32_t frame_count{0};
+    uint32_t frame_count_{0};
     
-    uint32_t last_frame_count{0};
+    uint32_t last_frame_count_{0};
     
-    Platform *platform{nullptr};
+    Platform *platform_{nullptr};
     
 private:
-    std::string name{};
+    std::string name_{};
     
     // The debug info of the app
-    DebugInfo debug_info{};
+    DebugInfo debug_info_{};
 };
 
 

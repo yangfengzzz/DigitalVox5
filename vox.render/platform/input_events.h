@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -24,9 +13,9 @@ namespace vox {
 class Platform;
 
 enum class EventSource {
-    Keyboard,
-    Mouse,
-    Touchscreen
+    KEYBOARD,
+    MOUSE,
+    TOUCHSCREEN
 };
 
 class InputEvent {
@@ -36,17 +25,17 @@ public:
     [[nodiscard]] EventSource get_source() const;
     
 private:
-    EventSource source;
+    EventSource source_;
 };
 
 enum class KeyCode {
-    Unknown,
-    Space,
-    Apostrophe, /* ' */
-    Comma,      /* , */
-    Minus,      /* - */
-    Period,     /* . */
-    Slash,      /* / */
+    UNKNOWN,
+    SPACE,
+    APOSTROPHE, /* ' */
+    COMMA,      /* , */
+    MINUS,      /* - */
+    PERIOD,     /* . */
+    SLASH,      /* / */
     _0,
     _1,
     _2,
@@ -57,8 +46,8 @@ enum class KeyCode {
     _7,
     _8,
     _9,
-    Semicolon, /* ; */
-    Equal,     /* = */
+    SEMICOLON, /* ; */
+    EQUAL,     /* = */
     A,
     B,
     C,
@@ -85,30 +74,30 @@ enum class KeyCode {
     X,
     Y,
     Z,
-    LeftBracket,  /* [ */
-    Backslash,    /* \ */
-    RightBracket, /* ] */
-    GraveAccent,  /* ` */
-    Escape,
-    Enter,
-    Tab,
-    Backspace,
-    Insert,
-    DelKey,
-    Right,
-    Left,
-    Down,
-    Up,
-    PageUp,
-    PageDown,
-    Home,
-    End,
-    Back,
-    CapsLock,
-    ScrollLock,
-    NumLock,
-    PrintScreen,
-    Pause,
+    LEFT_BRACKET,  /* [ */
+    BACKSLASH,    /* \ */
+    RIGHT_BRACKET, /* ] */
+    GRAVE_ACCENT,  /* ` */
+    ESCAPE,
+    ENTER,
+    TAB,
+    BACKSPACE,
+    INSERT,
+    DEL_KEY,
+    RIGHT,
+    LEFT,
+    DOWN,
+    UP,
+    PAGE_UP,
+    PAGE_DOWN,
+    HOME,
+    END,
+    BACK,
+    CAPS_LOCK,
+    SCROLL_LOCK,
+    NUM_LOCK,
+    PRINT_SCREEN,
+    PAUSE,
     F1,
     F2,
     F3,
@@ -131,26 +120,26 @@ enum class KeyCode {
     KP_7,
     KP_8,
     KP_9,
-    KP_Decimal,
-    KP_Divide,
-    KP_Multiply,
-    KP_Subtract,
-    KP_Add,
-    KP_Enter,
-    KP_Equal,
-    LeftShift,
-    LeftControl,
-    LeftAlt,
-    RightShift,
-    RightControl,
-    RightAlt
+    KP_DECIMAL,
+    KP_DIVIDE,
+    KP_MULTIPLY,
+    KP_SUBTRACT,
+    KP_ADD,
+    KP_ENTER,
+    KP_EQUAL,
+    LEFT_SHIFT,
+    LEFT_CONTROL,
+    LEFT_ALT,
+    RIGHT_SHIFT,
+    RIGHT_CONTROL,
+    RIGHT_ALT
 };
 
 enum class KeyAction {
-    Down,
-    Up,
-    Repeat,
-    Unknown
+    DOWN,
+    UP,
+    REPEAT,
+    UNKNOWN
 };
 
 class KeyInputEvent : public InputEvent {
@@ -162,25 +151,25 @@ public:
     [[nodiscard]] KeyAction get_action() const;
     
 private:
-    KeyCode code;
+    KeyCode code_;
     
-    KeyAction action;
+    KeyAction action_;
 };
 
 enum class MouseButton {
-    Left,
-    Right,
-    Middle,
-    Back,
-    Forward,
-    Unknown
+    LEFT,
+    RIGHT,
+    MIDDLE,
+    BACK,
+    FORWARD,
+    UNKNOWN
 };
 
 enum class MouseAction {
-    Down,
-    Up,
-    Move,
-    Unknown
+    DOWN,
+    UP,
+    MOVE,
+    UNKNOWN
 };
 
 class MouseButtonInputEvent : public InputEvent {
@@ -196,23 +185,23 @@ public:
     [[nodiscard]] float get_pos_y() const;
     
 private:
-    MouseButton button;
+    MouseButton button_;
     
-    MouseAction action;
+    MouseAction action_;
     
-    float pos_x;
+    float pos_x_;
     
-    float pos_y;
+    float pos_y_;
 };
 
 enum class TouchAction {
-    Down,
-    Up,
-    Move,
-    Cancel,
-    PointerDown,
-    PointerUp,
-    Unknown
+    DOWN,
+    UP,
+    MOVE,
+    CANCEL,
+    POINTER_DOWN,
+    POINTER_UP,
+    UNKNOWN
 };
 
 class TouchInputEvent : public InputEvent {
@@ -230,15 +219,15 @@ public:
     [[nodiscard]] float get_pos_y() const;
     
 private:
-    TouchAction action;
+    TouchAction action_;
     
-    int32_t pointer_id;
+    int32_t pointer_id_;
     
-    size_t touch_points;
+    size_t touch_points_;
     
-    float pos_x;
+    float pos_x_;
     
-    float pos_y;
+    float pos_y_;
 };
 
 

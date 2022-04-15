@@ -1,19 +1,9 @@
-/* Copyright (c) 2020-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
+
 #pragma once
 
 #include <spdlog/fmt/fmt.h>
@@ -58,31 +48,31 @@ public:
     void on_app_error(const std::string &app_id) override {};
     
 private:
-    Tag<TAGS...> *tags = reinterpret_cast<Tag<TAGS...> *>(this);
+    Tag<TAGS...> *tags_ = reinterpret_cast<Tag<TAGS...> *>(this);
     
-    std::vector<Hook> hooks;
-    std::vector<Command *> commands;
+    std::vector<Hook> hooks_;
+    std::vector<Command *> commands_;
 };
 
 template<typename... TAGS>
 PluginBase<TAGS...>::PluginBase(const std::string name, const std::string description,
                                 std::vector<Hook> hooks, std::vector<Command *> commands) :
-Plugin(name, description), hooks{std::move(hooks)}, commands{std::move(commands)} {
+Plugin(name, description), hooks_{std::move(hooks)}, commands_{std::move(commands)} {
 }
 
 template<typename... TAGS>
 const std::vector<Command *> &PluginBase<TAGS...>::get_cli_commands() const {
-    return commands;
+    return commands_;
 }
 
 template<typename... TAGS>
 bool PluginBase<TAGS...>::has_tag(TagID id) const {
-    return tags->has_tag(id);
+    return tags_->has_tag(id);
 }
 
 template<typename... TAGS>
 const std::vector<Hook> &PluginBase<TAGS...>::get_hooks() const {
-    return hooks;
+    return hooks_;
 }
 
 }        // namespace vox

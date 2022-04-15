@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
 int main(int argc, char *argv[]) {
 #    if defined(VK_USE_PLATFORM_METAL_EXT)
-    vox::UnixPlatform platform{vox::UnixType::Mac, argc, argv};
+    vox::UnixPlatform platform{vox::UnixType::MAC, argc, argv};
 #    elif defined(VK_USE_PLATFORM_XCB_KHR) || defined(VK_USE_PLATFORM_XLIB_KHR) || defined(VK_USE_PLATFORM_WAYLAND_KHR)
     vox::UnixPlatform platform{vox::UnixType::Linux, argc, argv};
 #    endif
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 
     std::vector<vox::Plugin *> plugins{};
     auto code = platform.initialize(plugins);
-    if (code == vox::ExitCode::Success) {
+    if (code == vox::ExitCode::SUCCESS) {
         platform.set_app(std::make_unique<vox::HDR>());
         code = platform.main_loop();
     }
