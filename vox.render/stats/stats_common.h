@@ -1,20 +1,8 @@
-/* Copyright (c) 2018-2022, Arm Limited and Contributors
- * Copyright (c) 2020-2022, Broadcom Inc.
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -30,37 +18,37 @@ namespace vox {
  * @brief Handles of stats to be optionally enabled in @ref vox::Stats
  */
 enum class StatIndex {
-    frame_times,
-    cpu_cycles,
-    cpu_instructions,
-    cpu_cache_miss_ratio,
-    cpu_branch_miss_ratio,
-    cpu_l1_accesses,
-    cpu_instr_retired,
-    cpu_l2_accesses,
-    cpu_l3_accesses,
-    cpu_bus_reads,
-    cpu_bus_writes,
-    cpu_mem_reads,
-    cpu_mem_writes,
-    cpu_ase_spec,
-    cpu_vfp_spec,
-    cpu_crypto_spec,
+    FRAME_TIMES,
+    CPU_CYCLES,
+    CPU_INSTRUCTIONS,
+    CPU_CACHE_MISS_RATIO,
+    CPU_BRANCH_MISS_RATIO,
+    CPU_L_1_ACCESSES,
+    CPU_INSTR_RETIRED,
+    CPU_L_2_ACCESSES,
+    CPU_L_3_ACCESSES,
+    CPU_BUS_READS,
+    CPU_BUS_WRITES,
+    CPU_MEM_READS,
+    CPU_MEM_WRITES,
+    CPU_ASE_SPEC,
+    CPU_VFP_SPEC,
+    CPU_CRYPTO_SPEC,
     
-    gpu_cycles,
-    gpu_vertex_cycles,
-    gpu_load_store_cycles,
-    gpu_tiles,
-    gpu_killed_tiles,
-    gpu_fragment_jobs,
-    gpu_fragment_cycles,
-    gpu_ext_reads,
-    gpu_ext_writes,
-    gpu_ext_read_stalls,
-    gpu_ext_write_stalls,
-    gpu_ext_read_bytes,
-    gpu_ext_write_bytes,
-    gpu_tex_cycles,
+    GPU_CYCLES,
+    GPU_VERTEX_CYCLES,
+    GPU_LOAD_STORE_CYCLES,
+    GPU_TILES,
+    GPU_KILLED_TILES,
+    GPU_FRAGMENT_JOBS,
+    GPU_FRAGMENT_CYCLES,
+    GPU_EXT_READS,
+    GPU_EXT_WRITES,
+    GPU_EXT_READ_STALLS,
+    GPU_EXT_WRITE_STALLS,
+    GPU_EXT_READ_BYTES,
+    GPU_EXT_WRITE_BYTES,
+    GPU_TEX_CYCLES,
 };
 
 struct StatIndexHash {
@@ -72,20 +60,20 @@ struct StatIndexHash {
 
 enum class StatScaling {
     // The stat is not scaled
-    None,
+    NONE,
     
     // The stat is scaled by delta time, useful for per-second values
-    ByDeltaTime,
+    BY_DELTA_TIME,
     
     // The stat is scaled by another counter, useful for ratios
-    ByCounter
+    BY_COUNTER
 };
 
 enum class CounterSamplingMode {
     /// Sample counters only when calling update()
-    Polling,
+    POLLING,
     /// Sample counters continuously, update circular buffers when calling update()
-    Continuous
+    CONTINUOUS
 };
 
 struct CounterSamplingConfig {
@@ -119,11 +107,11 @@ public:
     
     StatGraphData() = default;
     
-    std::string name;
-    std::string format;
-    float scale_factor{};
-    bool has_fixed_max{};
-    float max_value{};
+    std::string name_;
+    std::string format_;
+    float scale_factor_{};
+    bool has_fixed_max_{};
+    float max_value_{};
 };
 
 }        // namespace vox

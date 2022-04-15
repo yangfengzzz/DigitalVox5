@@ -262,7 +262,7 @@ inline bool CommandParser::convert_type(const std::vector<std::string> &values, 
     if (values.size() != 1) {
         *type = 0;
     } else {
-        auto number =  atoi(values[0].c_str());
+        auto number = atoi(values[0].c_str());
         *type = static_cast<uint32_t>(number);
     }
     return true;

@@ -9,8 +9,8 @@
 
 namespace vox {
 std::vector<Plugin *> associate_plugins(const std::vector<Plugin *> &plugins) {
-    for (auto *plugin: plugins) {
-        for (auto *comparison_plugin: plugins) {
+    for (auto *plugin : plugins) {
+        for (auto *comparison_plugin : plugins) {
             bool full_control = comparison_plugin->has_tags<tags::FullControl>();
             bool stopping = comparison_plugin->has_tags<tags::Stopping>();
             bool controlling = full_control || stopping;

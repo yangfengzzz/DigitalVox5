@@ -62,5 +62,4 @@ private:
     KeyCode key_down = KeyCode::Unknown;
 };
 
-
 }        // namespace vox

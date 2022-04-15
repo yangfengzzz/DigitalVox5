@@ -51,14 +51,14 @@ std::string HelpFormatter::make_help(const CLI::App *app, std::string name, CLI:
 
 std::string HelpFormatter::make_expanded(const CLI::App *sub) const {
 #define SPACE()                                 \
-{                                           \
-size_t current_size = out.str().size(); \
-if (current_size > last_size)           \
-{                                       \
-last_size = current_size;           \
-out << "\n";                        \
-}                                       \
-}
+    {                                           \
+        size_t current_size = out.str().size(); \
+        if (current_size > last_size)           \
+        {                                       \
+            last_size = current_size;           \
+            out << "\n";                        \
+        }                                       \
+    }
     
     const auto *meta = get_meta(sub);
     

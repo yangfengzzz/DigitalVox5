@@ -11,8 +11,8 @@
 
 namespace vox {
 Command::Command(std::string name, std::string help_line) :
-	name_(std::move(name)),
-	help_line_(std::move(help_line)) {
+name_(std::move(name)),
+help_line_(std::move(help_line)) {
     
 }
 
@@ -35,7 +35,7 @@ void Command::set_help_line(const std::string &help_line) {
 }
 
 MultipleCommands::MultipleCommands(std::vector<Command *> commands) :
-	commands_(std::move(commands)) {}
+commands_(std::move(commands)) {}
 
 const std::vector<Command *> &MultipleCommands::get_commands() const {
     return commands_;
@@ -54,7 +54,7 @@ TypedCommand<PositionalCommand>(name, help_line) {}
 
 FlagCommand::FlagCommand(FlagType type, const std::string &long_name, const std::string &short_name,
                          const std::string &help_line) :
-	TypedCommand<FlagCommand>("", help_line), type_{type} {
+TypedCommand<FlagCommand>("", help_line), type_{type} {
     std::string name;
     
     if (!short_name.empty()) {
@@ -87,7 +87,7 @@ bool CommandParser::parse(CommandParserContext *context, const std::vector<Comma
         parse(context, command->get<type>()); \
     }
     
-    for (auto *command: commands) {
+    for (auto *command : commands) {
         PARSE(SubCommand)
         PARSE(PositionalCommand)
         PARSE(FlagCommand)

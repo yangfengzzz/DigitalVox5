@@ -1,20 +1,8 @@
-/* Copyright (c) 2018-2021, Arm Limited and Contributors
- * Copyright (c) 2020-2021, Broadcom Inc.
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "stats/stats.h"
 
@@ -28,63 +16,63 @@
 
 namespace vox {
 Stats::Stats(RenderContext &render_context, size_t buffer_size) :
-render_context(render_context),
-buffer_size(buffer_size) {
+render_context_(render_context),
+buffer_size_(buffer_size) {
     assert(buffer_size >= 2 && "Buffers size should be greater than 2");
 }
 
 Stats::~Stats() {
-    if (stop_worker) {
-        stop_worker->set_value();
+    if (stop_worker_) {
+        stop_worker_->set_value();
     }
     
-    if (worker_thread.joinable()) {
-        worker_thread.join();
+    if (worker_thread_.joinable()) {
+        worker_thread_.join();
     }
 }
 
 void Stats::request_stats(const std::set<StatIndex> &wanted_stats,
                           CounterSamplingConfig config) {
-    if (!providers.empty()) {
+    if (!providers_.empty()) {
         throw std::runtime_error("Stats must only be requested once");
     }
     
-    requested_stats = wanted_stats;
-    sampling_config = config;
+    requested_stats_ = wanted_stats;
+    sampling_config_ = config;
     
     // Copy the requested stats, so they can be changed by the providers below
-    std::set<StatIndex> stats = requested_stats;
+    std::set<StatIndex> stats = requested_stats_;
     
     // Initialize our list of providers (in priority order)
     // All supported stats will be removed from the given 'stats' set by the provider's constructor
     // so subsequent providers only see requests for stats that aren't already supported.
-    providers.emplace_back(std::make_unique<FrameTimeStatsProvider>(stats));
-    providers.emplace_back(std::make_unique<HWCPipeStatsProvider>(stats));
-    providers.emplace_back(std::make_unique<VulkanStatsProvider>(stats, sampling_config, render_context));
+    providers_.emplace_back(std::make_unique<FrameTimeStatsProvider>(stats));
+    providers_.emplace_back(std::make_unique<HWCPipeStatsProvider>(stats));
+    providers_.emplace_back(std::make_unique<VulkanStatsProvider>(stats, sampling_config_, render_context_));
     
     // In continuous sampling mode we still need to update the frame times as if we are polling
     // Store the frame time provider here, so we can easily access it later.
-    frame_time_provider = providers[0].get();
+    frame_time_provider_ = providers_[0].get();
     
-    for (const auto &stat: requested_stats) {
-        counters[stat] = std::vector<float>(buffer_size, 0);
+    for (const auto &stat : requested_stats_) {
+        counters_[stat] = std::vector<float>(buffer_size_, 0);
     }
     
-    if (sampling_config.mode == CounterSamplingMode::Continuous) {
+    if (sampling_config_.mode == CounterSamplingMode::CONTINUOUS) {
         // Start a thread for continuous sample capture
-        stop_worker = std::make_unique<std::promise<void>>();
+        stop_worker_ = std::make_unique<std::promise<void>>();
         
-        worker_thread = std::thread([this] {
-            continuous_sampling_worker(stop_worker->get_future());
+        worker_thread_ = std::thread([this] {
+            continuous_sampling_worker(stop_worker_->get_future());
         });
         
         // Reduce smoothing for continuous sampling
-        alpha_smoothing = 0.6f;
+        alpha_smoothing_ = 0.6f;
     }
     
-    for (const auto &stat_index: requested_stats) {
+    for (const auto &stat_index : requested_stats_) {
         if (!is_available(stat_index)) {
-            LOGW(vox::StatsProvider::default_graph_data(stat_index).name + " : not available")
+            LOGW(vox::StatsProvider::default_graph_data(stat_index).name_ + " : not available")
         }
     }
 }
@@ -92,16 +80,16 @@ void Stats::request_stats(const std::set<StatIndex> &wanted_stats,
 void Stats::resize(const size_t width) {
     // The circular buffer size will be 1/16th of the width of the screen
     // which means every sixteen pixels represent one graph value
-    buffer_size = width >> 4;
+    buffer_size_ = width >> 4;
     
-    for (auto &counter: counters) {
-        counter.second.resize(buffer_size);
+    for (auto &counter : counters_) {
+        counter.second.resize(buffer_size_);
         counter.second.shrink_to_fit();
     }
 }
 
 bool Stats::is_available(const StatIndex index) const {
-    for (const auto &p: providers)
+    for (const auto &p : providers_)
         if (p->is_available(index))
             return true;
     return false;
@@ -120,72 +108,72 @@ static void add_smoothed_value(std::vector<float> &values, float value, float al
 }
 
 void Stats::update(float delta_time) {
-    switch (sampling_config.mode) {
-        case CounterSamplingMode::Polling: {
+    switch (sampling_config_.mode) {
+        case CounterSamplingMode::POLLING: {
             StatsProvider::Counters sample;
             
-            for (auto &p: providers) {
+            for (auto &p : providers_) {
                 auto s = p->sample(delta_time);
                 sample.insert(s.begin(), s.end());
             }
             push_sample(sample);
             break;
         }
-        case CounterSamplingMode::Continuous: {
+        case CounterSamplingMode::CONTINUOUS: {
             // Check that we have no pending samples to be shown
-            if (pending_samples.empty()) {
-                std::unique_lock<std::mutex> lock(continuous_sampling_mutex);
-                if (!should_add_to_continuous_samples) {
+            if (pending_samples_.empty()) {
+                std::unique_lock<std::mutex> lock(continuous_sampling_mutex_);
+                if (!should_add_to_continuous_samples_) {
                     // If we have no pending samples, we let the worker thread
                     // capture samples for the next frame
-                    should_add_to_continuous_samples = true;
+                    should_add_to_continuous_samples_ = true;
                 } else {
                     // The worker thread has captured a frame, so we stop it
                     // and read the samples
-                    should_add_to_continuous_samples = false;
-                    pending_samples.clear();
-                    std::swap(pending_samples, continuous_samples);
+                    should_add_to_continuous_samples_ = false;
+                    pending_samples_.clear();
+                    std::swap(pending_samples_, continuous_samples_);
                 }
             }
             
-            if (pending_samples.empty())
+            if (pending_samples_.empty())
                 return;
             
             // Ensure the number of pending samples is capped at a reasonable value
-            if (pending_samples.size() > 100) {
+            if (pending_samples_.size() > 100) {
                 // Prefer later samples over new samples.
-                std::move(pending_samples.end() - 100, pending_samples.end(), pending_samples.begin());
-                pending_samples.erase(pending_samples.begin() + 100, pending_samples.end());
+                std::move(pending_samples_.end() - 100, pending_samples_.end(), pending_samples_.begin());
+                pending_samples_.erase(pending_samples_.begin() + 100, pending_samples_.end());
                 
                 // If we get to this point, we're not reading samples fast enough, nudge a little ahead.
-                fractional_pending_samples += 1.0f;
+                fractional_pending_samples_ += 1.0f;
             }
             
             // Compute the number of samples to show this frame
             float floating_sample_count =
-            sampling_config.speed * delta_time * float(buffer_size) + fractional_pending_samples;
+            sampling_config_.speed * delta_time * float(buffer_size_) + fractional_pending_samples_;
             
             // Keep track of the fractional value to avoid speeding up or slowing down too much due to rounding errors.
             // Generally we push very few samples per frame, so this matters.
-            fractional_pending_samples = floating_sample_count - std::floor(floating_sample_count);
+            fractional_pending_samples_ = floating_sample_count - std::floor(floating_sample_count);
             
             auto sample_count = static_cast<size_t>(floating_sample_count);
             
             // Clamp the number of samples
-            sample_count = std::max<size_t>(1, std::min<size_t>(sample_count, pending_samples.size()));
+            sample_count = std::max<size_t>(1, std::min<size_t>(sample_count, pending_samples_.size()));
             
             // Get the frame time stats (not a continuous stat)
-            StatsProvider::Counters frame_time_sample = frame_time_provider->sample(delta_time);
+            StatsProvider::Counters frame_time_sample = frame_time_provider_->sample(delta_time);
             
             // Push the samples to circular buffers
-            std::for_each(pending_samples.begin(), pending_samples.begin() + sample_count,
+            std::for_each(pending_samples_.begin(), pending_samples_.begin() + sample_count,
                           [this, frame_time_sample](auto &s) {
                 // Write the correct frame time into the continuous stats
                 s.insert(frame_time_sample.begin(), frame_time_sample.end());
                 // Then push the sample to the counters list
                 this->push_sample(s);
             });
-            pending_samples.erase(pending_samples.begin(), pending_samples.begin() + sample_count);
+            pending_samples_.erase(pending_samples_.begin(), pending_samples_.begin() + sample_count);
             
             break;
         }
@@ -193,40 +181,40 @@ void Stats::update(float delta_time) {
 }
 
 void Stats::continuous_sampling_worker(std::future<void> should_terminate) {
-    worker_timer.tick();
+    worker_timer_.tick();
     
-    for (auto &p: providers)
+    for (auto &p : providers_)
         p->continuous_sample(0.0f);
     
     while (should_terminate.wait_for(std::chrono::seconds(0)) != std::future_status::ready) {
-        auto delta_time = static_cast<float>(worker_timer.tick());
-        auto interval = std::chrono::duration_cast<std::chrono::duration<float>>(sampling_config.interval).count();
+        auto delta_time = static_cast<float>(worker_timer_.tick());
+        auto interval = std::chrono::duration_cast<std::chrono::duration<float>>(sampling_config_.interval).count();
         
         // Ensure we wait for the interval specified in config
         if (delta_time < interval) {
             std::this_thread::sleep_for(std::chrono::duration<float>(interval - delta_time));
-            delta_time += static_cast<float>(worker_timer.tick());
+            delta_time += static_cast<float>(worker_timer_.tick());
         }
         
         // Sample counters
         StatsProvider::Counters sample;
-        for (auto &p: providers) {
+        for (auto &p : providers_) {
             StatsProvider::Counters s = p->continuous_sample(delta_time);
             sample.insert(s.begin(), s.end());
         }
         
         // Add the new sample to the vector of continuous samples
         {
-            std::unique_lock<std::mutex> lock(continuous_sampling_mutex);
-            if (should_add_to_continuous_samples) {
-                continuous_samples.push_back(sample);
+            std::unique_lock<std::mutex> lock(continuous_sampling_mutex_);
+            if (should_add_to_continuous_samples_) {
+                continuous_samples_.push_back(sample);
             }
         }
     }
 }
 
 void Stats::push_sample(const StatsProvider::Counters &sample) {
-    for (auto &c: counters) {
+    for (auto &c : counters_) {
         StatIndex idx = c.first;
         std::vector<float> &values = c.second;
         
@@ -237,24 +225,24 @@ void Stats::push_sample(const StatsProvider::Counters &sample) {
         
         auto measurement = static_cast<float>(smp->second.result);
         
-        add_smoothed_value(values, measurement, alpha_smoothing);
+        add_smoothed_value(values, measurement, alpha_smoothing_);
     }
 }
 
 void Stats::begin_sampling(CommandBuffer &cb) {
     // Inform the providers
-    for (auto &p: providers)
+    for (auto &p : providers_)
         p->begin_sampling(cb);
 }
 
 void Stats::end_sampling(CommandBuffer &cb) {
     // Inform the providers
-    for (auto &p: providers)
+    for (auto &p : providers_)
         p->end_sampling(cb);
 }
 
 const StatGraphData &Stats::get_graph_data(StatIndex index) const {
-    for (auto &p: providers) {
+    for (auto &p : providers_) {
         if (p->is_available(index))
             return p->get_graph_data(index);
     }
@@ -266,11 +254,11 @@ StatGraphData::StatGraphData(std::string name,
                              float scale_factor,
                              bool has_fixed_max,
                              float max_value) :
-name(std::move(name)),
-format{std::move(graph_label_format)},
-scale_factor{scale_factor},
-has_fixed_max{has_fixed_max},
-max_value{max_value} {
+name_(std::move(name)),
+format_{std::move(graph_label_format)},
+scale_factor_{scale_factor},
+has_fixed_max_{has_fixed_max},
+max_value_{max_value} {
 }
 
 }        // namespace vox

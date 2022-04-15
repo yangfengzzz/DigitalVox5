@@ -125,7 +125,7 @@ Image{name} {
     } else {
         std::vector<std::vector<VkDeviceSize>> offsets{};
         offsets.resize(1);
-        for (auto & mipmap_level : mipmap_levels) {
+        for (auto &mipmap_level : mipmap_levels) {
             offsets[0].push_back(static_cast<VkDeviceSize>(mipmap_level.offset));
         }
         set_offsets(offsets);

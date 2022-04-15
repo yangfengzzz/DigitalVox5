@@ -78,5 +78,4 @@ private:
     DebugInfo debug_info_{};
 };
 
-
 }        // namespace vox

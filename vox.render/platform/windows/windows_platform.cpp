@@ -77,7 +77,7 @@ inline std::vector<std::string> get_args() {
     std::vector<std::wstring> arg_strings(argv + 1, argv + argc);
     std::vector<std::string> args;
     
-    for (auto &arg: arg_strings) {
+    for (auto &arg : arg_strings) {
         args.push_back(wstr_to_str(arg));
     }
     
@@ -119,6 +119,5 @@ void WindowsPlatform::create_window(const Window::Properties &properties) {
         window = std::make_unique<GlfwWindow>(this, properties);
     }
 }
-
 
 }        // namespace vox

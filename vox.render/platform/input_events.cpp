@@ -31,11 +31,11 @@ KeyAction KeyInputEvent::get_action() const {
 }
 
 MouseButtonInputEvent::MouseButtonInputEvent(MouseButton button, MouseAction action, float pos_x, float pos_y) :
-	InputEvent{EventSource::MOUSE},
-	button_{button},
-	action_{action},
-	pos_x_{pos_x},
-	pos_y_{pos_y} {
+InputEvent{EventSource::MOUSE},
+button_{button},
+action_{action},
+pos_x_{pos_x},
+pos_y_{pos_y} {
 }
 
 MouseButton MouseButtonInputEvent::get_button() const {
@@ -83,6 +83,5 @@ float TouchInputEvent::get_pos_x() const {
 float TouchInputEvent::get_pos_y() const {
     return pos_y_;
 }
-
 
 }        // namespace vox

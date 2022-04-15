@@ -172,7 +172,7 @@ public:
     [[nodiscard]] bool has_tags() const {
         std::vector<TagID> query = {Tag<C>::ID...};
         bool res = true;
-        for (auto id: query) {
+        for (auto id : query) {
             res &= has_tag(id);
         }
         return res;
@@ -230,11 +230,11 @@ template<typename... TAGS>
 std::vector<Plugin *> with_tags(const std::vector<Plugin *> &domain = {}) {
     std::vector<TagID> tags = {Tag<TAGS>::ID...};
     std::vector<Plugin *> compatable;
-    for (auto ext: domain) {
+    for (auto ext : domain) {
         assert(ext != nullptr);
         
         bool has_one = false;
-        for (auto t: tags) {
+        for (auto t : tags) {
             has_one |= ext->has_tag(t);
         }
         
@@ -258,11 +258,11 @@ template<typename... TAGS>
 std::vector<Plugin *> without_tags(const std::vector<Plugin *> &domain = {}) {
     std::vector<TagID> tags = {Tag<TAGS>::ID...};
     std::vector<Plugin *> compatable;
-    for (auto ext: domain) {
+    for (auto ext : domain) {
         assert(ext != nullptr);
         
         bool has_any = false;
-        for (auto t: tags) {
+        for (auto t : tags) {
             has_any |= ext->has_tag(t);
         }
         

@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -144,9 +133,9 @@ public:
     [[nodiscard]] const std::map<uint32_t, std::vector<uint8_t>> &get_specialization_constant_state() const;
     
 private:
-    bool dirty{false};
+    bool dirty_{false};
     // Map tracking state of the Specialization Constants
-    std::map<uint32_t, std::vector<uint8_t>> specialization_constant_state;
+    std::map<uint32_t, std::vector<uint8_t>> specialization_constant_state_;
 };
 
 template<class T>
@@ -212,30 +201,29 @@ public:
     void clear_dirty();
     
 private:
-    bool dirty{false};
+    bool dirty_{false};
     
-    PipelineLayout *pipeline_layout{nullptr};
+    PipelineLayout *pipeline_layout_{nullptr};
     
-    const RenderPass *render_pass{nullptr};
+    const RenderPass *render_pass_{nullptr};
     
-    SpecializationConstantState specialization_constant_state{};
+    SpecializationConstantState specialization_constant_state_{};
     
-    VertexInputState vertex_input_state{};
+    VertexInputState vertex_input_state_{};
     
-    InputAssemblyState input_assembly_state{};
+    InputAssemblyState input_assembly_state_{};
     
-    RasterizationState rasterization_state{};
+    RasterizationState rasterization_state_{};
     
-    ViewportState viewport_state{};
+    ViewportState viewport_state_{};
     
-    MultisampleState multisample_state{};
+    MultisampleState multisample_state_{};
     
-    DepthStencilState depth_stencil_state{};
+    DepthStencilState depth_stencil_state_{};
     
-    ColorBlendState color_blend_state{};
+    ColorBlendState color_blend_state_{};
     
-    uint32_t subpass_index{0U};
+    uint32_t subpass_index_{0U};
 };
-
 
 }        // namespace vox

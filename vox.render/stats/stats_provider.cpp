@@ -1,92 +1,81 @@
-/* Copyright (c) 2020, Broadcom Inc. and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "stats_provider.h"
 
 namespace vox {
 // Default graphing values for stats. May be overridden by individual providers.
-std::map<StatIndex, StatGraphData> StatsProvider::default_graph_map{
-    // clang-format off
-    // StatIndex                        Name shown in graph                            Format           Scale                         Fixed_max Max_value
-    {StatIndex::frame_times,           {"Frame Times",                                 "{:3.1f} ms",    1000.0f}},
-    {StatIndex::cpu_cycles,            {"CPU Cycles",                                  "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::cpu_instructions,      {"CPU Instructions",                            "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::cpu_cache_miss_ratio,  {"Cache Miss Ratio",                            "{:3.1f}%",      100.0f, true, 100.0f}},
-    {StatIndex::cpu_branch_miss_ratio, {"Branch Miss Ratio",                           "{:3.1f}%",      100.0f, true, 100.0f}},
-    {StatIndex::cpu_l1_accesses,       {"CPU L1 Accesses",                             "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::cpu_instr_retired,     {"CPU Instructions Retired",                    "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::cpu_l2_accesses,       {"CPU L2 Accesses",                             "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::cpu_l3_accesses,       {"CPU L3 Accesses",                             "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::cpu_bus_reads,         {"CPU Bus Read Beats",                          "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::cpu_bus_writes,        {"CPU Bus Write Beats",                         "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::cpu_mem_reads,         {"CPU Memory Read Instructions",                "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::cpu_mem_writes,        {"CPU Memory Write Instructions",               "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::cpu_ase_spec,          {"CPU Speculatively Exec. SIMD Instructions",   "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::cpu_vfp_spec,          {"CPU Speculatively Exec. FP Instructions",     "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::cpu_crypto_spec,       {"CPU Speculatively Exec. Crypto Instructions", "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    
-    {StatIndex::gpu_cycles,            {"GPU Cycles",                                  "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::gpu_vertex_cycles,     {"Vertex Cycles",                               "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::gpu_load_store_cycles, {"Load Store Cycles",                           "{:4.0f} k/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::gpu_tiles,             {"Tiles",                                       "{:4.1f} k/s",   float(
-                                                                                                              1e-3)}},
-    {StatIndex::gpu_killed_tiles,      {"Tiles killed by CRC match",                   "{:4.1f} k/s",   float(
-                                                                                                              1e-3)}},
-    {StatIndex::gpu_fragment_jobs,     {"Fragment Jobs",                               "{:4.0f}/s"}},
-    {StatIndex::gpu_fragment_cycles,   {"Fragment Cycles",                             "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::gpu_tex_cycles,        {"Shader Texture Cycles",                       "{:4.0f} k/s",   float(
-                                                                                                              1e-3)}},
-    {StatIndex::gpu_ext_reads,         {"External Reads",                              "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::gpu_ext_writes,        {"External Writes",                             "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::gpu_ext_read_stalls,   {"External Read Stalls",                        "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::gpu_ext_write_stalls,  {"External Write Stalls",                       "{:4.1f} M/s",   float(
-                                                                                                              1e-6)}},
-    {StatIndex::gpu_ext_read_bytes,    {"External Read Bytes",                         "{:4.1f} MiB/s", 1.0f /
-        (1024.0f *
-         1024.0f)}},
-    {StatIndex::gpu_ext_write_bytes,   {"External Write Bytes",                        "{:4.1f} MiB/s", 1.0f /
-        (1024.0f *
-         1024.0f)}},
-    // clang-format on
+std::map<StatIndex, StatGraphData> StatsProvider::default_graph_map_{
+	// clang-format off
+	// StatIndex                        Name shown in graph                            Format           Scale                         Fixed_max Max_value
+	{StatIndex::FRAME_TIMES, {"Frame Times", "{:3.1f} ms", 1000.0f}},
+	{StatIndex::CPU_CYCLES, {"CPU Cycles", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::CPU_INSTRUCTIONS, {"CPU Instructions", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::CPU_CACHE_MISS_RATIO, {"Cache Miss Ratio", "{:3.1f}%", 100.0f, true, 100.0f}},
+	{StatIndex::CPU_BRANCH_MISS_RATIO, {"Branch Miss Ratio", "{:3.1f}%", 100.0f, true, 100.0f}},
+	{StatIndex::CPU_L_1_ACCESSES, {"CPU L1 Accesses", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::CPU_INSTR_RETIRED, {"CPU Instructions Retired", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::CPU_L_2_ACCESSES, {"CPU L2 Accesses", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::CPU_L_3_ACCESSES, {"CPU L3 Accesses", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::CPU_BUS_READS, {"CPU Bus Read Beats", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::CPU_BUS_WRITES, {"CPU Bus Write Beats", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::CPU_MEM_READS, {"CPU Memory Read Instructions", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::CPU_MEM_WRITES, {"CPU Memory Write Instructions", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::CPU_ASE_SPEC, {"CPU Speculatively Exec. SIMD Instructions", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::CPU_VFP_SPEC, {"CPU Speculatively Exec. FP Instructions", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::CPU_CRYPTO_SPEC, {"CPU Speculatively Exec. Crypto Instructions", "{:4.1f} M/s", float(
+		1e-6)}},
+
+	{StatIndex::GPU_CYCLES, {"GPU Cycles", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::GPU_VERTEX_CYCLES, {"Vertex Cycles", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::GPU_LOAD_STORE_CYCLES, {"Load Store Cycles", "{:4.0f} k/s", float(
+		1e-6)}},
+	{StatIndex::GPU_TILES, {"Tiles", "{:4.1f} k/s", float(
+		1e-3)}},
+	{StatIndex::GPU_KILLED_TILES, {"Tiles killed by CRC match", "{:4.1f} k/s", float(
+		1e-3)}},
+	{StatIndex::GPU_FRAGMENT_JOBS, {"Fragment Jobs", "{:4.0f}/s"}},
+	{StatIndex::GPU_FRAGMENT_CYCLES, {"Fragment Cycles", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::GPU_TEX_CYCLES, {"Shader Texture Cycles", "{:4.0f} k/s", float(
+		1e-3)}},
+	{StatIndex::GPU_EXT_READS, {"External Reads", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::GPU_EXT_WRITES, {"External Writes", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::GPU_EXT_READ_STALLS, {"External Read Stalls", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::GPU_EXT_WRITE_STALLS, {"External Write Stalls", "{:4.1f} M/s", float(
+		1e-6)}},
+	{StatIndex::GPU_EXT_READ_BYTES, {"External Read Bytes", "{:4.1f} MiB/s", 1.0f /
+		(1024.0f *
+			1024.0f)}},
+	{StatIndex::GPU_EXT_WRITE_BYTES, {"External Write Bytes", "{:4.1f} MiB/s", 1.0f /
+		(1024.0f *
+			1024.0f)}},
+	// clang-format on
 };
 
 // Static
 const StatGraphData &StatsProvider::default_graph_data(StatIndex index) {
-    return default_graph_map.at(index);
+	return default_graph_map_.at(index);
 }
 
 }        // namespace vox

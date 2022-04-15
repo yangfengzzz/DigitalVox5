@@ -1,20 +1,8 @@
-/* Copyright (c) 2018-2022, Arm Limited and Contributors
- * Copyright (c) 2020-2022, Broadcom Inc.
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -61,7 +49,7 @@ public:
      * @param sampling_config Sampling mode configuration (polling or continuous)
      */
     void request_stats(const std::set<StatIndex> &requested_stats,
-                       CounterSamplingConfig sampling_config = {CounterSamplingMode::Polling});
+                       CounterSamplingConfig sampling_config = {CounterSamplingMode::POLLING});
     
     /**
      * @brief Resizes the stats buffers according to the width of the screen
@@ -89,14 +77,14 @@ public:
      * @return The data of the specified stat
      */
     [[nodiscard]] const std::vector<float> &get_data(StatIndex index) const {
-        return counters.at(index);
+        return counters_.at(index);
     };
     
     /**
      * @return The requested stats
      */
     [[nodiscard]] const std::set<StatIndex> &get_requested_stats() const {
-        return requested_stats;
+        return requested_stats_;
     }
     
     /**
@@ -135,55 +123,55 @@ public:
     
 private:
     /// The render context
-    RenderContext &render_context;
+    RenderContext &render_context_;
     
     /// Stats that were requested - they may not all be available
-    std::set<StatIndex> requested_stats;
+    std::set<StatIndex> requested_stats_;
     
     /// Provider that tracks frame times
-    StatsProvider *frame_time_provider{nullptr};
+    StatsProvider *frame_time_provider_{nullptr};
     
     /// A list of stats providers to use in priority order
-    std::vector<std::unique_ptr<StatsProvider>> providers;
+    std::vector<std::unique_ptr<StatsProvider>> providers_;
     
     /// Counter sampling configuration
-    CounterSamplingConfig sampling_config;
+    CounterSamplingConfig sampling_config_;
     
     /// Size of the circular buffers
-    size_t buffer_size;
+    size_t buffer_size_;
     
     /// Timer used in the main thread to compute delta time
-    Timer main_timer;
+    Timer main_timer_;
     
     /// Timer used by the worker thread to throttle counter sampling
-    Timer worker_timer;
+    Timer worker_timer_;
     
     /// Alpha smoothing for running average
-    float alpha_smoothing{0.2f};
+    float alpha_smoothing_{0.2f};
     
     /// Circular buffers for counter data
-    std::map<StatIndex, std::vector<float>> counters{};
+    std::map<StatIndex, std::vector<float>> counters_{};
     
     /// Worker thread for continuous sampling
-    std::thread worker_thread;
+    std::thread worker_thread_;
     
     /// Promise to stop the worker thread
-    std::unique_ptr<std::promise<void>> stop_worker;
+    std::unique_ptr<std::promise<void>> stop_worker_;
     
     /// A mutex for accessing measurements during continuous sampling
-    std::mutex continuous_sampling_mutex;
+    std::mutex continuous_sampling_mutex_;
     
     /// The samples read during continuous sampling
-    std::vector<StatsProvider::Counters> continuous_samples;
+    std::vector<StatsProvider::Counters> continuous_samples_;
     
     /// A flag specifying if the worker thread should add entries to continuous_samples
-    bool should_add_to_continuous_samples{false};
+    bool should_add_to_continuous_samples_{false};
     
     /// The samples waiting to be displayed
-    std::vector<StatsProvider::Counters> pending_samples;
+    std::vector<StatsProvider::Counters> pending_samples_;
     
     /// A value which helps keep a steady pace of continuous samples output.
-    float fractional_pending_samples{0.0f};
+    float fractional_pending_samples_{0.0f};
     
     /// The worker thread function for continuous sampling;
     /// it adds a new entry to continuous_samples at every interval

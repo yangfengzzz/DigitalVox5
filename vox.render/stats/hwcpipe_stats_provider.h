@@ -1,20 +1,8 @@
-/* Copyright (c) 2018-2020, Arm Limited and Contributors
- * Copyright (c) 2020, Broadcom Inc.
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -33,8 +21,8 @@ namespace vox {
 class HWCPipeStatsProvider : public StatsProvider {
 private:
     enum class StatType {
-        Cpu,
-        Gpu
+        CPU,
+        GPU
     };
     
     struct StatData {
@@ -54,9 +42,9 @@ private:
          * @param divisor The CPU counter to be used as divisor if scaling is ByCounter
          */
         StatData(hwcpipe::CpuCounter c,
-                 StatScaling stat_scaling = StatScaling::ByDeltaTime,
+                 StatScaling stat_scaling = StatScaling::BY_DELTA_TIME,
                  hwcpipe::CpuCounter divisor = hwcpipe::CpuCounter::MaxValue) :
-        type(StatType::Cpu),
+        type(StatType::CPU),
         scaling(stat_scaling),
         cpu_counter(c),
         divisor_cpu_counter(divisor) {}
@@ -68,9 +56,9 @@ private:
          * @param divisor The GPU counter to be used as divisor if scaling is ByCounter
          */
         StatData(hwcpipe::GpuCounter c,
-                 StatScaling stat_scaling = StatScaling::ByDeltaTime,
+                 StatScaling stat_scaling = StatScaling::BY_DELTA_TIME,
                  hwcpipe::GpuCounter divisor = hwcpipe::GpuCounter::MaxValue) :
-        type(StatType::Gpu),
+        type(StatType::GPU),
         scaling(stat_scaling),
         gpu_counter(c),
         divisor_gpu_counter(divisor) {}
@@ -112,13 +100,13 @@ public:
     
 private:
     // The hwcpipe instance
-    std::unique_ptr<hwcpipe::HWCPipe> hwcpipe{};
+    std::unique_ptr<hwcpipe::HWCPipe> hwcpipe_{};
     
     // Only stats which are available and were requested end up in stat_data
-    StatDataMap stat_data;
+    StatDataMap stat_data_;
     
     // Counter sampling configuration
-    CounterSamplingConfig sampling_config;
+    CounterSamplingConfig sampling_config_;
 };
 
 }        // namespace vox

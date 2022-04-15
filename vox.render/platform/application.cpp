@@ -51,5 +51,4 @@ DebugInfo &Application::get_debug_info() {
     return debug_info_;
 }
 
-
 }        // namespace vox

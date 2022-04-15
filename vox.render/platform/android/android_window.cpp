@@ -65,5 +65,4 @@ float AndroidWindow::get_dpi_factor() const {
     static_cast<float>(ACONFIGURATION_DENSITY_MEDIUM);
 }
 
-
 }        // namespace vox

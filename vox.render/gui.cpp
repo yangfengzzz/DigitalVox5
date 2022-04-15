@@ -55,9 +55,9 @@ void upload_draw_data(ImDrawData *draw_data, const uint8_t *vertex_data, const u
 
 inline void reset_graph_max_value(StatGraphData &graph_data) {
     // If it does not have a fixed max
-    if (!graph_data.has_fixed_max) {
+    if (!graph_data.has_fixed_max_) {
         // Reset it
-        graph_data.max_value = 0.0f;
+        graph_data.max_value_ = 0.0f;
     }
 }
 }        // namespace
@@ -878,9 +878,9 @@ void Gui::show_stats(const Stats &stats) {
         auto &graph_data = pr->second;
         const auto &graph_elements = stats.get_data(stat_index);
         float graph_min = 0.0f;
-        float &graph_max = graph_data.max_value;
+        float &graph_max = graph_data.max_value_;
         
-        if (!graph_data.has_fixed_max) {
+        if (!graph_data.has_fixed_max_) {
             auto new_max = *std::max_element(graph_elements.begin(), graph_elements.end()) * stats_view.top_padding;
             if (new_max > graph_max) {
                 graph_max = new_max;
@@ -896,13 +896,13 @@ void Gui::show_stats(const Stats &stats) {
         
         // Check if the stat is available in the current platform
         if (stats.is_available(stat_index)) {
-            graph_label << fmt::format(graph_data.name + ": " + graph_data.format, avg * graph_data.scale_factor);
+            graph_label << fmt::format(graph_data.name_ + ": " + graph_data.format_, avg * graph_data.scale_factor_);
             ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
             ImGui::PlotLines("", &graph_elements[0], static_cast<int>(graph_elements.size()), 0,
                              graph_label.str().c_str(), graph_min, graph_max, graph_size);
             ImGui::PopItemFlag();
         } else {
-            graph_label << graph_data.name << ": not available";
+            graph_label << graph_data.name_ << ": not available";
             ImGui::Text("%s", graph_label.str().c_str());
         }
     }

@@ -48,5 +48,4 @@ private:
     static void init();
 };
 
-
 }        // namespace vox

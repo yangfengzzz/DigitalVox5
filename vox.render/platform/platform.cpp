@@ -48,8 +48,8 @@ ExitCode Platform::initialize(const std::vector<Plugin *> &plugins = {}) {
     LOGI("Logger initialized")
     
     parser_ = std::make_unique<Cli11CommandParser>("vulkan_samples",
-												  "\n\tVulkan Samples\n\n\t\tA collection of samples to demonstrate the Vulkan best practice.\n",
-												  arguments_);
+                                                   "\n\tVulkan Samples\n\n\t\tA collection of samples to demonstrate the Vulkan best practice.\n",
+                                                   arguments_);
     
     // Process command line arguments
     if (!parser_->parse(associate_plugins(plugins))) {
@@ -57,10 +57,10 @@ ExitCode Platform::initialize(const std::vector<Plugin *> &plugins = {}) {
     }
     
     // Subscribe plugins to requested hooks and store activated plugins
-    for (auto *plugin: plugins) {
+    for (auto *plugin : plugins) {
         if (plugin->activate_plugin(this, *parser_)) {
             auto &plugin_hooks = plugin->get_hooks();
-            for (auto hook: plugin_hooks) {
+            for (auto hook : plugin_hooks) {
                 auto it = hooks_.find(hook);
                 
                 if (it == hooks_.end()) {
@@ -155,12 +155,10 @@ std::unique_ptr<RenderContext> Platform::create_render_context(Device &device, V
     });
     
     switch (window_properties_.vsync) {
-        case Window::Vsync::ON:
-            context->request_present_mode(VK_PRESENT_MODE_FIFO_KHR);
+        case Window::Vsync::ON:context->request_present_mode(VK_PRESENT_MODE_FIFO_KHR);
             break;
         case Window::Vsync::OFF:
-        default:
-            context->request_present_mode(VK_PRESENT_MODE_MAILBOX_KHR);
+        default:context->request_present_mode(VK_PRESENT_MODE_MAILBOX_KHR);
             break;
     }
     
@@ -170,7 +168,7 @@ std::unique_ptr<RenderContext> Platform::create_render_context(Device &device, V
 void Platform::terminate(ExitCode code) {
     if (code == ExitCode::HELP) {
         auto help = parser_->help();
-        for (auto &line: help) {
+        for (auto &line : help) {
             LOGI(line)
         }
     }

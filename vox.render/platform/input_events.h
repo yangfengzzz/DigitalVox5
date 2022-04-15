@@ -230,5 +230,4 @@ private:
     float pos_y_;
 };
 
-
 }        // namespace vox

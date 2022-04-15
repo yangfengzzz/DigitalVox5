@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -103,46 +92,46 @@ public:
     void set_debug_name(const std::string &name);
     
 protected:
-    RenderContext &render_context;
+    RenderContext &render_context_;
     
-    VkSampleCountFlagBits sample_count{VK_SAMPLE_COUNT_1_BIT};
+    VkSampleCountFlagBits sample_count_{VK_SAMPLE_COUNT_1_BIT};
     
     // A map of shader resource names and the mode of constant data
-    std::unordered_map<std::string, ShaderResourceMode> resource_mode_map;
+    std::unordered_map<std::string, ShaderResourceMode> resource_mode_map_;
     
 private:
-    std::string debug_name{};
+    std::string debug_name_{};
     
-    ShaderSource vertex_shader;
+    ShaderSource vertex_shader_;
     
-    ShaderSource fragment_shader;
+    ShaderSource fragment_shader_;
     
-    DepthStencilState depth_stencil_state{};
+    DepthStencilState depth_stencil_state_{};
     
     /**
      * @brief When creating the renderpass, pDepthStencilAttachment will
      *        be set to nullptr, which disables depth testing
      */
-    bool disable_depth_stencil_attachment{false};
+    bool disable_depth_stencil_attachment_{false};
     
     /**
      * @brief When creating the renderpass, if not None, the resolve
      *        of the multisampled depth attachment will be enabled,
      *        with this mode, to depth_stencil_resolve_attachment
      */
-    VkResolveModeFlagBits depth_stencil_resolve_mode{VK_RESOLVE_MODE_NONE};
+    VkResolveModeFlagBits depth_stencil_resolve_mode_{VK_RESOLVE_MODE_NONE};
     
     /// Default to no input attachments
-    std::vector<uint32_t> input_attachments = {};
+    std::vector<uint32_t> input_attachments_ = {};
     
     /// Default to swapchain output attachment
-    std::vector<uint32_t> output_attachments = {0};
+    std::vector<uint32_t> output_attachments_ = {0};
     
     /// Default to no color resolve attachments
-    std::vector<uint32_t> color_resolve_attachments = {};
+    std::vector<uint32_t> color_resolve_attachments_ = {};
     
     /// Default to no depth stencil resolve attachment
-    uint32_t depth_stencil_resolve_attachment{VK_ATTACHMENT_UNUSED};
+    uint32_t depth_stencil_resolve_attachment_{VK_ATTACHMENT_UNUSED};
 };
 
 }        // namespace vox

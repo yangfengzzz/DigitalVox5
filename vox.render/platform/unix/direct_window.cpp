@@ -378,5 +378,4 @@ float DirectWindow::get_dpi_factor() const {
     return dpi / win_base_density;
 }
 
-
 }        // namespace vox

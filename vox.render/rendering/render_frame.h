@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -34,8 +23,8 @@
 
 namespace vox {
 enum BufferAllocationStrategy {
-    OneAllocationPerBuffer,
-    MultipleAllocationsPerBuffer
+    ONE_ALLOCATION_PER_BUFFER,
+    MULTIPLE_ALLOCATIONS_PER_BUFFER
 };
 
 /**
@@ -56,14 +45,15 @@ public:
     /**
      * @brief Block size of a buffer pool in kilobytes
      */
-    static constexpr uint32_t BUFFER_POOL_BLOCK_SIZE = 256;
+    static constexpr uint32_t buffer_pool_block_size_ = 256;
     
     // A map of the supported usages to a multiplier for the BUFFER_POOL_BLOCK_SIZE
-    const std::unordered_map<VkBufferUsageFlags, uint32_t> supported_usage_map = {
+    const std::unordered_map<VkBufferUsageFlags, uint32_t> supported_usage_map_ = {
         {VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, 1},
-        {VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, 2},        // x2 the size of BUFFER_POOL_BLOCK_SIZE since SSBOs are normally much larger than other types of buffers
-        {VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,  1},
-        {VK_BUFFER_USAGE_INDEX_BUFFER_BIT,   1}};
+        {VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
+            2},        // x2 the size of BUFFER_POOL_BLOCK_SIZE since SSBOs are normally much larger than other types of buffers
+        {VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, 1},
+        {VK_BUFFER_USAGE_INDEX_BUFFER_BIT, 1}};
     
     RenderFrame(Device &device, std::unique_ptr<RenderTarget> &&render_target, size_t thread_count = 1);
     
@@ -143,7 +133,7 @@ public:
     void update_descriptor_sets(size_t thread_index = 0);
     
 private:
-    Device &device;
+    Device &device_;
     
     /**
      * @brief Retrieve the frame's command pool(s)
@@ -156,30 +146,25 @@ private:
     get_command_pools(const Queue &queue, CommandBuffer::ResetMode reset_mode);
     
     /// Commands pools associated to the frame
-    std::map<uint32_t, std::vector<std::unique_ptr<CommandPool>>>
-    command_pools;
+    std::map<uint32_t, std::vector<std::unique_ptr<CommandPool>>> command_pools_;
     
     /// Descriptor pools for the frame
-    std::vector<std::unique_ptr<std::unordered_map<std::size_t, DescriptorPool>>>
-    descriptor_pools;
+    std::vector<std::unique_ptr<std::unordered_map<std::size_t, DescriptorPool>>> descriptor_pools_;
     
     /// Descriptor sets for the frame
-    std::vector<std::unique_ptr<std::unordered_map<std::size_t, DescriptorSet>>>
-    descriptor_sets;
+    std::vector<std::unique_ptr<std::unordered_map<std::size_t, DescriptorSet>>> descriptor_sets_;
     
-    FencePool fence_pool;
+    FencePool fence_pool_;
     
-    SemaphorePool semaphore_pool;
+    SemaphorePool semaphore_pool_;
     
-    size_t thread_count;
+    size_t thread_count_;
     
-    std::unique_ptr<RenderTarget> swapchain_render_target;
+    std::unique_ptr<RenderTarget> swapchain_render_target_;
     
-    BufferAllocationStrategy buffer_allocation_strategy{BufferAllocationStrategy::MultipleAllocationsPerBuffer};
+    BufferAllocationStrategy buffer_allocation_strategy_{BufferAllocationStrategy::MULTIPLE_ALLOCATIONS_PER_BUFFER};
     
-    std::map<VkBufferUsageFlags, std::vector<std::pair<BufferPool, BufferBlock *>>>
-    buffer_pools;
+    std::map<VkBufferUsageFlags, std::vector<std::pair<BufferPool, BufferBlock *>>> buffer_pools_;
 };
-
 
 }        // namespace vox

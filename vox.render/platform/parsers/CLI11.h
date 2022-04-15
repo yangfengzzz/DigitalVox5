@@ -40,7 +40,7 @@ private:
 class Cli11CommandParser : public CommandParser {
 public:
     Cli11CommandParser(const std::string &name, const std::string &description,
-					   const std::vector<std::string> &args);
+                       const std::vector<std::string> &args);
     
     ~Cli11CommandParser() override = default;
     
@@ -85,6 +85,5 @@ private:
     
     bool cli_11_parse(CLI::App *app);
 };
-
 
 }        // namespace vox

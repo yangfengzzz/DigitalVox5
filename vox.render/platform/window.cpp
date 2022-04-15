@@ -13,7 +13,7 @@
 
 namespace vox {
 Window::Window(Properties properties) :
-	properties_{std::move(properties)} {
+properties_{std::move(properties)} {
 }
 
 void Window::process_events() {

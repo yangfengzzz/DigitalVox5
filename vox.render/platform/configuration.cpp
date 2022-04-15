@@ -42,8 +42,8 @@ std::type_index EmptySetting::get_type() {
 }
 
 void Configuration::set() {
-    for (const auto &pair: current_configuration_->second) {
-        for (auto setting: pair.second) {
+    for (const auto &pair : current_configuration_->second) {
+        for (auto setting : pair.second) {
             setting->set();
         }
     }

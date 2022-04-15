@@ -1,19 +1,8 @@
-/* Copyright (c) 2020, Broadcom Inc. and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -38,7 +27,7 @@ private:
         StatData() = default;
         
         StatData(uint32_t counter_index, VkPerformanceCounterStorageKHR storage,
-                 StatScaling stat_scaling = StatScaling::ByDeltaTime,
+                 StatScaling stat_scaling = StatScaling::BY_DELTA_TIME,
                  uint32_t divisor_index = std::numeric_limits<uint32_t>::max(),
                  VkPerformanceCounterStorageKHR divisor_storage = VK_PERFORMANCE_COUNTER_STORAGE_FLOAT64_KHR) :
         scaling(stat_scaling),
@@ -49,11 +38,11 @@ private:
     };
     
     struct VendorStat {
-        VendorStat(std::string name, const std::string &divisor_name = "") :
+        explicit VendorStat(std::string name, const std::string &divisor_name = "") :
         name(std::move(name)),
         divisor_name(divisor_name) {
             if (!divisor_name.empty())
-                scaling = StatScaling::ByCounter;
+                scaling = StatScaling::BY_COUNTER;
         }
         
         void set_vendor_graph_data(const StatGraphData &data) {
@@ -62,7 +51,7 @@ private:
         }
         
         std::string name;
-        StatScaling scaling = StatScaling::ByDeltaTime;
+        StatScaling scaling = StatScaling::BY_DELTA_TIME;
         std::string divisor_name;
         bool has_vendor_graph_data = false;
         StatGraphData graph_data;
@@ -128,31 +117,31 @@ private:
     
 private:
     // The render context
-    RenderContext &render_context;
+    RenderContext &render_context_;
     
     // The query pool for the performance queries
-    std::unique_ptr<QueryPool> query_pool;
+    std::unique_ptr<QueryPool> query_pool_;
     
     // Do we support timestamp queries
-    bool has_timestamps{false};
+    bool has_timestamps_{false};
     
     // The timestamp period
-    float timestamp_period{1.0f};
+    float timestamp_period_{1.0f};
     
     // Query pool for timestamps
-    std::unique_ptr<QueryPool> timestamp_pool;
+    std::unique_ptr<QueryPool> timestamp_pool_;
     
     // Map of vendor specific stat data
-    VendorStatMap vendor_data;
+    VendorStatMap vendor_data_;
     
     // Only stats which are available and were requested end up in stat_data
-    StatDataMap stat_data;
+    StatDataMap stat_data_;
     
     // An ordered list of the Vulkan counter ids
-    std::vector<uint32_t> counter_indices;
+    std::vector<uint32_t> counter_indices_;
     
     // How many queries have been ended?
-    uint32_t queries_ready = 0;
+    uint32_t queries_ready_ = 0;
 };
 
 }        // namespace vox

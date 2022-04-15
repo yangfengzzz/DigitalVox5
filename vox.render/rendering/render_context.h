@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -54,7 +43,7 @@ namespace vox {
 class RenderContext {
 public:
     // The format to use for the RenderTargets if a swapchain isn't created
-    static VkFormat DEFAULT_VK_FORMAT;
+    static VkFormat default_vk_format_;
     
     /**
      * @brief Constructor
@@ -101,7 +90,7 @@ public:
      * @param create_render_target_func A function delegate, used to create a RenderTarget
      */
     void prepare(size_t thread_count = 1,
-                 const RenderTarget::CreateFunc &create_render_target_func = RenderTarget::DEFAULT_CREATE_FUNC);
+                 const RenderTarget::CreateFunc &create_render_target_func = RenderTarget::default_create_func_);
     
     /**
      * @brief Updates the swapchains extent, if a swapchain exists
@@ -238,47 +227,47 @@ public:
     VkSemaphore consume_acquired_semaphore();
     
 protected:
-    VkExtent2D surface_extent;
+    VkExtent2D surface_extent_;
     
 private:
-    Device &device;
+    Device &device_;
     
     /// If swapchain exists, then this will be a present supported queue, else a graphics queue
-    const Queue &queue;
+    const Queue &queue_;
     
-    std::unique_ptr<Swapchain> swapchain;
+    std::unique_ptr<Swapchain> swapchain_;
     
-    SwapchainProperties swapchain_properties;
+    SwapchainProperties swapchain_properties_;
     
     // A list of present modes in order of priority (vector[0] has high priority, vector[size-1] has low priority)
-    std::vector<VkPresentModeKHR> present_mode_priority_list = {
+    std::vector<VkPresentModeKHR> present_mode_priority_list_ = {
         VK_PRESENT_MODE_FIFO_KHR,
         VK_PRESENT_MODE_MAILBOX_KHR};
     
     // A list of surface formats in order of priority (vector[0] has high priority, vector[size-1] has low priority)
-    std::vector<VkSurfaceFormatKHR> surface_format_priority_list = {
-        {VK_FORMAT_R8G8B8A8_SRGB,  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
-        {VK_FORMAT_B8G8R8A8_SRGB,  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
+    std::vector<VkSurfaceFormatKHR> surface_format_priority_list_ = {
+        {VK_FORMAT_R8G8B8A8_SRGB, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
+        {VK_FORMAT_B8G8R8A8_SRGB, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
         {VK_FORMAT_R8G8B8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
         {VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR}};
     
-    std::vector<std::unique_ptr<RenderFrame>> frames;
+    std::vector<std::unique_ptr<RenderFrame>> frames_;
     
-    VkSemaphore acquired_semaphore{};
+    VkSemaphore acquired_semaphore_{};
     
-    bool prepared{false};
+    bool prepared_{false};
     
     /// Current active frame index
-    uint32_t active_frame_index{0};
+    uint32_t active_frame_index_{0};
     
     /// Whether a frame is active or not
-    bool frame_active{false};
+    bool frame_active_{false};
     
-    RenderTarget::CreateFunc create_render_target_func = RenderTarget::DEFAULT_CREATE_FUNC;
+    RenderTarget::CreateFunc create_render_target_func_ = RenderTarget::default_create_func_;
     
-    VkSurfaceTransformFlagBitsKHR pre_transform{VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR};
+    VkSurfaceTransformFlagBitsKHR pre_transform_{VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR};
     
-    size_t thread_count{1};
+    size_t thread_count_{1};
 };
 
 }        // namespace vox

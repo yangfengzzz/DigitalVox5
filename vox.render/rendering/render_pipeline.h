@@ -84,16 +84,15 @@ public:
     std::unique_ptr<Subpass> &get_active_subpass();
     
 private:
-    std::vector<std::unique_ptr<Subpass>> subpasses;
+    std::vector<std::unique_ptr<Subpass>> subpasses_;
     
     /// Default to two load store
-    std::vector<LoadStoreInfo> load_store = std::vector<LoadStoreInfo>(2);
+    std::vector<LoadStoreInfo> load_store_ = std::vector<LoadStoreInfo>(2);
     
     /// Default to two clear values
-    std::vector<VkClearValue> clear_value = std::vector<VkClearValue>(2);
+    std::vector<VkClearValue> clear_value_ = std::vector<VkClearValue>(2);
     
-    size_t active_subpass_index{0};
+    size_t active_subpass_index_{0};
 };
-
 
 }        // namespace vox

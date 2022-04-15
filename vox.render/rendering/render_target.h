@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #pragma once
 
@@ -56,7 +45,7 @@ class RenderTarget {
 public:
     using CreateFunc = std::function<std::unique_ptr<RenderTarget>(core::Image && )>;
     
-    static const CreateFunc DEFAULT_CREATE_FUNC;
+    static const CreateFunc default_create_func_;
     
     explicit RenderTarget(std::vector<core::Image> &&images);
     
@@ -99,22 +88,21 @@ public:
     [[nodiscard]] VkImageLayout get_layout(uint32_t attachment) const;
     
 private:
-    Device const &device;
+    Device const &device_;
     
-    VkExtent2D extent{};
+    VkExtent2D extent_{};
     
-    std::vector<core::Image> images;
+    std::vector<core::Image> images_;
     
-    std::vector<core::ImageView> views;
+    std::vector<core::ImageView> views_;
     
-    std::vector<Attachment> attachments;
+    std::vector<Attachment> attachments_;
     
     /// By default there are no input attachments
-    std::vector<uint32_t> input_attachments = {};
+    std::vector<uint32_t> input_attachments_ = {};
     
     /// By default the output attachments is attachment 0
-    std::vector<uint32_t> output_attachments = {0};
+    std::vector<uint32_t> output_attachments_ = {0};
 };
-
 
 }        // namespace vox

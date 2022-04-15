@@ -21,12 +21,12 @@ VKBP_ENABLE_WARNINGS()
 namespace vox::fs {
 namespace path {
 const std::unordered_map<Type, std::string> kRelativePaths = {
-    {Type::ASSETS,      "assets/"},
-    {Type::SHADERS,     "shaders/"},
-    {Type::STORAGE,     "output/"},
+    {Type::ASSETS, "assets/"},
+    {Type::SHADERS, "shaders/"},
+    {Type::STORAGE, "output/"},
     {Type::SCREENSHOTS, "output/images/"},
-    {Type::LOGS,        "output/logs/"},
-    {Type::GRAPHS,      "output/graphs/"}
+    {Type::LOGS, "output/logs/"},
+    {Type::GRAPHS, "output/graphs/"}
 };
 
 std::string get(const Type type, const std::string &file) {
@@ -166,7 +166,7 @@ void write_temp(const std::vector<uint8_t> &data, const std::string &filename, c
 void write_image(const uint8_t *data, const std::string &filename, const uint32_t width, const uint32_t height,
                  const uint32_t components, const uint32_t row_stride) {
     stbi_write_png((path::get(path::Type::SCREENSHOTS) + filename + ".png").c_str(), width, height, components,
-				   data, row_stride);
+                   data, row_stride);
 }
 
 bool write_json(nlohmann::json &data, const std::string &filename) {
@@ -200,6 +200,5 @@ bool write_json(nlohmann::json &data, const std::string &filename) {
     out_stream.close();
     return true;
 }
-
 
 }        // namespace vox

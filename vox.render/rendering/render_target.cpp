@@ -24,7 +24,8 @@ samples{samples},
 usage{usage} {
 }
 
-const RenderTarget::CreateFunc RenderTarget::DEFAULT_CREATE_FUNC = [](core::Image &&swapchain_image) -> std::unique_ptr<RenderTarget> {
+const RenderTarget::CreateFunc
+RenderTarget::default_create_func_ = [](core::Image &&swapchain_image) -> std::unique_ptr<RenderTarget> {
     VkFormat depth_format = get_suitable_depth_format(swapchain_image.get_device().get_gpu().get_handle());
     
     core::Image depth_image{swapchain_image.get_device(), swapchain_image.get_extent(),
@@ -40,9 +41,9 @@ const RenderTarget::CreateFunc RenderTarget::DEFAULT_CREATE_FUNC = [](core::Imag
 };
 
 vox::RenderTarget::RenderTarget(std::vector<core::Image> &&images) :
-device{images.back().get_device()},
-images{std::move(images)} {
-    assert(!this->images.empty() && "Should specify at least 1 image");
+device_{images.back().get_device()},
+images_{std::move(images)} {
+    assert(!images_.empty() && "Should specify at least 1 image");
     
     std::set<VkExtent2D, CompareExtent2D> unique_extent;
     
@@ -52,7 +53,7 @@ images{std::move(images)} {
     };
     
     // Constructs a set of unique image extents given a vector of images
-    std::transform(this->images.begin(), this->images.end(), std::inserter(unique_extent, unique_extent.end()),
+    std::transform(images_.begin(), images_.end(), std::inserter(unique_extent, unique_extent.end()),
                    get_image_extent);
     
     // Allow only one extent size for a render target
@@ -60,82 +61,82 @@ images{std::move(images)} {
         throw VulkanException{VK_ERROR_INITIALIZATION_FAILED, "Extent size is not unique"};
     }
     
-    extent = *unique_extent.begin();
+    extent_ = *unique_extent.begin();
     
-    for (auto &image: this->images) {
+    for (auto &image : images_) {
         if (image.get_type() != VK_IMAGE_TYPE_2D) {
             throw VulkanException{VK_ERROR_INITIALIZATION_FAILED, "Image type is not 2D"};
         }
         
-        views.emplace_back(image, VK_IMAGE_VIEW_TYPE_2D);
+        views_.emplace_back(image, VK_IMAGE_VIEW_TYPE_2D);
         
-        attachments.emplace_back(Attachment{image.get_format(), image.get_sample_count(), image.get_usage()});
+        attachments_.emplace_back(Attachment{image.get_format(), image.get_sample_count(), image.get_usage()});
     }
 }
 
 vox::RenderTarget::RenderTarget(std::vector<core::ImageView> &&image_views) :
-device{const_cast<core::Image &>(image_views.back().get_image()).get_device()},
-images{},
-views{std::move(image_views)} {
-    assert(!views.empty() && "Should specify at least 1 image view");
+device_{const_cast<core::Image &>(image_views.back().get_image()).get_device()},
+images_{},
+views_{std::move(image_views)} {
+    assert(!views_.empty() && "Should specify at least 1 image view");
     
     std::set<VkExtent2D, CompareExtent2D> unique_extent;
     
     // Returns the extent of the base mip level pointed at by a view
     auto get_view_extent = [](const core::ImageView &view) {
-        const VkExtent3D mip0_extent = view.get_image().get_extent();
-        const uint32_t mip_level = view.get_subresource_range().baseMipLevel;
-        return VkExtent2D{mip0_extent.width >> mip_level, mip0_extent.height >> mip_level};
+        const VkExtent3D kMip0Extent = view.get_image().get_extent();
+        const uint32_t kMipLevel = view.get_subresource_range().baseMipLevel;
+        return VkExtent2D{kMip0Extent.width >> kMipLevel, kMip0Extent.height >> kMipLevel};
     };
     
     // Constructs a set of unique image extents given a vector of image views;
     // allow only one extent size for a render target
-    std::transform(views.begin(), views.end(), std::inserter(unique_extent, unique_extent.end()), get_view_extent);
+    std::transform(views_.begin(), views_.end(), std::inserter(unique_extent, unique_extent.end()), get_view_extent);
     if (unique_extent.size() != 1) {
         throw VulkanException{VK_ERROR_INITIALIZATION_FAILED, "Extent size is not unique"};
     }
-    extent = *unique_extent.begin();
+    extent_ = *unique_extent.begin();
     
-    for (auto &view: views) {
+    for (auto &view : views_) {
         const auto &image = view.get_image();
-        attachments.emplace_back(Attachment{image.get_format(), image.get_sample_count(), image.get_usage()});
+        attachments_.emplace_back(Attachment{image.get_format(), image.get_sample_count(), image.get_usage()});
     }
 }
 
 const VkExtent2D &RenderTarget::get_extent() const {
-    return extent;
+    return extent_;
 }
 
 const std::vector<core::ImageView> &RenderTarget::get_views() const {
-    return views;
+    return views_;
 }
 
 const std::vector<Attachment> &RenderTarget::get_attachments() const {
-    return attachments;
+    return attachments_;
 }
 
 void RenderTarget::set_input_attachments(std::vector<uint32_t> &input) {
-    input_attachments = input;
+    input_attachments_ = input;
 }
 
 const std::vector<uint32_t> &RenderTarget::get_input_attachments() const {
-    return input_attachments;
+    return input_attachments_;
 }
 
 void RenderTarget::set_output_attachments(std::vector<uint32_t> &output) {
-    output_attachments = output;
+    output_attachments_ = output;
 }
 
 const std::vector<uint32_t> &RenderTarget::get_output_attachments() const {
-    return output_attachments;
+    return output_attachments_;
 }
 
 void RenderTarget::set_layout(uint32_t attachment, VkImageLayout layout) {
-    attachments[attachment].initial_layout = layout;
+    attachments_[attachment].initial_layout = layout;
 }
 
 VkImageLayout RenderTarget::get_layout(uint32_t attachment) const {
-    return attachments[attachment].initial_layout;
+    return attachments_[attachment].initial_layout;
 }
 
 }        // namespace vox

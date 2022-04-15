@@ -122,5 +122,4 @@ protected:
     ConfigMap::iterator current_configuration_;
 };
 
-
 }        // namespace vox

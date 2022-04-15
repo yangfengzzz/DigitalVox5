@@ -36,7 +36,7 @@ inline bool process_android_events(android_app *app) {
     int events;
     
     while ((ident = ALooper_pollAll(0, nullptr, &events,
-                                    (void **) &source)) >= 0) {
+                                    (void **)&source)) >= 0) {
         if (source) {
             source->process(app, source);
         }

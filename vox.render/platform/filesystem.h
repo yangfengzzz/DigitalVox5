@@ -141,5 +141,4 @@ void write_image(const uint8_t *data, const std::string &filename, uint32_t widt
  */
 bool write_json(nlohmann::json &data, const std::string &filename);
 
-
 }        // namespace vox

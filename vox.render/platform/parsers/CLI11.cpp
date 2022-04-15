@@ -13,7 +13,7 @@
 
 namespace vox {
 Cli11CommandContext::Cli11CommandContext(CLI::App *cli, CLI11CommandContextState state) :
-	CommandParserContext(), cli_11_(cli), state_(std::move(state)) {}
+CommandParserContext(), cli_11_(cli), state_(std::move(state)) {}
 
 bool Cli11CommandContext::has_group_name() const {
     return !state_.group_name.empty();
@@ -28,13 +28,13 @@ CLI11CommandContextState Cli11CommandContext::get_state() const {
 }
 
 Cli11CommandParser::Cli11CommandParser(const std::string &name, const std::string &description,
-									   const std::vector<std::string> &args) :
-	cli_11_{std::make_unique<CLI::App>(description, name)}, formatter_{std::make_shared<HelpFormatter>()} {
+                                       const std::vector<std::string> &args) :
+cli_11_{std::make_unique<CLI::App>(description, name)}, formatter_{std::make_shared<HelpFormatter>()} {
     cli_11_->formatter(formatter_);
     
     args_.resize(args.size());
     std::transform(args.begin(), args.end(), args_.begin(),
-				   [](const std::string &string) -> char * { return const_cast<char *>(string.c_str()); });
+                   [](const std::string &string) -> char * { return const_cast<char *>(string.c_str()); });
 }
 
 std::vector<std::string> Cli11CommandParser::help() const {
@@ -87,12 +87,10 @@ void Cli11CommandParser::parse(Cli11CommandContext *context, FlagCommand *comman
     CLI::Option *flag;
     
     switch (command->get_flag_type()) {
-        case FlagType::FLAG_ONLY:
-            flag = context->cli_11_->add_flag(command->get_name(), command->get_help_line());
+        case FlagType::FLAG_ONLY:flag = context->cli_11_->add_flag(command->get_name(), command->get_help_line());
             break;
         case FlagType::ONE_VALUE:
-        case FlagType::MANY_VALUES:
-            flag = context->cli_11_->add_option(command->get_name(), command->get_help_line());
+        case FlagType::MANY_VALUES:flag = context->cli_11_->add_option(command->get_name(), command->get_help_line());
             break;
     }
     
@@ -144,7 +142,7 @@ std::vector<std::string> Cli11CommandParser::get_command_value(Command *command)
  */
 bool Cli11CommandParser::parse(const std::vector<Plugin *> &plugins) {
     // Generate all command groups
-    for (auto plugin: plugins) {
+    for (auto plugin : plugins) {
         auto group = std::make_unique<CLI::App>();
         
         formatter_->register_meta(group.get(), {plugin->get_name(), plugin->get_description()});
@@ -156,17 +154,17 @@ bool Cli11CommandParser::parse(const std::vector<Plugin *> &plugins) {
     }
     
     // Associate correct command groups
-    for (auto plugin: plugins) {
+    for (auto plugin : plugins) {
         auto plugin_cli = option_groups_[plugin];
         auto included_plugins = plugin->get_inclusions();
         auto commands = plugin->get_cli_commands();
         
-        for (auto command: commands) {
+        for (auto command : commands) {
             // Share flags and options with sub commands
             if (command->is<SubCommand>()) {
                 auto cli11_sub_command = sub_commands_[command];
                 
-                for (auto included_plugin: included_plugins) {
+                for (auto included_plugin : included_plugins) {
                     cli11_sub_command->add_subcommand(option_groups_[included_plugin]);
                 }
             }

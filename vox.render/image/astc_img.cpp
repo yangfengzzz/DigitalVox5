@@ -27,49 +27,34 @@ namespace vox::sg {
 BlockDim to_blockdim(const VkFormat format) {
     switch (format) {
         case VK_FORMAT_ASTC_4x4_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_4x4_SRGB_BLOCK:
-            return {4, 4, 1};
+        case VK_FORMAT_ASTC_4x4_SRGB_BLOCK:return {4, 4, 1};
         case VK_FORMAT_ASTC_5x4_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_5x4_SRGB_BLOCK:
-            return {5, 4, 1};
+        case VK_FORMAT_ASTC_5x4_SRGB_BLOCK:return {5, 4, 1};
         case VK_FORMAT_ASTC_5x5_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_5x5_SRGB_BLOCK:
-            return {5, 5, 1};
+        case VK_FORMAT_ASTC_5x5_SRGB_BLOCK:return {5, 5, 1};
         case VK_FORMAT_ASTC_6x5_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_6x5_SRGB_BLOCK:
-            return {6, 5, 1};
+        case VK_FORMAT_ASTC_6x5_SRGB_BLOCK:return {6, 5, 1};
         case VK_FORMAT_ASTC_6x6_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_6x6_SRGB_BLOCK:
-            return {6, 6, 1};
+        case VK_FORMAT_ASTC_6x6_SRGB_BLOCK:return {6, 6, 1};
         case VK_FORMAT_ASTC_8x5_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_8x5_SRGB_BLOCK:
-            return {8, 5, 1};
+        case VK_FORMAT_ASTC_8x5_SRGB_BLOCK:return {8, 5, 1};
         case VK_FORMAT_ASTC_8x6_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_8x6_SRGB_BLOCK:
-            return {8, 6, 1};
+        case VK_FORMAT_ASTC_8x6_SRGB_BLOCK:return {8, 6, 1};
         case VK_FORMAT_ASTC_8x8_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_8x8_SRGB_BLOCK:
-            return {8, 8, 1};
+        case VK_FORMAT_ASTC_8x8_SRGB_BLOCK:return {8, 8, 1};
         case VK_FORMAT_ASTC_10x5_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_10x5_SRGB_BLOCK:
-            return {10, 5, 1};
+        case VK_FORMAT_ASTC_10x5_SRGB_BLOCK:return {10, 5, 1};
         case VK_FORMAT_ASTC_10x6_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_10x6_SRGB_BLOCK:
-            return {10, 6, 1};
+        case VK_FORMAT_ASTC_10x6_SRGB_BLOCK:return {10, 6, 1};
         case VK_FORMAT_ASTC_10x8_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_10x8_SRGB_BLOCK:
-            return {10, 8, 1};
+        case VK_FORMAT_ASTC_10x8_SRGB_BLOCK:return {10, 8, 1};
         case VK_FORMAT_ASTC_10x10_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_10x10_SRGB_BLOCK:
-            return {10, 10, 1};
+        case VK_FORMAT_ASTC_10x10_SRGB_BLOCK:return {10, 10, 1};
         case VK_FORMAT_ASTC_12x10_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_12x10_SRGB_BLOCK:
-            return {12, 10, 1};
+        case VK_FORMAT_ASTC_12x10_SRGB_BLOCK:return {12, 10, 1};
         case VK_FORMAT_ASTC_12x12_UNORM_BLOCK:
-        case VK_FORMAT_ASTC_12x12_SRGB_BLOCK:
-            return {12, 12, 1};
-        default:
-            throw std::runtime_error{"Invalid astc format"};
+        case VK_FORMAT_ASTC_12x12_SRGB_BLOCK:return {12, 12, 1};
+        default:throw std::runtime_error{"Invalid astc format"};
     }
 }
 

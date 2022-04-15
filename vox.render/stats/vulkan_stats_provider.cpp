@@ -1,19 +1,8 @@
-/* Copyright (c) 2020, Broadcom Inc. and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "error.h"
 #include "core/device.h"
@@ -28,7 +17,7 @@ namespace vox {
 VulkanStatsProvider::VulkanStatsProvider(std::set<StatIndex> &requested_stats,
                                          const CounterSamplingConfig &sampling_config,
                                          RenderContext &render_context) :
-render_context(render_context) {
+render_context_(render_context) {
     // Check all the Vulkan capabilities we require are present
     if (!is_supported(sampling_config))
         return;
@@ -36,8 +25,8 @@ render_context(render_context) {
     Device &device = render_context.get_device();
     const PhysicalDevice &gpu = device.get_gpu();
     
-    has_timestamps = gpu.get_properties().limits.timestampComputeAndGraphics;
-    timestamp_period = gpu.get_properties().limits.timestampPeriod;
+    has_timestamps_ = gpu.get_properties().limits.timestampComputeAndGraphics;
+    timestamp_period_ = gpu.get_properties().limits.timestampPeriod;
     
     // Interrogate device for supported stats
     uint32_t queue_family_index = device.get_queue_family_index(VK_QUEUE_GRAPHICS_BIT);
@@ -72,7 +61,7 @@ render_context(render_context) {
     bool performance_impact = false;
     
     // Now build stat_data by matching vendor_data to Vulkan counter data
-    for (auto &s: vendor_data) {
+    for (auto &s : vendor_data_) {
         StatIndex index = s.first;
         
         if (requested_stats.find(index) == requested_stats.end())
@@ -105,13 +94,13 @@ render_context(render_context) {
             }
             
             // Record the counter data
-            counter_indices.emplace_back(ctr_idx);
+            counter_indices_.emplace_back(ctr_idx);
             if (init.divisor_name.empty()) {
-                stat_data[index] = StatData(ctr_idx, counters[ctr_idx].storage);
+                stat_data_[index] = StatData(ctr_idx, counters[ctr_idx].storage);
             } else {
-                counter_indices.emplace_back(div_idx);
-                stat_data[index] = StatData(ctr_idx, counters[ctr_idx].storage, init.scaling,
-                                            div_idx, counters[div_idx].storage);
+                counter_indices_.emplace_back(div_idx);
+                stat_data_[index] = StatData(ctr_idx, counters[ctr_idx].storage, init.scaling,
+                                             div_idx, counters[div_idx].storage);
             }
         }
     }
@@ -119,7 +108,7 @@ render_context(render_context) {
     if (performance_impact)
         LOGW("The collection of performance counters may impact performance")
         
-        if (counter_indices.empty())
+        if (counter_indices_.empty())
             return;        // No stats available
     
     // Acquire the profiling lock, without which we can't collect stats
@@ -128,35 +117,35 @@ render_context(render_context) {
     info.timeout = 2000000000;        // 2 seconds (in ns)
     
     if (vkAcquireProfilingLockKHR(device.get_handle(), &info) != VK_SUCCESS) {
-        stat_data.clear();
-        counter_indices.clear();
+        stat_data_.clear();
+        counter_indices_.clear();
         LOGW("Profiling lock acquisition timed-out")
         return;
     }
     
     // Now we know the counters and that we can collect them, make a query pool for the results.
     if (!create_query_pools(queue_family_index)) {
-        stat_data.clear();
-        counter_indices.clear();
+        stat_data_.clear();
+        counter_indices_.clear();
         return;
     }
     
     // These stats are fully supported by this provider and in a single pass, so remove
     // from the requested set.
     // Subsequent providers will then only look for things that aren't already supported.
-    for (const auto &s: stat_data)
+    for (const auto &s : stat_data_)
         requested_stats.erase(s.first);
 }
 
 VulkanStatsProvider::~VulkanStatsProvider() {
-    if (!stat_data.empty()) {
+    if (!stat_data_.empty()) {
         // Release profiling lock
-        vkReleaseProfilingLockKHR(render_context.get_device().get_handle());
+        vkReleaseProfilingLockKHR(render_context_.get_device().get_handle());
     }
 }
 
 bool VulkanStatsProvider::fill_vendor_data() {
-    const auto &pd_props = render_context.get_device().get_gpu().get_properties();
+    const auto &pd_props = render_context_.get_device().get_gpu().get_properties();
     if (pd_props.vendorID == 0x14E4)        // Broadcom devices
     {
         LOGI("Using Vulkan performance counters from Broadcom device")
@@ -165,22 +154,22 @@ bool VulkanStatsProvider::fill_vendor_data() {
         // Counter names can change between hardware variants for the same vendor,
         // so regular expression names mean that multiple h/w variants can be easily supported.
         // clang-format off
-        vendor_data = {
-            {StatIndex::gpu_cycles,          {"cycle_count"}},
-            {StatIndex::gpu_vertex_cycles,   {"gpu_vertex_cycles"}},
-            {StatIndex::gpu_fragment_cycles, {"gpu_fragment_cycles"}},
-            {StatIndex::gpu_fragment_jobs,   {"render_jobs_completed"}},
-            {StatIndex::gpu_ext_reads,       {"gpu_mem_reads"}},
-            {StatIndex::gpu_ext_writes,      {"gpu_mem_writes"}},
-            {StatIndex::gpu_ext_read_bytes,  {"gpu_bytes_read"}},
-            {StatIndex::gpu_ext_write_bytes, {"gpu_bytes_written"}},
+        vendor_data_ = {
+            {StatIndex::GPU_CYCLES, {VendorStat("cycle_count")}},
+            {StatIndex::GPU_VERTEX_CYCLES, {VendorStat("gpu_vertex_cycles")}},
+            {StatIndex::GPU_FRAGMENT_CYCLES, {VendorStat("gpu_fragment_cycles")}},
+            {StatIndex::GPU_FRAGMENT_JOBS, {VendorStat("render_jobs_completed")}},
+            {StatIndex::GPU_EXT_READS, {VendorStat("gpu_mem_reads")}},
+            {StatIndex::GPU_EXT_WRITES, {VendorStat("gpu_mem_writes")}},
+            {StatIndex::GPU_EXT_READ_BYTES, {VendorStat("gpu_bytes_read")}},
+            {StatIndex::GPU_EXT_WRITE_BYTES, {VendorStat("gpu_bytes_written")}},
         };
         // clang-format on
         
         // Override vendor-specific graph data
-        vendor_data.at(StatIndex::gpu_vertex_cycles).set_vendor_graph_data(
-                                                                           {"Vertex/Coord/User Cycles", "{:4.1f} M/s", float(1e-6)});
-        vendor_data.at(StatIndex::gpu_fragment_jobs).set_vendor_graph_data({"Render Jobs", "{:4.0f}/s"});
+        vendor_data_.at(StatIndex::GPU_VERTEX_CYCLES).set_vendor_graph_data(
+                                                                            {"Vertex/Coord/User Cycles", "{:4.1f} M/s", float(1e-6)});
+        vendor_data_.at(StatIndex::GPU_FRAGMENT_JOBS).set_vendor_graph_data({"Render Jobs", "{:4.0f}/s"});
         
         return true;
     }
@@ -198,9 +187,9 @@ bool VulkanStatsProvider::fill_vendor_data() {
 }
 
 bool VulkanStatsProvider::create_query_pools(uint32_t queue_family_index) {
-    Device &device = render_context.get_device();
+    Device &device = render_context_.get_device();
     const PhysicalDevice &gpu = device.get_gpu();
-    auto num_framebuffers = uint32_t(render_context.get_render_frames().size());
+    auto num_framebuffers = uint32_t(render_context_.get_render_frames().size());
     
     // Now we know the available counters, we can build a query pool that will collect them.
     // We will check that the counters can be collected in a single pass. Multi-pass would
@@ -208,8 +197,8 @@ bool VulkanStatsProvider::create_query_pools(uint32_t queue_family_index) {
     VkQueryPoolPerformanceCreateInfoKHR perf_create_info{};
     perf_create_info.sType = VK_STRUCTURE_TYPE_QUERY_POOL_PERFORMANCE_CREATE_INFO_KHR;
     perf_create_info.queueFamilyIndex = queue_family_index;
-    perf_create_info.counterIndexCount = uint32_t(counter_indices.size());
-    perf_create_info.pCounterIndices = counter_indices.data();
+    perf_create_info.counterIndexCount = uint32_t(counter_indices_.size());
+    perf_create_info.pCounterIndices = counter_indices_.data();
     
     uint32_t passes_needed = gpu.get_queue_family_performance_query_passes(&perf_create_info);
     if (passes_needed != 1) {
@@ -225,9 +214,9 @@ bool VulkanStatsProvider::create_query_pools(uint32_t queue_family_index) {
     pool_create_info.queryType = VK_QUERY_TYPE_PERFORMANCE_QUERY_KHR;
     pool_create_info.queryCount = num_framebuffers;
     
-    query_pool = std::make_unique<QueryPool>(device, pool_create_info);
+    query_pool_ = std::make_unique<QueryPool>(device, pool_create_info);
     
-    if (!query_pool) {
+    if (!query_pool_) {
         LOGW("Failed to create performance query pool")
         return false;
     }
@@ -235,9 +224,9 @@ bool VulkanStatsProvider::create_query_pools(uint32_t queue_family_index) {
     // Reset the query pool before first use. We cannot do these in the command buffer
     // as that is invalid usage for performance queries due to the potential for multiple
     // passes being required.
-    query_pool->host_reset(0, num_framebuffers);
+    query_pool_->host_reset(0, num_framebuffers);
     
-    if (has_timestamps) {
+    if (has_timestamps_) {
         // If we support timestamp queries we will use those to more accurately measure
         // the time spent executing a command buffer than just a frame-to-frame timer
         // in software.
@@ -246,7 +235,7 @@ bool VulkanStatsProvider::create_query_pools(uint32_t queue_family_index) {
         timestamp_pool_create_info.queryType = VK_QUERY_TYPE_TIMESTAMP;
         timestamp_pool_create_info.queryCount = num_framebuffers * 2;        // 2 timestamps per frame (start & end)
         
-        timestamp_pool = std::make_unique<QueryPool>(device, timestamp_pool_create_info);
+        timestamp_pool_ = std::make_unique<QueryPool>(device, timestamp_pool_create_info);
     }
     
     return true;
@@ -254,10 +243,10 @@ bool VulkanStatsProvider::create_query_pools(uint32_t queue_family_index) {
 
 bool VulkanStatsProvider::is_supported(const CounterSamplingConfig &sampling_config) const {
     // Continuous sampling mode cannot be supported by VK_KHR_performance_query
-    if (sampling_config.mode == CounterSamplingMode::Continuous)
+    if (sampling_config.mode == CounterSamplingMode::CONTINUOUS)
         return false;
     
-    Device &device = render_context.get_device();
+    Device &device = render_context_.get_device();
     
     // The VK_KHR_performance_query must be available and enabled
     if (!(device.is_enabled("VK_KHR_performance_query") && device.is_enabled("VK_EXT_host_query_reset")))
@@ -281,39 +270,39 @@ bool VulkanStatsProvider::is_supported(const CounterSamplingConfig &sampling_con
 }
 
 bool VulkanStatsProvider::is_available(StatIndex index) const {
-    return stat_data.find(index) != stat_data.end();
+    return stat_data_.find(index) != stat_data_.end();
 }
 
 const StatGraphData &VulkanStatsProvider::get_graph_data(StatIndex index) const {
     assert(is_available(index) && "VulkanStatsProvider::get_graph_data() called with invalid StatIndex");
     
-    const auto &data = vendor_data.find(index)->second;
+    const auto &data = vendor_data_.find(index)->second;
     if (data.has_vendor_graph_data)
         return data.graph_data;
     
-    return default_graph_map[index];
+    return default_graph_map_[index];
 }
 
 void VulkanStatsProvider::begin_sampling(CommandBuffer &cb) {
-    uint32_t active_frame_idx = render_context.get_active_frame_index();
-    if (timestamp_pool) {
+    uint32_t active_frame_idx = render_context_.get_active_frame_index();
+    if (timestamp_pool_) {
         // We use TimestampQueries when available to provide a more accurate delta_time.
         // These counters are from a single command buffer execution, but the passed
         // delta time is a frame-to-frame s/w measure. A timestamp query in the cmd
         // buffer gives the actual elapsed time when the counters were measured.
-        cb.reset_query_pool(*timestamp_pool, active_frame_idx * 2, 1);
-        cb.write_timestamp(VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, *timestamp_pool,
+        cb.reset_query_pool(*timestamp_pool_, active_frame_idx * 2, 1);
+        cb.write_timestamp(VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, *timestamp_pool_,
                            active_frame_idx * 2);
     }
     
-    if (query_pool)
-        cb.begin_query(*query_pool, active_frame_idx, VkQueryControlFlags(0));
+    if (query_pool_)
+        cb.begin_query(*query_pool_, active_frame_idx, VkQueryControlFlags(0));
 }
 
 void VulkanStatsProvider::end_sampling(CommandBuffer &cb) {
-    uint32_t active_frame_idx = render_context.get_active_frame_index();
+    uint32_t active_frame_idx = render_context_.get_active_frame_index();
     
-    if (query_pool) {
+    if (query_pool_) {
         // Perform a barrier to ensure all previous commands complete before ending the query
         // This does not block later commands from executing as we use BOTTOM_OF_PIPE in the
         // dst stage mask
@@ -321,14 +310,14 @@ void VulkanStatsProvider::end_sampling(CommandBuffer &cb) {
                              VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
                              VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
                              0, 0, nullptr, 0, nullptr, 0, nullptr);
-        cb.end_query(*query_pool, active_frame_idx);
+        cb.end_query(*query_pool_, active_frame_idx);
         
-        ++queries_ready;
+        ++queries_ready_;
     }
     
-    if (timestamp_pool) {
-        cb.reset_query_pool(*timestamp_pool, active_frame_idx * 2 + 1, 1);
-        cb.write_timestamp(VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, *timestamp_pool,
+    if (timestamp_pool_) {
+        cb.reset_query_pool(*timestamp_pool_, active_frame_idx * 2 + 1, 1);
+        cb.write_timestamp(VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, *timestamp_pool_,
                            active_frame_idx * 2 + 1);
     }
 }
@@ -336,26 +325,19 @@ void VulkanStatsProvider::end_sampling(CommandBuffer &cb) {
 static double get_counter_value(const VkPerformanceCounterResultKHR &result,
                                 VkPerformanceCounterStorageKHR storage) {
     switch (storage) {
-        case VK_PERFORMANCE_COUNTER_STORAGE_INT32_KHR:
-            return double(result.int32);
-        case VK_PERFORMANCE_COUNTER_STORAGE_INT64_KHR:
-            return double(result.int64);
-        case VK_PERFORMANCE_COUNTER_STORAGE_UINT32_KHR:
-            return double(result.uint32);
-        case VK_PERFORMANCE_COUNTER_STORAGE_UINT64_KHR:
-            return double(result.uint64);
-        case VK_PERFORMANCE_COUNTER_STORAGE_FLOAT32_KHR:
-            return double(result.float32);
-        case VK_PERFORMANCE_COUNTER_STORAGE_FLOAT64_KHR:
-            return double(result.float64);
-        default:
-            assert(0);
+        case VK_PERFORMANCE_COUNTER_STORAGE_INT32_KHR:return double(result.int32);
+        case VK_PERFORMANCE_COUNTER_STORAGE_INT64_KHR:return double(result.int64);
+        case VK_PERFORMANCE_COUNTER_STORAGE_UINT32_KHR:return double(result.uint32);
+        case VK_PERFORMANCE_COUNTER_STORAGE_UINT64_KHR:return double(result.uint64);
+        case VK_PERFORMANCE_COUNTER_STORAGE_FLOAT32_KHR:return double(result.float32);
+        case VK_PERFORMANCE_COUNTER_STORAGE_FLOAT64_KHR:return double(result.float64);
+        default:assert(0);
             throw std::runtime_error("");
     }
 }
 
 float VulkanStatsProvider::get_best_delta_time(float sw_delta_time) const {
-    if (!timestamp_pool)
+    if (!timestamp_pool_)
         return sw_delta_time;
     
     float delta_time = sw_delta_time;
@@ -363,14 +345,14 @@ float VulkanStatsProvider::get_best_delta_time(float sw_delta_time) const {
     // Query the timestamps to get an accurate delta time
     std::array<uint64_t, 2> timestamps{};
     
-    uint32_t active_frame_idx = render_context.get_active_frame_index();
+    uint32_t active_frame_idx = render_context_.get_active_frame_index();
     
-    VkResult r = timestamp_pool->get_results(active_frame_idx * 2, 2,
-                                             timestamps.size() * sizeof(uint64_t),
-                                             timestamps.data(), sizeof(uint64_t),
-                                             VK_QUERY_RESULT_WAIT_BIT | VK_QUERY_RESULT_64_BIT);
+    VkResult r = timestamp_pool_->get_results(active_frame_idx * 2, 2,
+                                              timestamps.size() * sizeof(uint64_t),
+                                              timestamps.data(), sizeof(uint64_t),
+                                              VK_QUERY_RESULT_WAIT_BIT | VK_QUERY_RESULT_64_BIT);
     if (r == VK_SUCCESS) {
-        float elapsed_ns = timestamp_period * float(timestamps[1] - timestamps[0]);
+        float elapsed_ns = timestamp_period_ * float(timestamps[1] - timestamps[0]);
         delta_time = elapsed_ns * 0.000000001f;
     }
     
@@ -379,18 +361,18 @@ float VulkanStatsProvider::get_best_delta_time(float sw_delta_time) const {
 
 StatsProvider::Counters VulkanStatsProvider::sample(float delta_time) {
     Counters out;
-    if (!query_pool || queries_ready == 0)
+    if (!query_pool_ || queries_ready_ == 0)
         return out;
     
-    uint32_t active_frame_idx = render_context.get_active_frame_index();
+    uint32_t active_frame_idx = render_context_.get_active_frame_index();
     
-    VkDeviceSize stride = sizeof(VkPerformanceCounterResultKHR) * counter_indices.size();
+    VkDeviceSize stride = sizeof(VkPerformanceCounterResultKHR) * counter_indices_.size();
     
-    std::vector<VkPerformanceCounterResultKHR> results(counter_indices.size());
+    std::vector<VkPerformanceCounterResultKHR> results(counter_indices_.size());
     
-    VkResult r = query_pool->get_results(active_frame_idx, 1,
-                                         results.size() * sizeof(VkPerformanceCounterResultKHR),
-                                         results.data(), stride, VK_QUERY_RESULT_WAIT_BIT);
+    VkResult r = query_pool_->get_results(active_frame_idx, 1,
+                                          results.size() * sizeof(VkPerformanceCounterResultKHR),
+                                          results.data(), stride, VK_QUERY_RESULT_WAIT_BIT);
     if (r != VK_SUCCESS)
         return out;
     
@@ -398,38 +380,38 @@ StatsProvider::Counters VulkanStatsProvider::sample(float delta_time) {
     delta_time = get_best_delta_time(delta_time);
     
     // Parse the results - they are in the order we gave in counter_indices
-    for (const auto &s: stat_data) {
+    for (const auto &s : stat_data_) {
         StatIndex si = s.first;
         
-        bool need_divisor = (stat_data[si].scaling == StatScaling::ByCounter);
+        bool need_divisor = (stat_data_[si].scaling == StatScaling::BY_COUNTER);
         double divisor_value = 1.0;
         double value = 0.0;
         bool found_ctr = false, found_div = !need_divisor;
         
-        for (uint32_t i = 0; !(found_ctr && found_div) && i < counter_indices.size(); i++) {
-            if (s.second.counter_index == counter_indices[i]) {
-                value = get_counter_value(results[i], stat_data[si].storage);
+        for (uint32_t i = 0; !(found_ctr && found_div) && i < counter_indices_.size(); i++) {
+            if (s.second.counter_index == counter_indices_[i]) {
+                value = get_counter_value(results[i], stat_data_[si].storage);
                 found_ctr = true;
             }
-            if (need_divisor && s.second.divisor_counter_index == counter_indices[i]) {
-                divisor_value = get_counter_value(results[i], stat_data[si].divisor_storage);
+            if (need_divisor && s.second.divisor_counter_index == counter_indices_[i]) {
+                divisor_value = get_counter_value(results[i], stat_data_[si].divisor_storage);
                 found_div = true;
             }
         }
         
         if (found_ctr && found_div) {
-            if (stat_data[si].scaling == StatScaling::ByDeltaTime && delta_time != 0.0)
+            if (stat_data_[si].scaling == StatScaling::BY_DELTA_TIME && delta_time != 0.0)
                 value /= delta_time;
-            else if (stat_data[si].scaling == StatScaling::ByCounter && divisor_value != 0.0)
+            else if (stat_data_[si].scaling == StatScaling::BY_COUNTER && divisor_value != 0.0)
                 value /= divisor_value;
             out[si].result = value;
         }
     }
     
     // Now reset the query we just fetched the results from
-    query_pool->host_reset(active_frame_idx, 1);
+    query_pool_->host_reset(active_frame_idx, 1);
     
-    --queries_ready;
+    --queries_ready_;
     
     return out;
 }

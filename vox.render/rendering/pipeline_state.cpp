@@ -1,19 +1,8 @@
-/* Copyright (c) 2019-2021, Arm Limited and Contributors
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 the "License";
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "pipeline_state.h"
 
@@ -85,220 +74,219 @@ bool operator!=(const vox::ColorBlendState &lhs, const vox::ColorBlendState &rhs
 
 namespace vox {
 void SpecializationConstantState::reset() {
-    if (dirty) {
-        specialization_constant_state.clear();
+    if (dirty_) {
+        specialization_constant_state_.clear();
     }
     
-    dirty = false;
+    dirty_ = false;
 }
 
 bool SpecializationConstantState::is_dirty() const {
-    return dirty;
+    return dirty_;
 }
 
 void SpecializationConstantState::clear_dirty() {
-    dirty = false;
+    dirty_ = false;
 }
 
 void SpecializationConstantState::set_constant(uint32_t constant_id, const std::vector<uint8_t> &value) {
-    auto data = specialization_constant_state.find(constant_id);
+    auto data = specialization_constant_state_.find(constant_id);
     
-    if (data != specialization_constant_state.end() && data->second == value) {
+    if (data != specialization_constant_state_.end() && data->second == value) {
         return;
     }
     
-    dirty = true;
+    dirty_ = true;
     
-    specialization_constant_state[constant_id] = value;
+    specialization_constant_state_[constant_id] = value;
 }
 
 void SpecializationConstantState::set_specialization_constant_state(
                                                                     const std::map<uint32_t, std::vector<uint8_t>> &state) {
-    specialization_constant_state = state;
+    specialization_constant_state_ = state;
 }
 
 const std::map<uint32_t, std::vector<uint8_t>> &
 SpecializationConstantState::get_specialization_constant_state() const {
-    return specialization_constant_state;
+    return specialization_constant_state_;
 }
 
 void PipelineState::reset() {
     clear_dirty();
     
-    pipeline_layout = nullptr;
+    pipeline_layout_ = nullptr;
     
-    render_pass = nullptr;
+    render_pass_ = nullptr;
     
-    specialization_constant_state.reset();
+    specialization_constant_state_.reset();
     
-    vertex_input_state = {};
+    vertex_input_state_ = {};
     
-    input_assembly_state = {};
+    input_assembly_state_ = {};
     
-    rasterization_state = {};
+    rasterization_state_ = {};
     
-    multisample_state = {};
+    multisample_state_ = {};
     
-    depth_stencil_state = {};
+    depth_stencil_state_ = {};
     
-    color_blend_state = {};
+    color_blend_state_ = {};
     
-    subpass_index = {0U};
+    subpass_index_ = {0U};
 }
 
 void PipelineState::set_pipeline_layout(PipelineLayout &new_pipeline_layout) {
-    if (pipeline_layout) {
-        if (pipeline_layout->get_handle() != new_pipeline_layout.get_handle()) {
-            pipeline_layout = &new_pipeline_layout;
+    if (pipeline_layout_) {
+        if (pipeline_layout_->get_handle() != new_pipeline_layout.get_handle()) {
+            pipeline_layout_ = &new_pipeline_layout;
             
-            dirty = true;
+            dirty_ = true;
         }
     } else {
-        pipeline_layout = &new_pipeline_layout;
+        pipeline_layout_ = &new_pipeline_layout;
         
-        dirty = true;
+        dirty_ = true;
     }
 }
 
 void PipelineState::set_render_pass(const RenderPass &new_render_pass) {
-    if (render_pass) {
-        if (render_pass->get_handle() != new_render_pass.get_handle()) {
-            render_pass = &new_render_pass;
+    if (render_pass_) {
+        if (render_pass_->get_handle() != new_render_pass.get_handle()) {
+            render_pass_ = &new_render_pass;
             
-            dirty = true;
+            dirty_ = true;
         }
     } else {
-        render_pass = &new_render_pass;
+        render_pass_ = &new_render_pass;
         
-        dirty = true;
+        dirty_ = true;
     }
 }
 
 void PipelineState::set_specialization_constant(uint32_t constant_id, const std::vector<uint8_t> &data) {
-    specialization_constant_state.set_constant(constant_id, data);
+    specialization_constant_state_.set_constant(constant_id, data);
     
-    if (specialization_constant_state.is_dirty()) {
-        dirty = true;
+    if (specialization_constant_state_.is_dirty()) {
+        dirty_ = true;
     }
 }
 
 void PipelineState::set_vertex_input_state(const VertexInputState &new_vertex_input_state) {
-    if (vertex_input_state != new_vertex_input_state) {
-        vertex_input_state = new_vertex_input_state;
+    if (vertex_input_state_ != new_vertex_input_state) {
+        vertex_input_state_ = new_vertex_input_state;
         
-        dirty = true;
+        dirty_ = true;
     }
 }
 
 void PipelineState::set_input_assembly_state(const InputAssemblyState &new_input_assembly_state) {
-    if (input_assembly_state != new_input_assembly_state) {
-        input_assembly_state = new_input_assembly_state;
+    if (input_assembly_state_ != new_input_assembly_state) {
+        input_assembly_state_ = new_input_assembly_state;
         
-        dirty = true;
+        dirty_ = true;
     }
 }
 
 void PipelineState::set_rasterization_state(const RasterizationState &new_rasterization_state) {
-    if (rasterization_state != new_rasterization_state) {
-        rasterization_state = new_rasterization_state;
+    if (rasterization_state_ != new_rasterization_state) {
+        rasterization_state_ = new_rasterization_state;
         
-        dirty = true;
+        dirty_ = true;
     }
 }
 
 void PipelineState::set_viewport_state(const ViewportState &new_viewport_state) {
-    if (viewport_state != new_viewport_state) {
-        viewport_state = new_viewport_state;
+    if (viewport_state_ != new_viewport_state) {
+        viewport_state_ = new_viewport_state;
         
-        dirty = true;
+        dirty_ = true;
     }
 }
 
 void PipelineState::set_multisample_state(const MultisampleState &new_multisample_state) {
-    if (multisample_state != new_multisample_state) {
-        multisample_state = new_multisample_state;
+    if (multisample_state_ != new_multisample_state) {
+        multisample_state_ = new_multisample_state;
         
-        dirty = true;
+        dirty_ = true;
     }
 }
 
 void PipelineState::set_depth_stencil_state(const DepthStencilState &new_depth_stencil_state) {
-    if (depth_stencil_state != new_depth_stencil_state) {
-        depth_stencil_state = new_depth_stencil_state;
+    if (depth_stencil_state_ != new_depth_stencil_state) {
+        depth_stencil_state_ = new_depth_stencil_state;
         
-        dirty = true;
+        dirty_ = true;
     }
 }
 
 void PipelineState::set_color_blend_state(const ColorBlendState &new_color_blend_state) {
-    if (color_blend_state != new_color_blend_state) {
-        color_blend_state = new_color_blend_state;
+    if (color_blend_state_ != new_color_blend_state) {
+        color_blend_state_ = new_color_blend_state;
         
-        dirty = true;
+        dirty_ = true;
     }
 }
 
 void PipelineState::set_subpass_index(uint32_t new_subpass_index) {
-    if (subpass_index != new_subpass_index) {
-        subpass_index = new_subpass_index;
+    if (subpass_index_ != new_subpass_index) {
+        subpass_index_ = new_subpass_index;
         
-        dirty = true;
+        dirty_ = true;
     }
 }
 
 const PipelineLayout &PipelineState::get_pipeline_layout() const {
-    assert(pipeline_layout && "Graphics state Pipeline layout is not set");
-    return *pipeline_layout;
+    assert(pipeline_layout_ && "Graphics state Pipeline layout is not set");
+    return *pipeline_layout_;
 }
 
 const RenderPass *PipelineState::get_render_pass() const {
-    return render_pass;
+    return render_pass_;
 }
 
 const SpecializationConstantState &PipelineState::get_specialization_constant_state() const {
-    return specialization_constant_state;
+    return specialization_constant_state_;
 }
 
 const VertexInputState &PipelineState::get_vertex_input_state() const {
-    return vertex_input_state;
+    return vertex_input_state_;
 }
 
 const InputAssemblyState &PipelineState::get_input_assembly_state() const {
-    return input_assembly_state;
+    return input_assembly_state_;
 }
 
 const RasterizationState &PipelineState::get_rasterization_state() const {
-    return rasterization_state;
+    return rasterization_state_;
 }
 
 const ViewportState &PipelineState::get_viewport_state() const {
-    return viewport_state;
+    return viewport_state_;
 }
 
 const MultisampleState &PipelineState::get_multisample_state() const {
-    return multisample_state;
+    return multisample_state_;
 }
 
 const DepthStencilState &PipelineState::get_depth_stencil_state() const {
-    return depth_stencil_state;
+    return depth_stencil_state_;
 }
 
 const ColorBlendState &PipelineState::get_color_blend_state() const {
-    return color_blend_state;
+    return color_blend_state_;
 }
 
 uint32_t PipelineState::get_subpass_index() const {
-    return subpass_index;
+    return subpass_index_;
 }
 
 bool PipelineState::is_dirty() const {
-    return dirty || specialization_constant_state.is_dirty();
+    return dirty_ || specialization_constant_state_.is_dirty();
 }
 
 void PipelineState::clear_dirty() {
-    dirty = false;
-    specialization_constant_state.clear_dirty();
+    dirty_ = false;
+    specialization_constant_state_.clear_dirty();
 }
-
 
 }        // namespace vox
