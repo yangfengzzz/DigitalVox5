@@ -423,6 +423,16 @@
 		04D95C1A2808EE0500E54DC2 /* scratch_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */; };
 		04D95C1B2808EE0500E54DC2 /* scratch_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C172808EE0500E54DC2 /* scratch_buffer.h */; };
 		04D95C1C2808EE0500E54DC2 /* device.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C182808EE0500E54DC2 /* device.h */; };
+		04D95C25280993DC00E54DC2 /* component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C1D280993DC00E54DC2 /* component.cpp */; };
+		04D95C26280993DC00E54DC2 /* component.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C1E280993DC00E54DC2 /* component.h */; };
+		04D95C27280993DC00E54DC2 /* scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C1F280993DC00E54DC2 /* scene.h */; };
+		04D95C28280993DC00E54DC2 /* scene_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C20280993DC00E54DC2 /* scene_manager.h */; };
+		04D95C29280993DC00E54DC2 /* entity.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C21280993DC00E54DC2 /* entity.h */; };
+		04D95C2A280993DC00E54DC2 /* scene_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C22280993DC00E54DC2 /* scene_manager.cpp */; };
+		04D95C2B280993DC00E54DC2 /* entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C23280993DC00E54DC2 /* entity.cpp */; };
+		04D95C2C280993DC00E54DC2 /* scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C24280993DC00E54DC2 /* scene.cpp */; };
+		04D95C2F280994DE00E54DC2 /* transform.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C2D280994DE00E54DC2 /* transform.h */; };
+		04D95C30280994DE00E54DC2 /* transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C2E280994DE00E54DC2 /* transform.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -885,6 +895,16 @@
 		04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scratch_buffer.cpp; sourceTree = "<group>"; };
 		04D95C172808EE0500E54DC2 /* scratch_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch_buffer.h; sourceTree = "<group>"; };
 		04D95C182808EE0500E54DC2 /* device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device.h; sourceTree = "<group>"; };
+		04D95C1D280993DC00E54DC2 /* component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = component.cpp; sourceTree = "<group>"; };
+		04D95C1E280993DC00E54DC2 /* component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = component.h; sourceTree = "<group>"; };
+		04D95C1F280993DC00E54DC2 /* scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scene.h; sourceTree = "<group>"; };
+		04D95C20280993DC00E54DC2 /* scene_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scene_manager.h; sourceTree = "<group>"; };
+		04D95C21280993DC00E54DC2 /* entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entity.h; sourceTree = "<group>"; };
+		04D95C22280993DC00E54DC2 /* scene_manager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scene_manager.cpp; sourceTree = "<group>"; };
+		04D95C23280993DC00E54DC2 /* entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entity.cpp; sourceTree = "<group>"; };
+		04D95C24280993DC00E54DC2 /* scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scene.cpp; sourceTree = "<group>"; };
+		04D95C2D280994DE00E54DC2 /* transform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transform.h; sourceTree = "<group>"; };
+		04D95C2E280994DE00E54DC2 /* transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = transform.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1506,6 +1526,16 @@
 				0444EA8A28083E5B00C6F279 /* inspector_item.h */,
 				0444EA8728083E5B00C6F279 /* inspector_item.cpp */,
 				0444EA9F28083E5C00C6F279 /* scene_forward.h */,
+				04D95C20280993DC00E54DC2 /* scene_manager.h */,
+				04D95C22280993DC00E54DC2 /* scene_manager.cpp */,
+				04D95C1F280993DC00E54DC2 /* scene.h */,
+				04D95C24280993DC00E54DC2 /* scene.cpp */,
+				04D95C21280993DC00E54DC2 /* entity.h */,
+				04D95C23280993DC00E54DC2 /* entity.cpp */,
+				04D95C1E280993DC00E54DC2 /* component.h */,
+				04D95C1D280993DC00E54DC2 /* component.cpp */,
+				04D95C2D280994DE00E54DC2 /* transform.h */,
+				04D95C2E280994DE00E54DC2 /* transform.cpp */,
 			);
 			path = vox.render;
 			sourceTree = "<group>";
@@ -1641,6 +1671,7 @@
 				0444EA462805741800C6F279 /* material.h in Headers */,
 				0444EB4228084B9E00C6F279 /* text.h in Headers */,
 				0444EB0A28084B8000C6F279 /* panel_window_settings.h in Headers */,
+				04D95C26280993DC00E54DC2 /* component.h in Headers */,
 				0444EBC928084BD600C6F279 /* drag_single_scalar.h in Headers */,
 				0444EBE928084BDE00C6F279 /* button_small.h in Headers */,
 				0444EA2D280571FA00C6F279 /* astc_img.h in Headers */,
@@ -1717,6 +1748,7 @@
 				0444EBDF28084BDE00C6F279 /* button_arrow.h in Headers */,
 				0444EA3C2805732C00C6F279 /* texture.h in Headers */,
 				0444EB6E28084BAF00C6F279 /* color_edit.h in Headers */,
+				04D95C27280993DC00E54DC2 /* scene.h in Headers */,
 				0444EB7E28084BB600C6F279 /* plot_histogram.h in Headers */,
 				0444EB0328084B8000C6F279 /* converter.h in Headers */,
 				0444E9E928056AFA00C6F279 /* command_buffer.h in Headers */,
@@ -1758,6 +1790,7 @@
 				0444E9E028056AFA00C6F279 /* descriptor_pool.h in Headers */,
 				0444E9EB28056AFA00C6F279 /* pipeline.h in Headers */,
 				0444EBD028084BD600C6F279 /* drag_double.h in Headers */,
+				04D95C28280993DC00E54DC2 /* scene_manager.h in Headers */,
 				0444EAC528083EC100C6F279 /* layer.h in Headers */,
 				0444EBE228084BDE00C6F279 /* button_colored.h in Headers */,
 				0444EAF028084B6600C6F279 /* plugin.h in Headers */,
@@ -1771,6 +1804,7 @@
 				0444EAE628084B5E00C6F279 /* ui_manager.h in Headers */,
 				0444EB8828084BBD00C6F279 /* menu_item.h in Headers */,
 				0444EA1328056E2700C6F279 /* hwcpipe_stats_provider.h in Headers */,
+				04D95C29280993DC00E54DC2 /* entity.h in Headers */,
 				0444EB9728084BC500C6F279 /* group.h in Headers */,
 				0444EAF228084B6600C6F279 /* drag_drop_target.h in Headers */,
 				0444E9572805633000C6F279 /* glfw_window.h in Headers */,
@@ -1781,6 +1815,7 @@
 				0444EB5828084BA600C6F279 /* slider_int.h in Headers */,
 				0444EB1A28084B8F00C6F279 /* panel_menu_bar.h in Headers */,
 				0444EA1E28056EFD00C6F279 /* vulkan_sample.h in Headers */,
+				04D95C2F280994DE00E54DC2 /* transform.h in Headers */,
 				0444EBCB28084BD600C6F279 /* drag_multiple_scalars.h in Headers */,
 				0444EBA328084BC500C6F279 /* group_collapsable.h in Headers */,
 				0444EA1528056E2700C6F279 /* vulkan_stats_provider.h in Headers */,
@@ -1999,6 +2034,7 @@
 				0444EB7D28084BB600C6F279 /* plot_histogram.cpp in Sources */,
 				0444E9DF28056A1900C6F279 /* semaphore_pool.cpp in Sources */,
 				0444E92028055CE400C6F279 /* physical_device.cpp in Sources */,
+				04D95C2C280993DC00E54DC2 /* scene.cpp in Sources */,
 				0444EA2B280571FA00C6F279 /* stb_img.cpp in Sources */,
 				0444EB3C28084B9E00C6F279 /* text_disabled.cpp in Sources */,
 				0444EAE128084B5E00C6F279 /* canvas.cpp in Sources */,
@@ -2043,6 +2079,7 @@
 				0444E93228055D9300C6F279 /* debug_info.cpp in Sources */,
 				0444EB2528084B9700C6F279 /* image.cpp in Sources */,
 				0444E945280560A000C6F279 /* fence_pool.cpp in Sources */,
+				04D95C2A280993DC00E54DC2 /* scene_manager.cpp in Sources */,
 				0444EBE428084BDE00C6F279 /* button_small.cpp in Sources */,
 				0444EA372805720800C6F279 /* image.cpp in Sources */,
 				0444E96D280563E600C6F279 /* input_events.cpp in Sources */,
@@ -2078,10 +2115,12 @@
 				0444EB5D28084BA600C6F279 /* slider_float.cpp in Sources */,
 				0444E9F528056B0500C6F279 /* shader_binding_table.cpp in Sources */,
 				0444E9DD28056A1900C6F279 /* resource_binding_state.cpp in Sources */,
+				04D95C25280993DC00E54DC2 /* component.cpp in Sources */,
 				0444EB2B28084B9700C6F279 /* separator.cpp in Sources */,
 				0444EA0A28056E2700C6F279 /* frame_time_stats_provider.cpp in Sources */,
 				0444EA7A2805832400C6F279 /* gltf_loader.cpp in Sources */,
 				0444EB4528084B9E00C6F279 /* text_wrapped.cpp in Sources */,
+				04D95C2B280993DC00E54DC2 /* entity.cpp in Sources */,
 				0444EBB928084BCE00C6F279 /* input_text.cpp in Sources */,
 				0444E9582805633000C6F279 /* platform.cpp in Sources */,
 				0444EBB528084BCE00C6F279 /* input_double.cpp in Sources */,
@@ -2118,6 +2157,7 @@
 				0444E9E328056AFA00C6F279 /* descriptor_set.cpp in Sources */,
 				0444E966280563E600C6F279 /* help_formatter.cpp in Sources */,
 				0444EB3D28084B9E00C6F279 /* text_colored.cpp in Sources */,
+				04D95C30280994DE00E54DC2 /* transform.cpp in Sources */,
 				0444EA582805772200C6F279 /* render_frame.cpp in Sources */,
 				0444EB8928084BBD00C6F279 /* menu_list.cpp in Sources */,
 				0444EA2F280571FA00C6F279 /* ktx_img.cpp in Sources */,
