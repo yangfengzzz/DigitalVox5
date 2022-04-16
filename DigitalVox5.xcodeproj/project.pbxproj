@@ -445,6 +445,47 @@
 		04D95C4B2809B28400E54DC2 /* orbit_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C452809B28400E54DC2 /* orbit_control.cpp */; };
 		04D95C4C2809B28400E54DC2 /* spherical.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C462809B28400E54DC2 /* spherical.cpp */; };
 		04D95C4D2809B28400E54DC2 /* spherical.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C472809B28400E54DC2 /* spherical.h */; };
+		04D95C5D280A8C6600E54DC2 /* static_collider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C52280A8C6600E54DC2 /* static_collider.cpp */; };
+		04D95C5E280A8C6600E54DC2 /* collider.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C53280A8C6600E54DC2 /* collider.h */; };
+		04D95C5F280A8C6600E54DC2 /* dynamic_collider.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C54280A8C6600E54DC2 /* dynamic_collider.h */; };
+		04D95C60280A8C6600E54DC2 /* collider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C55280A8C6600E54DC2 /* collider.cpp */; };
+		04D95C61280A8C6600E54DC2 /* physics_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C56280A8C6600E54DC2 /* physics_manager.h */; };
+		04D95C62280A8C6600E54DC2 /* physics_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C57280A8C6600E54DC2 /* physics_manager.cpp */; };
+		04D95C63280A8C6600E54DC2 /* physics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C58280A8C6600E54DC2 /* physics.cpp */; };
+		04D95C64280A8C6600E54DC2 /* static_collider.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C59280A8C6600E54DC2 /* static_collider.h */; };
+		04D95C65280A8C6600E54DC2 /* hit_result.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C5A280A8C6600E54DC2 /* hit_result.h */; };
+		04D95C66280A8C6600E54DC2 /* dynamic_collider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C5B280A8C6600E54DC2 /* dynamic_collider.cpp */; };
+		04D95C67280A8C6600E54DC2 /* physics.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C5C280A8C6600E54DC2 /* physics.h */; };
+		04D95C76280A8C6E00E54DC2 /* configurable_joint.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C68280A8C6D00E54DC2 /* configurable_joint.h */; };
+		04D95C77280A8C6E00E54DC2 /* fixed_joint.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C69280A8C6D00E54DC2 /* fixed_joint.h */; };
+		04D95C78280A8C6E00E54DC2 /* hinge_joint.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C6A280A8C6D00E54DC2 /* hinge_joint.h */; };
+		04D95C79280A8C6E00E54DC2 /* configurable_joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C6B280A8C6D00E54DC2 /* configurable_joint.cpp */; };
+		04D95C7A280A8C6E00E54DC2 /* hinge_joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C6C280A8C6D00E54DC2 /* hinge_joint.cpp */; };
+		04D95C7B280A8C6E00E54DC2 /* spring_joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C6D280A8C6D00E54DC2 /* spring_joint.cpp */; };
+		04D95C7C280A8C6E00E54DC2 /* joint.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C6E280A8C6D00E54DC2 /* joint.h */; };
+		04D95C7D280A8C6E00E54DC2 /* translational_joint.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C6F280A8C6D00E54DC2 /* translational_joint.h */; };
+		04D95C7E280A8C6E00E54DC2 /* fixed_joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C70280A8C6D00E54DC2 /* fixed_joint.cpp */; };
+		04D95C7F280A8C6E00E54DC2 /* spring_joint.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C71280A8C6D00E54DC2 /* spring_joint.h */; };
+		04D95C80280A8C6E00E54DC2 /* translational_joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C72280A8C6E00E54DC2 /* translational_joint.cpp */; };
+		04D95C81280A8C6E00E54DC2 /* joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C73280A8C6E00E54DC2 /* joint.cpp */; };
+		04D95C82280A8C6E00E54DC2 /* spherical_joint.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C74280A8C6E00E54DC2 /* spherical_joint.h */; };
+		04D95C83280A8C6E00E54DC2 /* spherical_joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C75280A8C6E00E54DC2 /* spherical_joint.cpp */; };
+		04D95C8A280A8C7500E54DC2 /* character_controller.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C84280A8C7500E54DC2 /* character_controller.h */; };
+		04D95C8B280A8C7500E54DC2 /* character_controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C85280A8C7500E54DC2 /* character_controller.cpp */; };
+		04D95C8C280A8C7500E54DC2 /* capsule_character_controller.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C86280A8C7500E54DC2 /* capsule_character_controller.h */; };
+		04D95C8D280A8C7500E54DC2 /* box_character_controller.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C87280A8C7500E54DC2 /* box_character_controller.h */; };
+		04D95C8E280A8C7500E54DC2 /* box_character_controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C88280A8C7500E54DC2 /* box_character_controller.cpp */; };
+		04D95C8F280A8C7500E54DC2 /* capsule_character_controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C89280A8C7500E54DC2 /* capsule_character_controller.cpp */; };
+		04D95C9A280A8C7D00E54DC2 /* capsule_collider_shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C90280A8C7C00E54DC2 /* capsule_collider_shape.cpp */; };
+		04D95C9B280A8C7D00E54DC2 /* box_collider_shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C91280A8C7C00E54DC2 /* box_collider_shape.cpp */; };
+		04D95C9C280A8C7D00E54DC2 /* plane_collider_shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C92280A8C7C00E54DC2 /* plane_collider_shape.cpp */; };
+		04D95C9D280A8C7D00E54DC2 /* plane_collider_shape.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C93280A8C7C00E54DC2 /* plane_collider_shape.h */; };
+		04D95C9E280A8C7D00E54DC2 /* box_collider_shape.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C94280A8C7C00E54DC2 /* box_collider_shape.h */; };
+		04D95C9F280A8C7D00E54DC2 /* sphere_collider_shape.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C95280A8C7C00E54DC2 /* sphere_collider_shape.h */; };
+		04D95CA0280A8C7D00E54DC2 /* collider_shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C96280A8C7C00E54DC2 /* collider_shape.cpp */; };
+		04D95CA1280A8C7D00E54DC2 /* capsule_collider_shape.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C97280A8C7C00E54DC2 /* capsule_collider_shape.h */; };
+		04D95CA2280A8C7D00E54DC2 /* sphere_collider_shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C98280A8C7C00E54DC2 /* sphere_collider_shape.cpp */; };
+		04D95CA3280A8C7D00E54DC2 /* collider_shape.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C99280A8C7C00E54DC2 /* collider_shape.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -929,6 +970,47 @@
 		04D95C452809B28400E54DC2 /* orbit_control.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = orbit_control.cpp; sourceTree = "<group>"; };
 		04D95C462809B28400E54DC2 /* spherical.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spherical.cpp; sourceTree = "<group>"; };
 		04D95C472809B28400E54DC2 /* spherical.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spherical.h; sourceTree = "<group>"; };
+		04D95C52280A8C6600E54DC2 /* static_collider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = static_collider.cpp; sourceTree = "<group>"; };
+		04D95C53280A8C6600E54DC2 /* collider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = collider.h; sourceTree = "<group>"; };
+		04D95C54280A8C6600E54DC2 /* dynamic_collider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dynamic_collider.h; sourceTree = "<group>"; };
+		04D95C55280A8C6600E54DC2 /* collider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = collider.cpp; sourceTree = "<group>"; };
+		04D95C56280A8C6600E54DC2 /* physics_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = physics_manager.h; sourceTree = "<group>"; };
+		04D95C57280A8C6600E54DC2 /* physics_manager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = physics_manager.cpp; sourceTree = "<group>"; };
+		04D95C58280A8C6600E54DC2 /* physics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = physics.cpp; sourceTree = "<group>"; };
+		04D95C59280A8C6600E54DC2 /* static_collider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = static_collider.h; sourceTree = "<group>"; };
+		04D95C5A280A8C6600E54DC2 /* hit_result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hit_result.h; sourceTree = "<group>"; };
+		04D95C5B280A8C6600E54DC2 /* dynamic_collider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dynamic_collider.cpp; sourceTree = "<group>"; };
+		04D95C5C280A8C6600E54DC2 /* physics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = physics.h; sourceTree = "<group>"; };
+		04D95C68280A8C6D00E54DC2 /* configurable_joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = configurable_joint.h; sourceTree = "<group>"; };
+		04D95C69280A8C6D00E54DC2 /* fixed_joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fixed_joint.h; sourceTree = "<group>"; };
+		04D95C6A280A8C6D00E54DC2 /* hinge_joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hinge_joint.h; sourceTree = "<group>"; };
+		04D95C6B280A8C6D00E54DC2 /* configurable_joint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = configurable_joint.cpp; sourceTree = "<group>"; };
+		04D95C6C280A8C6D00E54DC2 /* hinge_joint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hinge_joint.cpp; sourceTree = "<group>"; };
+		04D95C6D280A8C6D00E54DC2 /* spring_joint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spring_joint.cpp; sourceTree = "<group>"; };
+		04D95C6E280A8C6D00E54DC2 /* joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = joint.h; sourceTree = "<group>"; };
+		04D95C6F280A8C6D00E54DC2 /* translational_joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = translational_joint.h; sourceTree = "<group>"; };
+		04D95C70280A8C6D00E54DC2 /* fixed_joint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fixed_joint.cpp; sourceTree = "<group>"; };
+		04D95C71280A8C6D00E54DC2 /* spring_joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spring_joint.h; sourceTree = "<group>"; };
+		04D95C72280A8C6E00E54DC2 /* translational_joint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = translational_joint.cpp; sourceTree = "<group>"; };
+		04D95C73280A8C6E00E54DC2 /* joint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = joint.cpp; sourceTree = "<group>"; };
+		04D95C74280A8C6E00E54DC2 /* spherical_joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spherical_joint.h; sourceTree = "<group>"; };
+		04D95C75280A8C6E00E54DC2 /* spherical_joint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spherical_joint.cpp; sourceTree = "<group>"; };
+		04D95C84280A8C7500E54DC2 /* character_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = character_controller.h; sourceTree = "<group>"; };
+		04D95C85280A8C7500E54DC2 /* character_controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = character_controller.cpp; sourceTree = "<group>"; };
+		04D95C86280A8C7500E54DC2 /* capsule_character_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = capsule_character_controller.h; sourceTree = "<group>"; };
+		04D95C87280A8C7500E54DC2 /* box_character_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = box_character_controller.h; sourceTree = "<group>"; };
+		04D95C88280A8C7500E54DC2 /* box_character_controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = box_character_controller.cpp; sourceTree = "<group>"; };
+		04D95C89280A8C7500E54DC2 /* capsule_character_controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = capsule_character_controller.cpp; sourceTree = "<group>"; };
+		04D95C90280A8C7C00E54DC2 /* capsule_collider_shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = capsule_collider_shape.cpp; sourceTree = "<group>"; };
+		04D95C91280A8C7C00E54DC2 /* box_collider_shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = box_collider_shape.cpp; sourceTree = "<group>"; };
+		04D95C92280A8C7C00E54DC2 /* plane_collider_shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = plane_collider_shape.cpp; sourceTree = "<group>"; };
+		04D95C93280A8C7C00E54DC2 /* plane_collider_shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plane_collider_shape.h; sourceTree = "<group>"; };
+		04D95C94280A8C7C00E54DC2 /* box_collider_shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = box_collider_shape.h; sourceTree = "<group>"; };
+		04D95C95280A8C7C00E54DC2 /* sphere_collider_shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere_collider_shape.h; sourceTree = "<group>"; };
+		04D95C96280A8C7C00E54DC2 /* collider_shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = collider_shape.cpp; sourceTree = "<group>"; };
+		04D95C97280A8C7C00E54DC2 /* capsule_collider_shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = capsule_collider_shape.h; sourceTree = "<group>"; };
+		04D95C98280A8C7C00E54DC2 /* sphere_collider_shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sphere_collider_shape.cpp; sourceTree = "<group>"; };
+		04D95C99280A8C7C00E54DC2 /* collider_shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = collider_shape.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1567,6 +1649,7 @@
 				04D95C362809A23400E54DC2 /* script.h */,
 				04D95C382809A23400E54DC2 /* script.cpp */,
 				04D95C412809B24700E54DC2 /* controls */,
+				04D95C4E280A8C2D00E54DC2 /* physics */,
 			);
 			path = vox.render;
 			sourceTree = "<group>";
@@ -1674,6 +1757,78 @@
 			path = controls;
 			sourceTree = "<group>";
 		};
+		04D95C4E280A8C2D00E54DC2 /* physics */ = {
+			isa = PBXGroup;
+			children = (
+				04D95C5C280A8C6600E54DC2 /* physics.h */,
+				04D95C58280A8C6600E54DC2 /* physics.cpp */,
+				04D95C4F280A8C3800E54DC2 /* shape */,
+				04D95C50280A8C3E00E54DC2 /* character_controller */,
+				04D95C51280A8C4500E54DC2 /* joint */,
+				04D95C53280A8C6600E54DC2 /* collider.h */,
+				04D95C55280A8C6600E54DC2 /* collider.cpp */,
+				04D95C59280A8C6600E54DC2 /* static_collider.h */,
+				04D95C52280A8C6600E54DC2 /* static_collider.cpp */,
+				04D95C54280A8C6600E54DC2 /* dynamic_collider.h */,
+				04D95C5B280A8C6600E54DC2 /* dynamic_collider.cpp */,
+				04D95C5A280A8C6600E54DC2 /* hit_result.h */,
+				04D95C56280A8C6600E54DC2 /* physics_manager.h */,
+				04D95C57280A8C6600E54DC2 /* physics_manager.cpp */,
+			);
+			path = physics;
+			sourceTree = "<group>";
+		};
+		04D95C4F280A8C3800E54DC2 /* shape */ = {
+			isa = PBXGroup;
+			children = (
+				04D95C99280A8C7C00E54DC2 /* collider_shape.h */,
+				04D95C96280A8C7C00E54DC2 /* collider_shape.cpp */,
+				04D95C94280A8C7C00E54DC2 /* box_collider_shape.h */,
+				04D95C91280A8C7C00E54DC2 /* box_collider_shape.cpp */,
+				04D95C93280A8C7C00E54DC2 /* plane_collider_shape.h */,
+				04D95C92280A8C7C00E54DC2 /* plane_collider_shape.cpp */,
+				04D95C97280A8C7C00E54DC2 /* capsule_collider_shape.h */,
+				04D95C90280A8C7C00E54DC2 /* capsule_collider_shape.cpp */,
+				04D95C95280A8C7C00E54DC2 /* sphere_collider_shape.h */,
+				04D95C98280A8C7C00E54DC2 /* sphere_collider_shape.cpp */,
+			);
+			path = shape;
+			sourceTree = "<group>";
+		};
+		04D95C50280A8C3E00E54DC2 /* character_controller */ = {
+			isa = PBXGroup;
+			children = (
+				04D95C84280A8C7500E54DC2 /* character_controller.h */,
+				04D95C85280A8C7500E54DC2 /* character_controller.cpp */,
+				04D95C87280A8C7500E54DC2 /* box_character_controller.h */,
+				04D95C88280A8C7500E54DC2 /* box_character_controller.cpp */,
+				04D95C86280A8C7500E54DC2 /* capsule_character_controller.h */,
+				04D95C89280A8C7500E54DC2 /* capsule_character_controller.cpp */,
+			);
+			path = character_controller;
+			sourceTree = "<group>";
+		};
+		04D95C51280A8C4500E54DC2 /* joint */ = {
+			isa = PBXGroup;
+			children = (
+				04D95C6E280A8C6D00E54DC2 /* joint.h */,
+				04D95C73280A8C6E00E54DC2 /* joint.cpp */,
+				04D95C69280A8C6D00E54DC2 /* fixed_joint.h */,
+				04D95C70280A8C6D00E54DC2 /* fixed_joint.cpp */,
+				04D95C6A280A8C6D00E54DC2 /* hinge_joint.h */,
+				04D95C6C280A8C6D00E54DC2 /* hinge_joint.cpp */,
+				04D95C71280A8C6D00E54DC2 /* spring_joint.h */,
+				04D95C6D280A8C6D00E54DC2 /* spring_joint.cpp */,
+				04D95C74280A8C6E00E54DC2 /* spherical_joint.h */,
+				04D95C75280A8C6E00E54DC2 /* spherical_joint.cpp */,
+				04D95C6F280A8C6D00E54DC2 /* translational_joint.h */,
+				04D95C72280A8C6E00E54DC2 /* translational_joint.cpp */,
+				04D95C68280A8C6D00E54DC2 /* configurable_joint.h */,
+				04D95C6B280A8C6D00E54DC2 /* configurable_joint.cpp */,
+			);
+			path = joint;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1691,6 +1846,7 @@
 				0444E96C280563E600C6F279 /* input_events.h in Headers */,
 				0444EAC228083EAA00C6F279 /* singleton.h in Headers */,
 				0444EB1528084B8700C6F279 /* panel_undecorated.h in Headers */,
+				04D95C7D280A8C6E00E54DC2 /* translational_joint.h in Headers */,
 				0444EA382805720800C6F279 /* image.h in Headers */,
 				0444E8B52805567000C6F279 /* logging.h in Headers */,
 				0444EA75280581C900C6F279 /* gltf_loader.h in Headers */,
@@ -1706,8 +1862,12 @@
 				0444EBB228084BCE00C6F279 /* input_multiple_ints.h in Headers */,
 				0444EAF328084B6600C6F279 /* contextual_menu.h in Headers */,
 				0444EA1A28056EB300C6F279 /* gui.h in Headers */,
+				04D95CA3280A8C7D00E54DC2 /* collider_shape.h in Headers */,
+				04D95C7F280A8C6E00E54DC2 /* spring_joint.h in Headers */,
+				04D95C8A280A8C7500E54DC2 /* character_controller.h in Headers */,
 				0444E93128055D9300C6F279 /* debug_info.h in Headers */,
 				0444EA1128056E2700C6F279 /* stats_common.h in Headers */,
+				04D95C65280A8C6600E54DC2 /* hit_result.h in Headers */,
 				0444EBB428084BCE00C6F279 /* input_multiple_floats.h in Headers */,
 				0444EB7228084BAF00C6F279 /* check_box.h in Headers */,
 				0444E9E428056AFA00C6F279 /* framebuffer.h in Headers */,
@@ -1717,6 +1877,7 @@
 				0444EB0A28084B8000C6F279 /* panel_window_settings.h in Headers */,
 				04D95C26280993DC00E54DC2 /* component.h in Headers */,
 				0444EBC928084BD600C6F279 /* drag_single_scalar.h in Headers */,
+				04D95C61280A8C6600E54DC2 /* physics_manager.h in Headers */,
 				0444EBE928084BDE00C6F279 /* button_small.h in Headers */,
 				0444EA2D280571FA00C6F279 /* astc_img.h in Headers */,
 				0444EA5B2805772200C6F279 /* render_frame.h in Headers */,
@@ -1730,9 +1891,12 @@
 				0444EB4328084B9E00C6F279 /* text_labelled.h in Headers */,
 				0444E8BF280557ED00C6F279 /* tags.h in Headers */,
 				04D95C1C2808EE0500E54DC2 /* device.h in Headers */,
+				04D95C82280A8C6E00E54DC2 /* spherical_joint.h in Headers */,
+				04D95C9D280A8C7D00E54DC2 /* plane_collider_shape.h in Headers */,
 				0444E9EC28056AFA00C6F279 /* descriptor_set.h in Headers */,
 				0444EB2428084B9700C6F279 /* image.h in Headers */,
 				0444EB5C28084BA600C6F279 /* slider_multiple_ints.h in Headers */,
+				04D95C76280A8C6E00E54DC2 /* configurable_joint.h in Headers */,
 				0444E968280563E600C6F279 /* CLI11.h in Headers */,
 				0444EB6C28084BAF00C6F279 /* radio_button_linker.h in Headers */,
 				0444EAC828083EC100C6F279 /* background.h in Headers */,
@@ -1757,6 +1921,8 @@
 				0444EA592805772200C6F279 /* render_target.h in Headers */,
 				0444EA822805AF2A00C6F279 /* pbr_material.h in Headers */,
 				0444E9C7280569C500C6F279 /* render_pipeline.h in Headers */,
+				04D95C78280A8C6E00E54DC2 /* hinge_joint.h in Headers */,
+				04D95C8C280A8C7500E54DC2 /* capsule_character_controller.h in Headers */,
 				0444E9D728056A1900C6F279 /* buffer_pool.h in Headers */,
 				0444E9AD2805689000C6F279 /* sampled_image.h in Headers */,
 				0444E960280563DB00C6F279 /* parser.h in Headers */,
@@ -1769,6 +1935,7 @@
 				0444EA0B28056E2700C6F279 /* stats_provider.h in Headers */,
 				0444EB0B28084B8000C6F279 /* data_widget.h in Headers */,
 				0444EBEF2808534A00C6F279 /* inspector_item.h in Headers */,
+				04D95C9E280A8C7D00E54DC2 /* box_collider_shape.h in Headers */,
 				0444E8BB2805570600C6F279 /* error.h in Headers */,
 				0444EBB628084BCE00C6F279 /* input_int.h in Headers */,
 				0444E93928055F8100C6F279 /* queue.h in Headers */,
@@ -1791,6 +1958,7 @@
 				0444EBBB28084BCE00C6F279 /* input_single_scalar.h in Headers */,
 				0444EB0D28084B8000C6F279 /* alignment.h in Headers */,
 				0444EBE628084BDE00C6F279 /* button.h in Headers */,
+				04D95C5E280A8C6600E54DC2 /* collider.h in Headers */,
 				0444E9EE28056AFA00C6F279 /* pipeline_layout.h in Headers */,
 				0444EBDF28084BDE00C6F279 /* button_arrow.h in Headers */,
 				0444EA3C2805732C00C6F279 /* texture.h in Headers */,
@@ -1819,6 +1987,7 @@
 				0444E94228055FD400C6F279 /* debug.h in Headers */,
 				0444E946280560A000C6F279 /* fence_pool.h in Headers */,
 				0444EB1728084B8700C6F279 /* panel_window.h in Headers */,
+				04D95C77280A8C6E00E54DC2 /* fixed_joint.h in Headers */,
 				0444EB0F28084B8000C6F279 /* widget.h in Headers */,
 				0444EAC328083EC100C6F279 /* update_flag_manager.h in Headers */,
 				0444EBB328084BCE00C6F279 /* input_multiple_scalars.h in Headers */,
@@ -1826,6 +1995,7 @@
 				04D95C3C2809A23400E54DC2 /* script.h in Headers */,
 				0444E9DC28056A1900C6F279 /* resource_cache.h in Headers */,
 				0444EAC628083EC100C6F279 /* update_flag.h in Headers */,
+				04D95CA1280A8C7D00E54DC2 /* capsule_collider_shape.h in Headers */,
 				0444E94A2805618000C6F279 /* buffer.h in Headers */,
 				0444EBCF28084BD600C6F279 /* drag_multiple_floats.h in Headers */,
 				0444EA2C280571FA00C6F279 /* stb_img.h in Headers */,
@@ -1839,16 +2009,21 @@
 				0444E9EB28056AFA00C6F279 /* pipeline.h in Headers */,
 				0444EBD028084BD600C6F279 /* drag_double.h in Headers */,
 				04D95C28280993DC00E54DC2 /* scene_manager.h in Headers */,
+				04D95C67280A8C6600E54DC2 /* physics.h in Headers */,
 				0444EAC528083EC100C6F279 /* layer.h in Headers */,
 				0444EBE228084BDE00C6F279 /* button_colored.h in Headers */,
 				0444EAF028084B6600C6F279 /* plugin.h in Headers */,
+				04D95C64280A8C6600E54DC2 /* static_collider.h in Headers */,
 				0444EBD128084BD600C6F279 /* drag_float.h in Headers */,
+				04D95C9F280A8C7D00E54DC2 /* sphere_collider_shape.h in Headers */,
 				0444EBB828084BCE00C6F279 /* input_multiple_doubles.h in Headers */,
 				0444E95E280563DB00C6F279 /* plugin.h in Headers */,
 				0444E95F280563DB00C6F279 /* unix_platform.h in Headers */,
+				04D95C5F280A8C6600E54DC2 /* dynamic_collider.h in Headers */,
 				0444EB5B28084BA600C6F279 /* slider_single_scalar.h in Headers */,
 				04D95C4D2809B28400E54DC2 /* spherical.h in Headers */,
 				04D95C3F2809A23400E54DC2 /* components_manager.h in Headers */,
+				04D95C7C280A8C6E00E54DC2 /* joint.h in Headers */,
 				0444EA7E28059CDC00C6F279 /* old_camera.h in Headers */,
 				0444EAF528084B6600C6F279 /* drag_drop_source.h in Headers */,
 				0444EAE628084B5E00C6F279 /* ui_manager.h in Headers */,
@@ -1860,6 +2035,7 @@
 				0444E9572805633000C6F279 /* glfw_window.h in Headers */,
 				0444E9E828056AFA00C6F279 /* command_pool.h in Headers */,
 				0444E93E28055F9E00C6F279 /* swapchain.h in Headers */,
+				04D95C8D280A8C7500E54DC2 /* box_character_controller.h in Headers */,
 				0444E93328055F4900C6F279 /* vulkan_resource.h in Headers */,
 				0444EBD328084BD600C6F279 /* drag_multiple_ints.h in Headers */,
 				0444EB5828084BA600C6F279 /* slider_int.h in Headers */,
@@ -2087,6 +2263,7 @@
 				0444E92028055CE400C6F279 /* physical_device.cpp in Sources */,
 				04D95C2C280993DC00E54DC2 /* scene.cpp in Sources */,
 				0444EA2B280571FA00C6F279 /* stb_img.cpp in Sources */,
+				04D95CA2280A8C7D00E54DC2 /* sphere_collider_shape.cpp in Sources */,
 				0444EB3C28084B9E00C6F279 /* text_disabled.cpp in Sources */,
 				0444EAE128084B5E00C6F279 /* canvas.cpp in Sources */,
 				0444E9EA28056AFA00C6F279 /* command_pool.cpp in Sources */,
@@ -2109,9 +2286,11 @@
 				0444EB1B28084B8F00C6F279 /* panel_menu_bar.cpp in Sources */,
 				0444EBE528084BDE00C6F279 /* button_arrow.cpp in Sources */,
 				0444EB3E28084B9E00C6F279 /* text_labelled.cpp in Sources */,
+				04D95C7E280A8C6E00E54DC2 /* fixed_joint.cpp in Sources */,
 				0444E95B2805633000C6F279 /* glfw_window.cpp in Sources */,
 				0444EA472805741800C6F279 /* material.cpp in Sources */,
 				0444EA3E2805732C00C6F279 /* sampler.cpp in Sources */,
+				04D95C63280A8C6600E54DC2 /* physics.cpp in Sources */,
 				0444E96A280563E600C6F279 /* application.cpp in Sources */,
 				0444E95C280563DB00C6F279 /* unix_platform.cpp in Sources */,
 				04D95C492809B28400E54DC2 /* free_control.cpp in Sources */,
@@ -2121,12 +2300,14 @@
 				0444E93528055F4900C6F279 /* vulkan_resource.cpp in Sources */,
 				0444EAC428083EC100C6F279 /* update_flag_manager.cpp in Sources */,
 				0444EB0428084B8000C6F279 /* panel_transformable.cpp in Sources */,
+				04D95C7B280A8C6E00E54DC2 /* spring_joint.cpp in Sources */,
 				0444E9DE28056A1900C6F279 /* resource_cache.cpp in Sources */,
 				0444EBA028084BC500C6F279 /* group.cpp in Sources */,
 				0444EAC728083EC100C6F279 /* update_flag.cpp in Sources */,
 				0444E963280563E600C6F279 /* CLI11.cpp in Sources */,
 				0444E9AC2805689000C6F279 /* sampled_image.cpp in Sources */,
 				0444EA1928056EB300C6F279 /* gui.cpp in Sources */,
+				04D95C7A280A8C6E00E54DC2 /* hinge_joint.cpp in Sources */,
 				0444EBE828084BDE00C6F279 /* button_simple.cpp in Sources */,
 				0444EB8628084BBD00C6F279 /* menu_item.cpp in Sources */,
 				0444E9E528056AFA00C6F279 /* framebuffer.cpp in Sources */,
@@ -2134,9 +2315,12 @@
 				0444EB2528084B9700C6F279 /* image.cpp in Sources */,
 				0444E945280560A000C6F279 /* fence_pool.cpp in Sources */,
 				04D95C2A280993DC00E54DC2 /* scene_manager.cpp in Sources */,
+				04D95C9C280A8C7D00E54DC2 /* plane_collider_shape.cpp in Sources */,
 				0444EBE428084BDE00C6F279 /* button_small.cpp in Sources */,
 				0444EA372805720800C6F279 /* image.cpp in Sources */,
 				0444E96D280563E600C6F279 /* input_events.cpp in Sources */,
+				04D95C5D280A8C6600E54DC2 /* static_collider.cpp in Sources */,
+				04D95CA0280A8C7D00E54DC2 /* collider_shape.cpp in Sources */,
 				0444EB0528084B8000C6F279 /* panel.cpp in Sources */,
 				0444EA2A280571FA00C6F279 /* astc_img.cpp in Sources */,
 				0444EBB128084BCE00C6F279 /* input_int.cpp in Sources */,
@@ -2159,12 +2343,17 @@
 				0444E9D628056A1900C6F279 /* buffer_pool.cpp in Sources */,
 				0444E8C92805589600C6F279 /* glsl_compiler.cpp in Sources */,
 				0444EBCE28084BD600C6F279 /* drag_float.cpp in Sources */,
+				04D95C8F280A8C7500E54DC2 /* capsule_character_controller.cpp in Sources */,
 				0444E8BC2805570600C6F279 /* error.cpp in Sources */,
 				0444E9EF28056AFA00C6F279 /* descriptor_set_layout.cpp in Sources */,
+				04D95C9B280A8C7D00E54DC2 /* box_collider_shape.cpp in Sources */,
+				04D95C60280A8C6600E54DC2 /* collider.cpp in Sources */,
 				0444E9E728056AFA00C6F279 /* query_pool.cpp in Sources */,
 				0444EB1428084B8700C6F279 /* panel_undecorated.cpp in Sources */,
 				0444E9E628056AFA00C6F279 /* command_buffer.cpp in Sources */,
 				0444E952280562C700C6F279 /* image.cpp in Sources */,
+				04D95C62280A8C6600E54DC2 /* physics_manager.cpp in Sources */,
+				04D95C81280A8C6E00E54DC2 /* joint.cpp in Sources */,
 				0444E92D28055D5D00C6F279 /* timer.cpp in Sources */,
 				0444EB5D28084BA600C6F279 /* slider_float.cpp in Sources */,
 				0444E9F528056B0500C6F279 /* shader_binding_table.cpp in Sources */,
@@ -2172,6 +2361,7 @@
 				04D95C25280993DC00E54DC2 /* component.cpp in Sources */,
 				0444EB2B28084B9700C6F279 /* separator.cpp in Sources */,
 				0444EA0A28056E2700C6F279 /* frame_time_stats_provider.cpp in Sources */,
+				04D95C83280A8C6E00E54DC2 /* spherical_joint.cpp in Sources */,
 				0444EA7A2805832400C6F279 /* gltf_loader.cpp in Sources */,
 				0444EB4528084B9E00C6F279 /* text_wrapped.cpp in Sources */,
 				04D95C2B280993DC00E54DC2 /* entity.cpp in Sources */,
@@ -2187,20 +2377,24 @@
 				0444EA79280581F300C6F279 /* heightmap.cpp in Sources */,
 				0444E961280563DB00C6F279 /* plugin.cpp in Sources */,
 				0444EB0928084B8000C6F279 /* widget_container.cpp in Sources */,
+				04D95C66280A8C6600E54DC2 /* dynamic_collider.cpp in Sources */,
 				0444EA3D2805732C00C6F279 /* texture.cpp in Sources */,
 				0444EA0D28056E2700C6F279 /* stats_provider.cpp in Sources */,
 				0444E9F428056B0500C6F279 /* acceleration_structure.cpp in Sources */,
 				0444E9492805618000C6F279 /* buffer.cpp in Sources */,
 				0444EB6D28084BAF00C6F279 /* radio_button.cpp in Sources */,
+				04D95C9A280A8C7D00E54DC2 /* capsule_collider_shape.cpp in Sources */,
 				0444EB9D28084BC500C6F279 /* dummy.cpp in Sources */,
 				0444EB7F28084BB600C6F279 /* plot.cpp in Sources */,
 				0444EB9F28084BC500C6F279 /* group_collapsable.cpp in Sources */,
+				04D95C8B280A8C7500E54DC2 /* character_controller.cpp in Sources */,
 				0444EA1D28056EFD00C6F279 /* vulkan_sample.cpp in Sources */,
 				0444E953280562C700C6F279 /* image_view.cpp in Sources */,
 				0444EA812805AF2A00C6F279 /* pbr_material.cpp in Sources */,
 				0444EBEE2808534A00C6F279 /* inspector_item.cpp in Sources */,
 				0444E93A28055F8100C6F279 /* queue.cpp in Sources */,
 				0444EAE528084B5E00C6F279 /* gui_drawer.cpp in Sources */,
+				04D95C8E280A8C7500E54DC2 /* box_character_controller.cpp in Sources */,
 				0444EB7428084BAF00C6F279 /* check_box.cpp in Sources */,
 				0444E9D528056A1900C6F279 /* resource_replay.cpp in Sources */,
 				0444EB6B28084BAF00C6F279 /* color_edit.cpp in Sources */,
@@ -2213,7 +2407,9 @@
 				0444E966280563E600C6F279 /* help_formatter.cpp in Sources */,
 				0444EB3D28084B9E00C6F279 /* text_colored.cpp in Sources */,
 				04D95C30280994DE00E54DC2 /* transform.cpp in Sources */,
+				04D95C79280A8C6E00E54DC2 /* configurable_joint.cpp in Sources */,
 				0444EA582805772200C6F279 /* render_frame.cpp in Sources */,
+				04D95C80280A8C6E00E54DC2 /* translational_joint.cpp in Sources */,
 				0444EB8928084BBD00C6F279 /* menu_list.cpp in Sources */,
 				0444EA2F280571FA00C6F279 /* ktx_img.cpp in Sources */,
 				0444E9E128056AFA00C6F279 /* pipeline.cpp in Sources */,
@@ -2387,20 +2583,28 @@
 					BASISU_NO_ITERATOR_DEBUG_LEVEL,
 					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
 					"$(inherited)",
+					DISABLE_CUDA_PHYSX,
+					PX_PHYSX_CORE_EXPORTS,
+					_DEBUG,
+					"'PX_DEBUG=1'",
+					"'PX_CHECKED=1'",
+					"'PX_NVTX=0'",
+					"'PX_SUPPORT_PVD=1'",
 				);
 				HEADER_SEARCH_PATHS = (
 					./vox.render,
 					./vox.math,
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"./cmake-debug/third_party/lib/Debug/x86_64",
-					"./cmake-debug/third_party/glfw/src/lib/Debug/x86_64",
-					"./cmake-debug/third_party/glslang/glslang/lib/Debug/x86_64",
-					"./cmake-debug/third_party/glslang/glslang/OSDependent/Unix/lib/Debug/x86_64",
-					"./cmake-debug/third_party/glslang/SPIRV/lib/Debug/x86_64",
-					"./cmake-debug/third_party/spirv-cross/lib/Debug/x86_64",
-					"./cmake-debug/third_party/hwcpipe/lib/Debug/x86_64",
-					"./cmake-debug/third_party/glslang/OGLCompilersDLL/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/glfw/src/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/glslang/glslang/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/glslang/glslang/OSDependent/Unix/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/glslang/SPIRV/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/spirv-cross/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/hwcpipe/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/glslang/OGLCompilersDLL/lib/Debug/x86_64",
+					./third_party/physX/physx/bin/linux.clang/debug,
 					/usr/local/lib,
 				);
 				OTHER_CPLUSPLUSFLAGS = "-fexceptions";
@@ -2444,6 +2648,26 @@
 					./third_party/ktx/include,
 					./third_party/CTPL,
 					/usr/local/include,
+					./third_party/physx/physx/source/common/src/mac,
+					./third_party/physx/physx/include,
+					./third_party/physx/physx/source/common/include,
+					./third_party/physx/physx/source/common/src,
+					./third_party/physx/physx/source/geomutils/include,
+					./third_party/physx/physx/source/geomutils/src,
+					./third_party/physx/physx/source/geomutils/src/contact,
+					./third_party/physx/physx/source/geomutils/src/common,
+					./third_party/physx/physx/source/geomutils/src/convex,
+					./third_party/physx/physx/source/geomutils/src/distance,
+					./third_party/physx/physx/source/geomutils/src/sweep,
+					./third_party/physx/physx/source/geomutils/src/gjk,
+					./third_party/physx/physx/source/geomutils/src/intersection,
+					./third_party/physx/physx/source/geomutils/src/mesh,
+					./third_party/physx/physx/source/geomutils/src/hf,
+					./third_party/physx/physx/source/geomutils/src/pcm,
+					./third_party/physx/physx/source/geomutils/src/ccd,
+					./third_party/physx/physx/source/physxgpu/include,
+					./third_party/physx/physx/../pxshared/include,
+					./third_party/physx/physx/source/foundation/include,
 				);
 			};
 			name = Debug;
@@ -2467,20 +2691,25 @@
 					BASISU_NO_ITERATOR_DEBUG_LEVEL,
 					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
 					"$(inherited)",
+					DISABLE_CUDA_PHYSX,
+					PX_PHYSX_CORE_EXPORTS,
+					NDEBUG,
+					"'PX_SUPPORT_PVD=0'",
 				);
 				HEADER_SEARCH_PATHS = (
 					./vox.render,
 					./vox.math,
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"./cmake-release/third_party/lib/Release/x86_64",
-					"./cmake-release/third_party/glfw/src/lib/Release/x86_64",
-					"./cmake-release/third_party/glslang/glslang/lib/Release/x86_64",
-					"./cmake-release/third_party/glslang/glslang/OSDependent/Unix/lib/Release/x86_64",
-					"./cmake-release/third_party/glslang/SPIRV/lib/Release/x86_64",
-					"./cmake-release/third_party/spirv-cross/lib/Release/x86_64",
-					"./cmake-release/third_party/hwcpipe/lib/Release/x86_64",
-					"./cmake-release/third_party/glslang/OGLCompilersDLL/lib/Release/x86_64",
+					"./cmake-build-release/third_party/lib/Release/x86_64",
+					"./cmake-build-release/third_party/glfw/src/lib/Release/x86_64",
+					"./cmake-build-release/third_party/glslang/glslang/lib/Release/x86_64",
+					"./cmake-build-release/third_party/glslang/glslang/OSDependent/Unix/lib/Release/x86_64",
+					"./cmake-build-release/third_party/glslang/SPIRV/lib/Release/x86_64",
+					"./cmake-build-release/third_party/spirv-cross/lib/Release/x86_64",
+					"./cmake-build-release/third_party/hwcpipe/lib/Release/x86_64",
+					"./cmake-build-release/third_party/glslang/OGLCompilersDLL/lib/Release/x86_64",
+					./third_party/physX/physx/bin/linux.clang/release,
 					/usr/local/lib,
 				);
 				OTHER_CPLUSPLUSFLAGS = "-fexceptions";
@@ -2524,6 +2753,26 @@
 					./third_party/ktx/include,
 					./third_party/CTPL,
 					/usr/local/include,
+					./third_party/physx/physx/source/common/src/mac,
+					./third_party/physx/physx/include,
+					./third_party/physx/physx/source/common/include,
+					./third_party/physx/physx/source/common/src,
+					./third_party/physx/physx/source/geomutils/include,
+					./third_party/physx/physx/source/geomutils/src,
+					./third_party/physx/physx/source/geomutils/src/contact,
+					./third_party/physx/physx/source/geomutils/src/common,
+					./third_party/physx/physx/source/geomutils/src/convex,
+					./third_party/physx/physx/source/geomutils/src/distance,
+					./third_party/physx/physx/source/geomutils/src/sweep,
+					./third_party/physx/physx/source/geomutils/src/gjk,
+					./third_party/physx/physx/source/geomutils/src/intersection,
+					./third_party/physx/physx/source/geomutils/src/mesh,
+					./third_party/physx/physx/source/geomutils/src/hf,
+					./third_party/physx/physx/source/geomutils/src/pcm,
+					./third_party/physx/physx/source/geomutils/src/ccd,
+					./third_party/physx/physx/source/physxgpu/include,
+					./third_party/physx/physx/../pxshared/include,
+					./third_party/physx/physx/source/foundation/include,
 				);
 			};
 			name = Release;
@@ -2548,6 +2797,13 @@
 					BASISU_NO_ITERATOR_DEBUG_LEVEL,
 					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
 					"$(inherited)",
+					DISABLE_CUDA_PHYSX,
+					PX_PHYSX_CORE_EXPORTS,
+					_DEBUG,
+					"'PX_DEBUG=1'",
+					"'PX_CHECKED=1'",
+					"'PX_NVTX=0'",
+					"'PX_SUPPORT_PVD=1'",
 				);
 				HEADER_SEARCH_PATHS = (
 					./vox.render,
@@ -2618,6 +2874,10 @@
 					BASISU_NO_ITERATOR_DEBUG_LEVEL,
 					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
 					"$(inherited)",
+					DISABLE_CUDA_PHYSX,
+					PX_PHYSX_CORE_EXPORTS,
+					NDEBUG,
+					"'PX_SUPPORT_PVD=0'",
 				);
 				HEADER_SEARCH_PATHS = (
 					./vox.render,
