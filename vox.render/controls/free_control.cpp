@@ -108,8 +108,8 @@ void FreeControl::on_key_up(KeyCode key) {
 
 void FreeControl::on_mouse_down(double xpos, double ypos) {
     press_ = true;
-    _rotate.x = static_cast<float>(xpos);
-    _rotate.y = static_cast<float>(ypos);
+    rotate_.x = static_cast<float>(xpos);
+    rotate_.y = static_cast<float>(ypos);
 }
 
 void FreeControl::on_mouse_up() {
@@ -120,10 +120,10 @@ void FreeControl::on_mouse_move(double client_x, double client_y) {
     if (!press_) return;
     if (!enabled()) return;
     
-    const auto kMovementX = client_x - _rotate.x;
-    const auto kMovementY = client_y - _rotate.y;
-    _rotate.x = static_cast<float>(client_x);
-    _rotate.y = static_cast<float>(client_y);
+    const auto kMovementX = client_x - rotate_.x;
+    const auto kMovementY = client_y - rotate_.y;
+    rotate_.x = static_cast<float>(client_x);
+    rotate_.y = static_cast<float>(client_y);
     const auto kFactorX = 180.0 / width_;
     const auto kFactorY = 180.0 / height_;
     const auto kActualX = kMovementX * kFactorX;

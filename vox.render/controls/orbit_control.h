@@ -167,9 +167,9 @@ public:
     /**
      * Get the radian of automatic rotation.
      */
-    float auto_rotation_angle(float dtime) const;
+    [[nodiscard]] float auto_rotation_angle(float dtime) const;
     
-    float zoom_scale() const;
+    [[nodiscard]] float zoom_scale() const;
     
     /**
      * Rotate to the left by a certain radian.

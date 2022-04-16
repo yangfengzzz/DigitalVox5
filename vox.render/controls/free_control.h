@@ -126,7 +126,7 @@ private:
     
     Vector3F v3_cache_;
     Spherical spherical_;
-    Vector2F _rotate{};
+    Vector2F rotate_{};
     
     bool enable_event_ = true;
     uint32_t width_ = 1000;
