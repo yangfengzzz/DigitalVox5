@@ -25,7 +25,7 @@
 #include "image/astc_img.h"
 #include "texture.h"
 #include "sampler.h"
-#include "sub_mesh.h"
+#include "renderer.h"
 #include "pbr_material.h"
 
 //#include "scene_graph/components/camera.h"
@@ -313,7 +313,7 @@ device{device} {
 //    return std::make_unique<sg::Scene>(load_scene(scene_index));
 //}
 
-std::unique_ptr<sg::SubMesh> GLTFLoader::read_model_from_file(const std::string &file_name, uint32_t index) {
+std::unique_ptr<sg::Renderer> GLTFLoader::read_model_from_file(const std::string &file_name, uint32_t index) {
     std::string err;
     std::string warn;
     
@@ -530,7 +530,7 @@ std::unique_ptr<sg::SubMesh> GLTFLoader::read_model_from_file(const std::string 
 //            const auto &gltf_primitive = gltf_mesh.primitives[i_primitive];
 //
 //            auto submesh_name = fmt::format("'{}' mesh, primitive #{}", gltf_mesh.name, i_primitive);
-//            auto submesh = std::make_unique<sg::SubMesh>(std::move(submesh_name));
+//            auto submesh = std::make_unique<sg::Renderer>(std::move(submesh_name));
 //
 //            for (auto &attribute: gltf_primitive.attributes) {
 //                std::string attrib_name = attribute.first;
@@ -825,8 +825,8 @@ std::unique_ptr<sg::SubMesh> GLTFLoader::read_model_from_file(const std::string 
 //    return scene;
 //}
 
-std::unique_ptr<sg::SubMesh> GLTFLoader::load_model(uint32_t index) {
-    auto submesh = std::make_unique<sg::SubMesh>();
+std::unique_ptr<sg::Renderer> GLTFLoader::load_model(uint32_t index) {
+    auto submesh = std::make_unique<sg::Renderer>();
     
     std::vector<core::Buffer> transient_buffers;
     

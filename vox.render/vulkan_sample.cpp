@@ -439,7 +439,7 @@ void VulkanSample::update_debug_window() {
     //	if (scene != nullptr)
     //	{
     //		get_debug_info().insert<field::Static, uint32_t>("mesh_count",
-    //		                                                 to_u32(scene->get_components<sg::SubMesh>().size()));
+    //		                                                 to_u32(scene->get_components<sg::Renderer>().size()));
     //
     //		get_debug_info().insert<field::Static, uint32_t>("texture_count",
     //		                                                 to_u32(scene->get_components<sg::Texture>().size()));

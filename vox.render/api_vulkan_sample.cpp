@@ -9,7 +9,7 @@
 #include "core/device.h"
 #include "core/swapchain.h"
 #include "image.h"
-#include "sub_mesh.h"
+#include "renderer.h"
 #include "gltf_loader.h"
 
 namespace vox {
@@ -1136,10 +1136,10 @@ Texture ApiVulkanSample::load_texture_cubemap(const std::string &file) {
     return texture;
 }
 
-std::unique_ptr<vox::sg::SubMesh> ApiVulkanSample::load_model(const std::string &file, uint32_t index) {
+std::unique_ptr<vox::sg::Renderer> ApiVulkanSample::load_model(const std::string &file, uint32_t index) {
     vox::GLTFLoader loader{*device_};
     
-    std::unique_ptr<vox::sg::SubMesh> model = loader.read_model_from_file(file, index);
+    std::unique_ptr<vox::sg::Renderer> model = loader.read_model_from_file(file, index);
     
     if (!model) {
         LOGE("Cannot load model from file: {}", file.c_str())
@@ -1149,7 +1149,7 @@ std::unique_ptr<vox::sg::SubMesh> ApiVulkanSample::load_model(const std::string 
     return model;
 }
 
-void ApiVulkanSample::draw_model(std::unique_ptr<vox::sg::SubMesh> &model, VkCommandBuffer command_buffer) {
+void ApiVulkanSample::draw_model(std::unique_ptr<vox::sg::Renderer> &model, VkCommandBuffer command_buffer) {
     VkDeviceSize offsets[1] = {0};
     
     const auto &vertex_buffer = model->vertex_buffers_.at("vertex_buffer");

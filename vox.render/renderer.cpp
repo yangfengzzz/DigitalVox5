@@ -4,23 +4,23 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "sub_mesh.h"
+#include "renderer.h"
 
 #include <utility>
 
 #include "material.h"
 
 namespace vox::sg {
-SubMesh::SubMesh(std::string name) :
+Renderer::Renderer(std::string name) :
 name_{std::move(name)} {}
 
-void SubMesh::set_attribute(const std::string &attribute_name, const VertexAttribute &attribute) {
+void Renderer::set_attribute(const std::string &attribute_name, const VertexAttribute &attribute) {
     vertex_attributes_[attribute_name] = attribute;
     
     compute_shader_variant();
 }
 
-bool SubMesh::get_attribute(const std::string &attribute_name, VertexAttribute &attribute) const {
+bool Renderer::get_attribute(const std::string &attribute_name, VertexAttribute &attribute) const {
     auto attrib_it = vertex_attributes_.find(attribute_name);
     
     if (attrib_it == vertex_attributes_.end()) {
@@ -32,21 +32,21 @@ bool SubMesh::get_attribute(const std::string &attribute_name, VertexAttribute &
     return true;
 }
 
-void SubMesh::set_material(const Material &new_material) {
+void Renderer::set_material(const Material &new_material) {
     material_ = &new_material;
     
     compute_shader_variant();
 }
 
-const Material *SubMesh::get_material() const {
+const Material *Renderer::get_material() const {
     return material_;
 }
 
-const ShaderVariant &SubMesh::get_shader_variant() const {
+const ShaderVariant &Renderer::get_shader_variant() const {
     return shader_variant_;
 }
 
-void SubMesh::compute_shader_variant() {
+void Renderer::compute_shader_variant() {
     shader_variant_.clear();
     
     if (material_ != nullptr) {
@@ -65,7 +65,7 @@ void SubMesh::compute_shader_variant() {
     }
 }
 
-ShaderVariant &SubMesh::get_mut_shader_variant() {
+ShaderVariant &Renderer::get_mut_shader_variant() {
     return shader_variant_;
 }
 

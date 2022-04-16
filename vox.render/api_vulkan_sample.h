@@ -21,7 +21,7 @@
 
 #include "old_camera.h"
 #include "vector4.h"
-#include "sub_mesh.h"
+#include "renderer.h"
 #include "error.h"
 #include "vk_common.h"
 #include "vk_initializers.h"
@@ -203,14 +203,14 @@ protected:
      * @param file The filename of the model to load
      * @param index The index of the model to load from the GLTF file (default: 0)
      */
-    std::unique_ptr<vox::sg::SubMesh> load_model(const std::string &file, uint32_t index = 0);
+    std::unique_ptr<vox::sg::Renderer> load_model(const std::string &file, uint32_t index = 0);
     
     /**
      * @brief Records the necessary drawing commands to a command buffer
      * @param model The model to draw
      * @param command_buffer The command buffer to record to
      */
-    static void draw_model(std::unique_ptr<vox::sg::SubMesh> &model, VkCommandBuffer command_buffer);
+    static void draw_model(std::unique_ptr<vox::sg::Renderer> &model, VkCommandBuffer command_buffer);
     
     /**
      * @brief Synchronously execute a block code within a command buffer, then submit the command buffer and wait for completion.

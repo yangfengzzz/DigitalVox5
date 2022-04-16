@@ -21,7 +21,7 @@
 
 #include "hdr.h"
 #include "matrix_utils.h"
-#include "sub_mesh.h"
+#include "renderer.h"
 
 namespace vox {
 HDR::HDR() {

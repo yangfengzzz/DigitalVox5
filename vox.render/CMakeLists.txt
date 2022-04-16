@@ -97,7 +97,7 @@ set(SCENE_RESOURCE_FILES
         material.h
         pbr_material.h
         sampler.h
-        sub_mesh.h
+        renderer.h
         texture.h
         image/astc_img.h
         image/ktx_img.h
@@ -107,7 +107,7 @@ set(SCENE_RESOURCE_FILES
         material.cpp
         pbr_material.cpp
         sampler.cpp
-        sub_mesh.cpp
+        renderer.cpp
         texture.cpp
         image/astc_img.cpp
         image/ktx_img.cpp
@@ -351,6 +351,8 @@ set(PHYSX_SOURCE
         ../third_party/physx/physx/../pxshared/include
         ../third_party/physx/physx/source/foundation/include)
 
+set(MESH_FILES mesh)
+
 #set(GRAPHING_FILES
 #    # Header Files
 #    graphing/graph.h
@@ -428,6 +430,7 @@ set(PROJECT_FILES
         ${SCENE_FILES}
         ${CONTROL_FILES}
         ${PHYSX_FILES}
+        ${MESH_FILES}
         #    ${GRAPHING_FILES}
         )
 

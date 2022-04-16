@@ -35,8 +35,8 @@ public:
     } textures_;
     
     struct Models {
-        std::unique_ptr<vox::sg::SubMesh> skybox;
-        std::vector<std::unique_ptr<vox::sg::SubMesh>> objects;
+        std::unique_ptr<vox::sg::Renderer> skybox;
+        std::vector<std::unique_ptr<vox::sg::Renderer>> objects;
         std::vector<Matrix4x4F> transforms;
         int32_t object_index = 0;
     } models_;

@@ -27,13 +27,13 @@ struct VertexAttribute {
     std::uint32_t offset = 0;
 };
 
-class SubMesh {
+class Renderer {
 public:
     std::string name_{};
     
-    explicit SubMesh(std::string name = {});
+    explicit Renderer(std::string name = {});
     
-    virtual ~SubMesh() = default;
+    virtual ~Renderer() = default;
     
     VkIndexType index_type_{};
     
