@@ -16,7 +16,7 @@
 #include "core/image.h"
 #include "core/image_view.h"
 
-namespace vox::sg {
+namespace vox {
 /**
  * @param format Vulkan format
  * @return Whether the vulkan format is ASTC
@@ -43,7 +43,7 @@ public:
     
     explicit Image(std::string name, std::vector<uint8_t> &&data = {}, std::vector<Mipmap> &&mipmaps = {{}});
     
-    static std::unique_ptr<Image> load(const std::string &name, const std::string &uri);
+    static std::shared_ptr<Image> load(const std::string &name, const std::string &uri);
     
     virtual ~Image() = default;
     

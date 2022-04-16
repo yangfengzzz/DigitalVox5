@@ -93,22 +93,22 @@ set(RENDERING_FILES
 
 set(SCENE_RESOURCE_FILES
         # Header Files
-        image.h
         material.h
         pbr_material.h
         sampler.h
         renderer.h
-        texture.h
+        image_manager.h
+        image.h
         image/astc_img.h
         image/ktx_img.h
         image/stb_img.h
         # Source Files
-        image.cpp
         material.cpp
         pbr_material.cpp
         sampler.cpp
         renderer.cpp
-        texture.cpp
+        image_manager.cpp
+        image.cpp
         image/astc_img.cpp
         image/ktx_img.cpp
         image/stb_img.cpp)

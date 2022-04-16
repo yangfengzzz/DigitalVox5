@@ -23,7 +23,7 @@ VKBP_ENABLE_WARNINGS()
 
 #define MAGIC_FILE_CONSTANT 0x5CA1AB13
 
-namespace vox::sg {
+namespace vox {
 BlockDim to_blockdim(const VkFormat format) {
     switch (format) {
         case VK_FORMAT_ASTC_4x4_UNORM_BLOCK:

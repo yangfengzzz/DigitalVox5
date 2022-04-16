@@ -49,7 +49,7 @@ public:
     /**
      * Collect garbage by removing widgets marked as "Destroyed"
      */
-    void collect_garbages();
+    void collect_garbage();
     
     /**
      * Draw every widgets

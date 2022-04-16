@@ -48,7 +48,7 @@ void WidgetContainer::unconsider_widget(Widget &p_widget) {
     }
 }
 
-void WidgetContainer::collect_garbages() {
+void WidgetContainer::collect_garbage() {
     widgets_.erase(std::remove_if(widgets_.begin(), widgets_.end(), [](std::pair<Widget *, MemoryMode> &p_item) {
         bool to_destroy = p_item.first && p_item.first->is_destroyed();
         
@@ -60,7 +60,7 @@ void WidgetContainer::collect_garbages() {
 }
 
 void WidgetContainer::draw_widgets() {
-    collect_garbages();
+    collect_garbage();
     
     if (reversed_draw_order_) {
         for (auto it = widgets_.crbegin(); it != widgets_.crend(); ++it)

@@ -9,7 +9,7 @@
 #include "vk_common.h"
 #include "../image.h"
 
-namespace vox::sg {
+namespace vox {
 struct BlockDim {
     uint8_t x;
     uint8_t y;

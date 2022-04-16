@@ -25,7 +25,7 @@ VKBP_ENABLE_WARNINGS()
 #include "image/ktx_img.h"
 #include "image/stb_img.h"
 
-namespace vox::sg {
+namespace vox {
 bool is_astc(const VkFormat format) {
     return (format == VK_FORMAT_ASTC_4x4_UNORM_BLOCK ||
             format == VK_FORMAT_ASTC_4x4_SRGB_BLOCK ||
@@ -207,8 +207,8 @@ void Image::set_offsets(const std::vector<std::vector<VkDeviceSize>> &o) {
     offsets_ = o;
 }
 
-std::unique_ptr<Image> Image::load(const std::string &name, const std::string &uri) {
-    std::unique_ptr<Image> image{nullptr};
+std::shared_ptr<Image> Image::load(const std::string &name, const std::string &uri) {
+    std::shared_ptr<Image> image{nullptr};
     
     auto data = fs::read_asset(uri);
     
@@ -216,13 +216,13 @@ std::unique_ptr<Image> Image::load(const std::string &name, const std::string &u
     auto extension = get_extension(uri);
     
     if (extension == "png" || extension == "jpg") {
-        image = std::make_unique<Stb>(name, data);
+        image = std::make_shared<Stb>(name, data);
     } else if (extension == "astc") {
-        image = std::make_unique<Astc>(name, data);
+        image = std::make_shared<Astc>(name, data);
     } else if (extension == "ktx") {
-        image = std::make_unique<Ktx>(name, data);
+        image = std::make_shared<Ktx>(name, data);
     } else if (extension == "ktx2") {
-        image = std::make_unique<Ktx>(name, data);
+        image = std::make_shared<Ktx>(name, data);
     }
     
     return image;

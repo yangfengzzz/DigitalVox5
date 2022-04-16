@@ -841,7 +841,7 @@ VkDescriptorImageInfo ApiVulkanSample::create_descriptor(Texture &texture, VkDes
 Texture ApiVulkanSample::load_texture(const std::string &file) {
     Texture texture{};
     
-    texture.image = vox::sg::Image::load(file, file);
+    texture.image = vox::Image::load(file, file);
     texture.image->create_vk_image(*device_);
     
     const auto &queue = device_->get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
@@ -939,7 +939,7 @@ Texture ApiVulkanSample::load_texture(const std::string &file) {
 Texture ApiVulkanSample::load_texture_array(const std::string &file) {
     Texture texture{};
     
-    texture.image = vox::sg::Image::load(file, file);
+    texture.image = vox::Image::load(file, file);
     texture.image->create_vk_image(*device_, VK_IMAGE_VIEW_TYPE_2D_ARRAY);
     
     const auto &queue = device_->get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
@@ -1039,7 +1039,7 @@ Texture ApiVulkanSample::load_texture_array(const std::string &file) {
 Texture ApiVulkanSample::load_texture_cubemap(const std::string &file) {
     Texture texture{};
     
-    texture.image = vox::sg::Image::load(file, file);
+    texture.image = vox::Image::load(file, file);
     texture.image->create_vk_image(*device_, VK_IMAGE_VIEW_TYPE_CUBE, VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
     
     const auto &queue = device_->get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);

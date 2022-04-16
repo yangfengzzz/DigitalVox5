@@ -29,13 +29,17 @@ inline VkImageType find_image_type(VkExtent3D extent) {
     }
     
     switch (dim_num) {
-        case 1:result = VK_IMAGE_TYPE_1D;
+        case 1:
+            result = VK_IMAGE_TYPE_1D;
             break;
-        case 2:result = VK_IMAGE_TYPE_2D;
+        case 2:
+            result = VK_IMAGE_TYPE_2D;
             break;
-        case 3:result = VK_IMAGE_TYPE_3D;
+        case 3:
+            result = VK_IMAGE_TYPE_3D;
             break;
-        default:throw std::runtime_error("No image type found.");
+        default:
+            throw std::runtime_error("No image type found.");
     }
     
     return result;

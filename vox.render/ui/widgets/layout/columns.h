@@ -31,7 +31,7 @@ protected:
         
         int counter = 0;
         
-        collect_garbages();
+        collect_garbage();
         
         for (auto it = widgets_.begin(); it != widgets_.end();) {
             it->first->draw();

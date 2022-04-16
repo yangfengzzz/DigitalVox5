@@ -32,7 +32,7 @@
 #include "rendering/render_context.h"
 #include "image.h"
 #include "sampler.h"
-#include "texture.h"
+#include "image.h"
 #include "vulkan_sample.h"
 
 namespace vox {
@@ -48,7 +48,7 @@ struct SwapchainBuffer {
  * @brief A texture wrapper that owns its image data and links it with a sampler
  */
 struct Texture {
-    std::unique_ptr<vox::sg::Image> image;
+    std::shared_ptr<vox::Image> image;
     VkSampler sampler;
 };
 

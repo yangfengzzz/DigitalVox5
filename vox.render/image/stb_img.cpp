@@ -10,7 +10,7 @@
 
 #include <stb_image.h>
 
-namespace vox::sg {
+namespace vox {
 Stb::Stb(const std::string &name, const std::vector<uint8_t> &data) :
 Image{name} {
     int width;

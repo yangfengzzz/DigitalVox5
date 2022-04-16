@@ -23,7 +23,6 @@
 
 #include "image.h"
 #include "image/astc_img.h"
-#include "texture.h"
 #include "sampler.h"
 #include "renderer.h"
 #include "pbr_material.h"
@@ -221,7 +220,7 @@ convert_underlying_data_stride(const std::vector<uint8_t> &src_data, uint32_t sr
     return result;
 }
 
-inline void upload_image_to_gpu(CommandBuffer &command_buffer, core::Buffer &staging_buffer, sg::Image &image) {
+inline void upload_image_to_gpu(CommandBuffer &command_buffer, core::Buffer &staging_buffer, Image &image) {
     // Clean up the image data, as they are copied in the staging buffer
     image.clear_data();
     
