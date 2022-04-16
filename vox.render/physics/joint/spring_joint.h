@@ -3,49 +3,47 @@
 //  I am making my contributions/submissions to this project solely in my
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
-#ifndef spring_joint_hpp
-#define spring_joint_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_SPRING_JOINT_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_SPRING_JOINT_H_
 
 #include "joint.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 /**
  * A joint that maintains an upper or lower bound (or both) on the distance between two points on different objects.
  */
 class SpringJoint : public Joint {
 public:
-    SpringJoint(Collider *collider0, Collider *collider1);
+    SpringJoint(Collider *collider_0, Collider *collider_1);
     
-    float distance() const;
+    [[nodiscard]] float distance() const;
     
-    void setMinDistance(float distance);
+    void set_min_distance(float distance);
     
-    float minDistance() const;
+    [[nodiscard]] float min_distance() const;
     
-    void setMaxDistance(float distance);
+    void set_max_distance(float distance);
     
-    float maxDistance() const;
+    [[nodiscard]] float max_distance() const;
     
-    void setTolerance(float tolerance);
+    void set_tolerance(float tolerance);
     
-    float tolerance() const;
+    [[nodiscard]] float tolerance() const;
     
-    void setStiffness(float stiffness);
+    void set_stiffness(float stiffness);
     
-    float stiffness() const;
+    [[nodiscard]] float stiffness() const;
     
-    void setDamping(float damping);
+    void set_damping(float damping);
     
-    float damping() const;
+    [[nodiscard]] float damping() const;
     
-    void setDistanceJointFlags(PxDistanceJointFlags flags);
+    void set_distance_joint_flags(const PxDistanceJointFlags &flags);
     
-    void setDistanceJointFlag(PxDistanceJointFlag::Enum flag, bool value);
+    void set_distance_joint_flag(PxDistanceJointFlag::Enum flag, bool value);
     
-    PxDistanceJointFlags distanceJointFlags() const;
+    [[nodiscard]] PxDistanceJointFlags distance_joint_flags() const;
 };
 
 }
-}
-#endif /* spring_joint_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_SPRING_JOINT_H_ */

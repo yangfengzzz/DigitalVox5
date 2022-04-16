@@ -8,52 +8,49 @@
 #include "../physics_manager.h"
 #include "../collider.h"
 
-namespace vox {
-namespace physics {
-SphericalJoint::SphericalJoint(Collider *collider0, Collider *collider1) {
-    auto actor0 = collider0 ? collider0->handle() : nullptr;
-    auto actor1 = collider1 ? collider1->handle() : nullptr;
-    _nativeJoint = PxSphericalJointCreate(*PhysicsManager::_nativePhysics(),
-                                          actor0, PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)),
-                                          actor1, PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)));
+namespace vox::physics {
+SphericalJoint::SphericalJoint(Collider *collider_0, Collider *collider_1) {
+    auto actor_0 = collider_0 ? collider_0->handle() : nullptr;
+    auto actor_1 = collider_1 ? collider_1->handle() : nullptr;
+    native_joint_ = PxSphericalJointCreate(*PhysicsManager::native_physics_(),
+                                           actor_0, PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)),
+                                           actor_1, PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)));
 }
 
-PxJointLimitCone SphericalJoint::limitCone() const {
-    return static_cast<PxSphericalJoint *>(_nativeJoint)->getLimitCone();
+PxJointLimitCone SphericalJoint::limit_cone() const {
+    return static_cast<PxSphericalJoint *>(native_joint_)->getLimitCone();
 }
 
-void SphericalJoint::setLimitCone(const PxJointLimitCone &limit) {
-    static_cast<PxSphericalJoint *>(_nativeJoint)->setLimitCone(limit);
+void SphericalJoint::set_limit_cone(const PxJointLimitCone &limit) {
+    static_cast<PxSphericalJoint *>(native_joint_)->setLimitCone(limit);
 }
 
-float SphericalJoint::swingYAngle() const {
-    return static_cast<PxSphericalJoint *>(_nativeJoint)->getSwingYAngle();
+float SphericalJoint::swing_y_angle() const {
+    return static_cast<PxSphericalJoint *>(native_joint_)->getSwingYAngle();
 }
 
-float SphericalJoint::swingZAngle() const {
-    return static_cast<PxSphericalJoint *>(_nativeJoint)->getSwingZAngle();
+float SphericalJoint::swing_z_angle() const {
+    return static_cast<PxSphericalJoint *>(native_joint_)->getSwingZAngle();
 }
 
-void SphericalJoint::setSphericalJointFlags(PxSphericalJointFlags flags) {
-    static_cast<PxSphericalJoint *>(_nativeJoint)->setSphericalJointFlags(flags);
+void SphericalJoint::set_spherical_joint_flags(const PxSphericalJointFlags &flags) {
+    static_cast<PxSphericalJoint *>(native_joint_)->setSphericalJointFlags(flags);
 }
 
-void SphericalJoint::setSphericalJointFlag(PxSphericalJointFlag::Enum flag, bool value) {
-    static_cast<PxSphericalJoint *>(_nativeJoint)->setSphericalJointFlag(flag, value);
+void SphericalJoint::set_spherical_joint_flag(PxSphericalJointFlag::Enum flag, bool value) {
+    static_cast<PxSphericalJoint *>(native_joint_)->setSphericalJointFlag(flag, value);
 }
 
-PxSphericalJointFlags SphericalJoint::sphericalJointFlags() const {
-    return static_cast<PxSphericalJoint *>(_nativeJoint)->getSphericalJointFlags();
+PxSphericalJointFlags SphericalJoint::spherical_joint_flags() const {
+    return static_cast<PxSphericalJoint *>(native_joint_)->getSphericalJointFlags();
 }
 
-void SphericalJoint::setProjectionLinearTolerance(float tolerance) {
-    static_cast<PxSphericalJoint *>(_nativeJoint)->setProjectionLinearTolerance(tolerance);
+void SphericalJoint::set_projection_linear_tolerance(float tolerance) {
+    static_cast<PxSphericalJoint *>(native_joint_)->setProjectionLinearTolerance(tolerance);
 }
 
-float SphericalJoint::projectionLinearTolerance() const {
-    return static_cast<PxSphericalJoint *>(_nativeJoint)->getProjectionLinearTolerance();
+float SphericalJoint::projection_linear_tolerance() const {
+    return static_cast<PxSphericalJoint *>(native_joint_)->getProjectionLinearTolerance();
 }
 
-
-}
 }

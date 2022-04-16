@@ -14,39 +14,40 @@
 //#include "material/unlit_material.h"
 //#endif
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 SphereColliderShape::SphereColliderShape() {
-    _nativeGeometry = std::make_shared<PxSphereGeometry>(_radius * std::max(std::max(_scale.x, _scale.y), _scale.z));
-    _nativeShape = PhysicsManager::_nativePhysics()->createShape(*_nativeGeometry, *_nativeMaterial, true);
-    _nativeShape->setQueryFilterData(PxFilterData(PhysicsManager::_idGenerator++, 0, 0, 0));
-    setLocalPose(_pose);
+    native_geometry_ = std::make_shared<PxSphereGeometry>(radius_ * std::max(std::max(scale_.x, scale_.y), scale_.z));
+    native_shape_ = PhysicsManager::native_physics_()->createShape(*native_geometry_, *native_material_, true);
+    native_shape_->setQueryFilterData(PxFilterData(PhysicsManager::id_generator_++, 0, 0, 0));
+    set_local_pose(pose_);
 }
 
-float SphereColliderShape::radius() {
-    return _radius;
+float SphereColliderShape::radius() const {
+    return radius_;
 }
 
-void SphereColliderShape::setRadius(float value) {
-    _radius = value;
-    static_cast<PxSphereGeometry *>(_nativeGeometry.get())->radius = value * std::max(std::max(_scale.x, _scale.y), _scale.z);
-    _nativeShape->setGeometry(*_nativeGeometry);
+void SphereColliderShape::set_radius(float value) {
+    radius_ = value;
+    static_cast<PxSphereGeometry *>(native_geometry_.get())->radius =
+    value * std::max(std::max(scale_.x, scale_.y), scale_.z);
+    native_shape_->setGeometry(*native_geometry_);
     
-//#ifdef _DEBUG
-//    _syncSphereGeometry();
-//#endif
+    //#ifdef _DEBUG
+    //    _syncSphereGeometry();
+    //#endif
 }
 
-void SphereColliderShape::setWorldScale(const Vector3F &scale) {
-    ColliderShape::setWorldScale(scale);
+void SphereColliderShape::set_world_scale(const Vector3F &scale) {
+    ColliderShape::set_world_scale(scale);
     
-    _scale = scale;
-    static_cast<PxSphereGeometry *>(_nativeGeometry.get())->radius = _radius * std::max(std::max(_scale.x, _scale.y), _scale.z);
-    _nativeShape->setGeometry(*_nativeGeometry);
+    scale_ = scale;
+    static_cast<PxSphereGeometry *>(native_geometry_.get())->radius =
+    radius_ * std::max(std::max(scale_.x, scale_.y), scale_.z);
+    native_shape_->setGeometry(*native_geometry_);
     
-//#ifdef _DEBUG
-//    _syncSphereGeometry();
-//#endif
+    //#ifdef _DEBUG
+    //    _syncSphereGeometry();
+    //#endif
 }
 
 //#ifdef _DEBUG
@@ -54,7 +55,7 @@ void SphereColliderShape::setWorldScale(const Vector3F &scale) {
 //    ColliderShape::setEntity(value);
 //    
 //    auto renderer = _entity->addComponent<MeshRenderer>();
-//    renderer->setMaterial(std::make_shared<UnlitMaterial>(value->scene()->device()));
+//    renderer->set_material(std::make_shared<UnlitMaterial>(value->scene()->device()));
 //    renderer->setMesh(WireframePrimitiveMesh::createSphereWireFrame(value->scene()->device(), 1));
 //    _syncSphereGeometry();
 //}
@@ -67,5 +68,4 @@ void SphereColliderShape::setWorldScale(const Vector3F &scale) {
 //}
 //#endif
 
-}
 }

@@ -5,12 +5,11 @@
 //  property of any third parties.
 
 #include "capsule_character_controller.h"
-#include "physics_manager.h"
+#include "../physics_manager.h"
 #include "entity.h"
 #include "scene.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 std::string CapsuleCharacterController::name() {
     return "CapsuleCharacterController";
 }
@@ -19,32 +18,32 @@ CapsuleCharacterController::CapsuleCharacterController(Entity *entity) :
 CharacterController(entity) {
 }
 
-void CapsuleCharacterController::setDesc(const PxCapsuleControllerDesc &desc) {
-    _nativeController = PhysicsManager::get_singleton()._nativeCharacterControllerManager->createController(desc);
+void CapsuleCharacterController::set_desc(const PxCapsuleControllerDesc &desc) {
+    native_controller_ = PhysicsManager::get_singleton().native_character_controller_manager_->createController(desc);
 }
 
 float CapsuleCharacterController::radius() const {
-    return static_cast<PxCapsuleController *>(_nativeController)->getRadius();
+    return static_cast<PxCapsuleController *>(native_controller_)->getRadius();
 }
 
-bool CapsuleCharacterController::setRadius(float radius) {
-    return static_cast<PxCapsuleController *>(_nativeController)->setRadius(radius);
+bool CapsuleCharacterController::set_radius(float radius) {
+    return static_cast<PxCapsuleController *>(native_controller_)->setRadius(radius);
 }
 
 float CapsuleCharacterController::height() const {
-    return static_cast<PxCapsuleController *>(_nativeController)->getHeight();
+    return static_cast<PxCapsuleController *>(native_controller_)->getHeight();
 }
 
-bool CapsuleCharacterController::setHeight(float height) {
-    return static_cast<PxCapsuleController *>(_nativeController)->setHeight(height);
+bool CapsuleCharacterController::set_height(float height) {
+    return static_cast<PxCapsuleController *>(native_controller_)->setHeight(height);
 }
 
-PxCapsuleClimbingMode::Enum CapsuleCharacterController::climbingMode() const {
-    return static_cast<PxCapsuleController *>(_nativeController)->getClimbingMode();
+PxCapsuleClimbingMode::Enum CapsuleCharacterController::climbing_mode() const {
+    return static_cast<PxCapsuleController *>(native_controller_)->getClimbingMode();
 }
 
-bool CapsuleCharacterController::setClimbingMode(PxCapsuleClimbingMode::Enum mode) {
-    return static_cast<PxCapsuleController *>(_nativeController)->setClimbingMode(mode);
+bool CapsuleCharacterController::set_climbing_mode(PxCapsuleClimbingMode::Enum mode) {
+    return static_cast<PxCapsuleController *>(native_controller_)->setClimbingMode(mode);
 }
 
 //MARK: - Reflection
@@ -60,5 +59,4 @@ void CapsuleCharacterController::on_inspector(ui::WidgetContainer &p_root) {
     
 }
 
-}
 }

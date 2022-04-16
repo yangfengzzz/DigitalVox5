@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef static_collider_hpp
-#define static_collider_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_STATIC_COLLIDER_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_STATIC_COLLIDER_H_
 
 #include "collider.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 class StaticCollider : public Collider {
 public:
     /**
@@ -18,7 +17,7 @@ public:
      */
     std::string name() override;
     
-    StaticCollider(Entity *entity);
+    explicit StaticCollider(Entity *entity);
     
 public:
     /**
@@ -38,6 +37,5 @@ public:
 };
 
 }
-}
 
-#endif /* static_collider_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_STATIC_COLLIDER_H_ */

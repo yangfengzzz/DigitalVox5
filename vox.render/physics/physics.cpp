@@ -6,17 +6,14 @@
 
 #include "physics.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 Physics::Physics() {
-    PxFoundation *gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
-    _physics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), false, nullptr);
+    PxFoundation *g_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, g_allocator_, g_error_callback_);
+    physics_ = PxCreatePhysics(PX_PHYSICS_VERSION, *g_foundation, PxTolerancesScale(), false, nullptr);
 }
 
 PxPhysics *Physics::operator()() {
-    return _physics;
+    return physics_;
 }
 
-
-}
 }

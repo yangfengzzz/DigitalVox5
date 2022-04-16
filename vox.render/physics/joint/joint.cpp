@@ -7,95 +7,93 @@
 #include "joint.h"
 #include "../collider.h"
 
-namespace vox {
-namespace physics {
-void Joint::setActors(Collider *actor0, Collider *actor1) {
-    _nativeJoint->setActors(actor0->handle(), actor1->handle());
+namespace vox::physics {
+void Joint::set_actors(Collider *actor_0, Collider *actor_1) {
+    native_joint_->setActors(actor_0->handle(), actor_1->handle());
 }
 
-void Joint::setLocalPose(PxJointActorIndex::Enum actor, const Transform3F &localPose) {
-    const auto &p = localPose.translation();
-    const auto &q = localPose.orientation();
-    _nativeJoint->setLocalPose(actor, PxTransform(PxVec3(p.x, p.y, p.z), PxQuat(q.x, q.y, q.z, q.w)));
+void Joint::set_local_pose(PxJointActorIndex::Enum actor, const Transform3F &local_pose) {
+    const auto &p = local_pose.translation();
+    const auto &q = local_pose.orientation();
+    native_joint_->setLocalPose(actor, PxTransform(PxVec3(p.x, p.y, p.z), PxQuat(q.x, q.y, q.z, q.w)));
 }
 
-Transform3F Joint::localPose(PxJointActorIndex::Enum actor) const {
-    const auto pose = _nativeJoint->getLocalPose(actor);
+Transform3F Joint::local_pose(PxJointActorIndex::Enum actor) const {
+    const auto kPose = native_joint_->getLocalPose(actor);
     Transform3F trans;
-    trans.setTranslation(Vector3F(pose.p.x, pose.p.y, pose.p.z));
-    trans.setOrientation(QuaternionF(pose.q.x, pose.q.y, pose.q.z, pose.q.w));
+    trans.setTranslation(Vector3F(kPose.p.x, kPose.p.y, kPose.p.z));
+    trans.setOrientation(QuaternionF(kPose.q.x, kPose.q.y, kPose.q.z, kPose.q.w));
     return trans;
 }
 
-Transform3F Joint::relativeTransform() const {
-    const auto pose = _nativeJoint->getRelativeTransform();
+Transform3F Joint::relative_transform() const {
+    const auto kPose = native_joint_->getRelativeTransform();
     Transform3F trans;
-    trans.setTranslation(Vector3F(pose.p.x, pose.p.y, pose.p.z));
-    trans.setOrientation(QuaternionF(pose.q.x, pose.q.y, pose.q.z, pose.q.w));
+    trans.setTranslation(Vector3F(kPose.p.x, kPose.p.y, kPose.p.z));
+    trans.setOrientation(QuaternionF(kPose.q.x, kPose.q.y, kPose.q.z, kPose.q.w));
     return trans;
 }
 
-Vector3F Joint::relativeLinearVelocity() const {
-    const auto vel = _nativeJoint->getRelativeLinearVelocity();
-    return Vector3F(vel.x, vel.y, vel.z);
+Vector3F Joint::relative_linear_velocity() const {
+    const auto kVel = native_joint_->getRelativeLinearVelocity();
+    return {kVel.x, kVel.y, kVel.z};
 }
 
-Vector3F Joint::relativeAngularVelocity() const {
-    const auto vel = _nativeJoint->getRelativeAngularVelocity();
-    return Vector3F(vel.x, vel.y, vel.z);
+Vector3F Joint::relative_angular_velocity() const {
+    const auto kVel = native_joint_->getRelativeAngularVelocity();
+    return {kVel.x, kVel.y, kVel.z};
 }
 
-void Joint::setBreakForce(float force, float torque) {
-    _nativeJoint->setBreakForce(force, torque);
+void Joint::set_break_force(float force, float torque) {
+    native_joint_->setBreakForce(force, torque);
 }
 
-void Joint::getBreakForce(float &force, float &torque) const {
-    _nativeJoint->getBreakForce(force, torque);
+void Joint::get_break_force(float &force, float &torque) const {
+    native_joint_->getBreakForce(force, torque);
 }
 
-void Joint::setConstraintFlags(PxConstraintFlags flags) {
-    _nativeJoint->setConstraintFlags(flags);
+void Joint::set_constraint_flags(const PxConstraintFlags &flags) {
+    native_joint_->setConstraintFlags(flags);
 }
 
-void Joint::setConstraintFlag(PxConstraintFlag::Enum flag, bool value) {
-    _nativeJoint->setConstraintFlag(flag, value);
+void Joint::set_constraint_flag(PxConstraintFlag::Enum flag, bool value) {
+    native_joint_->setConstraintFlag(flag, value);
 }
 
-PxConstraintFlags Joint::constraintFlags() const {
-    return _nativeJoint->getConstraintFlags();
+PxConstraintFlags Joint::constraint_flags() const {
+    return native_joint_->getConstraintFlags();
 }
 
-void Joint::setInvMassScale0(float invMassScale) {
-    _nativeJoint->setInvMassScale0(invMassScale);
+void Joint::set_inv_mass_scale_0(float inv_mass_scale) {
+    native_joint_->setInvMassScale0(inv_mass_scale);
 }
 
-float Joint::invMassScale0() const {
-    return _nativeJoint->getInvMassScale0();
+float Joint::inv_mass_scale_0() const {
+    return native_joint_->getInvMassScale0();
 }
 
-void Joint::setInvInertiaScale0(float invInertiaScale) {
-    _nativeJoint->setInvInertiaScale0(invInertiaScale);
+void Joint::set_inv_inertia_scale_0(float inv_inertia_scale) {
+    native_joint_->setInvInertiaScale0(inv_inertia_scale);
 }
 
-float Joint::invInertiaScale0() const {
-    return _nativeJoint->getInvInertiaScale0();
+float Joint::inv_inertia_scale_0() const {
+    return native_joint_->getInvInertiaScale0();
 }
 
-void Joint::setInvMassScale1(float invMassScale) {
-    _nativeJoint->setInvMassScale1(invMassScale);
+void Joint::set_inv_mass_scale_1(float inv_mass_scale) {
+    native_joint_->setInvMassScale1(inv_mass_scale);
 }
 
-float Joint::invMassScale1() const {
-    return _nativeJoint->getInvMassScale1();
+float Joint::inv_mass_scale_1() const {
+    return native_joint_->getInvMassScale1();
 }
 
-void Joint::setInvInertiaScale1(float invInertiaScale) {
-    _nativeJoint->setInvInertiaScale1(invInertiaScale);
+void Joint::set_inv_inertia_scale_1(float inv_inertia_scale) {
+    native_joint_->setInvInertiaScale1(inv_inertia_scale);
 }
 
-float Joint::invInertiaScale1() const {
-    return _nativeJoint->getInvInertiaScale1();
+float Joint::inv_inertia_scale_1() const {
+    return native_joint_->getInvInertiaScale1();
 }
 
-}
 }

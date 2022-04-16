@@ -4,16 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef collider_shape_hpp
-#define collider_shape_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_COLLIDER_SHAPE_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_COLLIDER_SHAPE_H_
 
 #include "scene_forward.h"
 #include "../physics.h"
 #include "transform3.h"
 #include <vector>
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 class ColliderShape {
 public:
     ColliderShape();
@@ -21,47 +20,47 @@ public:
     Collider *collider();
     
 public:
-    void setLocalPose(const Transform3F &pose);
+    void set_local_pose(const Transform3F &pose);
     
-    Transform3F localPose() const;
+    [[nodiscard]] Transform3F local_pose() const;
     
-    void setPosition(const Vector3F &pos);
+    void set_position(const Vector3F &pos);
     
-    Vector3F position() const;
+    [[nodiscard]] Vector3F position() const;
     
-    virtual void setWorldScale(const Vector3F &scale);
+    virtual void set_world_scale(const Vector3F &scale);
     
 public:
-    void setMaterial(PxMaterial *materials);
+    void set_material(PxMaterial *materials);
     
     PxMaterial *material();
     
 public:
-    void setQueryFilterData(const PxFilterData &data);
+    void set_query_filter_data(const PxFilterData &data);
     
-    PxFilterData queryFilterData();
+    PxFilterData query_filter_data();
     
-    uint32_t uniqueID();
+    uint32_t unique_id();
     
 public:
-    void setFlag(PxShapeFlag::Enum flag, bool value);
+    void set_flag(PxShapeFlag::Enum flag, bool value);
     
-    void setFlags(PxShapeFlags inFlags);
+    void set_flags(const PxShapeFlags &in_flags);
     
-    PxShapeFlags getFlags() const;
+    [[nodiscard]] PxShapeFlags get_flags() const;
     
     bool trigger();
     
-    void setTrigger(bool isTrigger);
+    void set_trigger(bool is_trigger);
     
-    bool sceneQuery();
+    bool scene_query();
     
-    void setSceneQuery(bool isQuery);
+    void set_scene_query(bool is_query);
     
 public:
 #ifdef _DEBUG
     virtual void setEntity(Entity* value);
-
+    
     void removeEntity(Entity* value);
     
     Point3F getLocalTranslation();
@@ -70,15 +69,15 @@ public:
 protected:
     friend class Collider;
     
-    PxShape *_nativeShape = nullptr;
-    std::shared_ptr<PxGeometry> _nativeGeometry = nullptr;
-    PxMaterial *_nativeMaterial = nullptr;
+    PxShape *native_shape_ = nullptr;
+    std::shared_ptr<PxGeometry> native_geometry_ = nullptr;
+    PxMaterial *native_material_ = nullptr;
     
-    Collider *_collider = nullptr;
+    Collider *collider_ = nullptr;
     
-    Vector3F _scale = Vector3F(1, 1, 1);
-    Transform3F _pose;
-    static constexpr float halfSqrt = 0.70710678118655;
+    Vector3F scale_ = Vector3F(1, 1, 1);
+    Transform3F pose_;
+    static constexpr float half_sqrt_ = 0.70710678118655;
     
 #ifdef _DEBUG
     Entity* _entity{nullptr};
@@ -86,5 +85,4 @@ protected:
 };
 
 }
-}
-#endif /* collider_shape_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_COLLIDER_SHAPE_H_ */

@@ -4,34 +4,33 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef collider_hpp
-#define collider_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_COLLIDER_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_COLLIDER_H_
 
 #include "physics.h"
 #include "component.h"
 #include "update_flag.h"
 #include <vector>
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 class Collider : public Component {
 public:
-    Collider(Entity *entity);
+    explicit Collider(Entity *entity);
     
     ~Collider() override;
     
-    void addShape(const ColliderShapePtr &shape);
+    void add_shape(const ColliderShapePtr &shape);
     
-    void removeShape(const ColliderShapePtr &shape);
+    void remove_shape(const ColliderShapePtr &shape);
     
-    void clearShapes();
+    void clear_shapes();
     
     PxRigidActor *handle();
     
 public:
-    void _onUpdate();
+    void on_update();
     
-    virtual void _onLateUpdate() {
+    virtual void on_late_update() {
     }
     
     void on_enable() override;
@@ -46,12 +45,11 @@ public:
 protected:
     friend class PhysicsManager;
     
-    ssize_t _index = -1;
-    std::unique_ptr<UpdateFlag> _updateFlag;
-    physx::PxRigidActor *_nativeActor;
-    std::vector<ColliderShapePtr> _shapes;
+    ssize_t index_ = -1;
+    std::unique_ptr<UpdateFlag> update_flag_;
+    physx::PxRigidActor *native_actor_{};
+    std::vector<ColliderShapePtr> shapes_;
 };
 
 }
-}
-#endif /* collider_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_COLLIDER_H_ */

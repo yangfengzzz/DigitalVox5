@@ -4,14 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef dynamic_collider_hpp
-#define dynamic_collider_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_DYNAMIC_COLLIDER_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_DYNAMIC_COLLIDER_H_
 
 #include "collider.h"
 #include "transform3.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 class DynamicCollider : public Collider {
 public:
     /**
@@ -19,144 +18,144 @@ public:
      */
     std::string name() override;
     
-    DynamicCollider(Entity *entity);
+    explicit DynamicCollider(Entity *entity);
     
     /**
      * The linear damping of the dynamic collider.
      */
-    float linearDamping();
+    float linear_damping();
     
-    void setLinearDamping(float newValue);
+    void set_linear_damping(float new_value);
     
     /**
      * The angular damping of the dynamic collider.
      */
-    float angularDamping();
+    float angular_damping();
     
-    void setAngularDamping(float newValue);
+    void set_angular_damping(float new_value);
     
     /**
      * The linear velocity vector of the dynamic collider measured in world unit per second.
      */
-    Vector3F linearVelocity();
+    Vector3F linear_velocity();
     
-    void setLinearVelocity(const Vector3F &newValue);
+    void set_linear_velocity(const Vector3F &new_value);
     
     /**
      * The angular velocity vector of the dynamic collider measured in radians per second.
      */
-    Vector3F angularVelocity();
+    Vector3F angular_velocity();
     
-    void setAngularVelocity(const Vector3F &newValue);
+    void set_angular_velocity(const Vector3F &new_value);
     
     /**
      * The mass of the dynamic collider.
      */
     float mass();
     
-    void setMass(float newValue);
+    void set_mass(float new_value);
     
     /**
      * The center of mass relative to the transform's origin.
      */
-    Transform3F centerOfMass();
+    Transform3F center_of_mass();
     
-    void setCenterOfMass(const Transform3F &newValue);
+    void set_center_of_mass(const Transform3F &new_value);
     
     /**
      * The diagonal inertia tensor of mass relative to the center of mass.
      */
-    Vector3F inertiaTensor();
+    Vector3F inertia_tensor();
     
-    void setInertiaTensor(const Vector3F &newValue);
+    void set_inertia_tensor(const Vector3F &new_value);
     
     /**
      * The maximum angular velocity of the collider measured in radians per second. (Default 7) range { 0, infinity }.
      */
-    float maxAngularVelocity();
+    float max_angular_velocity();
     
-    void setMaxAngularVelocity(float newValue);
+    void set_max_angular_velocity(float new_value);
     
     /**
      * Maximum velocity of a collider when moving out of penetrating state.
      */
-    float maxDepenetrationVelocity();
+    float max_depenetration_velocity();
     
-    void setMaxDepenetrationVelocity(float newValue);
+    void set_max_depenetration_velocity(float new_value);
     
     /**
      * The mass-normalized energy threshold, below which objects start going to sleep.
      */
-    float sleepThreshold();
+    float sleep_threshold();
     
-    void setSleepThreshold(float newValue);
+    void set_sleep_threshold(float new_value);
     
     /**
-     * The solverIterations determines how accurately collider joints and collision contacts are resolved.
+     * The solver_iterations determines how accurately collider joints and collision contacts are resolved.
      */
-    uint32_t solverIterations();
+    uint32_t solver_iterations();
     
-    void setSolverIterations(uint32_t newValue);
+    void set_solver_iterations(uint32_t new_value);
     
 public:
     /**
      * Controls whether physics affects the dynamic collider.
      */
-    bool isKinematic();
+    bool is_kinematic();
     
-    void setIsKinematic(bool newValue);
+    void set_is_kinematic(bool new_value);
     
-    PxRigidBodyFlags rigidBodyFlags() const;
+    [[nodiscard]] PxRigidBodyFlags rigid_body_flags() const;
     
-    void setRigidBodyFlag(PxRigidBodyFlag::Enum flag, bool value);
+    void set_rigid_body_flag(PxRigidBodyFlag::Enum flag, bool value);
     
-    void setRigidBodyFlags(PxRigidBodyFlags inFlags);
+    void set_rigid_body_flags(const PxRigidBodyFlags &in_flags);
     
 public:
     /**
      * Controls whether physics will change the rotation of the object.
      */
-    bool freezeRotation();
+    bool freeze_rotation();
     
-    void setFreezeRotation(bool newValue);
+    void set_freeze_rotation(bool new_value);
     
     /**
      * The particular rigid dynamic lock flag.
      */
-    PxRigidDynamicLockFlags rigidDynamicLockFlags() const;
+    [[nodiscard]] PxRigidDynamicLockFlags rigid_dynamic_lock_flags() const;
     
-    void setRigidDynamicLockFlag(PxRigidDynamicLockFlag::Enum flag, bool value);
+    void set_rigid_dynamic_lock_flag(PxRigidDynamicLockFlag::Enum flag, bool value);
     
-    void setRigidDynamicLockFlags(PxRigidDynamicLockFlags flags);
+    void set_rigid_dynamic_lock_flags(const PxRigidDynamicLockFlags &flags);
     
 public:
     /**
      * Apply a force to the DynamicCollider.
      * @param force - The force make the collider move
      */
-    void applyForce(const Vector3F &force);
+    void apply_force(const Vector3F &force);
     
     /**
      * Apply a torque to the DynamicCollider.
      * @param torque - The force make the collider rotate
      */
-    void applyTorque(const Vector3F &torque);
+    void apply_torque(const Vector3F &torque);
     
     /**
      * Moves kinematically controlled dynamic actors through the game world.
      * @param pose The desired pose for the kinematic actor
      */
-    void setKinematicTarget(const Transform3F &pose);
+    void set_kinematic_target(const Transform3F &pose);
     
     /**
      * Forces a collider to sleep at least one frame.
      */
-    void putToSleep();
+    void put_to_sleep();
     
     /**
      * Forces a collider to wake up.
      */
-    void wakeUp();
+    void wake_up();
     
 public:
     /**
@@ -175,10 +174,9 @@ public:
     void on_inspector(ui::WidgetContainer &p_root) override;
     
 private:
-    void _onLateUpdate() override;
+    void on_late_update() override;
 };
 
 }
-}
 
-#endif /* dynamic_collider_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_DYNAMIC_COLLIDER_H_ */

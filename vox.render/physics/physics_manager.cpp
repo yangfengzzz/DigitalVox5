@@ -5,10 +5,11 @@
 //  property of any third parties.
 
 #include "physics_manager.h"
+
+#include <utility>
 #include "shape/collider_shape.h"
 #include "character_controller/character_controller.h"
 #include "collider.h"
-#include "../entity.h"
 #include "../script.h"
 
 namespace vox {
@@ -25,22 +26,26 @@ namespace physics {
 namespace {
 class PxSimulationEventCallbackWrapper : public PxSimulationEventCallback {
 public:
-    std::function<void(PxShape *obj1, PxShape *obj2)> onContactEnter;
-    std::function<void(PxShape *obj1, PxShape *obj2)> onContactExit;
-    std::function<void(PxShape *obj1, PxShape *obj2)> onContactStay;
+    std::function<void(PxShape *obj1, PxShape *obj2)> on_contact_enter_;
+    std::function<void(PxShape *obj1, PxShape *obj2)> on_contact_exit_;
+    std::function<void(PxShape *obj1, PxShape *obj2)> on_contact_stay_;
     
-    std::function<void(PxShape *obj1, PxShape *obj2)> onTriggerEnter;
-    std::function<void(PxShape *obj1, PxShape *obj2)> onTriggerExit;
-    std::function<void(PxShape *obj1, PxShape *obj2)> onTriggerStay;
+    std::function<void(PxShape *obj1, PxShape *obj2)> on_trigger_enter_;
+    std::function<void(PxShape *obj1, PxShape *obj2)> on_trigger_exit_;
+    std::function<void(PxShape *obj1, PxShape *obj2)> on_trigger_stay_;
     
-    PxSimulationEventCallbackWrapper(std::function<void(PxShape *obj1, PxShape *obj2)> onContactEnter,
-                                     std::function<void(PxShape *obj1, PxShape *obj2)> onContactExit,
-                                     std::function<void(PxShape *obj1, PxShape *obj2)> onContactStay,
-                                     std::function<void(PxShape *obj1, PxShape *obj2)> onTriggerEnter,
-                                     std::function<void(PxShape *obj1, PxShape *obj2)> onTriggerExit,
-                                     std::function<void(PxShape *obj1, PxShape *obj2)> onTriggerStay) :
-    onContactEnter(onContactEnter), onContactExit(onContactExit), onContactStay(onContactStay),
-    onTriggerEnter(onTriggerEnter), onTriggerExit(onTriggerExit), onTriggerStay(onTriggerStay) {
+    PxSimulationEventCallbackWrapper(std::function<void(PxShape *obj1, PxShape *obj2)> on_contact_enter,
+                                     std::function<void(PxShape *obj1, PxShape *obj2)> on_contact_exit,
+                                     std::function<void(PxShape *obj1, PxShape *obj2)> on_contact_stay,
+                                     std::function<void(PxShape *obj1, PxShape *obj2)> on_trigger_enter,
+                                     std::function<void(PxShape *obj1, PxShape *obj2)> on_trigger_exit,
+                                     std::function<void(PxShape *obj1, PxShape *obj2)> on_trigger_stay) :
+    on_contact_enter_(std::move(std::move(on_contact_enter))),
+    on_contact_exit_(std::move(std::move(std::move(on_contact_exit)))),
+    on_contact_stay_(std::move(on_contact_stay)),
+    on_trigger_enter_(std::move(on_trigger_enter)),
+    on_trigger_exit_(std::move(std::move(on_trigger_exit))),
+    on_trigger_stay_(std::move(on_trigger_stay)) {
     }
     
     void onConstraintBreak(PxConstraintInfo *, PxU32) override {
@@ -52,16 +57,16 @@ public:
     void onSleep(PxActor **, PxU32) override {
     }
     
-    void onContact(const PxContactPairHeader &, const PxContactPair *pairs, PxU32 nbPairs) override {
-        for (PxU32 i = 0; i < nbPairs; i++) {
+    void onContact(const PxContactPairHeader &, const PxContactPair *pairs, PxU32 nb_pairs) override {
+        for (PxU32 i = 0; i < nb_pairs; i++) {
             const PxContactPair &cp = pairs[i];
             
             if (cp.events & (PxPairFlag::eNOTIFY_TOUCH_FOUND | PxPairFlag::eNOTIFY_TOUCH_CCD)) {
-                onContactEnter(cp.shapes[0], cp.shapes[1]);
+                on_contact_enter_(cp.shapes[0], cp.shapes[1]);
             } else if (cp.events & PxPairFlag::eNOTIFY_TOUCH_LOST) {
-                onContactExit(cp.shapes[0], cp.shapes[1]);
+                on_contact_exit_(cp.shapes[0], cp.shapes[1]);
             } else if (cp.events & PxPairFlag::eNOTIFY_TOUCH_PERSISTS) {
-                onContactStay(cp.shapes[0], cp.shapes[1]);
+                on_contact_stay_(cp.shapes[0], cp.shapes[1]);
             }
         }
     }
@@ -71,9 +76,9 @@ public:
             const PxTriggerPair &tp = pairs[i];
             
             if (tp.status & PxPairFlag::eNOTIFY_TOUCH_FOUND) {
-                onTriggerEnter(tp.triggerShape, tp.otherShape);
+                on_trigger_enter_(tp.triggerShape, tp.otherShape);
             } else if (tp.status & PxPairFlag::eNOTIFY_TOUCH_LOST) {
-                onTriggerExit(tp.triggerShape, tp.otherShape);
+                on_trigger_exit_(tp.triggerShape, tp.otherShape);
             }
         }
     }
@@ -83,235 +88,235 @@ public:
 };
 } // namespace
 
-uint32_t PhysicsManager::_idGenerator = 0;
-Physics PhysicsManager::_nativePhysics = Physics();
+uint32_t PhysicsManager::id_generator_ = 0;
+Physics PhysicsManager::native_physics_ = Physics();
 
 PhysicsManager::PhysicsManager() {
-    onContactEnter = [&](PxShape *obj1, PxShape *obj2) {
+    on_contact_enter_ = [&](PxShape *obj1, PxShape *obj2) {
     };
-    onContactExit = [&](PxShape *obj1, PxShape *obj2) {
+    on_contact_exit_ = [&](PxShape *obj1, PxShape *obj2) {
     };
-    onContactStay = [&](PxShape *obj1, PxShape *obj2) {
-    };
-    
-    onTriggerEnter = [&](PxShape *obj1, PxShape *obj2) {
-        const auto shape1 = _physicalObjectsMap[obj1->getQueryFilterData().word0];
-        const auto shape2 = _physicalObjectsMap[obj2->getQueryFilterData().word0];
-        
-        auto scripts = shape1->collider()->entity()->scripts();
-        for (const auto &script: scripts) {
-            script->on_trigger_enter(shape2);
-        }
-        
-        scripts = shape2->collider()->entity()->scripts();
-        for (const auto &script: scripts) {
-            script->on_trigger_enter(shape1);
-        }
-    };
-    onTriggerExit = [&](PxShape *obj1, PxShape *obj2) {
-        const auto shape1 = _physicalObjectsMap[obj1->getQueryFilterData().word0];
-        const auto shape2 = _physicalObjectsMap[obj2->getQueryFilterData().word0];
-        
-        auto scripts = shape1->collider()->entity()->scripts();
-        for (const auto &script: scripts) {
-            script->on_trigger_exit(shape2);
-        }
-        
-        scripts = shape2->collider()->entity()->scripts();
-        for (const auto &script: scripts) {
-            script->on_trigger_exit(shape1);
-        }
-    };
-    onTriggerStay = [&](PxShape *obj1, PxShape *obj2) {
+    on_contact_stay_ = [&](PxShape *obj1, PxShape *obj2) {
     };
     
-    PxSimulationEventCallbackWrapper *simulationEventCallback =
-    new PxSimulationEventCallbackWrapper(onContactEnter, onContactExit, onContactStay,
-                                         onTriggerEnter, onTriggerExit, onTriggerStay);
+    on_trigger_enter_ = [&](PxShape *obj1, PxShape *obj2) {
+        const auto kShape1 = physical_objects_map_[obj1->getQueryFilterData().word0];
+        const auto kShape2 = physical_objects_map_[obj2->getQueryFilterData().word0];
+        
+        auto scripts = kShape1->collider()->entity()->scripts();
+        for (const auto &script : scripts) {
+            script->on_trigger_enter(kShape2);
+        }
+        
+        scripts = kShape2->collider()->entity()->scripts();
+        for (const auto &script : scripts) {
+            script->on_trigger_enter(kShape1);
+        }
+    };
+    on_trigger_exit_ = [&](PxShape *obj1, PxShape *obj2) {
+        const auto kShape1 = physical_objects_map_[obj1->getQueryFilterData().word0];
+        const auto kShape2 = physical_objects_map_[obj2->getQueryFilterData().word0];
+        
+        auto scripts = kShape1->collider()->entity()->scripts();
+        for (const auto &script : scripts) {
+            script->on_trigger_exit(kShape2);
+        }
+        
+        scripts = kShape2->collider()->entity()->scripts();
+        for (const auto &script : scripts) {
+            script->on_trigger_exit(kShape1);
+        }
+    };
+    on_trigger_stay_ = [&](PxShape *obj1, PxShape *obj2) {
+    };
     
-    PxSceneDesc sceneDesc(_nativePhysics()->getTolerancesScale());
-    sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
-    sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(1);
-    sceneDesc.filterShader = PxDefaultSimulationFilterShader;
-    sceneDesc.simulationEventCallback = simulationEventCallback;
-    sceneDesc.kineKineFilteringMode = PxPairFilteringMode::eKEEP;
-    sceneDesc.staticKineFilteringMode = PxPairFilteringMode::eKEEP;
-    sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
+    auto *simulation_event_callback =
+    new PxSimulationEventCallbackWrapper(on_contact_enter_, on_contact_exit_, on_contact_stay_,
+                                         on_trigger_enter_, on_trigger_exit_, on_trigger_stay_);
     
-    _nativePhysicsManager = _nativePhysics()->createScene(sceneDesc);
-    _nativeCharacterControllerManager = PxCreateControllerManager(*_nativePhysicsManager);
+    PxSceneDesc scene_desc(native_physics_()->getTolerancesScale());
+    scene_desc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+    scene_desc.cpuDispatcher = PxDefaultCpuDispatcherCreate(1);
+    scene_desc.filterShader = PxDefaultSimulationFilterShader;
+    scene_desc.simulationEventCallback = simulation_event_callback;
+    scene_desc.kineKineFilteringMode = PxPairFilteringMode::eKEEP;
+    scene_desc.staticKineFilteringMode = PxPairFilteringMode::eKEEP;
+    scene_desc.flags |= PxSceneFlag::eENABLE_CCD;
+    
+    native_physics_manager_ = native_physics_()->createScene(scene_desc);
+    native_character_controller_manager_ = PxCreateControllerManager(*native_physics_manager_);
 }
 
-void PhysicsManager::update(float deltaTime) {
-    _nativePhysicsManager->simulate(deltaTime);
-    _nativePhysicsManager->fetchResults(true);
+void PhysicsManager::update(float delta_time) {
+    native_physics_manager_->simulate(delta_time);
+    native_physics_manager_->fetchResults(true);
 }
 
-void PhysicsManager::callColliderOnUpdate() {
-    for (auto &collider: _colliders) {
-        collider->_onUpdate();
+void PhysicsManager::call_collider_on_update() {
+    for (auto &collider : colliders_) {
+        collider->on_update();
     }
 }
 
-void PhysicsManager::callColliderOnLateUpdate() {
-    for (auto &collider: _colliders) {
-        collider->_onLateUpdate();
+void PhysicsManager::call_collider_on_late_update() {
+    for (auto &collider : colliders_) {
+        collider->on_late_update();
     }
 }
 
-void PhysicsManager::callCharacterControllerOnLateUpdate() {
-    for (auto &controller: _controllers) {
-        controller->_onLateUpdate();
+void PhysicsManager::call_character_controller_on_late_update() {
+    for (auto &controller : controllers_) {
+        controller->on_late_update();
     }
 }
 
-void PhysicsManager::_addColliderShape(const ColliderShapePtr &colliderShape) {
-    _physicalObjectsMap[colliderShape->uniqueID()] = (colliderShape);
+void PhysicsManager::add_collider_shape(const ColliderShapePtr &collider_shape) {
+    physical_objects_map_[collider_shape->unique_id()] = (collider_shape);
 }
 
-void PhysicsManager::_removeColliderShape(const ColliderShapePtr &colliderShape) {
-    _physicalObjectsMap.erase(colliderShape->uniqueID());
+void PhysicsManager::remove_collider_shape(const ColliderShapePtr &collider_shape) {
+    physical_objects_map_.erase(collider_shape->unique_id());
 }
 
-void PhysicsManager::_addCollider(Collider *collider) {
-    _colliders.push_back(collider);
-    _nativePhysicsManager->addActor(*collider->_nativeActor);
+void PhysicsManager::add_collider(Collider *collider) {
+    colliders_.push_back(collider);
+    native_physics_manager_->addActor(*collider->native_actor_);
 }
 
-void PhysicsManager::_removeCollider(Collider *collider) {
-    auto iter = std::find(_colliders.begin(), _colliders.end(), collider);
-    if (iter != _colliders.end()) {
-        _colliders.erase(iter);
+void PhysicsManager::remove_collider(Collider *collider) {
+    auto iter = std::find(colliders_.begin(), colliders_.end(), collider);
+    if (iter != colliders_.end()) {
+        colliders_.erase(iter);
     }
     
-    _nativePhysicsManager->removeActor(*collider->_nativeActor);
+    native_physics_manager_->removeActor(*collider->native_actor_);
 }
 
-void PhysicsManager::_addCharacterController(CharacterController *characterController) {
-    _controllers.push_back(characterController);
+void PhysicsManager::add_character_controller(CharacterController *character_controller) {
+    controllers_.push_back(character_controller);
 }
 
-void PhysicsManager::_removeCharacterController(CharacterController *characterController) {
-    auto iter = std::find(_controllers.begin(), _controllers.end(), characterController);
-    if (iter != _controllers.end()) {
-        _controllers.erase(iter);
+void PhysicsManager::remove_character_controller(CharacterController *character_controller) {
+    auto iter = std::find(controllers_.begin(), controllers_.end(), character_controller);
+    if (iter != controllers_.end()) {
+        controllers_.erase(iter);
     }
 }
 
 //MARK: - Raycast
 bool PhysicsManager::raycast(const Ray3F &ray) {
-    return _raycast(ray, std::numeric_limits<float>::infinity(), nullptr);
+    return raycast(ray, std::numeric_limits<float>::infinity(), nullptr);
 }
 
-bool PhysicsManager::raycast(const Ray3F &ray, HitResult &outHitResult) {
-    const auto layerMask = Layer::EVERYTHING;
+bool PhysicsManager::raycast(const Ray3F &ray, HitResult &out_hit_result) {
+    const auto kLayerMask = Layer::EVERYTHING;
     
     bool result = false;
-    _raycast(ray, std::numeric_limits<float>::infinity(),
-             [&](uint32_t idx, float distance, const Vector3F &normal, const Point3F &point) {
-        if (_physicalObjectsMap[idx]->collider()->entity()->layer_ & layerMask) {
+    raycast(ray, std::numeric_limits<float>::infinity(),
+            [&](uint32_t idx, float distance, const Vector3F &normal, const Point3F &point) {
+        if (physical_objects_map_[idx]->collider()->entity()->layer_ & kLayerMask) {
             result = true;
             
-            outHitResult.entity = _physicalObjectsMap[idx]->collider()->entity();
-            outHitResult.distance = distance;
-            outHitResult.normal = normal;
-            outHitResult.point = point;
+            out_hit_result.entity = physical_objects_map_[idx]->collider()->entity();
+            out_hit_result.distance = distance;
+            out_hit_result.normal = normal;
+            out_hit_result.point = point;
         }
     });
     
     if (!result) {
-        outHitResult.entity = nullptr;
-        outHitResult.distance = 0;
-        outHitResult.point = Point3F(0, 0, 0);
-        outHitResult.normal = Vector3F(0, 0, 0);
+        out_hit_result.entity = nullptr;
+        out_hit_result.distance = 0;
+        out_hit_result.point = Point3F(0, 0, 0);
+        out_hit_result.normal = Vector3F(0, 0, 0);
     }
     
     return result;
 }
 
 bool PhysicsManager::raycast(const Ray3F &ray, float distance) {
-    return _raycast(ray, distance, nullptr);
+    return raycast(ray, distance, nullptr);
 }
 
-bool PhysicsManager::raycast(const Ray3F &ray, float distance, HitResult &outHitResult) {
-    const auto layerMask = Layer::EVERYTHING;
+bool PhysicsManager::raycast(const Ray3F &ray, float distance, HitResult &out_hit_result) {
+    const auto kLayerMask = Layer::EVERYTHING;
     
     bool result = false;
-    _raycast(ray, distance, [&](uint32_t idx, float distance, const Vector3F &normal, const Point3F &point) {
-        if (_physicalObjectsMap[idx]->collider()->entity()->layer_ & layerMask) {
+    raycast(ray, distance, [&](uint32_t idx, float distance, const Vector3F &normal, const Point3F &point) {
+        if (physical_objects_map_[idx]->collider()->entity()->layer_ & kLayerMask) {
             result = true;
             
-            outHitResult.entity = _physicalObjectsMap[idx]->collider()->entity();
-            outHitResult.distance = distance;
-            outHitResult.normal = normal;
-            outHitResult.point = point;
+            out_hit_result.entity = physical_objects_map_[idx]->collider()->entity();
+            out_hit_result.distance = distance;
+            out_hit_result.normal = normal;
+            out_hit_result.point = point;
         }
     });
     
     if (!result) {
-        outHitResult.entity = nullptr;
-        outHitResult.distance = 0;
-        outHitResult.point = Point3F(0, 0, 0);
-        outHitResult.normal = Vector3F(0, 0, 0);
+        out_hit_result.entity = nullptr;
+        out_hit_result.distance = 0;
+        out_hit_result.point = Point3F(0, 0, 0);
+        out_hit_result.normal = Vector3F(0, 0, 0);
     }
     
     return result;
 }
 
-bool PhysicsManager::raycast(const Ray3F &ray, float distance, Layer layerMask) {
+bool PhysicsManager::raycast(const Ray3F &ray, float distance, Layer layer_mask) {
     bool result = false;
-    _raycast(ray, distance, [&](uint32_t idx, float, const Vector3F &, const Point3F &) {
-        if (_physicalObjectsMap[idx]->collider()->entity()->layer_ & layerMask) {
+    raycast(ray, distance, [&](uint32_t idx, float, const Vector3F &, const Point3F &) {
+        if (physical_objects_map_[idx]->collider()->entity()->layer_ & layer_mask) {
             result = true;
         }
     });
     return result;
 }
 
-bool PhysicsManager::raycast(const Ray3F &ray, float distance, Layer layerMask, HitResult &outHitResult) {
+bool PhysicsManager::raycast(const Ray3F &ray, float distance, Layer layer_mask, HitResult &out_hit_result) {
     bool result = false;
-    _raycast(ray, distance, [&](uint32_t idx, float distance, const Vector3F &normal, const Point3F &point) {
-        if (_physicalObjectsMap[idx]->collider()->entity()->layer_ & layerMask) {
+    raycast(ray, distance, [&](uint32_t idx, float distance, const Vector3F &normal, const Point3F &point) {
+        if (physical_objects_map_[idx]->collider()->entity()->layer_ & layer_mask) {
             result = true;
             
-            outHitResult.entity = _physicalObjectsMap[idx]->collider()->entity();
-            outHitResult.distance = distance;
-            outHitResult.normal = normal;
-            outHitResult.point = point;
+            out_hit_result.entity = physical_objects_map_[idx]->collider()->entity();
+            out_hit_result.distance = distance;
+            out_hit_result.normal = normal;
+            out_hit_result.point = point;
         }
     });
     
     if (!result) {
-        outHitResult.entity = nullptr;
-        outHitResult.distance = 0;
-        outHitResult.point = Point3F(0, 0, 0);
-        outHitResult.normal = Vector3F(0, 0, 0);
+        out_hit_result.entity = nullptr;
+        out_hit_result.distance = 0;
+        out_hit_result.point = Point3F(0, 0, 0);
+        out_hit_result.normal = Vector3F(0, 0, 0);
     }
     
     return result;
 }
 
-bool PhysicsManager::_raycast(const Ray3F &ray, float distance,
-                              std::function<void(uint32_t, float,
-                                                 const Vector3F &,
-                                                 const Point3F &)> outHitResult) {
+bool PhysicsManager::raycast(const Ray3F &ray, float distance,
+                             const std::function<void(uint32_t, float,
+                                                      const Vector3F &,
+                                                      const Point3F &)> &out_hit_result) {
     PxRaycastHit hit = PxRaycastHit();
-    PxSceneQueryFilterData filterData = PxSceneQueryFilterData();
-    filterData.flags = PxQueryFlags(PxQueryFlag::eSTATIC | PxQueryFlag::eDYNAMIC);
+    PxSceneQueryFilterData filter_data = PxSceneQueryFilterData();
+    filter_data.flags = PxQueryFlags(PxQueryFlag::eSTATIC | PxQueryFlag::eDYNAMIC);
     
     const auto &origin = ray.origin;
     const auto &direction = ray.direction;
-    bool result = PxSceneQueryExt::raycastSingle(*_nativePhysicsManager,
+    bool result = PxSceneQueryExt::raycastSingle(*native_physics_manager_,
                                                  PxVec3(origin.x, origin.y, origin.z),
                                                  PxVec3(direction.x, direction.y, direction.z),
                                                  distance, PxHitFlags(PxHitFlag::eDEFAULT),
-                                                 hit, filterData);
+                                                 hit, filter_data);
     
-    if (result && outHitResult != nullptr) {
-        outHitResult(hit.shape->getQueryFilterData().word0,
-                     hit.distance,
-                     Vector3F(hit.normal.x, hit.normal.y, hit.normal.z),
-                     Point3F(hit.position.x, hit.position.y, hit.position.z));
+    if (result && out_hit_result != nullptr) {
+        out_hit_result(hit.shape->getQueryFilterData().word0,
+                       hit.distance,
+                       Vector3F(hit.normal.x, hit.normal.y, hit.normal.z),
+                       Point3F(hit.position.x, hit.position.y, hit.position.z));
     }
     
     return result;

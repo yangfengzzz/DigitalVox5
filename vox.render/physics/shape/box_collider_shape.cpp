@@ -14,42 +14,43 @@
 //#include "material/unlit_material.h"
 //#endif
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 BoxColliderShape::BoxColliderShape() : ColliderShape() {
-    auto halfExtent = _half * _scale;
-    _nativeGeometry = std::make_shared<PxBoxGeometry>(halfExtent.x, halfExtent.y, halfExtent.z);
-    _nativeShape = PhysicsManager::_nativePhysics()->createShape(*_nativeGeometry, *_nativeMaterial, true);
-    _nativeShape->setQueryFilterData(PxFilterData(PhysicsManager::_idGenerator++, 0, 0, 0));
-    setLocalPose(_pose);
+    auto half_extent = half_ * scale_;
+    native_geometry_ = std::make_shared<PxBoxGeometry>(half_extent.x, half_extent.y, half_extent.z);
+    native_shape_ = PhysicsManager::native_physics_()->createShape(*native_geometry_, *native_material_, true);
+    native_shape_->setQueryFilterData(PxFilterData(PhysicsManager::id_generator_++, 0, 0, 0));
+    set_local_pose(pose_);
 }
 
 Vector3F BoxColliderShape::size() {
-    return _half * 2.f;
+    return half_ * 2.f;
 }
 
-void BoxColliderShape::setSize(const Vector3F &size) {
-    _half = size * 0.5f;
-    auto halfExtent = _half * _scale;
-    static_cast<PxBoxGeometry *>(_nativeGeometry.get())->halfExtents = PxVec3(halfExtent.x, halfExtent.y, halfExtent.z);
-    _nativeShape->setGeometry(*_nativeGeometry);
+void BoxColliderShape::set_size(const Vector3F &value) {
+    half_ = value * 0.5f;
+    auto half_extent = half_ * scale_;
+    static_cast<PxBoxGeometry *>(native_geometry_.get())->halfExtents =
+    PxVec3(half_extent.x, half_extent.y, half_extent.z);
+    native_shape_->setGeometry(*native_geometry_);
     
-//#ifdef _DEBUG
-//    _syncBoxGeometry();
-//#endif
+    //#ifdef _DEBUG
+    //    _syncBoxGeometry();
+    //#endif
 }
 
-void BoxColliderShape::setWorldScale(const Vector3F &scale) {
-    ColliderShape::setWorldScale(scale);
+void BoxColliderShape::set_world_scale(const Vector3F &scale) {
+    ColliderShape::set_world_scale(scale);
     
-    _scale = scale;
-    auto halfExtent = _half * _scale;
-    static_cast<PxBoxGeometry *>(_nativeGeometry.get())->halfExtents = PxVec3(halfExtent.x, halfExtent.y, halfExtent.z);
-    _nativeShape->setGeometry(*_nativeGeometry);
+    scale_ = scale;
+    auto half_extent = half_ * scale_;
+    static_cast<PxBoxGeometry *>(native_geometry_.get())->halfExtents =
+    PxVec3(half_extent.x, half_extent.y, half_extent.z);
+    native_shape_->setGeometry(*native_geometry_);
     
-//#ifdef _DEBUG
-//    _syncBoxGeometry();
-//#endif
+    //#ifdef _DEBUG
+    //    _syncBoxGeometry();
+    //#endif
 }
 
 //#ifdef _DEBUG
@@ -57,7 +58,7 @@ void BoxColliderShape::setWorldScale(const Vector3F &scale) {
 //    ColliderShape::setEntity(value);
 //    
 //    auto renderer = _entity->addComponent<MeshRenderer>();
-//    renderer->setMaterial(std::make_shared<UnlitMaterial>(value->scene()->device()));
+//    renderer->set_material(std::make_shared<UnlitMaterial>(value->scene()->device()));
 //    renderer->setMesh(WireframePrimitiveMesh::createCuboidWireFrame(value->scene()->device(), 1, 1, 1));
 //    _syncBoxGeometry();
 //}
@@ -70,5 +71,4 @@ void BoxColliderShape::setWorldScale(const Vector3F &scale) {
 //}
 //#endif
 
-}
 }

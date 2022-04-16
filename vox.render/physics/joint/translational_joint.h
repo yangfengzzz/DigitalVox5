@@ -4,45 +4,43 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef translational_joint_hpp
-#define translational_joint_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_TRANSLATIONAL_JOINT_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_TRANSLATIONAL_JOINT_H_
 
 #include "joint.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 /**
  * A translational joint permits relative translational movement between two bodies along
  * an axis, but no relative rotational movement.
  */
 class TranslationalJoint : public Joint {
 public:
-    TranslationalJoint(Collider *collider0, Collider *collider1);
+    TranslationalJoint(Collider *collider_0, Collider *collider_1);
     
-    float position() const;
+    [[nodiscard]] float position() const;
     
-    float velocity() const;
+    [[nodiscard]] float velocity() const;
     
-    void setLimit(const PxJointLinearLimitPair &);
+    void set_limit(const PxJointLinearLimitPair &pair);
     
-    PxJointLinearLimitPair limit() const;
+    [[nodiscard]] PxJointLinearLimitPair limit() const;
     
-    void setPrismaticJointFlags(PxPrismaticJointFlags flags);
+    void set_prismatic_joint_flags(const PxPrismaticJointFlags &flags);
     
-    void setPrismaticJointFlag(PxPrismaticJointFlag::Enum flag, bool value);
+    void set_prismatic_joint_flag(PxPrismaticJointFlag::Enum flag, bool value);
     
-    PxPrismaticJointFlags translationalJointFlags() const;
+    [[nodiscard]] PxPrismaticJointFlags translational_joint_flags() const;
     
-    void setProjectionLinearTolerance(float tolerance);
+    void set_projection_linear_tolerance(float tolerance);
     
-    float projectionLinearTolerance() const;
+    [[nodiscard]] float projection_linear_tolerance() const;
     
-    void setProjectionAngularTolerance(float tolerance);
+    void set_projection_angular_tolerance(float tolerance);
     
-    float projectionAngularTolerance() const;
+    [[nodiscard]] float projection_angular_tolerance() const;
 };
 
 }
-}
 
-#endif /* translational_joint_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_TRANSLATIONAL_JOINT_H_ */

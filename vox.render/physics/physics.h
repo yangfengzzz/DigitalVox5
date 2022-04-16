@@ -4,15 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef physics_hpp
-#define physics_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_PHYSICS_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_PHYSICS_H_
 
 #include "vector3.h"
 #include <PxPhysicsAPI.h>
 #include <memory>
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 //MARK: - Forward Declare
 class PhysicsMaterial;
 
@@ -38,12 +37,11 @@ public:
     PxPhysics *operator()();
     
 private:
-    PxPhysics *_physics;
-    PxDefaultAllocator gAllocator;
-    PxDefaultErrorCallback gErrorCallback;
+    PxPhysics *physics_;
+    PxDefaultAllocator g_allocator_;
+    PxDefaultErrorCallback g_error_callback_;
 };
 
 }
-}
 
-#endif /* physics_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_PHYSICS_H_ */

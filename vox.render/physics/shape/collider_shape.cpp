@@ -7,99 +7,98 @@
 #include "collider_shape.h"
 #include "../physics_manager.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 ColliderShape::ColliderShape() :
-_nativeMaterial(PhysicsManager::_nativePhysics()->createMaterial(0, 0, 0)) {
+native_material_(PhysicsManager::native_physics_()->createMaterial(0, 0, 0)) {
 }
 
 Collider *ColliderShape::collider() {
-    return _collider;
+    return collider_;
 }
 
-void ColliderShape::setLocalPose(const Transform3F &pose) {
-    _pose = pose;
+void ColliderShape::set_local_pose(const Transform3F &pose) {
+    pose_ = pose;
     
     const auto &p = pose.translation();
     const auto &q = pose.orientation();
-    _nativeShape->setLocalPose(PxTransform(PxVec3(p.x, p.y, p.z), PxQuat(q.x, q.y, q.z, q.w)));
-//#ifdef _DEBUG
-//    if (_entity) {
-//        _entity->transform->setPosition(getLocalTranslation());
-//    }
-//#endif
+    native_shape_->setLocalPose(PxTransform(PxVec3(p.x, p.y, p.z), PxQuat(q.x, q.y, q.z, q.w)));
+    //#ifdef _DEBUG
+    //    if (_entity) {
+    //        _entity->transform->setPosition(getLocalTranslation());
+    //    }
+    //#endif
 }
 
-Transform3F ColliderShape::localPose() const {
-    return _pose;
+Transform3F ColliderShape::local_pose() const {
+    return pose_;
 }
 
-void ColliderShape::setPosition(const Vector3F &pos) {
-    _pose.setTranslation(pos);
-    setLocalPose(_pose);
+void ColliderShape::set_position(const Vector3F &pos) {
+    pose_.setTranslation(pos);
+    set_local_pose(pose_);
 }
 
 Vector3F ColliderShape::position() const {
-    return _pose.translation();
+    return pose_.translation();
 }
 
-void ColliderShape::setWorldScale(const Vector3F &scale) {
-    _pose.setTranslation(_pose.translation() * scale);
-    setLocalPose(_pose);
+void ColliderShape::set_world_scale(const Vector3F &scale) {
+    pose_.setTranslation(pose_.translation() * scale);
+    set_local_pose(pose_);
 }
 
-void ColliderShape::setMaterial(PxMaterial *material) {
-    _nativeMaterial = material;
+void ColliderShape::set_material(PxMaterial *materials) {
+    native_material_ = materials;
     
-    std::vector<PxMaterial *> materials = {material};
-    _nativeShape->setMaterials(materials.data(), 1);
+    std::vector<PxMaterial *> material_vec = {materials};
+    native_shape_->setMaterials(material_vec.data(), 1);
 }
 
 PxMaterial *ColliderShape::material() {
-    return _nativeMaterial;
+    return native_material_;
 }
 
 //MARK: - QueryFilterData
-PxFilterData ColliderShape::queryFilterData() {
-    return _nativeShape->getQueryFilterData();
+PxFilterData ColliderShape::query_filter_data() {
+    return native_shape_->getQueryFilterData();
 }
 
-void ColliderShape::setQueryFilterData(const PxFilterData &data) {
-    _nativeShape->setQueryFilterData(data);
+void ColliderShape::set_query_filter_data(const PxFilterData &data) {
+    native_shape_->setQueryFilterData(data);
 }
 
-uint32_t ColliderShape::uniqueID() {
-    return _nativeShape->getQueryFilterData().word0;
+uint32_t ColliderShape::unique_id() {
+    return native_shape_->getQueryFilterData().word0;
 }
 
 //MARK: - ShapeFlag
-void ColliderShape::setFlag(PxShapeFlag::Enum flag, bool value) {
-    _nativeShape->setFlag(flag, value);
+void ColliderShape::set_flag(PxShapeFlag::Enum flag, bool value) {
+    native_shape_->setFlag(flag, value);
 }
 
-void ColliderShape::setFlags(PxShapeFlags inFlags) {
-    _nativeShape->setFlags(inFlags);
+void ColliderShape::set_flags(const PxShapeFlags &in_flags) {
+    native_shape_->setFlags(in_flags);
 }
 
-PxShapeFlags ColliderShape::getFlags() const {
-    return _nativeShape->getFlags();
+PxShapeFlags ColliderShape::get_flags() const {
+    return native_shape_->getFlags();
 }
 
 bool ColliderShape::trigger() {
-    return _nativeShape->getFlags().isSet(PxShapeFlag::Enum::eTRIGGER_SHAPE);
+    return native_shape_->getFlags().isSet(PxShapeFlag::Enum::eTRIGGER_SHAPE);
 }
 
-void ColliderShape::setTrigger(bool isTrigger) {
-    _nativeShape->setFlag(PxShapeFlag::Enum::eSIMULATION_SHAPE, !isTrigger);
-    _nativeShape->setFlag(PxShapeFlag::Enum::eTRIGGER_SHAPE, isTrigger);
+void ColliderShape::set_trigger(bool is_trigger) {
+    native_shape_->setFlag(PxShapeFlag::Enum::eSIMULATION_SHAPE, !is_trigger);
+    native_shape_->setFlag(PxShapeFlag::Enum::eTRIGGER_SHAPE, is_trigger);
 }
 
-bool ColliderShape::sceneQuery() {
-    return _nativeShape->getFlags().isSet(PxShapeFlag::Enum::eSCENE_QUERY_SHAPE);
+bool ColliderShape::scene_query() {
+    return native_shape_->getFlags().isSet(PxShapeFlag::Enum::eSCENE_QUERY_SHAPE);
 }
 
-void ColliderShape::setSceneQuery(bool isQuery) {
-    _nativeShape->setFlag(PxShapeFlag::Enum::eSCENE_QUERY_SHAPE, isQuery);
+void ColliderShape::set_scene_query(bool is_query) {
+    native_shape_->setFlag(PxShapeFlag::Enum::eSCENE_QUERY_SHAPE, is_query);
 }
 
 //#ifdef _DEBUG
@@ -119,5 +118,4 @@ void ColliderShape::setSceneQuery(bool isQuery) {
 //}
 //#endif
 
-}
 }

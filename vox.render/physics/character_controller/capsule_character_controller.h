@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef capsule_character_controller_hpp
-#define capsule_character_controller_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_CAPSULE_CHARACTER_CONTROLLER_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_CAPSULE_CHARACTER_CONTROLLER_H_
 
 #include "character_controller.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 /**
  * A capsule character controller.
  */
@@ -21,21 +20,21 @@ public:
      */
     std::string name() override;
     
-    CapsuleCharacterController(Entity *entity);
+    explicit CapsuleCharacterController(Entity *entity);
     
-    void setDesc(const PxCapsuleControllerDesc &desc);
+    void set_desc(const PxCapsuleControllerDesc &desc);
     
-    float radius() const;
+    [[nodiscard]] float radius() const;
     
-    bool setRadius(float radius);
+    bool set_radius(float radius);
     
-    float height() const;
+    [[nodiscard]] float height() const;
     
-    bool setHeight(float height);
+    bool set_height(float height);
     
-    PxCapsuleClimbingMode::Enum climbingMode() const;
+    [[nodiscard]] PxCapsuleClimbingMode::Enum climbing_mode() const;
     
-    bool setClimbingMode(PxCapsuleClimbingMode::Enum mode);
+    bool set_climbing_mode(PxCapsuleClimbingMode::Enum mode);
     
 public:
     /**
@@ -55,5 +54,4 @@ public:
 };
 
 }
-}
-#endif /* capsule_character_controller_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_CAPSULE_CHARACTER_CONTROLLER_H_ */

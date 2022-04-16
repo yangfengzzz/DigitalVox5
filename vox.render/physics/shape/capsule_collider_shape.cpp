@@ -13,110 +13,108 @@
 //#include "material/unlit_material.h"
 //#endif
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 CapsuleColliderShape::CapsuleColliderShape() {
-    _nativeGeometry = std::make_shared<PxCapsuleGeometry>(_radius * std::max(_scale.x, _scale.z), _height * _scale.y);
-    _nativeShape = PhysicsManager::_nativePhysics()->createShape(*_nativeGeometry, *_nativeMaterial, true);
-    _nativeShape->setQueryFilterData(PxFilterData(PhysicsManager::_idGenerator++, 0, 0, 0));
+    native_geometry_ = std::make_shared<PxCapsuleGeometry>(radius_ * std::max(scale_.x, scale_.z), height_ * scale_.y);
+    native_shape_ = PhysicsManager::native_physics_()->createShape(*native_geometry_, *native_material_, true);
+    native_shape_->setQueryFilterData(PxFilterData(PhysicsManager::id_generator_++, 0, 0, 0));
     
-    setUpAxis(ColliderShapeUpAxis::Enum::Y);
+    set_up_axis(ColliderShapeUpAxis::Enum::Y);
 }
 
-float CapsuleColliderShape::radius() {
-    return _radius;
+float CapsuleColliderShape::radius() const {
+    return radius_;
 }
 
-void CapsuleColliderShape::setRadius(float value) {
-    _radius = value;
-    switch (_upAxis) {
+void CapsuleColliderShape::set_radius(float value) {
+    radius_ = value;
+    switch (up_axis_) {
         case ColliderShapeUpAxis::Enum::X:
-            static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->radius = _radius * std::max(_scale.y, _scale.z);
+            static_cast<PxCapsuleGeometry *>(native_geometry_.get())->radius = radius_ * std::max(scale_.y, scale_.z);
             break;
         case ColliderShapeUpAxis::Enum::Y:
-            static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->radius = _radius * std::max(_scale.x, _scale.z);
+            static_cast<PxCapsuleGeometry *>(native_geometry_.get())->radius = radius_ * std::max(scale_.x, scale_.z);
             break;
         case ColliderShapeUpAxis::Enum::Z:
-            static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->radius = _radius * std::max(_scale.x, _scale.y);
+            static_cast<PxCapsuleGeometry *>(native_geometry_.get())->radius = radius_ * std::max(scale_.x, scale_.y);
             break;
     }
-    _nativeShape->setGeometry(*_nativeGeometry);
+    native_shape_->setGeometry(*native_geometry_);
     
-//#ifdef _DEBUG
-//    _syncCapsuleGeometry();
-//#endif
+    //#ifdef _DEBUG
+    //    _syncCapsuleGeometry();
+    //#endif
 }
 
-float CapsuleColliderShape::height() {
-    return _height * 2.0;
+float CapsuleColliderShape::height() const {
+    return height_ * 2.f;
 }
 
-void CapsuleColliderShape::setHeight(float value) {
-    _height = value * 0.5;
-    switch (_upAxis) {
+void CapsuleColliderShape::set_height(float value) {
+    height_ = value * 0.5f;
+    switch (up_axis_) {
         case ColliderShapeUpAxis::Enum::X:
-            static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->halfHeight = _height * _scale.x;
+            static_cast<PxCapsuleGeometry *>(native_geometry_.get())->halfHeight = height_ * scale_.x;
             break;
         case ColliderShapeUpAxis::Enum::Y:
-            static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->halfHeight = _height * _scale.y;
+            static_cast<PxCapsuleGeometry *>(native_geometry_.get())->halfHeight = height_ * scale_.y;
             break;
         case ColliderShapeUpAxis::Enum::Z:
-            static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->halfHeight = _height * _scale.z;
+            static_cast<PxCapsuleGeometry *>(native_geometry_.get())->halfHeight = height_ * scale_.z;
             break;
     }
-    _nativeShape->setGeometry(*_nativeGeometry);
+    native_shape_->setGeometry(*native_geometry_);
     
-//#ifdef _DEBUG
-//    _syncCapsuleGeometry();
-//#endif
+    //#ifdef _DEBUG
+    //    _syncCapsuleGeometry();
+    //#endif
 }
 
-ColliderShapeUpAxis::Enum CapsuleColliderShape::upAxis() {
-    return _upAxis;
+ColliderShapeUpAxis::Enum CapsuleColliderShape::up_axis() {
+    return up_axis_;
 }
 
-void CapsuleColliderShape::setUpAxis(ColliderShapeUpAxis::Enum value) {
-    _upAxis = value;
-    switch (_upAxis) {
-        case ColliderShapeUpAxis::Enum::X:
-            _pose.setOrientation(QuaternionF(0, 0, 0, 1));
+void CapsuleColliderShape::set_up_axis(ColliderShapeUpAxis::Enum value) {
+    up_axis_ = value;
+    switch (up_axis_) {
+        case ColliderShapeUpAxis::Enum::X:pose_.setOrientation(QuaternionF(0, 0, 0, 1));
             break;
         case ColliderShapeUpAxis::Enum::Y:
-            _pose.setOrientation(QuaternionF(0, 0, ColliderShape::halfSqrt, ColliderShape::halfSqrt));
+            pose_.setOrientation(QuaternionF(0, 0, ColliderShape::half_sqrt_, ColliderShape::half_sqrt_));
             break;
         case ColliderShapeUpAxis::Enum::Z:
-            _pose.setOrientation(QuaternionF(0, ColliderShape::halfSqrt, 0, ColliderShape::halfSqrt));
+            pose_.setOrientation(QuaternionF(0, ColliderShape::half_sqrt_, 0, ColliderShape::half_sqrt_));
             break;
     }
-    setLocalPose(_pose);
+    set_local_pose(pose_);
     
-//#ifdef _DEBUG
-//    _syncCapsuleAxis(value);
-//#endif
+    //#ifdef _DEBUG
+    //    _syncCapsuleAxis(value);
+    //#endif
 }
 
-void CapsuleColliderShape::setWorldScale(const Vector3F &scale) {
-    ColliderShape::setWorldScale(scale);
+void CapsuleColliderShape::set_world_scale(const Vector3F &scale) {
+    ColliderShape::set_world_scale(scale);
     
-    switch (_upAxis) {
+    switch (up_axis_) {
         case ColliderShapeUpAxis::Enum::X:
-            static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->radius = _radius * std::max(scale.y, scale.z);
-            static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->halfHeight = _height * scale.x;
+            static_cast<PxCapsuleGeometry *>(native_geometry_.get())->radius = radius_ * std::max(scale.y, scale.z);
+            static_cast<PxCapsuleGeometry *>(native_geometry_.get())->halfHeight = height_ * scale.x;
             break;
         case ColliderShapeUpAxis::Enum::Y:
-            static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->radius = _radius * std::max(scale.x, scale.z);
-            static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->halfHeight = _height * scale.y;
+            static_cast<PxCapsuleGeometry *>(native_geometry_.get())->radius = radius_ * std::max(scale.x, scale.z);
+            static_cast<PxCapsuleGeometry *>(native_geometry_.get())->halfHeight = height_ * scale.y;
             break;
         case ColliderShapeUpAxis::Enum::Z:
-            static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->radius = _radius * std::max(scale.x, scale.y);
-            static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->halfHeight = _height * scale.z;
+            static_cast<PxCapsuleGeometry *>(native_geometry_.get())->radius = radius_ * std::max(scale.x, scale.y);
+            static_cast<PxCapsuleGeometry *>(native_geometry_.get())->halfHeight = height_ * scale.z;
             break;
     }
-    _nativeShape->setGeometry(*_nativeGeometry);
+    native_shape_->setGeometry(*native_geometry_);
     
-//#ifdef _DEBUG
-//    _syncCapsuleGeometry();
-//#endif
+    //#ifdef _DEBUG
+    //    _syncCapsuleGeometry();
+    //#endif
 }
 
 //#ifdef _DEBUG
@@ -124,7 +122,7 @@ void CapsuleColliderShape::setWorldScale(const Vector3F &scale) {
 //    ColliderShape::setEntity(value);
 //
 //    _renderer = _entity->addComponent<MeshRenderer>();
-//    _renderer->setMaterial(std::make_shared<UnlitMaterial>(value->scene()->device()));
+//    _renderer->set_material(std::make_shared<UnlitMaterial>(value->scene()->device()));
 //    _syncCapsuleGeometry();
 //}
 //
@@ -136,9 +134,9 @@ void CapsuleColliderShape::setWorldScale(const Vector3F &scale) {
 //    }
 //}
 //
-//void CapsuleColliderShape::_syncCapsuleAxis(ColliderShapeUpAxis::Enum upAxis) {
+//void CapsuleColliderShape::_syncCapsuleAxis(ColliderShapeUpAxis::Enum up_axis) {
 //    if (_entity) {
-//        switch (upAxis) {
+//        switch (up_axis) {
 //            case ColliderShapeUpAxis::Enum::X:
 //                _entity->transform->setRotationQuaternion(0, ColliderShape::halfSqrt,
 //                                                          0, ColliderShape::halfSqrt);
@@ -155,5 +153,4 @@ void CapsuleColliderShape::setWorldScale(const Vector3F &scale) {
 //}
 //#endif
 
-}
 }

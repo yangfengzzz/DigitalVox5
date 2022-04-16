@@ -4,15 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef hit_result_hpp
-#define hit_result_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_HIT_RESULT_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_HIT_RESULT_H_
 
 #include "point3.h"
 #include "vector3.h"
 #include "../entity.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 
 /**
  * Structure used to get information back from a raycast or a sweep.
@@ -29,7 +28,5 @@ struct HitResult {
 };
 
 }
-}
 
-
-#endif /* hit_result_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_HIT_RESULT_H_ */

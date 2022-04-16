@@ -4,55 +4,53 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef hinge_joint_hpp
-#define hinge_joint_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_HINGE_JOINT_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_HINGE_JOINT_H_
 
 #include "joint.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 /**
  * A joint which behaves in a similar way to a hinge or axle.
  */
 class HingeJoint : public Joint {
 public:
-    HingeJoint(Collider *collider0, Collider *collider1);
+    HingeJoint(Collider *collider_0, Collider *collider_1);
     
-    float angle() const;
+    [[nodiscard]] float angle() const;
     
-    float velocity() const;
+    [[nodiscard]] float velocity() const;
     
-    void setLimit(const PxJointAngularLimitPair &limits);
+    void set_limit(const PxJointAngularLimitPair &limits);
     
-    PxJointAngularLimitPair limit() const;
+    [[nodiscard]] PxJointAngularLimitPair limit() const;
     
-    void setDriveVelocity(float velocity, bool autowake = true);
+    void set_drive_velocity(float velocity, bool autowake = true);
     
-    float driveVelocity() const;
+    [[nodiscard]] float drive_velocity() const;
     
-    void setDriveForceLimit(float limit);
+    void set_drive_force_limit(float limit);
     
-    float driveForceLimit() const;
+    [[nodiscard]] float drive_force_limit() const;
     
-    void setDriveGearRatio(float ratio);
+    void set_drive_gear_ratio(float ratio);
     
-    float driveGearRatio() const;
+    [[nodiscard]] float drive_gear_ratio() const;
     
-    void setRevoluteJointFlags(PxRevoluteJointFlags flags);
+    void set_revolute_joint_flags(const PxRevoluteJointFlags &flags);
     
-    void setRevoluteJointFlag(PxRevoluteJointFlag::Enum flag, bool value);
+    void set_revolute_joint_flag(PxRevoluteJointFlag::Enum flag, bool value);
     
-    PxRevoluteJointFlags revoluteJointFlags() const;
+    [[nodiscard]] PxRevoluteJointFlags revolute_joint_flags() const;
     
-    void setProjectionLinearTolerance(float tolerance);
+    void set_projection_linear_tolerance(float tolerance);
     
-    float projectionLinearTolerance() const;
+    [[nodiscard]] float projection_linear_tolerance() const;
     
-    void setProjectionAngularTolerance(float tolerance);
+    void set_projection_angular_tolerance(float tolerance);
     
-    float projectionAngularTolerance() const;
+    [[nodiscard]] float projection_angular_tolerance() const;
 };
 
 }
-}
-#endif /* hinge_joint_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_HINGE_JOINT_H_ */

@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef capsule_collider_shape_hpp
-#define capsule_collider_shape_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_CAPSULE_COLLIDER_SHAPE_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_CAPSULE_COLLIDER_SHAPE_H_
 
 #include "collider_shape.h"
 
@@ -13,8 +13,7 @@
 //#include "mesh/mesh_renderer.h"
 //#endif
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 /**
  * The up axis of the collider shape.
  */
@@ -39,42 +38,41 @@ public:
     /**
      * Radius of capsule.
      */
-    float radius();
+    [[nodiscard]] float radius() const;
     
-    void setRadius(float value);
+    void set_radius(float value);
     
     /**
      * Height of capsule.
      */
-    float height();
+    [[nodiscard]] float height() const;
     
-    void setHeight(float value);
+    void set_height(float value);
     
     /**
      * Up axis of capsule.
      */
-    ColliderShapeUpAxis::Enum upAxis();
+    ColliderShapeUpAxis::Enum up_axis();
     
-    void setUpAxis(ColliderShapeUpAxis::Enum value);
+    void set_up_axis(ColliderShapeUpAxis::Enum value);
     
-    void setWorldScale(const Vector3F &scale) override;
+    void set_world_scale(const Vector3F &scale) override;
     
-//#ifdef _DEBUG
-//    void setEntity(Entity* value) override;
-//    
-//    void _syncCapsuleGeometry();
-//    
-//    void _syncCapsuleAxis(ColliderShapeUpAxis::Enum upAxis);
-//    
-//    MeshRenderer* _renderer{nullptr};
-//#endif
+    //#ifdef _DEBUG
+    //    void setEntity(Entity* value) override;
+    //
+    //    void _syncCapsuleGeometry();
+    //
+    //    void _syncCapsuleAxis(ColliderShapeUpAxis::Enum up_axis);
+    //
+    //    MeshRenderer* _renderer{nullptr};
+    //#endif
     
 private:
-    float _radius = 1;
-    float _height = 2;
-    ColliderShapeUpAxis::Enum _upAxis = ColliderShapeUpAxis::Enum::Y;
+    float radius_ = 1;
+    float height_ = 2;
+    ColliderShapeUpAxis::Enum up_axis_ = ColliderShapeUpAxis::Enum::Y;
 };
 
 }
-}
-#endif /* capsule_collider_shape_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_CAPSULE_COLLIDER_SHAPE_H_ */

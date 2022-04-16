@@ -4,72 +4,70 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef configurable_joint_hpp
-#define configurable_joint_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_CONFIGURABLE_JOINT_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_CONFIGURABLE_JOINT_H_
 
 #include "joint.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 /**
  * A Configurable joint is a general constraint between two actors.
  */
 class ConfigurableJoint : public Joint {
 public:
-    ConfigurableJoint(Collider *collider0, Collider *collider1);
+    ConfigurableJoint(Collider *collider_0, Collider *collider_1);
     
-    void setMotion(PxD6Axis::Enum axis, PxD6Motion::Enum type);
+    void set_motion(PxD6Axis::Enum axis, PxD6Motion::Enum type);
     
-    PxD6Motion::Enum motion(PxD6Axis::Enum axis) const;
+    [[nodiscard]] PxD6Motion::Enum motion(PxD6Axis::Enum axis) const;
     
-    float twistAngle() const;
+    [[nodiscard]] float twist_angle() const;
     
-    float swingYAngle() const;
+    [[nodiscard]] float swing_y_angle() const;
     
-    float swingZAngle() const;
-    
-public:
-    void setDistanceLimit(const PxJointLinearLimit &limit);
-    
-    PxJointLinearLimit distanceLimit() const;
-    
-    void setLinearLimit(PxD6Axis::Enum axis, const PxJointLinearLimitPair &limit);
-    
-    PxJointLinearLimitPair linearLimit(PxD6Axis::Enum axis) const;
-    
-    void setTwistLimit(const PxJointAngularLimitPair &limit);
-    
-    PxJointAngularLimitPair twistLimit() const;
-    
-    void setSwingLimit(const PxJointLimitCone &limit);
-    
-    PxJointLimitCone swingLimit() const;
-    
-    void pyramidSwingLimit(const PxJointLimitPyramid &limit);
-    
-    PxJointLimitPyramid pyramidSwingLimit() const;
+    [[nodiscard]] float swing_z_angle() const;
     
 public:
-    void setDrive(PxD6Drive::Enum index, const PxD6JointDrive &drive);
+    void set_distance_limit(const PxJointLinearLimit &limit);
     
-    PxD6JointDrive drive(PxD6Drive::Enum index) const;
+    [[nodiscard]] PxJointLinearLimit distance_limit() const;
     
-    void setDrivePosition(const Transform3F &pose, bool autowake = true);
+    void set_linear_limit(PxD6Axis::Enum axis, const PxJointLinearLimitPair &limit);
     
-    Transform3F drivePosition() const;
+    [[nodiscard]] PxJointLinearLimitPair linear_limit(PxD6Axis::Enum axis) const;
     
-    void setDriveVelocity(const Vector3F &linear, const Vector3F &angular, bool autowake = true);
+    void set_twist_limit(const PxJointAngularLimitPair &limit);
     
-    void driveVelocity(Vector3F &linear, Vector3F &angular) const;
+    [[nodiscard]] PxJointAngularLimitPair twist_limit() const;
     
-    void setProjectionLinearTolerance(float tolerance);
+    void set_swing_limit(const PxJointLimitCone &limit);
     
-    float projectionLinearTolerance() const;
+    [[nodiscard]] PxJointLimitCone swing_limit() const;
     
-    void setProjectionAngularTolerance(float tolerance);
+    void pyramid_swing_limit(const PxJointLimitPyramid &limit);
     
-    float projectionAngularTolerance() const;
+    [[nodiscard]] PxJointLimitPyramid pyramid_swing_limit() const;
+    
+public:
+    void set_drive(PxD6Drive::Enum index, const PxD6JointDrive &drive);
+    
+    [[nodiscard]] PxD6JointDrive drive(PxD6Drive::Enum index) const;
+    
+    void set_drive_position(const Transform3F &pose, bool autowake = true);
+    
+    [[nodiscard]] Transform3F drive_position() const;
+    
+    void set_drive_velocity(const Vector3F &linear, const Vector3F &angular, bool autowake = true);
+    
+    void drive_velocity(Vector3F &linear, Vector3F &angular) const;
+    
+    void set_projection_linear_tolerance(float tolerance);
+    
+    [[nodiscard]] float projection_linear_tolerance() const;
+    
+    void set_projection_angular_tolerance(float tolerance);
+    
+    [[nodiscard]] float projection_angular_tolerance() const;
 };
 }
-}
-#endif /* configurable_joint_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_CONFIGURABLE_JOINT_H_ */

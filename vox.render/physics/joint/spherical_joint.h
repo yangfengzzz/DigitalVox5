@@ -4,39 +4,37 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef spherical_joint_hpp
-#define spherical_joint_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_SPHERICAL_JOINT_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_SPHERICAL_JOINT_H_
 
 #include "joint.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 /**
  * A joint which behaves in a similar way to a ball and socket.
  */
 class SphericalJoint : public Joint {
 public:
-    SphericalJoint(Collider *collider0, Collider *collider1);
+    SphericalJoint(Collider *collider_0, Collider *collider_1);
     
-    PxJointLimitCone limitCone() const;
+    [[nodiscard]] PxJointLimitCone limit_cone() const;
     
-    void setLimitCone(const PxJointLimitCone &limit);
+    void set_limit_cone(const PxJointLimitCone &limit);
     
-    float swingYAngle() const;
+    [[nodiscard]] float swing_y_angle() const;
     
-    float swingZAngle() const;
+    [[nodiscard]] float swing_z_angle() const;
     
-    void setSphericalJointFlags(PxSphericalJointFlags flags);
+    void set_spherical_joint_flags(const PxSphericalJointFlags &flags);
     
-    void setSphericalJointFlag(PxSphericalJointFlag::Enum flag, bool value);
+    void set_spherical_joint_flag(PxSphericalJointFlag::Enum flag, bool value);
     
-    PxSphericalJointFlags sphericalJointFlags() const;
+    [[nodiscard]] PxSphericalJointFlags spherical_joint_flags() const;
     
-    void setProjectionLinearTolerance(float tolerance);
+    void set_projection_linear_tolerance(float tolerance);
     
-    float projectionLinearTolerance() const;
+    [[nodiscard]] float projection_linear_tolerance() const;
 };
 
 }
-}
-#endif /* spherical_joint_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_SPHERICAL_JOINT_H_ */

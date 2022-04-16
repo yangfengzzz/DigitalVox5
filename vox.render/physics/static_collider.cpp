@@ -6,10 +6,8 @@
 
 #include "static_collider.h"
 #include "physics_manager.h"
-#include "../entity.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 std::string StaticCollider::name() {
     return "StaticCollider";
 }
@@ -20,8 +18,8 @@ Collider(entity) {
     auto q = entity->transform_->world_rotation_quaternion();
     q.normalize();
     
-    _nativeActor = PhysicsManager::_nativePhysics()->createRigidStatic(PxTransform(PxVec3(p.x, p.y, p.z),
-                                                                                   PxQuat(q.x, q.y, q.z, q.w)));
+    native_actor_ = PhysicsManager::native_physics_()->createRigidStatic(PxTransform(PxVec3(p.x, p.y, p.z),
+                                                                                     PxQuat(q.x, q.y, q.z, q.w)));
 }
 
 //MARK: - Reflection
@@ -37,5 +35,4 @@ void StaticCollider::on_inspector(ui::WidgetContainer &p_root) {
     
 }
 
-}
 }

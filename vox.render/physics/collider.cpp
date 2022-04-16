@@ -10,31 +10,30 @@
 #include "entity.h"
 #include "scene.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 Collider::Collider(Entity *entity) :
 Component(entity) {
-    _updateFlag = entity->transform_->register_world_change_flag();
+    update_flag_ = entity->transform_->register_world_change_flag();
 }
 
 Collider::~Collider() {
-    clearShapes();
+    clear_shapes();
 }
 
 PxRigidActor *Collider::handle() {
-    return _nativeActor;
+    return native_actor_;
 }
 
-void Collider::addShape(const ColliderShapePtr &shape) {
-    const auto &oldCollider = shape->_collider;
-    if (oldCollider != this) {
-        if (oldCollider != nullptr) {
-            oldCollider->removeShape(shape);
+void Collider::add_shape(const ColliderShapePtr &shape) {
+    const auto &old_collider = shape->collider_;
+    if (old_collider != this) {
+        if (old_collider != nullptr) {
+            old_collider->remove_shape(shape);
         }
-        _shapes.push_back(shape);
-        PhysicsManager::get_singleton()._addColliderShape(shape);
-        _nativeActor->attachShape(*shape->_nativeShape);
-        shape->_collider = this;
+        shapes_.push_back(shape);
+        PhysicsManager::get_singleton().add_collider_shape(shape);
+        native_actor_->attachShape(*shape->native_shape_);
+        shape->collider_ = this;
     }
     
 #ifdef _DEBUG
@@ -44,14 +43,14 @@ void Collider::addShape(const ColliderShapePtr &shape) {
 #endif
 }
 
-void Collider::removeShape(const ColliderShapePtr &shape) {
-    auto iter = std::find(_shapes.begin(), _shapes.end(), shape);
+void Collider::remove_shape(const ColliderShapePtr &shape) {
+    auto iter = std::find(shapes_.begin(), shapes_.end(), shape);
     
-    if (iter != _shapes.end()) {
-        _shapes.erase(iter);
-        _nativeActor->detachShape(*shape->_nativeShape);
-        PhysicsManager::get_singleton()._removeColliderShape(shape);
-        shape->_collider = nullptr;
+    if (iter != shapes_.end()) {
+        shapes_.erase(iter);
+        native_actor_->detachShape(*shape->native_shape_);
+        PhysicsManager::get_singleton().remove_collider_shape(shape);
+        shape->collider_ = nullptr;
     }
     
 #ifdef _DEBUG
@@ -61,31 +60,31 @@ void Collider::removeShape(const ColliderShapePtr &shape) {
 #endif
 }
 
-void Collider::clearShapes() {
-    for (size_t i = 0; i < _shapes.size(); i++) {
-        _nativeActor->detachShape(*_shapes[i]->_nativeShape);
-        PhysicsManager::get_singleton()._removeColliderShape(_shapes[i]);
+void Collider::clear_shapes() {
+    for (auto &shape : shapes_) {
+        native_actor_->detachShape(*shape->native_shape_);
+        PhysicsManager::get_singleton().remove_collider_shape(shape);
     }
-    _shapes.clear();
+    shapes_.clear();
 }
 
-void Collider::_onUpdate() {
-    if (_updateFlag->flag_) {
+void Collider::on_update() {
+    if (update_flag_->flag_) {
         const auto &transform = entity()->transform_;
         const auto &p = transform->world_position();
         auto q = transform->world_rotation_quaternion();
         q.normalize();
-        _nativeActor->setGlobalPose(PxTransform(PxVec3(p.x, p.y, p.z), PxQuat(q.x, q.y, q.z, q.w)));
-        _updateFlag->flag_ = false;
+        native_actor_->setGlobalPose(PxTransform(PxVec3(p.x, p.y, p.z), PxQuat(q.x, q.y, q.z, q.w)));
+        update_flag_->flag_ = false;
         
-        const auto worldScale = transform->lossy_world_scale();
-        for (auto &_shape: _shapes) {
-            _shape->setWorldScale(worldScale);
+        const auto kWorldScale = transform->lossy_world_scale();
+        for (auto &shape : shapes_) {
+            shape->set_world_scale(kWorldScale);
         }
         
 #ifdef _DEBUG
         if (debugEntity) {
-            auto transform = _nativeActor->getGlobalPose();
+            auto transform = native_actor_->getGlobalPose();
             debugEntity->transform_->set_position(Point3F(transform.p.x, transform.p.y, transform.p.z));
             debugEntity->transform_->set_rotation_quaternion(transform.q.x, transform.q.y, transform.q.z, transform.q.w);
         }
@@ -94,12 +93,11 @@ void Collider::_onUpdate() {
 }
 
 void Collider::on_enable() {
-    PhysicsManager::get_singleton()._addCollider(this);
+    PhysicsManager::get_singleton().add_collider(this);
 }
 
 void Collider::on_disable() {
-    PhysicsManager::get_singleton()._removeCollider(this);
+    PhysicsManager::get_singleton().remove_collider(this);
 }
 
-}
 }

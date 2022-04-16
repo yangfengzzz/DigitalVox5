@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef physics_manager_hpp
-#define physics_manager_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_PHYSICS_MANAGER_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_PHYSICS_MANAGER_H_
 
 #include "physics.h"
 #include <unordered_map>
@@ -26,8 +26,8 @@ public:
     
     static PhysicsManager *get_singleton_ptr();
     
-    static uint32_t _idGenerator;
-    static Physics _nativePhysics;
+    static uint32_t id_generator_;
+    static Physics native_physics_;
     
     PhysicsManager();
     
@@ -42,10 +42,10 @@ public:
     /**
      * Casts a ray through the Scene and returns the first hit.
      * @param ray - The ray
-     * @param outHitResult - If true is returned, outHitResult will contain more detailed collision information
+     * @param out_hit_result - If true is returned, outHitResult will contain more detailed collision information
      * @returns Returns True if the ray intersects with a collider, otherwise false
      */
-    bool raycast(const Ray3F &ray, HitResult &outHitResult);
+    bool raycast(const Ray3F &ray, HitResult &out_hit_result);
     
     /**
      * Casts a ray through the Scene and returns the first hit.
@@ -59,41 +59,41 @@ public:
      * Casts a ray through the Scene and returns the first hit.
      * @param ray - The ray
      * @param distance - The max distance the ray should check
-     * @param outHitResult - If true is returned, outHitResult will contain more detailed collision information
+     * @param out_hit_result - If true is returned, outHitResult will contain more detailed collision information
      * @returns Returns True if the ray intersects with a collider, otherwise false
      */
-    bool raycast(const Ray3F &ray, float distance, HitResult &outHitResult);
+    bool raycast(const Ray3F &ray, float distance, HitResult &out_hit_result);
     
     /**
      * Casts a ray through the Scene and returns the first hit.
      * @param ray - The ray
      * @param distance - The max distance the ray should check
-     * @param layerMask - Layer mask that is used to selectively ignore Colliders when casting
+     * @param layer_mask - Layer mask that is used to selectively ignore Colliders when casting
      * @returns Returns True if the ray intersects with a collider, otherwise false
      */
-    bool raycast(const Ray3F &ray, float distance, Layer layerMask);
+    bool raycast(const Ray3F &ray, float distance, Layer layer_mask);
     
     /**
      * Casts a ray through the Scene and returns the first hit.
      * @param ray - The ray
      * @param distance - The max distance the ray should check
-     * @param layerMask - Layer mask that is used to selectively ignore Colliders when casting
-     * @param outHitResult - If true is returned, outHitResult will contain more detailed collision information
+     * @param layer_mask - Layer mask that is used to selectively ignore Colliders when casting
+     * @param out_hit_result - If true is returned, outHitResult will contain more detailed collision information
      * @returns Returns True if the ray intersects with a collider, otherwise false.
      */
-    bool raycast(const Ray3F &ray, float distance, Layer layerMask, HitResult &outHitResult);
+    bool raycast(const Ray3F &ray, float distance, Layer layer_mask, HitResult &out_hit_result);
     
 public:
     /**
      * Call on every frame to update pose of objects.
      */
-    void update(float deltaTime);
+    void update(float delta_time);
     
-    void callColliderOnUpdate();
+    void call_collider_on_update();
     
-    void callColliderOnLateUpdate();
+    void call_collider_on_late_update();
     
-    void callCharacterControllerOnLateUpdate();
+    void call_character_controller_on_late_update();
     
 private:
     friend class Collider;
@@ -106,63 +106,63 @@ private:
     
     /**
      * Add ColliderShape into the manager.
-     * @param colliderShape - The Collider Shape.
+     * @param collider_shape - The Collider Shape.
      */
-    void _addColliderShape(const ColliderShapePtr &colliderShape);
+    void add_collider_shape(const ColliderShapePtr &collider_shape);
     
     /**
      * Remove ColliderShape.
-     * @param colliderShape - The Collider Shape.
+     * @param collider_shape - The Collider Shape.
      */
-    void _removeColliderShape(const ColliderShapePtr &colliderShape);
+    void remove_collider_shape(const ColliderShapePtr &collider_shape);
     
     /**
      * Add collider into the manager.
      * @param collider - StaticCollider or DynamicCollider.
      */
-    void _addCollider(Collider *collider);
+    void add_collider(Collider *collider);
     
     /**
      * Remove collider.
      * @param collider - StaticCollider or DynamicCollider.
      */
-    void _removeCollider(Collider *collider);
+    void remove_collider(Collider *collider);
     
     /**
      * Add CharacterController into the manager.
-     * @param characterController The Character Controller.
+     * @param character_controller The Character Controller.
      */
-    void _addCharacterController(CharacterController *characterController);
+    void add_character_controller(CharacterController *character_controller);
     
     /**
      * Remove CharacterController.
-     * @param characterController The Character Controller.
+     * @param character_controller The Character Controller.
      */
-    void _removeCharacterController(CharacterController *characterController);
+    void remove_character_controller(CharacterController *character_controller);
     
-    bool _raycast(const Ray3F &ray, float distance,
-                  std::function<void(uint32_t, float,
-                                     const Vector3F &,
-                                     const Point3F &)> outHitResult);
+    bool raycast(const Ray3F &ray, float distance,
+                 const std::function<void(uint32_t, float,
+                                          const Vector3F &,
+                                          const Point3F &)> &out_hit_result);
     
 private:
-    PxControllerManager *_nativeCharacterControllerManager;
-    PxScene *_nativePhysicsManager;
+    PxControllerManager *native_character_controller_manager_;
+    PxScene *native_physics_manager_;
     
-    std::unordered_map<uint32_t, ColliderShapePtr> _physicalObjectsMap;
-    std::vector<Collider *> _colliders;
-    std::vector<CharacterController *> _controllers;
+    std::unordered_map<uint32_t, ColliderShapePtr> physical_objects_map_;
+    std::vector<Collider *> colliders_;
+    std::vector<CharacterController *> controllers_;
     
-    std::function<void(PxShape *obj1, PxShape *obj2)> onContactEnter;
-    std::function<void(PxShape *obj1, PxShape *obj2)> onContactExit;
-    std::function<void(PxShape *obj1, PxShape *obj2)> onContactStay;
+    std::function<void(PxShape *obj1, PxShape *obj2)> on_contact_enter_;
+    std::function<void(PxShape *obj1, PxShape *obj2)> on_contact_exit_;
+    std::function<void(PxShape *obj1, PxShape *obj2)> on_contact_stay_;
     
-    std::function<void(PxShape *obj1, PxShape *obj2)> onTriggerEnter;
-    std::function<void(PxShape *obj1, PxShape *obj2)> onTriggerExit;
-    std::function<void(PxShape *obj1, PxShape *obj2)> onTriggerStay;
+    std::function<void(PxShape *obj1, PxShape *obj2)> on_trigger_enter_;
+    std::function<void(PxShape *obj1, PxShape *obj2)> on_trigger_exit_;
+    std::function<void(PxShape *obj1, PxShape *obj2)> on_trigger_stay_;
 };
 
 }
-template<> inline physics::PhysicsManager* Singleton<physics::PhysicsManager>::ms_singleton_{nullptr};
+template<> inline physics::PhysicsManager *Singleton<physics::PhysicsManager>::ms_singleton_{nullptr};
 }
-#endif /* physics_manager_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_PHYSICS_MANAGER_H_ */

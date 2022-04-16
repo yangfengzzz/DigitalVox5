@@ -6,10 +6,8 @@
 
 #include "dynamic_collider.h"
 #include "physics_manager.h"
-#include "../entity.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 std::string DynamicCollider::name() {
     return "DynamicCollider";
 }
@@ -20,188 +18,195 @@ Collider(entity) {
     auto q = entity->transform_->world_rotation_quaternion();
     q.normalize();
     
-    _nativeActor = PhysicsManager::_nativePhysics()->createRigidDynamic(PxTransform(PxVec3(p.x, p.y, p.z),
-                                                                                    PxQuat(q.x, q.y, q.z, q.w)));
+    native_actor_ = PhysicsManager::native_physics_()->createRigidDynamic(PxTransform(PxVec3(p.x, p.y, p.z),
+                                                                                      PxQuat(q.x, q.y, q.z, q.w)));
 }
 
-float DynamicCollider::linearDamping() {
-    return static_cast<PxRigidDynamic *>(_nativeActor)->getLinearDamping();
+float DynamicCollider::linear_damping() {
+    return static_cast<PxRigidDynamic *>(native_actor_)->getLinearDamping();
 }
 
-void DynamicCollider::setLinearDamping(float newValue) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setLinearDamping(newValue);
+void DynamicCollider::set_linear_damping(float new_value) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setLinearDamping(new_value);
 }
 
-float DynamicCollider::angularDamping() {
-    return static_cast<PxRigidDynamic *>(_nativeActor)->getAngularDamping();
+float DynamicCollider::angular_damping() {
+    return static_cast<PxRigidDynamic *>(native_actor_)->getAngularDamping();
 }
 
-void DynamicCollider::setAngularDamping(float newValue) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setAngularDamping(newValue);
+void DynamicCollider::set_angular_damping(float new_value) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setAngularDamping(new_value);
 }
 
-Vector3F DynamicCollider::linearVelocity() {
-    const auto &vel = static_cast<PxRigidDynamic *>(_nativeActor)->getLinearVelocity();
-    return Vector3F(vel.x, vel.y, vel.z);
+Vector3F DynamicCollider::linear_velocity() {
+    const auto &vel = static_cast<PxRigidDynamic *>(native_actor_)->getLinearVelocity();
+    return {vel.x, vel.y, vel.z};
 }
 
-void DynamicCollider::setLinearVelocity(const Vector3F &newValue) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setLinearVelocity(PxVec3(newValue.x, newValue.y, newValue.z));
+void DynamicCollider::set_linear_velocity(const Vector3F &new_value) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setLinearVelocity(PxVec3(new_value.x, new_value.y, new_value.z));
 }
 
-Vector3F DynamicCollider::angularVelocity() {
-    const auto &vel = static_cast<PxRigidDynamic *>(_nativeActor)->getAngularVelocity();
-    return Vector3F(vel.x, vel.y, vel.z);
+Vector3F DynamicCollider::angular_velocity() {
+    const auto &vel = static_cast<PxRigidDynamic *>(native_actor_)->getAngularVelocity();
+    return {vel.x, vel.y, vel.z};
 }
 
-void DynamicCollider::setAngularVelocity(const Vector3F &newValue) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setAngularVelocity(PxVec3(newValue.x, newValue.y, newValue.z));
+void DynamicCollider::set_angular_velocity(const Vector3F &new_value) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setAngularVelocity(PxVec3(new_value.x, new_value.y, new_value.z));
 }
 
 float DynamicCollider::mass() {
-    return static_cast<PxRigidDynamic *>(_nativeActor)->getMass();
+    return static_cast<PxRigidDynamic *>(native_actor_)->getMass();
 }
 
-void DynamicCollider::setMass(float newValue) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setMass(newValue);
+void DynamicCollider::set_mass(float new_value) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setMass(new_value);
 }
 
-Transform3F DynamicCollider::centerOfMass() {
-    const auto &pose = static_cast<PxRigidDynamic *>(_nativeActor)->getCMassLocalPose();
+Transform3F DynamicCollider::center_of_mass() {
+    const auto &pose = static_cast<PxRigidDynamic *>(native_actor_)->getCMassLocalPose();
     Transform3F trans;
     trans.setTranslation(Vector3F(pose.p.x, pose.p.y, pose.p.z));
     trans.setOrientation(QuaternionF(pose.q.x, pose.q.y, pose.q.z, pose.q.w));
     return trans;
 }
 
-void DynamicCollider::setCenterOfMass(const Transform3F &newValue) {
-    const auto &p = newValue.translation();
-    const auto &q = newValue.orientation();
-    static_cast<PxRigidDynamic *>(_nativeActor)->setCMassLocalPose(PxTransform(PxVec3(p.x, p.y, p.z),
-                                                                               PxQuat(q.x, q.y, q.z, q.w)));
-}
-
-Vector3F DynamicCollider::inertiaTensor() {
-    const auto &tensor = static_cast<PxRigidDynamic *>(_nativeActor)->getMassSpaceInertiaTensor();
-    return Vector3F(tensor.x, tensor.y, tensor.z);
-}
-
-void DynamicCollider::setInertiaTensor(const Vector3F &newValue) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setMassSpaceInertiaTensor(PxVec3(newValue.x, newValue.y, newValue.z));
-}
-
-float DynamicCollider::maxAngularVelocity() {
-    return static_cast<PxRigidDynamic *>(_nativeActor)->getMaxAngularVelocity();
-}
-
-void DynamicCollider::setMaxAngularVelocity(float newValue) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setMaxAngularVelocity(newValue);
-}
-
-float DynamicCollider::maxDepenetrationVelocity() {
-    return static_cast<PxRigidDynamic *>(_nativeActor)->getMaxDepenetrationVelocity();
-}
-
-void DynamicCollider::setMaxDepenetrationVelocity(float newValue) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setMaxDepenetrationVelocity(newValue);
-}
-
-float DynamicCollider::sleepThreshold() {
-    return static_cast<PxRigidDynamic *>(_nativeActor)->getSleepThreshold();
-}
-
-void DynamicCollider::setSleepThreshold(float newValue) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setSleepThreshold(newValue);
-}
-
-uint32_t DynamicCollider::solverIterations() {
-    uint32_t posCounts;
-    uint32_t velCounts;
-    static_cast<PxRigidDynamic *>(_nativeActor)->getSolverIterationCounts(posCounts, velCounts);
-    return posCounts;
-}
-
-void DynamicCollider::setSolverIterations(uint32_t newValue) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setSolverIterationCounts(newValue);
-}
-
-//MARK: - PxRigidBodyFlag
-PxRigidBodyFlags DynamicCollider::rigidBodyFlags() const {
-    return static_cast<PxRigidDynamic *>(_nativeActor)->getRigidBodyFlags();
-}
-
-void DynamicCollider::setRigidBodyFlag(PxRigidBodyFlag::Enum flag, bool value) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setRigidBodyFlag(flag, value);
-}
-
-void DynamicCollider::setRigidBodyFlags(PxRigidBodyFlags inFlags) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setRigidBodyFlags(inFlags);
-}
-
-bool DynamicCollider::isKinematic() {
-    return static_cast<PxRigidDynamic *>(_nativeActor)->getRigidBodyFlags().isSet(PxRigidBodyFlag::eKINEMATIC);
-}
-
-void DynamicCollider::setIsKinematic(bool newValue) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, newValue);
-}
-
-//MARK: - RigidDynamicLockFlag
-void DynamicCollider::setRigidDynamicLockFlag(PxRigidDynamicLockFlag::Enum flag, bool value) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setRigidDynamicLockFlag(flag, value);
-}
-
-void DynamicCollider::setRigidDynamicLockFlags(PxRigidDynamicLockFlags flags) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setRigidDynamicLockFlags(flags);
-}
-
-PxRigidDynamicLockFlags DynamicCollider::rigidDynamicLockFlags() const {
-    return static_cast<PxRigidDynamic *>(_nativeActor)->getRigidDynamicLockFlags();
-}
-
-bool DynamicCollider::freezeRotation() {
-    const auto x_lock = static_cast<PxRigidDynamic *>(_nativeActor)->getRigidDynamicLockFlags().isSet(PxRigidDynamicLockFlag::Enum::eLOCK_ANGULAR_X);
-    const auto y_lock = static_cast<PxRigidDynamic *>(_nativeActor)->getRigidDynamicLockFlags().isSet(PxRigidDynamicLockFlag::Enum::eLOCK_ANGULAR_Y);
-    const auto z_lock = static_cast<PxRigidDynamic *>(_nativeActor)->getRigidDynamicLockFlags().isSet(PxRigidDynamicLockFlag::Enum::eLOCK_ANGULAR_Z);
-    return x_lock && y_lock && z_lock;
-}
-
-void DynamicCollider::setFreezeRotation(bool newValue) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::Enum::eLOCK_ANGULAR_X, true);
-    static_cast<PxRigidDynamic *>(_nativeActor)->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::Enum::eLOCK_ANGULAR_Y, true);
-    static_cast<PxRigidDynamic *>(_nativeActor)->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::Enum::eLOCK_ANGULAR_Z, true);
-}
-
-void DynamicCollider::applyForce(const Vector3F &force) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->addForce(PxVec3(force.x, force.y, force.z));
-}
-
-void DynamicCollider::applyTorque(const Vector3F &torque) {
-    static_cast<PxRigidDynamic *>(_nativeActor)->addTorque(PxVec3(torque.x, torque.y, torque.z));
-}
-
-void DynamicCollider::setKinematicTarget(const Transform3F &pose) {
-    const auto &p = pose.translation();
-    const auto &q = pose.orientation();
-    static_cast<PxRigidDynamic *>(_nativeActor)->setKinematicTarget(PxTransform(PxVec3(p.x, p.y, p.z),
+void DynamicCollider::set_center_of_mass(const Transform3F &new_value) {
+    const auto &p = new_value.translation();
+    const auto &q = new_value.orientation();
+    static_cast<PxRigidDynamic *>(native_actor_)->setCMassLocalPose(PxTransform(PxVec3(p.x, p.y, p.z),
                                                                                 PxQuat(q.x, q.y, q.z, q.w)));
 }
 
-void DynamicCollider::putToSleep() {
-    static_cast<PxRigidDynamic *>(_nativeActor)->putToSleep();
+Vector3F DynamicCollider::inertia_tensor() {
+    const auto &tensor = static_cast<PxRigidDynamic *>(native_actor_)->getMassSpaceInertiaTensor();
+    return {tensor.x, tensor.y, tensor.z};
 }
 
-void DynamicCollider::wakeUp() {
-    static_cast<PxRigidDynamic *>(_nativeActor)->wakeUp();
+void DynamicCollider::set_inertia_tensor(const Vector3F &new_value) {
+    static_cast<PxRigidDynamic *>(native_actor_)
+    ->setMassSpaceInertiaTensor(PxVec3(new_value.x, new_value.y, new_value.z));
 }
 
-void DynamicCollider::_onLateUpdate() {
+float DynamicCollider::max_angular_velocity() {
+    return static_cast<PxRigidDynamic *>(native_actor_)->getMaxAngularVelocity();
+}
+
+void DynamicCollider::set_max_angular_velocity(float new_value) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setMaxAngularVelocity(new_value);
+}
+
+float DynamicCollider::max_depenetration_velocity() {
+    return static_cast<PxRigidDynamic *>(native_actor_)->getMaxDepenetrationVelocity();
+}
+
+void DynamicCollider::set_max_depenetration_velocity(float new_value) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setMaxDepenetrationVelocity(new_value);
+}
+
+float DynamicCollider::sleep_threshold() {
+    return static_cast<PxRigidDynamic *>(native_actor_)->getSleepThreshold();
+}
+
+void DynamicCollider::set_sleep_threshold(float new_value) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setSleepThreshold(new_value);
+}
+
+uint32_t DynamicCollider::solver_iterations() {
+    uint32_t pos_counts;
+    uint32_t vel_counts;
+    static_cast<PxRigidDynamic *>(native_actor_)->getSolverIterationCounts(pos_counts, vel_counts);
+    return pos_counts;
+}
+
+void DynamicCollider::set_solver_iterations(uint32_t new_value) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setSolverIterationCounts(new_value);
+}
+
+//MARK: - PxRigidBodyFlag
+PxRigidBodyFlags DynamicCollider::rigid_body_flags() const {
+    return static_cast<PxRigidDynamic *>(native_actor_)->getRigidBodyFlags();
+}
+
+void DynamicCollider::set_rigid_body_flag(PxRigidBodyFlag::Enum flag, bool value) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setRigidBodyFlag(flag, value);
+}
+
+void DynamicCollider::set_rigid_body_flags(const PxRigidBodyFlags &in_flags) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setRigidBodyFlags(in_flags);
+}
+
+bool DynamicCollider::is_kinematic() {
+    return static_cast<PxRigidDynamic *>(native_actor_)->getRigidBodyFlags().isSet(PxRigidBodyFlag::eKINEMATIC);
+}
+
+void DynamicCollider::set_is_kinematic(bool new_value) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, new_value);
+}
+
+//MARK: - RigidDynamicLockFlag
+void DynamicCollider::set_rigid_dynamic_lock_flag(PxRigidDynamicLockFlag::Enum flag, bool value) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setRigidDynamicLockFlag(flag, value);
+}
+
+void DynamicCollider::set_rigid_dynamic_lock_flags(const PxRigidDynamicLockFlags &flags) {
+    static_cast<PxRigidDynamic *>(native_actor_)->setRigidDynamicLockFlags(flags);
+}
+
+PxRigidDynamicLockFlags DynamicCollider::rigid_dynamic_lock_flags() const {
+    return static_cast<PxRigidDynamic *>(native_actor_)->getRigidDynamicLockFlags();
+}
+
+bool DynamicCollider::freeze_rotation() {
+    const auto kXLock = static_cast<PxRigidDynamic *>(native_actor_)->getRigidDynamicLockFlags()
+        .isSet(PxRigidDynamicLockFlag::Enum::eLOCK_ANGULAR_X);
+    const auto kYLock = static_cast<PxRigidDynamic *>(native_actor_)->getRigidDynamicLockFlags()
+        .isSet(PxRigidDynamicLockFlag::Enum::eLOCK_ANGULAR_Y);
+    const auto kZLock = static_cast<PxRigidDynamic *>(native_actor_)->getRigidDynamicLockFlags()
+        .isSet(PxRigidDynamicLockFlag::Enum::eLOCK_ANGULAR_Z);
+    return kXLock && kYLock && kZLock;
+}
+
+void DynamicCollider::set_freeze_rotation(bool new_value) {
+    static_cast<PxRigidDynamic *>(native_actor_)
+    ->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::Enum::eLOCK_ANGULAR_X, true);
+    static_cast<PxRigidDynamic *>(native_actor_)
+    ->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::Enum::eLOCK_ANGULAR_Y, true);
+    static_cast<PxRigidDynamic *>(native_actor_)
+    ->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::Enum::eLOCK_ANGULAR_Z, true);
+}
+
+void DynamicCollider::apply_force(const Vector3F &force) {
+    static_cast<PxRigidDynamic *>(native_actor_)->addForce(PxVec3(force.x, force.y, force.z));
+}
+
+void DynamicCollider::apply_torque(const Vector3F &torque) {
+    static_cast<PxRigidDynamic *>(native_actor_)->addTorque(PxVec3(torque.x, torque.y, torque.z));
+}
+
+void DynamicCollider::set_kinematic_target(const Transform3F &pose) {
+    const auto &p = pose.translation();
+    const auto &q = pose.orientation();
+    static_cast<PxRigidDynamic *>(native_actor_)->setKinematicTarget(PxTransform(PxVec3(p.x, p.y, p.z),
+                                                                                 PxQuat(q.x, q.y, q.z, q.w)));
+}
+
+void DynamicCollider::put_to_sleep() {
+    static_cast<PxRigidDynamic *>(native_actor_)->putToSleep();
+}
+
+void DynamicCollider::wake_up() {
+    static_cast<PxRigidDynamic *>(native_actor_)->wakeUp();
+}
+
+void DynamicCollider::on_late_update() {
     const auto &transform = entity()->transform_;
     
-    PxTransform pose = _nativeActor->getGlobalPose();
+    PxTransform pose = native_actor_->getGlobalPose();
     transform->set_world_position(Point3F(pose.p.x, pose.p.y, pose.p.z));
     transform->set_world_rotation_quaternion(QuaternionF(pose.q.x, pose.q.y, pose.q.z, pose.q.w));
-    _updateFlag->flag_ = false;
+    update_flag_->flag_ = false;
     
 #ifdef _DEBUG
     if (debugEntity) {
@@ -224,6 +229,4 @@ void DynamicCollider::on_inspector(ui::WidgetContainer &p_root) {
     
 }
 
-
-}
 }

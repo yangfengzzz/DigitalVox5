@@ -4,13 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef box_character_controller_hpp
-#define box_character_controller_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_BOX_CHARACTER_CONTROLLER_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_BOX_CHARACTER_CONTROLLER_H_
 
 #include "character_controller.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 /**
  * A box character controller.
  */
@@ -21,21 +20,21 @@ public:
      */
     std::string name() override;
     
-    BoxCharacterController(Entity *entity);
+    explicit BoxCharacterController(Entity *entity);
     
-    void setDesc(const PxBoxControllerDesc &desc);
+    void set_desc(const PxBoxControllerDesc &desc);
     
-    float halfHeight() const;
+    [[nodiscard]] float half_height() const;
     
-    float halfSideExtent() const;
+    [[nodiscard]] float half_side_extent() const;
     
-    float halfForwardExtent() const;
+    [[nodiscard]] float half_forward_extent() const;
     
-    bool setHalfHeight(float halfHeight);
+    bool set_half_height(float half_height);
     
-    bool setHalfSideExtent(float halfSideExtent);
+    bool set_half_side_extent(float half_side_extent);
     
-    bool setHalfForwardExtent(float halfForwardExtent);
+    bool set_half_forward_extent(float half_forward_extent);
     
 public:
     /**
@@ -55,6 +54,5 @@ public:
 };
 
 }
-}
 
-#endif /* box_character_controller_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_BOX_CHARACTER_CONTROLLER_H_ */

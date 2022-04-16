@@ -4,22 +4,21 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef box_collider_shape_hpp
-#define box_collider_shape_hpp
+#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_BOX_COLLIDER_SHAPE_H_
+#define DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_BOX_COLLIDER_SHAPE_H_
 
 #include "collider_shape.h"
 
-namespace vox {
-namespace physics {
+namespace vox::physics {
 class BoxColliderShape : public ColliderShape {
 public:
     BoxColliderShape();
     
     Vector3F size();
     
-    void setSize(const Vector3F &value);
+    void set_size(const Vector3F &value);
     
-    void setWorldScale(const Vector3F &scale) override;
+    void set_world_scale(const Vector3F &scale) override;
     
 #ifdef _DEBUG
     void setEntity(Entity* value) override;
@@ -28,9 +27,8 @@ public:
 #endif
     
 private:
-    Vector3F _half = Vector3F(0.5, 0.5, 0.5);
+    Vector3F half_ = Vector3F(0.5, 0.5, 0.5);
 };
 
 }
-}
-#endif /* box_collider_shape_hpp */
+#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_BOX_COLLIDER_SHAPE_H_ */
