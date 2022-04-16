@@ -11,6 +11,10 @@ uint32_t Mesh::instance_count() const {
     return instance_count_;
 }
 
+void Mesh::set_instance_count(uint32_t value) {
+	instance_count_ = value;
+}
+
 const SubMesh *Mesh::sub_mesh() const {
     if (!sub_meshes_.empty()) {
         return &sub_meshes_[0];
@@ -38,9 +42,8 @@ std::unique_ptr<UpdateFlag> Mesh::register_update_flag() {
     return update_flag_manager_.registration();
 }
 
-void Mesh::set_vertex_input_state(const VkPipelineVertexInputStateCreateInfo &layouts) {
-    vertex_input_state_ = initializers::pipeline_vertex_input_state_create_info();
-    vertex_input_state_ = layouts;
+void Mesh::set_vertex_input_state(const VkPipelineVertexInputStateCreateInfo &state) {
+    vertex_input_state_ = state;
     update_flag_manager_.distribute();
 }
 

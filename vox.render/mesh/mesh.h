@@ -27,6 +27,8 @@ public:
      */
     [[nodiscard]] uint32_t instance_count() const;
     
+    void set_instance_count(uint32_t value);
+    
     /**
      * First sub-mesh. Rendered using the first material.
      */
@@ -67,16 +69,24 @@ public:
     std::unique_ptr<UpdateFlag> register_update_flag();
     
 public:
+    /**
+     * Vertex input state.
+     */
     [[nodiscard]] const VkPipelineVertexInputStateCreateInfo &vertex_input_state() const;
     
+    void set_vertex_input_state(const VkPipelineVertexInputStateCreateInfo &state);
+    
+    /**
+     * Vertex buffer binding collection.
+     */
     [[nodiscard]] const std::vector<std::unique_ptr<core::Buffer>> &vertex_buffer_bindings() const;
     
-    [[nodiscard]] const IndexBufferBinding &index_buffer_binding() const;
-    
-protected:
-    void set_vertex_input_state(const VkPipelineVertexInputStateCreateInfo &layouts);
-    
     void set_vertex_buffer_binding(size_t index, std::unique_ptr<core::Buffer> &&binding);
+    
+    /**
+     * Index buffer binding.
+     */
+    [[nodiscard]] const IndexBufferBinding &index_buffer_binding() const;
     
     void set_index_buffer_binding(std::unique_ptr<IndexBufferBinding> &&binding);
     
