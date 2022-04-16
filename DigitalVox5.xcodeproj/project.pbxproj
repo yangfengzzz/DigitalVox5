@@ -492,6 +492,8 @@
 		04D95CB8280AF6A700E54DC2 /* mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CB6280AF6A700E54DC2 /* mesh.h */; };
 		04D95CBB280B01BA00E54DC2 /* buffer_mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CB9280B01BA00E54DC2 /* buffer_mesh.cpp */; };
 		04D95CBC280B01BA00E54DC2 /* buffer_mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CBA280B01BA00E54DC2 /* buffer_mesh.h */; };
+		04D95CBF280B068D00E54DC2 /* model_mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CBD280B068D00E54DC2 /* model_mesh.cpp */; };
+		04D95CC0280B068D00E54DC2 /* model_mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CBE280B068D00E54DC2 /* model_mesh.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1023,6 +1025,9 @@
 		04D95CB6280AF6A700E54DC2 /* mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mesh.h; sourceTree = "<group>"; };
 		04D95CB9280B01BA00E54DC2 /* buffer_mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = buffer_mesh.cpp; sourceTree = "<group>"; };
 		04D95CBA280B01BA00E54DC2 /* buffer_mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = buffer_mesh.h; sourceTree = "<group>"; };
+		04D95CBD280B068D00E54DC2 /* model_mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = model_mesh.cpp; sourceTree = "<group>"; };
+		04D95CBE280B068D00E54DC2 /* model_mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = model_mesh.h; sourceTree = "<group>"; };
+		04D95CC2280B111C00E54DC2 /* shader_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_common.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1616,6 +1621,7 @@
 				0444EA802805AF2A00C6F279 /* pbr_material.h */,
 				0444EA7F2805AF2900C6F279 /* pbr_material.cpp */,
 				04D95CA4280AADFA00E54DC2 /* mesh */,
+				04D95CC1280B110900E54DC2 /* shader */,
 				0444EA73280581C800C6F279 /* gltf_loader.h */,
 				0444EA72280581C800C6F279 /* gltf_loader.cpp */,
 				0444EBEA28084D3000C6F279 /* event.h */,
@@ -1851,8 +1857,18 @@
 				04D95CB5280AF6A700E54DC2 /* mesh.cpp */,
 				04D95CBA280B01BA00E54DC2 /* buffer_mesh.h */,
 				04D95CB9280B01BA00E54DC2 /* buffer_mesh.cpp */,
+				04D95CBE280B068D00E54DC2 /* model_mesh.h */,
+				04D95CBD280B068D00E54DC2 /* model_mesh.cpp */,
 			);
 			path = mesh;
+			sourceTree = "<group>";
+		};
+		04D95CC1280B110900E54DC2 /* shader */ = {
+			isa = PBXGroup;
+			children = (
+				04D95CC2280B111C00E54DC2 /* shader_common.h */,
+			);
+			path = shader;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1871,6 +1887,7 @@
 				0444EBA228084BC500C6F279 /* new_line.h in Headers */,
 				0444E96C280563E600C6F279 /* input_events.h in Headers */,
 				0444EAC228083EAA00C6F279 /* singleton.h in Headers */,
+				04D95CC0280B068D00E54DC2 /* model_mesh.h in Headers */,
 				0444EB1528084B8700C6F279 /* panel_undecorated.h in Headers */,
 				04D95C7D280A8C6E00E54DC2 /* translational_joint.h in Headers */,
 				0444EA382805720800C6F279 /* image.h in Headers */,
@@ -2330,6 +2347,7 @@
 				0444E93528055F4900C6F279 /* vulkan_resource.cpp in Sources */,
 				0444EAC428083EC100C6F279 /* update_flag_manager.cpp in Sources */,
 				0444EB0428084B8000C6F279 /* panel_transformable.cpp in Sources */,
+				04D95CBF280B068D00E54DC2 /* model_mesh.cpp in Sources */,
 				04D95C7B280A8C6E00E54DC2 /* spring_joint.cpp in Sources */,
 				0444E9DE28056A1900C6F279 /* resource_cache.cpp in Sources */,
 				0444EBA028084BC500C6F279 /* group.cpp in Sources */,

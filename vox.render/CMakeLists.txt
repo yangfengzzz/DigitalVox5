@@ -95,7 +95,6 @@ set(SCENE_RESOURCE_FILES
         # Header Files
         material.h
         pbr_material.h
-        sampler.h
         renderer.h
         image_manager.h
         image.h
@@ -105,7 +104,6 @@ set(SCENE_RESOURCE_FILES
         # Source Files
         material.cpp
         pbr_material.cpp
-        sampler.cpp
         renderer.cpp
         image_manager.cpp
         image.cpp
@@ -352,6 +350,7 @@ set(PHYSX_SOURCE
         ../third_party/physx/physx/source/foundation/include)
 
 set(MESH_FILES mesh)
+set(SHADER_FILES shader)
 
 #set(GRAPHING_FILES
 #    # Header Files
@@ -431,6 +430,7 @@ set(PROJECT_FILES
         ${CONTROL_FILES}
         ${PHYSX_FILES}
         ${MESH_FILES}
+        ${SHADER_FILES}
         #    ${GRAPHING_FILES}
         )
 

@@ -27,7 +27,7 @@ public:
     
     VkFence request_fence();
     
-    [[nodiscard]] VkResult wait(uint32_t timeout = std::numeric_limits<uint32_t>::max()) const;
+    VkResult wait(uint32_t timeout = std::numeric_limits<uint32_t>::max()) const;
     
     VkResult reset();
     
