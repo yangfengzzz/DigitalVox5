@@ -328,6 +328,28 @@ set(SCENE_FILES
         )
 
 set(CONTROL_FILES controls)
+set(PHYSX_FILES physics)
+set(PHYSX_SOURCE
+        ../third_party/physx/physx/source/common/src/mac
+        ../third_party/physx/physx/include
+        ../third_party/physx/physx/source/common/include
+        ../third_party/physx/physx/source/common/src
+        ../third_party/physx/physx/source/geomutils/include
+        ../third_party/physx/physx/source/geomutils/src
+        ../third_party/physx/physx/source/geomutils/src/contact
+        ../third_party/physx/physx/source/geomutils/src/common
+        ../third_party/physx/physx/source/geomutils/src/convex
+        ../third_party/physx/physx/source/geomutils/src/distance
+        ../third_party/physx/physx/source/geomutils/src/sweep
+        ../third_party/physx/physx/source/geomutils/src/gjk
+        ../third_party/physx/physx/source/geomutils/src/intersection
+        ../third_party/physx/physx/source/geomutils/src/mesh
+        ../third_party/physx/physx/source/geomutils/src/hf
+        ../third_party/physx/physx/source/geomutils/src/pcm
+        ../third_party/physx/physx/source/geomutils/src/ccd
+        ../third_party/physx/physx/source/physxgpu/include
+        ../third_party/physx/physx/../pxshared/include
+        ../third_party/physx/physx/source/foundation/include)
 
 #set(GRAPHING_FILES
 #    # Header Files
@@ -405,6 +427,7 @@ set(PROJECT_FILES
         ${UI_FILES}
         ${SCENE_FILES}
         ${CONTROL_FILES}
+        ${PHYSX_FILES}
         #    ${GRAPHING_FILES}
         )
 
@@ -473,7 +496,7 @@ if (${VKB_WARNINGS_AS_ERRORS})
     endif ()
 endif ()
 
-target_include_directories(${PROJECT_NAME} PUBLIC ../vox.math ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ../vox.math ${CMAKE_CURRENT_SOURCE_DIR} ${PHYSX_SOURCE})
 
 # Link third party libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC
