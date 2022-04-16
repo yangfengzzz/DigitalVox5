@@ -488,6 +488,8 @@
 		04D95CB0280ACD0400E54DC2 /* image_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CAE280ACD0400E54DC2 /* image_manager.h */; };
 		04D95CB3280AE52900E54DC2 /* sub_mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CB1280AE52900E54DC2 /* sub_mesh.cpp */; };
 		04D95CB4280AE52900E54DC2 /* sub_mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CB2280AE52900E54DC2 /* sub_mesh.h */; };
+		04D95CB7280AF6A700E54DC2 /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CB5280AF6A700E54DC2 /* mesh.cpp */; };
+		04D95CB8280AF6A700E54DC2 /* mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CB6280AF6A700E54DC2 /* mesh.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1015,6 +1017,8 @@
 		04D95CAE280ACD0400E54DC2 /* image_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image_manager.h; sourceTree = "<group>"; };
 		04D95CB1280AE52900E54DC2 /* sub_mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sub_mesh.cpp; sourceTree = "<group>"; };
 		04D95CB2280AE52900E54DC2 /* sub_mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sub_mesh.h; sourceTree = "<group>"; };
+		04D95CB5280AF6A700E54DC2 /* mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mesh.cpp; sourceTree = "<group>"; };
+		04D95CB6280AF6A700E54DC2 /* mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mesh.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1839,6 +1843,8 @@
 				04D95CA5280AAE2400E54DC2 /* index_buffer_binding.cpp */,
 				04D95CB2280AE52900E54DC2 /* sub_mesh.h */,
 				04D95CB1280AE52900E54DC2 /* sub_mesh.cpp */,
+				04D95CB6280AF6A700E54DC2 /* mesh.h */,
+				04D95CB5280AF6A700E54DC2 /* mesh.cpp */,
 			);
 			path = mesh;
 			sourceTree = "<group>";
@@ -2017,6 +2023,7 @@
 				0444EB9928084BC500C6F279 /* tree_node.h in Headers */,
 				0444EB0E28084B8000C6F279 /* panel_transformable.h in Headers */,
 				0444EBB728084BCE00C6F279 /* input_float.h in Headers */,
+				04D95CB8280AF6A700E54DC2 /* mesh.h in Headers */,
 				0444EB2728084B9700C6F279 /* separator.h in Headers */,
 				0444E9552805633000C6F279 /* platform.h in Headers */,
 				0444EB2928084B9700C6F279 /* bullet.h in Headers */,
@@ -2415,6 +2422,7 @@
 				0444E9D528056A1900C6F279 /* resource_replay.cpp in Sources */,
 				0444EB6B28084BAF00C6F279 /* color_edit.cpp in Sources */,
 				0444E9ED28056AFA00C6F279 /* pipeline_layout.cpp in Sources */,
+				04D95CB7280AF6A700E54DC2 /* mesh.cpp in Sources */,
 				0444E94B2805628200C6F279 /* shader_module.cpp in Sources */,
 				0444EB6A28084BAF00C6F279 /* radio_button_linker.cpp in Sources */,
 				0444E94128055FD400C6F279 /* debug.cpp in Sources */,
