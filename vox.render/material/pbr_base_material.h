@@ -20,7 +20,7 @@ public:
     /**
      * Base color.
      */
-    [[nodiscard]] Color base_color() const;
+    [[nodiscard]] const Color &base_color() const;
     
     void set_base_color(const Color &new_value);
     
@@ -52,7 +52,7 @@ public:
     /**
      * Emissive color.
      */
-    [[nodiscard]] Color emissive_color() const;
+    [[nodiscard]] const Color &emissive_color() const;
     
     void set_emissive_color(const Color &new_value);
     
@@ -84,7 +84,7 @@ public:
     /**
      * Tiling and offset of main textures.
      */
-    [[nodiscard]] Vector4F tiling_offset() const;
+    [[nodiscard]] const Vector4F &tiling_offset() const;
     
     void set_tiling_offset(const Vector4F &new_value);
     

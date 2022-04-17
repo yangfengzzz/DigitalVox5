@@ -6,27 +6,52 @@
 
 #pragma once
 
-#include <memory>
-#include <string>
-#include <typeinfo>
-#include <unordered_map>
-#include <vector>
-#include "vector4.h"
-#include "error.h"
-#include "material.h"
+#include "pbr_base_material.h"
 
-namespace vox::sg {
-class PBRMaterial : public Material {
+namespace vox {
+/**
+ * PBR (Metallic-Roughness Workflow) Material.
+ */
+class PbrMaterial : public PbrBaseMaterial {
 public:
-    explicit PBRMaterial(const std::string &name);
+    /**
+     * Metallic.
+     */
+    [[nodiscard]] float metallic() const;
     
-    ~PBRMaterial() override = default;
+    void set_metallic(float new_value);
     
-    Vector4F base_color_factor_{0.0f, 0.0f, 0.0f, 0.0f};
+    /**
+     * Roughness.
+     */
+    [[nodiscard]] float roughness() const;
     
-    float metallic_factor_{0.0f};
+    void set_roughness(float new_value);
     
-    float roughness_factor_{0.0f};
+    /**
+     * Roughness metallic texture.
+     * @remarks G channel is roughness, B channel is metallic
+     */
+    std::shared_ptr<Image> metallic_roughness_texture();
+    
+    void set_metallic_roughness_texture(const std::shared_ptr<Image> &new_value);
+    
+    void set_metallic_roughness_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+    
+    /**
+     * Create a pbr metallic-roughness workflow material instance.
+     */
+    PbrMaterial(Device &device, const std::string &name);
+    
+private:
+    float metallic_{1.f};
+    ShaderProperty metallic_prop_;
+    
+    float roughness_{1.f};
+    ShaderProperty roughness_prop_;
+    
+    std::shared_ptr<Image> metallic_roughness_texture_{nullptr};
+    ShaderProperty metallic_roughness_texture_prop_;
 };
 
-}        // namespace vox
+}

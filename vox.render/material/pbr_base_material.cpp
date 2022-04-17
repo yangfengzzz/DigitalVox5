@@ -7,7 +7,7 @@
 #include "pbr_base_material.h"
 
 namespace vox {
-Color PbrBaseMaterial::base_color() const {
+const Color &PbrBaseMaterial::base_color() const {
     return base_color_;
 }
 
@@ -63,7 +63,7 @@ void PbrBaseMaterial::set_normal_texture_intensity(float new_value) {
     shader_data_.set_data(PbrBaseMaterial::normal_texture_intensity_prop_, new_value);
 }
 
-Color PbrBaseMaterial::emissive_color() const {
+const Color &PbrBaseMaterial::emissive_color() const {
     return emissive_color_;
 }
 
@@ -119,7 +119,7 @@ void PbrBaseMaterial::set_occlusion_texture_intensity(float new_value) {
     shader_data_.set_data(PbrBaseMaterial::occlusion_texture_intensity_prop_, new_value);
 }
 
-Vector4F PbrBaseMaterial::tiling_offset() const {
+const Vector4F &PbrBaseMaterial::tiling_offset() const {
     return tiling_offset_;
 }
 

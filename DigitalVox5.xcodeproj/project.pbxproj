@@ -511,6 +511,7 @@
 		04D95CEE280C0DFB00E54DC2 /* blinn_phong_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CEC280C0DFB00E54DC2 /* blinn_phong_material.h */; };
 		04D95CF1280C1A9F00E54DC2 /* pbr_base_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CEF280C1A9F00E54DC2 /* pbr_base_material.cpp */; };
 		04D95CF2280C1A9F00E54DC2 /* pbr_base_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CF0280C1A9F00E54DC2 /* pbr_base_material.h */; };
+		04D95CF3280C32BE00E54DC2 /* pbr_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA7F2805AF2900C6F279 /* pbr_material.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2539,6 +2540,7 @@
 				0444EA0D28056E2700C6F279 /* stats_provider.cpp in Sources */,
 				0444E9F428056B0500C6F279 /* acceleration_structure.cpp in Sources */,
 				0444E9492805618000C6F279 /* buffer.cpp in Sources */,
+				04D95CF3280C32BE00E54DC2 /* pbr_material.cpp in Sources */,
 				0444EB6D28084BAF00C6F279 /* radio_button.cpp in Sources */,
 				04D95C9A280A8C7D00E54DC2 /* capsule_collider_shape.cpp in Sources */,
 				0444EB9D28084BC500C6F279 /* dummy.cpp in Sources */,

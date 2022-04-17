@@ -44,9 +44,9 @@ class BlinnPhongMaterial;
 
 using BlinnPhongMaterialPtr = std::shared_ptr<BlinnPhongMaterial>;
 
-class PBRMaterial;
+class PbrMaterial;
 
-using PBRMaterialPtr = std::shared_ptr<PBRMaterial>;
+using PBRMaterialPtr = std::shared_ptr<PbrMaterial>;
 
 class Camera;
 
