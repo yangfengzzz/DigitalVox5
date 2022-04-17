@@ -41,7 +41,7 @@ public:
     /**
      * Create a pbr metallic-roughness workflow material instance.
      */
-    PbrMaterial(Device &device, const std::string &name);
+    PbrMaterial(Device &device, const std::string &name = "");
     
 private:
     float metallic_{1.f};

@@ -39,7 +39,7 @@ public:
     /** sampler pool*/
     static std::unordered_map<VkSamplerCreateInfo, core::Sampler> sampler_pool_;
     
-    explicit Material(Device &device, std::string name);
+    explicit Material(Device &device, std::string name = "");
     
     Material(Material &&other) = default;
     

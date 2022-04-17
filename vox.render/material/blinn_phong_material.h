@@ -95,7 +95,7 @@ public:
     
     void set_tiling_offset(const Vector4F &new_value);
     
-    BlinnPhongMaterial(Device &device, const std::string &name);
+    BlinnPhongMaterial(Device &device, const std::string &name = "");
     
 private:
     Color base_color_ = Color(1, 1, 1, 1);

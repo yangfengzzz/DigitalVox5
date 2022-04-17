@@ -51,7 +51,7 @@ public:
     /**
      * Create a BaseMaterial instance.
      */
-    BaseMaterial(Device &device, const std::string &name);
+    BaseMaterial(Device &device, const std::string &name = "");
     
 protected:
     static VkSamplerCreateInfo last_sampler_create_info_;

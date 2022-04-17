@@ -208,10 +208,10 @@ void DynamicCollider::on_late_update() {
     transform->set_world_rotation_quaternion(QuaternionF(pose.q.x, pose.q.y, pose.q.z, pose.q.w));
     update_flag_->flag_ = false;
     
-#ifdef _DEBUG
-    if (debugEntity) {
-        debugEntity->transform_->set_position(Point3F(pose.p.x, pose.p.y, pose.p.z));
-        debugEntity->transform_->set_rotation_quaternion(QuaternionF(pose.q.x, pose.q.y, pose.q.z, pose.q.w));
+#ifdef DEBUG
+    if (debug_entity_) {
+        debug_entity_->transform_->set_position(Point3F(pose.p.x, pose.p.y, pose.p.z));
+        debug_entity_->transform_->set_rotation_quaternion(QuaternionF(pose.q.x, pose.q.y, pose.q.z, pose.q.w));
     }
 #endif
 }

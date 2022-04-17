@@ -58,12 +58,12 @@ public:
     void set_scene_query(bool is_query);
     
 public:
-#ifdef _DEBUG
-    virtual void setEntity(Entity* value);
+#ifdef DEBUG
+    virtual void set_entity(Entity *value);
     
-    void removeEntity(Entity* value);
+    void remove_entity(Entity *value);
     
-    Point3F getLocalTranslation();
+    Point3F get_local_translation();
 #endif
     
 protected:
@@ -79,8 +79,8 @@ protected:
     Transform3F pose_;
     static constexpr float half_sqrt_ = 0.70710678118655;
     
-#ifdef _DEBUG
-    Entity* _entity{nullptr};
+#ifdef DEBUG
+    Entity *entity_{nullptr};
 #endif
 };
 

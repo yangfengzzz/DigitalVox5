@@ -36,9 +36,9 @@ void Collider::add_shape(const ColliderShapePtr &shape) {
         shape->collider_ = this;
     }
     
-#ifdef _DEBUG
-    if (debugEntity) {
-        shape->setEntity(debugEntity);
+#ifdef DEBUG
+    if (debug_entity_) {
+		shape->set_entity(debug_entity_);
     }
 #endif
 }
@@ -53,9 +53,9 @@ void Collider::remove_shape(const ColliderShapePtr &shape) {
         shape->collider_ = nullptr;
     }
     
-#ifdef _DEBUG
-    if (debugEntity) {
-        shape->removeEntity(debugEntity);
+#ifdef DEBUG
+    if (debug_entity_) {
+		shape->remove_entity(debug_entity_);
     }
 #endif
 }
@@ -82,11 +82,11 @@ void Collider::on_update() {
             shape->set_world_scale(kWorldScale);
         }
         
-#ifdef _DEBUG
-        if (debugEntity) {
+#ifdef DEBUG
+        if (debug_entity_) {
             auto transform = native_actor_->getGlobalPose();
-            debugEntity->transform_->set_position(Point3F(transform.p.x, transform.p.y, transform.p.z));
-            debugEntity->transform_->set_rotation_quaternion(transform.q.x, transform.q.y, transform.q.z, transform.q.w);
+            debug_entity_->transform_->set_position(Point3F(transform.p.x, transform.p.y, transform.p.z));
+            debug_entity_->transform_->set_rotation_quaternion(transform.q.x, transform.q.y, transform.q.z, transform.q.w);
         }
 #endif
     }

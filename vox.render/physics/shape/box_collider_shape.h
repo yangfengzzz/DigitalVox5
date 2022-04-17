@@ -20,10 +20,10 @@ public:
     
     void set_world_scale(const Vector3F &scale) override;
     
-#ifdef _DEBUG
-    void setEntity(Entity* value) override;
+#ifdef DEBUG
+    void set_entity(Entity *value) override;
     
-    void _syncBoxGeometry();
+    void sync_box_geometry();
 #endif
     
 private:

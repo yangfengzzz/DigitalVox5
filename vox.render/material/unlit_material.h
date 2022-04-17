@@ -43,7 +43,7 @@ public:
     /**
      * Create a unlit material instance.
      */
-    UnlitMaterial(Device &device, const std::string &name);
+    UnlitMaterial(Device &device, const std::string &name = "");
     
 private:
     Color base_color_ = Color(1, 1, 1, 1);

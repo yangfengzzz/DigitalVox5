@@ -9,9 +9,9 @@
 
 #include "collider_shape.h"
 
-//#ifdef _DEBUG
-//#include "mesh/mesh_renderer.h"
-//#endif
+#ifdef DEBUG
+#include "mesh/mesh_renderer.h"
+#endif
 
 namespace vox::physics {
 /**
@@ -58,15 +58,15 @@ public:
     
     void set_world_scale(const Vector3F &scale) override;
     
-    //#ifdef _DEBUG
-    //    void setEntity(Entity* value) override;
-    //
-    //    void _syncCapsuleGeometry();
-    //
-    //    void _syncCapsuleAxis(ColliderShapeUpAxis::Enum up_axis);
-    //
-    //    MeshRenderer* _renderer{nullptr};
-    //#endif
+#ifdef DEBUG
+    void set_entity(Entity *value) override;
+    
+    void sync_capsule_geometry();
+    
+    void sync_capsule_axis(ColliderShapeUpAxis::Enum up_axis);
+    
+    MeshRenderer *renderer_{nullptr};
+#endif
     
 private:
     float radius_ = 1;

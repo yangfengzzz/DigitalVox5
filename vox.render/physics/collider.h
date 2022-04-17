@@ -38,8 +38,8 @@ public:
     void on_disable() override;
     
 public:
-#ifdef _DEBUG
-    Entity* debugEntity{nullptr};;
+#ifdef DEBUG
+    Entity* debug_entity_{nullptr};;
 #endif
     
 protected:

@@ -7,12 +7,12 @@
 #include "sphere_collider_shape.h"
 #include "../physics_manager.h"
 
-//#ifdef _DEBUG
-//#include "mesh/mesh_renderer.h"
-//#include "mesh/wireframe_primitive_mesh.h"
-//#include "scene.h"
-//#include "material/unlit_material.h"
-//#endif
+#ifdef DEBUG
+#include "mesh/mesh_renderer.h"
+#include "mesh/wireframe_primitive_mesh.h"
+#include "scene.h"
+#include "material/unlit_material.h"
+#endif
 
 namespace vox::physics {
 SphereColliderShape::SphereColliderShape() {
@@ -32,9 +32,9 @@ void SphereColliderShape::set_radius(float value) {
     value * std::max(std::max(scale_.x, scale_.y), scale_.z);
     native_shape_->setGeometry(*native_geometry_);
     
-    //#ifdef _DEBUG
-    //    _syncSphereGeometry();
-    //#endif
+#ifdef DEBUG
+    sync_sphere_geometry();
+#endif
 }
 
 void SphereColliderShape::set_world_scale(const Vector3F &scale) {
@@ -45,27 +45,27 @@ void SphereColliderShape::set_world_scale(const Vector3F &scale) {
     radius_ * std::max(std::max(scale_.x, scale_.y), scale_.z);
     native_shape_->setGeometry(*native_geometry_);
     
-    //#ifdef _DEBUG
-    //    _syncSphereGeometry();
-    //#endif
+#ifdef DEBUG
+    sync_sphere_geometry();
+#endif
 }
 
-//#ifdef _DEBUG
-//void SphereColliderShape::setEntity(Entity* value) {
-//    ColliderShape::setEntity(value);
-//    
-//    auto renderer = _entity->addComponent<MeshRenderer>();
-//    renderer->set_material(std::make_shared<UnlitMaterial>(value->scene()->device()));
-//    renderer->set_mesh(WireframePrimitiveMesh::create_sphere_wire_frame(value->scene()->device(), 1));
-//    _syncSphereGeometry();
-//}
-//
-//void SphereColliderShape::_syncSphereGeometry() {
-//    if (_entity) {
-//        auto radius = static_cast<PxSphereGeometry *>(_nativeGeometry.get())->radius;
-//        _entity->transform->setScale(radius, radius, radius);
-//    }
-//}
-//#endif
+#ifdef DEBUG
+void SphereColliderShape::set_entity(Entity *value) {
+    ColliderShape::set_entity(value);
+    
+    auto renderer = entity_->add_component<MeshRenderer>();
+    renderer->set_material(std::make_shared<UnlitMaterial>(value->scene()->device()));
+    renderer->set_mesh(WireframePrimitiveMesh::create_sphere_wire_frame(value->scene()->device(), 1));
+    sync_sphere_geometry();
+}
+
+void SphereColliderShape::sync_sphere_geometry() {
+    if (entity_) {
+        auto radius = static_cast<PxSphereGeometry *>(native_geometry_.get())->radius;
+        entity_->transform_->set_scale(radius, radius, radius);
+    }
+}
+#endif
 
 }

@@ -22,11 +22,11 @@ void ColliderShape::set_local_pose(const Transform3F &pose) {
     const auto &p = pose.translation();
     const auto &q = pose.orientation();
     native_shape_->setLocalPose(PxTransform(PxVec3(p.x, p.y, p.z), PxQuat(q.x, q.y, q.z, q.w)));
-    //#ifdef _DEBUG
-    //    if (_entity) {
-    //        _entity->transform->setPosition(getLocalTranslation());
-    //    }
-    //#endif
+#ifdef DEBUG
+    if (entity_) {
+        entity_->transform_->set_position(get_local_translation());
+    }
+#endif
 }
 
 Transform3F ColliderShape::local_pose() const {
@@ -101,21 +101,21 @@ void ColliderShape::set_scene_query(bool is_query) {
     native_shape_->setFlag(PxShapeFlag::Enum::eSCENE_QUERY_SHAPE, is_query);
 }
 
-//#ifdef _DEBUG
-//void ColliderShape::setEntity(Entity* value) {
-//    _entity = value->createChild();
-//    _entity->transform->setPosition(getLocalTranslation());
-//}
-//
-//void ColliderShape::removeEntity(Entity* value) {
-//    value->removeChild(_entity);
-//    _entity = nullptr;
-//}
-//    
-//Point3F ColliderShape::getLocalTranslation() {
-//    auto trans = _nativeShape->getLocalPose();
-//    return Point3F(trans.p.x, trans.p.y, trans.p.z);
-//}
-//#endif
+#ifdef DEBUG
+void ColliderShape::set_entity(Entity *value) {
+    entity_ = value->create_child();
+    entity_->transform_->set_position(get_local_translation());
+}
+
+void ColliderShape::remove_entity(Entity *value) {
+    value->remove_child(entity_);
+    entity_ = nullptr;
+}
+
+Point3F ColliderShape::get_local_translation() {
+    auto trans = native_shape_->getLocalPose();
+    return {trans.p.x, trans.p.y, trans.p.z};
+}
+#endif
 
 }

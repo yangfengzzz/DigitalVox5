@@ -7,11 +7,11 @@
 #include "capsule_collider_shape.h"
 #include "../physics_manager.h"
 
-//#ifdef _DEBUG
-//#include "mesh/wireframe_primitive_mesh.h"
-//#include "scene.h"
-//#include "material/unlit_material.h"
-//#endif
+#ifdef DEBUG
+#include "mesh/wireframe_primitive_mesh.h"
+#include "scene.h"
+#include "material/unlit_material.h"
+#endif
 
 namespace vox::physics {
 CapsuleColliderShape::CapsuleColliderShape() {
@@ -41,9 +41,9 @@ void CapsuleColliderShape::set_radius(float value) {
     }
     native_shape_->setGeometry(*native_geometry_);
     
-    //#ifdef _DEBUG
-    //    _syncCapsuleGeometry();
-    //#endif
+#ifdef DEBUG
+    sync_capsule_geometry();
+#endif
 }
 
 float CapsuleColliderShape::height() const {
@@ -65,9 +65,9 @@ void CapsuleColliderShape::set_height(float value) {
     }
     native_shape_->setGeometry(*native_geometry_);
     
-    //#ifdef _DEBUG
-    //    _syncCapsuleGeometry();
-    //#endif
+#ifdef DEBUG
+    sync_capsule_geometry();
+#endif
 }
 
 ColliderShapeUpAxis::Enum CapsuleColliderShape::up_axis() {
@@ -88,9 +88,9 @@ void CapsuleColliderShape::set_up_axis(ColliderShapeUpAxis::Enum value) {
     }
     set_local_pose(pose_);
     
-    //#ifdef _DEBUG
-    //    _syncCapsuleAxis(value);
-    //#endif
+#ifdef DEBUG
+    sync_capsule_axis(value);
+#endif
 }
 
 void CapsuleColliderShape::set_world_scale(const Vector3F &scale) {
@@ -112,45 +112,46 @@ void CapsuleColliderShape::set_world_scale(const Vector3F &scale) {
     }
     native_shape_->setGeometry(*native_geometry_);
     
-    //#ifdef _DEBUG
-    //    _syncCapsuleGeometry();
-    //#endif
+#ifdef DEBUG
+    sync_capsule_geometry();
+#endif
 }
 
-//#ifdef _DEBUG
-//void CapsuleColliderShape::setEntity(Entity* value) {
-//    ColliderShape::setEntity(value);
-//
-//    _renderer = _entity->addComponent<MeshRenderer>();
-//    _renderer->set_material(std::make_shared<UnlitMaterial>(value->scene()->device()));
-//    _syncCapsuleGeometry();
-//}
-//
-//void CapsuleColliderShape::_syncCapsuleGeometry() {
-//    if (_entity) {
-//        auto radius = static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->radius;
-//        auto halfHeight = static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->halfHeight;
-//        _renderer->set_mesh(WireframePrimitiveMesh::create_capsule_wire_frame(_entity->scene()->device(), radius, halfHeight * 2.0));
-//    }
-//}
-//
-//void CapsuleColliderShape::_syncCapsuleAxis(ColliderShapeUpAxis::Enum up_axis) {
-//    if (_entity) {
-//        switch (up_axis) {
-//            case ColliderShapeUpAxis::Enum::X:
-//                _entity->transform->setRotationQuaternion(0, ColliderShape::halfSqrt,
-//                                                          0, ColliderShape::halfSqrt);
-//                break;
-//            case ColliderShapeUpAxis::Enum::Y:
-//                _entity->transform->setRotationQuaternion(0, 0, 0, 1);
-//                break;
-//            case ColliderShapeUpAxis::Enum::Z:
-//                _entity->transform->setRotationQuaternion(0, 0, ColliderShape::halfSqrt,
-//                                                          ColliderShape::halfSqrt);
-//                break;
-//        }
-//    }
-//}
-//#endif
+#ifdef DEBUG
+void CapsuleColliderShape::set_entity(Entity *value) {
+    ColliderShape::set_entity(value);
+    
+    renderer_ = entity_->add_component<MeshRenderer>();
+    renderer_->set_material(std::make_shared<UnlitMaterial>(value->scene()->device()));
+    sync_capsule_geometry();
+}
+
+void CapsuleColliderShape::sync_capsule_geometry() {
+    if (entity_) {
+        auto radius = static_cast<PxCapsuleGeometry *>(native_geometry_.get())->radius;
+        auto half_height = static_cast<PxCapsuleGeometry *>(native_geometry_.get())->halfHeight;
+        renderer_->set_mesh(WireframePrimitiveMesh::create_capsule_wire_frame(entity_->scene()->device(),
+                                                                              radius,
+                                                                              half_height * 2.0));
+    }
+}
+
+void CapsuleColliderShape::sync_capsule_axis(ColliderShapeUpAxis::Enum up_axis) {
+    if (entity_) {
+        switch (up_axis) {
+            case ColliderShapeUpAxis::Enum::X:
+                entity_->transform_->set_rotation_quaternion(0, ColliderShape::half_sqrt_,
+                                                             0, ColliderShape::half_sqrt_);
+                break;
+            case ColliderShapeUpAxis::Enum::Y:entity_->transform_->set_rotation_quaternion(0, 0, 0, 1);
+                break;
+            case ColliderShapeUpAxis::Enum::Z:
+                entity_->transform_->set_rotation_quaternion(0, 0, ColliderShape::half_sqrt_,
+                                                             ColliderShape::half_sqrt_);
+                break;
+        }
+    }
+}
+#endif
 
 }

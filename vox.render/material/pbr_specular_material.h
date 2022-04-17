@@ -41,7 +41,7 @@ public:
     /**
      * Create a pbr specular-glossiness workflow material instance.
      */
-    PbrSpecularMaterial(Device &device, const std::string &name);
+    PbrSpecularMaterial(Device &device, const std::string &name = "");
     
 private:
     float glossiness_{1.f};
