@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "api_vulkan_sample.h"
+#include "forward_application.h"
 
 #include "core/device.h"
 #include "core/swapchain.h"
@@ -13,15 +13,15 @@
 #include "gltf_loader.h"
 
 namespace vox {
-bool ApiVulkanSample::prepare(vox::Platform &platform) {
-    if (!VulkanSample::prepare(platform)) {
+bool ForwardApplication::prepare(Platform &platform) {
+    if (!GraphicsApplication::prepare(platform)) {
         return false;
     }
     
-    depth_format_ = vox::get_suitable_depth_format(device_->get_gpu().get_handle());
+    depth_format_ = get_suitable_depth_format(device_->get_gpu().get_handle());
     
     // Create synchronization objects
-    VkSemaphoreCreateInfo semaphore_create_info = vox::initializers::semaphore_create_info();
+    VkSemaphoreCreateInfo semaphore_create_info = initializers::semaphore_create_info();
     // Create a semaphore used to synchronize image presentation
     // Ensures that the current swapchain render target has completed presentation and has been released by the presentation engine, ready for rendering
     VK_CHECK(
@@ -34,10 +34,10 @@ bool ApiVulkanSample::prepare(vox::Platform &platform) {
     // Set up submit info structure
     // Semaphores will stay the same during application lifetime
     // Command buffer submission info is set by each example
-    submit_info_ = vox::initializers::submit_info();
+    submit_info_ = initializers::submit_info();
     submit_info_.pWaitDstStageMask = &submit_pipeline_stages_;
     
-    if (platform.get_window().get_window_mode() != vox::Window::Mode::HEADLESS) {
+    if (platform.get_window().get_window_mode() != Window::Mode::HEADLESS) {
         submit_info_.waitSemaphoreCount = 1;
         submit_info_.pWaitSemaphores = &semaphores_.acquired_image_ready_;
         submit_info_.signalSemaphoreCount = 1;
@@ -58,7 +58,7 @@ bool ApiVulkanSample::prepare(vox::Platform &platform) {
     width_ = get_render_context().get_surface_extent().width;
     height_ = get_render_context().get_surface_extent().height;
     
-    gui_ = std::make_unique<vox::Gui>(*this, platform.get_window(), /*stats=*/nullptr, 15.0f, true);
+    gui_ = std::make_unique<Gui>(*this, platform.get_window(), /*stats=*/nullptr, 15.0f, true);
     gui_->prepare(pipeline_cache_, render_pass_,
                   {load_shader("uioverlay/uioverlay.vert", VK_SHADER_STAGE_VERTEX_BIT),
         load_shader("uioverlay/uioverlay.frag", VK_SHADER_STAGE_FRAGMENT_BIT)});
@@ -66,7 +66,7 @@ bool ApiVulkanSample::prepare(vox::Platform &platform) {
     return true;
 }
 
-void ApiVulkanSample::update(float delta_time) {
+void ForwardApplication::update(float delta_time) {
     if (view_updated_) {
         view_updated_ = false;
         view_changed();
@@ -83,7 +83,7 @@ void ApiVulkanSample::update(float delta_time) {
     platform_->on_post_draw(get_render_context());
 }
 
-bool ApiVulkanSample::resize(const uint32_t width, const uint32_t height) {
+bool ForwardApplication::resize(const uint32_t width, const uint32_t height) {
     if (!prepared_) {
         return false;
     }
@@ -142,11 +142,11 @@ bool ApiVulkanSample::resize(const uint32_t width, const uint32_t height) {
     return true;
 }
 
-vox::Device &ApiVulkanSample::get_device() {
+Device &ForwardApplication::get_device() {
     return *device_;
 }
 
-void ApiVulkanSample::create_render_context(vox::Platform &platform) {
+void ForwardApplication::create_render_context(Platform &platform) {
     auto surface_priority_list =
     std::vector<VkSurfaceFormatKHR>{{VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
         {VK_FORMAT_R8G8B8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
@@ -156,11 +156,11 @@ void ApiVulkanSample::create_render_context(vox::Platform &platform) {
     render_context_ = platform.create_render_context(*device_, surface_, surface_priority_list);
 }
 
-void ApiVulkanSample::prepare_render_context() {
-    VulkanSample::prepare_render_context();
+void ForwardApplication::prepare_render_context() {
+    GraphicsApplication::prepare_render_context();
 }
 
-void ApiVulkanSample::input_event(const vox::InputEvent &input_event) {
+void ForwardApplication::input_event(const InputEvent &input_event) {
     Application::input_event(input_event);
     
     bool gui_captures_event = false;
@@ -170,51 +170,51 @@ void ApiVulkanSample::input_event(const vox::InputEvent &input_event) {
     }
     
     if (!gui_captures_event) {
-        if (input_event.get_source() == vox::EventSource::MOUSE) {
-            const auto &mouse_button = static_cast<const vox::MouseButtonInputEvent &>(input_event);
+        if (input_event.get_source() == EventSource::MOUSE) {
+            const auto &mouse_button = static_cast<const MouseButtonInputEvent &>(input_event);
             
             handle_mouse_move(static_cast<int32_t>(mouse_button.get_pos_x()),
                               static_cast<int32_t>(mouse_button.get_pos_y()));
             
-            if (mouse_button.get_action() == vox::MouseAction::DOWN) {
+            if (mouse_button.get_action() == MouseAction::DOWN) {
                 switch (mouse_button.get_button()) {
-                    case vox::MouseButton::LEFT:mouse_buttons_.left_ = true;
+                    case MouseButton::LEFT:mouse_buttons_.left_ = true;
                         break;
-                    case vox::MouseButton::RIGHT:mouse_buttons_.right_ = true;
+                    case MouseButton::RIGHT:mouse_buttons_.right_ = true;
                         break;
-                    case vox::MouseButton::MIDDLE:mouse_buttons_.middle_ = true;
+                    case MouseButton::MIDDLE:mouse_buttons_.middle_ = true;
                         break;
                     default:break;
                 }
-            } else if (mouse_button.get_action() == vox::MouseAction::UP) {
+            } else if (mouse_button.get_action() == MouseAction::UP) {
                 switch (mouse_button.get_button()) {
-                    case vox::MouseButton::LEFT:mouse_buttons_.left_ = false;
+                    case MouseButton::LEFT:mouse_buttons_.left_ = false;
                         break;
-                    case vox::MouseButton::RIGHT:mouse_buttons_.right_ = false;
+                    case MouseButton::RIGHT:mouse_buttons_.right_ = false;
                         break;
-                    case vox::MouseButton::MIDDLE:mouse_buttons_.middle_ = false;
+                    case MouseButton::MIDDLE:mouse_buttons_.middle_ = false;
                         break;
                     default:break;
                 }
             }
-        } else if (input_event.get_source() == vox::EventSource::TOUCHSCREEN) {
-            const auto &touch_event = static_cast<const vox::TouchInputEvent &>(input_event);
+        } else if (input_event.get_source() == EventSource::TOUCHSCREEN) {
+            const auto &touch_event = static_cast<const TouchInputEvent &>(input_event);
             
-            if (touch_event.get_action() == vox::TouchAction::DOWN) {
+            if (touch_event.get_action() == TouchAction::DOWN) {
                 touch_down_ = true;
                 touch_pos_.x = static_cast<int32_t>(touch_event.get_pos_x());
                 touch_pos_.y = static_cast<int32_t>(touch_event.get_pos_y());
                 mouse_pos_.x = touch_event.get_pos_x();
                 mouse_pos_.y = touch_event.get_pos_y();
                 mouse_buttons_.left_ = true;
-            } else if (touch_event.get_action() == vox::TouchAction::UP) {
+            } else if (touch_event.get_action() == TouchAction::UP) {
                 touch_pos_.x = static_cast<int32_t>(touch_event.get_pos_x());
                 touch_pos_.y = static_cast<int32_t>(touch_event.get_pos_y());
                 touch_timer_ = 0.0;
                 touch_down_ = false;
                 camera_.keys_.up_ = false;
                 mouse_buttons_.left_ = false;
-            } else if (touch_event.get_action() == vox::TouchAction::MOVE) {
+            } else if (touch_event.get_action() == TouchAction::MOVE) {
                 bool handled = false;
                 if (gui_) {
                     ImGuiIO &io = ImGui::GetIO();
@@ -239,32 +239,32 @@ void ApiVulkanSample::input_event(const vox::InputEvent &input_event) {
                     touch_pos_.y = event_y;
                 }
             }
-        } else if (input_event.get_source() == vox::EventSource::KEYBOARD) {
-            const auto &key_button = static_cast<const vox::KeyInputEvent &>(input_event);
+        } else if (input_event.get_source() == EventSource::KEYBOARD) {
+            const auto &key_button = static_cast<const KeyInputEvent &>(input_event);
             
-            if (key_button.get_action() == vox::KeyAction::DOWN) {
+            if (key_button.get_action() == KeyAction::DOWN) {
                 switch (key_button.get_code()) {
-                    case vox::KeyCode::W:camera_.keys_.up_ = true;
+                    case KeyCode::W:camera_.keys_.up_ = true;
                         break;
-                    case vox::KeyCode::S:camera_.keys_.down_ = true;
+                    case KeyCode::S:camera_.keys_.down_ = true;
                         break;
-                    case vox::KeyCode::A:camera_.keys_.left_ = true;
+                    case KeyCode::A:camera_.keys_.left_ = true;
                         break;
-                    case vox::KeyCode::D:camera_.keys_.right_ = true;
+                    case KeyCode::D:camera_.keys_.right_ = true;
                         break;
-                    case vox::KeyCode::P:paused_ = !paused_;
+                    case KeyCode::P:paused_ = !paused_;
                         break;
                     default:break;
                 }
-            } else if (key_button.get_action() == vox::KeyAction::UP) {
+            } else if (key_button.get_action() == KeyAction::UP) {
                 switch (key_button.get_code()) {
-                    case vox::KeyCode::W:camera_.keys_.up_ = false;
+                    case KeyCode::W:camera_.keys_.up_ = false;
                         break;
-                    case vox::KeyCode::S:camera_.keys_.down_ = false;
+                    case KeyCode::S:camera_.keys_.down_ = false;
                         break;
-                    case vox::KeyCode::A:camera_.keys_.left_ = false;
+                    case KeyCode::A:camera_.keys_.left_ = false;
                         break;
-                    case vox::KeyCode::D:camera_.keys_.right_ = false;
+                    case KeyCode::D:camera_.keys_.right_ = false;
                         break;
                     default:break;
                 }
@@ -273,7 +273,7 @@ void ApiVulkanSample::input_event(const vox::InputEvent &input_event) {
     }
 }
 
-void ApiVulkanSample::handle_mouse_move(int32_t x, int32_t y) {
+void ForwardApplication::handle_mouse_move(int32_t x, int32_t y) {
     int32_t dx = (int32_t)mouse_pos_.x - x;
     int32_t dy = (int32_t)mouse_pos_.y - y;
     
@@ -310,9 +310,9 @@ void ApiVulkanSample::handle_mouse_move(int32_t x, int32_t y) {
     mouse_pos_ = Vector2F((float)x, (float)y);
 }
 
-void ApiVulkanSample::mouse_moved(double x, double y, bool &handled) {}
+void ForwardApplication::mouse_moved(double x, double y, bool &handled) {}
 
-bool ApiVulkanSample::check_command_buffers() {
+bool ForwardApplication::check_command_buffers() {
     for (auto &command_buffer : draw_cmd_buffers_) {
         if (command_buffer == VK_NULL_HANDLE) {
             return false;
@@ -321,31 +321,31 @@ bool ApiVulkanSample::check_command_buffers() {
     return true;
 }
 
-void ApiVulkanSample::create_command_buffers() {
+void ForwardApplication::create_command_buffers() {
     // Create one command buffer for each swap chain image and reuse for rendering
     draw_cmd_buffers_.resize(render_context_->get_render_frames().size());
     
     VkCommandBufferAllocateInfo allocate_info =
-    vox::initializers::command_buffer_allocate_info(
-                                                    cmd_pool_,
-                                                    VK_COMMAND_BUFFER_LEVEL_PRIMARY,
-                                                    static_cast<uint32_t>(draw_cmd_buffers_.size()));
+    initializers::command_buffer_allocate_info(
+                                               cmd_pool_,
+                                               VK_COMMAND_BUFFER_LEVEL_PRIMARY,
+                                               static_cast<uint32_t>(draw_cmd_buffers_.size()));
     
     VK_CHECK(vkAllocateCommandBuffers(device_->get_handle(), &allocate_info, draw_cmd_buffers_.data()));
 }
 
-void ApiVulkanSample::destroy_command_buffers() {
+void ForwardApplication::destroy_command_buffers() {
     vkFreeCommandBuffers(device_->get_handle(), cmd_pool_, static_cast<uint32_t>(draw_cmd_buffers_.size()),
                          draw_cmd_buffers_.data());
 }
 
-void ApiVulkanSample::create_pipeline_cache() {
+void ForwardApplication::create_pipeline_cache() {
     VkPipelineCacheCreateInfo pipeline_cache_create_info = {};
     pipeline_cache_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
     VK_CHECK(vkCreatePipelineCache(device_->get_handle(), &pipeline_cache_create_info, nullptr, &pipeline_cache_));
 }
 
-VkPipelineShaderStageCreateInfo ApiVulkanSample::load_shader(const std::string &file, VkShaderStageFlagBits stage) {
+VkPipelineShaderStageCreateInfo ForwardApplication::load_shader(const std::string &file, VkShaderStageFlagBits stage) {
     VkPipelineShaderStageCreateInfo shader_stage = {};
     shader_stage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
     shader_stage.stage = stage;
@@ -356,9 +356,9 @@ VkPipelineShaderStageCreateInfo ApiVulkanSample::load_shader(const std::string &
     return shader_stage;
 }
 
-void ApiVulkanSample::update_overlay(float delta_time) {
+void ForwardApplication::update_overlay(float delta_time) {
     if (gui_) {
-        gui_->show_simple_window(get_name(), vox::to_u32(1.0f / delta_time), [this]() {
+        gui_->show_simple_window(get_name(), to_u32(1.0f / delta_time), [this]() {
             on_update_ui_overlay(gui_->get_drawer());
         });
         
@@ -371,12 +371,12 @@ void ApiVulkanSample::update_overlay(float delta_time) {
     }
 }
 
-void ApiVulkanSample::draw_ui(const VkCommandBuffer command_buffer) {
+void ForwardApplication::draw_ui(const VkCommandBuffer command_buffer) {
     if (gui_) {
-        const VkViewport kViewport = vox::initializers::viewport(static_cast<float>(width_),
-                                                                 static_cast<float>(height_),
-                                                                 0.0f, 1.0f);
-        const VkRect2D kScissor = vox::initializers::rect_2d(width_, height_, 0, 0);
+        const VkViewport kViewport = initializers::viewport(static_cast<float>(width_),
+                                                            static_cast<float>(height_),
+                                                            0.0f, 1.0f);
+        const VkRect2D kScissor = initializers::rect_2d(width_, height_, 0, 0);
         vkCmdSetViewport(command_buffer, 0, 1, &kViewport);
         vkCmdSetScissor(command_buffer, 0, 1, &kScissor);
         
@@ -384,7 +384,7 @@ void ApiVulkanSample::draw_ui(const VkCommandBuffer command_buffer) {
     }
 }
 
-void ApiVulkanSample::prepare_frame() {
+void ForwardApplication::prepare_frame() {
     if (render_context_->has_swapchain()) {
         handle_surface_changes();
         // Acquire the next image from the swap chain
@@ -400,7 +400,7 @@ void ApiVulkanSample::prepare_frame() {
     }
 }
 
-void ApiVulkanSample::submit_frame() {
+void ForwardApplication::submit_frame() {
     if (render_context_->has_swapchain()) {
         const auto &queue = device_->get_queue_by_present(0);
         
@@ -437,7 +437,7 @@ void ApiVulkanSample::submit_frame() {
     VK_CHECK(device_->get_queue_by_present(0).wait_idle());
 }
 
-ApiVulkanSample::~ApiVulkanSample() {
+ForwardApplication::~ForwardApplication() {
     if (device_) {
         device_->wait_idle();
         
@@ -476,20 +476,20 @@ ApiVulkanSample::~ApiVulkanSample() {
     gui_.reset();
 }
 
-void ApiVulkanSample::view_changed() {}
+void ForwardApplication::view_changed() {}
 
-void ApiVulkanSample::build_command_buffers() {}
+void ForwardApplication::build_command_buffers() {}
 
-void ApiVulkanSample::create_synchronization_primitives() {
+void ForwardApplication::create_synchronization_primitives() {
     // Wait fences to sync command buffer access
-    VkFenceCreateInfo fence_create_info = vox::initializers::fence_create_info(VK_FENCE_CREATE_SIGNALED_BIT);
+    VkFenceCreateInfo fence_create_info = initializers::fence_create_info(VK_FENCE_CREATE_SIGNALED_BIT);
     wait_fences_.resize(draw_cmd_buffers_.size());
     for (auto &fence : wait_fences_) {
         VK_CHECK(vkCreateFence(device_->get_handle(), &fence_create_info, nullptr, &fence));
     }
 }
 
-void ApiVulkanSample::create_command_pool() {
+void ForwardApplication::create_command_pool() {
     VkCommandPoolCreateInfo command_pool_info = {};
     command_pool_info.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
     command_pool_info.queueFamilyIndex = device_->get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT,
@@ -498,7 +498,7 @@ void ApiVulkanSample::create_command_pool() {
     VK_CHECK(vkCreateCommandPool(device_->get_handle(), &command_pool_info, nullptr, &cmd_pool_));
 }
 
-void ApiVulkanSample::setup_depth_stencil() {
+void ForwardApplication::setup_depth_stencil() {
     VkImageCreateInfo image_create_info{};
     image_create_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     image_create_info.imageType = VK_IMAGE_TYPE_2D;
@@ -540,7 +540,7 @@ void ApiVulkanSample::setup_depth_stencil() {
     VK_CHECK(vkCreateImageView(device_->get_handle(), &image_view_create_info, nullptr, &depth_stencil_.view_));
 }
 
-void ApiVulkanSample::setup_framebuffer() {
+void ForwardApplication::setup_framebuffer() {
     VkImageView attachments[2];
     
     // Depth/Stencil attachment is the same for all frame buffers
@@ -573,7 +573,7 @@ void ApiVulkanSample::setup_framebuffer() {
     }
 }
 
-void ApiVulkanSample::setup_render_pass() {
+void ForwardApplication::setup_render_pass() {
     std::array<VkAttachmentDescription, 2> attachments = {};
     // Color attachment
     attachments[0].format = render_context_->get_format();
@@ -652,7 +652,7 @@ void ApiVulkanSample::setup_render_pass() {
     VK_CHECK(vkCreateRenderPass(device_->get_handle(), &render_pass_create_info, nullptr, &render_pass_));
 }
 
-void ApiVulkanSample::update_render_pass_flags(uint32_t flags) {
+void ForwardApplication::update_render_pass_flags(uint32_t flags) {
     vkDestroyRenderPass(device_->get_handle(), render_pass_, nullptr);
     
     VkAttachmentLoadOp color_attachment_load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
@@ -735,9 +735,9 @@ void ApiVulkanSample::update_render_pass_flags(uint32_t flags) {
     VK_CHECK(vkCreateRenderPass(device_->get_handle(), &render_pass_create_info, nullptr, &render_pass_));
 }
 
-void ApiVulkanSample::on_update_ui_overlay(vox::Drawer &drawer) {}
+void ForwardApplication::on_update_ui_overlay(Drawer &drawer) {}
 
-void ApiVulkanSample::create_swapchain_buffers() {
+void ForwardApplication::create_swapchain_buffers() {
     if (render_context_->has_swapchain()) {
         auto &images = render_context_->get_swapchain().get_images();
         
@@ -787,13 +787,13 @@ void ApiVulkanSample::create_swapchain_buffers() {
     }
 }
 
-void ApiVulkanSample::update_swapchain_image_usage_flags(const std::set<VkImageUsageFlagBits> &image_usage_flags) {
+void ForwardApplication::update_swapchain_image_usage_flags(const std::set<VkImageUsageFlagBits> &image_usage_flags) {
     get_render_context().update_swapchain(image_usage_flags);
     create_swapchain_buffers();
     setup_framebuffer();
 }
 
-void ApiVulkanSample::handle_surface_changes() {
+void ForwardApplication::handle_surface_changes() {
     VkSurfaceCapabilitiesKHR surface_properties;
     VK_CHECK(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device_->get_gpu().get_handle(),
                                                        get_render_context().get_swapchain().get_surface(),
@@ -806,7 +806,7 @@ void ApiVulkanSample::handle_surface_changes() {
 }
 
 VkDescriptorBufferInfo
-ApiVulkanSample::create_descriptor(vox::core::Buffer &buffer, VkDeviceSize size, VkDeviceSize offset) {
+ForwardApplication::create_descriptor(core::Buffer &buffer, VkDeviceSize size, VkDeviceSize offset) {
     VkDescriptorBufferInfo descriptor{};
     descriptor.buffer = buffer.get_handle();
     descriptor.range = size;
@@ -814,7 +814,7 @@ ApiVulkanSample::create_descriptor(vox::core::Buffer &buffer, VkDeviceSize size,
     return descriptor;
 }
 
-VkDescriptorImageInfo ApiVulkanSample::create_descriptor(Texture &texture, VkDescriptorType descriptor_type) {
+VkDescriptorImageInfo ForwardApplication::create_descriptor(Texture &texture, VkDescriptorType descriptor_type) {
     VkDescriptorImageInfo descriptor{};
     descriptor.sampler = texture.sampler;
     descriptor.imageView = texture.image->get_vk_image_view().get_handle();
@@ -823,7 +823,7 @@ VkDescriptorImageInfo ApiVulkanSample::create_descriptor(Texture &texture, VkDes
     switch (descriptor_type) {
         case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
         case VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT:
-            if (vox::is_depth_stencil_format(texture.image->get_vk_image_view().get_format())) {
+            if (is_depth_stencil_format(texture.image->get_vk_image_view().get_format())) {
                 descriptor.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
             } else {
                 descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -838,17 +838,17 @@ VkDescriptorImageInfo ApiVulkanSample::create_descriptor(Texture &texture, VkDes
     return descriptor;
 }
 
-Texture ApiVulkanSample::load_texture(const std::string &file) {
+Texture ForwardApplication::load_texture(const std::string &file) {
     Texture texture{};
     
-    texture.image = vox::Image::load(file, file);
+    texture.image = Image::load(file, file);
     texture.image->create_vk_image(*device_);
     
     const auto &queue = device_->get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
     
     VkCommandBuffer command_buffer = device_->create_command_buffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
     
-    vox::core::Buffer stage_buffer{*device_,
+    core::Buffer stage_buffer{*device_,
         texture.image->get_data().size(),
         VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
         VMA_MEMORY_USAGE_CPU_ONLY};
@@ -863,7 +863,7 @@ Texture ApiVulkanSample::load_texture(const std::string &file) {
     for (size_t i = 0; i < mipmaps.size(); i++) {
         VkBufferImageCopy buffer_copy_region = {};
         buffer_copy_region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        buffer_copy_region.imageSubresource.mipLevel = vox::to_u32(i);
+        buffer_copy_region.imageSubresource.mipLevel = to_u32(i);
         buffer_copy_region.imageSubresource.baseArrayLayer = 0;
         buffer_copy_region.imageSubresource.layerCount = 1;
         buffer_copy_region.imageExtent.width = texture.image->get_extent().width >> i;
@@ -877,17 +877,17 @@ Texture ApiVulkanSample::load_texture(const std::string &file) {
     VkImageSubresourceRange subresource_range = {};
     subresource_range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
     subresource_range.baseMipLevel = 0;
-    subresource_range.levelCount = vox::to_u32(mipmaps.size());
+    subresource_range.levelCount = to_u32(mipmaps.size());
     subresource_range.layerCount = 1;
     
     // Image barrier for optimal image (target)
     // Optimal image will be used as destination for the copy
-    vox::set_image_layout(
-                          command_buffer,
-                          texture.image->get_vk_image().get_handle(),
-                          VK_IMAGE_LAYOUT_UNDEFINED,
-                          VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                          subresource_range);
+    set_image_layout(
+                     command_buffer,
+                     texture.image->get_vk_image().get_handle(),
+                     VK_IMAGE_LAYOUT_UNDEFINED,
+                     VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                     subresource_range);
     
     // Copy mip levels from staging buffer
     vkCmdCopyBufferToImage(
@@ -899,12 +899,12 @@ Texture ApiVulkanSample::load_texture(const std::string &file) {
                            buffer_copy_regions.data());
     
     // Change texture image layout to shader read after all mip levels have been copied
-    vox::set_image_layout(
-                          command_buffer,
-                          texture.image->get_vk_image().get_handle(),
-                          VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                          VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-                          subresource_range);
+    set_image_layout(
+                     command_buffer,
+                     texture.image->get_vk_image().get_handle(),
+                     VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                     VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
+                     subresource_range);
     
     device_->flush_command_buffer(command_buffer, queue.get_handle());
     
@@ -936,17 +936,17 @@ Texture ApiVulkanSample::load_texture(const std::string &file) {
     return texture;
 }
 
-Texture ApiVulkanSample::load_texture_array(const std::string &file) {
+Texture ForwardApplication::load_texture_array(const std::string &file) {
     Texture texture{};
     
-    texture.image = vox::Image::load(file, file);
+    texture.image = Image::load(file, file);
     texture.image->create_vk_image(*device_, VK_IMAGE_VIEW_TYPE_2D_ARRAY);
     
     const auto &queue = device_->get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
     
     VkCommandBuffer command_buffer = device_->create_command_buffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
     
-    vox::core::Buffer stage_buffer{*device_,
+    core::Buffer stage_buffer{*device_,
         texture.image->get_data().size(),
         VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
         VMA_MEMORY_USAGE_CPU_ONLY};
@@ -965,7 +965,7 @@ Texture ApiVulkanSample::load_texture_array(const std::string &file) {
         for (size_t i = 0; i < mipmaps.size(); i++) {
             VkBufferImageCopy buffer_copy_region = {};
             buffer_copy_region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-            buffer_copy_region.imageSubresource.mipLevel = vox::to_u32(i);
+            buffer_copy_region.imageSubresource.mipLevel = to_u32(i);
             buffer_copy_region.imageSubresource.baseArrayLayer = layer;
             buffer_copy_region.imageSubresource.layerCount = 1;
             buffer_copy_region.imageExtent.width = texture.image->get_extent().width >> i;
@@ -980,17 +980,17 @@ Texture ApiVulkanSample::load_texture_array(const std::string &file) {
     VkImageSubresourceRange subresource_range = {};
     subresource_range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
     subresource_range.baseMipLevel = 0;
-    subresource_range.levelCount = vox::to_u32(mipmaps.size());
+    subresource_range.levelCount = to_u32(mipmaps.size());
     subresource_range.layerCount = layers;
     
     // Image barrier for optimal image (target)
     // Optimal image will be used as destination for the copy
-    vox::set_image_layout(
-                          command_buffer,
-                          texture.image->get_vk_image().get_handle(),
-                          VK_IMAGE_LAYOUT_UNDEFINED,
-                          VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                          subresource_range);
+    set_image_layout(
+                     command_buffer,
+                     texture.image->get_vk_image().get_handle(),
+                     VK_IMAGE_LAYOUT_UNDEFINED,
+                     VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                     subresource_range);
     
     // Copy mip levels from staging buffer
     vkCmdCopyBufferToImage(
@@ -1002,12 +1002,12 @@ Texture ApiVulkanSample::load_texture_array(const std::string &file) {
                            buffer_copy_regions.data());
     
     // Change texture image layout to shader read after all mip levels have been copied
-    vox::set_image_layout(
-                          command_buffer,
-                          texture.image->get_vk_image().get_handle(),
-                          VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                          VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-                          subresource_range);
+    set_image_layout(
+                     command_buffer,
+                     texture.image->get_vk_image().get_handle(),
+                     VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                     VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
+                     subresource_range);
     
     device_->flush_command_buffer(command_buffer, queue.get_handle());
     
@@ -1036,17 +1036,17 @@ Texture ApiVulkanSample::load_texture_array(const std::string &file) {
     return texture;
 }
 
-Texture ApiVulkanSample::load_texture_cubemap(const std::string &file) {
+Texture ForwardApplication::load_texture_cubemap(const std::string &file) {
     Texture texture{};
     
-    texture.image = vox::Image::load(file, file);
+    texture.image = Image::load(file, file);
     texture.image->create_vk_image(*device_, VK_IMAGE_VIEW_TYPE_CUBE, VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
     
     const auto &queue = device_->get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
     
     VkCommandBuffer command_buffer = device_->create_command_buffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
     
-    vox::core::Buffer stage_buffer{*device_,
+    core::Buffer stage_buffer{*device_,
         texture.image->get_data().size(),
         VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
         VMA_MEMORY_USAGE_CPU_ONLY};
@@ -1065,7 +1065,7 @@ Texture ApiVulkanSample::load_texture_cubemap(const std::string &file) {
         for (size_t i = 0; i < mipmaps.size(); i++) {
             VkBufferImageCopy buffer_copy_region = {};
             buffer_copy_region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-            buffer_copy_region.imageSubresource.mipLevel = vox::to_u32(i);
+            buffer_copy_region.imageSubresource.mipLevel = to_u32(i);
             buffer_copy_region.imageSubresource.baseArrayLayer = layer;
             buffer_copy_region.imageSubresource.layerCount = 1;
             buffer_copy_region.imageExtent.width = texture.image->get_extent().width >> i;
@@ -1080,17 +1080,17 @@ Texture ApiVulkanSample::load_texture_cubemap(const std::string &file) {
     VkImageSubresourceRange subresource_range = {};
     subresource_range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
     subresource_range.baseMipLevel = 0;
-    subresource_range.levelCount = vox::to_u32(mipmaps.size());
+    subresource_range.levelCount = to_u32(mipmaps.size());
     subresource_range.layerCount = layers;
     
     // Image barrier for optimal image (target)
     // Optimal image will be used as destination for the copy
-    vox::set_image_layout(
-                          command_buffer,
-                          texture.image->get_vk_image().get_handle(),
-                          VK_IMAGE_LAYOUT_UNDEFINED,
-                          VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                          subresource_range);
+    set_image_layout(
+                     command_buffer,
+                     texture.image->get_vk_image().get_handle(),
+                     VK_IMAGE_LAYOUT_UNDEFINED,
+                     VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                     subresource_range);
     
     // Copy mip levels from staging buffer
     vkCmdCopyBufferToImage(
@@ -1102,12 +1102,12 @@ Texture ApiVulkanSample::load_texture_cubemap(const std::string &file) {
                            buffer_copy_regions.data());
     
     // Change texture image layout to shader read after all mip levels have been copied
-    vox::set_image_layout(
-                          command_buffer,
-                          texture.image->get_vk_image().get_handle(),
-                          VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                          VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-                          subresource_range);
+    set_image_layout(
+                     command_buffer,
+                     texture.image->get_vk_image().get_handle(),
+                     VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                     VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
+                     subresource_range);
     
     device_->flush_command_buffer(command_buffer, queue.get_handle());
     
@@ -1136,10 +1136,10 @@ Texture ApiVulkanSample::load_texture_cubemap(const std::string &file) {
     return texture;
 }
 
-std::unique_ptr<vox::sg::Renderer> ApiVulkanSample::load_model(const std::string &file, uint32_t index) {
-    vox::GLTFLoader loader{*device_};
+std::unique_ptr<sg::Renderer> ForwardApplication::load_model(const std::string &file, uint32_t index) {
+    GLTFLoader loader{*device_};
     
-    std::unique_ptr<vox::sg::Renderer> model = loader.read_model_from_file(file, index);
+    std::unique_ptr<sg::Renderer> model = loader.read_model_from_file(file, index);
     
     if (!model) {
         LOGE("Cannot load model from file: {}", file.c_str())
@@ -1149,7 +1149,7 @@ std::unique_ptr<vox::sg::Renderer> ApiVulkanSample::load_model(const std::string
     return model;
 }
 
-void ApiVulkanSample::draw_model(std::unique_ptr<vox::sg::Renderer> &model, VkCommandBuffer command_buffer) {
+void ForwardApplication::draw_model(std::unique_ptr<sg::Renderer> &model, VkCommandBuffer command_buffer) {
     VkDeviceSize offsets[1] = {0};
     
     const auto &vertex_buffer = model->vertex_buffers_.at("vertex_buffer");
@@ -1160,9 +1160,9 @@ void ApiVulkanSample::draw_model(std::unique_ptr<vox::sg::Renderer> &model, VkCo
     vkCmdDrawIndexed(command_buffer, model->vertex_indices_, 1, 0, 0, 0);
 }
 
-void ApiVulkanSample::with_command_buffer(const std::function<void(VkCommandBuffer command_buffer)> &f,
-                                          VkSemaphore signal_semaphore
-                                          ) {
+void ForwardApplication::with_command_buffer(const std::function<void(VkCommandBuffer command_buffer)> &f,
+                                             VkSemaphore signal_semaphore
+                                             ) {
     VkCommandBuffer command_buffer = device_->create_command_buffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
     f(command_buffer);
     device_->

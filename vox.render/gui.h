@@ -159,7 +159,7 @@ private:
     bool dirty_{false};
 };
 
-class VulkanSample;
+class GraphicsApplication;
 
 /**
  * @brief Vulkan helper class for Dear ImGui
@@ -225,8 +225,8 @@ public:
      * @param font_size The font size
      * @param explicit_update If true, update buffers every frame
      */
-    Gui(VulkanSample &sample, const Window &window, const Stats *stats = nullptr,
-        float font_size = 21.0f, bool explicit_update = false);
+    Gui(GraphicsApplication &sample, const Window &window, const Stats *stats = nullptr,
+		float font_size = 21.0f, bool explicit_update = false);
     
     /**
      * @brief Destroys the Gui
@@ -348,7 +348,7 @@ private:
     
     static const ImGuiWindowFlags info_flags_;
     
-    VulkanSample &sample_;
+    GraphicsApplication &sample_;
     
     std::unique_ptr<core::Buffer> vertex_buffer_;
     

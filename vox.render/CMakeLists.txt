@@ -21,8 +21,8 @@ set(FRAMEWORK_FILES
         resource_cache.h
         resource_record.h
         resource_replay.h
-        vulkan_sample.h
-        api_vulkan_sample.h
+        graphics_application.h
+        forward_application.h
         timer.h
         camera.h
         # Source Files
@@ -37,8 +37,8 @@ set(FRAMEWORK_FILES
         resource_cache.cpp
         resource_record.cpp
         resource_replay.cpp
-        vulkan_sample.cpp
-        api_vulkan_sample.cpp
+        graphics_application.cpp
+        forward_application.cpp
         timer.cpp
         camera.cpp
         )

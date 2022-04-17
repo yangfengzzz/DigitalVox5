@@ -38,7 +38,7 @@ void Collider::add_shape(const ColliderShapePtr &shape) {
     
 #ifdef DEBUG
     if (debug_entity_) {
-		shape->set_entity(debug_entity_);
+        shape->set_entity(debug_entity_);
     }
 #endif
 }
@@ -55,7 +55,7 @@ void Collider::remove_shape(const ColliderShapePtr &shape) {
     
 #ifdef DEBUG
     if (debug_entity_) {
-		shape->remove_entity(debug_entity_);
+        shape->remove_entity(debug_entity_);
     }
 #endif
 }

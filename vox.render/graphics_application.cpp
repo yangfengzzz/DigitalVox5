@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "vulkan_sample.h"
+#include "graphics_application.h"
 
 #include "error.h"
 
@@ -30,7 +30,7 @@ VKBP_ENABLE_WARNINGS()
 #endif
 
 namespace vox {
-VulkanSample::~VulkanSample() {
+GraphicsApplication::~GraphicsApplication() {
     if (device_) {
         device_->wait_idle();
     }
@@ -49,16 +49,16 @@ VulkanSample::~VulkanSample() {
     instance_.reset();
 }
 
-void VulkanSample::set_render_pipeline(RenderPipeline &&rp) {
+void GraphicsApplication::set_render_pipeline(RenderPipeline &&rp) {
     render_pipeline_ = std::make_unique<RenderPipeline>(std::move(rp));
 }
 
-RenderPipeline &VulkanSample::get_render_pipeline() {
+RenderPipeline &GraphicsApplication::get_render_pipeline() {
     assert(render_pipeline_ && "Render pipeline was not created");
     return *render_pipeline_;
 }
 
-bool VulkanSample::prepare(Platform &platform) {
+bool GraphicsApplication::prepare(Platform &platform) {
     if (!Application::prepare(platform)) {
         return false;
     }
@@ -170,13 +170,13 @@ bool VulkanSample::prepare(Platform &platform) {
     return true;
 }
 
-void VulkanSample::create_device() {
+void GraphicsApplication::create_device() {
 }
 
-void VulkanSample::create_instance() {
+void GraphicsApplication::create_instance() {
 }
 
-void VulkanSample::create_render_context(Platform &platform) {
+void GraphicsApplication::create_render_context(Platform &platform) {
     auto surface_priority_list =
     std::vector<VkSurfaceFormatKHR>{{VK_FORMAT_R8G8B8A8_SRGB, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
         {VK_FORMAT_B8G8R8A8_SRGB, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
@@ -186,11 +186,11 @@ void VulkanSample::create_render_context(Platform &platform) {
     render_context_ = platform.create_render_context(*device_, surface_, surface_priority_list);
 }
 
-void VulkanSample::prepare_render_context() {
+void GraphicsApplication::prepare_render_context() {
     render_context_->prepare();
 }
 
-//void VulkanSample::update_scene(float delta_time)
+//void GraphicsApplication::update_scene(float delta_time)
 //{
 //	if (scene)
 //	{
@@ -218,7 +218,7 @@ void VulkanSample::prepare_render_context() {
 //	}
 //}
 
-void VulkanSample::update_stats(float delta_time) {
+void GraphicsApplication::update_stats(float delta_time) {
     if (stats_) {
         stats_->update(delta_time);
         
@@ -233,7 +233,7 @@ void VulkanSample::update_stats(float delta_time) {
     }
 }
 
-void VulkanSample::update_gui(float delta_time) {
+void GraphicsApplication::update_gui(float delta_time) {
     if (gui_) {
         if (gui_->is_debug_view_active()) {
             update_debug_window();
@@ -250,7 +250,7 @@ void VulkanSample::update_gui(float delta_time) {
     }
 }
 
-void VulkanSample::update(float delta_time) {
+void GraphicsApplication::update(float delta_time) {
     //	update_scene(delta_time);
     
     update_gui(delta_time);
@@ -273,7 +273,7 @@ void VulkanSample::update(float delta_time) {
     platform_->on_post_draw(get_render_context());
 }
 
-void VulkanSample::draw(CommandBuffer &command_buffer, RenderTarget &render_target) {
+void GraphicsApplication::draw(CommandBuffer &command_buffer, RenderTarget &render_target) {
     auto &views = render_target.get_views();
     
     {
@@ -322,7 +322,7 @@ void VulkanSample::draw(CommandBuffer &command_buffer, RenderTarget &render_targ
     }
 }
 
-void VulkanSample::draw_renderpass(CommandBuffer &command_buffer, RenderTarget &render_target) {
+void GraphicsApplication::draw_renderpass(CommandBuffer &command_buffer, RenderTarget &render_target) {
     set_viewport_and_scissor(command_buffer, render_target.get_extent());
     
     render(command_buffer);
@@ -334,13 +334,13 @@ void VulkanSample::draw_renderpass(CommandBuffer &command_buffer, RenderTarget &
     command_buffer.end_render_pass();
 }
 
-void VulkanSample::render(CommandBuffer &command_buffer) {
+void GraphicsApplication::render(CommandBuffer &command_buffer) {
     if (render_pipeline_) {
         render_pipeline_->draw(command_buffer, render_context_->get_active_frame().get_render_target());
     }
 }
 
-bool VulkanSample::resize(uint32_t width, uint32_t height) {
+bool GraphicsApplication::resize(uint32_t width, uint32_t height) {
     Application::resize(width, height);
     
     if (gui_) {
@@ -363,7 +363,7 @@ bool VulkanSample::resize(uint32_t width, uint32_t height) {
     return true;
 }
 
-void VulkanSample::input_event(const InputEvent &input_event) {
+void GraphicsApplication::input_event(const InputEvent &input_event) {
     Application::input_event(input_event);
     
     bool gui_captures_event = false;
@@ -401,7 +401,7 @@ void VulkanSample::input_event(const InputEvent &input_event) {
     }
 }
 
-void VulkanSample::finish() {
+void GraphicsApplication::finish() {
     Application::finish();
     
     if (device_) {
@@ -409,18 +409,18 @@ void VulkanSample::finish() {
     }
 }
 
-Device &VulkanSample::get_device() {
+Device &GraphicsApplication::get_device() {
     return *device_;
 }
 
-Configuration &VulkanSample::get_configuration() {
+Configuration &GraphicsApplication::get_configuration() {
     return configuration_;
 }
 
-void VulkanSample::draw_gui() {
+void GraphicsApplication::draw_gui() {
 }
 
-void VulkanSample::update_debug_window() {
+void GraphicsApplication::update_debug_window() {
     auto driver_version = device_->get_driver_version();
     std::string driver_version_str = fmt::format("major: {} minor: {} patch: {}", driver_version.major,
                                                  driver_version.minor, driver_version.patch);
@@ -455,7 +455,7 @@ void VulkanSample::update_debug_window() {
     //	}
 }
 
-void VulkanSample::set_viewport_and_scissor(vox::CommandBuffer &command_buffer, const VkExtent2D &extent) {
+void GraphicsApplication::set_viewport_and_scissor(vox::CommandBuffer &command_buffer, const VkExtent2D &extent) {
     VkViewport viewport{};
     viewport.width = static_cast<float>(extent.width);
     viewport.height = static_cast<float>(extent.height);
@@ -468,7 +468,7 @@ void VulkanSample::set_viewport_and_scissor(vox::CommandBuffer &command_buffer, 
     command_buffer.set_scissor(0, {scissor});
 }
 
-//void VulkanSample::load_scene(const std::string &path)
+//void GraphicsApplication::load_scene(const std::string &path)
 //{
 //	GLTFLoader loader{*device};
 //
@@ -481,50 +481,50 @@ void VulkanSample::set_viewport_and_scissor(vox::CommandBuffer &command_buffer, 
 //	}
 //}
 
-VkSurfaceKHR VulkanSample::get_surface() {
+VkSurfaceKHR GraphicsApplication::get_surface() {
     return surface_;
 }
 
-RenderContext &VulkanSample::get_render_context() {
+RenderContext &GraphicsApplication::get_render_context() {
     assert(render_context_ && "Render context is not valid");
     return *render_context_;
 }
 
-std::vector<const char *> VulkanSample::get_validation_layers() {
+std::vector<const char *> GraphicsApplication::get_validation_layers() {
     return {};
 }
 
-std::unordered_map<const char *, bool> VulkanSample::get_instance_extensions() {
+std::unordered_map<const char *, bool> GraphicsApplication::get_instance_extensions() {
     return instance_extensions_;
 }
 
-std::unordered_map<const char *, bool> VulkanSample::get_device_extensions() {
+std::unordered_map<const char *, bool> GraphicsApplication::get_device_extensions() {
     return device_extensions_;
 }
 
-void VulkanSample::add_device_extension(const char *extension, bool optional) {
+void GraphicsApplication::add_device_extension(const char *extension, bool optional) {
     device_extensions_[extension] = optional;
 }
 
-void VulkanSample::add_instance_extension(const char *extension, bool optional) {
+void GraphicsApplication::add_instance_extension(const char *extension, bool optional) {
     instance_extensions_[extension] = optional;
 }
 
-void VulkanSample::set_api_version(uint32_t requested_api_version) {
+void GraphicsApplication::set_api_version(uint32_t requested_api_version) {
     api_version_ = requested_api_version;
 }
 
-void VulkanSample::request_gpu_features(PhysicalDevice &gpu) {
+void GraphicsApplication::request_gpu_features(PhysicalDevice &gpu) {
     // To be overridden by sample
 }
 
-//sg::Scene &VulkanSample::get_scene()
+//sg::Scene &GraphicsApplication::get_scene()
 //{
 //	assert(scene && "Scene not loaded");
 //	return *scene;
 //}
 //
-//bool VulkanSample::has_scene()
+//bool GraphicsApplication::has_scene()
 //{
 //	return scene != nullptr;
 //}

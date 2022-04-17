@@ -21,11 +21,11 @@
 
 #pragma once
 
-#include "api_vulkan_sample.h"
+#include "forward_application.h"
 #include "matrix4x4.h"
 
 namespace vox {
-class HDR : public ApiVulkanSample {
+class HDR : public ForwardApplication {
 public:
     bool bloom_ = true;
     bool display_skybox_ = true;

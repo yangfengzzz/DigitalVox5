@@ -27,12 +27,12 @@ namespace vox {
  * (e.g. WindowsPlatform) and then calling initialize() on it, which sets up
  * the windowing system and logging. Then it calls the parent Platform::initialize(),
  * which takes ownership of the active application. It's the platforms responsibility
- * to then call VulkanSample::prepare() to prepare the vulkan sample when it is ready.
+ * to then call GraphicsApplication::prepare() to prepare the vulkan sample when it is ready.
  *
  * @subsection sample_init Sample initialization
- * The preparation step is divided in two steps, one in VulkanSample and the other in the
+ * The preparation step is divided in two steps, one in GraphicsApplication and the other in the
  * specific sample, such as SurfaceRotation.
- * VulkanSample::prepare() contains functions that do not require customization,
+ * GraphicsApplication::prepare() contains functions that do not require customization,
  * including creating a Vulkan instance, the surface and getting physical devices.
  * The prepare() function for the specific sample completes the initialization, including:
  * - setting enabled Stats
@@ -50,7 +50,7 @@ namespace vox {
  * @subsection update Update function
  * Rendering happens in the update() function. Each sample can override it, e.g.
  * to recreate the Swapchain in SwapchainImages when required by user input.
- * Typically a sample will then call VulkanSample::update().
+ * Typically a sample will then call GraphicsApplication::update().
  *
  * @subsection rendering Rendering
  * A series of steps are performed, some of which can be customized (it will be
@@ -63,7 +63,7 @@ namespace vox {
  * - updating Stats and Gui
  * - getting an active RenderTarget constructed by the factory function of the RenderFrame
  * - setting up barriers for color and depth, note that these are only for the default RenderTarget
- * - calling VulkanSample::draw_swapchain_renderpass (see below)
+ * - calling GraphicsApplication::draw_swapchain_renderpass (see below)
  * - setting up a barrier for the Swapchain transition to present
  * - submitting the CommandBuffer and end the Frame (present)
  *
@@ -85,11 +85,11 @@ namespace vox {
  * - Core classes: Classes in vox::core wrap Vulkan objects for indexing and hashing.
  */
 
-class VulkanSample : public Application {
+class GraphicsApplication : public Application {
 public:
-    VulkanSample() = default;
+    GraphicsApplication() = default;
     
-    ~VulkanSample() override;
+    ~GraphicsApplication() override;
     
     /**
      * @brief Additional sample initialization

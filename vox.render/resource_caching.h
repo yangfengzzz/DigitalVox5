@@ -17,7 +17,7 @@
 
 #include "helpers.h"
 
-bool operator==(const VkSamplerCreateInfo& __x, const VkSamplerCreateInfo& __y) {
+inline bool operator==(const VkSamplerCreateInfo& __x, const VkSamplerCreateInfo& __y) {
     return
     __x.magFilter == __y.magFilter &&
     __x.minFilter == __y.minFilter &&

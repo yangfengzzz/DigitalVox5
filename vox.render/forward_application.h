@@ -32,7 +32,7 @@
 #include "rendering/render_context.h"
 #include "image.h"
 #include "image.h"
-#include "vulkan_sample.h"
+#include "graphics_application.h"
 
 namespace vox {
 /**
@@ -47,7 +47,7 @@ struct SwapchainBuffer {
  * @brief A texture wrapper that owns its image data and links it with a sampler
  */
 struct Texture {
-    std::shared_ptr<vox::Image> image;
+    std::shared_ptr<Image> image;
     VkSampler sampler;
 };
 
@@ -65,17 +65,17 @@ struct Vertex {
 /**
  * @brief Sascha Willems base class for use in his ported samples into the framework
  *
- * See vox::VulkanSample for documentation
+ * See GraphicsApplication for documentation
  */
-class ApiVulkanSample : public vox::VulkanSample {
+class ForwardApplication : public GraphicsApplication {
 public:
-    ApiVulkanSample() = default;
+    ForwardApplication() = default;
     
-    ~ApiVulkanSample() override;
+    ~ForwardApplication() override;
     
-    bool prepare(vox::Platform &platform) override;
+    bool prepare(Platform &platform) override;
     
-    void input_event(const vox::InputEvent &input_event) override;
+    void input_event(const InputEvent &input_event) override;
     
     void update(float delta_time) override;
     
@@ -83,7 +83,7 @@ public:
     
     virtual void render(float delta_time) = 0;
     
-    vox::Device &get_device();
+    Device &get_device();
     
     enum RenderPassCreateFlags {
         COLOR_ATTACHMENT_LOAD = 0x00000001
@@ -93,7 +93,7 @@ protected:
     /// Stores the swapchain image buffers
     std::vector<SwapchainBuffer> swapchain_buffers_;
     
-    void create_render_context(vox::Platform &platform) override;
+    void create_render_context(Platform &platform) override;
     
     void prepare_render_context() override;
     
@@ -168,7 +168,7 @@ protected:
      * @param offset The offset of the descriptor (default: 0)
      */
     static VkDescriptorBufferInfo
-    create_descriptor(vox::core::Buffer &buffer, VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
+    create_descriptor(core::Buffer &buffer, VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
     
     /**
      * @brief Creates an image descriptor
@@ -202,14 +202,14 @@ protected:
      * @param file The filename of the model to load
      * @param index The index of the model to load from the GLTF file (default: 0)
      */
-    std::unique_ptr<vox::sg::Renderer> load_model(const std::string &file, uint32_t index = 0);
+    std::unique_ptr<sg::Renderer> load_model(const std::string &file, uint32_t index = 0);
     
     /**
      * @brief Records the necessary drawing commands to a command buffer
      * @param model The model to draw
      * @param command_buffer The command buffer to record to
      */
-    static void draw_model(std::unique_ptr<vox::sg::Renderer> &model, VkCommandBuffer command_buffer);
+    static void draw_model(std::unique_ptr<sg::Renderer> &model, VkCommandBuffer command_buffer);
     
     /**
      * @brief Synchronously execute a block code within a command buffer, then submit the command buffer and wait for completion.
@@ -326,7 +326,7 @@ public:
      * @brief Called when the UI overlay is updating, can be used to add custom elements to the overlay
      * @param drawer The drawer from the gui to draw certain elements
      */
-    virtual void on_update_ui_overlay(vox::Drawer &drawer);
+    virtual void on_update_ui_overlay(Drawer &drawer);
     
 private:
     /** brief Indicates that the view (position, rotation) has changed and buffers containing camera matrices need to be updated */
@@ -373,7 +373,7 @@ public:
     // Use to adjust mouse zoom speed
     float zoom_speed_ = 1.0f;
     
-    vox::Camera camera_;
+    Camera camera_;
     
     Vector3F rotation_ = Vector3F();
     Vector3F camera_pos_ = Vector3F();

@@ -884,15 +884,15 @@ void HDR::update_params() const {
 }
 
 void HDR::draw() {
-    ApiVulkanSample::prepare_frame();
+    ForwardApplication::prepare_frame();
     submit_info_.commandBufferCount = 1;
     submit_info_.pCommandBuffers = &draw_cmd_buffers_[current_buffer_];
     VK_CHECK(vkQueueSubmit(queue_, 1, &submit_info_, VK_NULL_HANDLE));
-    ApiVulkanSample::submit_frame();
+    ForwardApplication::submit_frame();
 }
 
 bool HDR::prepare(vox::Platform &platform) {
-    if (!ApiVulkanSample::prepare(platform)) {
+    if (!ForwardApplication::prepare(platform)) {
         return false;
     }
     
@@ -942,7 +942,7 @@ void HDR::on_update_ui_overlay(vox::Drawer &drawer) {
 }
 
 bool HDR::resize(const uint32_t width, const uint32_t height) {
-    ApiVulkanSample::resize(width, height);
+    ForwardApplication::resize(width, height);
     update_uniform_buffers();
     return true;
 }

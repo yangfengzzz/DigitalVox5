@@ -13,7 +13,7 @@
 
 #include "error.h"
 
-#include "api_vulkan_sample.h"
+#include "forward_application.h"
 #include "logging.h"
 #include "utils.h"
 #include "vk_common.h"

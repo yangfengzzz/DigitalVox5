@@ -24,7 +24,7 @@
 #include "platform/window.h"
 #include "rendering/render_context.h"
 #include "timer.h"
-#include "vulkan_sample.h"
+#include "graphics_application.h"
 
 namespace vox {
 namespace {
@@ -68,8 +68,8 @@ const ImGuiWindowFlags Gui::options_flags_ = Gui::common_flags_;
 
 const ImGuiWindowFlags Gui::info_flags_ = Gui::common_flags_ | ImGuiWindowFlags_NoInputs;
 
-Gui::Gui(VulkanSample &sample, const Window &window, const Stats *stats,
-         const float font_size, bool explicit_update) :
+Gui::Gui(GraphicsApplication &sample, const Window &window, const Stats *stats,
+		 const float font_size, bool explicit_update) :
 sample_{sample},
 content_scale_factor_{window.get_content_scale_factor()},
 dpi_factor_{window.get_dpi_factor() * content_scale_factor_},

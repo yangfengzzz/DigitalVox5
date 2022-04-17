@@ -67,7 +67,7 @@ public:
      *
      *        To have the features enabled, this function must be called before the logical device
      *        is created. To do this request sample specific features inside
-     *        VulkanSample::request_gpu_features(vox::PhysicalDevice &gpu).
+     *        GraphicsApplication::request_gpu_features(vox::PhysicalDevice &gpu).
      *
      *        If the feature extension requires you to ask for certain features to be enabled, you can
      *        modify the struct returned by this function, it will propagate the changes to the logical
