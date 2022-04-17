@@ -103,7 +103,7 @@ const std::vector<Vector4F> &ModelMesh::tangents() {
     return tangents_;
 }
 
-void ModelMesh::set_u_vs(const std::vector<Vector2F> &uv, int channel_index) {
+void ModelMesh::set_uvs(const std::vector<Vector2F> &uv, int channel_index) {
     if (!accessible_) {
         assert(false && "Not allowed to access data while accessible is false.");
     }

@@ -130,7 +130,7 @@ void CapsuleColliderShape::set_world_scale(const Vector3F &scale) {
 //    if (_entity) {
 //        auto radius = static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->radius;
 //        auto halfHeight = static_cast<PxCapsuleGeometry *>(_nativeGeometry.get())->halfHeight;
-//        _renderer->setMesh(WireframePrimitiveMesh::createCapsuleWireFrame(_entity->scene()->device(), radius, halfHeight * 2.0));
+//        _renderer->setMesh(WireframePrimitiveMesh::create_capsule_wire_frame(_entity->scene()->device(), radius, halfHeight * 2.0));
 //    }
 //}
 //

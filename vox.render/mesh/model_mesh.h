@@ -107,7 +107,7 @@ public:
      * @param uv - The uv for the mesh.
      * @param channel_index - The index of uv channels, in [0 ~ 7] range.
      */
-    void set_u_vs(const std::vector<Vector2F> &uv, int channel_index = 0);
+    void set_uvs(const std::vector<Vector2F> &uv, int channel_index = 0);
     
     /**
      * Get uv for the mesh by channelIndex.
