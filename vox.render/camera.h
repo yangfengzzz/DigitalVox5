@@ -7,7 +7,7 @@
 #pragma once
 
 #include "component.h"
-//#include "shader/shader_data.h"
+#include "shader/shader_data.h"
 #include "layer.h"
 #include "ray3.h"
 #include "matrix4x4.h"
@@ -48,7 +48,7 @@ public:
     };
     
     /** Shader data. */
-    //    ShaderData shaderData;
+    ShaderData shader_data_;
     
     /** Rendering priority - A Camera with higher priority will be rendered on top of a camera with lower priority. */
     int priority_ = 0;
@@ -272,8 +272,12 @@ private:
      */
     Matrix4x4F inv_view_proj_mat();
     
-    CameraData camera_data_;
-    //    ShaderProperty _cameraProperty;
+    ShaderProperty view_matrix_property_;
+    ShaderProperty projection_matrix_property_;
+    ShaderProperty vp_matrix_property_;
+    ShaderProperty inverse_view_matrix_property_;
+    ShaderProperty inverse_projection_matrix_property_;
+    ShaderProperty camera_position_property_;
     
     BoundingFrustum frustum_ = BoundingFrustum();
     

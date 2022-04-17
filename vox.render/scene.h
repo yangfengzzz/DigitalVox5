@@ -17,7 +17,7 @@
 #include "scene_forward.h"
 #include "vobject.h"
 //#include "lighting/ambient_light.h"
-//#include "shader/shader_data.h"
+#include "shader/shader_data.h"
 #include "background.h"
 #include "platform/input_events.h"
 
@@ -33,7 +33,7 @@ public:
     Background background_ = Background();
     
     /** Scene-related shader data. */
-    //    ShaderData shaderData;
+    ShaderData shader_data_;
     
     /**
      * Create scene.
@@ -105,9 +105,9 @@ public:
      */
     Entity *find_entity_by_name(const std::string &name);
     
-    void attachRenderCamera(Camera *camera);
+    void attach_render_camera(Camera *camera);
     
-    void detachRenderCamera(Camera *camera);
+    void detach_render_camera(Camera *camera);
     
 public:
     void update_shader_data();

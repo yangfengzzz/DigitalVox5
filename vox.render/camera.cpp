@@ -16,9 +16,14 @@ std::string Camera::name() {
 }
 
 Camera::Camera(Entity *entity) :
-Component(entity) {
-    //shaderData(entity->scene()->device()),
-    //_cameraProperty(Shader::createProperty("u_cameraData", ShaderDataGroup::Camera)) {
+Component(entity),
+shader_data_(entity->scene()->device()),
+view_matrix_property_(ShaderProperty::create("u_viewMat", ShaderDataGroup::CAMERA)),
+projection_matrix_property_(ShaderProperty::create("u_projMat", ShaderDataGroup::CAMERA)),
+vp_matrix_property_(ShaderProperty::create("u_VPMat", ShaderDataGroup::CAMERA)),
+inverse_view_matrix_property_(ShaderProperty::create("u_viewInvMat", ShaderDataGroup::CAMERA)),
+inverse_projection_matrix_property_(ShaderProperty::create("u_projInvMat", ShaderDataGroup::CAMERA)),
+camera_position_property_(ShaderProperty::create("u_cameraPos", ShaderDataGroup::CAMERA)) {
     auto transform = entity->transform_;
     transform_ = transform;
     is_view_matrix_dirty_ = transform->register_world_change_flag();
@@ -230,11 +235,11 @@ Ray3F Camera::screen_point_to_ray(const Vector2F &point) {
 }
 
 void Camera::on_active() {
-    entity()->scene()->attachRenderCamera(this);
+    entity()->scene()->attach_render_camera(this);
 }
 
 void Camera::on_in_active() {
-    entity()->scene()->detachRenderCamera(this);
+    entity()->scene()->detach_render_camera(this);
 }
 
 void Camera::proj_mat_change() {
@@ -254,16 +259,17 @@ Point3F Camera::inner_viewport_to_world_point(const Vector3F &point, const Matri
 }
 
 void Camera::update() {
-    camera_data_.u_view_mat = view_matrix();
-    camera_data_.u_proj_mat = projection_matrix();
-    camera_data_.u_vp_mat = projection_matrix() * view_matrix();
-    camera_data_.u_view_inv_mat = transform_->world_matrix();
-    camera_data_.u_proj_inv_mat = inverse_projection_matrix();
-    camera_data_.u_camera_pos = transform_->world_position();
-    //    shaderData.set_data(Camera::_cameraProperty, _cameraData);
+    auto vp = projection_matrix() * view_matrix();
+    
+    shader_data_.set_data(Camera::view_matrix_property_, view_matrix());
+    shader_data_.set_data(Camera::projection_matrix_property_, projection_matrix());
+    shader_data_.set_data(Camera::vp_matrix_property_, vp);
+    shader_data_.set_data(Camera::inverse_view_matrix_property_, transform_->world_matrix());
+    shader_data_.set_data(Camera::inverse_projection_matrix_property_, inverse_projection_matrix());
+    shader_data_.set_data(Camera::camera_position_property_, transform_->world_position());
     
     if (enable_frustum_culling_ && (frustum_view_change_flag_->flag_ || is_frustum_project_dirty_)) {
-        frustum_.calculateFromMatrix(camera_data_.u_vp_mat);
+        frustum_.calculateFromMatrix(vp);
         frustum_view_change_flag_->flag_ = false;
         is_frustum_project_dirty_ = false;
     }

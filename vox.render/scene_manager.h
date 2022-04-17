@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_SCENE_MANAGER_H_
-#define DIGITALVOX_VOX_RENDER_SCENE_MANAGER_H_
+#pragma once
 
 #include "singleton.h"
 #include "scene.h"
@@ -109,6 +108,5 @@ private:
     
     std::function<void()> delayed_load_call_;
 };
-}
 
-#endif /* DIGITALVOX_VOX_RENDER_SCENE_MANAGER_H_ */
+}

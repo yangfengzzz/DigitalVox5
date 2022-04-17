@@ -18,8 +18,8 @@
 
 namespace vox {
 Scene::Scene(Device &device) :
-device_(device) {
-    //shaderData(device) {
+device_(device),
+shader_data_(device) {
     //    setAmbientLight(std::make_shared<AmbientLight>());
 }
 
@@ -136,16 +136,16 @@ Entity *Scene::find_entity_by_name(const std::string &name) {
     return nullptr;
 }
 
-void Scene::attachRenderCamera(Camera *camera) {
+void Scene::attach_render_camera(Camera *camera) {
     auto iter = std::find(active_cameras_.begin(), active_cameras_.end(), camera);
     if (iter == active_cameras_.end()) {
         active_cameras_.push_back(camera);
     } else {
-        LOGI("Camera already attached.");
+        LOGI("Camera already attached.")
     }
 }
 
-void Scene::detachRenderCamera(Camera *camera) {
+void Scene::detach_render_camera(Camera *camera) {
     auto iter = std::find(active_cameras_.begin(), active_cameras_.end(), camera);
     if (iter != active_cameras_.end()) {
         active_cameras_.erase(iter);
@@ -173,7 +173,7 @@ void Scene::remove_entity(Entity *entity) {
 //MARK: - Update Loop
 void Scene::update_shader_data() {
     // union scene and camera macro.
-    for (auto &camera: active_cameras_) {
+    for (auto &camera : active_cameras_) {
         camera->update();
     }
 }
