@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_SCRIPT_H_
-#define DIGITALVOX_VOX_RENDER_SCRIPT_H_
+#pragma once
 
 #include "component.h"
 #include "platform/input_events.h"
@@ -150,5 +149,3 @@ protected:
 };
 
 }
-
-#endif /* DIGITALVOX_VOX_RENDER_SCRIPT_H_ */

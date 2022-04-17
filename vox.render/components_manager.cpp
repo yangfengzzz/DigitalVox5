@@ -6,7 +6,7 @@
 
 #include "components_manager.h"
 #include "script.h"
-//#include "old_renderer.h"
+#include "renderer.h"
 #include "entity.h"
 #include "camera.h"
 //#include "animator.h"
@@ -113,75 +113,72 @@ void ComponentsManager::call_script_resize(uint32_t win_width, uint32_t win_heig
 }
 
 //MARK: - Renderer
-//void ComponentsManager::addRenderer(Renderer *renderer) {
-//    auto iter = std::find(_renderers.begin(), _renderers.end(), renderer);
-//    if (iter == _renderers.end()) {
-//        _renderers.push_back(renderer);
-//    } else {
-//        LOG(ERROR) << "Renderer already attached." << std::endl;;
-//    }
-//}
-//
-//void ComponentsManager::removeRenderer(Renderer *renderer) {
-//    auto iter = std::find(_renderers.begin(), _renderers.end(), renderer);
-//    if (iter != _renderers.end()) {
-//        _renderers.erase(iter);
-//    }
-//}
-//
-//void ComponentsManager::callRendererOnUpdate(float deltaTime) {
-//    for (size_t i = 0; i < _renderers.size(); i++) {
-//        _renderers[i]->update(deltaTime);
-//    }
-//}
-//
-//void ComponentsManager::callRender(Camera *camera,
-//                                   std::vector<RenderElement> &opaqueQueue,
-//                                   std::vector<RenderElement> &alphaTestQueue,
-//                                   std::vector<RenderElement> &transparentQueue) {
-//    for (size_t i = 0; i < _renderers.size(); i++) {
-//        const auto &element = _renderers[i];
-//
-//        // filter by camera culling mask.
-//        if (!(camera->cullingMask & element->_entity->layer)) {
-//            continue;
-//        }
-//
-//        // filter by camera frustum.
-//        if (camera->enableFrustumCulling) {
-//            element->isCulled = !camera->frustum().intersectsBox(element->bounds());
-//            if (element->isCulled) {
-//                continue;
-//            }
-//        }
-//
-//        const auto &transform = camera->entity()->transform;
-//        const auto position = transform->worldPosition();
-//        auto center = element->bounds().midPoint();
-//        if (camera->is_orthographic()) {
-//            const auto forward = transform->worldForward();
-//            const auto offset = center - position;
-//            element->setDistanceForSort(offset.dot(forward));
-//        } else {
-//            element->setDistanceForSort(center.distanceSquaredTo(position));
-//        }
-//
-//        element->_render(opaqueQueue, alphaTestQueue, transparentQueue);
-//    }
-//}
-//
-//void ComponentsManager::callRender(const BoundingFrustum &frustrum,
-//                                   std::vector<RenderElement> &opaqueQueue,
-//                                   std::vector<RenderElement> &alphaTestQueue,
-//                                   std::vector<RenderElement> &transparentQueue) {
-//    for (size_t i = 0; i < _renderers.size(); i++) {
-//        const auto &renderer = _renderers[i];
-//        // filter by renderer castShadow and frustrum cull
-//        if (frustrum.intersectsBox(renderer->bounds())) {
-//            renderer->_render(opaqueQueue, alphaTestQueue, transparentQueue);
-//        }
-//    }
-//}
+void ComponentsManager::add_renderer(Renderer *renderer) {
+    auto iter = std::find(renderers_.begin(), renderers_.end(), renderer);
+    if (iter == renderers_.end()) {
+        renderers_.push_back(renderer);
+    } else {
+        LOGE("Renderer already attached.")
+    }
+}
+
+void ComponentsManager::remove_renderer(Renderer *renderer) {
+    auto iter = std::find(renderers_.begin(), renderers_.end(), renderer);
+    if (iter != renderers_.end()) {
+        renderers_.erase(iter);
+    }
+}
+
+void ComponentsManager::call_renderer_on_update(float delta_time) {
+    for (auto &renderer : renderers_) {
+        renderer->update(delta_time);
+    }
+}
+
+void ComponentsManager::call_render(Camera *camera,
+                                    std::vector<RenderElement> &opaque_queue,
+                                    std::vector<RenderElement> &alpha_test_queue,
+                                    std::vector<RenderElement> &transparent_queue) {
+    for (auto &element : renderers_) {
+        // filter by camera culling mask.
+        if (!(camera->culling_mask_ & element->entity_->layer_)) {
+            continue;
+        }
+        
+        // filter by camera frustum.
+        if (camera->enable_frustum_culling_) {
+            element->is_culled_ = !camera->frustum().intersectsBox(element->bounds());
+            if (element->is_culled_) {
+                continue;
+            }
+        }
+        
+        const auto &transform = camera->entity()->transform_;
+        const auto kPosition = transform->world_position();
+        auto center = element->bounds().midPoint();
+        if (camera->is_orthographic()) {
+            const auto kForward = transform->world_forward();
+            const auto kOffset = center - kPosition;
+            element->set_distance_for_sort(kOffset.dot(kForward));
+        } else {
+            element->set_distance_for_sort(center.distanceSquaredTo(kPosition));
+        }
+        
+        element->render(opaque_queue, alpha_test_queue, transparent_queue);
+    }
+}
+
+void ComponentsManager::call_render(const BoundingFrustum &frustum,
+                                    std::vector<RenderElement> &opaque_queue,
+                                    std::vector<RenderElement> &alpha_test_queue,
+                                    std::vector<RenderElement> &transparent_queue) {
+    for (auto &renderer : renderers_) {
+        // filter by renderer castShadow and frustum cull
+        if (frustum.intersectsBox(renderer->bounds())) {
+            renderer->render(opaque_queue, alpha_test_queue, transparent_queue);
+        }
+    }
+}
 
 //MARK: - Camera
 void ComponentsManager::call_camera_on_begin_render(Camera *camera) {

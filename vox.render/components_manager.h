@@ -4,14 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_COMPONENTS_MANAGER_H_
-#define DIGITALVOX_VOX_RENDER_COMPONENTS_MANAGER_H_
+#pragma once
 
 #include "matrix4x4.h"
 #include "bounding_frustum.h"
 #include "platform/input_events.h"
 #include "scene_forward.h"
-//#include "rendering/render_element.h"
+#include "rendering/render_element.h"
 #include "singleton.h"
 #include <unordered_map>
 #include <vector>
@@ -49,24 +48,24 @@ public:
     
     void call_component_destroy();
     
-    //public:
-    //    void addRenderer(Renderer *renderer);
-    //
-    //    void removeRenderer(Renderer *renderer);
-    //
-    //    void callRendererOnUpdate(float deltaTime);
-    //
-    //    void callRender(Camera *camera,
-    //                    std::vector<RenderElement> &opaqueQueue,
-    //                    std::vector<RenderElement> &alphaTestQueue,
-    //                    std::vector<RenderElement> &transparentQueue);
-    //
-    //    void callRender(const BoundingFrustum &frustrum,
-    //                    std::vector<RenderElement> &opaqueQueue,
-    //                    std::vector<RenderElement> &alphaTestQueue,
-    //                    std::vector<RenderElement> &transparentQueue);
-    //
-    //public:
+public:
+    void add_renderer(Renderer *renderer);
+    
+    void remove_renderer(Renderer *renderer);
+    
+    void call_renderer_on_update(float delta_time);
+    
+    void call_render(Camera *camera,
+                     std::vector<RenderElement> &opaque_queue,
+                     std::vector<RenderElement> &alpha_test_queue,
+                     std::vector<RenderElement> &transparent_queue);
+    
+    void call_render(const BoundingFrustum &frustum,
+                     std::vector<RenderElement> &opaque_queue,
+                     std::vector<RenderElement> &alpha_test_queue,
+                     std::vector<RenderElement> &transparent_queue);
+    
+public:
     //    void addOnUpdateAnimators(Animator *animator);
     //
     //    void removeOnUpdateAnimators(Animator *animator);
@@ -95,7 +94,7 @@ private:
     std::vector<Script *> destroy_components_;
     
     // Render
-    //    std::vector<Renderer *> _renderers;
+    std::vector<Renderer *> renderers_;
     
     // Delay dispose active/inActive Pool
     std::vector<std::vector<Component *>> components_container_pool_;
@@ -108,4 +107,3 @@ private:
 template<> inline ComponentsManager *Singleton<ComponentsManager>::ms_singleton_{nullptr};
 
 }        // namespace vox
-#endif /* DIGITALVOX_VOX_RENDER_COMPONENTS_MANAGER_H_ */

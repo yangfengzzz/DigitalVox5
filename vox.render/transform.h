@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_TRANSFORM_H_
-#define DIGITALVOX_VOX_RENDER_TRANSFORM_H_
+#pragma once
 
 #include "component.h"
 #include "update_flag_manager.h"
@@ -366,5 +365,3 @@ private:
 };
 
 }
-
-#endif /* DIGITALVOX_VOX_RENDER_TRANSFORM_H_ */

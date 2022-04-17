@@ -514,6 +514,10 @@
 		04D95CF3280C32BE00E54DC2 /* pbr_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA7F2805AF2900C6F279 /* pbr_material.cpp */; };
 		04D95CF6280C345C00E54DC2 /* pbr_specular_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CF4280C345C00E54DC2 /* pbr_specular_material.cpp */; };
 		04D95CF7280C345C00E54DC2 /* pbr_specular_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CF5280C345C00E54DC2 /* pbr_specular_material.h */; };
+		04D95CFA280C3D8600E54DC2 /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CF8280C3D8600E54DC2 /* renderer.cpp */; };
+		04D95CFB280C3D8600E54DC2 /* renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CF9280C3D8600E54DC2 /* renderer.h */; };
+		04D95CFE280C3DD000E54DC2 /* render_element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CFC280C3DD000E54DC2 /* render_element.cpp */; };
+		04D95CFF280C3DD000E54DC2 /* render_element.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CFD280C3DD000E54DC2 /* render_element.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1072,6 +1076,10 @@
 		04D95CF0280C1A9F00E54DC2 /* pbr_base_material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pbr_base_material.h; sourceTree = "<group>"; };
 		04D95CF4280C345C00E54DC2 /* pbr_specular_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pbr_specular_material.cpp; sourceTree = "<group>"; };
 		04D95CF5280C345C00E54DC2 /* pbr_specular_material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pbr_specular_material.h; sourceTree = "<group>"; };
+		04D95CF8280C3D8600E54DC2 /* renderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = renderer.cpp; sourceTree = "<group>"; };
+		04D95CF9280C3D8600E54DC2 /* renderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = renderer.h; sourceTree = "<group>"; };
+		04D95CFC280C3DD000E54DC2 /* render_element.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = render_element.cpp; sourceTree = "<group>"; };
+		04D95CFD280C3DD000E54DC2 /* render_element.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = render_element.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1266,6 +1274,8 @@
 		0444E96F280564DB00C6F279 /* rendering */ = {
 			isa = PBXGroup;
 			children = (
+				04D95CFD280C3DD000E54DC2 /* render_element.h */,
+				04D95CFC280C3DD000E54DC2 /* render_element.cpp */,
 				0444E9BC2805695200C6F279 /* pipeline_state.h */,
 				0444E9BD2805695200C6F279 /* pipeline_state.cpp */,
 				0444E9C1280569C400C6F279 /* subpass.h */,
@@ -1669,10 +1679,6 @@
 				0444EA1B28056EFD00C6F279 /* vulkan_sample.cpp */,
 				0444EA76280581F300C6F279 /* heightmap.h */,
 				0444EA77280581F300C6F279 /* heightmap.cpp */,
-				04D95CA9280AB12800E54DC2 /* old_renderer.h */,
-				04D95CAA280AB12800E54DC2 /* old_renderer.cpp */,
-				0444EA7C28059CDC00C6F279 /* old_camera.h */,
-				0444EA7B28059CDC00C6F279 /* old_camera.cpp */,
 				0444EA1F2805713D00C6F279 /* api_vulkan_sample.h */,
 				0444EA202805713D00C6F279 /* api_vulkan_sample.cpp */,
 				0444EA9D28083E5C00C6F279 /* background.h */,
@@ -1699,10 +1705,16 @@
 				04D95C2E280994DE00E54DC2 /* transform.cpp */,
 				04D95C352809A23300E54DC2 /* camera.h */,
 				04D95C372809A23400E54DC2 /* camera.cpp */,
+				04D95CF9280C3D8600E54DC2 /* renderer.h */,
+				04D95CF8280C3D8600E54DC2 /* renderer.cpp */,
 				04D95C362809A23400E54DC2 /* script.h */,
 				04D95C382809A23400E54DC2 /* script.cpp */,
 				04D95C412809B24700E54DC2 /* controls */,
 				04D95C4E280A8C2D00E54DC2 /* physics */,
+				04D95CA9280AB12800E54DC2 /* old_renderer.h */,
+				04D95CAA280AB12800E54DC2 /* old_renderer.cpp */,
+				0444EA7C28059CDC00C6F279 /* old_camera.h */,
+				0444EA7B28059CDC00C6F279 /* old_camera.cpp */,
 			);
 			path = vox.render;
 			sourceTree = "<group>";
@@ -1980,6 +1992,7 @@
 			files = (
 				04D95CEA280BF9C700E54DC2 /* unlit_material.h in Headers */,
 				0444EAE228084B5E00C6F279 /* drawable.h in Headers */,
+				04D95CFB280C3D8600E54DC2 /* renderer.h in Headers */,
 				0444EB8028084BB600C6F279 /* plot.h in Headers */,
 				0444E9DB28056A1900C6F279 /* resource_binding_state.h in Headers */,
 				0444EBF02808535F00C6F279 /* scene_forward.h in Headers */,
@@ -1996,6 +2009,7 @@
 				0444E8B52805567000C6F279 /* logging.h in Headers */,
 				0444EA75280581C900C6F279 /* gltf_loader.h in Headers */,
 				0444E9C5280569C500C6F279 /* subpass.h in Headers */,
+				04D95CFF280C3DD000E54DC2 /* render_element.h in Headers */,
 				0444E8BA280556B100C6F279 /* vk_common.h in Headers */,
 				0444E9DA28056A1900C6F279 /* resource_replay.h in Headers */,
 				0444EBBC28084BCE00C6F279 /* input_text.h in Headers */,
@@ -2542,11 +2556,13 @@
 				0444EA0E28056E2700C6F279 /* hwcpipe_stats_provider.cpp in Sources */,
 				0444EA79280581F300C6F279 /* heightmap.cpp in Sources */,
 				0444E961280563DB00C6F279 /* plugin.cpp in Sources */,
+				04D95CFA280C3D8600E54DC2 /* renderer.cpp in Sources */,
 				0444EB0928084B8000C6F279 /* widget_container.cpp in Sources */,
 				04D95CD6280BB27300E54DC2 /* shader_property.cpp in Sources */,
 				04D95C66280A8C6600E54DC2 /* dynamic_collider.cpp in Sources */,
 				0444EA0D28056E2700C6F279 /* stats_provider.cpp in Sources */,
 				0444E9F428056B0500C6F279 /* acceleration_structure.cpp in Sources */,
+				04D95CFE280C3DD000E54DC2 /* render_element.cpp in Sources */,
 				0444E9492805618000C6F279 /* buffer.cpp in Sources */,
 				04D95CF3280C32BE00E54DC2 /* pbr_material.cpp in Sources */,
 				0444EB6D28084BAF00C6F279 /* radio_button.cpp in Sources */,
