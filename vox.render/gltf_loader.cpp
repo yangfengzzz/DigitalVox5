@@ -24,7 +24,7 @@
 #include "image.h"
 #include "image/astc_img.h"
 #include "renderer.h"
-#include "pbr_material.h"
+//#include "pbr_material.h"
 
 //#include "scene_graph/components/camera.h"
 //#include "scene_graph/components/light.h"

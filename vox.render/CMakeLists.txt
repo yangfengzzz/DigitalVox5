@@ -89,8 +89,6 @@ set(RENDERING_FILES
 
 set(SCENE_RESOURCE_FILES
         # Header Files
-        material.h
-        pbr_material.h
         renderer.h
         image_manager.h
         image.h
@@ -98,8 +96,6 @@ set(SCENE_RESOURCE_FILES
         image/ktx_img.h
         image/stb_img.h
         # Source Files
-        material.cpp
-        pbr_material.cpp
         renderer.cpp
         image_manager.cpp
         image.cpp
@@ -345,6 +341,7 @@ set(PHYSX_SOURCE
 
 set(MESH_FILES mesh)
 set(SHADER_FILES shader)
+set(MATERIAL_FILES material)
 
 #set(GRAPHING_FILES
 #    # Header Files
@@ -425,6 +422,7 @@ set(PROJECT_FILES
         ${PHYSX_FILES}
         ${MESH_FILES}
         ${SHADER_FILES}
+        ${MATERIAL_FILES}
         #    ${GRAPHING_FILES}
         )
 

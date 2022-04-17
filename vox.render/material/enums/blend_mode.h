@@ -4,12 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "material.h"
+#pragma once
 
-#include <utility>
-
-namespace vox::sg {
-Material::Material(std::string name) :
-name_{std::move(name)} {}
-
-}        // namespace vox
+/**
+ * Alpha blend mode.
+ */
+enum class BlendMode {
+    /** SRC ALPHA * SRC + (1 - SRC ALPHA) * DEST */
+    NORMAL,
+    /** SRC ALPHA * SRC + ONE * DEST */
+    ADDITIVE
+};

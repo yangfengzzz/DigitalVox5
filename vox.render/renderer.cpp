@@ -5,10 +5,7 @@
 //  property of any third parties.
 
 #include "renderer.h"
-
 #include <utility>
-
-#include "material.h"
 
 namespace vox::sg {
 Renderer::Renderer(std::string name) :
@@ -49,14 +46,14 @@ const ShaderVariant &Renderer::get_shader_variant() const {
 void Renderer::compute_shader_variant() {
     shader_variant_.clear();
     
-    if (material_ != nullptr) {
-        for (auto &texture : material_->textures_) {
-            std::string tex_name = texture.first;
-            std::transform(tex_name.begin(), tex_name.end(), tex_name.begin(), ::toupper);
-            
-            shader_variant_.add_define("HAS_" + tex_name);
-        }
-    }
+//    if (material_ != nullptr) {
+//        for (auto &texture : material_->textures_) {
+//            std::string tex_name = texture.first;
+//            std::transform(tex_name.begin(), tex_name.end(), tex_name.begin(), ::toupper);
+//            
+//            shader_variant_.add_define("HAS_" + tex_name);
+//        }
+//    }
     
     for (auto &attribute : vertex_attributes_) {
         std::string attrib_name = attribute.first;

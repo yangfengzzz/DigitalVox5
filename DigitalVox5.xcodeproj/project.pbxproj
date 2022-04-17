@@ -261,7 +261,6 @@
 		0444EA7A2805832400C6F279 /* gltf_loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA72280581C800C6F279 /* gltf_loader.cpp */; };
 		0444EA7D28059CDC00C6F279 /* old_camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA7B28059CDC00C6F279 /* old_camera.cpp */; };
 		0444EA7E28059CDC00C6F279 /* old_camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA7C28059CDC00C6F279 /* old_camera.h */; };
-		0444EA812805AF2A00C6F279 /* pbr_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA7F2805AF2900C6F279 /* pbr_material.cpp */; };
 		0444EA822805AF2A00C6F279 /* pbr_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA802805AF2A00C6F279 /* pbr_material.h */; };
 		0444EAC228083EAA00C6F279 /* singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA9E28083E5C00C6F279 /* singleton.h */; };
 		0444EAC328083EC100C6F279 /* update_flag_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA8628083E5B00C6F279 /* update_flag_manager.h */; };
@@ -1049,6 +1048,8 @@
 		04D95CD5280BB27300E54DC2 /* shader_property.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_property.h; sourceTree = "<group>"; };
 		04D95CD8280BBD7A00E54DC2 /* shader_data.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shader_data.cpp; sourceTree = "<group>"; };
 		04D95CD9280BBD7A00E54DC2 /* shader_data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_data.h; sourceTree = "<group>"; };
+		04D95CE0280BEB9900E54DC2 /* blend_mode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blend_mode.h; sourceTree = "<group>"; };
+		04D95CE1280BEBDA00E54DC2 /* render_queue_type.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = render_queue_type.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1610,7 +1611,7 @@
 				0444E93028055D9300C6F279 /* debug_info.cpp */,
 				0444E81A2805556100C6F279 /* core */,
 				0444E8CC280559BC00C6F279 /* platform */,
-				0444E96F280564DB00C6F279 /* rendering */,
+				0444E9FD28056E0900C6F279 /* stats */,
 				0444E9CB28056A1900C6F279 /* buffer_pool.h */,
 				0444E9CA28056A1900C6F279 /* buffer_pool.cpp */,
 				0444E944280560A000C6F279 /* fence_pool.h */,
@@ -1626,17 +1627,14 @@
 				0444E9C928056A1900C6F279 /* resource_replay.cpp */,
 				0444E9CF28056A1900C6F279 /* resource_binding_state.h */,
 				0444E9D128056A1900C6F279 /* resource_binding_state.cpp */,
-				0444E9FD28056E0900C6F279 /* stats */,
+				0444E96F280564DB00C6F279 /* rendering */,
 				0444EA322805720800C6F279 /* image.h */,
 				0444EA312805720800C6F279 /* image.cpp */,
 				0444EA23280571CC00C6F279 /* image */,
 				04D95CAE280ACD0400E54DC2 /* image_manager.h */,
 				04D95CAD280ACD0400E54DC2 /* image_manager.cpp */,
 				04D95CC1280B110900E54DC2 /* shader */,
-				0444EA442805741800C6F279 /* material.h */,
-				0444EA452805741800C6F279 /* material.cpp */,
-				0444EA802805AF2A00C6F279 /* pbr_material.h */,
-				0444EA7F2805AF2900C6F279 /* pbr_material.cpp */,
+				04D95CDE280BEA7300E54DC2 /* material */,
 				04D95CA4280AADFA00E54DC2 /* mesh */,
 				0444EA73280581C800C6F279 /* gltf_loader.h */,
 				0444EA72280581C800C6F279 /* gltf_loader.cpp */,
@@ -1917,6 +1915,27 @@
 			children = (
 			);
 			path = subpasses;
+			sourceTree = "<group>";
+		};
+		04D95CDE280BEA7300E54DC2 /* material */ = {
+			isa = PBXGroup;
+			children = (
+				04D95CDF280BEB8A00E54DC2 /* enums */,
+				0444EA442805741800C6F279 /* material.h */,
+				0444EA452805741800C6F279 /* material.cpp */,
+				0444EA802805AF2A00C6F279 /* pbr_material.h */,
+				0444EA7F2805AF2900C6F279 /* pbr_material.cpp */,
+			);
+			path = material;
+			sourceTree = "<group>";
+		};
+		04D95CDF280BEB8A00E54DC2 /* enums */ = {
+			isa = PBXGroup;
+			children = (
+				04D95CE0280BEB9900E54DC2 /* blend_mode.h */,
+				04D95CE1280BEBDA00E54DC2 /* render_queue_type.h */,
+			);
+			path = enums;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2495,7 +2514,6 @@
 				04D95CAF280ACD0400E54DC2 /* image_manager.cpp in Sources */,
 				0444EA1D28056EFD00C6F279 /* vulkan_sample.cpp in Sources */,
 				0444E953280562C700C6F279 /* image_view.cpp in Sources */,
-				0444EA812805AF2A00C6F279 /* pbr_material.cpp in Sources */,
 				0444EBEE2808534A00C6F279 /* inspector_item.cpp in Sources */,
 				0444E93A28055F8100C6F279 /* queue.cpp in Sources */,
 				0444EAE528084B5E00C6F279 /* gui_drawer.cpp in Sources */,
