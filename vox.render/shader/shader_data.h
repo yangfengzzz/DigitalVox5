@@ -8,6 +8,7 @@
 
 #include "shader_property.h"
 #include "core/buffer.h"
+#include "core/sampled_image.h"
 #include "../image.h"
 #include "shader_variant.h"
 
@@ -22,8 +23,6 @@ public:
     core::Buffer *get_data(const std::string &property_name);
     
     core::Buffer *get_data(const ShaderProperty &property);
-    
-    core::Buffer *get_data(uint32_t unique_id);
     
     void set_buffer_functor(const std::string &property_name,
                             const std::function<core::Buffer *()> &functor);
@@ -81,6 +80,19 @@ public:
     }
     
 public:
+    void set_texture(const std::string &texture_name,
+                     const std::shared_ptr<Image> &image,
+                     core::Sampler *sampler = nullptr);
+    
+    void set_texture(const ShaderProperty &texture_prop,
+                     const std::shared_ptr<Image> &image,
+                     core::Sampler *sampler = nullptr);
+    
+    core::SampledImage *get_sampled_image(const std::string &property_name);
+    
+    core::SampledImage *get_sampled_image(const ShaderProperty &property);
+    
+public:
     /**
      * @brief Adds a define macro to the shader
      * @param def String which should go to the right of a define directive
@@ -94,10 +106,12 @@ public:
     void add_undefine(const std::string &undef);
     
 private:
+    core::Buffer *get_data(uint32_t unique_id);
+    
     Device &device_;
-    std::unordered_map<uint32_t, std::unique_ptr<core::Buffer>> shader_buffers_{};
     std::unordered_map<uint32_t, std::function<core::Buffer *()>> shader_buffer_functors_{};
-    std::unordered_map<uint32_t, std::shared_ptr<Image>> shader_textures_{};
+    std::unordered_map<uint32_t, std::unique_ptr<core::Buffer>> shader_buffers_{};
+    std::unordered_map<uint32_t, std::unique_ptr<core::SampledImage>> shader_textures_{};
     
     ShaderVariant variant_;
 };
