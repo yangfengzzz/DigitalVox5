@@ -39,8 +39,6 @@ public:
     /** sampler pool*/
     static std::unordered_map<VkSamplerCreateInfo, core::Sampler> sampler_pool_;
     
-    const std::function<core::Sampler*(const VkSamplerCreateInfo& info)> get_sampler_;
-    
     explicit Material(Device &device, std::string name);
     
     Material(Material &&other) = default;

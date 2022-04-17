@@ -10,20 +10,8 @@
 
 namespace vox {
 Material::Material(Device &device, std::string name) :
-	shader_data_(device),
-	name_{std::move(name)},
-	get_sampler_([&](const VkSamplerCreateInfo& info)->core::Sampler* {
-    auto iter = sampler_pool_.find(info);
-    if (iter != sampler_pool_.end()) {
-        return &iter->second;
-    } else {
-        auto pair = std::make_pair(info, core::Sampler(device, info));
-        auto sampler = &pair.second;
-        sampler_pool_.insert(std::move(pair));
-        return sampler;
-    }
-}){
-    
+shader_data_(device),
+name_{std::move(name)} {
 }
 
 }        // namespace vox

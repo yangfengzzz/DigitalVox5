@@ -99,6 +99,20 @@ alpha_cutoff_prop_(ShaderProperty::create("u_alphaCutoff", ShaderDataGroup::MATE
     set_blend_mode(BlendMode::NORMAL);
     shader_data_.set_data(alpha_cutoff_prop_, 0.0f);
     
+    if (!get_sampler_) {
+        get_sampler_ = [&](const VkSamplerCreateInfo& info)->core::Sampler* {
+            auto iter = sampler_pool_.find(info);
+            if (iter != sampler_pool_.end()) {
+                return &iter->second;
+            } else {
+                auto pair = std::make_pair(info, core::Sampler(device, info));
+                auto sampler = &pair.second;
+                sampler_pool_.insert(std::move(pair));
+                return sampler;
+            }
+        };
+    }
+    
     if (last_sampler_create_info_.sType != VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO) {
         // Create a default sampler
         last_sampler_create_info_.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
