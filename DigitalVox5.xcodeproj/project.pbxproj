@@ -502,6 +502,8 @@
 		04D95CCE280BAE1B00E54DC2 /* shader_variant.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CCC280BAE1B00E54DC2 /* shader_variant.h */; };
 		04D95CD1280BB0D900E54DC2 /* shader_source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CCF280BB0D900E54DC2 /* shader_source.cpp */; };
 		04D95CD2280BB0D900E54DC2 /* shader_source.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CD0280BB0D900E54DC2 /* shader_source.h */; };
+		04D95CD6280BB27300E54DC2 /* shader_property.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CD4280BB27300E54DC2 /* shader_property.cpp */; };
+		04D95CD7280BB27300E54DC2 /* shader_property.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CD5280BB27300E54DC2 /* shader_property.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1044,6 +1046,9 @@
 		04D95CCC280BAE1B00E54DC2 /* shader_variant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_variant.h; sourceTree = "<group>"; };
 		04D95CCF280BB0D900E54DC2 /* shader_source.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shader_source.cpp; sourceTree = "<group>"; };
 		04D95CD0280BB0D900E54DC2 /* shader_source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_source.h; sourceTree = "<group>"; };
+		04D95CD3280BB26400E54DC2 /* shader_data_group.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_data_group.h; sourceTree = "<group>"; };
+		04D95CD4280BB27300E54DC2 /* shader_property.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shader_property.cpp; sourceTree = "<group>"; };
+		04D95CD5280BB27300E54DC2 /* shader_property.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_property.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1885,6 +1890,9 @@
 				0444E8AB280555E800C6F279 /* spirv_reflection.h */,
 				0444E8AC280555E800C6F279 /* spirv_reflection.cpp */,
 				04D95CC2280B111C00E54DC2 /* shader_common.h */,
+				04D95CD3280BB26400E54DC2 /* shader_data_group.h */,
+				04D95CD5280BB27300E54DC2 /* shader_property.h */,
+				04D95CD4280BB27300E54DC2 /* shader_property.cpp */,
 				04D95CCC280BAE1B00E54DC2 /* shader_variant.h */,
 				04D95CCB280BAE1B00E54DC2 /* shader_variant.cpp */,
 				04D95CD0280BB0D900E54DC2 /* shader_source.h */,
@@ -2069,6 +2077,7 @@
 				04D95CAB280AB12800E54DC2 /* renderer.h in Headers */,
 				04D95CA1280A8C7D00E54DC2 /* capsule_collider_shape.h in Headers */,
 				0444E94A2805618000C6F279 /* buffer.h in Headers */,
+				04D95CD7280BB27300E54DC2 /* shader_property.h in Headers */,
 				0444EBCF28084BD600C6F279 /* drag_multiple_floats.h in Headers */,
 				0444EA2C280571FA00C6F279 /* stb_img.h in Headers */,
 				0444EB9928084BC500C6F279 /* tree_node.h in Headers */,
@@ -2455,6 +2464,7 @@
 				0444EA79280581F300C6F279 /* heightmap.cpp in Sources */,
 				0444E961280563DB00C6F279 /* plugin.cpp in Sources */,
 				0444EB0928084B8000C6F279 /* widget_container.cpp in Sources */,
+				04D95CD6280BB27300E54DC2 /* shader_property.cpp in Sources */,
 				04D95C66280A8C6600E54DC2 /* dynamic_collider.cpp in Sources */,
 				0444EA0D28056E2700C6F279 /* stats_provider.cpp in Sources */,
 				0444E9F428056B0500C6F279 /* acceleration_structure.cpp in Sources */,
