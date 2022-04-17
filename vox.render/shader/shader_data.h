@@ -9,6 +9,7 @@
 #include "shader_property.h"
 #include "core/buffer.h"
 #include "../image.h"
+#include "shader_variant.h"
 
 namespace vox {
 /**
@@ -79,11 +80,26 @@ public:
         iter->second->update(value.data());
     }
     
+public:
+    /**
+     * @brief Adds a define macro to the shader
+     * @param def String which should go to the right of a define directive
+     */
+    void add_define(const std::string &def);
+    
+    /**
+     * @brief Adds an undef macro to the shader
+     * @param undef String which should go to the right of an undef directive
+     */
+    void add_undefine(const std::string &undef);
+    
 private:
     Device &device_;
     std::unordered_map<uint32_t, std::unique_ptr<core::Buffer>> shader_buffers_{};
     std::unordered_map<uint32_t, std::function<core::Buffer *()>> shader_buffer_functors_{};
     std::unordered_map<uint32_t, std::shared_ptr<Image>> shader_textures_{};
+    
+    ShaderVariant variant_;
 };
 
 }

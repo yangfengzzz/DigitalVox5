@@ -52,4 +52,12 @@ void ShaderData::set_buffer_functor(const ShaderProperty &property,
     shader_buffer_functors_.insert(std::make_pair(property.unique_id, functor));
 }
 
+void ShaderData::add_define(const std::string &def) {
+    variant_.add_define(def);
+}
+
+void ShaderData::add_undefine(const std::string &undef) {
+    variant_.add_undefine(undef);
+}
+
 }
