@@ -20,7 +20,7 @@ public:
     /**
      * Base color.
      */
-    [[nodiscard]] Color base_color() const;
+    [[nodiscard]] const Color &base_color() const;
     
     void set_base_color(const Color &new_value);
     
@@ -31,19 +31,19 @@ public:
     
     void set_base_texture(const std::shared_ptr<Image> &new_value);
     
-    void set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo& info);
+    void set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
     
     /**
      * Tiling and offset of main textures.
      */
-    [[nodiscard]] Vector4F tiling_offset() const;
+    [[nodiscard]] const Vector4F &tiling_offset() const;
     
     void set_tiling_offset(const Vector4F &new_value);
     
     /**
      * Create a unlit material instance.
      */
-    explicit UnlitMaterial(Device& device, const std::string &name);
+    UnlitMaterial(Device &device, const std::string &name);
     
 private:
     Color base_color_ = Color(1, 1, 1, 1);

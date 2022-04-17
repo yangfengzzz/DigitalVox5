@@ -507,6 +507,8 @@
 		04D95CE5280BF4A400E54DC2 /* base_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CE3280BF4A400E54DC2 /* base_material.h */; };
 		04D95CE9280BF9C700E54DC2 /* unlit_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CE7280BF9C700E54DC2 /* unlit_material.cpp */; };
 		04D95CEA280BF9C700E54DC2 /* unlit_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CE8280BF9C700E54DC2 /* unlit_material.h */; };
+		04D95CED280C0DFB00E54DC2 /* blinn_phong_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CEB280C0DFB00E54DC2 /* blinn_phong_material.cpp */; };
+		04D95CEE280C0DFB00E54DC2 /* blinn_phong_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CEC280C0DFB00E54DC2 /* blinn_phong_material.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1059,6 +1061,8 @@
 		04D95CE6280BF59A00E54DC2 /* render_face.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = render_face.h; sourceTree = "<group>"; };
 		04D95CE7280BF9C700E54DC2 /* unlit_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = unlit_material.cpp; sourceTree = "<group>"; };
 		04D95CE8280BF9C700E54DC2 /* unlit_material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unlit_material.h; sourceTree = "<group>"; };
+		04D95CEB280C0DFB00E54DC2 /* blinn_phong_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = blinn_phong_material.cpp; sourceTree = "<group>"; };
+		04D95CEC280C0DFB00E54DC2 /* blinn_phong_material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blinn_phong_material.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1936,6 +1940,8 @@
 				04D95CE2280BF4A400E54DC2 /* base_material.cpp */,
 				04D95CE8280BF9C700E54DC2 /* unlit_material.h */,
 				04D95CE7280BF9C700E54DC2 /* unlit_material.cpp */,
+				04D95CEC280C0DFB00E54DC2 /* blinn_phong_material.h */,
+				04D95CEB280C0DFB00E54DC2 /* blinn_phong_material.cpp */,
 				0444EA802805AF2A00C6F279 /* pbr_material.h */,
 				0444EA7F2805AF2900C6F279 /* pbr_material.cpp */,
 			);
@@ -2091,6 +2097,7 @@
 				04D95C5E280A8C6600E54DC2 /* collider.h in Headers */,
 				0444E9EE28056AFA00C6F279 /* pipeline_layout.h in Headers */,
 				0444EBDF28084BDE00C6F279 /* button_arrow.h in Headers */,
+				04D95CEE280C0DFB00E54DC2 /* blinn_phong_material.h in Headers */,
 				0444EB6E28084BAF00C6F279 /* color_edit.h in Headers */,
 				04D95CB0280ACD0400E54DC2 /* image_manager.h in Headers */,
 				04D95C27280993DC00E54DC2 /* scene.h in Headers */,
@@ -2477,6 +2484,7 @@
 				0444E8C82805589600C6F279 /* spirv_reflection.cpp in Sources */,
 				0444EB0628084B8000C6F279 /* widget.cpp in Sources */,
 				0444E8B9280556B100C6F279 /* vk_common.cpp in Sources */,
+				04D95CED280C0DFB00E54DC2 /* blinn_phong_material.cpp in Sources */,
 				0444EA482805747500C6F279 /* api_vulkan_sample.cpp in Sources */,
 				04D95CB3280AE52900E54DC2 /* sub_mesh.cpp in Sources */,
 				04D95CE4280BF4A400E54DC2 /* base_material.cpp in Sources */,

@@ -7,7 +7,7 @@
 #include "unlit_material.h"
 
 namespace vox {
-Color UnlitMaterial::base_color() const {
+const Color &UnlitMaterial::base_color() const {
     return base_color_;
 }
 
@@ -25,7 +25,7 @@ void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value) {
     set_base_texture(new_value, BaseMaterial::last_sampler_create_info_);
 }
 
-void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo& info) {
+void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
     shader_data_.set_texture(base_texture_prop_, new_value, get_sampler_(info));
     
@@ -36,7 +36,7 @@ void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, co
     }
 }
 
-Vector4F UnlitMaterial::tiling_offset() const {
+const Vector4F &UnlitMaterial::tiling_offset() const {
     return tiling_offset_;
 }
 
@@ -45,11 +45,11 @@ void UnlitMaterial::set_tiling_offset(const Vector4F &new_value) {
     shader_data_.set_data(tiling_offset_prop_, new_value);
 }
 
-UnlitMaterial::UnlitMaterial(Device& device, const std::string &name) :
-	BaseMaterial(device, name),
-	base_color_prop_(ShaderProperty::create("u_baseColor", ShaderDataGroup::MATERIAL)),
-	base_texture_prop_(ShaderProperty::create("u_baseTexture", ShaderDataGroup::MATERIAL)),
-	tiling_offset_prop_(ShaderProperty::create("u_tilingOffset", ShaderDataGroup::MATERIAL)) {
+UnlitMaterial::UnlitMaterial(Device &device, const std::string &name) :
+BaseMaterial(device, name),
+base_color_prop_(ShaderProperty::create("u_baseColor", ShaderDataGroup::MATERIAL)),
+base_texture_prop_(ShaderProperty::create("u_baseTexture", ShaderDataGroup::MATERIAL)),
+tiling_offset_prop_(ShaderProperty::create("u_tilingOffset", ShaderDataGroup::MATERIAL)) {
     shader_data_.add_define("OMIT_NORMAL");
     shader_data_.add_define("NEED_TILINGOFFSET");
     
