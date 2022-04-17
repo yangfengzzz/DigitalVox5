@@ -8,6 +8,8 @@
 
 #include "shader_data_group.h"
 #include <string>
+#include <unordered_map>
+#include <optional>
 
 namespace vox {
 /**
@@ -23,8 +25,26 @@ struct ShaderProperty {
     
     ShaderProperty(std::string name, ShaderDataGroup group);
     
+public:
+    /**
+     * Get shader property by name.
+     * @param name - Name of the shader property
+     * @returns Shader property
+     */
+    static std::optional<ShaderProperty> get_property_by_name(const std::string &name);
+    
+    static std::optional<ShaderDataGroup> get_shader_property_group(const std::string &property_name);
+    
+    /**
+     * Create shader property by name.
+     * @param name - Name of the shader property
+     * @param group - Group of shader data
+     * @returns Shader property
+     */
+    static ShaderProperty create(const std::string &name, ShaderDataGroup group);
+    
 private:
-    static uint32_t property_name_counter;
+    static std::unordered_map<std::string, ShaderProperty> property_name_map;
 };
 
 }
