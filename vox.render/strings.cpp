@@ -8,7 +8,7 @@
 
 #include <spdlog/fmt/fmt.h>
 
-#include "core/shader_module.h"
+#include "shader/shader_module.h"
 
 namespace vox {
 std::vector<std::string> split(const std::string &str, const std::string &delimiter) {

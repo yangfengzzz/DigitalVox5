@@ -11,8 +11,6 @@ project(vox.render LANGUAGES C CXX)
 set(FRAMEWORK_FILES
         # Header Files
         gui.h
-        glsl_compiler.h
-        spirv_reflection.h
         gltf_loader.h
         buffer_pool.h
         debug_info.h
@@ -29,8 +27,6 @@ set(FRAMEWORK_FILES
         camera.h
         # Source Files
         gui.cpp
-        glsl_compiler.cpp
-        spirv_reflection.cpp
         gltf_loader.cpp
         debug_info.cpp
         buffer_pool.cpp
@@ -201,7 +197,6 @@ set(CORE_FILES
         core/physical_device.h
         core/device.h
         core/debug.h
-        core/shader_module.h
         core/pipeline_layout.h
         core/pipeline.h
         core/descriptor_set_layout.h
@@ -230,7 +225,6 @@ set(CORE_FILES
         core/device.cpp
         core/debug.cpp
         core/image.cpp
-        core/shader_module.cpp
         core/pipeline_layout.cpp
         core/pipeline.cpp
         core/descriptor_set_layout.cpp
@@ -499,7 +493,7 @@ if (${VKB_WARNINGS_AS_ERRORS})
     endif ()
 endif ()
 
-target_include_directories(${PROJECT_NAME} PUBLIC ../vox.math ${CMAKE_CURRENT_SOURCE_DIR} ${PHYSX_SOURCE})
+target_include_directories(${PROJECT_NAME} PUBLIC ../vox.math ./vox.render ${CMAKE_CURRENT_SOURCE_DIR} ${PHYSX_SOURCE})
 
 # Link third party libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC

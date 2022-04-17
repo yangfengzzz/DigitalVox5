@@ -9,7 +9,7 @@
 #include "core/pipeline.h"
 #include "core/pipeline_layout.h"
 #include "core/render_pass.h"
-#include "core/shader_module.h"
+#include "shader/shader_module.h"
 #include "resource_cache.h"
 
 namespace vox {

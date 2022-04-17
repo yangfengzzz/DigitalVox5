@@ -8,7 +8,7 @@
 
 #include "buffer_pool.h"
 #include "helpers.h"
-#include "core/shader_module.h"
+#include "shader/shader_module.h"
 #include "rendering/pipeline_state.h"
 #include "rendering/render_context.h"
 #include "rendering/render_frame.h"

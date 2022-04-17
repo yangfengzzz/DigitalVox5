@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "shader_module.h"
+#include "shader/shader_module.h"
 
 #include "logging.h"
-#include "device.h"
+#include "core/device.h"
 #include "glsl_compiler.h"
-#include "platform/filesystem.h"
 #include "spirv_reflection.h"
+#include "platform/filesystem.h"
 
 namespace vox {
 /**
@@ -154,6 +154,7 @@ void ShaderModule::set_resource_mode(const std::string &resource_name, const Sha
     }
 }
 
+//MARK: - ShaderVariant
 ShaderVariant::ShaderVariant(std::string &&preamble, std::vector<std::string> &&processes) :
 preamble_{std::move(preamble)},
 processes_{std::move(processes)} {
@@ -230,6 +231,7 @@ void ShaderVariant::update_id() {
     id_ = hasher(preamble_);
 }
 
+//MARK: - ShaderSource
 ShaderSource::ShaderSource(const std::string &filename) :
 filename_{filename},
 source_{fs::read_shader(filename)} {

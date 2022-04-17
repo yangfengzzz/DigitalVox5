@@ -18,7 +18,7 @@
 #include "vk_initializers.h"
 #include "core/descriptor_set.h"
 #include "core/pipeline.h"
-#include "core/shader_module.h"
+#include "shader/shader_module.h"
 #include "imgui_internal.h"
 #include "platform/filesystem.h"
 #include "platform/window.h"

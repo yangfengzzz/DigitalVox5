@@ -19,7 +19,7 @@ VKBP_DISABLE_WARNINGS()
 VKBP_ENABLE_WARNINGS()
 
 #include "vk_common.h"
-#include "core/shader_module.h"
+#include "shader/shader_module.h"
 
 namespace vox {
 /// Generate a list of shader resource based on SPIRV reflection code, and provided ShaderVariant

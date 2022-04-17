@@ -9,7 +9,7 @@
 #include "helpers.h"
 #include "vk_common.h"
 #include "core/descriptor_set_layout.h"
-#include "core/shader_module.h"
+#include "shader/shader_module.h"
 
 namespace vox {
 class Device;

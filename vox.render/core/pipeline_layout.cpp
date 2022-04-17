@@ -8,7 +8,7 @@
 
 #include "descriptor_set_layout.h"
 #include "device.h"
-#include "shader_module.h"
+#include "shader/shader_module.h"
 
 namespace vox {
 PipelineLayout::PipelineLayout(Device &device, const std::vector<ShaderModule *> &shader_modules) :

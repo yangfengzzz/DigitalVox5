@@ -10,7 +10,7 @@
 
 #include "logging.h"
 #include "strings.h"
-#include "glsl_compiler.h"
+#include "shader/glsl_compiler.h"
 #include "platform/filesystem.h"
 
 std::ostream &operator<<(std::ostream &os, const VkResult result) {

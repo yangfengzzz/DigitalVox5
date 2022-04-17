@@ -23,7 +23,6 @@
 
 #include "image.h"
 #include "image/astc_img.h"
-#include "sampler.h"
 #include "renderer.h"
 #include "pbr_material.h"
 

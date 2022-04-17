@@ -14,7 +14,7 @@
 
 #include "vk_common.h"
 #include "core/buffer.h"
-#include "core/shader_module.h"
+#include "shader/shader_module.h"
 
 namespace vox::sg {
 class Material;

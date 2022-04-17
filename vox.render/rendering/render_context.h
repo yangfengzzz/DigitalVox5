@@ -17,7 +17,7 @@
 #include "core/pipeline_layout.h"
 #include "core/queue.h"
 #include "core/render_pass.h"
-#include "core/shader_module.h"
+#include "shader/shader_module.h"
 #include "core/swapchain.h"
 #include "rendering/pipeline_state.h"
 #include "rendering/render_frame.h"

@@ -10,7 +10,7 @@
 
 #include "device.h"
 #include "physical_device.h"
-#include "shader_module.h"
+#include "shader/shader_module.h"
 
 namespace vox {
 namespace {

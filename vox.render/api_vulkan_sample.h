@@ -31,7 +31,6 @@
 #include "platform/platform.h"
 #include "rendering/render_context.h"
 #include "image.h"
-#include "sampler.h"
 #include "image.h"
 #include "vulkan_sample.h"
 
