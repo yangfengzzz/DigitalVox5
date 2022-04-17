@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_MESH_MESH_H_
-#define DIGITALVOX_VOX_RENDER_MESH_MESH_H_
+#pragma once
 
 #include "sub_mesh.h"
 #include "index_buffer_binding.h"
@@ -105,5 +104,3 @@ protected:
 };
 
 }
-
-#endif /* DIGITALVOX_VOX_RENDER_MESH_MESH_H_ */

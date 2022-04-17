@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_MESH_INDEX_BUFFER_BINDING_H_
-#define DIGITALVOX_VOX_RENDER_MESH_INDEX_BUFFER_BINDING_H_
+#pragma once
 
 #include "core/buffer.h"
 
@@ -38,5 +37,3 @@ private:
 };
 
 }
-
-#endif /* DIGITALVOX_VOX_RENDER_MESH_INDEX_BUFFER_BINDING_H_ */

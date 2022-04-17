@@ -59,7 +59,7 @@ void BoxColliderShape::set_world_scale(const Vector3F &scale) {
 //    
 //    auto renderer = _entity->addComponent<MeshRenderer>();
 //    renderer->set_material(std::make_shared<UnlitMaterial>(value->scene()->device()));
-//    renderer->setMesh(WireframePrimitiveMesh::create_cuboid_wire_frame(value->scene()->device(), 1, 1, 1));
+//    renderer->set_mesh(WireframePrimitiveMesh::create_cuboid_wire_frame(value->scene()->device(), 1, 1, 1));
 //    _syncBoxGeometry();
 //}
 //

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_MESH_WIREFRAME_PRIMITIVE_MESH_H_
-#define DIGITALVOX_VOX_RENDER_MESH_WIREFRAME_PRIMITIVE_MESH_H_
+#pragma once
 
 #include "model_mesh.h"
 #include "vector3.h"
@@ -40,4 +39,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_MESH_WIREFRAME_PRIMITIVE_MESH_H_ */
