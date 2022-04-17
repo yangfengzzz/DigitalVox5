@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "renderer.h"
+#include "old_renderer.h"
 #include <utility>
 
 namespace vox::sg {

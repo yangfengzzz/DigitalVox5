@@ -9,7 +9,7 @@
 #include "core/device.h"
 #include "core/swapchain.h"
 #include "image.h"
-#include "renderer.h"
+#include "old_renderer.h"
 #include "gltf_loader.h"
 
 namespace vox {

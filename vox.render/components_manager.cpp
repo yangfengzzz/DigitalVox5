@@ -6,7 +6,7 @@
 
 #include "components_manager.h"
 #include "script.h"
-//#include "renderer.h"
+//#include "old_renderer.h"
 #include "entity.h"
 #include "camera.h"
 //#include "animator.h"
