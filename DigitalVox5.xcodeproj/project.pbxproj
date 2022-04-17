@@ -512,6 +512,8 @@
 		04D95CF1280C1A9F00E54DC2 /* pbr_base_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CEF280C1A9F00E54DC2 /* pbr_base_material.cpp */; };
 		04D95CF2280C1A9F00E54DC2 /* pbr_base_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CF0280C1A9F00E54DC2 /* pbr_base_material.h */; };
 		04D95CF3280C32BE00E54DC2 /* pbr_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA7F2805AF2900C6F279 /* pbr_material.cpp */; };
+		04D95CF6280C345C00E54DC2 /* pbr_specular_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CF4280C345C00E54DC2 /* pbr_specular_material.cpp */; };
+		04D95CF7280C345C00E54DC2 /* pbr_specular_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CF5280C345C00E54DC2 /* pbr_specular_material.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1068,6 +1070,8 @@
 		04D95CEC280C0DFB00E54DC2 /* blinn_phong_material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blinn_phong_material.h; sourceTree = "<group>"; };
 		04D95CEF280C1A9F00E54DC2 /* pbr_base_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pbr_base_material.cpp; sourceTree = "<group>"; };
 		04D95CF0280C1A9F00E54DC2 /* pbr_base_material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pbr_base_material.h; sourceTree = "<group>"; };
+		04D95CF4280C345C00E54DC2 /* pbr_specular_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pbr_specular_material.cpp; sourceTree = "<group>"; };
+		04D95CF5280C345C00E54DC2 /* pbr_specular_material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pbr_specular_material.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1951,6 +1955,8 @@
 				04D95CEF280C1A9F00E54DC2 /* pbr_base_material.cpp */,
 				0444EA802805AF2A00C6F279 /* pbr_material.h */,
 				0444EA7F2805AF2900C6F279 /* pbr_material.cpp */,
+				04D95CF5280C345C00E54DC2 /* pbr_specular_material.h */,
+				04D95CF4280C345C00E54DC2 /* pbr_specular_material.cpp */,
 			);
 			path = material;
 			sourceTree = "<group>";
@@ -2131,6 +2137,7 @@
 				0444E94228055FD400C6F279 /* debug.h in Headers */,
 				0444E946280560A000C6F279 /* fence_pool.h in Headers */,
 				0444EB1728084B8700C6F279 /* panel_window.h in Headers */,
+				04D95CF7280C345C00E54DC2 /* pbr_specular_material.h in Headers */,
 				04D95C77280A8C6E00E54DC2 /* fixed_joint.h in Headers */,
 				0444EB0F28084B8000C6F279 /* widget.h in Headers */,
 				0444EAC328083EC100C6F279 /* update_flag_manager.h in Headers */,
@@ -2529,6 +2536,7 @@
 				04D95C3E2809A23400E54DC2 /* script.cpp in Sources */,
 				0444EBB528084BCE00C6F279 /* input_double.cpp in Sources */,
 				0444EB2828084B9700C6F279 /* bullet.cpp in Sources */,
+				04D95CF6280C345C00E54DC2 /* pbr_specular_material.cpp in Sources */,
 				0444EBCA28084BD600C6F279 /* drag_double.cpp in Sources */,
 				0444EA7D28059CDC00C6F279 /* old_camera.cpp in Sources */,
 				0444EA0E28056E2700C6F279 /* hwcpipe_stats_provider.cpp in Sources */,
