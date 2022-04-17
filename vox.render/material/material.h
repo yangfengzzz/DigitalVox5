@@ -9,6 +9,7 @@
 #include "rendering/pipeline_state.h"
 #include "shader/shader_data.h"
 #include "enums/render_queue_type.h"
+#include "resource_caching.h"
 
 namespace vox {
 /**
@@ -34,6 +35,11 @@ public:
     MultisampleState multisample_state_;
     DepthStencilState depth_stencil_state_;
     ColorBlendState color_blend_state_;
+    
+    /** sampler pool*/
+    static std::unordered_map<VkSamplerCreateInfo, core::Sampler> sampler_pool_;
+    
+    const std::function<core::Sampler*(const VkSamplerCreateInfo& info)> get_sampler_;
     
     explicit Material(Device &device, std::string name);
     

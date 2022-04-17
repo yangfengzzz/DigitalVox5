@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "base_material.h"
+#include "core/device.h"
 
 namespace vox {
 bool BaseMaterial::is_transparent() const {
@@ -90,11 +91,38 @@ void BaseMaterial::set_blend_mode(const BlendMode &new_value) {
     }
 }
 
+VkSamplerCreateInfo BaseMaterial::last_sampler_create_info_;
+
 BaseMaterial::BaseMaterial(Device &device, const std::string &name) :
 Material(device, name),
 alpha_cutoff_prop_(ShaderProperty::create("u_alphaCutoff", ShaderDataGroup::MATERIAL)) {
     set_blend_mode(BlendMode::NORMAL);
     shader_data_.set_data(alpha_cutoff_prop_, 0.0f);
+    
+    if (last_sampler_create_info_.sType != VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO) {
+        // Create a default sampler
+        last_sampler_create_info_.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+        last_sampler_create_info_.magFilter = VK_FILTER_LINEAR;
+        last_sampler_create_info_.minFilter = VK_FILTER_LINEAR;
+        last_sampler_create_info_.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+        last_sampler_create_info_.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+        last_sampler_create_info_.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+        last_sampler_create_info_.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+        last_sampler_create_info_.mipLodBias = 0.0f;
+        last_sampler_create_info_.compareOp = VK_COMPARE_OP_NEVER;
+        last_sampler_create_info_.minLod = 0.0f;
+        // Max level-of-detail should match mip level count
+        last_sampler_create_info_.maxLod = 0.0f;
+        // Only enable anisotropic filtering if enabled on the device
+        // Note that for simplicity, we will always be using max. available anisotropy level for the current device
+        // This may have an impact on performance, esp. on lower-specced devices
+        // In a real-world scenario the level of anisotropy should be a user setting or e.g. lowered for mobile devices by default
+        last_sampler_create_info_.maxAnisotropy = device.get_gpu().get_features().samplerAnisotropy
+        ? (device.get_gpu().get_properties().limits.maxSamplerAnisotropy)
+        : 1.0f;
+        last_sampler_create_info_.anisotropyEnable = device.get_gpu().get_features().samplerAnisotropy;
+        last_sampler_create_info_.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+    }
 }
 
 }

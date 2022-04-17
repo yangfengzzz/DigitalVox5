@@ -53,6 +53,9 @@ public:
      */
     BaseMaterial(Device &device, const std::string &name);
     
+protected:
+    static VkSamplerCreateInfo last_sampler_create_info_;
+    
 private:
     float alpha_cutoff_ = 0.0;
     ShaderProperty alpha_cutoff_prop_;
