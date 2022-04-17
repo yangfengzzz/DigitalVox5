@@ -12,7 +12,7 @@ uint32_t Mesh::instance_count() const {
 }
 
 void Mesh::set_instance_count(uint32_t value) {
-	instance_count_ = value;
+    instance_count_ = value;
 }
 
 const SubMesh *Mesh::sub_mesh() const {
@@ -42,9 +42,14 @@ std::unique_ptr<UpdateFlag> Mesh::register_update_flag() {
     return update_flag_manager_.registration();
 }
 
-void Mesh::set_vertex_input_state(const VkPipelineVertexInputStateCreateInfo &state) {
-    vertex_input_state_ = state;
-    update_flag_manager_.distribute();
+void Mesh::set_vertex_input_state(const std::vector<VkVertexInputBindingDescription> &vertex_input_bindings,
+                                  const std::vector<VkVertexInputAttributeDescription> &vertex_input_attributes) {
+    vertex_input_state_.bindings = vertex_input_bindings;
+    vertex_input_state_.attributes = vertex_input_attributes;
+}
+
+const VertexInputState &Mesh::vertex_input_state() const {
+    return vertex_input_state_;
 }
 
 void Mesh::set_vertex_buffer_binding(size_t index, std::unique_ptr<core::Buffer> &&binding) {
@@ -57,10 +62,6 @@ void Mesh::set_vertex_buffer_binding(size_t index, std::unique_ptr<core::Buffer>
 
 void Mesh::set_index_buffer_binding(std::unique_ptr<IndexBufferBinding> &&binding) {
     index_buffer_binding_ = std::move(binding);
-}
-
-const VkPipelineVertexInputStateCreateInfo &Mesh::vertex_input_state() const {
-    return vertex_input_state_;
 }
 
 const std::vector<std::unique_ptr<core::Buffer>> &Mesh::vertex_buffer_bindings() const {

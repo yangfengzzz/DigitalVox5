@@ -180,8 +180,7 @@ void ModelMesh::upload_data(bool no_longer_accessible) {
         assert(false && "Not allowed to access data while accessible is false.");
     }
     
-    auto vertex_input_state = update_vertex_layouts();
-    set_vertex_input_state(vertex_input_state);
+    update_vertex_state();
     vertex_change_flag_ = ValueChanged::ALL;
     
     auto vertex_float_count = element_count_ * vertex_count_;
@@ -258,7 +257,8 @@ void ModelMesh::upload_data(bool no_longer_accessible) {
     }
 }
 
-VkPipelineVertexInputStateCreateInfo ModelMesh::update_vertex_layouts() {
+void ModelMesh::update_vertex_state() {
+    auto &vertex_input_attributes_ = vertex_input_state_.attributes;
     vertex_input_attributes_.resize(1);
     vertex_input_attributes_[0] = initializers::vertex_input_attribute_description(0, 0, VK_FORMAT_R32G32B32_SFLOAT, 0);
     
@@ -346,6 +346,7 @@ VkPipelineVertexInputStateCreateInfo ModelMesh::update_vertex_layouts() {
         element_count += 2;
     }
     
+    auto &vertex_input_bindings_ = vertex_input_state_.bindings;
     vertex_input_bindings_.resize(1);
     vertex_input_bindings_[0] =
     vox::initializers::vertex_input_binding_description(0, element_count * 4, VK_VERTEX_INPUT_RATE_VERTEX);
@@ -358,7 +359,6 @@ VkPipelineVertexInputStateCreateInfo ModelMesh::update_vertex_layouts() {
     vertex_input_state.pVertexAttributeDescriptions = vertex_input_attributes_.data();
     
     element_count_ = element_count;
-    return vertex_input_state;
 }
 
 void ModelMesh::update_vertices(std::vector<float> &vertices) {

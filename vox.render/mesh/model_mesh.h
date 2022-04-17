@@ -137,7 +137,7 @@ public:
 private:
     Device &device_;
     
-    VkPipelineVertexInputStateCreateInfo update_vertex_layouts();
+    void update_vertex_state();
     
     void update_vertices(std::vector<float> &vertices);
     
@@ -155,8 +155,6 @@ private:
     VkIndexType indices_type_;
     int vertex_change_flag_{};
     size_t element_count_{};
-    std::vector<VkVertexInputBindingDescription> vertex_input_bindings_{};
-    std::vector<VkVertexInputAttributeDescription> vertex_input_attributes_{};
     
     std::vector<Vector3F> positions_;
     std::vector<Vector3F> normals_;

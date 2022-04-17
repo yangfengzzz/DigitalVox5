@@ -12,6 +12,7 @@
 #include "bounding_box3.h"
 #include "update_flag_manager.h"
 #include "../vk_initializers.h"
+#include "rendering/pipeline_state.h"
 #include <string>
 
 namespace vox {
@@ -70,11 +71,14 @@ public:
     
 public:
     /**
-     * Vertex input state.
+     * Set vertex state.
+     * @param vertex_input_bindings - stride step size
+     * @param vertex_input_attributes - Vertex attributes collection
      */
-    [[nodiscard]] const VkPipelineVertexInputStateCreateInfo &vertex_input_state() const;
+    void set_vertex_input_state(const std::vector<VkVertexInputBindingDescription> &vertex_input_bindings,
+                                const std::vector<VkVertexInputAttributeDescription> &vertex_input_attributes);
     
-    void set_vertex_input_state(const VkPipelineVertexInputStateCreateInfo &state);
+    const VertexInputState &vertex_input_state() const;
     
     /**
      * Vertex buffer binding collection.
@@ -94,7 +98,7 @@ protected:
     uint32_t instance_count_ = 1;
     std::vector<std::unique_ptr<core::Buffer>> vertex_buffer_bindings_{};
     std::unique_ptr<IndexBufferBinding> index_buffer_binding_{nullptr};
-    VkPipelineVertexInputStateCreateInfo vertex_input_state_;
+    VertexInputState vertex_input_state_;
     
     std::vector<SubMesh> sub_meshes_{};
     UpdateFlagManager update_flag_manager_;
