@@ -520,6 +520,14 @@
 		04D95D09280C4A3100E54DC2 /* forward_application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D05280C4A3100E54DC2 /* forward_application.cpp */; };
 		04D95D0A280C4A3100E54DC2 /* graphics_application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D06280C4A3100E54DC2 /* graphics_application.cpp */; };
 		04D95D0B280C4A3100E54DC2 /* graphics_application.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D07280C4A3100E54DC2 /* graphics_application.h */; };
+		04D95D18280CF20200E54DC2 /* postprocessing_pass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D10280CF20200E54DC2 /* postprocessing_pass.cpp */; };
+		04D95D19280CF20200E54DC2 /* postprocessing_pass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D11280CF20200E54DC2 /* postprocessing_pass.h */; };
+		04D95D1C280CF27500E54DC2 /* postprocessing_pipeline.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D0C280CF20100E54DC2 /* postprocessing_pipeline.h */; };
+		04D95D1D280CF27500E54DC2 /* postprocessing_pipeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D0D280CF20100E54DC2 /* postprocessing_pipeline.cpp */; };
+		04D95D1E280CF2CE00E54DC2 /* postprocessing_renderpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D0E280CF20100E54DC2 /* postprocessing_renderpass.h */; };
+		04D95D1F280CF2CE00E54DC2 /* postprocessing_renderpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D0F280CF20200E54DC2 /* postprocessing_renderpass.cpp */; };
+		04D95D20280CF2F400E54DC2 /* postprocessing_computepass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D13280CF20200E54DC2 /* postprocessing_computepass.h */; };
+		04D95D21280CF2F400E54DC2 /* postprocessing_computepass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D12280CF20200E54DC2 /* postprocessing_computepass.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1084,6 +1092,14 @@
 		04D95D05280C4A3100E54DC2 /* forward_application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = forward_application.cpp; sourceTree = "<group>"; };
 		04D95D06280C4A3100E54DC2 /* graphics_application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = graphics_application.cpp; sourceTree = "<group>"; };
 		04D95D07280C4A3100E54DC2 /* graphics_application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graphics_application.h; sourceTree = "<group>"; };
+		04D95D0C280CF20100E54DC2 /* postprocessing_pipeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = postprocessing_pipeline.h; sourceTree = "<group>"; };
+		04D95D0D280CF20100E54DC2 /* postprocessing_pipeline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = postprocessing_pipeline.cpp; sourceTree = "<group>"; };
+		04D95D0E280CF20100E54DC2 /* postprocessing_renderpass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = postprocessing_renderpass.h; sourceTree = "<group>"; };
+		04D95D0F280CF20200E54DC2 /* postprocessing_renderpass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = postprocessing_renderpass.cpp; sourceTree = "<group>"; };
+		04D95D10280CF20200E54DC2 /* postprocessing_pass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = postprocessing_pass.cpp; sourceTree = "<group>"; };
+		04D95D11280CF20200E54DC2 /* postprocessing_pass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = postprocessing_pass.h; sourceTree = "<group>"; };
+		04D95D12280CF20200E54DC2 /* postprocessing_computepass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = postprocessing_computepass.cpp; sourceTree = "<group>"; };
+		04D95D13280CF20200E54DC2 /* postprocessing_computepass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = postprocessing_computepass.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1293,6 +1309,14 @@
 				0444E9B2280568C400C6F279 /* render_context.cpp */,
 				0444E9C3280569C500C6F279 /* render_pipeline.h */,
 				0444E9C2280569C400C6F279 /* render_pipeline.cpp */,
+				04D95D0C280CF20100E54DC2 /* postprocessing_pipeline.h */,
+				04D95D0D280CF20100E54DC2 /* postprocessing_pipeline.cpp */,
+				04D95D11280CF20200E54DC2 /* postprocessing_pass.h */,
+				04D95D10280CF20200E54DC2 /* postprocessing_pass.cpp */,
+				04D95D0E280CF20100E54DC2 /* postprocessing_renderpass.h */,
+				04D95D0F280CF20200E54DC2 /* postprocessing_renderpass.cpp */,
+				04D95D13280CF20200E54DC2 /* postprocessing_computepass.h */,
+				04D95D12280CF20200E54DC2 /* postprocessing_computepass.cpp */,
 			);
 			path = rendering;
 			sourceTree = "<group>";
@@ -2073,7 +2097,9 @@
 				0444EA0F28056E2700C6F279 /* stats.h in Headers */,
 				0444EB7128084BAF00C6F279 /* radio_button.h in Headers */,
 				0444EB8728084BBD00C6F279 /* menu_list.h in Headers */,
+				04D95D1C280CF27500E54DC2 /* postprocessing_pipeline.h in Headers */,
 				0444E9BE2805695200C6F279 /* pipeline_state.h in Headers */,
+				04D95D20280CF2F400E54DC2 /* postprocessing_computepass.h in Headers */,
 				0444EB2628084B9700C6F279 /* progress_bar.h in Headers */,
 				0444E9F128056AFA00C6F279 /* descriptor_set_layout.h in Headers */,
 				0444E9FA28056B0500C6F279 /* query_pool.h in Headers */,
@@ -2093,6 +2119,7 @@
 				0444E9C7280569C500C6F279 /* render_pipeline.h in Headers */,
 				04D95C78280A8C6E00E54DC2 /* hinge_joint.h in Headers */,
 				04D95C8C280A8C7500E54DC2 /* capsule_character_controller.h in Headers */,
+				04D95D19280CF20200E54DC2 /* postprocessing_pass.h in Headers */,
 				0444E9D728056A1900C6F279 /* buffer_pool.h in Headers */,
 				0444E9AD2805689000C6F279 /* sampled_image.h in Headers */,
 				0444E960280563DB00C6F279 /* parser.h in Headers */,
@@ -2160,6 +2187,7 @@
 				0444EB1728084B8700C6F279 /* panel_window.h in Headers */,
 				04D95CF7280C345C00E54DC2 /* pbr_specular_material.h in Headers */,
 				04D95C77280A8C6E00E54DC2 /* fixed_joint.h in Headers */,
+				04D95D1E280CF2CE00E54DC2 /* postprocessing_renderpass.h in Headers */,
 				0444EB0F28084B8000C6F279 /* widget.h in Headers */,
 				0444EAC328083EC100C6F279 /* update_flag_manager.h in Headers */,
 				0444EBB328084BCE00C6F279 /* input_multiple_scalars.h in Headers */,
@@ -2458,6 +2486,7 @@
 				04D95C4B2809B28400E54DC2 /* orbit_control.cpp in Sources */,
 				04D95CDA280BBD7A00E54DC2 /* shader_data.cpp in Sources */,
 				0444E9542805633000C6F279 /* headless_window.cpp in Sources */,
+				04D95D21280CF2F400E54DC2 /* postprocessing_computepass.cpp in Sources */,
 				0444EB7C28084BB600C6F279 /* plot_lines.cpp in Sources */,
 				0444E9AF2805689000C6F279 /* sampler.cpp in Sources */,
 				04D95CC5280BA0BA00E54DC2 /* primitive_mesh.cpp in Sources */,
@@ -2495,7 +2524,9 @@
 				0444E9E528056AFA00C6F279 /* framebuffer.cpp in Sources */,
 				0444E93228055D9300C6F279 /* debug_info.cpp in Sources */,
 				0444EB2528084B9700C6F279 /* image.cpp in Sources */,
+				04D95D1D280CF27500E54DC2 /* postprocessing_pipeline.cpp in Sources */,
 				0444E945280560A000C6F279 /* fence_pool.cpp in Sources */,
+				04D95D1F280CF2CE00E54DC2 /* postprocessing_renderpass.cpp in Sources */,
 				04D95C2A280993DC00E54DC2 /* scene_manager.cpp in Sources */,
 				04D95C9C280A8C7D00E54DC2 /* plane_collider_shape.cpp in Sources */,
 				0444EBE428084BDE00C6F279 /* button_small.cpp in Sources */,
@@ -2610,6 +2641,7 @@
 				04D95C402809A23400E54DC2 /* components_manager.cpp in Sources */,
 				0444E9F928056B0500C6F279 /* render_pass.cpp in Sources */,
 				0444EB7028084BAF00C6F279 /* color_picker.cpp in Sources */,
+				04D95D18280CF20200E54DC2 /* postprocessing_pass.cpp in Sources */,
 				04D95CD1280BB0D900E54DC2 /* shader_source.cpp in Sources */,
 				0444E9BF2805695200C6F279 /* pipeline_state.cpp in Sources */,
 				0444EBCD28084BD600C6F279 /* drag_int.cpp in Sources */,
