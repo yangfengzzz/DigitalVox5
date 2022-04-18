@@ -47,13 +47,13 @@ public:
     
 private:
     Color base_color_ = Color(1, 1, 1, 1);
-    ShaderProperty base_color_prop_;
+    const std::string base_color_prop_;
     
     std::shared_ptr<Image> base_texture_{nullptr};
-    ShaderProperty base_texture_prop_;
+    const std::string base_texture_prop_;
     
     Vector4F tiling_offset_ = Vector4F(1, 1, 0, 0);
-    ShaderProperty tiling_offset_prop_;
+    const std::string tiling_offset_prop_;
 };
 
 }

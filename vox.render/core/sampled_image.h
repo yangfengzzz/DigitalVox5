@@ -73,6 +73,8 @@ public:
      */
     [[nodiscard]] const ImageView &get_image_view(const vox::RenderTarget &default_target) const;
     
+    [[nodiscard]] const ImageView &get_image_view() const;
+
     /**
      * @brief Returns the currently-set sampler, if any.
      */

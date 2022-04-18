@@ -28,12 +28,12 @@ Renderer::Renderer(Entity *entity) :
 Component(entity),
 shader_data_(entity->scene()->device()),
 transform_change_flag_(entity->transform_->register_world_change_flag()),
-local_matrix_property_(ShaderProperty::create("u_localMat", ShaderDataGroup::RENDERER)),
-world_matrix_property_(ShaderProperty::create("u_modelMat", ShaderDataGroup::RENDERER)),
-mv_matrix_property_(ShaderProperty::create("u_MVMat", ShaderDataGroup::RENDERER)),
-mvp_matrix_property_(ShaderProperty::create("u_MVPMat", ShaderDataGroup::RENDERER)),
-mv_inv_matrix_property_(ShaderProperty::create("u_MVInvMat", ShaderDataGroup::RENDERER)),
-normal_matrix_property_(ShaderProperty::create("u_normalMat", ShaderDataGroup::RENDERER)) {
+local_matrix_property_("u_localMat"),
+world_matrix_property_("u_modelMat"),
+mv_matrix_property_("u_MVMat"),
+mvp_matrix_property_("u_MVPMat"),
+mv_inv_matrix_property_("u_MVInvMat"),
+normal_matrix_property_("u_normalMat") {
 }
 
 void Renderer::on_enable() {

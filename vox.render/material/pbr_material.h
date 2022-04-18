@@ -45,13 +45,13 @@ public:
     
 private:
     float metallic_{1.f};
-    ShaderProperty metallic_prop_;
+    const std::string metallic_prop_;
     
     float roughness_{1.f};
-    ShaderProperty roughness_prop_;
+    const std::string roughness_prop_;
     
     std::shared_ptr<Image> metallic_roughness_texture_{nullptr};
-    ShaderProperty metallic_roughness_texture_prop_;
+    const std::string metallic_roughness_texture_prop_;
 };
 
 }

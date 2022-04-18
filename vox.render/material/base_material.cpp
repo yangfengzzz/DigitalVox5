@@ -95,7 +95,7 @@ VkSamplerCreateInfo BaseMaterial::last_sampler_create_info_;
 
 BaseMaterial::BaseMaterial(Device &device, const std::string &name) :
 Material(device, name),
-alpha_cutoff_prop_(ShaderProperty::create("u_alphaCutoff", ShaderDataGroup::MATERIAL)) {
+alpha_cutoff_prop_("u_alphaCutoff") {
     set_blend_mode(BlendMode::NORMAL);
     shader_data_.set_data(alpha_cutoff_prop_, 0.0f);
     

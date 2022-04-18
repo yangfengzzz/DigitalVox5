@@ -46,9 +46,9 @@ void PbrSpecularMaterial::set_specular_glossiness_texture(const std::shared_ptr<
 
 PbrSpecularMaterial::PbrSpecularMaterial(Device &device, const std::string &name) :
 PbrBaseMaterial(device, name),
-glossiness_prop_(ShaderProperty::create("u_glossiness", ShaderDataGroup::MATERIAL)),
-specular_color_prop_(ShaderProperty::create("u_specularColor", ShaderDataGroup::MATERIAL)),
-specular_glossiness_texture_prop_(ShaderProperty::create("_specularGlossinessTexture", ShaderDataGroup::MATERIAL)) {
+glossiness_prop_("u_glossiness"),
+specular_color_prop_("u_specularColor"),
+specular_glossiness_texture_prop_("_specularGlossinessTexture") {
     shader_data_.set_data(PbrSpecularMaterial::specular_color_prop_, Color(1, 1, 1, 1));
     shader_data_.set_data(PbrSpecularMaterial::glossiness_prop_, 1.f);
 }

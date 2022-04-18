@@ -495,8 +495,6 @@
 		04D95CCE280BAE1B00E54DC2 /* shader_variant.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CCC280BAE1B00E54DC2 /* shader_variant.h */; };
 		04D95CD1280BB0D900E54DC2 /* shader_source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CCF280BB0D900E54DC2 /* shader_source.cpp */; };
 		04D95CD2280BB0D900E54DC2 /* shader_source.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CD0280BB0D900E54DC2 /* shader_source.h */; };
-		04D95CD6280BB27300E54DC2 /* shader_property.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CD4280BB27300E54DC2 /* shader_property.cpp */; };
-		04D95CD7280BB27300E54DC2 /* shader_property.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CD5280BB27300E54DC2 /* shader_property.h */; };
 		04D95CDA280BBD7A00E54DC2 /* shader_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CD8280BBD7A00E54DC2 /* shader_data.cpp */; };
 		04D95CDB280BBD7A00E54DC2 /* shader_data.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CD9280BBD7A00E54DC2 /* shader_data.h */; };
 		04D95CE4280BF4A400E54DC2 /* base_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CE2280BF4A400E54DC2 /* base_material.cpp */; };
@@ -1066,9 +1064,6 @@
 		04D95CCC280BAE1B00E54DC2 /* shader_variant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_variant.h; sourceTree = "<group>"; };
 		04D95CCF280BB0D900E54DC2 /* shader_source.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shader_source.cpp; sourceTree = "<group>"; };
 		04D95CD0280BB0D900E54DC2 /* shader_source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_source.h; sourceTree = "<group>"; };
-		04D95CD3280BB26400E54DC2 /* shader_data_group.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_data_group.h; sourceTree = "<group>"; };
-		04D95CD4280BB27300E54DC2 /* shader_property.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shader_property.cpp; sourceTree = "<group>"; };
-		04D95CD5280BB27300E54DC2 /* shader_property.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_property.h; sourceTree = "<group>"; };
 		04D95CD8280BBD7A00E54DC2 /* shader_data.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shader_data.cpp; sourceTree = "<group>"; };
 		04D95CD9280BBD7A00E54DC2 /* shader_data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_data.h; sourceTree = "<group>"; };
 		04D95CE0280BEB9900E54DC2 /* blend_mode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blend_mode.h; sourceTree = "<group>"; };
@@ -1962,9 +1957,6 @@
 				0444E8C32805585800C6F279 /* shader_module.cpp */,
 				04D95CDC280BBDD400E54DC2 /* compiler */,
 				04D95CC2280B111C00E54DC2 /* shader_common.h */,
-				04D95CD3280BB26400E54DC2 /* shader_data_group.h */,
-				04D95CD5280BB27300E54DC2 /* shader_property.h */,
-				04D95CD4280BB27300E54DC2 /* shader_property.cpp */,
 				04D95CD9280BBD7A00E54DC2 /* shader_data.h */,
 				04D95CD8280BBD7A00E54DC2 /* shader_data.cpp */,
 			);
@@ -2205,7 +2197,6 @@
 				04D95CAB280AB12800E54DC2 /* old_renderer.h in Headers */,
 				04D95CA1280A8C7D00E54DC2 /* capsule_collider_shape.h in Headers */,
 				0444E94A2805618000C6F279 /* buffer.h in Headers */,
-				04D95CD7280BB27300E54DC2 /* shader_property.h in Headers */,
 				0444EBCF28084BD600C6F279 /* drag_multiple_floats.h in Headers */,
 				0444EA2C280571FA00C6F279 /* stb_img.h in Headers */,
 				0444EB9928084BC500C6F279 /* tree_node.h in Headers */,
@@ -2603,7 +2594,6 @@
 				0444E961280563DB00C6F279 /* plugin.cpp in Sources */,
 				04D95CFA280C3D8600E54DC2 /* renderer.cpp in Sources */,
 				0444EB0928084B8000C6F279 /* widget_container.cpp in Sources */,
-				04D95CD6280BB27300E54DC2 /* shader_property.cpp in Sources */,
 				04D95C66280A8C6600E54DC2 /* dynamic_collider.cpp in Sources */,
 				0444EA0D28056E2700C6F279 /* stats_provider.cpp in Sources */,
 				0444E9F428056B0500C6F279 /* acceleration_structure.cpp in Sources */,

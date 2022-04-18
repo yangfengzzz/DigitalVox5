@@ -99,34 +99,34 @@ public:
     
 private:
     Color base_color_ = Color(1, 1, 1, 1);
-    ShaderProperty diffuse_color_prop_;
+    const std::string diffuse_color_prop_;
     
     Color specular_color_ = Color(1, 1, 1, 1);
-    ShaderProperty specular_color_prop_;
+    const std::string specular_color_prop_;
     
     Color emissive_color_ = Color(0, 0, 0, 1);
-    ShaderProperty emissive_color_prop_;
+    const std::string emissive_color_prop_;
     
     Vector4F tiling_offset_ = Vector4F(1, 1, 0, 0);
-    ShaderProperty tiling_offset_prop_;
+    const std::string tiling_offset_prop_;
     
     float shininess_ = 16.f;
-    ShaderProperty shininess_prop_;
+    const std::string shininess_prop_;
     
     float normal_intensity_ = 1.f;
-    ShaderProperty normal_intensity_prop_;
+    const std::string normal_intensity_prop_;
     
     std::shared_ptr<Image> base_texture_{nullptr};
-    ShaderProperty base_texture_prop_;
+    const std::string base_texture_prop_;
     
     std::shared_ptr<Image> specular_texture_{nullptr};
-    ShaderProperty specular_texture_prop_;
+    const std::string specular_texture_prop_;
     
     std::shared_ptr<Image> emissive_texture_{nullptr};
-    ShaderProperty emissive_texture_prop_;
+    const std::string emissive_texture_prop_;
     
     std::shared_ptr<Image> normal_texture_{nullptr};
-    ShaderProperty normal_texture_prop_;
+    const std::string normal_texture_prop_;
 };
 
 }

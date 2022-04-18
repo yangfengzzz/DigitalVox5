@@ -96,31 +96,31 @@ protected:
     
 private:
     Vector4F tiling_offset_ = Vector4F(1, 1, 0, 0);
-    ShaderProperty tiling_offset_prop_;
+    const std::string tiling_offset_prop_;
     
     float normal_texture_intensity_ = 1.f;
-    ShaderProperty normal_texture_intensity_prop_;
+    const std::string normal_texture_intensity_prop_;
     
     float occlusion_texture_intensity_ = 1.f;
-    ShaderProperty occlusion_texture_intensity_prop_;
+    const std::string occlusion_texture_intensity_prop_;
     
     Color base_color_ = Color(1, 1, 1, 1);
-    ShaderProperty base_color_prop_;
+    const std::string base_color_prop_;
     
     Color emissive_color_ = Color(0, 0, 0, 1);
-    ShaderProperty emissive_color_prop_;
+    const std::string emissive_color_prop_;
     
     std::shared_ptr<Image> base_texture_{nullptr};
-    ShaderProperty base_texture_prop_;
+    const std::string base_texture_prop_;
     
     std::shared_ptr<Image> normal_texture_{nullptr};
-    ShaderProperty normal_texture_prop_;
+    const std::string normal_texture_prop_;
     
     std::shared_ptr<Image> emissive_texture_{nullptr};
-    ShaderProperty emissive_texture_prop_;
+    const std::string emissive_texture_prop_;
     
     std::shared_ptr<Image> occlusion_texture_{nullptr};
-    ShaderProperty occlusion_texture_prop_;
+    const std::string occlusion_texture_prop_;
 };
 
 }

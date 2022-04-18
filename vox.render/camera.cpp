@@ -18,12 +18,12 @@ std::string Camera::name() {
 Camera::Camera(Entity *entity) :
 Component(entity),
 shader_data_(entity->scene()->device()),
-view_matrix_property_(ShaderProperty::create("u_viewMat", ShaderDataGroup::CAMERA)),
-projection_matrix_property_(ShaderProperty::create("u_projMat", ShaderDataGroup::CAMERA)),
-vp_matrix_property_(ShaderProperty::create("u_VPMat", ShaderDataGroup::CAMERA)),
-inverse_view_matrix_property_(ShaderProperty::create("u_viewInvMat", ShaderDataGroup::CAMERA)),
-inverse_projection_matrix_property_(ShaderProperty::create("u_projInvMat", ShaderDataGroup::CAMERA)),
-camera_position_property_(ShaderProperty::create("u_cameraPos", ShaderDataGroup::CAMERA)) {
+view_matrix_property_("u_viewMat"),
+projection_matrix_property_("u_projMat"),
+vp_matrix_property_("u_VPMat"),
+inverse_view_matrix_property_("u_viewInvMat"),
+inverse_projection_matrix_property_("u_projInvMat"),
+camera_position_property_("u_cameraPos") {
     auto transform = entity->transform_;
     transform_ = transform;
     is_view_matrix_dirty_ = transform->register_world_change_flag();

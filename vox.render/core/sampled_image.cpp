@@ -65,6 +65,14 @@ const core::ImageView &SampledImage::get_image_view(const RenderTarget &default_
     }
 }
 
+const ImageView &SampledImage::get_image_view() const {
+    if (image_view_ != nullptr) {
+        return *image_view_;
+    } else {
+        throw std::runtime_error("provide default render target instread!.");
+    }
+}
+
 const uint32_t *SampledImage::get_target_attachment() const {
     if (image_view_ != nullptr) {
         return nullptr;

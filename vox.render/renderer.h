@@ -128,12 +128,12 @@ private:
     float distance_for_sort_ = 0;
     ssize_t renderer_index_ = -1;
     
-    ShaderProperty local_matrix_property_;
-    ShaderProperty world_matrix_property_;
-    ShaderProperty mv_matrix_property_;
-    ShaderProperty mvp_matrix_property_;
-    ShaderProperty mv_inv_matrix_property_;
-    ShaderProperty normal_matrix_property_;
+    const std::string local_matrix_property_;
+    const std::string world_matrix_property_;
+    const std::string mv_matrix_property_;
+    const std::string mvp_matrix_property_;
+    const std::string mv_inv_matrix_property_;
+    const std::string normal_matrix_property_;
     
     std::unique_ptr<UpdateFlag> transform_change_flag_;
     // @deepClone

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "shader_property.h"
+#include "core/command_buffer.h"
 #include "core/buffer.h"
 #include "core/sampled_image.h"
 #include "../image.h"
@@ -20,77 +20,53 @@ class ShaderData {
 public:
     explicit ShaderData(Device &device);
     
-    core::Buffer *get_data(const std::string &property_name);
-    
-    core::Buffer *get_data(const ShaderProperty &property);
+    void bind_data(CommandBuffer &command_buffer, DescriptorSetLayout &descriptor_set_layout);
     
     void set_buffer_functor(const std::string &property_name,
                             const std::function<core::Buffer *()> &functor);
     
-    void set_buffer_functor(const ShaderProperty &property,
-                            const std::function<core::Buffer *()> &functor);
-    
     template<typename T>
     void set_data(const std::string &property_name, const T &value) {
-        auto property = ShaderProperty::get_property_by_name(property_name);
-        if (property.has_value()) {
-            set_data(property.value(), value);
-        } else {
-            assert(false && "can't find property");
-        }
-    }
-    
-    template<typename T>
-    void set_data(const ShaderProperty &property, const T &value) {
-        auto iter = shader_buffers_.find(property.unique_id);
+        auto iter = shader_buffers_.find(property_name);
         if (iter == shader_buffers_.end()) {
-            shader_buffers_.insert(std::make_pair(property.unique_id,
+            shader_buffers_.insert(std::make_pair(property_name,
                                                   std::make_unique<core::Buffer>(device_, sizeof(T),
                                                                                  VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                                                                                  VMA_MEMORY_USAGE_CPU_TO_GPU)));
         }
-        iter = shader_buffers_.find(property.unique_id);
+        iter = shader_buffers_.find(property_name);
         iter->second->convert_and_update(value);
     }
     
     template<typename T>
-    void set_data(const ShaderProperty &property, const std::vector<T> &value) {
-        auto iter = shader_buffers_.find(property.unique_id);
+    void set_data(const std::string &property_name, const std::vector<T> &value) {
+        auto iter = shader_buffers_.find(property_name);
         if (iter == shader_buffers_.end()) {
-            shader_buffers_.insert(std::make_pair(property.unique_id,
+            shader_buffers_.insert(std::make_pair(property_name,
                                                   std::make_unique<core::Buffer>(device_, sizeof(T) * value.size(),
                                                                                  VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                                                                                  VMA_MEMORY_USAGE_CPU_TO_GPU)));
         }
-        iter = shader_buffers_.find(property.unique_id);
+        iter = shader_buffers_.find(property_name);
         iter->second->update(value.data());
     }
     
     template<typename T, size_t N>
-    void set_data(const ShaderProperty &property, const std::array<T, N> &value) {
-        auto iter = shader_buffers_.find(property.unique_id);
+    void set_data(const std::string &property_name, const std::array<T, N> &value) {
+        auto iter = shader_buffers_.find(property_name);
         if (iter == shader_buffers_.end()) {
-            shader_buffers_.insert(std::make_pair(property.unique_id,
+            shader_buffers_.insert(std::make_pair(property_name,
                                                   std::make_unique<core::Buffer>(device_, sizeof(T) * N,
                                                                                  VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                                                                                  VMA_MEMORY_USAGE_CPU_TO_GPU)));
         }
-        iter = shader_buffers_.find(property.unique_id);
+        iter = shader_buffers_.find(property_name);
         iter->second->update(value.data());
     }
     
-public:
     void set_texture(const std::string &texture_name,
                      const std::shared_ptr<Image> &image,
                      core::Sampler *sampler = nullptr);
-    
-    void set_texture(const ShaderProperty &texture_prop,
-                     const std::shared_ptr<Image> &image,
-                     core::Sampler *sampler = nullptr);
-    
-    core::SampledImage *get_sampled_image(const std::string &property_name);
-    
-    core::SampledImage *get_sampled_image(const ShaderProperty &property);
     
 public:
     /**
@@ -106,12 +82,10 @@ public:
     void add_undefine(const std::string &undef);
     
 private:
-    core::Buffer *get_data(uint32_t unique_id);
-    
     Device &device_;
-    std::unordered_map<uint32_t, std::function<core::Buffer *()>> shader_buffer_functors_{};
-    std::unordered_map<uint32_t, std::unique_ptr<core::Buffer>> shader_buffers_{};
-    std::unordered_map<uint32_t, std::unique_ptr<core::SampledImage>> shader_textures_{};
+    std::unordered_map<std::string, std::function<core::Buffer *()>> shader_buffer_functors_{};
+    std::unordered_map<std::string, std::unique_ptr<core::Buffer>> shader_buffers_{};
+    std::unordered_map<std::string, std::unique_ptr<core::SampledImage>> shader_textures_{};
     
     ShaderVariant variant_;
 };

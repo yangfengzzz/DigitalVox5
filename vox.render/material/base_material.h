@@ -60,7 +60,7 @@ protected:
     
 private:
     float alpha_cutoff_ = 0.0;
-    ShaderProperty alpha_cutoff_prop_;
+    const std::string alpha_cutoff_prop_;
     
     RenderFace render_face_ = RenderFace::BACK;
     BlendMode blend_mode_ = BlendMode::NORMAL;

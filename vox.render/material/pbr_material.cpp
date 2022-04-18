@@ -47,9 +47,9 @@ void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &n
 
 PbrMaterial::PbrMaterial(Device &device, const std::string &name) :
 PbrBaseMaterial(device, name),
-metallic_prop_(ShaderProperty::create("u_metal", ShaderDataGroup::MATERIAL)),
-roughness_prop_(ShaderProperty::create("u_roughness", ShaderDataGroup::MATERIAL)),
-metallic_roughness_texture_prop_(ShaderProperty::create("u_metallicRoughnessTexture", ShaderDataGroup::MATERIAL)) {
+metallic_prop_("u_metal"),
+roughness_prop_("u_roughness"),
+metallic_roughness_texture_prop_("u_metallicRoughnessTexture") {
     shader_data_.add_define("IS_METALLIC_WORKFLOW");
     shader_data_.set_data(PbrMaterial::metallic_prop_, 1.f);
     shader_data_.set_data(PbrMaterial::roughness_prop_, 1.f);

@@ -174,12 +174,12 @@ DescriptorSetLayout::~DescriptorSetLayout() {
     }
 }
 
-VkDescriptorSetLayout DescriptorSetLayout::get_handle() const {
-    return handle_;
-}
-
 uint32_t DescriptorSetLayout::get_index() const {
     return set_index_;
+}
+
+VkDescriptorSetLayout DescriptorSetLayout::get_handle() const {
+    return handle_;
 }
 
 const std::vector<VkDescriptorSetLayoutBinding> &DescriptorSetLayout::get_bindings() const {
@@ -190,6 +190,11 @@ const std::vector<VkDescriptorBindingFlagsEXT> &DescriptorSetLayout::get_binding
     return binding_flags_;
 }
 
+const std::vector<ShaderModule *> &DescriptorSetLayout::get_shader_modules() const {
+    return shader_modules_;
+}
+
+//MARK: - 
 std::unique_ptr<VkDescriptorSetLayoutBinding>
 DescriptorSetLayout::get_layout_binding(uint32_t binding_index) const {
     auto it = bindings_lookup_.find(binding_index);
@@ -220,10 +225,6 @@ VkDescriptorBindingFlagsEXT DescriptorSetLayout::get_layout_binding_flag(const u
     }
     
     return it->second;
-}
-
-const std::vector<ShaderModule *> &DescriptorSetLayout::get_shader_modules() const {
-    return shader_modules_;
 }
 
 }        // namespace vox

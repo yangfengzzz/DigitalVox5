@@ -130,15 +130,15 @@ void PbrBaseMaterial::set_tiling_offset(const Vector4F &new_value) {
 
 PbrBaseMaterial::PbrBaseMaterial(Device &device, const std::string &name) :
 BaseMaterial(device, name),
-tiling_offset_prop_(ShaderProperty::create("u_tilingOffset", ShaderDataGroup::MATERIAL)),
-normal_texture_intensity_prop_(ShaderProperty::create("u_normalIntensity", ShaderDataGroup::MATERIAL)),
-occlusion_texture_intensity_prop_(ShaderProperty::create("u_occlusionStrength", ShaderDataGroup::MATERIAL)),
-base_color_prop_(ShaderProperty::create("u_baseColor", ShaderDataGroup::MATERIAL)),
-emissive_color_prop_(ShaderProperty::create("u_emissiveColor", ShaderDataGroup::MATERIAL)),
-base_texture_prop_(ShaderProperty::create("u_baseColorTexture", ShaderDataGroup::MATERIAL)),
-normal_texture_prop_(ShaderProperty::create("u_normalTexture", ShaderDataGroup::MATERIAL)),
-emissive_texture_prop_(ShaderProperty::create("u_emissiveTexture", ShaderDataGroup::MATERIAL)),
-occlusion_texture_prop_(ShaderProperty::create("u_occlusionTexture", ShaderDataGroup::MATERIAL)) {
+tiling_offset_prop_("u_tilingOffset"),
+normal_texture_intensity_prop_("u_normalIntensity"),
+occlusion_texture_intensity_prop_("u_occlusionStrength"),
+base_color_prop_("u_baseColor"),
+emissive_color_prop_("u_emissiveColor"),
+base_texture_prop_("u_baseColorTexture"),
+normal_texture_prop_("u_normalTexture"),
+emissive_texture_prop_("u_emissiveTexture"),
+occlusion_texture_prop_("u_occlusionTexture") {
     shader_data_.add_define("NEED_WORLDPOS");
     shader_data_.add_define("NEED_TILINGOFFSET");
     

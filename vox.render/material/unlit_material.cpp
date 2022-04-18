@@ -47,9 +47,9 @@ void UnlitMaterial::set_tiling_offset(const Vector4F &new_value) {
 
 UnlitMaterial::UnlitMaterial(Device &device, const std::string &name) :
 BaseMaterial(device, name),
-base_color_prop_(ShaderProperty::create("u_baseColor", ShaderDataGroup::MATERIAL)),
-base_texture_prop_(ShaderProperty::create("u_baseTexture", ShaderDataGroup::MATERIAL)),
-tiling_offset_prop_(ShaderProperty::create("u_tilingOffset", ShaderDataGroup::MATERIAL)) {
+base_color_prop_("u_baseColor"),
+base_texture_prop_("u_baseTexture"),
+tiling_offset_prop_("u_tilingOffset") {
     shader_data_.add_define("OMIT_NORMAL");
     shader_data_.add_define("NEED_TILINGOFFSET");
     

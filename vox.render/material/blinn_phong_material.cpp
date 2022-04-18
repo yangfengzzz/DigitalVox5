@@ -141,16 +141,16 @@ void BlinnPhongMaterial::set_tiling_offset(const Vector4F &new_value) {
 
 BlinnPhongMaterial::BlinnPhongMaterial(Device &device, const std::string &name) :
 BaseMaterial(device, name),
-diffuse_color_prop_(ShaderProperty::create("u_diffuseColor", ShaderDataGroup::MATERIAL)),
-specular_color_prop_(ShaderProperty::create("u_specularColor", ShaderDataGroup::MATERIAL)),
-emissive_color_prop_(ShaderProperty::create("u_emissiveColor", ShaderDataGroup::MATERIAL)),
-tiling_offset_prop_(ShaderProperty::create("u_tilingOffset", ShaderDataGroup::MATERIAL)),
-shininess_prop_(ShaderProperty::create("u_shininess", ShaderDataGroup::MATERIAL)),
-normal_intensity_prop_(ShaderProperty::create("u_normalIntensity", ShaderDataGroup::MATERIAL)),
-base_texture_prop_(ShaderProperty::create("u_diffuseTexture", ShaderDataGroup::MATERIAL)),
-specular_texture_prop_(ShaderProperty::create("u_specularTexture", ShaderDataGroup::MATERIAL)),
-emissive_texture_prop_(ShaderProperty::create("u_emissiveTexture", ShaderDataGroup::MATERIAL)),
-normal_texture_prop_(ShaderProperty::create("u_normalTexture", ShaderDataGroup::MATERIAL)) {
+diffuse_color_prop_("u_diffuseColor"),
+specular_color_prop_("u_specularColor"),
+emissive_color_prop_("u_emissiveColor"),
+tiling_offset_prop_("u_tilingOffset"),
+shininess_prop_("u_shininess"),
+normal_intensity_prop_("u_normalIntensity"),
+base_texture_prop_("u_diffuseTexture"),
+specular_texture_prop_("u_specularTexture"),
+emissive_texture_prop_("u_emissiveTexture"),
+normal_texture_prop_("u_normalTexture") {
     shader_data_.add_define("NEED_WORLDPOS");
     shader_data_.add_define("NEED_TILINGOFFSET");
     

@@ -45,13 +45,13 @@ public:
     
 private:
     float glossiness_{1.f};
-    ShaderProperty glossiness_prop_;
+    const std::string glossiness_prop_;
     
     Color specular_color_ = Color(1, 1, 1, 1);
-    ShaderProperty specular_color_prop_;
+    const std::string specular_color_prop_;
     
     std::shared_ptr<Image> specular_glossiness_texture_{nullptr};
-    ShaderProperty specular_glossiness_texture_prop_;
+    const std::string specular_glossiness_texture_prop_;
 };
 
 }

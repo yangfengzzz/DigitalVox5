@@ -46,40 +46,41 @@ public:
     
     DescriptorSetLayout &operator=(DescriptorSetLayout &&) = delete;
     
-    [[nodiscard]] VkDescriptorSetLayout get_handle() const;
-    
     [[nodiscard]] uint32_t get_index() const;
+    
+    [[nodiscard]] VkDescriptorSetLayout get_handle() const;
     
     [[nodiscard]] const std::vector<VkDescriptorSetLayoutBinding> &get_bindings() const;
     
+    [[nodiscard]] const std::vector<VkDescriptorBindingFlagsEXT> &get_binding_flags() const;
+    
+    [[nodiscard]] const std::vector<ShaderModule *> &get_shader_modules() const;
+    
+public:
     [[nodiscard]] std::unique_ptr<VkDescriptorSetLayoutBinding> get_layout_binding(uint32_t binding_index) const;
     
     [[nodiscard]] std::unique_ptr<VkDescriptorSetLayoutBinding> get_layout_binding(const std::string &name) const;
     
-    [[nodiscard]] const std::vector<VkDescriptorBindingFlagsEXT> &get_binding_flags() const;
-    
     [[nodiscard]] VkDescriptorBindingFlagsEXT get_layout_binding_flag(uint32_t binding_index) const;
-    
-    [[nodiscard]] const std::vector<ShaderModule *> &get_shader_modules() const;
     
 private:
     Device &device_;
     
-    VkDescriptorSetLayout handle_{VK_NULL_HANDLE};
-    
     const uint32_t set_index_;
+    
+    VkDescriptorSetLayout handle_{VK_NULL_HANDLE};
     
     std::vector<VkDescriptorSetLayoutBinding> bindings_;
     
     std::vector<VkDescriptorBindingFlagsEXT> binding_flags_;
+    
+    std::vector<ShaderModule *> shader_modules_;
     
     std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings_lookup_;
     
     std::unordered_map<uint32_t, VkDescriptorBindingFlagsEXT> binding_flags_lookup_;
     
     std::unordered_map<std::string, uint32_t> resources_lookup_;
-    
-    std::vector<ShaderModule *> shader_modules_;
 };
 
 }        // namespace vox

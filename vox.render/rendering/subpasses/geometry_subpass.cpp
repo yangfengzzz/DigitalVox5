@@ -65,6 +65,10 @@ void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
         command_buffer.bind_pipeline_layout(pipeline_layout);
         
         DescriptorSetLayout &descriptor_set_layout = pipeline_layout.get_descriptor_set_layout(0);
+        scene_->shader_data_.bind_data(command_buffer, descriptor_set_layout);
+        camera_->shader_data_.bind_data(command_buffer, descriptor_set_layout);
+        renderer->shader_data_.bind_data(command_buffer, descriptor_set_layout);
+        material->shader_data_.bind_data(command_buffer, descriptor_set_layout);
         
         command_buffer.set_vertex_input_state(mesh->vertex_input_state());
         for (uint32_t j = 0; j < mesh->vertex_buffer_bindings().size(); j++) {

@@ -272,12 +272,12 @@ private:
      */
     Matrix4x4F inv_view_proj_mat();
     
-    ShaderProperty view_matrix_property_;
-    ShaderProperty projection_matrix_property_;
-    ShaderProperty vp_matrix_property_;
-    ShaderProperty inverse_view_matrix_property_;
-    ShaderProperty inverse_projection_matrix_property_;
-    ShaderProperty camera_position_property_;
+    const std::string view_matrix_property_;
+    const std::string projection_matrix_property_;
+    const std::string vp_matrix_property_;
+    const std::string inverse_view_matrix_property_;
+    const std::string inverse_projection_matrix_property_;
+    const std::string camera_position_property_;
     
     BoundingFrustum frustum_ = BoundingFrustum();
     
