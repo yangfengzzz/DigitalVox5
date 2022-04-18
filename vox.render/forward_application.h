@@ -27,7 +27,7 @@
 #include "vk_initializers.h"
 #include "core/buffer.h"
 #include "core/swapchain.h"
-#include "gui.h"
+#include "ui/ui_manager.h"
 #include "platform/platform.h"
 #include "rendering/render_context.h"
 #include "image.h"

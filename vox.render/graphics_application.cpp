@@ -235,11 +235,6 @@ void GraphicsApplication::update_stats(float delta_time) {
 
 void GraphicsApplication::update_gui(float delta_time) {
     if (gui_) {
-        gui_->new_frame();
-                
-        // Samples can override this
-        draw_gui();
-        
         gui_->update(delta_time);
     }
 }
@@ -359,24 +354,6 @@ bool GraphicsApplication::resize(uint32_t width, uint32_t height) {
 
 void GraphicsApplication::input_event(const InputEvent &input_event) {
     Application::input_event(input_event);
-    
-    bool gui_captures_event = false;
-    
-    if (gui_) {
-        gui_captures_event = gui_->input_event(input_event);
-    }
-    
-    if (!gui_captures_event) {
-        //		if (scene && scene->has_component<sg::Script>())
-        //		{
-        //			auto scripts = scene->get_components<sg::Script>();
-        //
-        //			for (auto script : scripts)
-        //			{
-        //				script->input_event(input_event);
-        //			}
-        //		}
-    }
     
     if (input_event.get_source() == EventSource::KEYBOARD) {
         const auto &key_event = static_cast<const KeyInputEvent &>(input_event);

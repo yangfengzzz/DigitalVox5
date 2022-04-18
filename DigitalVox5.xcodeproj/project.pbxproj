@@ -228,8 +228,6 @@
 		0444EA1228056E2700C6F279 /* vulkan_stats_provider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA0628056E2600C6F279 /* vulkan_stats_provider.cpp */; };
 		0444EA1328056E2700C6F279 /* hwcpipe_stats_provider.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA0728056E2600C6F279 /* hwcpipe_stats_provider.h */; };
 		0444EA1528056E2700C6F279 /* vulkan_stats_provider.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA0928056E2600C6F279 /* vulkan_stats_provider.h */; };
-		0444EA1928056EB300C6F279 /* gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA1728056EB200C6F279 /* gui.cpp */; };
-		0444EA1A28056EB300C6F279 /* gui.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA1828056EB300C6F279 /* gui.h */; };
 		0444EA2A280571FA00C6F279 /* astc_img.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA24280571FA00C6F279 /* astc_img.cpp */; };
 		0444EA2B280571FA00C6F279 /* stb_img.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA25280571FA00C6F279 /* stb_img.cpp */; };
 		0444EA2C280571FA00C6F279 /* stb_img.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA26280571FA00C6F279 /* stb_img.h */; };
@@ -786,8 +784,6 @@
 		0444EA0628056E2600C6F279 /* vulkan_stats_provider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vulkan_stats_provider.cpp; sourceTree = "<group>"; };
 		0444EA0728056E2600C6F279 /* hwcpipe_stats_provider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hwcpipe_stats_provider.h; sourceTree = "<group>"; };
 		0444EA0928056E2600C6F279 /* vulkan_stats_provider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vulkan_stats_provider.h; sourceTree = "<group>"; };
-		0444EA1728056EB200C6F279 /* gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gui.cpp; sourceTree = "<group>"; };
-		0444EA1828056EB300C6F279 /* gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gui.h; sourceTree = "<group>"; };
 		0444EA24280571FA00C6F279 /* astc_img.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = astc_img.cpp; sourceTree = "<group>"; };
 		0444EA25280571FA00C6F279 /* stb_img.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stb_img.cpp; sourceTree = "<group>"; };
 		0444EA26280571FA00C6F279 /* stb_img.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_img.h; sourceTree = "<group>"; };
@@ -1698,8 +1694,6 @@
 				0444EA72280581C800C6F279 /* gltf_loader.cpp */,
 				0444EBEA28084D3000C6F279 /* event.h */,
 				0444EBEB28084D3000C6F279 /* event-inl.h */,
-				0444EA1828056EB300C6F279 /* gui.h */,
-				0444EA1728056EB200C6F279 /* gui.cpp */,
 				0444EAC928084A7F00C6F279 /* ui */,
 				0444EA76280581F300C6F279 /* heightmap.h */,
 				0444EA77280581F300C6F279 /* heightmap.cpp */,
@@ -2048,7 +2042,6 @@
 				0444E9FC28056B5000C6F279 /* utils.h in Headers */,
 				0444EBB228084BCE00C6F279 /* input_multiple_ints.h in Headers */,
 				0444EAF328084B6600C6F279 /* contextual_menu.h in Headers */,
-				0444EA1A28056EB300C6F279 /* gui.h in Headers */,
 				04D95CA3280A8C7D00E54DC2 /* collider_shape.h in Headers */,
 				04D95C7F280A8C6E00E54DC2 /* spring_joint.h in Headers */,
 				04D95C8A280A8C7500E54DC2 /* character_controller.h in Headers */,
@@ -2514,7 +2507,6 @@
 				0444EAC728083EC100C6F279 /* update_flag.cpp in Sources */,
 				0444E963280563E600C6F279 /* CLI11.cpp in Sources */,
 				0444E9AC2805689000C6F279 /* sampled_image.cpp in Sources */,
-				0444EA1928056EB300C6F279 /* gui.cpp in Sources */,
 				04D95C7A280A8C6E00E54DC2 /* hinge_joint.cpp in Sources */,
 				0444EBE828084BDE00C6F279 /* button_simple.cpp in Sources */,
 				0444EB8628084BBD00C6F279 /* menu_item.cpp in Sources */,

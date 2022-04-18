@@ -73,7 +73,7 @@ public:
     /**
      * Use the default font (ImGui default font)
      */
-    static void use_default_font();
+    void use_default_font();
     
     /**
      * Allow the user to enable/disable .ini generation to save his editor layout
@@ -130,6 +130,26 @@ public:
      */
     void remove_canvas();
     
+public:
+    /**
+     * @brief Handles resizing of the window
+     * @param width New width of the window
+     * @param height New height of the window
+     */
+    static void resize(uint32_t width, uint32_t height);
+    
+    /**
+     * @brief Updates the Gui
+     * @param delta_time Time passed since last update
+     */
+    void update(float delta_time);
+    
+    /**
+     * @brief Draws the Gui
+     * @param command_buffer Command buffer to register draw-commands
+     */
+    void draw(CommandBuffer &command_buffer);
+    
 private:
     void push_current_font();
     
@@ -140,6 +160,26 @@ private:
     Canvas *current_canvas_{nullptr};
     std::unordered_map<std::string, ImFont *> fonts_;
     std::string layout_save_filename_ = "imgui.ini";
+    
+private:
+    /**
+     * @brief Updates the Font Texture
+     */
+    void update_font_texture();
+    
+    /**
+     * @brief Updates Vulkan buffers
+     * @param render_frame Frame to render into
+     */
+    void update_buffers(CommandBuffer &command_buffer, RenderFrame &render_frame);
+    
+    RenderContext* context_{nullptr};
+    
+    std::unique_ptr<core::Image> font_image_;
+    std::unique_ptr<core::ImageView> font_image_view_;
+    std::unique_ptr<core::Sampler> sampler_{nullptr};
+    
+    PipelineLayout *pipeline_layout_{nullptr};
 };
 
 }

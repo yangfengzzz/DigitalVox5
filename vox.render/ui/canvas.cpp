@@ -5,10 +5,12 @@
 //  property of any third parties.
 
 #include "canvas.h"
+#include <backends/imgui_impl_glfw.h>
 
 namespace vox::ui {
 void Canvas::draw() {
     if (!panels_.empty()) {
+        ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         
         if (is_dockspace_) {

@@ -10,7 +10,7 @@
 #include "utils.h"
 #include "vk_common.h"
 #include "core/instance.h"
-#include "gui.h"
+#include "ui/ui_manager.h"
 #include "platform/application.h"
 #include "rendering/render_context.h"
 #include "rendering/render_pipeline.h"
@@ -168,7 +168,7 @@ protected:
      */
     //	std::unique_ptr<sg::Scene> scene{nullptr};
     
-    std::unique_ptr<Gui> gui_{nullptr};
+    std::unique_ptr<ui::UiManager> gui_{nullptr};
     
     std::unique_ptr<Stats> stats_{nullptr};
     
