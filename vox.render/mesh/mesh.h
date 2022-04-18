@@ -89,7 +89,7 @@ public:
     /**
      * Index buffer binding.
      */
-    [[nodiscard]] const IndexBufferBinding &index_buffer_binding() const;
+    [[nodiscard]] const IndexBufferBinding *index_buffer_binding() const;
     
     void set_index_buffer_binding(std::unique_ptr<IndexBufferBinding> &&binding);
     

@@ -105,16 +105,16 @@ set(SCENE_RESOURCE_FILES
         image/ktx_img.cpp
         image/stb_img.cpp)
 
-#set(RENDERING_SUBPASSES_FILES
-#    # Header files
-#    rendering/subpasses/forward_subpass.h
-#    rendering/subpasses/lighting_subpass.h
-#    rendering/subpasses/geometry_subpass.h
-#    # Source files
-#    rendering/subpasses/forward_subpass.cpp
-#    rendering/subpasses/lighting_subpass.cpp
-#    rendering/subpasses/geometry_subpass.cpp)
-#
+set(RENDERING_SUBPASSES_FILES
+        # Header files
+        #    rendering/subpasses/forward_subpass.h
+        #    rendering/subpasses/lighting_subpass.h
+        rendering/subpasses/geometry_subpass.h
+        # Source files
+        #    rendering/subpasses/forward_subpass.cpp
+        #    rendering/subpasses/lighting_subpass.cpp
+        rendering/subpasses/geometry_subpass.cpp)
+
 #set(SCENE_GRAPH_FILES
 #    # Header Files
 #    scene_graph/component.h
@@ -398,7 +398,7 @@ source_group("platform\\unix" FILES ${LINUX_D2D_FILES})
 source_group("core\\" FILES ${CORE_FILES})
 #source_group("geometry\\" FILES ${GEOMETRY_FILES})
 source_group("rendering\\" FILES ${RENDERING_FILES})
-#source_group("rendering\\subpasses" FILES ${RENDERING_SUBPASSES_FILES})
+source_group("rendering\\subpasses" FILES ${RENDERING_SUBPASSES_FILES})
 source_group("\\" FILES ${SCENE_RESOURCE_FILES})
 #source_group("scene_graph\\components\\" FILES ${SCENE_GRAPH_COMPONENT_FILES})
 #source_group("scene_graph\\scripts\\" FILES ${SCENE_GRAPH_SCRIPTS_FILES})
@@ -413,7 +413,7 @@ set(PROJECT_FILES
         ${CORE_FILES}
         #    ${GEOMETRY_FILES}
         ${RENDERING_FILES}
-        #    ${RENDERING_SUBPASSES_FILES}
+        ${RENDERING_SUBPASSES_FILES}
         ${SCENE_RESOURCE_FILES}
         #    ${SCENE_GRAPH_COMPONENT_FILES}
         #    ${SCENE_GRAPH_SCRIPTS_FILES}

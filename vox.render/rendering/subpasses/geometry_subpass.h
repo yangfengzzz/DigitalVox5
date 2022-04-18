@@ -26,30 +26,32 @@ public:
     GeometrySubpass(RenderContext &render_context, ShaderSource &&vertex_shader,
                     ShaderSource &&fragment_shader, Scene *scene, Camera *camera);
     
-    virtual ~GeometrySubpass() = default;
+    ~GeometrySubpass() override = default;
     
-    virtual void prepare() override;
+    void prepare() override;
     
     /**
      * @brief Record draw commands
      */
-    virtual void draw(CommandBuffer &command_buffer) override;
+    void draw(CommandBuffer &command_buffer) override;
     
     /**
      * @brief Thread index to use for allocating resources
      */
     void set_thread_index(uint32_t index);
     
-private:
-    void _drawElement(CommandBuffer &command_buffer,
-                      const std::vector<RenderElement> &items,
-                      const ShaderVariant& variant);
-    
 protected:
-    Camera *camera{nullptr};
-    Scene *scene{nullptr};
-
-    uint32_t thread_index{0};
+    void draw_element(CommandBuffer &command_buffer,
+                      const std::vector<RenderElement> &items,
+                      const ShaderVariant &variant);
+    
+    virtual PipelineLayout &prepare_pipeline_layout(CommandBuffer &command_buffer,
+                                                    const std::vector<ShaderModule *> &shader_modules);
+    
+    Camera *camera_{nullptr};
+    Scene *scene_{nullptr};
+    
+    uint32_t thread_index_{0};
 };
 
 }

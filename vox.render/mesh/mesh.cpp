@@ -68,8 +68,8 @@ const std::vector<std::unique_ptr<core::Buffer>> &Mesh::vertex_buffer_bindings()
     return vertex_buffer_bindings_;
 }
 
-const IndexBufferBinding &Mesh::index_buffer_binding() const {
-    return *index_buffer_binding_;
+const IndexBufferBinding *Mesh::index_buffer_binding() const {
+    return index_buffer_binding_? index_buffer_binding_.get() : nullptr;
 }
 
 }
