@@ -515,7 +515,6 @@
 		04D95D02280C443E00E54DC2 /* mesh_renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D00280C443E00E54DC2 /* mesh_renderer.cpp */; };
 		04D95D03280C443E00E54DC2 /* mesh_renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D01280C443E00E54DC2 /* mesh_renderer.h */; };
 		04D95D08280C4A3100E54DC2 /* forward_application.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D04280C4A3100E54DC2 /* forward_application.h */; };
-		04D95D09280C4A3100E54DC2 /* forward_application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D05280C4A3100E54DC2 /* forward_application.cpp */; };
 		04D95D0A280C4A3100E54DC2 /* graphics_application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D06280C4A3100E54DC2 /* graphics_application.cpp */; };
 		04D95D0B280C4A3100E54DC2 /* graphics_application.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D07280C4A3100E54DC2 /* graphics_application.h */; };
 		04D95D18280CF20200E54DC2 /* postprocessing_pass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D10280CF20200E54DC2 /* postprocessing_pass.cpp */; };
@@ -2631,7 +2630,6 @@
 				04D95C79280A8C6E00E54DC2 /* configurable_joint.cpp in Sources */,
 				0444EA582805772200C6F279 /* render_frame.cpp in Sources */,
 				04D95C80280A8C6E00E54DC2 /* translational_joint.cpp in Sources */,
-				04D95D09280C4A3100E54DC2 /* forward_application.cpp in Sources */,
 				0444EB8928084BBD00C6F279 /* menu_list.cpp in Sources */,
 				0444EA2F280571FA00C6F279 /* ktx_img.cpp in Sources */,
 				0444E9E128056AFA00C6F279 /* pipeline.cpp in Sources */,

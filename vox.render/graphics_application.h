@@ -278,11 +278,6 @@ protected:
     virtual void draw_gui();
     
     /**
-     * @brief Updates the debug window, samples can override this to insert their own data elements
-     */
-    virtual void update_debug_window();
-    
-    /**
      * @brief Set viewport and scissor state in command buffer for a given extent
      */
     static void set_viewport_and_scissor(vox::CommandBuffer &command_buffer, const VkExtent2D &extent);

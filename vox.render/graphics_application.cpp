@@ -235,14 +235,8 @@ void GraphicsApplication::update_stats(float delta_time) {
 
 void GraphicsApplication::update_gui(float delta_time) {
     if (gui_) {
-        if (gui_->is_debug_view_active()) {
-            update_debug_window();
-        }
-        
         gui_->new_frame();
-        
-        gui_->show_top_window(get_name(), stats_.get(), &get_debug_info());
-        
+                
         // Samples can override this
         draw_gui();
         
@@ -418,41 +412,6 @@ Configuration &GraphicsApplication::get_configuration() {
 }
 
 void GraphicsApplication::draw_gui() {
-}
-
-void GraphicsApplication::update_debug_window() {
-    auto driver_version = device_->get_driver_version();
-    std::string driver_version_str = fmt::format("major: {} minor: {} patch: {}", driver_version.major,
-                                                 driver_version.minor, driver_version.patch);
-    get_debug_info().insert<field::Static, std::string>("driver_version", driver_version_str);
-    
-    get_debug_info().insert<field::Static, std::string>("resolution",
-                                                        to_string(render_context_->get_swapchain().get_extent()));
-    
-    get_debug_info().insert<field::Static, std::string>("surface_format",
-                                                        to_string(render_context_->get_swapchain().get_format()) +
-                                                        " (" +
-                                                        to_string(get_bits_per_pixel(
-                                                                                     render_context_->get_swapchain().get_format())) +
-                                                        "bpp)");
-    
-    //	if (scene != nullptr)
-    //	{
-    //		get_debug_info().insert<field::Static, uint32_t>("mesh_count",
-    //		                                                 to_u32(scene->get_components<sg::Renderer>().size()));
-    //
-    //		get_debug_info().insert<field::Static, uint32_t>("texture_count",
-    //		                                                 to_u32(scene->get_components<sg::Texture>().size()));
-    //
-    //		if (auto camera = scene->get_components<vox::sg::Camera>().at(0))
-    //		{
-    //			if (auto camera_node = camera->get_node())
-    //			{
-    //				const glm::vec3 &pos = camera_node->get_transform().get_translation();
-    //				get_debug_info().insert<field::Vector, float>("camera_pos", pos.x, pos.y, pos.z);
-    //			}
-    //		}
-    //	}
 }
 
 void GraphicsApplication::set_viewport_and_scissor(vox::CommandBuffer &command_buffer, const VkExtent2D &extent) {
