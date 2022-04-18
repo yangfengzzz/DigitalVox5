@@ -10,7 +10,6 @@ project(vox.render LANGUAGES C CXX)
 
 set(FRAMEWORK_FILES
         # Header Files
-        gui.h
         gltf_loader.h
         buffer_pool.h
         debug_info.h
@@ -26,7 +25,6 @@ set(FRAMEWORK_FILES
         timer.h
         camera.h
         # Source Files
-        gui.cpp
         gltf_loader.cpp
         debug_info.cpp
         buffer_pool.cpp

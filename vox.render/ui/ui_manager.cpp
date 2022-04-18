@@ -8,7 +8,7 @@
 #include "matrix4x4.h"
 #include "matrix_utils.h"
 #include <GLFW/glfw3.h>
-#include <backends/imgui_impl_glfw.h>
+#include "imgui_impl_glfw.h"
 
 namespace vox::ui {
 namespace {
