@@ -12,6 +12,7 @@
 #include "rendering/pipeline_state.h"
 #include "rendering/render_context.h"
 #include "rendering/render_frame.h"
+#include "rendering/render_element.h"
 
 namespace vox {
 class CommandBuffer;
@@ -98,6 +99,10 @@ protected:
     
     // A map of shader resource names and the mode of constant data
     std::unordered_map<std::string, ShaderResourceMode> resource_mode_map_;
+    
+    static bool _compareFromNearToFar(const RenderElement &a, const RenderElement &b);
+    
+    static bool _compareFromFarToNear(const RenderElement &a, const RenderElement &b);
     
 private:
     std::string debug_name_{};

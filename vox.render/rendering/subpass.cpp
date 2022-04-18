@@ -9,6 +9,8 @@
 #include <utility>
 
 #include "render_context.h"
+#include "material/material.h"
+#include "renderer.h"
 
 namespace vox {
 
@@ -97,6 +99,16 @@ const std::string &Subpass::get_debug_name() const {
 
 void Subpass::set_debug_name(const std::string &name) {
     debug_name_ = name;
+}
+
+bool Subpass::_compareFromNearToFar(const RenderElement &a, const RenderElement &b) {
+    return (a.material->render_queue_ < b.material->render_queue_) ||
+    (a.renderer->distance_for_sort() < b.renderer->distance_for_sort());
+}
+
+bool Subpass::_compareFromFarToNear(const RenderElement &a, const RenderElement &b) {
+    return (a.material->render_queue_ < b.material->render_queue_) ||
+    (b.renderer->distance_for_sort() < a.renderer->distance_for_sort());
 }
 
 }        // namespace vox

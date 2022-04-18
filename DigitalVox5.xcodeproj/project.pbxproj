@@ -528,6 +528,8 @@
 		04D95D1F280CF2CE00E54DC2 /* postprocessing_renderpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D0F280CF20200E54DC2 /* postprocessing_renderpass.cpp */; };
 		04D95D20280CF2F400E54DC2 /* postprocessing_computepass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D13280CF20200E54DC2 /* postprocessing_computepass.h */; };
 		04D95D21280CF2F400E54DC2 /* postprocessing_computepass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D12280CF20200E54DC2 /* postprocessing_computepass.cpp */; };
+		04D95D24280CF6AC00E54DC2 /* geometry_subpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D22280CF6AC00E54DC2 /* geometry_subpass.cpp */; };
+		04D95D25280CF6AC00E54DC2 /* geometry_subpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D23280CF6AC00E54DC2 /* geometry_subpass.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1100,6 +1102,8 @@
 		04D95D11280CF20200E54DC2 /* postprocessing_pass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = postprocessing_pass.h; sourceTree = "<group>"; };
 		04D95D12280CF20200E54DC2 /* postprocessing_computepass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = postprocessing_computepass.cpp; sourceTree = "<group>"; };
 		04D95D13280CF20200E54DC2 /* postprocessing_computepass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = postprocessing_computepass.h; sourceTree = "<group>"; };
+		04D95D22280CF6AC00E54DC2 /* geometry_subpass.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = geometry_subpass.cpp; sourceTree = "<group>"; };
+		04D95D23280CF6AC00E54DC2 /* geometry_subpass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = geometry_subpass.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1977,6 +1981,8 @@
 		04D95CDD280BE7B300E54DC2 /* subpasses */ = {
 			isa = PBXGroup;
 			children = (
+				04D95D23280CF6AC00E54DC2 /* geometry_subpass.h */,
+				04D95D22280CF6AC00E54DC2 /* geometry_subpass.cpp */,
 			);
 			path = subpasses;
 			sourceTree = "<group>";
@@ -2162,6 +2168,7 @@
 				0444EB6E28084BAF00C6F279 /* color_edit.h in Headers */,
 				04D95CB0280ACD0400E54DC2 /* image_manager.h in Headers */,
 				04D95C27280993DC00E54DC2 /* scene.h in Headers */,
+				04D95D25280CF6AC00E54DC2 /* geometry_subpass.h in Headers */,
 				0444EB7E28084BB600C6F279 /* plot_histogram.h in Headers */,
 				0444EB0328084B8000C6F279 /* converter.h in Headers */,
 				0444E9E928056AFA00C6F279 /* command_buffer.h in Headers */,
@@ -2625,6 +2632,7 @@
 				0444EB6A28084BAF00C6F279 /* radio_button_linker.cpp in Sources */,
 				0444E94128055FD400C6F279 /* debug.cpp in Sources */,
 				0444EB9828084BC500C6F279 /* tree_node.cpp in Sources */,
+				04D95D24280CF6AC00E54DC2 /* geometry_subpass.cpp in Sources */,
 				0444E9E328056AFA00C6F279 /* descriptor_set.cpp in Sources */,
 				0444E966280563E600C6F279 /* help_formatter.cpp in Sources */,
 				0444EB3D28084B9E00C6F279 /* text_colored.cpp in Sources */,
