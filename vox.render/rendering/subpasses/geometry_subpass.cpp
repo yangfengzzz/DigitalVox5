@@ -51,11 +51,16 @@ void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
         auto &mesh = element.mesh;
         ScopedDebugLabel submesh_debug_label{command_buffer, mesh->name_.c_str()};
         
+        // pipeline state
         command_buffer.set_rasterization_state(material->rasterization_state_);
         auto multisample = material->multisample_state_;
         multisample.rasterization_samples = sample_count_;
         command_buffer.set_multisample_state(multisample);
+        command_buffer.set_depth_stencil_state(material->depth_stencil_state_);
+        command_buffer.set_color_blend_state(material->color_blend_state_);
+        command_buffer.set_input_assembly_state(material->input_assembly_state_);
         
+        // shader
         auto &vert_shader_module =
         device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), variant);
         auto &frag_shader_module =
@@ -64,12 +69,14 @@ void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
         auto &pipeline_layout = prepare_pipeline_layout(command_buffer, shader_modules);
         command_buffer.bind_pipeline_layout(pipeline_layout);
         
+        // uniform & texture
         DescriptorSetLayout &descriptor_set_layout = pipeline_layout.get_descriptor_set_layout(0);
         scene_->shader_data_.bind_data(command_buffer, descriptor_set_layout);
         camera_->shader_data_.bind_data(command_buffer, descriptor_set_layout);
         renderer->shader_data_.bind_data(command_buffer, descriptor_set_layout);
         material->shader_data_.bind_data(command_buffer, descriptor_set_layout);
         
+        // vertex buffer
         command_buffer.set_vertex_input_state(mesh->vertex_input_state());
         for (uint32_t j = 0; j < mesh->vertex_buffer_bindings().size(); j++) {
             const auto &vertex_buffer_binding = mesh->vertex_buffer_bindings()[j];

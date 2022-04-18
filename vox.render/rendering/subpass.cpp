@@ -37,10 +37,6 @@ const ShaderSource &Subpass::get_fragment_shader() const {
     return fragment_shader_;
 }
 
-DepthStencilState &Subpass::get_depth_stencil_state() {
-    return depth_stencil_state_;
-}
-
 const std::vector<uint32_t> &Subpass::get_input_attachments() const {
     return input_attachments_;
 }

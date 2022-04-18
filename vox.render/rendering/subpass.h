@@ -111,8 +111,6 @@ private:
     
     ShaderSource fragment_shader_;
     
-    DepthStencilState depth_stencil_state_{};
-    
     /**
      * @brief When creating the renderpass, pDepthStencilAttachment will
      *        be set to nullptr, which disables depth testing
