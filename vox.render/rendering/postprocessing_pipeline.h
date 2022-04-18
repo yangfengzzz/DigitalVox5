@@ -42,7 +42,7 @@ public:
      * @brief Gets all of the passes in the pipeline.
      */
     inline std::vector<std::unique_ptr<PostProcessingPassBase>> &get_passes() {
-        return passes;
+        return passes_;
     }
     
     /**
@@ -50,7 +50,7 @@ public:
      */
     template<typename TPass = vox::PostProcessingRenderPass>
     inline TPass &get_pass(size_t index) {
-        return *dynamic_cast<TPass *>(passes[index].get());
+        return *dynamic_cast<TPass *>(passes_[index].get());
     }
     
     /**
@@ -58,30 +58,30 @@ public:
      */
     template<typename TPass = vox::PostProcessingRenderPass, typename... ConstructorArgs>
     TPass &add_pass(ConstructorArgs &&... args) {
-        passes.emplace_back(std::make_unique<TPass>(this, std::forward<ConstructorArgs>(args)...));
-        auto &added_pass = *dynamic_cast<TPass *>(passes.back().get());
+        passes_.emplace_back(std::make_unique<TPass>(this, std::forward<ConstructorArgs>(args)...));
+        auto &added_pass = *dynamic_cast<TPass *>(passes_.back().get());
         return added_pass;
     }
     
     /**
      * @brief Returns the current render context.
      */
-    inline RenderContext &get_render_context() const {
-        return *render_context;
+    [[nodiscard]] inline RenderContext &get_render_context() const {
+        return *render_context_;
     }
     
     /**
      * @brief Returns the index of the currently-being-drawn pass.
      */
-    inline size_t get_current_pass_index() const {
-        return current_pass_index;
+    [[nodiscard]] inline size_t get_current_pass_index() const {
+        return current_pass_index_;
     }
     
 private:
-    RenderContext *render_context{nullptr};
-    ShaderSource triangle_vs;
-    std::vector<std::unique_ptr<PostProcessingPassBase>> passes{};
-    size_t current_pass_index{0};
+    RenderContext *render_context_{nullptr};
+    ShaderSource triangle_vs_;
+    std::vector<std::unique_ptr<PostProcessingPassBase>> passes_{};
+    size_t current_pass_index_{0};
 };
 
 }        // namespace vox

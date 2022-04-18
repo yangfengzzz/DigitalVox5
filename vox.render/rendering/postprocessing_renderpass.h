@@ -62,17 +62,17 @@ public:
     PostProcessingSubpass(const PostProcessingSubpass &to_copy) = delete;
     PostProcessingSubpass &operator=(const PostProcessingSubpass &to_copy) = delete;
     
-    PostProcessingSubpass(PostProcessingSubpass &&to_move);
+    PostProcessingSubpass(PostProcessingSubpass &&to_move) noexcept;
     PostProcessingSubpass &operator=(PostProcessingSubpass &&to_move) = delete;
     
-    ~PostProcessingSubpass() = default;
+    ~PostProcessingSubpass() override = default;
     
     /**
      * @brief Maps the names of input attachments in the shader to indices into the render target's images.
      *        These are given as `subpassInput`s to the subpass, at set 0; they are bound automatically according to their name.
      */
-    inline const AttachmentMap &get_input_attachments() const {
-        return input_attachments;
+    [[nodiscard]] inline const AttachmentMap &get_input_attachments() const {
+        return input_attachments_;
     }
     
     /**
@@ -81,30 +81,30 @@ public:
      * @remarks PostProcessingPipeline::get_sampler() is used as the default sampler if none is specified.
      *          The RenderTarget for the current PostProcessingSubpass is used if none is specified for attachment images.
      */
-    inline const SampledMap &get_sampled_images() const {
-        return sampled_images;
+    [[nodiscard]] inline const SampledMap &get_sampled_images() const {
+        return sampled_images_;
     }
     
     /**
      * @brief Maps the names of storage images in the shader to vox::core::ImageView.
      *        These are given as image2D[Array] to the subpass, at set 0; they are bound automatically according to their name.
      */
-    inline const StorageImageMap &get_storage_images() const {
-        return storage_images;
+    [[nodiscard]] inline const StorageImageMap &get_storage_images() const {
+        return storage_images_;
     }
     
     /**
      * @brief Returns the shader variant used for this postprocess' fragment shader.
      */
     inline ShaderVariant &get_fs_variant() {
-        return fs_variant;
+        return fs_variant_;
     }
     
     /**
      * @brief Sets the shader variant that will be used for this postprocess' fragment shader.
      */
     inline PostProcessingSubpass &set_fs_variant(ShaderVariant &&new_variant) {
-        fs_variant = std::move(new_variant);
+        fs_variant_ = std::move(new_variant);
         
         return *this;
     }
@@ -145,9 +145,9 @@ public:
      */
     template<typename T>
     inline PostProcessingSubpass &set_push_constants(const T &data) {
-        push_constants_data.reserve(sizeof(data));
+        push_constants_data_.reserve(sizeof(data));
         auto data_ptr = reinterpret_cast<const uint8_t *>(&data);
-        push_constants_data.assign(data_ptr, data_ptr + sizeof(data));
+        push_constants_data_.assign(data_ptr, data_ptr + sizeof(data));
         
         return *this;
     }
@@ -156,7 +156,7 @@ public:
      * @brief A functor used to draw the primitives for a post-processing step.
      * @see default_draw_func()
      */
-    using DrawFunc = std::function<void(CommandBuffer & command_buffer, RenderTarget & render_target)>;
+    using DrawFunc = std::function<void(CommandBuffer &command_buffer, RenderTarget &render_target)>;
     
     /**
      * @brief Sets the function used to draw this postprocessing step.
@@ -170,17 +170,17 @@ public:
     static void default_draw_func(vox::CommandBuffer &command_buffer, vox::RenderTarget &render_target);
     
 private:
-    PostProcessingRenderPass *parent;
+    PostProcessingRenderPass *parent_;
     
-    ShaderVariant fs_variant{};
+    ShaderVariant fs_variant_{};
     
-    AttachmentMap input_attachments{};
-    SampledMap sampled_images{};
-    StorageImageMap storage_images{};
+    AttachmentMap input_attachments_{};
+    SampledMap sampled_images_{};
+    StorageImageMap storage_images_{};
     
-    std::vector<uint8_t> push_constants_data{};
+    std::vector<uint8_t> push_constants_data_{};
     
-    DrawFunc draw_func{&PostProcessingSubpass::default_draw_func};
+    DrawFunc draw_func_{&PostProcessingSubpass::default_draw_func};
     
     void prepare() override;
     void draw(CommandBuffer &command_buffer) override;
@@ -193,7 +193,8 @@ class PostProcessingRenderPass : public PostProcessingPass<PostProcessingRenderP
 public:
     friend class PostProcessingSubpass;
     
-    PostProcessingRenderPass(PostProcessingPipeline *parent, std::unique_ptr<core::Sampler> &&default_sampler = nullptr);
+    explicit PostProcessingRenderPass(PostProcessingPipeline *parent,
+                                      std::unique_ptr<core::Sampler> &&default_sampler = nullptr);
     
     PostProcessingRenderPass(const PostProcessingRenderPass &to_copy) = delete;
     PostProcessingRenderPass &operator=(const PostProcessingRenderPass &to_copy) = delete;
@@ -207,7 +208,7 @@ public:
      * @brief Gets the step at the given index.
      */
     inline PostProcessingSubpass &get_subpass(size_t index) {
-        return *dynamic_cast<PostProcessingSubpass *>(pipeline.get_subpasses().at(index).get());
+        return *dynamic_cast<PostProcessingSubpass *>(pipeline_.get_subpasses().at(index).get());
     }
     
     /**
@@ -224,7 +225,7 @@ public:
                                                                    std::forward<ConstructorArgs>(args)...);
         auto &new_subpass_ref = *new_subpass;
         
-        pipeline.add_subpass(std::move(new_subpass));
+        pipeline_.add_subpass(std::move(new_subpass));
         
         return new_subpass_ref;
     }
@@ -234,9 +235,9 @@ public:
      */
     template<typename T>
     inline PostProcessingRenderPass &set_uniform_data(const T &data) {
-        uniform_data.reserve(sizeof(data));
+        uniform_data_.reserve(sizeof(data));
         auto data_ptr = reinterpret_cast<const uint8_t *>(&data);
-        uniform_data.assign(data_ptr, data_ptr + sizeof(data));
+        uniform_data_.assign(data_ptr, data_ptr + sizeof(data));
         
         return *this;
     }
@@ -245,7 +246,7 @@ public:
      * @copydoc set_uniform_data(const T&)
      */
     inline PostProcessingRenderPass &set_uniform_data(const std::vector<uint8_t> &data) {
-        uniform_data = data;
+        uniform_data_ = data;
         
         return *this;
     }
@@ -280,16 +281,16 @@ private:
      */
     void prepare_draw(CommandBuffer &command_buffer, RenderTarget &fallback_render_target);
     
-    BarrierInfo get_src_barrier_info() const override;
-    BarrierInfo get_dst_barrier_info() const override;
+    [[nodiscard]] BarrierInfo get_src_barrier_info() const override;
+    [[nodiscard]] BarrierInfo get_dst_barrier_info() const override;
     
-    RenderPipeline pipeline{};
-    std::unique_ptr<core::Sampler> default_sampler{};
-    RenderTarget *draw_render_target{nullptr};
-    std::vector<LoadStoreInfo> load_stores{};
-    bool load_stores_dirty{true};
-    std::vector<uint8_t> uniform_data{};
-    std::shared_ptr<BufferAllocation> uniform_buffer_alloc{};
+    RenderPipeline pipeline_{};
+    std::unique_ptr<core::Sampler> default_sampler_{};
+    RenderTarget *draw_render_target_{nullptr};
+    std::vector<LoadStoreInfo> load_stores_{};
+    bool load_stores_dirty_{true};
+    std::vector<uint8_t> uniform_data_{};
+    std::shared_ptr<BufferAllocation> uniform_buffer_alloc_{};
 };
 
 }        // namespace vox

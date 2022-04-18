@@ -6,45 +6,43 @@
 
 #include "postprocessing_pipeline.h"
 
-#include "utils.h"
-
 namespace vox {
 PostProcessingPipeline::PostProcessingPipeline(RenderContext &render_context, ShaderSource triangle_vs) :
-render_context{&render_context},
-triangle_vs{std::move(triangle_vs)} {}
+render_context_{&render_context},
+triangle_vs_{std::move(triangle_vs)} {}
 
 void PostProcessingPipeline::draw(CommandBuffer &command_buffer, RenderTarget &default_render_target) {
-    for (current_pass_index = 0; current_pass_index < passes.size(); current_pass_index++) {
-        auto &pass = *passes[current_pass_index];
+    for (current_pass_index_ = 0; current_pass_index_ < passes_.size(); current_pass_index_++) {
+        auto &pass = *passes_[current_pass_index_];
         
-        if (pass.debug_name.empty()) {
-            pass.debug_name = fmt::format("PPP pass #{}", current_pass_index);
+        if (pass.debug_name_.empty()) {
+            pass.debug_name_ = fmt::format("PPP pass #{}", current_pass_index_);
         }
-        ScopedDebugLabel marker{command_buffer, pass.debug_name.c_str()};
+        ScopedDebugLabel marker{command_buffer, pass.debug_name_.c_str()};
         
-        if (!pass.prepared) {
+        if (!pass.prepared_) {
             ScopedDebugLabel marker{command_buffer, "Prepare"};
             
             pass.prepare(command_buffer, default_render_target);
-            pass.prepared = true;
+            pass.prepared_ = true;
         }
         
-        if (pass.pre_draw) {
+        if (pass.pre_draw_) {
             ScopedDebugLabel marker{command_buffer, "Pre-draw"};
             
-            pass.pre_draw();
+            pass.pre_draw_();
         }
         
         pass.draw(command_buffer, default_render_target);
         
-        if (pass.post_draw) {
+        if (pass.post_draw_) {
             ScopedDebugLabel marker{command_buffer, "Post-draw"};
             
-            pass.post_draw();
+            pass.post_draw_();
         }
     }
     
-    current_pass_index = 0;
+    current_pass_index_ = 0;
 }
 
 }        // namespace vox

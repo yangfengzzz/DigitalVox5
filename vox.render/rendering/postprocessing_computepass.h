@@ -22,8 +22,8 @@ using SampledImageMap = std::unordered_map<std::string, core::SampledImage>;
 class PostProcessingComputePass : public PostProcessingPass<PostProcessingComputePass> {
 public:
     PostProcessingComputePass(PostProcessingPipeline *parent,
-                              const ShaderSource &cs_source,
-                              const ShaderVariant &cs_variant = {},
+                              ShaderSource cs_source,
+                              ShaderVariant cs_variant = {},
                               std::shared_ptr<core::Sampler> &&default_sampler = {});
     
     PostProcessingComputePass(const PostProcessingComputePass &to_copy) = delete;
@@ -39,15 +39,15 @@ public:
      * @brief Sets the number of workgroups to be dispatched each draw().
      */
     inline PostProcessingComputePass &set_dispatch_size(std::array<uint32_t, 3> new_size) {
-        n_workgroups = new_size;
+        n_workgroups_ = new_size;
         return *this;
     }
     
     /**
      * @brief Gets the number of workgroups that will be dispatched each draw().
      */
-    inline std::array<uint32_t, 3> get_dispatch_size() const {
-        return n_workgroups;
+    [[nodiscard]] inline std::array<uint32_t, 3> get_dispatch_size() const {
+        return n_workgroups_;
     }
     
     /**
@@ -56,8 +56,8 @@ public:
      * @remarks PostProcessingPipeline::get_sampler() is used as the default sampler if none is specified.
      *          The RenderTarget for the current PostprocessingStep is used if none is specified for attachment images.
      */
-    inline const SampledImageMap &get_sampled_images() const {
-        return sampled_images;
+    [[nodiscard]] inline const SampledImageMap &get_sampled_images() const {
+        return sampled_images_;
     }
     
     /**
@@ -65,8 +65,8 @@ public:
      *        These are given as image2D / image2DArray / ... to the subpass, at set 0;
      *        they are bound automatically according to their name.
      */
-    inline const SampledImageMap &get_storage_images() const {
-        return storage_images;
+    [[nodiscard]] inline const SampledImageMap &get_storage_images() const {
+        return storage_images_;
     }
     
     /**
@@ -88,9 +88,9 @@ public:
      */
     template<typename T>
     inline PostProcessingComputePass &set_uniform_data(const T &data) {
-        uniform_data.reserve(sizeof(data));
+        uniform_data_.reserve(sizeof(data));
         auto data_ptr = reinterpret_cast<const uint8_t *>(&data);
-        uniform_data.assign(data_ptr, data_ptr + sizeof(data));
+        uniform_data_.assign(data_ptr, data_ptr + sizeof(data));
         
         return *this;
     }
@@ -99,7 +99,7 @@ public:
      * @copydoc set_uniform_data(const T&)
      */
     inline PostProcessingComputePass &set_uniform_data(const std::vector<uint8_t> &data) {
-        uniform_data = data;
+        uniform_data_ = data;
         
         return *this;
     }
@@ -109,9 +109,9 @@ public:
      */
     template<typename T>
     inline PostProcessingComputePass &set_push_constants(const T &data) {
-        push_constants_data.reserve(sizeof(data));
+        push_constants_data_.reserve(sizeof(data));
         auto data_ptr = reinterpret_cast<const uint8_t *>(&data);
-        push_constants_data.assign(data_ptr, data_ptr + sizeof(data));
+        push_constants_data_.assign(data_ptr, data_ptr + sizeof(data));
         
         return *this;
     }
@@ -120,23 +120,23 @@ public:
      * @copydoc set_push_constants(const T&)
      */
     inline PostProcessingComputePass &set_push_constants(const std::vector<uint8_t> &data) {
-        push_constants_data = data;
+        push_constants_data_ = data;
         
         return *this;
     }
     
 private:
-    ShaderSource cs_source;
-    ShaderVariant cs_variant;
-    std::array<uint32_t, 3> n_workgroups{1, 1, 1};
+    ShaderSource cs_source_;
+    ShaderVariant cs_variant_;
+    std::array<uint32_t, 3> n_workgroups_{1, 1, 1};
     
-    std::shared_ptr<core::Sampler> default_sampler{};
-    SampledImageMap sampled_images{};
-    SampledImageMap storage_images{};
+    std::shared_ptr<core::Sampler> default_sampler_{};
+    SampledImageMap sampled_images_{};
+    SampledImageMap storage_images_{};
     
-    std::vector<uint8_t> uniform_data{};
-    std::unique_ptr<BufferAllocation> uniform_alloc{};
-    std::vector<uint8_t> push_constants_data{};
+    std::vector<uint8_t> uniform_data_{};
+    std::unique_ptr<BufferAllocation> uniform_alloc_{};
+    std::vector<uint8_t> push_constants_data_{};
     
     /**
      * @brief Transitions sampled_images (to SHADER_READ_ONLY_OPTIMAL)
@@ -144,8 +144,8 @@ private:
      */
     void transition_images(CommandBuffer &command_buffer, RenderTarget &default_render_target);
     
-    BarrierInfo get_src_barrier_info() const override;
-    BarrierInfo get_dst_barrier_info() const override;
+    [[nodiscard]] BarrierInfo get_src_barrier_info() const override;
+    [[nodiscard]] BarrierInfo get_dst_barrier_info() const override;
 };
 
 }        // namespace vox
