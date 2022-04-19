@@ -32,7 +32,7 @@ void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, co
     if (new_value) {
         shader_data_.add_define("HAS_BASE_TEXTURE");
     } else {
-        shader_data_.add_undefine("HAS_BASE_TEXTURE");
+        shader_data_.remove_define("HAS_BASE_TEXTURE");
     }
 }
 

@@ -8,8 +8,12 @@
 
 namespace vox {
 ShaderVariant::ShaderVariant(std::string &&preamble, std::vector<std::string> &&processes) :
-preamble_{std::move(preamble)},
 processes_{std::move(processes)} {
+    auto splits = split(preamble, "\n");
+    for (const std::string &split : splits) {
+        preambles_.insert(split);
+    }
+    
     update_id();
 }
 
@@ -34,15 +38,26 @@ void ShaderVariant::add_define(const std::string &def) {
         tmp_def[pos_equal] = ' ';
     }
     
-    preamble_.append("#define " + tmp_def + "\n");
+    preambles_.insert("#define " + tmp_def + "\n");
     
     update_id();
 }
 
-void ShaderVariant::add_undefine(const std::string &undef) {
-    processes_.push_back("U" + undef);
+void ShaderVariant::remove_define(const std::string &def) {
+    std::string process = "D" + def;
+    processes_.erase(std::remove(processes_.begin(), processes_.end(), process), processes_.end());
     
-    preamble_.append("#undef " + undef + "\n");
+    std::string tmp_def = def;
+    // The "=" needs to turn into a space
+    size_t pos_equal = tmp_def.find_first_of('=');
+    if (pos_equal != std::string::npos) {
+        tmp_def[pos_equal] = ' ';
+    }
+    tmp_def = "#define " + tmp_def + "\n";
+    auto iter = preambles_.find(tmp_def);
+    if (iter != preambles_.end()) {
+        preambles_.erase(iter);
+    }
     
     update_id();
 }
@@ -59,8 +74,12 @@ void ShaderVariant::set_runtime_array_sizes(const std::unordered_map<std::string
     runtime_array_sizes_ = sizes;
 }
 
-const std::string &ShaderVariant::get_preamble() const {
-    return preamble_;
+std::string ShaderVariant::get_preamble() const {
+    std::string preamble;
+    std::for_each(preambles_.begin(), preambles_.end(), [&](const std::string &p) {
+        preamble += p;
+    });
+    return preamble;
 }
 
 const std::vector<std::string> &ShaderVariant::get_processes() const {
@@ -72,15 +91,17 @@ const std::unordered_map<std::string, size_t> &ShaderVariant::get_runtime_array_
 }
 
 void ShaderVariant::clear() {
-    preamble_.clear();
+    preambles_.clear();
     processes_.clear();
     runtime_array_sizes_.clear();
     update_id();
 }
 
 void ShaderVariant::update_id() {
-    std::hash<std::string> hasher{};
-    id_ = hasher(preamble_);
+    id_ = 0;
+    std::for_each(preambles_.begin(), preambles_.end(), [&](const std::string &preamble) {
+        hash_combine(id_, preamble);
+    });
 }
 
 }

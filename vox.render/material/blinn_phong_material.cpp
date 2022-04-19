@@ -31,7 +31,7 @@ void BlinnPhongMaterial::set_base_texture(const std::shared_ptr<Image> &new_valu
     if (new_value) {
         shader_data_.add_define("HAS_DIFFUSE_TEXTURE");
     } else {
-        shader_data_.add_undefine("HAS_DIFFUSE_TEXTURE");
+        shader_data_.remove_define("HAS_DIFFUSE_TEXTURE");
     }
 }
 
@@ -60,7 +60,7 @@ void BlinnPhongMaterial::set_specular_texture(const std::shared_ptr<Image> &new_
     if (new_value) {
         shader_data_.add_define("HAS_SPECULAR_TEXTURE");
     } else {
-        shader_data_.add_undefine("HAS_SPECULAR_TEXTURE");
+        shader_data_.remove_define("HAS_SPECULAR_TEXTURE");
     }
 }
 
@@ -89,7 +89,7 @@ void BlinnPhongMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_
     if (new_value) {
         shader_data_.add_define("HAS_EMISSIVE_TEXTURE");
     } else {
-        shader_data_.add_undefine("HAS_EMISSIVE_TEXTURE");
+        shader_data_.remove_define("HAS_EMISSIVE_TEXTURE");
     }
 }
 
@@ -108,7 +108,7 @@ void BlinnPhongMaterial::set_normal_texture(const std::shared_ptr<Image> &new_va
     if (new_value) {
         shader_data_.add_define("HAS_NORMAL_TEXTURE");
     } else {
-        shader_data_.add_undefine("HAS_NORMAL_TEXTURE");
+        shader_data_.remove_define("HAS_NORMAL_TEXTURE");
     }
 }
 

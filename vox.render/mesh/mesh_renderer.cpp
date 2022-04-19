@@ -43,10 +43,10 @@ void MeshRenderer::render(std::vector<RenderElement> &opaque_queue,
         if (mesh_update_flag_->flag_) {
             const auto &vertex_input_state = mesh_->vertex_input_state();
             
-            shader_data_.add_undefine("HAS_UV");
-            shader_data_.add_undefine("HAS_NORMAL");
-            shader_data_.add_undefine("HAS_TANGENT");
-            shader_data_.add_undefine("HAS_VERTEXCOLOR");
+            shader_data_.remove_define("HAS_UV");
+            shader_data_.remove_define("HAS_NORMAL");
+            shader_data_.remove_define("HAS_TANGENT");
+            shader_data_.remove_define("HAS_VERTEXCOLOR");
             
             for (auto attribute : vertex_input_state.attributes) {
                 if (attribute.location == (uint32_t)Attributes::UV_0) {

@@ -41,7 +41,7 @@ void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &n
     if (new_value) {
         shader_data_.add_define("HAS_METALROUGHNESSMAP");
     } else {
-        shader_data_.add_undefine("HAS_METALROUGHNESSMAP");
+        shader_data_.remove_define("HAS_METALROUGHNESSMAP");
     }
 }
 

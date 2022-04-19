@@ -31,7 +31,7 @@ void PbrBaseMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, 
     if (new_value) {
         shader_data_.add_define("HAS_BASE_COLORMAP");
     } else {
-        shader_data_.add_undefine("HAS_BASE_COLORMAP");
+        shader_data_.remove_define("HAS_BASE_COLORMAP");
     }
 }
 
@@ -50,7 +50,7 @@ void PbrBaseMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value
     if (new_value) {
         shader_data_.add_define("HAS_NORMAL_TEXTURE");
     } else {
-        shader_data_.add_undefine("HAS_NORMAL_TEXTURE");
+        shader_data_.remove_define("HAS_NORMAL_TEXTURE");
     }
 }
 
@@ -87,7 +87,7 @@ void PbrBaseMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_val
     if (new_value) {
         shader_data_.add_define("HAS_EMISSIVEMAP");
     } else {
-        shader_data_.add_undefine("HAS_EMISSIVEMAP");
+        shader_data_.remove_define("HAS_EMISSIVEMAP");
     }
 }
 
@@ -106,7 +106,7 @@ void PbrBaseMaterial::set_occlusion_texture(const std::shared_ptr<Image> &new_va
     if (new_value) {
         shader_data_.add_define("HAS_OCCLUSIONMAP");
     } else {
-        shader_data_.add_undefine("HAS_OCCLUSIONMAP");
+        shader_data_.remove_define("HAS_OCCLUSIONMAP");
     }
 }
 

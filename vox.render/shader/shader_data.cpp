@@ -56,8 +56,8 @@ void ShaderData::add_define(const std::string &def) {
     variant_.add_define(def);
 }
 
-void ShaderData::add_undefine(const std::string &undef) {
-    variant_.add_undefine(undef);
+void ShaderData::remove_define(const std::string &undef) {
+    variant_.remove_define(undef);
 }
 
 }

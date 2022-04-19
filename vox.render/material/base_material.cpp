@@ -39,7 +39,7 @@ void BaseMaterial::set_alpha_cutoff(float new_value) {
         shader_data_.add_define("NEED_ALPHA_CUTOFF");
         render_queue_ = is_transparent_ ? RenderQueueType::TRANSPARENT : RenderQueueType::ALPHA_TEST;
     } else {
-        shader_data_.add_undefine("NEED_ALPHA_CUTOFF");
+        shader_data_.remove_define("NEED_ALPHA_CUTOFF");
         render_queue_ = is_transparent_ ? RenderQueueType::TRANSPARENT : RenderQueueType::OPAQUE;
     }
 }

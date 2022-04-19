@@ -34,10 +34,10 @@ public:
     void add_define(const std::string &def);
     
     /**
-     * @brief Adds an undef macro to the shader
-     * @param undef String which should go to the right of an undef directive
+     * @brief Remove a def macro to the shader
+     * @param def String which should go to the right of a define directive
      */
-    void add_undefine(const std::string &undef);
+    void remove_define(const std::string &def);
     
     /**
      * @brief Specifies the size of a named runtime array for automatic reflection. If already specified, overrides the size.
@@ -49,7 +49,7 @@ public:
     
     void set_runtime_array_sizes(const std::unordered_map<std::string, size_t> &sizes);
     
-    [[nodiscard]] const std::string &get_preamble() const;
+    [[nodiscard]] std::string get_preamble() const;
     
     [[nodiscard]] const std::vector<std::string> &get_processes() const;
     
@@ -60,7 +60,7 @@ public:
 private:
     size_t id_{};
     
-    std::string preamble_;
+    std::set<std::string> preambles_;
     
     std::vector<std::string> processes_;
     

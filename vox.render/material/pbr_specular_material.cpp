@@ -40,7 +40,7 @@ void PbrSpecularMaterial::set_specular_glossiness_texture(const std::shared_ptr<
     if (new_value) {
         shader_data_.add_define("HAS_SPECULARGLOSSINESSMAP");
     } else {
-        shader_data_.add_undefine("HAS_SPECULARGLOSSINESSMAP");
+        shader_data_.remove_define("HAS_SPECULARGLOSSINESSMAP");
     }
 }
 

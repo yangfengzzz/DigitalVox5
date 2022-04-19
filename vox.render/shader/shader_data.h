@@ -79,7 +79,7 @@ public:
      * @brief Adds an undef macro to the shader
      * @param undef String which should go to the right of an undef directive
      */
-    void add_undefine(const std::string &undef);
+    void remove_define(const std::string &undef);
     
 private:
     Device &device_;
