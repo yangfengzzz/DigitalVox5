@@ -10,7 +10,6 @@ project(vox.render LANGUAGES C CXX)
 
 set(FRAMEWORK_FILES
         # Header Files
-        gltf_loader.h
         buffer_pool.h
         debug_info.h
         fence_pool.h
@@ -27,7 +26,6 @@ set(FRAMEWORK_FILES
         scene_animator.h
         scene_animation_clip.h
         # Source Files
-        gltf_loader.cpp
         debug_info.cpp
         buffer_pool.cpp
         fence_pool.cpp
@@ -69,10 +67,10 @@ set(RENDERING_FILES
         # Header files
         rendering/render_element.h
         rendering/pipeline_state.h
-        rendering/postprocessing_pipeline.h
-        rendering/postprocessing_pass.h
-        rendering/postprocessing_renderpass.h
-        rendering/postprocessing_computepass.h
+#        rendering/postprocessing_pipeline.h
+#        rendering/postprocessing_pass.h
+#        rendering/postprocessing_renderpass.h
+#        rendering/postprocessing_computepass.h
         rendering/render_context.h
         rendering/render_frame.h
         rendering/render_pipeline.h
@@ -81,10 +79,10 @@ set(RENDERING_FILES
         # Source files
         rendering/render_element.cpp
         rendering/pipeline_state.cpp
-        rendering/postprocessing_pipeline.cpp
-        rendering/postprocessing_pass.cpp
-        rendering/postprocessing_renderpass.cpp
-        rendering/postprocessing_computepass.cpp
+#        rendering/postprocessing_pipeline.cpp
+#        rendering/postprocessing_pass.cpp
+#        rendering/postprocessing_renderpass.cpp
+#        rendering/postprocessing_computepass.cpp
         rendering/render_context.cpp
         rendering/render_frame.cpp
         rendering/render_pipeline.cpp
@@ -116,64 +114,6 @@ set(RENDERING_SUBPASSES_FILES
         #    rendering/subpasses/forward_subpass.cpp
         #    rendering/subpasses/lighting_subpass.cpp
         rendering/subpasses/geometry_subpass.cpp)
-
-#set(SCENE_GRAPH_FILES
-#    # Header Files
-#    scene_graph/component.h
-#    scene_graph/node.h
-#    scene_graph/scene.h
-#    scene_graph/script.h
-#    # Source Files
-#    scene_graph/component.cpp
-#    scene_graph/node.cpp
-#    scene_graph/scene.cpp
-#    scene_graph/script.cpp)
-#
-#set(SCENE_GRAPH_COMPONENT_FILES
-#    # Header Files
-#    scene_graph/components/aabb.h
-#    scene_graph/components/camera.h
-#    scene_graph/components/perspective_camera.h
-#    scene_graph/components/orthographic_camera.h
-#    scene_graph/components/image.h
-#    scene_graph/components/light.h
-#    scene_graph/components/material.h
-#    scene_graph/components/mesh.h
-#    scene_graph/components/pbr_material.h
-#    scene_graph/components/sampler.h
-#    scene_graph/components/sub_mesh.h
-#    scene_graph/components/texture.h
-#    scene_graph/components/transform.h
-#    scene_graph/components/image/astc.h
-#    scene_graph/components/image/ktx.h
-#    scene_graph/components/image/stb.h
-#    # Source Files
-#    scene_graph/components/aabb.cpp
-#    scene_graph/components/camera.cpp
-#    scene_graph/components/perspective_camera.cpp
-#    scene_graph/components/orthographic_camera.cpp
-#    scene_graph/components/image.cpp
-#    scene_graph/components/light.cpp
-#    scene_graph/components/material.cpp
-#    scene_graph/components/mesh.cpp
-#    scene_graph/components/pbr_material.cpp
-#    scene_graph/components/sampler.cpp
-#    scene_graph/components/sub_mesh.cpp
-#    scene_graph/components/texture.cpp
-#    scene_graph/components/transform.cpp
-#    scene_graph/components/image/astc.cpp
-#    scene_graph/components/image/ktx.cpp
-#    scene_graph/components/image/stb.cpp)
-#
-#set(SCENE_GRAPH_SCRIPTS_FILES
-#    # Header Files
-#    scene_graph/scripts/free_camera.h
-#    scene_graph/scripts/node_animation.h
-#    scene_graph/scripts/animation.h
-#    # Source Files
-#    scene_graph/scripts/free_camera.cpp
-#    scene_graph/scripts/node_animation.cpp
-#    scene_graph/scripts/animation.cpp)
 
 set(STATS_FILES
         # Header Files
@@ -288,7 +228,158 @@ set(PARSER_FILES
         platform/parsers/help_formatter.cpp
         )
 
-set(UI_FILES ui)
+set(UI_FILES ui/canvas.h
+        ui/canvas.cpp
+        ui/drawable.h
+        ui/gui_drawer.h
+        ui/gui_drawer-inl.h
+        ui/gui_drawer.cpp
+        ui/imgui_impl_glfw.h
+        ui/imgui_impl_glfw.cpp
+        ui/ui_manager.h
+        ui/ui_manager.cpp
+
+        ui/plugins/contextual_menu.h
+        ui/plugins/contextual_menu.cpp
+        ui/plugins/data_dispatcher.h
+        ui/plugins/drag_drop_source.h
+        ui/plugins/drag_drop_target.h
+        ui/plugins/plugin.h
+        ui/plugins/pluginable.h
+
+        ui/widgets/alignment.h
+        ui/widgets/converter.h
+        ui/widgets/converter.cpp
+        ui/widgets/data_widget.h
+        ui/widgets/panel.h
+        ui/widgets/panel.cpp
+        ui/widgets/panel_transformable.h
+        ui/widgets/panel_transformable.cpp
+        ui/widgets/panel_window_settings.h
+        ui/widgets/widget.h
+        ui/widgets/widget.cpp
+        ui/widgets/widget_container.h
+        ui/widgets/widget_container.cpp
+
+        ui/widgets/buttons/button.h
+        ui/widgets/buttons/button_arrow.h
+        ui/widgets/buttons/button_arrow.cpp
+        ui/widgets/buttons/button_colored.h
+        ui/widgets/buttons/button_colored.cpp
+        ui/widgets/buttons/button_image.h
+        ui/widgets/buttons/button_image.cpp
+        ui/widgets/buttons/button_simple.h
+        ui/widgets/buttons/button_simple.cpp
+        ui/widgets/buttons/button_small.h
+        ui/widgets/buttons/button_small.cpp
+
+        ui/widgets/drags/drag_double.cpp
+        ui/widgets/drags/drag_double.h
+        ui/widgets/drags/drag_float.cpp
+        ui/widgets/drags/drag_float.h
+        ui/widgets/drags/drag_int.cpp
+        ui/widgets/drags/drag_int.h
+        ui/widgets/drags/drag_multiple_doubles.h
+        ui/widgets/drags/drag_multiple_floats.h
+        ui/widgets/drags/drag_multiple_ints.h
+        ui/widgets/drags/drag_multiple_scalars.h
+        ui/widgets/drags/drag_single_scalar.h
+
+        ui/widgets/input_fields/input_double.cpp
+        ui/widgets/input_fields/input_double.h
+        ui/widgets/input_fields/input_float.cpp
+        ui/widgets/input_fields/input_float.h
+        ui/widgets/input_fields/input_int.cpp
+        ui/widgets/input_fields/input_int.h
+        ui/widgets/input_fields/input_multiple_doubles.h
+        ui/widgets/input_fields/input_multiple_floats.h
+        ui/widgets/input_fields/input_multiple_ints.h
+        ui/widgets/input_fields/input_multiple_scalars.h
+        ui/widgets/input_fields/input_text.cpp
+        ui/widgets/input_fields/input_text.h
+
+        ui/widgets/layout/columns.h
+        ui/widgets/layout/dummy.cpp
+        ui/widgets/layout/dummy.h
+        ui/widgets/layout/group.cpp
+        ui/widgets/layout/group.h
+        ui/widgets/layout/group_collapsable.cpp
+        ui/widgets/layout/group_collapsable.h
+        ui/widgets/layout/new_line.cpp
+        ui/widgets/layout/new_line.h
+        ui/widgets/layout/spacing.cpp
+        ui/widgets/layout/spacing.h
+        ui/widgets/layout/tree_node.cpp
+        ui/widgets/layout/tree_node.h
+
+        ui/widgets/menu/menu_item.cpp
+        ui/widgets/menu/menu_item.h
+        ui/widgets/menu/menu_list.cpp
+        ui/widgets/menu/menu_list.h
+
+        ui/widgets/panel_transformables/panel_undecorated.cpp
+        ui/widgets/panel_transformables/panel_undecorated.h
+        ui/widgets/panel_transformables/panel_window.cpp
+        ui/widgets/panel_transformables/panel_window.h
+
+        ui/widgets/panels/panel_menu_bar.cpp
+        ui/widgets/panels/panel_menu_bar.h
+
+        ui/widgets/plot/plot.cpp
+        ui/widgets/plot/plot.h
+        ui/widgets/plot/plot_histogram.cpp
+        ui/widgets/plot/plot_histogram.h
+        ui/widgets/plot/plot_lines.cpp
+        ui/widgets/plot/plot_lines.h
+
+        ui/widgets/selection/check_box.cpp
+        ui/widgets/selection/check_box.h
+        ui/widgets/selection/color_edit.cpp
+        ui/widgets/selection/color_edit.h
+        ui/widgets/selection/color_picker.cpp
+        ui/widgets/selection/color_picker.h
+        ui/widgets/selection/combo_box.cpp
+        ui/widgets/selection/combo_box.h
+        ui/widgets/selection/radio_button.cpp
+        ui/widgets/selection/radio_button.h
+        ui/widgets/selection/radio_button_linker.cpp
+        ui/widgets/selection/radio_button_linker.h
+
+        ui/widgets/sliders/slider_double.cpp
+        ui/widgets/sliders/slider_double.h
+        ui/widgets/sliders/slider_float.cpp
+        ui/widgets/sliders/slider_float.h
+        ui/widgets/sliders/slider_int.cpp
+        ui/widgets/sliders/slider_int.h
+        ui/widgets/sliders/slider_multiple_doubles.h
+        ui/widgets/sliders/slider_multiple_floats.h
+        ui/widgets/sliders/slider_multiple_ints.h
+        ui/widgets/sliders/slider_multiple_scalars.h
+        ui/widgets/sliders/slider_single_scalar.h
+
+        ui/widgets/texts/text.cpp
+        ui/widgets/texts/text.h
+        ui/widgets/texts/text_clickable.cpp
+        ui/widgets/texts/text_clickable.h
+        ui/widgets/texts/text_colored.cpp
+        ui/widgets/texts/text_colored.h
+        ui/widgets/texts/text_disabled.cpp
+        ui/widgets/texts/text_disabled.h
+        ui/widgets/texts/text_labelled.cpp
+        ui/widgets/texts/text_labelled.h
+        ui/widgets/texts/text_selectable.cpp
+        ui/widgets/texts/text_selectable.h
+        ui/widgets/texts/text_wrapped.cpp
+        ui/widgets/texts/text_wrapped.h
+
+        ui/widgets/visual/bullet.cpp
+        ui/widgets/visual/bullet.h
+        ui/widgets/visual/image.cpp
+        ui/widgets/visual/image.h
+        ui/widgets/visual/progress_bar.cpp
+        ui/widgets/visual/progress_bar.h
+        ui/widgets/visual/separator.cpp
+        ui/widgets/visual/separator.h)
 
 set(SCENE_FILES
         background.h
@@ -319,8 +410,58 @@ set(SCENE_FILES
         script.cpp
         )
 
-set(CONTROL_FILES controls)
-set(PHYSX_FILES physics)
+set(CONTROL_FILES controls/spherical.h
+        controls/spherical.cpp
+        controls/orbit_control.h
+        controls/orbit_control.cpp
+        controls/free_control.h
+        controls/free_control.cpp)
+
+set(PHYSX_FILES physics/collider.h
+        physics/collider.cpp
+        physics/dynamic_collider.h
+        physics/dynamic_collider.cpp
+        physics/hit_result.h
+        physics/physics.h
+        physics/physics.cpp
+        physics/physics_manager.h
+        physics/physics_manager.cpp
+        physics/static_collider.h
+        physics/static_collider.cpp
+
+        physics/shape/box_collider_shape.h
+        physics/shape/box_collider_shape.cpp
+        physics/shape/capsule_collider_shape.h
+        physics/shape/capsule_collider_shape.cpp
+        physics/shape/collider_shape.h
+        physics/shape/collider_shape.cpp
+        physics/shape/plane_collider_shape.h
+        physics/shape/plane_collider_shape.cpp
+        physics/shape/sphere_collider_shape.h
+        physics/shape/sphere_collider_shape.cpp
+
+        physics/joint/joint.h
+        physics/joint/joint.cpp
+        physics/joint/configurable_joint.h
+        physics/joint/configurable_joint.cpp
+        physics/joint/fixed_joint.h
+        physics/joint/fixed_joint.cpp
+        physics/joint/hinge_joint.h
+        physics/joint/hinge_joint.cpp
+        physics/joint/spherical_joint.h
+        physics/joint/spherical_joint.cpp
+        physics/joint/spring_joint.h
+        physics/joint/spring_joint.cpp
+        physics/joint/translational_joint.h
+        physics/joint/translational_joint.cpp
+
+        physics/character_controller/character_controller.h
+        physics/character_controller/character_controller.cpp
+        physics/character_controller/box_character_controller.h
+        physics/character_controller/box_character_controller.cpp
+        physics/character_controller/capsule_character_controller.h
+        physics/character_controller/capsule_character_controller.cpp)
+
 set(PHYSX_SOURCE
         ../third_party/physx/physx/source/common/src/mac
         ../third_party/physx/physx/include
@@ -343,8 +484,37 @@ set(PHYSX_SOURCE
         ../third_party/physx/physx/../pxshared/include
         ../third_party/physx/physx/source/foundation/include)
 
-set(MESH_FILES mesh)
-set(SHADER_FILES shader)
+set(MESH_FILES mesh/index_buffer_binding.h
+        mesh/index_buffer_binding.cpp
+        mesh/sub_mesh.h
+        mesh/sub_mesh.cpp
+        mesh/mesh.h
+        mesh/mesh.cpp
+        mesh/model_mesh.h
+        mesh/model_mesh.cpp
+        mesh/mesh_renderer.h
+        mesh/mesh_renderer.cpp
+        mesh/gpu_skinned_mesh_renderer.h
+        mesh/gpu_skinned_mesh_renderer.cpp
+        mesh/primitive_mesh.h
+        mesh/primitive_mesh.cpp
+        mesh/wireframe_primitive_mesh.h
+        mesh/wireframe_primitive_mesh.cpp)
+
+set(SHADER_FILES shader/glsl_compiler.h
+        shader/glsl_compiler.cpp
+        shader/shader_common.h
+        shader/shader_data.h
+        shader/shader_data.cpp
+        shader/shader_module.h
+        shader/shader_module.cpp
+        shader/shader_source.h
+        shader/shader_source.cpp
+        shader/shader_variant.h
+        shader/shader_variant.cpp
+        shader/spirv_reflection.h
+        shader/spirv_reflection.cpp)
+
 set(MATERIAL_FILES material/material.h
         material/material.cpp
         material/base_material.h
@@ -425,12 +595,9 @@ source_group("platform\\android" FILES ${ANDROID_FILES})
 source_group("platform\\unix" FILES ${UNIX_FILES})
 source_group("platform\\unix" FILES ${LINUX_D2D_FILES})
 source_group("core\\" FILES ${CORE_FILES})
-#source_group("geometry\\" FILES ${GEOMETRY_FILES})
 source_group("rendering\\" FILES ${RENDERING_FILES})
 source_group("rendering\\subpasses" FILES ${RENDERING_SUBPASSES_FILES})
 source_group("\\" FILES ${SCENE_RESOURCE_FILES})
-#source_group("scene_graph\\components\\" FILES ${SCENE_GRAPH_COMPONENT_FILES})
-#source_group("scene_graph\\scripts\\" FILES ${SCENE_GRAPH_SCRIPTS_FILES})
 source_group("stats\\" FILES ${STATS_FILES})
 #source_group("graphing\\" FILES ${GRAPHING_FILES})
 
@@ -440,12 +607,9 @@ set(PROJECT_FILES
         ${COMMON_FILES}
         ${FRAMEWORK_FILES}
         ${CORE_FILES}
-        #    ${GEOMETRY_FILES}
         ${RENDERING_FILES}
         ${RENDERING_SUBPASSES_FILES}
         ${SCENE_RESOURCE_FILES}
-        #    ${SCENE_GRAPH_COMPONENT_FILES}
-        #    ${SCENE_GRAPH_SCRIPTS_FILES}
         ${STATS_FILES}
         ${UI_FILES}
         ${SCENE_FILES}
@@ -512,6 +676,12 @@ endif ()
 
 if (${VKB_VULKAN_DEBUG})
     target_compile_definitions(${PROJECT_NAME} PUBLIC VKB_VULKAN_DEBUG)
+endif ()
+
+if (CMAKE_BUILD_TYPE MATCHES "Release")
+    target_compile_definitions(${PROJECT_NAME} PUBLIC DISABLE_CUDA_PHYSX PX_PHYSX_CORE_EXPORTS _DEBUG PX_DEBUG=1 PX_CHECKED=1 PX_NVTX=0 PX_SUPPORT_PVD=1)
+ELSEIF (CMAKE_BUILD_TYPE MATCHES "Debug")
+    target_compile_definitions(${PROJECT_NAME} PUBLIC DISABLE_CUDA_PHYSX PX_PHYSX_CORE_EXPORTS NDEBUG PX_SUPPORT_PVD=0)
 endif ()
 
 if (${VKB_WARNINGS_AS_ERRORS})

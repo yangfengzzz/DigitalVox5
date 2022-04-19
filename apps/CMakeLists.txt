@@ -49,6 +49,23 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_link_libraries(${PROJECT_NAME} PRIVATE vox.render vox.math spdlog)
 
+if (CMAKE_BUILD_TYPE MATCHES "Release")
+    target_compile_definitions(${PROJECT_NAME} PUBLIC DISABLE_CUDA_PHYSX PX_PHYSX_CORE_EXPORTS _DEBUG PX_DEBUG=1 PX_CHECKED=1 PX_NVTX=0 PX_SUPPORT_PVD=1)
+    target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/physX/physx/bin/linux.clang/release)
+ELSEIF (CMAKE_BUILD_TYPE MATCHES "Debug")
+    target_compile_definitions(${PROJECT_NAME} PUBLIC DISABLE_CUDA_PHYSX PX_PHYSX_CORE_EXPORTS NDEBUG PX_SUPPORT_PVD=0)
+    target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/physX/physx/bin/linux.clang/debug)
+endif ()
+
+target_link_libraries(${PROJECT_NAME} PUBLIC  libPhysX_static_64.a
+        libPhysXCharacterKinematic_static_64.a
+        libPhysXCommon_static_64.a
+        libPhysXCooking_static_64.a
+        libPhysXExtensions_static_64.a
+        libPhysXFoundation_static_64.a
+        libPhysXPvdSDK_static_64.a
+        libPhysXVehicle_static_64.a)
+
 # Create android project
 if (ANDROID)
     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-u ANativeActivity_onCreate")
