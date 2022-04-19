@@ -16,7 +16,7 @@
 
 #include "scene_forward.h"
 #include "vobject.h"
-//#include "lighting/ambient_light.h"
+#include "lighting/ambient_light.h"
 #include "shader/shader_data.h"
 #include "background.h"
 #include "platform/input_events.h"
@@ -48,9 +48,9 @@ public:
     /**
      * Ambient light.
      */
-    //    const std::shared_ptr<AmbientLight> &ambientLight() const;
+    [[nodiscard]] const std::shared_ptr<AmbientLight> &ambient_light() const;
     
-    //    void setAmbientLight(const std::shared_ptr<AmbientLight> &light);
+    void set_ambient_light(const std::shared_ptr<AmbientLight> &light);
     
     /**
      * Count of root entities.
@@ -135,7 +135,7 @@ private:
     bool is_active_in_engine_ = false;
     
     std::vector<std::unique_ptr<Entity>> root_entities_;
-    //    std::shared_ptr<AmbientLight> _ambientLight;
+    std::shared_ptr<AmbientLight> ambient_light_;
     
     Device &device_;
 };

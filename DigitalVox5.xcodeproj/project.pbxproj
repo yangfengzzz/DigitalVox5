@@ -541,6 +541,8 @@
 		04D95D42280E36FC00E54DC2 /* direct_light.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D40280E36FC00E54DC2 /* direct_light.h */; };
 		04D95D46280E371900E54DC2 /* light_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D44280E371900E54DC2 /* light_manager.h */; };
 		04D95D47280E3CED00E54DC2 /* light_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D43280E371900E54DC2 /* light_manager.cpp */; };
+		04D95D4A280E3FD900E54DC2 /* ambient_light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D48280E3FD900E54DC2 /* ambient_light.cpp */; };
+		04D95D4B280E3FD900E54DC2 /* ambient_light.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D49280E3FD900E54DC2 /* ambient_light.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1126,6 +1128,8 @@
 		04D95D40280E36FC00E54DC2 /* direct_light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = direct_light.h; sourceTree = "<group>"; };
 		04D95D43280E371900E54DC2 /* light_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = light_manager.cpp; sourceTree = "<group>"; };
 		04D95D44280E371900E54DC2 /* light_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = light_manager.h; sourceTree = "<group>"; };
+		04D95D48280E3FD900E54DC2 /* ambient_light.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ambient_light.cpp; sourceTree = "<group>"; };
+		04D95D49280E3FD900E54DC2 /* ambient_light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ambient_light.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2056,6 +2060,8 @@
 				04D95D3F280E36FC00E54DC2 /* direct_light.cpp */,
 				04D95D44280E371900E54DC2 /* light_manager.h */,
 				04D95D43280E371900E54DC2 /* light_manager.cpp */,
+				04D95D49280E3FD900E54DC2 /* ambient_light.h */,
+				04D95D48280E3FD900E54DC2 /* ambient_light.cpp */,
 			);
 			path = lighting;
 			sourceTree = "<group>";
@@ -2092,6 +2098,7 @@
 				0444E9DA28056A1900C6F279 /* resource_replay.h in Headers */,
 				0444EBBC28084BCE00C6F279 /* input_text.h in Headers */,
 				0444E8B42805560C00C6F279 /* strings.h in Headers */,
+				04D95D4B280E3FD900E54DC2 /* ambient_light.h in Headers */,
 				0444EB3A28084B9E00C6F279 /* text_selectable.h in Headers */,
 				0444EAF428084B6600C6F279 /* pluginable.h in Headers */,
 				0444EBED28084D3000C6F279 /* event-inl.h in Headers */,
@@ -2600,6 +2607,7 @@
 				0444E9D828056A1900C6F279 /* resource_record.cpp in Sources */,
 				0444EB7328084BAF00C6F279 /* combo_box.cpp in Sources */,
 				0444EB1628084B8700C6F279 /* panel_window.cpp in Sources */,
+				04D95D4A280E3FD900E54DC2 /* ambient_light.cpp in Sources */,
 				0444EBE028084BDE00C6F279 /* button_colored.cpp in Sources */,
 				0444E9F028056AFA00C6F279 /* descriptor_pool.cpp in Sources */,
 				0444E96B280563E600C6F279 /* filesystem.cpp in Sources */,

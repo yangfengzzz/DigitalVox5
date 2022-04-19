@@ -370,7 +370,9 @@ set(LIGHT_FILE
         lighting/direct_light.h
         lighting/direct_light.cpp
         lighting/light_manager.h
-        lighting/light_manager.cpp)
+        lighting/light_manager.cpp
+        lighting/ambient_light.h
+        lighting/ambient_light.cpp)
 
 #set(GRAPHING_FILES
 #    # Header Files

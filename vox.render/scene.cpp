@@ -5,12 +5,6 @@
 //  property of any third parties.
 
 #include "scene.h"
-#include "vector2.h"
-#include "vector3.h"
-#include "vector4.h"
-#include "color.h"
-#include "matrix4x4.h"
-
 #include <queue>
 #include "logging.h"
 #include "entity.h"
@@ -20,7 +14,7 @@ namespace vox {
 Scene::Scene(Device &device) :
 device_(device),
 shader_data_(device) {
-    //    setAmbientLight(std::make_shared<AmbientLight>());
+    set_ambient_light(std::make_shared<AmbientLight>());
 }
 
 Scene::~Scene() {
@@ -31,22 +25,22 @@ Device &Scene::device() {
     return device_;
 }
 
-//const std::shared_ptr<AmbientLight> &Scene::ambientLight() const {
-//    return _ambientLight;
-//}
-//
-//void Scene::setAmbientLight(const std::shared_ptr<AmbientLight> &light) {
-//    if (!light) {
-//        LOG(ERROR) << "The scene must have one ambient light\n";
-//        return;
-//    }
-//
-//    auto lastAmbientLight = _ambientLight;
-//    if (lastAmbientLight != light) {
-//        light->setScene(this);
-//        _ambientLight = light;
-//    }
-//}
+[[maybe_unused]] const std::shared_ptr<AmbientLight> &Scene::ambient_light() const {
+    return ambient_light_;
+}
+
+void Scene::set_ambient_light(const std::shared_ptr<AmbientLight> &light) {
+    if (!light) {
+        LOGE("The scene must have one ambient light")
+        return;
+    }
+    
+    auto last_ambient_light = ambient_light_;
+    if (last_ambient_light != light) {
+        light->set_scene(this);
+        ambient_light_ = light;
+    }
+}
 
 size_t Scene::root_entities_count() {
     return root_entities_.size();
