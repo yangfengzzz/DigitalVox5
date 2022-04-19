@@ -182,7 +182,7 @@ inline Matrix<T, 4, 4> makeOrtho(T left, T right, T bottom, T top, T near, T far
  * @param far - The depth of the far plane
  */
 template<typename T>
-inline Matrix<T, 4, 4> makepPerspective(T fovy, T aspect, T near, T far) {
+inline Matrix<T, 4, 4> makePerspective(T fovy, T aspect, T near, T far) {
     T f = (T) 1 / std::tan(fovy / 2);
     T nf = (T) 1 / (near - far);
     

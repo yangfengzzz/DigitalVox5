@@ -43,11 +43,11 @@ void Camera::set_perspective(float fov, float aspect, float znear, float zfar) {
     fov_ = fov;
     znear_ = znear;
     zfar_ = zfar;
-    matrices_.perspective_ = makepPerspective(degreesToRadians(fov), aspect, znear, zfar);
+    matrices_.perspective_ = makePerspective(degreesToRadians(fov), aspect, znear, zfar);
 }
 
 void Camera::update_aspect_ratio(float aspect) {
-    matrices_.perspective_ = makepPerspective(degreesToRadians(fov_), aspect, znear_, zfar_);
+    matrices_.perspective_ = makePerspective(degreesToRadians(fov_), aspect, znear_, zfar_);
 }
 
 void Camera::set_position(const Point3F &position) {

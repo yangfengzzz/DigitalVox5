@@ -533,6 +533,13 @@
 		04D95D31280E328A00E54DC2 /* scene_animator.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D2F280E328A00E54DC2 /* scene_animator.h */; };
 		04D95D35280E355B00E54DC2 /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D33280E355B00E54DC2 /* light.cpp */; };
 		04D95D36280E355B00E54DC2 /* light.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D34280E355B00E54DC2 /* light.h */; };
+		04D95D39280E36CD00E54DC2 /* spot_light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D37280E36CD00E54DC2 /* spot_light.cpp */; };
+		04D95D3A280E36CD00E54DC2 /* spot_light.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D38280E36CD00E54DC2 /* spot_light.h */; };
+		04D95D3D280E36E500E54DC2 /* point_light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D3B280E36E500E54DC2 /* point_light.cpp */; };
+		04D95D3E280E36E500E54DC2 /* point_light.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D3C280E36E500E54DC2 /* point_light.h */; };
+		04D95D41280E36FC00E54DC2 /* direct_light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D3F280E36FC00E54DC2 /* direct_light.cpp */; };
+		04D95D42280E36FC00E54DC2 /* direct_light.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D40280E36FC00E54DC2 /* direct_light.h */; };
+		04D95D46280E371900E54DC2 /* light_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D44280E371900E54DC2 /* light_manager.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1110,6 +1117,14 @@
 		04D95D2F280E328A00E54DC2 /* scene_animator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scene_animator.h; sourceTree = "<group>"; };
 		04D95D33280E355B00E54DC2 /* light.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = light.cpp; sourceTree = "<group>"; };
 		04D95D34280E355B00E54DC2 /* light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = light.h; sourceTree = "<group>"; };
+		04D95D37280E36CD00E54DC2 /* spot_light.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = spot_light.cpp; sourceTree = "<group>"; };
+		04D95D38280E36CD00E54DC2 /* spot_light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = spot_light.h; sourceTree = "<group>"; };
+		04D95D3B280E36E500E54DC2 /* point_light.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = point_light.cpp; sourceTree = "<group>"; };
+		04D95D3C280E36E500E54DC2 /* point_light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = point_light.h; sourceTree = "<group>"; };
+		04D95D3F280E36FC00E54DC2 /* direct_light.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = direct_light.cpp; sourceTree = "<group>"; };
+		04D95D40280E36FC00E54DC2 /* direct_light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = direct_light.h; sourceTree = "<group>"; };
+		04D95D43280E371900E54DC2 /* light_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = light_manager.cpp; sourceTree = "<group>"; };
+		04D95D44280E371900E54DC2 /* light_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = light_manager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2032,6 +2047,14 @@
 			children = (
 				04D95D34280E355B00E54DC2 /* light.h */,
 				04D95D33280E355B00E54DC2 /* light.cpp */,
+				04D95D38280E36CD00E54DC2 /* spot_light.h */,
+				04D95D37280E36CD00E54DC2 /* spot_light.cpp */,
+				04D95D3C280E36E500E54DC2 /* point_light.h */,
+				04D95D3B280E36E500E54DC2 /* point_light.cpp */,
+				04D95D40280E36FC00E54DC2 /* direct_light.h */,
+				04D95D3F280E36FC00E54DC2 /* direct_light.cpp */,
+				04D95D44280E371900E54DC2 /* light_manager.h */,
+				04D95D43280E371900E54DC2 /* light_manager.cpp */,
 			);
 			path = lighting;
 			sourceTree = "<group>";
@@ -2088,9 +2111,11 @@
 				04D95D2D280E327E00E54DC2 /* scene_animation_clip.h in Headers */,
 				0444EA462805741800C6F279 /* material.h in Headers */,
 				0444EB4228084B9E00C6F279 /* text.h in Headers */,
+				04D95D3A280E36CD00E54DC2 /* spot_light.h in Headers */,
 				0444EB0A28084B8000C6F279 /* panel_window_settings.h in Headers */,
 				04D95C26280993DC00E54DC2 /* component.h in Headers */,
 				04D95CCE280BAE1B00E54DC2 /* shader_variant.h in Headers */,
+				04D95D46280E371900E54DC2 /* light_manager.h in Headers */,
 				0444EBC928084BD600C6F279 /* drag_single_scalar.h in Headers */,
 				04D95C61280A8C6600E54DC2 /* physics_manager.h in Headers */,
 				0444EBE928084BDE00C6F279 /* button_small.h in Headers */,
@@ -2125,6 +2150,7 @@
 				0444E9BE2805695200C6F279 /* pipeline_state.h in Headers */,
 				04D95D20280CF2F400E54DC2 /* postprocessing_computepass.h in Headers */,
 				0444EB2628084B9700C6F279 /* progress_bar.h in Headers */,
+				04D95D42280E36FC00E54DC2 /* direct_light.h in Headers */,
 				0444E9F128056AFA00C6F279 /* descriptor_set_layout.h in Headers */,
 				0444E9FA28056B0500C6F279 /* query_pool.h in Headers */,
 				0444E92E28055D5D00C6F279 /* timer.h in Headers */,
@@ -2188,6 +2214,7 @@
 				0444EB6E28084BAF00C6F279 /* color_edit.h in Headers */,
 				04D95CB0280ACD0400E54DC2 /* image_manager.h in Headers */,
 				04D95C27280993DC00E54DC2 /* scene.h in Headers */,
+				04D95D3E280E36E500E54DC2 /* point_light.h in Headers */,
 				04D95D25280CF6AC00E54DC2 /* geometry_subpass.h in Headers */,
 				0444EB7E28084BB600C6F279 /* plot_histogram.h in Headers */,
 				0444EB0328084B8000C6F279 /* converter.h in Headers */,
@@ -2534,6 +2561,7 @@
 				0444E9C4280569C500C6F279 /* subpass.cpp in Sources */,
 				04D95C4C2809B28400E54DC2 /* spherical.cpp in Sources */,
 				0444EB4128084B9E00C6F279 /* text_clickable.cpp in Sources */,
+				04D95D41280E36FC00E54DC2 /* direct_light.cpp in Sources */,
 				0444E93528055F4900C6F279 /* vulkan_resource.cpp in Sources */,
 				0444EAC428083EC100C6F279 /* update_flag_manager.cpp in Sources */,
 				0444EB0428084B8000C6F279 /* panel_transformable.cpp in Sources */,
@@ -2546,6 +2574,7 @@
 				0444E9AC2805689000C6F279 /* sampled_image.cpp in Sources */,
 				04D95C7A280A8C6E00E54DC2 /* hinge_joint.cpp in Sources */,
 				0444EBE828084BDE00C6F279 /* button_simple.cpp in Sources */,
+				04D95D3D280E36E500E54DC2 /* point_light.cpp in Sources */,
 				0444EB8628084BBD00C6F279 /* menu_item.cpp in Sources */,
 				0444E9E528056AFA00C6F279 /* framebuffer.cpp in Sources */,
 				0444E93228055D9300C6F279 /* debug_info.cpp in Sources */,
@@ -2649,6 +2678,7 @@
 				0444E9ED28056AFA00C6F279 /* pipeline_layout.cpp in Sources */,
 				04D95CB7280AF6A700E54DC2 /* mesh.cpp in Sources */,
 				0444E94B2805628200C6F279 /* shader_module.cpp in Sources */,
+				04D95D39280E36CD00E54DC2 /* spot_light.cpp in Sources */,
 				0444EB6A28084BAF00C6F279 /* radio_button_linker.cpp in Sources */,
 				0444E94128055FD400C6F279 /* debug.cpp in Sources */,
 				0444EB9828084BC500C6F279 /* tree_node.cpp in Sources */,

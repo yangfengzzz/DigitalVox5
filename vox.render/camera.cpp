@@ -127,10 +127,10 @@ Matrix4x4F Camera::projection_matrix() {
     last_aspect_size_.x = static_cast<float>(width_);
     last_aspect_size_.y = static_cast<float>(height_);
     if (!is_orthographic_) {
-        projection_matrix_ = makepPerspective(degreesToRadians(field_of_view_),
-                                              aspect_ratio(),
-                                              near_clip_plane_,
-                                              far_clip_plane_);
+        projection_matrix_ = makePerspective(degreesToRadians(field_of_view_),
+											 aspect_ratio(),
+											 near_clip_plane_,
+											 far_clip_plane_);
     } else {
         const auto kWidth = orthographic_size_ * aspect_ratio();
         const auto kHeight = orthographic_size_;

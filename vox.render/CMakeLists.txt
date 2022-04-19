@@ -362,7 +362,15 @@ set(MATERIAL_FILES material/material.h
 
 set(LIGHT_FILE
         lighting/light.h
-        lighting/light.cpp)
+        lighting/light.cpp
+        lighting/point_light.h
+        lighting/point_light.cpp
+        lighting/spot_light.h
+        lighting/spot_light.cpp
+        lighting/direct_light.h
+        lighting/direct_light.cpp
+        lighting/light_manager.h
+        lighting/light_manager.cpp)
 
 #set(GRAPHING_FILES
 #    # Header Files
