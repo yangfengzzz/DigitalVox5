@@ -54,7 +54,7 @@ class Renderer;
 
 class MeshRenderer;
 
-class GPUSkinnedMeshRenderer;
+class GpuSkinnedMeshRenderer;
 
 class Script;
 

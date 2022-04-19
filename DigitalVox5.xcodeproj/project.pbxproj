@@ -543,6 +543,8 @@
 		04D95D47280E3CED00E54DC2 /* light_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D43280E371900E54DC2 /* light_manager.cpp */; };
 		04D95D4A280E3FD900E54DC2 /* ambient_light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D48280E3FD900E54DC2 /* ambient_light.cpp */; };
 		04D95D4B280E3FD900E54DC2 /* ambient_light.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D49280E3FD900E54DC2 /* ambient_light.h */; };
+		04D95D4E280E447700E54DC2 /* gpu_skinned_mesh_renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D4C280E447700E54DC2 /* gpu_skinned_mesh_renderer.cpp */; };
+		04D95D4F280E447700E54DC2 /* gpu_skinned_mesh_renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D4D280E447700E54DC2 /* gpu_skinned_mesh_renderer.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1130,6 +1132,8 @@
 		04D95D44280E371900E54DC2 /* light_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = light_manager.h; sourceTree = "<group>"; };
 		04D95D48280E3FD900E54DC2 /* ambient_light.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ambient_light.cpp; sourceTree = "<group>"; };
 		04D95D49280E3FD900E54DC2 /* ambient_light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ambient_light.h; sourceTree = "<group>"; };
+		04D95D4C280E447700E54DC2 /* gpu_skinned_mesh_renderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gpu_skinned_mesh_renderer.cpp; sourceTree = "<group>"; };
+		04D95D4D280E447700E54DC2 /* gpu_skinned_mesh_renderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gpu_skinned_mesh_renderer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1974,6 +1978,8 @@
 				04D95CC7280BA16A00E54DC2 /* wireframe_primitive_mesh.cpp */,
 				04D95D01280C443E00E54DC2 /* mesh_renderer.h */,
 				04D95D00280C443E00E54DC2 /* mesh_renderer.cpp */,
+				04D95D4D280E447700E54DC2 /* gpu_skinned_mesh_renderer.h */,
+				04D95D4C280E447700E54DC2 /* gpu_skinned_mesh_renderer.cpp */,
 			);
 			path = mesh;
 			sourceTree = "<group>";
@@ -2261,6 +2267,7 @@
 				04D95CA1280A8C7D00E54DC2 /* capsule_collider_shape.h in Headers */,
 				0444E94A2805618000C6F279 /* buffer.h in Headers */,
 				0444EBCF28084BD600C6F279 /* drag_multiple_floats.h in Headers */,
+				04D95D4F280E447700E54DC2 /* gpu_skinned_mesh_renderer.h in Headers */,
 				0444EA2C280571FA00C6F279 /* stb_img.h in Headers */,
 				0444EB9928084BC500C6F279 /* tree_node.h in Headers */,
 				0444EB0E28084B8000C6F279 /* panel_transformable.h in Headers */,
@@ -2669,6 +2676,7 @@
 				0444E9492805618000C6F279 /* buffer.cpp in Sources */,
 				04D95CF3280C32BE00E54DC2 /* pbr_material.cpp in Sources */,
 				0444EB6D28084BAF00C6F279 /* radio_button.cpp in Sources */,
+				04D95D4E280E447700E54DC2 /* gpu_skinned_mesh_renderer.cpp in Sources */,
 				04D95C9A280A8C7D00E54DC2 /* capsule_collider_shape.cpp in Sources */,
 				04D95D35280E355B00E54DC2 /* light.cpp in Sources */,
 				04D95D02280C443E00E54DC2 /* mesh_renderer.cpp in Sources */,
