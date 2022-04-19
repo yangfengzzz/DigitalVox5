@@ -15,7 +15,7 @@
 #include "scene_manager.h"
 
 namespace vox {
-class ForwardApplication: public GraphicsApplication {
+class ForwardApplication : public GraphicsApplication {
 public:
     ForwardApplication() = default;
     
@@ -26,20 +26,30 @@ public:
      */
     bool prepare(Platform &platform) override;
     
-    virtual void loadScene() = 0;
+    /**
+     * @brief Main loop sample events
+     */
+    void update(float delta_time) override;
+    
+    bool resize(uint32_t win_width, uint32_t win_height,
+                uint32_t fb_width, uint32_t fb_height) override;
+    
+    void input_event(const InputEvent &input_event) override;
+    
+    virtual void load_scene() = 0;
     
 protected:
-    Camera* _mainCamera{nullptr};
+    Camera *main_camera_{nullptr};
     
     /**
      * @brief Holds all scene information
      */
-    std::unique_ptr<ComponentsManager> _componentsManager{nullptr};
-    std::unique_ptr<physics::PhysicsManager> _physicsManager{nullptr};
-    std::unique_ptr<SceneManager> _sceneManager{nullptr};
-//    std::unique_ptr<ShadowManager> _shadowManager{nullptr};
-    std::unique_ptr<LightManager> _lightManager{nullptr};
-//    std::unique_ptr<ParticleManager> _particleManager{nullptr};
+    std::unique_ptr<ComponentsManager> components_manager_{nullptr};
+    std::unique_ptr<physics::PhysicsManager> physics_manager_{nullptr};
+    std::unique_ptr<SceneManager> scene_manager_{nullptr};
+    //    std::unique_ptr<ShadowManager> _shadowManager{nullptr};
+    std::unique_ptr<LightManager> light_manager_{nullptr};
+    //    std::unique_ptr<ParticleManager> _particleManager{nullptr};
 };
 
 }
