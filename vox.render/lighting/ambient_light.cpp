@@ -20,6 +20,30 @@ void AmbientLight::set_scene(Scene *value) {
     scene_ = value;
     if (!value) return;
     
+    // Create a default sampler
+    sampler_create_info_.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+    sampler_create_info_.magFilter = VK_FILTER_LINEAR;
+    sampler_create_info_.minFilter = VK_FILTER_LINEAR;
+    sampler_create_info_.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+    sampler_create_info_.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    sampler_create_info_.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    sampler_create_info_.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    sampler_create_info_.mipLodBias = 0.0f;
+    sampler_create_info_.compareOp = VK_COMPARE_OP_NEVER;
+    sampler_create_info_.minLod = 0.0f;
+    // Max level-of-detail should match mip level count
+    sampler_create_info_.maxLod = 0.0f;
+    // Only enable anisotropic filtering if enabled on the device
+    // Note that for simplicity, we will always be using max. available anisotropy level for the current device
+    // This may have an impact on performance, esp. on lower-specced devices
+    // In a real-world scenario the level of anisotropy should be a user setting or e.g. lowered for mobile devices by default
+    sampler_create_info_.maxAnisotropy = scene_->device().get_gpu().get_features().samplerAnisotropy
+    ? (scene_->device().get_gpu().get_properties().limits.maxSamplerAnisotropy)
+    : 1.0f;
+    sampler_create_info_.anisotropyEnable = scene_->device().get_gpu().get_features().samplerAnisotropy;
+    sampler_create_info_.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+    sampler_ = std::make_unique<core::Sampler>(scene_->device(), sampler_create_info_);
+    
     env_map_light_.diffuse = Vector3F(0.212, 0.227, 0.259);
     env_map_light_.diffuse_intensity = 1.0;
     env_map_light_.specular_intensity = 1.0;
@@ -80,7 +104,7 @@ void AmbientLight::set_diffuse_texture(const std::shared_ptr<Image> &value) {
     auto &shader_data = scene_->shader_data_;
     
     if (value) {
-        shader_data.set_texture(AmbientLight::diffuse_texture_property_, diffuse_texture_);
+        shader_data.set_texture(AmbientLight::diffuse_texture_property_, diffuse_texture_, sampler_.get());
         shader_data.add_define("HAS_DIFFUSE_ENV");
     } else {
         shader_data.add_undefine("HAS_DIFFUSE_ENV");
@@ -118,7 +142,7 @@ void AmbientLight::set_specular_texture(const std::shared_ptr<Image> &value) {
     auto &shader_data = scene_->shader_data_;
     
     if (value) {
-        shader_data.set_texture(AmbientLight::specular_texture_property_, specular_reflection_);
+        shader_data.set_texture(AmbientLight::specular_texture_property_, specular_reflection_, sampler_.get());
         env_map_light_.mip_map_level = static_cast<uint32_t>(value->get_mipmaps().size() - 1);
         scene_->shader_data_.set_data(AmbientLight::env_map_property_, env_map_light_);
         shader_data.add_define("HAS_SPECULAR_ENV");
