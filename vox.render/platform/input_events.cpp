@@ -16,6 +16,7 @@ EventSource InputEvent::get_source() const {
     return source_;
 }
 
+//MARK: - Key Event
 KeyInputEvent::KeyInputEvent(KeyCode code, KeyAction action) :
 InputEvent{EventSource::KEYBOARD},
 code_{code},
@@ -30,6 +31,7 @@ KeyAction KeyInputEvent::get_action() const {
     return action_;
 }
 
+//MARK: - Mouse Event
 MouseButtonInputEvent::MouseButtonInputEvent(MouseButton button, MouseAction action, float pos_x, float pos_y) :
 InputEvent{EventSource::MOUSE},
 button_{button},
@@ -54,6 +56,22 @@ float MouseButtonInputEvent::get_pos_y() const {
     return pos_y_;
 }
 
+//MARK: - Scroll Event
+ScrollInputEvent::ScrollInputEvent(float offset_x, float offset_y):
+InputEvent{EventSource::SCROLL},
+_offset_x(offset_x),
+_offset_y(offset_y) {
+}
+
+float ScrollInputEvent::offset_x() const {
+    return _offset_x;
+}
+
+float ScrollInputEvent::offset_y() const {
+    return _offset_y;
+}
+
+//MARK: - Touch Event
 TouchInputEvent::TouchInputEvent(int32_t pointer_id, std::size_t touch_points, TouchAction action, float pos_x,
                                  float pos_y) :
 InputEvent{EventSource::TOUCHSCREEN},

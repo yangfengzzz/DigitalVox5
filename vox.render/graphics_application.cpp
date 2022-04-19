@@ -14,13 +14,11 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-//#include "api_vulkan_sample.h"
 #include "helpers.h"
 #include "logging.h"
 #include "strings.h"
 #include "utils.h"
 #include "vk_common.h"
-//#include "gltf_loader.h"
 #include "platform/platform.h"
 #include "platform/window.h"
 #include "rendering/render_context.h"
@@ -34,9 +32,7 @@ GraphicsApplication::~GraphicsApplication() {
     if (device_) {
         device_->wait_idle();
     }
-    
-    //	scene.reset();
-    
+        
     stats_.reset();
     gui_.reset();
     render_context_.reset();
@@ -190,34 +186,6 @@ void GraphicsApplication::prepare_render_context() {
     render_context_->prepare();
 }
 
-//void GraphicsApplication::update_scene(float delta_time)
-//{
-//	if (scene)
-//	{
-//		//Update scripts
-//		if (scene->has_component<sg::Script>())
-//		{
-//			auto scripts = scene->get_components<sg::Script>();
-//
-//			for (auto script : scripts)
-//			{
-//				script->update(delta_time);
-//			}
-//		}
-//
-//		//Update animations
-//		if (scene->has_component<sg::Animation>())
-//		{
-//			auto animations = scene->get_components<sg::Animation>();
-//
-//			for (auto animation : animations)
-//			{
-//				animation->update(delta_time);
-//			}
-//		}
-//	}
-//}
-
 void GraphicsApplication::update_stats(float delta_time) {
     if (stats_) {
         stats_->update(delta_time);
@@ -240,8 +208,6 @@ void GraphicsApplication::update_gui(float delta_time) {
 }
 
 void GraphicsApplication::update(float delta_time) {
-    //	update_scene(delta_time);
-    
     update_gui(delta_time);
     
     auto &command_buffer = render_context_->begin();
@@ -329,25 +295,16 @@ void GraphicsApplication::render(CommandBuffer &command_buffer) {
     }
 }
 
-bool GraphicsApplication::resize(uint32_t width, uint32_t height) {
-    Application::resize(width, height);
+bool GraphicsApplication::resize(uint32_t win_width, uint32_t win_height,
+                                 uint32_t fb_width, uint32_t fb_height) {
+    Application::resize(win_width, win_height, fb_width, fb_height);
     
     if (gui_) {
-        gui_->resize(width, height);
+        gui_->resize(win_width, win_height);
     }
     
-    //	if (scene && scene->has_component<sg::Script>())
-    //	{
-    //		auto scripts = scene->get_components<sg::Script>();
-    //
-    //		for (auto script : scripts)
-    //		{
-    //			script->resize(width, height);
-    //		}
-    //	}
-    
     if (stats_) {
-        stats_->resize(width);
+        stats_->resize(win_width);
     }
     return true;
 }
@@ -404,19 +361,6 @@ void GraphicsApplication::set_viewport_and_scissor(vox::CommandBuffer &command_b
     command_buffer.set_scissor(0, {scissor});
 }
 
-//void GraphicsApplication::load_scene(const std::string &path)
-//{
-//	GLTFLoader loader{*device};
-//
-//	scene = loader.read_scene_from_file(path);
-//
-//	if (!scene)
-//	{
-//		LOGE("Cannot load scene: {}", path.c_str());
-//		throw std::runtime_error("Cannot load scene: " + path);
-//	}
-//}
-
 VkSurfaceKHR GraphicsApplication::get_surface() {
     return surface_;
 }
@@ -453,16 +397,5 @@ void GraphicsApplication::set_api_version(uint32_t requested_api_version) {
 void GraphicsApplication::request_gpu_features(PhysicalDevice &gpu) {
     // To be overridden by sample
 }
-
-//sg::Scene &GraphicsApplication::get_scene()
-//{
-//	assert(scene && "Scene not loaded");
-//	return *scene;
-//}
-//
-//bool GraphicsApplication::has_scene()
-//{
-//	return scene != nullptr;
-//}
 
 }        // namespace vox

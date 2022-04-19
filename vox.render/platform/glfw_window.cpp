@@ -35,7 +35,9 @@ void window_close_callback(GLFWwindow *window) {
 
 void window_size_callback(GLFWwindow *window, int width, int height) {
     if (auto platform = reinterpret_cast<Platform *>(glfwGetWindowUserPointer(window))) {
-        platform->resize(width, height);
+        int fb_width, fb_height;
+        glfwGetFramebufferSize(window, &fb_width, &fb_height);
+        platform->resize(width, height, fb_width, fb_height);
     }
 }
 
@@ -224,6 +226,13 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int /*mod
             static_cast<float>(ypos)});
     }
 }
+
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+    if (auto *platform = reinterpret_cast<Platform *>(glfwGetWindowUserPointer(window))) {
+        platform->input_event(ScrollInputEvent(xoffset, yoffset));
+    }
+}
+
 }        // namespace
 
 GlfwWindow::GlfwWindow(Platform *platform, const Window::Properties &properties) :
@@ -278,7 +287,8 @@ Window(properties) {
     glfwSetKeyCallback(handle_, key_callback);
     glfwSetCursorPosCallback(handle_, cursor_position_callback);
     glfwSetMouseButtonCallback(handle_, mouse_button_callback);
-    
+    glfwSetScrollCallback(handle_, scroll_callback);
+
     glfwSetInputMode(handle_, GLFW_STICKY_KEYS, 1);
     glfwSetInputMode(handle_, GLFW_STICKY_MOUSE_BUTTONS, 1);
 }
@@ -347,6 +357,10 @@ float GlfwWindow::get_content_scale_factor() const {
     // but non-uniform scaling is very unlikely, and would
     // require significantly more changes in the IMGUI integration
     return static_cast<float>(fb_width) / win_width;
+}
+
+GLFWwindow *GlfwWindow::handle() {
+    return handle_;
 }
 
 }        // namespace vox

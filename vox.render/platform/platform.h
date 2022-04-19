@@ -72,7 +72,8 @@ public:
     virtual std::unique_ptr<RenderContext> create_render_context(Device &device, VkSurfaceKHR surface,
                                                                  const std::vector<VkSurfaceFormatKHR> &surface_format_priority) const;
     
-    virtual void resize(uint32_t width, uint32_t height);
+    virtual void resize(uint32_t win_width, uint32_t win_height,
+                        uint32_t fb_width, uint32_t fb_height);
     
     virtual void input_event(const InputEvent &input_event);
     

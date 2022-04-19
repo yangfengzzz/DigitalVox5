@@ -320,14 +320,14 @@ void Platform::input_event(const InputEvent &input_event) {
     }
 }
 
-void Platform::resize(uint32_t width, uint32_t height) {
-    auto extent = Window::Extent{std::max<uint32_t>(width, min_window_width_),
-        std::max<uint32_t>(height, min_window_height_)};
+void Platform::resize(uint32_t win_width, uint32_t win_height,
+                      uint32_t fb_width, uint32_t fb_height) {
+    auto extent = Window::Extent{std::max<uint32_t>(win_width, min_window_width_),
+        std::max<uint32_t>(win_height, min_window_height_)};
     if (window_) {
-        auto actual_extent = window_->resize(extent);
-        
+        window_->resize(extent);
         if (active_app_) {
-            active_app_->resize(actual_extent.width, actual_extent.height);
+            active_app_->resize(win_width, win_height, fb_width, fb_height);
         }
     }
 }

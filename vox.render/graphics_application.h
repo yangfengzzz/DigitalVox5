@@ -113,18 +113,12 @@ public:
      */
     void update(float delta_time) override;
     
-    bool resize(uint32_t width, uint32_t height) override;
+    bool resize(uint32_t win_width, uint32_t win_height,
+                uint32_t fb_width, uint32_t fb_height) override;
     
     void input_event(const InputEvent &input_event) override;
     
     void finish() override;
-    
-    //	/**
-    //	 * @brief Loads the scene
-    //	 *
-    //	 * @param path The path of the glTF file
-    //	 */
-    //	void load_scene(const std::string &path);
     
     VkSurfaceKHR get_surface();
     
@@ -137,10 +131,6 @@ public:
     RenderPipeline &get_render_pipeline();
     
     Configuration &get_configuration();
-    
-    //	sg::Scene &get_scene();
-    //
-    //	bool has_scene();
     
 protected:
     /**
@@ -163,20 +153,9 @@ protected:
      */
     std::unique_ptr<RenderPipeline> render_pipeline_{nullptr};
     
-    /**
-     * @brief Holds all scene information
-     */
-    //	std::unique_ptr<sg::Scene> scene{nullptr};
-    
     std::unique_ptr<ui::UiManager> gui_{nullptr};
     
     std::unique_ptr<Stats> stats_{nullptr};
-    
-    //	/**
-    //	 * @brief Update scene
-    //	 * @param delta_time delta_time
-    //	 */
-    //	void update_scene(float delta_time);
     
     /**
      * @brief Update counter values

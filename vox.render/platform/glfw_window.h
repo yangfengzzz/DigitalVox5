@@ -38,6 +38,8 @@ public:
     
     [[nodiscard]] float get_content_scale_factor() const override;
     
+    GLFWwindow *handle();
+    
 private:
     GLFWwindow *handle_ = nullptr;
 };
