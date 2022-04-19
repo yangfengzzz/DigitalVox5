@@ -527,6 +527,10 @@
 		04D95D25280CF6AC00E54DC2 /* geometry_subpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D23280CF6AC00E54DC2 /* geometry_subpass.h */; };
 		04D95D28280DAAA900E54DC2 /* imgui_impl_glfw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D26280DAAA900E54DC2 /* imgui_impl_glfw.cpp */; };
 		04D95D29280DAAA900E54DC2 /* imgui_impl_glfw.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D27280DAAA900E54DC2 /* imgui_impl_glfw.h */; };
+		04D95D2C280E327E00E54DC2 /* scene_animation_clip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D2A280E327E00E54DC2 /* scene_animation_clip.cpp */; };
+		04D95D2D280E327E00E54DC2 /* scene_animation_clip.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D2B280E327E00E54DC2 /* scene_animation_clip.h */; };
+		04D95D30280E328A00E54DC2 /* scene_animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D2E280E328A00E54DC2 /* scene_animator.cpp */; };
+		04D95D31280E328A00E54DC2 /* scene_animator.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D2F280E328A00E54DC2 /* scene_animator.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1098,6 +1102,10 @@
 		04D95D23280CF6AC00E54DC2 /* geometry_subpass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = geometry_subpass.h; sourceTree = "<group>"; };
 		04D95D26280DAAA900E54DC2 /* imgui_impl_glfw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_impl_glfw.cpp; sourceTree = "<group>"; };
 		04D95D27280DAAA900E54DC2 /* imgui_impl_glfw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imgui_impl_glfw.h; sourceTree = "<group>"; };
+		04D95D2A280E327E00E54DC2 /* scene_animation_clip.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scene_animation_clip.cpp; sourceTree = "<group>"; };
+		04D95D2B280E327E00E54DC2 /* scene_animation_clip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scene_animation_clip.h; sourceTree = "<group>"; };
+		04D95D2E280E328A00E54DC2 /* scene_animator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scene_animator.cpp; sourceTree = "<group>"; };
+		04D95D2F280E328A00E54DC2 /* scene_animator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scene_animator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1732,6 +1740,10 @@
 				04D95C362809A23400E54DC2 /* script.h */,
 				04D95C382809A23400E54DC2 /* script.cpp */,
 				04D95C412809B24700E54DC2 /* controls */,
+				04D95D2F280E328A00E54DC2 /* scene_animator.h */,
+				04D95D2E280E328A00E54DC2 /* scene_animator.cpp */,
+				04D95D2B280E327E00E54DC2 /* scene_animation_clip.h */,
+				04D95D2A280E327E00E54DC2 /* scene_animation_clip.cpp */,
 				04D95C4E280A8C2D00E54DC2 /* physics */,
 				04D95D07280C4A3100E54DC2 /* graphics_application.h */,
 				04D95D06280C4A3100E54DC2 /* graphics_application.cpp */,
@@ -2059,6 +2071,7 @@
 				0444E9E428056AFA00C6F279 /* framebuffer.h in Headers */,
 				0444EBA128084BC500C6F279 /* columns.h in Headers */,
 				04D95D08280C4A3100E54DC2 /* forward_application.h in Headers */,
+				04D95D2D280E327E00E54DC2 /* scene_animation_clip.h in Headers */,
 				0444EA462805741800C6F279 /* material.h in Headers */,
 				0444EB4228084B9E00C6F279 /* text.h in Headers */,
 				0444EB0A28084B8000C6F279 /* panel_window_settings.h in Headers */,
@@ -2136,6 +2149,7 @@
 				0444E93928055F8100C6F279 /* queue.h in Headers */,
 				0444E9D428056A1900C6F279 /* semaphore_pool.h in Headers */,
 				0444EA0C28056E2700C6F279 /* frame_time_stats_provider.h in Headers */,
+				04D95D31280E328A00E54DC2 /* scene_animator.h in Headers */,
 				04D95C4A2809B28400E54DC2 /* orbit_control.h in Headers */,
 				0444E9D928056A1900C6F279 /* resource_record.h in Headers */,
 				0444EB7528084BAF00C6F279 /* color_picker.h in Headers */,
@@ -2471,6 +2485,7 @@
 				0444E9EA28056AFA00C6F279 /* command_pool.cpp in Sources */,
 				0444EB2A28084B9700C6F279 /* progress_bar.cpp in Sources */,
 				0444EBBA28084BCE00C6F279 /* input_float.cpp in Sources */,
+				04D95D30280E328A00E54DC2 /* scene_animator.cpp in Sources */,
 				0444EB9A28084BC500C6F279 /* spacing.cpp in Sources */,
 				0444E91F28055CE400C6F279 /* instance.cpp in Sources */,
 				04D95C192808EE0500E54DC2 /* device.cpp in Sources */,
@@ -2633,6 +2648,7 @@
 				0444EB8928084BBD00C6F279 /* menu_list.cpp in Sources */,
 				0444EA2F280571FA00C6F279 /* ktx_img.cpp in Sources */,
 				0444E9E128056AFA00C6F279 /* pipeline.cpp in Sources */,
+				04D95D2C280E327E00E54DC2 /* scene_animation_clip.cpp in Sources */,
 				0444EB5728084BA600C6F279 /* slider_int.cpp in Sources */,
 				04D95C402809A23400E54DC2 /* components_manager.cpp in Sources */,
 				0444E9F928056B0500C6F279 /* render_pass.cpp in Sources */,

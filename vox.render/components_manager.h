@@ -72,11 +72,11 @@ public:
     //
     //    void callAnimatorUpdate(float deltaTime);
     //
-    //    void addOnUpdateSceneAnimators(SceneAnimator *animator);
-    //
-    //    void removeOnUpdateSceneAnimators(SceneAnimator *animator);
-    //
-    //    void callSceneAnimatorUpdate(float deltaTime);
+    void add_on_update_scene_animators(SceneAnimator *animator);
+    
+    void remove_on_update_scene_animators(SceneAnimator *animator);
+    
+    void call_scene_animator_update(float delta_time);
     
 public:
     static void call_camera_on_begin_render(Camera *camera);
@@ -101,7 +101,7 @@ private:
     
     // Animatior
     //    std::vector<Animator *> _onUpdateAnimators;
-    //    std::vector<SceneAnimator *> _onUpdateSceneAnimators;
+    std::vector<SceneAnimator *> on_update_scene_animators_;
 };
 
 template<> inline ComponentsManager *Singleton<ComponentsManager>::ms_singleton_{nullptr};

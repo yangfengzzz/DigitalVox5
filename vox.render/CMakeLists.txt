@@ -24,6 +24,8 @@ set(FRAMEWORK_FILES
         forward_application.h
         timer.h
         camera.h
+        scene_animator.h
+        scene_animation_clip.h
         # Source Files
         gltf_loader.cpp
         debug_info.cpp
@@ -39,6 +41,8 @@ set(FRAMEWORK_FILES
         forward_application.cpp
         timer.cpp
         camera.cpp
+        scene_animator.cpp
+        scene_animation_clip.cpp
         )
 
 set(COMMON_FILES

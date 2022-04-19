@@ -7,10 +7,9 @@
 #include "components_manager.h"
 #include "script.h"
 #include "renderer.h"
-#include "entity.h"
 #include "camera.h"
 //#include "animator.h"
-//#include "scene_animator.h"
+#include "scene_animator.h"
 #include "logging.h"
 
 namespace vox {
@@ -210,7 +209,7 @@ void ComponentsManager::put_active_changed_temp_list(std::vector<Component *> &c
 //    if (iter == _onUpdateAnimators.end()) {
 //        _onUpdateAnimators.push_back(animator);
 //    } else {
-//        LOG(ERROR) << "Animator already attached." << std::endl;;
+//        LOGE("Animator already attached.")
 //    }
 //}
 //
@@ -227,28 +226,28 @@ void ComponentsManager::put_active_changed_temp_list(std::vector<Component *> &c
 //        elements[i]->update(deltaTime);
 //    }
 //}
-//
-//void ComponentsManager::addOnUpdateSceneAnimators(SceneAnimator *animator) {
-//    auto iter = std::find(_onUpdateSceneAnimators.begin(), _onUpdateSceneAnimators.end(), animator);
-//    if (iter == _onUpdateSceneAnimators.end()) {
-//        _onUpdateSceneAnimators.push_back(animator);
-//    } else {
-//        LOG(ERROR) << "SceneAnimator already attached." << std::endl;;
-//    }
-//}
-//
-//void ComponentsManager::removeOnUpdateSceneAnimators(SceneAnimator *animator) {
-//    auto iter = std::find(_onUpdateSceneAnimators.begin(), _onUpdateSceneAnimators.end(), animator);
-//    if (iter != _onUpdateSceneAnimators.end()) {
-//        _onUpdateSceneAnimators.erase(iter);
-//    }
-//}
-//
-//void ComponentsManager::callSceneAnimatorUpdate(float deltaTime) {
-//    const auto &elements = _onUpdateSceneAnimators;
-//    for (size_t i = 0; i < _onUpdateSceneAnimators.size(); i++) {
-//        elements[i]->update(deltaTime);
-//    }
-//}
+
+void ComponentsManager::add_on_update_scene_animators(SceneAnimator *animator) {
+    auto iter = std::find(on_update_scene_animators_.begin(), on_update_scene_animators_.end(), animator);
+    if (iter == on_update_scene_animators_.end()) {
+        on_update_scene_animators_.push_back(animator);
+    } else {
+        LOGE("SceneAnimator already attached.")
+    }
+}
+
+void ComponentsManager::remove_on_update_scene_animators(SceneAnimator *animator) {
+    auto iter = std::find(on_update_scene_animators_.begin(), on_update_scene_animators_.end(), animator);
+    if (iter != on_update_scene_animators_.end()) {
+        on_update_scene_animators_.erase(iter);
+    }
+}
+
+void ComponentsManager::call_scene_animator_update(float delta_time) {
+    const auto &elements = on_update_scene_animators_;
+    for (size_t i = 0; i < on_update_scene_animators_.size(); i++) {
+        elements[i]->update(delta_time);
+    }
+}
 
 }        // namespace vox
