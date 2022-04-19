@@ -540,6 +540,7 @@
 		04D95D41280E36FC00E54DC2 /* direct_light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D3F280E36FC00E54DC2 /* direct_light.cpp */; };
 		04D95D42280E36FC00E54DC2 /* direct_light.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D40280E36FC00E54DC2 /* direct_light.h */; };
 		04D95D46280E371900E54DC2 /* light_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D44280E371900E54DC2 /* light_manager.h */; };
+		04D95D47280E3CED00E54DC2 /* light_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D43280E371900E54DC2 /* light_manager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2524,6 +2525,7 @@
 				04D95CA2280A8C7D00E54DC2 /* sphere_collider_shape.cpp in Sources */,
 				0444EB3C28084B9E00C6F279 /* text_disabled.cpp in Sources */,
 				0444EAE128084B5E00C6F279 /* canvas.cpp in Sources */,
+				04D95D47280E3CED00E54DC2 /* light_manager.cpp in Sources */,
 				0444E9EA28056AFA00C6F279 /* command_pool.cpp in Sources */,
 				0444EB2A28084B9700C6F279 /* progress_bar.cpp in Sources */,
 				0444EBBA28084BCE00C6F279 /* input_float.cpp in Sources */,

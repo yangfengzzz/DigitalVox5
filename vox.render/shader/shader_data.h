@@ -39,7 +39,7 @@ public:
     }
     
     template<typename T>
-    void set_data(const std::string &property_name, const std::vector<T> &value) {
+    void set_data(const std::string &property_name, std::vector<T> &value) {
         auto iter = shader_buffers_.find(property_name);
         if (iter == shader_buffers_.end()) {
             shader_buffers_.insert(std::make_pair(property_name,
@@ -48,11 +48,11 @@ public:
                                                                                  VMA_MEMORY_USAGE_CPU_TO_GPU)));
         }
         iter = shader_buffers_.find(property_name);
-        iter->second->update(value.data());
+        iter->second->update(value.data(), sizeof(T) * value.size());
     }
     
     template<typename T, size_t N>
-    void set_data(const std::string &property_name, const std::array<T, N> &value) {
+    void set_data(const std::string &property_name, std::array<T, N> &value) {
         auto iter = shader_buffers_.find(property_name);
         if (iter == shader_buffers_.end()) {
             shader_buffers_.insert(std::make_pair(property_name,
@@ -61,7 +61,7 @@ public:
                                                                                  VMA_MEMORY_USAGE_CPU_TO_GPU)));
         }
         iter = shader_buffers_.find(property_name);
-        iter->second->update(value.data());
+        iter->second->update(value.data(), sizeof(T) * N);
     }
     
     void set_texture(const std::string &texture_name,

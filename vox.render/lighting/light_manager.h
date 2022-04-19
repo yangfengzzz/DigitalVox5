@@ -115,7 +115,7 @@ private:
     struct ProjectionUniforms {
         Matrix4x4F matrix;
         Matrix4x4F inverse_matrix;
-        Vector2F output_size;
+        std::array<uint32_t, 2> output_size;
         float z_near;
         float z_far;
         Matrix4x4F view_matrix;

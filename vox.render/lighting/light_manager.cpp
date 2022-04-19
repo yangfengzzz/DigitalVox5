@@ -14,11 +14,11 @@
 #include "logging.h"
 
 namespace vox {
-LightManager *LightManager::get_singleton_ptr(void) {
+LightManager *LightManager::get_singleton_ptr() {
     return ms_singleton_;
 }
 
-LightManager &LightManager::get_singleton(void) {
+LightManager &LightManager::get_singleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }
@@ -26,41 +26,41 @@ LightManager &LightManager::get_singleton(void) {
 LightManager::LightManager(Scene *scene) :
 scene_(scene),
 shader_data_(scene->device()),
-_pointLightProperty(Shader::createProperty("u_pointLight", ShaderDataGroup::Scene)),
-_spotLightProperty(Shader::createProperty("u_spotLight", ShaderDataGroup::Scene)),
-_directLightProperty(Shader::createProperty("u_directLight", ShaderDataGroup::Scene)),
-_forwardPlusProp(Shader::createProperty("u_cluster_uniform", ShaderDataGroup::Scene)),
-_clustersProp(Shader::createProperty("u_clusters", ShaderDataGroup::Compute)),
-_clusterLightsProp(Shader::createProperty("u_clusterLights", ShaderDataGroup::Scene)) {
-    Shader::create("cluster_debug", std::make_unique<WGSLUnlitVertex>(),
-                   std::make_unique<WGSLClusterDebug>(tile_count_, max_lights_per_cluster_));
-    
-    auto &device = scene_->device();
-    clusters_buffer_ = std::make_unique<Buffer>(device, sizeof(Clusters),
-                                                wgpu::BufferUsage::Storage | wgpu::BufferUsage::CopyDst);
-    shader_data_.setBufferFunctor(clusters_prop_, [this]() -> Buffer {
-        return *clusters_buffer_;
-    });
-    
-    cluster_lights_buffer_ = std::make_unique<Buffer>(device, sizeof(ClusterLightGroup),
-                                                      wgpu::BufferUsage::Storage | wgpu::BufferUsage::CopyDst);
-    scene_->shaderData.setBufferFunctor(cluster_lights_prop_, [this]() -> Buffer {
-        return *cluster_lights_buffer_;
-    });
-    
-    _clusterBoundsCompute =
-    std::make_unique<ComputePass>(device, std::make_unique<WGSLClusterBoundsSource>(tile_count_, max_lights_per_cluster_,
-                                                                                    workgroup_size_));
-    _clusterBoundsCompute->attachShaderData(&shader_data_);
-    _clusterBoundsCompute->attachShaderData(&scene_->shaderData);
-    _clusterBoundsCompute->setDispatchCount(dispatch_size_[0], dispatch_size_[1], dispatch_size_[2]);
-    
-    _clusterLightsCompute =
-    std::make_unique<ComputePass>(device, std::make_unique<WGSLClusterLightsSource>(tile_count_, max_lights_per_cluster_,
-                                                                                    workgroup_size_));
-    _clusterLightsCompute->attachShaderData(&shader_data_);
-    _clusterLightsCompute->attachShaderData(&scene_->shaderData);
-    _clusterLightsCompute->setDispatchCount(dispatch_size_[0], dispatch_size_[1], dispatch_size_[2]);
+point_light_property_("u_pointLight"),
+spot_light_property_("u_spotLight"),
+direct_light_property_("u_directLight"),
+forward_plus_prop_("u_cluster_uniform"),
+clusters_prop_("u_clusters"),
+cluster_lights_prop_("u_clusterLights") {
+    //    Shader::create("cluster_debug", std::make_unique<WGSLUnlitVertex>(),
+    //                   std::make_unique<WGSLClusterDebug>(tile_count_, max_lights_per_cluster_));
+    //
+    //    auto &device = scene_->device();
+    //    clusters_buffer_ = std::make_unique<Buffer>(device, sizeof(Clusters),
+    //                                                wgpu::BufferUsage::Storage | wgpu::BufferUsage::CopyDst);
+    //    shader_data_.setBufferFunctor(clusters_prop_, [this]() -> Buffer {
+    //        return *clusters_buffer_;
+    //    });
+    //
+    //    cluster_lights_buffer_ = std::make_unique<Buffer>(device, sizeof(ClusterLightGroup),
+    //                                                      wgpu::BufferUsage::Storage | wgpu::BufferUsage::CopyDst);
+    //    scene_->shaderData.setBufferFunctor(cluster_lights_prop_, [this]() -> Buffer {
+    //        return *cluster_lights_buffer_;
+    //    });
+    //
+    //    _clusterBoundsCompute =
+    //    std::make_unique<ComputePass>(device, std::make_unique<WGSLClusterBoundsSource>(tile_count_, max_lights_per_cluster_,
+    //                                                                                    workgroup_size_));
+    //    _clusterBoundsCompute->attachShaderData(&shader_data_);
+    //    _clusterBoundsCompute->attachShaderData(&scene_->shaderData);
+    //    _clusterBoundsCompute->setDispatchCount(dispatch_size_[0], dispatch_size_[1], dispatch_size_[2]);
+    //
+    //    _clusterLightsCompute =
+    //    std::make_unique<ComputePass>(device, std::make_unique<WGSLClusterLightsSource>(tile_count_, max_lights_per_cluster_,
+    //                                                                                    workgroup_size_));
+    //    _clusterLightsCompute->attachShaderData(&shader_data_);
+    //    _clusterLightsCompute->attachShaderData(&scene_->shaderData);
+    //    _clusterLightsCompute->setDispatchCount(dispatch_size_[0], dispatch_size_[1], dispatch_size_[2]);
 }
 
 void LightManager::set_camera(Camera *camera) {
@@ -73,7 +73,7 @@ void LightManager::attach_point_light(PointLight *light) {
     if (iter == point_lights_.end()) {
         point_lights_.push_back(light);
     } else {
-        LOG(ERROR) << "Light already attached." << std::endl;;
+        LOGE("Light already attached.")
     }
 }
 
@@ -94,7 +94,7 @@ void LightManager::attach_spot_light(SpotLight *light) {
     if (iter == spot_lights_.end()) {
         spot_lights_.push_back(light);
     } else {
-        LOG(ERROR) << "Light already attached." << std::endl;;
+        LOGE("Light already attached.")
     }
 }
 
@@ -115,7 +115,7 @@ void LightManager::attach_direct_light(DirectLight *light) {
     if (iter == direct_lights_.end()) {
         direct_lights_.push_back(light);
     } else {
-        LOG(ERROR) << "Light already attached." << std::endl;;
+        LOGE("Light already attached.")
     }
 }
 
@@ -131,44 +131,44 @@ const std::vector<DirectLight *> &LightManager::direct_lights() const {
 }
 
 void LightManager::update_shader_data(ShaderData &shader_data) {
-    size_t pointLightCount = point_lights_.size();
-    point_light_datas_.resize(pointLightCount);
-    size_t spotLightCount = spot_lights_.size();
-    spot_light_datas_.resize(spotLightCount);
-    size_t directLightCount = direct_lights_.size();
-    direct_light_datas_.resize(directLightCount);
+    size_t point_light_count = point_lights_.size();
+    point_light_datas_.resize(point_light_count);
+    size_t spot_light_count = spot_lights_.size();
+    spot_light_datas_.resize(spot_light_count);
+    size_t direct_light_count = direct_lights_.size();
+    direct_light_datas_.resize(direct_light_count);
     
-    for (size_t i = 0; i < pointLightCount; i++) {
+    for (size_t i = 0; i < point_light_count; i++) {
         point_lights_[i]->update_shader_data(point_light_datas_[i]);
     }
     
-    for (size_t i = 0; i < spotLightCount; i++) {
+    for (size_t i = 0; i < spot_light_count; i++) {
         spot_lights_[i]->update_shader_data(spot_light_datas_[i]);
     }
     
-    for (size_t i = 0; i < directLightCount; i++) {
+    for (size_t i = 0; i < direct_light_count; i++) {
         direct_lights_[i]->update_shader_data(direct_light_datas_[i]);
     }
     
-    if (directLightCount) {
-        shader_data.enableMacro(DIRECT_LIGHT_COUNT, directLightCount);
-        shader_data.setData(LightManager::direct_light_property_, direct_light_datas_);
+    if (direct_light_count) {
+        shader_data.add_define("DIRECT_LIGHT_COUNT" + std::to_string(direct_light_count));
+        shader_data.set_data(LightManager::direct_light_property_, direct_light_datas_);
     } else {
-        shader_data.disableMacro(DIRECT_LIGHT_COUNT);
+        shader_data.add_undefine("DIRECT_LIGHT_COUNT");
     }
     
-    if (pointLightCount) {
-        shader_data.enableMacro(POINT_LIGHT_COUNT, pointLightCount);
-        shader_data.setData(LightManager::point_light_property_, point_light_datas_);
+    if (point_light_count) {
+        shader_data.add_define("POINT_LIGHT_COUNT" + std::to_string(point_light_count));
+        shader_data.set_data(LightManager::point_light_property_, point_light_datas_);
     } else {
-        shader_data.disableMacro(POINT_LIGHT_COUNT);
+        shader_data.add_undefine("POINT_LIGHT_COUNT");
     }
     
-    if (spotLightCount) {
-        shader_data.enableMacro(SPOT_LIGHT_COUNT, spotLightCount);
-        shader_data.setData(LightManager::spot_light_property_, spot_light_datas_);
+    if (spot_light_count) {
+        shader_data.add_define("SPOT_LIGHT_COUNT" + std::to_string(spot_light_count));
+        shader_data.set_data(LightManager::spot_light_property_, spot_light_datas_);
     } else {
-        shader_data.disableMacro(SPOT_LIGHT_COUNT);
+        shader_data.add_undefine("SPOT_LIGHT_COUNT");
     }
 }
 
@@ -177,37 +177,37 @@ bool LightManager::enable_forward_plus() const {
     return enable_forward_plus_;
 }
 
-void LightManager::draw(wgpu::CommandEncoder &commandEncoder) {
-    update_shader_data(scene_->shaderData);
+void LightManager::draw(CommandBuffer &command_buffer) {
+    update_shader_data(scene_->shader_data_);
     
-    size_t pointLightCount = point_lights_.size();
-    size_t spotLightCount = spot_lights_.size();
-    if (pointLightCount + spotLightCount > forward_plus_enable_min_count_) {
+    size_t point_light_count = point_lights_.size();
+    size_t spot_light_count = spot_lights_.size();
+    if (point_light_count + spot_light_count > forward_plus_enable_min_count_) {
         enable_forward_plus_ = true;
-        bool updateBounds = false;
+        bool update_bounds = false;
         
-        forward_plus_uniforms_.matrix = camera_->projectionMatrix();
-        forward_plus_uniforms_.inverse_matrix = camera_->inverseProjectionMatrix();
-        if (forward_plus_uniforms_.output_size.x != camera_->width() ||
-            forward_plus_uniforms_.output_size.y != camera_->height()) {
-            updateBounds = true;
-            forward_plus_uniforms_.output_size = Vector2F(camera_->framebufferWidth(), camera_->framebufferHeight());
+        forward_plus_uniforms_.matrix = camera_->projection_matrix();
+        forward_plus_uniforms_.inverse_matrix = camera_->inverse_projection_matrix();
+        if (forward_plus_uniforms_.output_size[0] != camera_->width() ||
+            forward_plus_uniforms_.output_size[1] != camera_->height()) {
+            update_bounds = true;
+            forward_plus_uniforms_.output_size = {camera_->framebuffer_width(), camera_->framebuffer_height()};
         }
-        forward_plus_uniforms_.z_near = camera_->nearClipPlane();
-        forward_plus_uniforms_.z_far = camera_->farClipPlane();
-        forward_plus_uniforms_.view_matrix = camera_->viewMatrix();
-        scene_->shaderData.setData(forward_plus_prop_, forward_plus_uniforms_);
+        forward_plus_uniforms_.z_near = camera_->near_clip_plane();
+        forward_plus_uniforms_.z_far = camera_->far_clip_plane();
+        forward_plus_uniforms_.view_matrix = camera_->view_matrix();
+        scene_->shader_data_.set_data(forward_plus_prop_, forward_plus_uniforms_);
         
         // Reset the light offset counter to 0 before populating the light clusters.
-        uint32_t empty = 0;
-        cluster_lights_buffer_->uploadData(scene_->device(), &empty, sizeof(uint32_t));
-        
-        auto encoder = commandEncoder.BeginComputePass();
-        if (updateBounds) {
-            _clusterBoundsCompute->compute(encoder);
-        }
-        _clusterLightsCompute->compute(encoder);
-        encoder.End();
+        //        uint32_t empty = 0;
+        //        cluster_lights_buffer_->uploadData(scene_->device(), &empty, sizeof(uint32_t));
+        //
+        //        auto encoder = commandEncoder.BeginComputePass();
+        //        if (updateBounds) {
+        //            _clusterBoundsCompute->compute(encoder);
+        //        }
+        //        _clusterLightsCompute->compute(encoder);
+        //        encoder.End();
     }
 }
 
