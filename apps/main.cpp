@@ -1,15 +1,14 @@
+//  Copyright (c) 2022 Feng Yang
 //
-//  main.cpp
-//  DigitalVox5
-//
-//  Created by 杨丰 on 2022/4/11.
-//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "logging.h"
 #include "platform/platform.h"
 //#include "plugins/plugins.h"
 
-#include "hdr.h"
+#include "primitive_app.h"
 
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
 #    include "platform/android/android_platform.h"
@@ -43,7 +42,7 @@ int main(int argc, char *argv[]) {
     std::vector<vox::Plugin *> plugins{};
     auto code = platform.initialize(plugins);
     if (code == vox::ExitCode::SUCCESS) {
-        platform.set_app(std::make_unique<vox::HDR>());
+        platform.set_app(std::make_unique<vox::PrimitiveApp>());
         code = platform.main_loop();
     }
     platform.terminate(code);

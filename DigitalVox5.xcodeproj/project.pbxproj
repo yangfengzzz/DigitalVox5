@@ -536,6 +536,7 @@
 		04D95D4F280E447700E54DC2 /* gpu_skinned_mesh_renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D4D280E447700E54DC2 /* gpu_skinned_mesh_renderer.h */; };
 		04D95D52280EB57A00E54DC2 /* forward_application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D50280EB57A00E54DC2 /* forward_application.cpp */; };
 		04D95D53280EB57A00E54DC2 /* forward_application.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D51280EB57A00E54DC2 /* forward_application.h */; };
+		04D95D56280EC2DB00E54DC2 /* primitive_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D54280EC2DB00E54DC2 /* primitive_app.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1119,6 +1120,8 @@
 		04D95D4D280E447700E54DC2 /* gpu_skinned_mesh_renderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gpu_skinned_mesh_renderer.h; sourceTree = "<group>"; };
 		04D95D50280EB57A00E54DC2 /* forward_application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = forward_application.cpp; sourceTree = "<group>"; };
 		04D95D51280EB57A00E54DC2 /* forward_application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = forward_application.h; sourceTree = "<group>"; };
+		04D95D54280EC2DB00E54DC2 /* primitive_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = primitive_app.cpp; sourceTree = "<group>"; };
+		04D95D55280EC2DB00E54DC2 /* primitive_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = primitive_app.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1664,6 +1667,8 @@
 			children = (
 				0444EA532805767600C6F279 /* apps.entitlements */,
 				047BB5C52803A96500CD5749 /* main.cpp */,
+				04D95D55280EC2DB00E54DC2 /* primitive_app.h */,
+				04D95D54280EC2DB00E54DC2 /* primitive_app.cpp */,
 			);
 			path = apps;
 			sourceTree = "<group>";
@@ -2496,6 +2501,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				047BB5C62803A96500CD5749 /* main.cpp in Sources */,
+				04D95D56280EC2DB00E54DC2 /* primitive_app.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,15 @@
 #include "core/device.h"
 
 namespace vox {
+ImageManager *ImageManager::get_singleton_ptr() {
+    return ms_singleton_;
+}
+
+ImageManager &ImageManager::get_singleton() {
+    assert(ms_singleton_);
+    return (*ms_singleton_);
+}
+
 ImageManager::ImageManager(Device& device):
 device_(device) {
 }

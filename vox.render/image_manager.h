@@ -9,10 +9,15 @@
 #define DIGITALVOX_VOX_RENDER_IMAGE_MANAGER_H_
 
 #include "image.h"
+#include "singleton.h"
 
 namespace vox {
-class ImageManager {
+class ImageManager: public Singleton<ImageManager> {
 public:
+    static ImageManager &get_singleton();
+    
+    static ImageManager *get_singleton_ptr();
+    
     explicit ImageManager(Device& device);
     
     ~ImageManager() = default;
@@ -41,6 +46,8 @@ private:
     Device& device_;
     std::vector<std::shared_ptr<Image>> image_pool_;
 };
+
+template<> inline ImageManager *Singleton<ImageManager>::ms_singleton_{nullptr};
 
 }
 #endif /* DIGITALVOX_VOX_RENDER_IMAGE_MANAGER_H_ */

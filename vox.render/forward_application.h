@@ -7,6 +7,7 @@
 #pragma once
 
 #include "graphics_application.h"
+#include "image_manager.h"
 #include "components_manager.h"
 #include "physics/physics_manager.h"
 //#include "shadow/shadow_manager.h"
@@ -44,6 +45,7 @@ protected:
     /**
      * @brief Holds all scene information
      */
+    std::unique_ptr<ImageManager> image_manager_{nullptr};
     std::unique_ptr<ComponentsManager> components_manager_{nullptr};
     std::unique_ptr<physics::PhysicsManager> physics_manager_{nullptr};
     std::unique_ptr<SceneManager> scene_manager_{nullptr};

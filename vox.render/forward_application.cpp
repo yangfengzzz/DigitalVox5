@@ -24,6 +24,7 @@ ForwardApplication::~ForwardApplication() {
 bool ForwardApplication::prepare(Platform &platform) {
     GraphicsApplication::prepare(platform);
     
+    image_manager_ = std::make_unique<ImageManager>(*device_);
     components_manager_ = std::make_unique<ComponentsManager>();
     physics_manager_ = std::make_unique<physics::PhysicsManager>();
     scene_manager_ = std::make_unique<SceneManager>(*device_);
