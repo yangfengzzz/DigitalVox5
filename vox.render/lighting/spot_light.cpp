@@ -19,11 +19,11 @@ Light(entity) {
 }
 
 void SpotLight::on_enable() {
-    LightManager::get_singleton().attachSpotLight(this);
+	LightManager::get_singleton().attach_spot_light(this);
 }
 
 void SpotLight::on_disable() {
-    LightManager::get_singleton().detachSpotLight(this);
+	LightManager::get_singleton().detach_spot_light(this);
 }
 
 void SpotLight::update_shader_data(SpotLightData &shader_data) {

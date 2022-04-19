@@ -19,121 +19,121 @@ namespace vox {
  */
 class LightManager : public Singleton<LightManager> {
 public:
-    static constexpr uint32_t FORWARD_PLUS_ENABLE_MIN_COUNT = 20;
-    static constexpr std::array<uint32_t, 3> TILE_COUNT = {32, 18, 48};
-    static constexpr uint32_t TOTAL_TILES = TILE_COUNT[0] * TILE_COUNT[1] * TILE_COUNT[2];
+    static constexpr uint32_t forward_plus_enable_min_count_ = 20;
+    static constexpr std::array<uint32_t, 3> tile_count_ = {32, 18, 48};
+    static constexpr uint32_t total_tiles_ = tile_count_[0] * tile_count_[1] * tile_count_[2];
     
-    static constexpr std::array<uint32_t, 3> WORKGROUP_SIZE = {4, 2, 4};
-    static constexpr std::array<uint32_t, 3> DISPATCH_SIZE = {
-        TILE_COUNT[0] / WORKGROUP_SIZE[0],
-        TILE_COUNT[1] / WORKGROUP_SIZE[1],
-        TILE_COUNT[2] / WORKGROUP_SIZE[2]
+    static constexpr std::array<uint32_t, 3> workgroup_size_ = {4, 2, 4};
+    static constexpr std::array<uint32_t, 3> dispatch_size_ = {
+        tile_count_[0] / workgroup_size_[0],
+        tile_count_[1] / workgroup_size_[1],
+        tile_count_[2] / workgroup_size_[2]
     };
     
     // Each cluster tracks up to MAX_LIGHTS_PER_CLUSTER light indices (ints) and one light count.
-    // This limitation should be able to go away when we have atomic methods in WGSL.
-    static constexpr uint32_t MAX_LIGHTS_PER_CLUSTER = 50;
+    // This limitation should be able to go away when we have atomic methods in Vulkan.
+    static constexpr uint32_t max_lights_per_cluster_ = 50;
     
-    static LightManager &get_singleton(void);
+    static LightManager &get_singleton();
     
-    static LightManager *get_singleton_ptr(void);
+    static LightManager *get_singleton_ptr();
     
-    LightManager(Scene* scene);
+    explicit LightManager(Scene *scene);
     
-    void setCamera(Camera* camera);
+    void set_camera(Camera *camera);
     
     /**
      * Register a light object to the current scene.
      * @param light render light
      */
-    void attachPointLight(PointLight *light);
+    void attach_point_light(PointLight *light);
     
     /**
      * Remove a light object from the current scene.
      * @param light render light
      */
-    void detachPointLight(PointLight *light);
+    void detach_point_light(PointLight *light);
     
-    const std::vector<PointLight *> &pointLights() const;
+    [[nodiscard]] const std::vector<PointLight *> &point_lights() const;
     
 public:
     /**
      * Register a light object to the current scene.
      * @param light render light
      */
-    void attachSpotLight(SpotLight *light);
+    void attach_spot_light(SpotLight *light);
     
     /**
      * Remove a light object from the current scene.
      * @param light render light
      */
-    void detachSpotLight(SpotLight *light);
+    void detach_spot_light(SpotLight *light);
     
-    const std::vector<SpotLight *> &spotLights() const;
+    [[nodiscard]] const std::vector<SpotLight *> &spot_lights() const;
     
 public:
     /**
      * Register a light object to the current scene.
      * @param light direct light
      */
-    void attachDirectLight(DirectLight *light);
+    void attach_direct_light(DirectLight *light);
     
     /**
      * Remove a light object from the current scene.
      * @param light direct light
      */
-    void detachDirectLight(DirectLight *light);
+    void detach_direct_light(DirectLight *light);
     
-    const std::vector<DirectLight *> &directLights() const;
+    [[nodiscard]] const std::vector<DirectLight *> &direct_lights() const;
     
 public:
-    bool enableForwardPlus() const;
+    [[nodiscard]] bool enable_forward_plus() const;
     
     void draw(CommandBuffer &command_buffer);
     
 private:
-    Scene* _scene{nullptr};
-    Camera* _camera{nullptr};
+    Scene *scene_{nullptr};
+    Camera *camera_{nullptr};
     
-    std::vector<PointLight *> _pointLights;
-    std::vector<PointLight::PointLightData> _pointLightDatas;
-    const std::string _pointLightProperty;
+    std::vector<PointLight *> point_lights_;
+    std::vector<PointLight::PointLightData> point_light_datas_;
+    const std::string point_light_property_;
     
-    std::vector<SpotLight *> _spotLights;
-    std::vector<SpotLight::SpotLightData> _spotLightDatas;
-    const std::string _spotLightProperty;
+    std::vector<SpotLight *> spot_lights_;
+    std::vector<SpotLight::SpotLightData> spot_light_datas_;
+    const std::string spot_light_property_;
     
-    std::vector<DirectLight *> _directLights;
-    std::vector<DirectLight::DirectLightData> _directLightDatas;
-    const std::string _directLightProperty;
+    std::vector<DirectLight *> direct_lights_;
+    std::vector<DirectLight::DirectLightData> direct_light_datas_;
+    const std::string direct_light_property_;
     
-    void _updateShaderData(ShaderData &shaderData);
+    void update_shader_data(ShaderData &shader_data);
     
 private:
-    bool _enableForwardPlus{false};
+    bool enable_forward_plus_{false};
     
     struct ProjectionUniforms {
         Matrix4x4F matrix;
-        Matrix4x4F inverseMatrix;
-        Vector2F outputSize;
-        float zNear;
-        float zFar;
-        Matrix4x4F viewMatrix;
+        Matrix4x4F inverse_matrix;
+        Vector2F output_size;
+        float z_near;
+        float z_far;
+        Matrix4x4F view_matrix;
     };
-    ProjectionUniforms _forwardPlusUniforms;
-    const std::string _forwardPlusProp;
+    ProjectionUniforms forward_plus_uniforms_;
+    const std::string forward_plus_prop_;
     
     struct ClusterBounds {
-        Vector3F minAABB;
-        float _pad1;
-        Vector3F maxAABB;
-        float _pad2;
+        Vector3F min_aabb;
+        float pad_1;
+        Vector3F max_aabb;
+        float pad_2;
     };
     struct Clusters {
-        std::array<ClusterBounds, TOTAL_TILES> bounds;
+        std::array<ClusterBounds, total_tiles_> bounds;
     };
-    const std::string _clustersProp;
-    std::unique_ptr<core::Buffer> _clustersBuffer;
+    const std::string clusters_prop_;
+    std::unique_ptr<core::Buffer> clusters_buffer_;
     
     struct ClusterLights {
         uint32_t offset;
@@ -142,17 +142,17 @@ private:
     };
     struct ClusterLightGroup {
         uint32_t offset;
-        std::array<ClusterLights, TOTAL_TILES> lights;
-        std::array<uint32_t, MAX_LIGHTS_PER_CLUSTER * TOTAL_TILES> indices;
+        std::array<ClusterLights, total_tiles_> lights;
+        std::array<uint32_t, max_lights_per_cluster_ * total_tiles_> indices;
     };
-    const std::string _clusterLightsProp;
-    std::unique_ptr<core::Buffer> _clusterLightsBuffer;
+    const std::string cluster_lights_prop_;
+    std::unique_ptr<core::Buffer> cluster_lights_buffer_;
     
-    ShaderData _shaderData;
-//    std::unique_ptr<ComputePass> _clusterBoundsCompute{nullptr};
-//    std::unique_ptr<ComputePass> _clusterLightsCompute{nullptr};
+    ShaderData shader_data_;
+    //    std::unique_ptr<ComputePass> _clusterBoundsCompute{nullptr};
+    //    std::unique_ptr<ComputePass> _clusterLightsCompute{nullptr};
 };
 
-template<> inline LightManager* Singleton<LightManager>::ms_singleton_{nullptr};
+template<> inline LightManager *Singleton<LightManager>::ms_singleton_{nullptr};
 
 }

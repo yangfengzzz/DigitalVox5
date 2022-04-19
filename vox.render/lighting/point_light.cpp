@@ -19,11 +19,11 @@ Light(entity) {
 }
 
 void PointLight::on_enable() {
-    LightManager::get_singleton().attachPointLight(this);
+	LightManager::get_singleton().attach_point_light(this);
 }
 
 void PointLight::on_disable() {
-    LightManager::get_singleton().detachPointLight(this);
+	LightManager::get_singleton().detach_point_light(this);
 }
 
 void PointLight::update_shader_data(PointLightData &shader_data) {

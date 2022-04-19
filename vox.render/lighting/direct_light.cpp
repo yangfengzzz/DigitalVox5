@@ -18,11 +18,11 @@ Light(entity) {
 }
 
 void DirectLight::on_enable() {
-    LightManager::get_singleton().attachDirectLight(this);
+	LightManager::get_singleton().attach_direct_light(this);
 }
 
 void DirectLight::on_disable() {
-    LightManager::get_singleton().detachDirectLight(this);
+	LightManager::get_singleton().detach_direct_light(this);
 }
 
 void DirectLight::update_shader_data(DirectLightData &shader_data) {
