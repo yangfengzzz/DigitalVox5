@@ -44,7 +44,7 @@ void SceneManager::load_empty_scene() {
     scene_load_event_.invoke();
 }
 
-//bool SceneManager::load_scene(const std::string &p_path, bool p_absolute) {
+bool SceneManager::load_scene(const std::string &p_path, bool p_absolute) {
 //    std::string completePath = (p_absolute ? "" : _sceneRootFolder) + p_path;
 //
 //    tinyxml2::XMLDocument doc;
@@ -54,11 +54,11 @@ void SceneManager::load_empty_scene() {
 //        store_current_scene_source_path(completePath);
 //        return true;
 //    }
-//
-//    return false;
-//}
-//
-//bool SceneManager::load_scene_from_memory(tinyxml2::XMLDocument &p_doc) {
+
+    return false;
+}
+
+bool SceneManager::load_scene_from_memory(const nlohmann::json &data) {
 //    if (!p_doc.Error()) {
 //        tinyxml2::XMLNode *root = p_doc.FirstChild();
 //        if (root) {
@@ -70,9 +70,9 @@ void SceneManager::load_empty_scene() {
 //            }
 //        }
 //    }
-//
-//    return false;
-//}
+
+    return false;
+}
 
 void SceneManager::unload_current_scene() {
     if (current_scene_) {

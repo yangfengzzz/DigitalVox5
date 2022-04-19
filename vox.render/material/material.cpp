@@ -9,6 +9,8 @@
 #include <utility>
 
 namespace vox {
+std::unordered_map<VkSamplerCreateInfo, core::Sampler> Material::sampler_pool_{};
+
 Material::Material(Device &device, std::string name) :
 shader_data_(device),
 name_{std::move(name)} {

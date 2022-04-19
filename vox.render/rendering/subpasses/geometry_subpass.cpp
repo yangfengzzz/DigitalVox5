@@ -20,6 +20,8 @@ void GeometrySubpass::set_thread_index(uint32_t index) {
     thread_index_ = index;
 }
 
+void GeometrySubpass::prepare() {}
+
 void GeometrySubpass::draw(CommandBuffer &command_buffer) {
     auto compile_variant = ShaderVariant();
     scene_->shader_data_.merge_variants(compile_variant, compile_variant);

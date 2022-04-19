@@ -10,8 +10,8 @@
 #include "scene.h"
 
 #include "component.h"
-//#include "components_manager.h"
-//#include "script.h"
+#include "components_manager.h"
+#include "script.h"
 //#include "serializer.h"
 #include "logging.h"
 
@@ -252,26 +252,25 @@ std::unique_ptr<Entity> Entity::remove_from_parent() {
     return mem;
 }
 
-//void Entity::process_active() {
-//    _activeChangedComponents = ComponentsManager::get_singleton().get_active_changed_temp_list();
-//    set_active_in_hierarchy(_activeChangedComponents);
-//    set_active_components(true);
-//}
-//
-//void Entity::process_in_active() {
-//    _activeChangedComponents = ComponentsManager::get_singleton().get_active_changed_temp_list();
-//    set_in_active_in_hierarchy(_activeChangedComponents);
-//    set_active_components(false);
-//}
-//
-//void Entity::set_active_components(bool is_active) {
-//    auto &activeChangedComponents = _activeChangedComponents;
-//    for (size_t i = 0, length = activeChangedComponents.size(); i < length; ++i) {
-//        activeChangedComponents[i]->set_active(is_active);
-//    }
-//    ComponentsManager::get_singleton().put_active_changed_temp_list(activeChangedComponents);
-//    _activeChangedComponents.clear();
-//}
+void Entity::process_active() {
+    active_changed_components_ = ComponentsManager::get_singleton().get_active_changed_temp_list();
+    set_active_in_hierarchy(active_changed_components_);
+    set_active_components(true);
+}
+
+void Entity::process_in_active() {
+    active_changed_components_ = ComponentsManager::get_singleton().get_active_changed_temp_list();
+    set_in_active_in_hierarchy(active_changed_components_);
+    set_active_components(false);
+}
+
+void Entity::set_active_components(bool is_active) {
+    for (size_t i = 0, length = active_changed_components_.size(); i < length; ++i) {
+        active_changed_components_[i]->set_active(is_active);
+    }
+    ComponentsManager::get_singleton().put_active_changed_temp_list(active_changed_components_);
+    active_changed_components_.clear();
+}
 
 void Entity::set_active_in_hierarchy(std::vector<Component *> &active_changed_components) {
     is_active_in_hierarchy_ = true;
@@ -316,57 +315,8 @@ std::vector<Script *> Entity::scripts() {
 }
 
 //MARK: - Reflection
-//void Entity::on_serialize(tinyxml2::XMLDocument &p_doc, tinyxml2::XMLNode *p_actorsRoot) {
-//    tinyxml2::XMLNode *actorNode = p_doc.NewElement("actor");
-//    p_actorsRoot->InsertEndChild(actorNode);
-//
-//    Serializer::serializeString(p_doc, actorNode, "name", name);
-//
-//    tinyxml2::XMLNode *componentsNode = p_doc.NewElement("components");
-//    actorNode->InsertEndChild(componentsNode);
-//    for (auto &component: _components) {
-//        /* Current component root */
-//        tinyxml2::XMLNode *componentNode = p_doc.NewElement("component");
-//        componentsNode->InsertEndChild(componentNode);
-//
-//        /* Component type */
-//        Serializer::serializeString(p_doc, componentNode, "type", typeid(component).name());
-//
-//        /* Data node (Will be passed to the component) */
-//        tinyxml2::XMLElement *data = p_doc.NewElement("data");
-//        componentNode->InsertEndChild(data);
-//
-//        /* Data serialization of the component */
-//        component->on_serialize(p_doc, data);
-//    }
-//}
-//
-//void Entity::on_deserialize(tinyxml2::XMLDocument &p_doc, tinyxml2::XMLNode *p_actorsRoot) {
-//    Serializer::deserializeString(p_doc, p_actorsRoot, "name", name);
-//
-//    {
-//        tinyxml2::XMLNode *componentsRoot = p_actorsRoot->FirstChildElement("components");
-//        if (componentsRoot) {
-//            tinyxml2::XMLElement *currentComponent = componentsRoot->FirstChildElement("component");
-//
-//            while (currentComponent) {
-//                std::string componentType = currentComponent->FirstChildElement("type")->GetText();
-//                currentComponent = currentComponent->NextSiblingElement("component");
-//            }
-//        }
-//    }
-//
-//    {
-//        tinyxml2::XMLNode *behavioursRoot = p_actorsRoot->FirstChildElement("behaviours");
-//
-//        if (behavioursRoot) {
-//            tinyxml2::XMLElement *currentBehaviour = behavioursRoot->FirstChildElement("behaviour");
-//
-//            while (currentBehaviour) {
-//                std::string behaviourType = currentBehaviour->FirstChildElement("type")->GetText();
-//            }
-//        }
-//    }
-//}
+void Entity::on_serialize(nlohmann::json &data) {}
+
+void Entity::on_deserialize(const nlohmann::json &data) {}
 
 }        // namespace vox
