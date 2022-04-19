@@ -25,7 +25,7 @@ project(app LANGUAGES C CXX)
 #add_subdirectory(apps)
 
 set(SRC
-        hdr.cpp
+        primitive_app.cpp
         main.cpp
         )
 

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef primitive_app_hpp
-#define primitive_app_hpp
+#pragma once
 
 #include "forward_application.h"
 
@@ -14,6 +13,5 @@ class PrimitiveApp : public ForwardApplication {
 public:
     void load_scene() override;
 };
-}
 
-#endif /* primitive_app_hpp */
+}
