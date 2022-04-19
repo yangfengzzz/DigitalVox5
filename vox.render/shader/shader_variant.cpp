@@ -21,9 +21,16 @@ size_t ShaderVariant::get_id() const {
     return id_;
 }
 
-void ShaderVariant::add_definitions(const std::vector<std::string> &definitions) {
-    for (auto &definition : definitions) {
-        add_define(definition);
+void ShaderVariant::union_collection(const ShaderVariant &left, const ShaderVariant &right,
+                                     ShaderVariant &result) {
+    for (const std::string& def : left.get_processes()) {
+        std::string tmp_def(def.begin() + 1, def.end());
+        result.add_define(tmp_def);
+    }
+    
+    for (const std::string& def : right.get_processes()) {
+        std::string tmp_def(def.begin() + 1, def.end());
+        result.add_define(tmp_def);
     }
 }
 

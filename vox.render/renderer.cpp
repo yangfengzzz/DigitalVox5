@@ -30,9 +30,6 @@ shader_data_(entity->scene()->device()),
 transform_change_flag_(entity->transform_->register_world_change_flag()),
 local_matrix_property_("u_localMat"),
 world_matrix_property_("u_modelMat"),
-mv_matrix_property_("u_MVMat"),
-mvp_matrix_property_("u_MVPMat"),
-mv_inv_matrix_property_("u_MVInvMat"),
 normal_matrix_property_("u_normalMat") {
 }
 
@@ -156,20 +153,13 @@ float Renderer::distance_for_sort() const {
     return distance_for_sort_;
 }
 
-void Renderer::update_shader_data(const Matrix4x4F &view_mat,
-                                  const Matrix4x4F &proj_mat) {
+void Renderer::update_shader_data() {
     auto world_matrix = entity()->transform_->world_matrix();
-    mv_matrix_ = view_mat * world_matrix;
-    mvp_matrix_ = proj_mat * view_mat * world_matrix;
-    mv_inv_matrix_ = mv_matrix_.inverse();
     normal_matrix_ = world_matrix.inverse();
     normal_matrix_ = normal_matrix_.transposed();
     
     shader_data_.set_data(Renderer::local_matrix_property_, entity()->transform_->local_matrix());
     shader_data_.set_data(Renderer::world_matrix_property_, world_matrix);
-    shader_data_.set_data(Renderer::mv_matrix_property_, mv_matrix_);
-    shader_data_.set_data(Renderer::mvp_matrix_property_, mvp_matrix_);
-    shader_data_.set_data(Renderer::mv_inv_matrix_property_, mv_inv_matrix_);
     shader_data_.set_data(Renderer::normal_matrix_property_, normal_matrix_);
 }
 

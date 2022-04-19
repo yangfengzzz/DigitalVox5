@@ -99,8 +99,7 @@ public:
     
     [[nodiscard]] float distance_for_sort() const;
     
-    void update_shader_data(const Matrix4x4F &view_mat,
-                            const Matrix4x4F &proj_mat);
+    void update_shader_data();
     
 protected:
     void on_enable() override;
@@ -130,23 +129,11 @@ private:
     
     const std::string local_matrix_property_;
     const std::string world_matrix_property_;
-    const std::string mv_matrix_property_;
-    const std::string mvp_matrix_property_;
-    const std::string mv_inv_matrix_property_;
     const std::string normal_matrix_property_;
     
     std::unique_ptr<UpdateFlag> transform_change_flag_;
-    // @deepClone
     BoundingBox3F bounds_ = BoundingBox3F();
-    // @ignoreClone
-    Matrix4x4F mv_matrix_ = Matrix4x4F();
-    // @ignoreClone
-    Matrix4x4F mvp_matrix_ = Matrix4x4F();
-    // @ignoreClone
-    Matrix4x4F mv_inv_matrix_ = Matrix4x4F();
-    // @ignoreClone
     Matrix4x4F normal_matrix_ = Matrix4x4F();
-    // @ignoreClone
     std::vector<bool> materials_instanced_;
 };
 

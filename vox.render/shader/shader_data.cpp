@@ -60,4 +60,9 @@ void ShaderData::remove_define(const std::string &undef) {
     variant_.remove_define(undef);
 }
 
+void ShaderData::merge_variants(const ShaderVariant &variant, ShaderVariant &result) const {
+    ShaderVariant::union_collection(variant, variant_, result);
+}
+
+
 }

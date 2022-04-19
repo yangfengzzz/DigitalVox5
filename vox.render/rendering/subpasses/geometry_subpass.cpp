@@ -24,7 +24,9 @@ void GeometrySubpass::set_thread_index(uint32_t index) {
 }
 
 void GeometrySubpass::draw(CommandBuffer &command_buffer) {
-    auto compile_macros = ShaderVariant();
+    auto compile_variant = ShaderVariant();
+    scene_->shader_data_.merge_variants(compile_variant, compile_variant);
+    camera_->shader_data_.merge_variants(compile_variant, compile_variant);
     
     std::vector<RenderElement> opaque_queue;
     std::vector<RenderElement> alpha_test_queue;
@@ -34,19 +36,25 @@ void GeometrySubpass::draw(CommandBuffer &command_buffer) {
     std::sort(alpha_test_queue.begin(), alpha_test_queue.end(), _compareFromNearToFar);
     std::sort(transparent_queue.begin(), transparent_queue.end(), _compareFromFarToNear);
     
-    draw_element(command_buffer, opaque_queue, compile_macros);
-    draw_element(command_buffer, alpha_test_queue, compile_macros);
-    draw_element(command_buffer, transparent_queue, compile_macros);
+    draw_element(command_buffer, opaque_queue, compile_variant);
+    draw_element(command_buffer, alpha_test_queue, compile_variant);
+    draw_element(command_buffer, transparent_queue, compile_variant);
 }
 
 void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
                                    const std::vector<RenderElement> &items,
                                    const ShaderVariant &variant) {
     for (auto &element : items) {
+        auto macros = variant;
         auto &device = command_buffer.get_device();
         
         auto &renderer = element.renderer;
+        renderer->update_shader_data();
+        renderer->shader_data_.merge_variants(macros, macros);
+        
         auto &material = element.material;
+        material->shader_data_.merge_variants(macros, macros);
+        
         auto &sub_mesh = element.sub_mesh;
         auto &mesh = element.mesh;
         ScopedDebugLabel submesh_debug_label{command_buffer, mesh->name_.c_str()};

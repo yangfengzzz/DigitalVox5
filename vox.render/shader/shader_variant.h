@@ -22,10 +22,13 @@ public:
     [[nodiscard]] size_t get_id() const;
     
     /**
-     * @brief Add definitions to shader variant
-     * @param definitions Vector of definitions to add to the variant
+     * Union of two variant collection.
+     * @param left - input variant collection
+     * @param right - input variant collection
+     * @param result - union variant macro collection
      */
-    void add_definitions(const std::vector<std::string> &definitions);
+    static void union_collection(const ShaderVariant &left, const ShaderVariant &right,
+                                 ShaderVariant &result);
     
     /**
      * @brief Adds a define macro to the shader

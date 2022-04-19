@@ -81,6 +81,8 @@ public:
      */
     void remove_define(const std::string &undef);
     
+    void merge_variants(const ShaderVariant &variant, ShaderVariant &result) const;
+    
 private:
     Device &device_;
     std::unordered_map<std::string, std::function<core::Buffer *()>> shader_buffer_functors_{};
