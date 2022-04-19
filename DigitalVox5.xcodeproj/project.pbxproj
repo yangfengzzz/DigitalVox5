@@ -508,14 +508,10 @@
 		04D95D03280C443E00E54DC2 /* mesh_renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D01280C443E00E54DC2 /* mesh_renderer.h */; };
 		04D95D0A280C4A3100E54DC2 /* graphics_application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D06280C4A3100E54DC2 /* graphics_application.cpp */; };
 		04D95D0B280C4A3100E54DC2 /* graphics_application.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D07280C4A3100E54DC2 /* graphics_application.h */; };
-		04D95D18280CF20200E54DC2 /* postprocessing_pass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D10280CF20200E54DC2 /* postprocessing_pass.cpp */; };
 		04D95D19280CF20200E54DC2 /* postprocessing_pass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D11280CF20200E54DC2 /* postprocessing_pass.h */; };
 		04D95D1C280CF27500E54DC2 /* postprocessing_pipeline.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D0C280CF20100E54DC2 /* postprocessing_pipeline.h */; };
-		04D95D1D280CF27500E54DC2 /* postprocessing_pipeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D0D280CF20100E54DC2 /* postprocessing_pipeline.cpp */; };
 		04D95D1E280CF2CE00E54DC2 /* postprocessing_renderpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D0E280CF20100E54DC2 /* postprocessing_renderpass.h */; };
-		04D95D1F280CF2CE00E54DC2 /* postprocessing_renderpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D0F280CF20200E54DC2 /* postprocessing_renderpass.cpp */; };
 		04D95D20280CF2F400E54DC2 /* postprocessing_computepass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D13280CF20200E54DC2 /* postprocessing_computepass.h */; };
-		04D95D21280CF2F400E54DC2 /* postprocessing_computepass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D12280CF20200E54DC2 /* postprocessing_computepass.cpp */; };
 		04D95D24280CF6AC00E54DC2 /* geometry_subpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D22280CF6AC00E54DC2 /* geometry_subpass.cpp */; };
 		04D95D25280CF6AC00E54DC2 /* geometry_subpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D23280CF6AC00E54DC2 /* geometry_subpass.h */; };
 		04D95D28280DAAA900E54DC2 /* imgui_impl_glfw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D26280DAAA900E54DC2 /* imgui_impl_glfw.cpp */; };
@@ -2535,7 +2531,6 @@
 				04D95C4B2809B28400E54DC2 /* orbit_control.cpp in Sources */,
 				04D95CDA280BBD7A00E54DC2 /* shader_data.cpp in Sources */,
 				0444E9542805633000C6F279 /* headless_window.cpp in Sources */,
-				04D95D21280CF2F400E54DC2 /* postprocessing_computepass.cpp in Sources */,
 				0444EB7C28084BB600C6F279 /* plot_lines.cpp in Sources */,
 				0444E9AF2805689000C6F279 /* sampler.cpp in Sources */,
 				04D95CC5280BA0BA00E54DC2 /* primitive_mesh.cpp in Sources */,
@@ -2574,9 +2569,7 @@
 				0444E9E528056AFA00C6F279 /* framebuffer.cpp in Sources */,
 				0444E93228055D9300C6F279 /* debug_info.cpp in Sources */,
 				0444EB2528084B9700C6F279 /* image.cpp in Sources */,
-				04D95D1D280CF27500E54DC2 /* postprocessing_pipeline.cpp in Sources */,
 				0444E945280560A000C6F279 /* fence_pool.cpp in Sources */,
-				04D95D1F280CF2CE00E54DC2 /* postprocessing_renderpass.cpp in Sources */,
 				04D95C2A280993DC00E54DC2 /* scene_manager.cpp in Sources */,
 				04D95C9C280A8C7D00E54DC2 /* plane_collider_shape.cpp in Sources */,
 				0444EBE428084BDE00C6F279 /* button_small.cpp in Sources */,
@@ -2695,7 +2688,6 @@
 				04D95C402809A23400E54DC2 /* components_manager.cpp in Sources */,
 				0444E9F928056B0500C6F279 /* render_pass.cpp in Sources */,
 				0444EB7028084BAF00C6F279 /* color_picker.cpp in Sources */,
-				04D95D18280CF20200E54DC2 /* postprocessing_pass.cpp in Sources */,
 				04D95CD1280BB0D900E54DC2 /* shader_source.cpp in Sources */,
 				0444E9BF2805695200C6F279 /* pipeline_state.cpp in Sources */,
 				0444EBCD28084BD600C6F279 /* drag_int.cpp in Sources */,

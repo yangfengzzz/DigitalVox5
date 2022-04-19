@@ -14,10 +14,10 @@
 
 namespace vox {
 
-Subpass::Subpass(RenderContext &render_context, ShaderSource &&vertex_source, ShaderSource &&fragment_source) :
+Subpass::Subpass(RenderContext &render_context, Scene *scene, Camera *camera) :
 render_context_{render_context},
-vertex_shader_{std::move(vertex_source)},
-fragment_shader_{std::move(fragment_source)} {
+scene_{scene},
+camera_{camera} {
 }
 
 void Subpass::update_render_target_attachments(RenderTarget &render_target) {
@@ -27,14 +27,6 @@ void Subpass::update_render_target_attachments(RenderTarget &render_target) {
 
 RenderContext &Subpass::get_render_context() {
     return render_context_;
-}
-
-const ShaderSource &Subpass::get_vertex_shader() const {
-    return vertex_shader_;
-}
-
-const ShaderSource &Subpass::get_fragment_shader() const {
-    return fragment_shader_;
 }
 
 const std::vector<uint32_t> &Subpass::get_input_attachments() const {

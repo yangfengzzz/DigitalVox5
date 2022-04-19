@@ -7,7 +7,7 @@
 #pragma once
 
 #include "rendering/subpass.h"
-#include "scene.h"
+
 
 namespace vox {
 /**
@@ -18,13 +18,10 @@ public:
     /**
      * @brief Constructs a subpass for the geometry pass of Deferred rendering
      * @param render_context Render context
-     * @param vertex_shader Vertex shader source
-     * @param fragment_shader Fragment shader source
      * @param scene Scene to render on this subpass
      * @param camera Camera used to look at the scene
      */
-    GeometrySubpass(RenderContext &render_context, ShaderSource &&vertex_shader,
-                    ShaderSource &&fragment_shader, Scene *scene, Camera *camera);
+    GeometrySubpass(RenderContext &render_context, Scene *scene, Camera *camera);
     
     ~GeometrySubpass() override = default;
     
@@ -47,9 +44,6 @@ protected:
     
     virtual PipelineLayout &prepare_pipeline_layout(CommandBuffer &command_buffer,
                                                     const std::vector<ShaderModule *> &shader_modules);
-    
-    Camera *camera_{nullptr};
-    Scene *scene_{nullptr};
     
     uint32_t thread_index_{0};
 };

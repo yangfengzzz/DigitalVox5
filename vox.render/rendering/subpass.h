@@ -8,11 +8,11 @@
 
 #include "buffer_pool.h"
 #include "helpers.h"
-#include "shader/shader_module.h"
 #include "rendering/pipeline_state.h"
 #include "rendering/render_context.h"
 #include "rendering/render_frame.h"
 #include "rendering/render_element.h"
+#include "scene.h"
 
 namespace vox {
 class CommandBuffer;
@@ -24,7 +24,7 @@ class CommandBuffer;
  */
 class Subpass {
 public:
-    Subpass(RenderContext &render_context, ShaderSource &&vertex_shader, ShaderSource &&fragment_shader);
+    Subpass(RenderContext &render_context, Scene *scene, Camera *camera);
     
     Subpass(const Subpass &) = delete;
     
@@ -55,10 +55,6 @@ public:
     virtual void draw(CommandBuffer &command_buffer) = 0;
     
     RenderContext &get_render_context();
-    
-    [[nodiscard]] const ShaderSource &get_vertex_shader() const;
-    
-    [[nodiscard]] const ShaderSource &get_fragment_shader() const;
     
     DepthStencilState &get_depth_stencil_state();
     
@@ -94,6 +90,8 @@ public:
     
 protected:
     RenderContext &render_context_;
+    Scene *scene_{nullptr};
+    Camera *camera_{nullptr};
     
     VkSampleCountFlagBits sample_count_{VK_SAMPLE_COUNT_1_BIT};
     
@@ -106,10 +104,6 @@ protected:
     
 private:
     std::string debug_name_{};
-    
-    ShaderSource vertex_shader_;
-    
-    ShaderSource fragment_shader_;
     
     /**
      * @brief When creating the renderpass, pDepthStencilAttachment will

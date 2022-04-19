@@ -12,11 +12,8 @@
 #include "components_manager.h"
 
 namespace vox {
-GeometrySubpass::GeometrySubpass(RenderContext &render_context, ShaderSource &&vertex_source,
-                                 ShaderSource &&fragment_source, Scene *scene, Camera *camera) :
-Subpass{render_context, std::move(vertex_source), std::move(fragment_source)},
-camera_{camera},
-scene_{scene} {
+GeometrySubpass::GeometrySubpass(RenderContext &render_context, Scene *scene, Camera *camera) :
+Subpass{render_context, scene, camera} {
 }
 
 void GeometrySubpass::set_thread_index(uint32_t index) {
@@ -70,9 +67,9 @@ void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
         
         // shader
         auto &vert_shader_module =
-        device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), variant);
+        device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, material->vertex_source_, variant);
         auto &frag_shader_module =
-        device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), variant);
+        device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, material->fragment_source_, variant);
         std::vector<ShaderModule *> shader_modules{&vert_shader_module, &frag_shader_module};
         auto &pipeline_layout = prepare_pipeline_layout(command_buffer, shader_modules);
         command_buffer.bind_pipeline_layout(pipeline_layout);

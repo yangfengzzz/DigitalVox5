@@ -41,6 +41,10 @@ bool ForwardApplication::prepare(Platform &platform) {
     light_manager_->set_camera(main_camera_);
     //    _shadowManager = std::make_unique<ShadowManager>(scene, _mainCamera);
     
+    std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
+    scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(get_render_context(), scene, main_camera_));
+    set_render_pipeline(RenderPipeline(std::move(scene_subpasses)));
+    
     return true;
 }
 
