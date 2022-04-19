@@ -10,7 +10,7 @@
 
 namespace vox {
 SceneAnimationClip::SceneAnimationClip(std::string name) :
-	name_(std::move(name)) {
+name_(std::move(name)) {
 }
 
 const std::string &SceneAnimationClip::name() const {

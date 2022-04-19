@@ -345,7 +345,24 @@ set(PHYSX_SOURCE
 
 set(MESH_FILES mesh)
 set(SHADER_FILES shader)
-set(MATERIAL_FILES material)
+set(MATERIAL_FILES material/material.h
+        material/material.cpp
+        material/base_material.h
+        material/base_material.cpp
+        material/unlit_material.h
+        material/unlit_material.cpp
+        material/pbr_base_material.h
+        material/pbr_base_material.cpp
+        material/pbr_material.h
+        material/pbr_material.cpp
+        material/pbr_specular_material.h
+        material/pbr_specular_material.cpp
+        material/blinn_phong_material.h
+        material/blinn_phong_material.cpp)
+
+set(LIGHT_FILE
+        lighting/light.h
+        lighting/light.cpp)
 
 #set(GRAPHING_FILES
 #    # Header Files
@@ -427,6 +444,7 @@ set(PROJECT_FILES
         ${MESH_FILES}
         ${SHADER_FILES}
         ${MATERIAL_FILES}
+        ${LIGHT_FILE}
         #    ${GRAPHING_FILES}
         )
 
