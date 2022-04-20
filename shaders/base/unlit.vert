@@ -177,7 +177,7 @@ void main() {
     #endif
 
     #ifdef NEED_TILINGOFFSET
-        v_uv = v_uv * u_tilingOffset.xy + u_tilingOffset.zw;
+        v_uv = v_uv * tiling_offset.value.xy + tiling_offset.value.zw;
     #endif
 
     //------------------------------------------------------------------------------------------------------------------

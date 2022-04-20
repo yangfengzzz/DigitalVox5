@@ -82,7 +82,8 @@ bool GLSLCompiler::compile_to_spirv(VkShaderStageFlagBits stage,
     shader.setStringsWithLengthsAndNames(&shader_source, nullptr, file_name_list, 1);
     shader.setEntryPoint(entry_point.c_str());
     shader.setSourceEntryPoint(entry_point.c_str());
-    shader.setPreamble(shader_variant.get_preamble().c_str());
+    auto preamble = shader_variant.get_preamble();
+    shader.setPreamble(preamble.c_str());
     shader.addProcesses(shader_variant.get_processes());
     if (GLSLCompiler::env_target_language_ != glslang::EShTargetLanguage::EShTargetNone) {
         shader.setEnvTarget(GLSLCompiler::env_target_language_, GLSLCompiler::env_target_language_version_);
