@@ -18,12 +18,7 @@ std::string Camera::name() {
 Camera::Camera(Entity *entity) :
 Component(entity),
 shader_data_(entity->scene()->device()),
-view_matrix_property_("u_viewMat"),
-projection_matrix_property_("u_projMat"),
-vp_matrix_property_("u_VPMat"),
-inverse_view_matrix_property_("u_viewInvMat"),
-inverse_projection_matrix_property_("u_projInvMat"),
-camera_position_property_("u_cameraPos") {
+camera_property_("cameraData") {
     auto transform = entity->transform_;
     transform_ = transform;
     is_view_matrix_dirty_ = transform->register_world_change_flag();
@@ -259,17 +254,16 @@ Point3F Camera::inner_viewport_to_world_point(const Vector3F &point, const Matri
 }
 
 void Camera::update() {
-    auto vp = projection_matrix() * view_matrix();
-    
-    shader_data_.set_data(Camera::view_matrix_property_, view_matrix());
-    shader_data_.set_data(Camera::projection_matrix_property_, projection_matrix());
-    shader_data_.set_data(Camera::vp_matrix_property_, vp);
-    shader_data_.set_data(Camera::inverse_view_matrix_property_, transform_->world_matrix());
-    shader_data_.set_data(Camera::inverse_projection_matrix_property_, inverse_projection_matrix());
-    shader_data_.set_data(Camera::camera_position_property_, transform_->world_position());
+    camera_data_.view_mat = view_matrix();
+    camera_data_.proj_mat = projection_matrix();
+    camera_data_.vp_mat = projection_matrix() * view_matrix();
+    camera_data_.view_inv_mat = transform_->world_matrix();
+    camera_data_.proj_inv_mat = inverse_projection_matrix();
+    camera_data_.camera_pos = transform_->world_position();
+    shader_data_.set_data(Camera::camera_property_, camera_data_);
     
     if (enable_frustum_culling_ && (frustum_view_change_flag_->flag_ || is_frustum_project_dirty_)) {
-        frustum_.calculateFromMatrix(vp);
+        frustum_.calculateFromMatrix(camera_data_.vp_mat);
         frustum_view_change_flag_->flag_ = false;
         is_frustum_project_dirty_ = false;
     }

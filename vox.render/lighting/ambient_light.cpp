@@ -14,7 +14,8 @@ env_map_property_("u_envMapLight"),
 diffuse_sh_property_("u_env_sh"),
 diffuse_texture_property_("u_env_diffuseTexture"),
 specular_texture_property_("u_env_specularTexture"),
-brdf_texture_property_("u_env_brdfTexture") {
+brdf_texture_property_("u_env_brdfTexture"),
+sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
 }
 
 void AmbientLight::set_scene(Scene *value) {
@@ -22,7 +23,6 @@ void AmbientLight::set_scene(Scene *value) {
     if (!value) return;
     
     // Create a default sampler
-    sampler_create_info_.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
     sampler_create_info_.magFilter = VK_FILTER_LINEAR;
     sampler_create_info_.minFilter = VK_FILTER_LINEAR;
     sampler_create_info_.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;

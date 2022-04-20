@@ -19,6 +19,12 @@ namespace vox {
  */
 class Renderer : public Component {
 public:
+    struct alignas(16) RendererData {
+        Matrix4x4F local_mat;
+        Matrix4x4F model_mat;
+        Matrix4x4F normal_mat;
+    };
+    
     /** ShaderData related to renderer. */
     ShaderData shader_data_;
     // @ignoreClone
@@ -127,9 +133,8 @@ private:
     float distance_for_sort_ = 0;
     ssize_t renderer_index_ = -1;
     
-    const std::string local_matrix_property_;
-    const std::string world_matrix_property_;
-    const std::string normal_matrix_property_;
+    RendererData renderer_data_;
+    const std::string renderer_property_;
     
     std::unique_ptr<UpdateFlag> transform_change_flag_;
     BoundingBox3F bounds_ = BoundingBox3F();

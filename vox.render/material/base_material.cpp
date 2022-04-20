@@ -34,7 +34,7 @@ float BaseMaterial::alpha_cutoff() const {
 
 void BaseMaterial::set_alpha_cutoff(float new_value) {
     alpha_cutoff_ = new_value;
-    shader_data_.set_data(BaseMaterial::alpha_cutoff_prop_, new_value);
+    shader_data_.set_data(alpha_cutoff_prop_, new_value);
     
     if (new_value > 0) {
         shader_data_.add_define(NEED_ALPHA_CUTOFF);
@@ -92,11 +92,24 @@ void BaseMaterial::set_blend_mode(const BlendMode &new_value) {
     }
 }
 
+const Vector4F &BaseMaterial::tiling_offset() const {
+    return tiling_offset_;
+}
+
+void BaseMaterial::set_tiling_offset(const Vector4F &new_value) {
+    tiling_offset_ = new_value;
+    shader_data_.set_data(tiling_offset_prop_, new_value);
+}
+
 VkSamplerCreateInfo BaseMaterial::last_sampler_create_info_;
 
 BaseMaterial::BaseMaterial(Device &device, const std::string &name) :
 Material(device, name),
-alpha_cutoff_prop_("u_alphaCutoff") {
+alpha_cutoff_prop_("alphaCutoff"),
+tiling_offset_prop_("tilingOffset") {
+    shader_data_.add_define(NEED_TILINGOFFSET);
+    shader_data_.set_data(tiling_offset_prop_, tiling_offset_);
+    
     color_blend_state_.attachments.resize(1);
     set_blend_mode(BlendMode::NORMAL);
     shader_data_.set_data(alpha_cutoff_prop_, 0.0f);

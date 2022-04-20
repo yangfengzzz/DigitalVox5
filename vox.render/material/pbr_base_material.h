@@ -17,6 +17,13 @@ namespace vox {
  */
 class PbrBaseMaterial : public BaseMaterial {
 public:
+    struct alignas(16) PBRBaseData {
+        Color base_color = Color(1, 1, 1, 1);
+        Color emissive_color = Color(0, 0, 0, 1);
+        float normal_texture_intensity = 1.f;
+        float occlusion_texture_intensity = 1.f;
+    };
+    
     /**
      * Base color.
      */
@@ -81,13 +88,6 @@ public:
     
     void set_occlusion_texture_intensity(float new_value);
     
-    /**
-     * Tiling and offset of main textures.
-     */
-    [[nodiscard]] const Vector4F &tiling_offset() const;
-    
-    void set_tiling_offset(const Vector4F &new_value);
-    
 protected:
     /**
      * Create a pbr base material instance.
@@ -95,20 +95,8 @@ protected:
     explicit PbrBaseMaterial(Device &device, const std::string &name);
     
 private:
-    Vector4F tiling_offset_ = Vector4F(1, 1, 0, 0);
-    const std::string tiling_offset_prop_;
-    
-    float normal_texture_intensity_ = 1.f;
-    const std::string normal_texture_intensity_prop_;
-    
-    float occlusion_texture_intensity_ = 1.f;
-    const std::string occlusion_texture_intensity_prop_;
-    
-    Color base_color_ = Color(1, 1, 1, 1);
-    const std::string base_color_prop_;
-    
-    Color emissive_color_ = Color(0, 0, 0, 1);
-    const std::string emissive_color_prop_;
+    PBRBaseData pbr_base_data_;
+    const std::string pbr_base_prop_;
     
     std::shared_ptr<Image> base_texture_{nullptr};
     const std::string base_texture_prop_;

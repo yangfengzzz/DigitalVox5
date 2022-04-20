@@ -14,6 +14,11 @@ namespace vox {
  */
 class PbrMaterial : public PbrBaseMaterial {
 public:
+    struct alignas(16) PBRData {
+        float metallic = 1.f;
+        float roughness = 1.f;
+    };
+    
     /**
      * Metallic.
      */
@@ -44,11 +49,8 @@ public:
     PbrMaterial(Device &device, const std::string &name = "");
     
 private:
-    float metallic_{1.f};
-    const std::string metallic_prop_;
-    
-    float roughness_{1.f};
-    const std::string roughness_prop_;
+    PBRData pbr_data_;
+    const std::string pbr_prop_;
     
     std::shared_ptr<Image> metallic_roughness_texture_{nullptr};
     const std::string metallic_roughness_texture_prop_;

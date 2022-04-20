@@ -28,9 +28,7 @@ Renderer::Renderer(Entity *entity) :
 Component(entity),
 shader_data_(entity->scene()->device()),
 transform_change_flag_(entity->transform_->register_world_change_flag()),
-local_matrix_property_("u_localMat"),
-world_matrix_property_("u_modelMat"),
-normal_matrix_property_("u_normalMat") {
+renderer_property_("rendererData") {
 }
 
 void Renderer::on_enable() {
@@ -158,9 +156,10 @@ void Renderer::update_shader_data() {
     normal_matrix_ = world_matrix.inverse();
     normal_matrix_ = normal_matrix_.transposed();
     
-    shader_data_.set_data(Renderer::local_matrix_property_, entity()->transform_->local_matrix());
-    shader_data_.set_data(Renderer::world_matrix_property_, world_matrix);
-    shader_data_.set_data(Renderer::normal_matrix_property_, normal_matrix_);
+    renderer_data_.local_mat = entity()->transform_->local_matrix();
+    renderer_data_.model_mat = world_matrix;
+    renderer_data_.normal_mat = normal_matrix_;
+    shader_data_.set_data(Renderer::renderer_property_, renderer_data_);
 }
 
 MaterialPtr Renderer::create_instance_material(const MaterialPtr &material, size_t index) {

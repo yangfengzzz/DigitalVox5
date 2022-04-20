@@ -9,6 +9,7 @@
 #include "material.h"
 #include "enums/blend_mode.h"
 #include "enums/render_face.h"
+#include "vector4.h"
 
 namespace vox {
 class BaseMaterial : public Material {
@@ -49,6 +50,13 @@ public:
     void set_blend_mode(const BlendMode &new_value);
     
     /**
+     * Tiling and offset of main textures.
+     */
+    [[nodiscard]] const Vector4F &tiling_offset() const;
+    
+    void set_tiling_offset(const Vector4F &new_value);
+    
+    /**
      * Create a BaseMaterial instance.
      */
     BaseMaterial(Device &device, const std::string &name = "");
@@ -61,6 +69,9 @@ protected:
 private:
     float alpha_cutoff_ = 0.0;
     const std::string alpha_cutoff_prop_;
+    
+    Vector4F tiling_offset_ = Vector4F(1, 1, 0, 0);
+    const std::string tiling_offset_prop_;
     
     RenderFace render_face_ = RenderFace::BACK;
     BlendMode blend_mode_ = BlendMode::NORMAL;

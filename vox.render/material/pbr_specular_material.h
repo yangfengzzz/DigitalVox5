@@ -14,6 +14,11 @@ namespace vox {
  */
 class PbrSpecularMaterial : public PbrBaseMaterial {
 public:
+    struct alignas(16) PBRSpecularData {
+        Color specular_color = Color(1, 1, 1, 1);
+        float glossiness = 1.f;;
+    };
+    
     /**
      * Specular color.
      */
@@ -44,11 +49,8 @@ public:
     PbrSpecularMaterial(Device &device, const std::string &name = "");
     
 private:
-    float glossiness_{1.f};
-    const std::string glossiness_prop_;
-    
-    Color specular_color_ = Color(1, 1, 1, 1);
-    const std::string specular_color_prop_;
+    PBRSpecularData pbr_specular_data_;
+    const std::string pbr_specular_prop_;
     
     std::shared_ptr<Image> specular_glossiness_texture_{nullptr};
     const std::string specular_glossiness_texture_prop_;

@@ -17,6 +17,14 @@ namespace vox {
  */
 class BlinnPhongMaterial : public BaseMaterial {
 public:
+    struct alignas(16) BlinnPhongData {
+        Color base_color = Color(1, 1, 1, 1);
+        Color specular_color = Color(1, 1, 1, 1);
+        Color emissive_color = Color(0, 0, 0, 1);
+        float normal_intensity = 1.f;
+        float shininess = 16.f;
+    };
+    
     /**
      * Base color.
      */
@@ -88,33 +96,11 @@ public:
     
     void set_shininess(float new_value);
     
-    /**
-     * Tiling and offset of main textures.
-     */
-    [[nodiscard]] const Vector4F &tiling_offset() const;
-    
-    void set_tiling_offset(const Vector4F &new_value);
-    
     BlinnPhongMaterial(Device &device, const std::string &name = "");
     
 private:
-    Color base_color_ = Color(1, 1, 1, 1);
-    const std::string diffuse_color_prop_;
-    
-    Color specular_color_ = Color(1, 1, 1, 1);
-    const std::string specular_color_prop_;
-    
-    Color emissive_color_ = Color(0, 0, 0, 1);
-    const std::string emissive_color_prop_;
-    
-    Vector4F tiling_offset_ = Vector4F(1, 1, 0, 0);
-    const std::string tiling_offset_prop_;
-    
-    float shininess_ = 16.f;
-    const std::string shininess_prop_;
-    
-    float normal_intensity_ = 1.f;
-    const std::string normal_intensity_prop_;
+    BlinnPhongData blinn_phong_data_;
+    const std::string blinn_phong_prop_;
     
     std::shared_ptr<Image> base_texture_{nullptr};
     const std::string base_texture_prop_;

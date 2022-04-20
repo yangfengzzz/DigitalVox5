@@ -37,28 +37,16 @@ void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, co
     }
 }
 
-const Vector4F &UnlitMaterial::tiling_offset() const {
-    return tiling_offset_;
-}
-
-void UnlitMaterial::set_tiling_offset(const Vector4F &new_value) {
-    tiling_offset_ = new_value;
-    shader_data_.set_data(tiling_offset_prop_, new_value);
-}
-
 UnlitMaterial::UnlitMaterial(Device &device, const std::string &name) :
 BaseMaterial(device, name),
-base_color_prop_("u_baseColor"),
-base_texture_prop_("u_baseTexture"),
-tiling_offset_prop_("u_tilingOffset") {
+base_color_prop_("baseColor"),
+base_texture_prop_("baseTexture") {
     vertex_source_ = ShaderSource("base/unlit.vert");
     fragment_source_ = ShaderSource("base/unlit.frag");
 
     shader_data_.add_define(OMIT_NORMAL);
-    shader_data_.add_define(NEED_TILINGOFFSET);
     
     shader_data_.set_data(base_color_prop_, Color(1, 1, 1, 1));
-    shader_data_.set_data(tiling_offset_prop_, Vector4F(1, 1, 0, 0));
 }
 
 }

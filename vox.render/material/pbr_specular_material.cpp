@@ -9,21 +9,21 @@
 
 namespace vox {
 const Color &PbrSpecularMaterial::specular_color() const {
-    return specular_color_;
+    return pbr_specular_data_.specular_color;
 }
 
 void PbrSpecularMaterial::set_specular_color(const Color &new_value) {
-    specular_color_ = new_value;
-    shader_data_.set_data(PbrSpecularMaterial::specular_color_prop_, new_value);
+    pbr_specular_data_.specular_color = new_value;
+    shader_data_.set_data(pbr_specular_prop_, pbr_specular_data_);
 }
 
 float PbrSpecularMaterial::glossiness() const {
-    return glossiness_;
+    return pbr_specular_data_.glossiness;
 }
 
 void PbrSpecularMaterial::set_glossiness(float new_value) {
-    glossiness_ = new_value;
-    shader_data_.set_data(PbrSpecularMaterial::glossiness_prop_, new_value);
+    pbr_specular_data_.glossiness = new_value;
+    shader_data_.set_data(pbr_specular_prop_, pbr_specular_data_);
 }
 
 std::shared_ptr<Image> PbrSpecularMaterial::specular_glossiness_texture() const {
@@ -38,7 +38,7 @@ void PbrSpecularMaterial::set_specular_glossiness_texture(const std::shared_ptr<
 void PbrSpecularMaterial::set_specular_glossiness_texture(const std::shared_ptr<Image> &new_value,
                                                           const VkSamplerCreateInfo &info) {
     specular_glossiness_texture_ = new_value;
-    shader_data_.set_texture(PbrSpecularMaterial::specular_glossiness_texture_prop_, new_value, get_sampler_(info));
+    shader_data_.set_texture(specular_glossiness_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
         shader_data_.add_define(HAS_SPECULARGLOSSINESSMAP);
     } else {
@@ -48,11 +48,9 @@ void PbrSpecularMaterial::set_specular_glossiness_texture(const std::shared_ptr<
 
 PbrSpecularMaterial::PbrSpecularMaterial(Device &device, const std::string &name) :
 PbrBaseMaterial(device, name),
-glossiness_prop_("u_glossiness"),
-specular_color_prop_("u_specularColor"),
-specular_glossiness_texture_prop_("_specularGlossinessTexture") {
-    shader_data_.set_data(PbrSpecularMaterial::specular_color_prop_, Color(1, 1, 1, 1));
-    shader_data_.set_data(PbrSpecularMaterial::glossiness_prop_, 1.f);
+pbr_specular_prop_("pbrSpecularData"),
+specular_glossiness_texture_prop_("specularGlossinessTexture") {
+    shader_data_.set_data(pbr_specular_prop_, pbr_specular_data_);
 }
 
 }

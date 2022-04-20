@@ -9,12 +9,12 @@
 
 namespace vox {
 const Color &BlinnPhongMaterial::base_color() const {
-    return base_color_;
+    return blinn_phong_data_.base_color;
 }
 
 void BlinnPhongMaterial::set_base_color(const Color &new_value) {
-    base_color_ = new_value;
-    shader_data_.set_data(BlinnPhongMaterial::diffuse_color_prop_, new_value);
+    blinn_phong_data_.base_color = new_value;
+    shader_data_.set_data(blinn_phong_prop_, blinn_phong_data_);
 }
 
 std::shared_ptr<Image> BlinnPhongMaterial::base_texture() const {
@@ -28,7 +28,7 @@ void BlinnPhongMaterial::set_base_texture(const std::shared_ptr<Image> &new_valu
 
 void BlinnPhongMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
-    shader_data_.set_texture(BlinnPhongMaterial::base_texture_prop_, new_value, get_sampler_(info));
+    shader_data_.set_texture(base_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
         shader_data_.add_define(HAS_DIFFUSE_TEXTURE);
     } else {
@@ -37,12 +37,12 @@ void BlinnPhongMaterial::set_base_texture(const std::shared_ptr<Image> &new_valu
 }
 
 const Color &BlinnPhongMaterial::specular_color() const {
-    return specular_color_;
+    return blinn_phong_data_.specular_color;
 }
 
 void BlinnPhongMaterial::set_specular_color(const Color &new_value) {
-    specular_color_ = new_value;
-    shader_data_.set_data(BlinnPhongMaterial::specular_color_prop_, new_value);
+    blinn_phong_data_.specular_color = new_value;
+    shader_data_.set_data(blinn_phong_prop_, blinn_phong_data_);
 }
 
 std::shared_ptr<Image> BlinnPhongMaterial::specular_texture() const {
@@ -57,7 +57,7 @@ void BlinnPhongMaterial::set_specular_texture(const std::shared_ptr<Image> &new_
 void BlinnPhongMaterial::set_specular_texture(const std::shared_ptr<Image> &new_value,
                                               const VkSamplerCreateInfo &info) {
     specular_texture_ = new_value;
-    shader_data_.set_texture(BlinnPhongMaterial::specular_texture_prop_, new_value, get_sampler_(info));
+    shader_data_.set_texture(specular_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
         shader_data_.add_define(HAS_SPECULAR_TEXTURE);
     } else {
@@ -66,12 +66,12 @@ void BlinnPhongMaterial::set_specular_texture(const std::shared_ptr<Image> &new_
 }
 
 const Color &BlinnPhongMaterial::emissive_color() const {
-    return emissive_color_;
+    return blinn_phong_data_.emissive_color;
 }
 
 void BlinnPhongMaterial::set_emissive_color(const Color &new_value) {
-    emissive_color_ = new_value;
-    shader_data_.set_data(BlinnPhongMaterial::emissive_color_prop_, new_value);
+    blinn_phong_data_.emissive_color = new_value;
+    shader_data_.set_data(blinn_phong_prop_, blinn_phong_data_);
 }
 
 std::shared_ptr<Image> BlinnPhongMaterial::emissive_texture() const {
@@ -86,7 +86,7 @@ void BlinnPhongMaterial::BlinnPhongMaterial::set_emissive_texture(const std::sha
 void BlinnPhongMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_value,
                                               const VkSamplerCreateInfo &info) {
     emissive_texture_ = new_value;
-    shader_data_.set_texture(BlinnPhongMaterial::emissive_texture_prop_, new_value, get_sampler_(info));
+    shader_data_.set_texture(emissive_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
         shader_data_.add_define(HAS_EMISSIVE_TEXTURE);
     } else {
@@ -105,7 +105,7 @@ void BlinnPhongMaterial::set_normal_texture(const std::shared_ptr<Image> &new_va
 
 void BlinnPhongMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     normal_texture_ = new_value;
-    shader_data_.set_texture(BlinnPhongMaterial::normal_texture_prop_, new_value, get_sampler_(info));
+    shader_data_.set_texture(normal_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
         shader_data_.add_define(HAS_NORMAL_TEXTURE);
     } else {
@@ -114,53 +114,32 @@ void BlinnPhongMaterial::set_normal_texture(const std::shared_ptr<Image> &new_va
 }
 
 float BlinnPhongMaterial::normal_intensity() const {
-    return normal_intensity_;
+    return blinn_phong_data_.normal_intensity;
 }
 
 void BlinnPhongMaterial::set_normal_intensity(float new_value) {
-    normal_intensity_ = new_value;
-    shader_data_.set_data(BlinnPhongMaterial::normal_intensity_prop_, new_value);
+    blinn_phong_data_.normal_intensity = new_value;
+    shader_data_.set_data(blinn_phong_prop_, blinn_phong_data_);
 }
 
 float BlinnPhongMaterial::shininess() const {
-    return shininess_;
+    return blinn_phong_data_.shininess;
 }
 
 void BlinnPhongMaterial::set_shininess(float new_value) {
-    shininess_ = new_value;
-    shader_data_.set_data(BlinnPhongMaterial::shininess_prop_, new_value);
-}
-
-const Vector4F &BlinnPhongMaterial::tiling_offset() const {
-    return tiling_offset_;
-}
-
-void BlinnPhongMaterial::set_tiling_offset(const Vector4F &new_value) {
-    tiling_offset_ = new_value;
-    shader_data_.set_data(BlinnPhongMaterial::tiling_offset_prop_, new_value);
+    blinn_phong_data_.shininess = new_value;
+    shader_data_.set_data(blinn_phong_prop_, blinn_phong_data_);
 }
 
 BlinnPhongMaterial::BlinnPhongMaterial(Device &device, const std::string &name) :
 BaseMaterial(device, name),
-diffuse_color_prop_("u_diffuseColor"),
-specular_color_prop_("u_specularColor"),
-emissive_color_prop_("u_emissiveColor"),
-tiling_offset_prop_("u_tilingOffset"),
-shininess_prop_("u_shininess"),
-normal_intensity_prop_("u_normalIntensity"),
-base_texture_prop_("u_diffuseTexture"),
-specular_texture_prop_("u_specularTexture"),
-emissive_texture_prop_("u_emissiveTexture"),
-normal_texture_prop_("u_normalTexture") {
+blinn_phong_prop_("blinnPhongData"),
+base_texture_prop_("diffuseTexture"),
+specular_texture_prop_("specularTexture"),
+emissive_texture_prop_("emissiveTexture"),
+normal_texture_prop_("normalTexture") {
     shader_data_.add_define(NEED_WORLDPOS);
-    shader_data_.add_define(NEED_TILINGOFFSET);
-    
-    shader_data_.set_data(diffuse_color_prop_, Color(1, 1, 1, 1));
-    shader_data_.set_data(specular_color_prop_, Color(1, 1, 1, 1));
-    shader_data_.set_data(emissive_color_prop_, Color(0, 0, 0, 1));
-    shader_data_.set_data(tiling_offset_prop_, Vector4F(1, 1, 0, 0));
-    shader_data_.set_data(shininess_prop_, 16.f);
-    shader_data_.set_data(normal_intensity_prop_, 1.f);
+    shader_data_.set_data(blinn_phong_prop_, blinn_phong_data_);
 }
 
 }

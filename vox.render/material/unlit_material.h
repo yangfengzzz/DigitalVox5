@@ -8,7 +8,6 @@
 
 #include "base_material.h"
 #include "color.h"
-#include "vector4.h"
 #include "../image.h"
 
 namespace vox {
@@ -34,13 +33,6 @@ public:
     void set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
     
     /**
-     * Tiling and offset of main textures.
-     */
-    [[nodiscard]] const Vector4F &tiling_offset() const;
-    
-    void set_tiling_offset(const Vector4F &new_value);
-    
-    /**
      * Create a unlit material instance.
      */
     UnlitMaterial(Device &device, const std::string &name = "");
@@ -51,9 +43,6 @@ private:
     
     std::shared_ptr<Image> base_texture_{nullptr};
     const std::string base_texture_prop_;
-    
-    Vector4F tiling_offset_ = Vector4F(1, 1, 0, 0);
-    const std::string tiling_offset_prop_;
 };
 
 }

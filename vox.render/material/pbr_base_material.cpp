@@ -9,12 +9,12 @@
 
 namespace vox {
 const Color &PbrBaseMaterial::base_color() const {
-    return base_color_;
+    return pbr_base_data_.base_color;
 }
 
 void PbrBaseMaterial::set_base_color(const Color &new_value) {
-    base_color_ = new_value;
-    shader_data_.set_data(PbrBaseMaterial::base_color_prop_, new_value);
+    pbr_base_data_.base_color = new_value;
+    shader_data_.set_data(pbr_base_prop_, pbr_base_data_);
 }
 
 std::shared_ptr<Image> PbrBaseMaterial::base_texture() const {
@@ -28,7 +28,7 @@ void PbrBaseMaterial::set_base_texture(const std::shared_ptr<Image> &new_value) 
 
 void PbrBaseMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
-    shader_data_.set_texture(PbrBaseMaterial::base_texture_prop_, new_value, get_sampler_(info));
+    shader_data_.set_texture(base_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
         shader_data_.add_define(HAS_BASE_COLORMAP);
     } else {
@@ -47,7 +47,7 @@ void PbrBaseMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value
 
 void PbrBaseMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     normal_texture_ = new_value;
-    shader_data_.set_texture(PbrBaseMaterial::normal_texture_prop_, new_value, get_sampler_(info));
+    shader_data_.set_texture(normal_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
         shader_data_.add_define(HAS_NORMAL_TEXTURE);
     } else {
@@ -56,21 +56,21 @@ void PbrBaseMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value
 }
 
 float PbrBaseMaterial::normal_texture_intensity() const {
-    return normal_texture_intensity_;
+    return pbr_base_data_.normal_texture_intensity;
 }
 
 void PbrBaseMaterial::set_normal_texture_intensity(float new_value) {
-    normal_texture_intensity_ = new_value;
-    shader_data_.set_data(PbrBaseMaterial::normal_texture_intensity_prop_, new_value);
+    pbr_base_data_.normal_texture_intensity = new_value;
+    shader_data_.set_data(pbr_base_prop_, pbr_base_data_);
 }
 
 const Color &PbrBaseMaterial::emissive_color() const {
-    return emissive_color_;
+    return pbr_base_data_.emissive_color;
 }
 
 void PbrBaseMaterial::set_emissive_color(const Color &new_value) {
-    emissive_color_ = new_value;
-    shader_data_.set_data(PbrBaseMaterial::emissive_color_prop_, new_value);
+    pbr_base_data_.emissive_color = new_value;
+    shader_data_.set_data(pbr_base_prop_, pbr_base_data_);
 }
 
 std::shared_ptr<Image> PbrBaseMaterial::emissive_texture() const {
@@ -84,7 +84,7 @@ void PbrBaseMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_val
 
 void PbrBaseMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     emissive_texture_ = new_value;
-    shader_data_.set_texture(PbrBaseMaterial::emissive_texture_prop_, new_value, get_sampler_(info));
+    shader_data_.set_texture(emissive_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
         shader_data_.add_define(HAS_EMISSIVEMAP);
     } else {
@@ -103,7 +103,7 @@ void PbrBaseMaterial::set_occlusion_texture(const std::shared_ptr<Image> &new_va
 
 void PbrBaseMaterial::set_occlusion_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     occlusion_texture_ = new_value;
-    shader_data_.set_texture(PbrBaseMaterial::occlusion_texture_prop_, new_value, get_sampler_(info));
+    shader_data_.set_texture(occlusion_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
         shader_data_.add_define(HAS_OCCLUSIONMAP);
     } else {
@@ -112,43 +112,23 @@ void PbrBaseMaterial::set_occlusion_texture(const std::shared_ptr<Image> &new_va
 }
 
 float PbrBaseMaterial::occlusion_texture_intensity() const {
-    return occlusion_texture_intensity_;
+    return pbr_base_data_.occlusion_texture_intensity;
 }
 
 void PbrBaseMaterial::set_occlusion_texture_intensity(float new_value) {
-    occlusion_texture_intensity_ = new_value;
-    shader_data_.set_data(PbrBaseMaterial::occlusion_texture_intensity_prop_, new_value);
-}
-
-const Vector4F &PbrBaseMaterial::tiling_offset() const {
-    return tiling_offset_;
-}
-
-void PbrBaseMaterial::set_tiling_offset(const Vector4F &new_value) {
-    tiling_offset_ = new_value;
-    shader_data_.set_data(PbrBaseMaterial::tiling_offset_prop_, new_value);
+    pbr_base_data_.occlusion_texture_intensity = new_value;
+    shader_data_.set_data(pbr_base_prop_, pbr_base_data_);
 }
 
 PbrBaseMaterial::PbrBaseMaterial(Device &device, const std::string &name) :
 BaseMaterial(device, name),
-tiling_offset_prop_("u_tilingOffset"),
-normal_texture_intensity_prop_("u_normalIntensity"),
-occlusion_texture_intensity_prop_("u_occlusionStrength"),
-base_color_prop_("u_baseColor"),
-emissive_color_prop_("u_emissiveColor"),
-base_texture_prop_("u_baseColorTexture"),
-normal_texture_prop_("u_normalTexture"),
-emissive_texture_prop_("u_emissiveTexture"),
-occlusion_texture_prop_("u_occlusionTexture") {
+pbr_base_prop_("pbrBaseData"),
+base_texture_prop_("baseColorTexture"),
+normal_texture_prop_("normalTexture"),
+emissive_texture_prop_("emissiveTexture"),
+occlusion_texture_prop_("occlusionTexture") {
     shader_data_.add_define(NEED_WORLDPOS);
-    shader_data_.add_define(NEED_TILINGOFFSET);
-    
-    shader_data_.set_data(PbrBaseMaterial::base_color_prop_, Color(1, 1, 1, 1));
-    shader_data_.set_data(PbrBaseMaterial::emissive_color_prop_, Color(0, 0, 0, 1));
-    shader_data_.set_data(PbrBaseMaterial::tiling_offset_prop_, Vector4F(1, 1, 0, 0));
-    
-    shader_data_.set_data(PbrBaseMaterial::normal_texture_intensity_prop_, 1.f);
-    shader_data_.set_data(PbrBaseMaterial::occlusion_texture_intensity_prop_, 1.f);
+    shader_data_.set_data(pbr_base_prop_, pbr_base_data_);
 }
 
 }

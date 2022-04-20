@@ -9,21 +9,21 @@
 
 namespace vox {
 float PbrMaterial::metallic() const {
-    return metallic_;
+    return pbr_data_.metallic;
 }
 
 void PbrMaterial::set_metallic(float new_value) {
-    metallic_ = new_value;
-    shader_data_.set_data(PbrMaterial::metallic_prop_, new_value);
+    pbr_data_.metallic = new_value;
+    shader_data_.set_data(pbr_prop_, pbr_data_);
 }
 
 float PbrMaterial::roughness() const {
-    return roughness_;
+    return pbr_data_.roughness;
 }
 
 void PbrMaterial::set_roughness(float new_value) {
-    roughness_ = new_value;
-    shader_data_.set_data(PbrMaterial::roughness_prop_, new_value);
+    pbr_data_.roughness = new_value;
+    shader_data_.set_data(pbr_prop_, pbr_data_);
 }
 
 std::shared_ptr<Image> PbrMaterial::metallic_roughness_texture() {
@@ -38,7 +38,7 @@ void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &n
 void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &new_value,
                                                  const VkSamplerCreateInfo &info) {
     metallic_roughness_texture_ = new_value;
-    shader_data_.set_texture(PbrMaterial::metallic_roughness_texture_prop_, new_value, get_sampler_(info));
+    shader_data_.set_texture(metallic_roughness_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
         shader_data_.add_define(HAS_METALROUGHNESSMAP);
     } else {
@@ -48,11 +48,9 @@ void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &n
 
 PbrMaterial::PbrMaterial(Device &device, const std::string &name) :
 PbrBaseMaterial(device, name),
-metallic_prop_("u_metal"),
-roughness_prop_("u_roughness"),
-metallic_roughness_texture_prop_("u_metallicRoughnessTexture") {
-    shader_data_.set_data(PbrMaterial::metallic_prop_, 1.f);
-    shader_data_.set_data(PbrMaterial::roughness_prop_, 1.f);
+pbr_prop_("pbrData"),
+metallic_roughness_texture_prop_("metallicRoughnessTexture") {
+    shader_data_.set_data(pbr_prop_, pbr_data_);
 }
 
 }
