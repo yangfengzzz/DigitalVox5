@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "blinn_phong_material.h"
+#include "shader/internal_variant_name.h"
 
 namespace vox {
 const Color &BlinnPhongMaterial::base_color() const {
@@ -29,9 +30,9 @@ void BlinnPhongMaterial::set_base_texture(const std::shared_ptr<Image> &new_valu
     base_texture_ = new_value;
     shader_data_.set_texture(BlinnPhongMaterial::base_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
-        shader_data_.add_define("HAS_DIFFUSE_TEXTURE");
+        shader_data_.add_define(HAS_DIFFUSE_TEXTURE);
     } else {
-        shader_data_.remove_define("HAS_DIFFUSE_TEXTURE");
+        shader_data_.remove_define(HAS_DIFFUSE_TEXTURE);
     }
 }
 
@@ -58,9 +59,9 @@ void BlinnPhongMaterial::set_specular_texture(const std::shared_ptr<Image> &new_
     specular_texture_ = new_value;
     shader_data_.set_texture(BlinnPhongMaterial::specular_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
-        shader_data_.add_define("HAS_SPECULAR_TEXTURE");
+        shader_data_.add_define(HAS_SPECULAR_TEXTURE);
     } else {
-        shader_data_.remove_define("HAS_SPECULAR_TEXTURE");
+        shader_data_.remove_define(HAS_SPECULAR_TEXTURE);
     }
 }
 
@@ -87,9 +88,9 @@ void BlinnPhongMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_
     emissive_texture_ = new_value;
     shader_data_.set_texture(BlinnPhongMaterial::emissive_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
-        shader_data_.add_define("HAS_EMISSIVE_TEXTURE");
+        shader_data_.add_define(HAS_EMISSIVE_TEXTURE);
     } else {
-        shader_data_.remove_define("HAS_EMISSIVE_TEXTURE");
+        shader_data_.remove_define(HAS_EMISSIVE_TEXTURE);
     }
 }
 
@@ -106,9 +107,9 @@ void BlinnPhongMaterial::set_normal_texture(const std::shared_ptr<Image> &new_va
     normal_texture_ = new_value;
     shader_data_.set_texture(BlinnPhongMaterial::normal_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
-        shader_data_.add_define("HAS_NORMAL_TEXTURE");
+        shader_data_.add_define(HAS_NORMAL_TEXTURE);
     } else {
-        shader_data_.remove_define("HAS_NORMAL_TEXTURE");
+        shader_data_.remove_define(HAS_NORMAL_TEXTURE);
     }
 }
 
@@ -151,8 +152,8 @@ base_texture_prop_("u_diffuseTexture"),
 specular_texture_prop_("u_specularTexture"),
 emissive_texture_prop_("u_emissiveTexture"),
 normal_texture_prop_("u_normalTexture") {
-    shader_data_.add_define("NEED_WORLDPOS");
-    shader_data_.add_define("NEED_TILINGOFFSET");
+    shader_data_.add_define(NEED_WORLDPOS);
+    shader_data_.add_define(NEED_TILINGOFFSET);
     
     shader_data_.set_data(diffuse_color_prop_, Color(1, 1, 1, 1));
     shader_data_.set_data(specular_color_prop_, Color(1, 1, 1, 1));

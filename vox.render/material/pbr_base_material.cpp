@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "pbr_base_material.h"
+#include "shader/internal_variant_name.h"
 
 namespace vox {
 const Color &PbrBaseMaterial::base_color() const {
@@ -29,9 +30,9 @@ void PbrBaseMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, 
     base_texture_ = new_value;
     shader_data_.set_texture(PbrBaseMaterial::base_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
-        shader_data_.add_define("HAS_BASE_COLORMAP");
+        shader_data_.add_define(HAS_BASE_COLORMAP);
     } else {
-        shader_data_.remove_define("HAS_BASE_COLORMAP");
+        shader_data_.remove_define(HAS_BASE_COLORMAP);
     }
 }
 
@@ -48,9 +49,9 @@ void PbrBaseMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value
     normal_texture_ = new_value;
     shader_data_.set_texture(PbrBaseMaterial::normal_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
-        shader_data_.add_define("HAS_NORMAL_TEXTURE");
+        shader_data_.add_define(HAS_NORMAL_TEXTURE);
     } else {
-        shader_data_.remove_define("HAS_NORMAL_TEXTURE");
+        shader_data_.remove_define(HAS_NORMAL_TEXTURE);
     }
 }
 
@@ -85,9 +86,9 @@ void PbrBaseMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_val
     emissive_texture_ = new_value;
     shader_data_.set_texture(PbrBaseMaterial::emissive_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
-        shader_data_.add_define("HAS_EMISSIVEMAP");
+        shader_data_.add_define(HAS_EMISSIVEMAP);
     } else {
-        shader_data_.remove_define("HAS_EMISSIVEMAP");
+        shader_data_.remove_define(HAS_EMISSIVEMAP);
     }
 }
 
@@ -104,9 +105,9 @@ void PbrBaseMaterial::set_occlusion_texture(const std::shared_ptr<Image> &new_va
     occlusion_texture_ = new_value;
     shader_data_.set_texture(PbrBaseMaterial::occlusion_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
-        shader_data_.add_define("HAS_OCCLUSIONMAP");
+        shader_data_.add_define(HAS_OCCLUSIONMAP);
     } else {
-        shader_data_.remove_define("HAS_OCCLUSIONMAP");
+        shader_data_.remove_define(HAS_OCCLUSIONMAP);
     }
 }
 
@@ -139,8 +140,8 @@ base_texture_prop_("u_baseColorTexture"),
 normal_texture_prop_("u_normalTexture"),
 emissive_texture_prop_("u_emissiveTexture"),
 occlusion_texture_prop_("u_occlusionTexture") {
-    shader_data_.add_define("NEED_WORLDPOS");
-    shader_data_.add_define("NEED_TILINGOFFSET");
+    shader_data_.add_define(NEED_WORLDPOS);
+    shader_data_.add_define(NEED_TILINGOFFSET);
     
     shader_data_.set_data(PbrBaseMaterial::base_color_prop_, Color(1, 1, 1, 1));
     shader_data_.set_data(PbrBaseMaterial::emissive_color_prop_, Color(0, 0, 0, 1));

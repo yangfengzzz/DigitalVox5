@@ -3,7 +3,9 @@
 //  I am making my contributions/submissions to this project solely in my
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
+
 #include "pbr_specular_material.h"
+#include "shader/internal_variant_name.h"
 
 namespace vox {
 const Color &PbrSpecularMaterial::specular_color() const {
@@ -38,9 +40,9 @@ void PbrSpecularMaterial::set_specular_glossiness_texture(const std::shared_ptr<
     specular_glossiness_texture_ = new_value;
     shader_data_.set_texture(PbrSpecularMaterial::specular_glossiness_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
-        shader_data_.add_define("HAS_SPECULARGLOSSINESSMAP");
+        shader_data_.add_define(HAS_SPECULARGLOSSINESSMAP);
     } else {
-        shader_data_.remove_define("HAS_SPECULARGLOSSINESSMAP");
+        shader_data_.remove_define(HAS_SPECULARGLOSSINESSMAP);
     }
 }
 

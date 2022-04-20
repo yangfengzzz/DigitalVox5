@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "pbr_material.h"
+#include "shader/internal_variant_name.h"
 
 namespace vox {
 float PbrMaterial::metallic() const {
@@ -39,9 +40,9 @@ void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &n
     metallic_roughness_texture_ = new_value;
     shader_data_.set_texture(PbrMaterial::metallic_roughness_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
-        shader_data_.add_define("HAS_METALROUGHNESSMAP");
+        shader_data_.add_define(HAS_METALROUGHNESSMAP);
     } else {
-        shader_data_.remove_define("HAS_METALROUGHNESSMAP");
+        shader_data_.remove_define(HAS_METALROUGHNESSMAP);
     }
 }
 
@@ -50,7 +51,6 @@ PbrBaseMaterial(device, name),
 metallic_prop_("u_metal"),
 roughness_prop_("u_roughness"),
 metallic_roughness_texture_prop_("u_metallicRoughnessTexture") {
-    shader_data_.add_define("IS_METALLIC_WORKFLOW");
     shader_data_.set_data(PbrMaterial::metallic_prop_, 1.f);
     shader_data_.set_data(PbrMaterial::roughness_prop_, 1.f);
 }

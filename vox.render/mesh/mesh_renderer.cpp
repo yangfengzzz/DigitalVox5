@@ -7,6 +7,7 @@
 #include "mesh_renderer.h"
 #include "mesh.h"
 #include "shader/shader_common.h"
+#include "shader/internal_variant_name.h"
 #include "entity.h"
 
 namespace vox {
@@ -43,23 +44,23 @@ void MeshRenderer::render(std::vector<RenderElement> &opaque_queue,
         if (mesh_update_flag_->flag_) {
             const auto &vertex_input_state = mesh_->vertex_input_state();
             
-            shader_data_.remove_define("HAS_UV");
-            shader_data_.remove_define("HAS_NORMAL");
-            shader_data_.remove_define("HAS_TANGENT");
-            shader_data_.remove_define("HAS_VERTEXCOLOR");
+            shader_data_.remove_define(HAS_UV);
+            shader_data_.remove_define(HAS_NORMAL);
+            shader_data_.remove_define(HAS_TANGENT);
+            shader_data_.remove_define(HAS_VERTEXCOLOR);
             
             for (auto attribute : vertex_input_state.attributes) {
                 if (attribute.location == (uint32_t)Attributes::UV_0) {
-                    shader_data_.add_define("HAS_UV");
+                    shader_data_.add_define(HAS_UV);
                 }
                 if (attribute.location == (uint32_t)Attributes::NORMAL) {
-                    shader_data_.add_define("HAS_NORMAL");
+                    shader_data_.add_define(HAS_NORMAL);
                 }
                 if (attribute.location == (uint32_t)Attributes::TANGENT) {
-                    shader_data_.add_define("HAS_TANGENT");
+                    shader_data_.add_define(HAS_TANGENT);
                 }
                 if (attribute.location == (uint32_t)Attributes::COLOR_0) {
-                    shader_data_.add_define("HAS_VERTEXCOLOR");
+                    shader_data_.add_define(HAS_VERTEXCOLOR);
                 }
             }
             mesh_update_flag_->flag_ = false;

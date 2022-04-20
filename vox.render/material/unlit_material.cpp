@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "unlit_material.h"
+#include "shader/internal_variant_name.h"
 
 namespace vox {
 const Color &UnlitMaterial::base_color() const {
@@ -30,9 +31,9 @@ void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, co
     shader_data_.set_texture(base_texture_prop_, new_value, get_sampler_(info));
     
     if (new_value) {
-        shader_data_.add_define("HAS_BASE_TEXTURE");
+        shader_data_.add_define(HAS_BASE_TEXTURE);
     } else {
-        shader_data_.remove_define("HAS_BASE_TEXTURE");
+        shader_data_.remove_define(HAS_BASE_TEXTURE);
     }
 }
 
@@ -50,8 +51,8 @@ BaseMaterial(device, name),
 base_color_prop_("u_baseColor"),
 base_texture_prop_("u_baseTexture"),
 tiling_offset_prop_("u_tilingOffset") {
-    shader_data_.add_define("OMIT_NORMAL");
-    shader_data_.add_define("NEED_TILINGOFFSET");
+    shader_data_.add_define(OMIT_NORMAL);
+    shader_data_.add_define(NEED_TILINGOFFSET);
     
     shader_data_.set_data(base_color_prop_, Color(1, 1, 1, 1));
     shader_data_.set_data(tiling_offset_prop_, Vector4F(1, 1, 0, 0));

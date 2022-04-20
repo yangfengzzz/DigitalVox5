@@ -6,6 +6,7 @@
 
 #include "base_material.h"
 #include "core/device.h"
+#include "shader/internal_variant_name.h"
 
 namespace vox {
 bool BaseMaterial::is_transparent() const {
@@ -36,10 +37,10 @@ void BaseMaterial::set_alpha_cutoff(float new_value) {
     shader_data_.set_data(BaseMaterial::alpha_cutoff_prop_, new_value);
     
     if (new_value > 0) {
-        shader_data_.add_define("NEED_ALPHA_CUTOFF");
+        shader_data_.add_define(NEED_ALPHA_CUTOFF);
         render_queue_ = is_transparent_ ? RenderQueueType::TRANSPARENT : RenderQueueType::ALPHA_TEST;
     } else {
-        shader_data_.remove_define("NEED_ALPHA_CUTOFF");
+        shader_data_.remove_define(NEED_ALPHA_CUTOFF);
         render_queue_ = is_transparent_ ? RenderQueueType::TRANSPARENT : RenderQueueType::OPAQUE;
     }
 }

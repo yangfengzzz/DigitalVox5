@@ -6,6 +6,7 @@
 
 #include "ambient_light.h"
 #include "scene.h"
+#include "shader/internal_variant_name.h"
 
 namespace vox {
 AmbientLight::AmbientLight() :
@@ -53,12 +54,12 @@ void AmbientLight::set_diffuse_mode(DiffuseMode value) {
     if (!scene_) return;
     
     switch (value) {
-        case DiffuseMode::SPHERICAL_HARMONICS:scene_->shader_data_.remove_define("HAS_DIFFUSE_ENV");
-            scene_->shader_data_.add_define("HAS_SH");
+        case DiffuseMode::SPHERICAL_HARMONICS:scene_->shader_data_.remove_define(HAS_DIFFUSE_ENV);
+            scene_->shader_data_.add_define(HAS_SH);
             break;
             
-        case DiffuseMode::TEXTURE:scene_->shader_data_.remove_define("HAS_SH");
-            scene_->shader_data_.add_define("HAS_DIFFUSE_ENV");
+        case DiffuseMode::TEXTURE:scene_->shader_data_.remove_define(HAS_SH);
+            scene_->shader_data_.add_define(HAS_DIFFUSE_ENV);
             break;
             
         default:break;
@@ -97,9 +98,9 @@ void AmbientLight::set_diffuse_texture(const std::shared_ptr<Image> &value) {
     
     if (value) {
         shader_data.set_texture(AmbientLight::diffuse_texture_property_, diffuse_texture_, sampler_.get());
-        shader_data.add_define("HAS_DIFFUSE_ENV");
+        shader_data.add_define(HAS_DIFFUSE_ENV);
     } else {
-        shader_data.remove_define("HAS_DIFFUSE_ENV");
+        shader_data.remove_define(HAS_DIFFUSE_ENV);
     }
 }
 
@@ -137,9 +138,9 @@ void AmbientLight::set_specular_texture(const std::shared_ptr<Image> &value) {
         shader_data.set_texture(AmbientLight::specular_texture_property_, specular_reflection_, sampler_.get());
         env_map_light_.mip_map_level = static_cast<uint32_t>(value->get_mipmaps().size() - 1);
         scene_->shader_data_.set_data(AmbientLight::env_map_property_, env_map_light_);
-        shader_data.add_define("HAS_SPECULAR_ENV");
+        shader_data.add_define(HAS_SPECULAR_ENV);
     } else {
-        shader_data.remove_define("HAS_SPECULAR_ENV");
+        shader_data.remove_define(HAS_SPECULAR_ENV);
     }
 }
 

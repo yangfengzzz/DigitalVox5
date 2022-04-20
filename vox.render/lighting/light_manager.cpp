@@ -5,7 +5,7 @@
 //  property of any third parties.
 
 #include "light_manager.h"
-//#include "shader/shader.h"
+#include "shader/internal_variant_name.h"
 #include "scene.h"
 #include "camera.h"
 //#include "lighting/wgsl/wgsl_cluster_compute.h"
@@ -151,24 +151,24 @@ void LightManager::update_shader_data(ShaderData &shader_data) {
     }
     
     if (direct_light_count) {
-        shader_data.add_define("DIRECT_LIGHT_COUNT" + std::to_string(direct_light_count));
+        shader_data.add_define(DIRECT_LIGHT_COUNT + std::to_string(direct_light_count));
         shader_data.set_data(LightManager::direct_light_property_, direct_light_datas_);
     } else {
-        shader_data.remove_define("DIRECT_LIGHT_COUNT");
+        shader_data.remove_define(DIRECT_LIGHT_COUNT);
     }
     
     if (point_light_count) {
-        shader_data.add_define("POINT_LIGHT_COUNT" + std::to_string(point_light_count));
+        shader_data.add_define(POINT_LIGHT_COUNT + std::to_string(point_light_count));
         shader_data.set_data(LightManager::point_light_property_, point_light_datas_);
     } else {
-        shader_data.remove_define("POINT_LIGHT_COUNT");
+        shader_data.remove_define(POINT_LIGHT_COUNT);
     }
     
     if (spot_light_count) {
-        shader_data.add_define("SPOT_LIGHT_COUNT" + std::to_string(spot_light_count));
+        shader_data.add_define(SPOT_LIGHT_COUNT + std::to_string(spot_light_count));
         shader_data.set_data(LightManager::spot_light_property_, spot_light_datas_);
     } else {
-        shader_data.remove_define("SPOT_LIGHT_COUNT");
+        shader_data.remove_define(SPOT_LIGHT_COUNT);
     }
 }
 
