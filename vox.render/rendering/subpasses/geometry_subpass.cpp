@@ -43,9 +43,9 @@ void GeometrySubpass::draw(CommandBuffer &command_buffer) {
 void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
                                    const std::vector<RenderElement> &items,
                                    const ShaderVariant &variant) {
+    auto &device = command_buffer.get_device();
     for (auto &element : items) {
         auto macros = variant;
-        auto &device = command_buffer.get_device();
         
         auto &renderer = element.renderer;
         renderer->update_shader_data();

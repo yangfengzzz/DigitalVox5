@@ -172,7 +172,7 @@ vec3 getNormal() {
         #else
             mat3 tbn = v_TBN;
         #endif
-        vec3 n = texture2D(normalTexture, v_uv).rgb;
+        vec3 n = texture(normalTexture, v_uv).rgb;
         n = normalize(tbn * ((2.0 * n - 1.0) * vec3(blinn_phong_data.normal_intensity, blinn_phong_data.normal_intensity, 1.0)));
     #else
         #ifdef HAS_NORMAL
@@ -202,7 +202,7 @@ void main() {
     vec4 specular = blinn_phong_data.specular_color;
 
     #ifdef EMISSIVE_TEXTURE
-        vec4 emissiveTextureColor = texture2D(emissiveTexture, v_uv);
+        vec4 emissiveTextureColor = texture(emissiveTexture, v_uv);
 //        #ifndef OASIS_COLORSPACE_GAMMA
 //            emissiveTextureColor = gammaToLinear(emissiveTextureColor);
 //        #endif
@@ -210,7 +210,7 @@ void main() {
     #endif
 
     #ifdef DIFFUSE_TEXTURE
-        vec4 diffuseTextureColor = texture2D(diffuseTexture, v_uv);
+        vec4 diffuseTextureColor = texture(diffuseTexture, v_uv);
 //        #ifndef OASIS_COLORSPACE_GAMMA
 //            diffuseTextureColor = gammaToLinear(diffuseTextureColor);
 //        #endif
@@ -222,7 +222,7 @@ void main() {
     #endif
 
     #ifdef SPECULAR_TEXTURE
-        vec4 specularTextureColor = texture2D(specularTexture, v_uv);
+        vec4 specularTextureColor = texture(specularTexture, v_uv);
 //        #ifndef OASIS_COLORSPACE_GAMMA
 //            specularTextureColor = gammaToLinear(specularTextureColor);
 //        #endif

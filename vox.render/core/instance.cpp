@@ -167,21 +167,18 @@ Instance::Instance(const std::string &application_name,
 #endif
     
 #if (defined(VKB_DEBUG) || defined(VKB_VALIDATION_LAYERS)) && defined(VKB_VALIDATION_LAYERS_GPU_ASSISTED)
-    bool validation_features = false;
-    {
+    bool validation_features = false; {
         uint32_t layer_instance_extension_count;
         VK_CHECK(vkEnumerateInstanceExtensionProperties("VK_LAYER_KHRONOS_validation", &layer_instance_extension_count, nullptr));
         
         std::vector<VkExtensionProperties> available_layer_instance_extensions(layer_instance_extension_count);
         VK_CHECK(vkEnumerateInstanceExtensionProperties("VK_LAYER_KHRONOS_validation", &layer_instance_extension_count, available_layer_instance_extensions.data()));
         
-        for (auto &available_extension : available_layer_instance_extensions)
-        {
-            if (strcmp(available_extension.extensionName, VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME) == 0)
-            {
+        for (auto &available_extension : available_layer_instance_extensions) {
+            if (strcmp(available_extension.extensionName, VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME) == 0) {
                 validation_features = true;
                 LOGI("{} is available, enabling it", VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME);
-                enabled_extensions.push_back(VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME);
+                enabled_extensions_.push_back(VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME);
             }
         }
     }
@@ -286,8 +283,7 @@ Instance::Instance(const std::string &application_name,
     
 #if (defined(VKB_DEBUG) || defined(VKB_VALIDATION_LAYERS)) && defined(VKB_VALIDATION_LAYERS_GPU_ASSISTED)
     VkValidationFeaturesEXT validation_features_info = {VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT};
-    if (validation_features)
-    {
+    if (validation_features) {
         static const VkValidationFeatureEnableEXT enable_features[2] = {
             VK_VALIDATION_FEATURE_ENABLE_GPU_ASSISTED_RESERVE_BINDING_SLOT_EXT,
             VK_VALIDATION_FEATURE_ENABLE_GPU_ASSISTED_EXT,

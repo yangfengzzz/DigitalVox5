@@ -118,10 +118,10 @@ tiling_offset_prop_("tilingOffset") {
         get_sampler_ = [&](const VkSamplerCreateInfo& info)->core::Sampler* {
             auto iter = sampler_pool_.find(info);
             if (iter != sampler_pool_.end()) {
-                return &iter->second;
+                return iter->second.get();
             } else {
-                auto pair = std::make_pair(info, core::Sampler(device, info));
-                auto sampler = &pair.second;
+                auto pair = std::make_pair(info, std::make_unique<core::Sampler>(device, info));
+                auto sampler = pair.second.get();
                 sampler_pool_.insert(std::move(pair));
                 return sampler;
             }
@@ -130,7 +130,7 @@ tiling_offset_prop_("tilingOffset") {
     
     if (last_sampler_create_info_.sType != VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO) {
         // Create a default sampler
-        last_sampler_create_info_.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+        last_sampler_create_info_ = {VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO};
         last_sampler_create_info_.magFilter = VK_FILTER_LINEAR;
         last_sampler_create_info_.minFilter = VK_FILTER_LINEAR;
         last_sampler_create_info_.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;

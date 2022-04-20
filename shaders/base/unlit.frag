@@ -38,7 +38,7 @@ void main() {
     vec4 baseColor = base_color.value;
 
     #ifdef HAS_BASE_TEXTURE
-        vec4 textureColor = texture2D(baseTexture, v_uv);
+        vec4 textureColor = texture(baseTexture, v_uv);
         baseColor *= textureColor;
     #endif
 
