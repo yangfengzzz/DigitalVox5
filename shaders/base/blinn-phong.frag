@@ -18,7 +18,7 @@ vec4 linearToGamma(vec4 linearIn){
     return vec4(pow(linearIn.rgb, vec3(1.0 / 2.2)), linearIn.a);
 }
 
-layout(set = 0, binding = 5) uniform cameraData {
+layout(set = 0, binding = 1) uniform cameraData {
     mat4 view_mat;
     mat4 proj_mat;
     mat4 vp_mat;
@@ -27,31 +27,31 @@ layout(set = 0, binding = 5) uniform cameraData {
     vec3 camera_pos;
 } camera_data;
 
-layout(set = 0, binding = 6) uniform rendererData {
+layout(set = 0, binding = 2) uniform rendererData {
     mat4 local_mat;
     mat4 model_mat;
     mat4 normal_mat;
 } renderer_data;
 
-varying vec2 v_uv;
+layout (location = 0) in vec2 v_uv;
 
 //----------------------------------------------------------------------------------------------------------------------
 #ifdef HAS_NORMAL
     #if defined(HAS_TANGENT) && defined(NORMAL_TEXTURE)
-        varying mat3 v_TBN;
+        layout (location = 2) in mat3 v_TBN;
     #else
-        varying vec3 v_normal;
+        layout (location = 3) in vec3 v_normal;
     #endif
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------
 #ifdef HAS_VERTEXCOLOR
-    varying vec4 v_color;
+    layout (location = 1) in vec4 v_color;
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------
 #ifdef NEED_WORLDPOS
-    varying vec3 v_pos;
+    layout (location = 4) in vec3 v_pos;
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -61,10 +61,11 @@ varying vec2 v_uv;
         vec3 color;
         vec3 direction;
     };
-    uniform vec3 u_directLightColor[DIRECT_LIGHT_COUNT];
-    uniform vec3 u_directLightDirection[DIRECT_LIGHT_COUNT];
-#endif
 
+    layout(set = 0, binding = 3) uniform directLight {
+        DirectLight value[DIRECT_LIGHT_COUNT];
+    } direct_light;
+#endif
 
 // point light
 #ifdef POINT_LIGHT_COUNT
@@ -73,11 +74,11 @@ varying vec2 v_uv;
         vec3 position;
         float distance;
     };
-    uniform vec3 u_pointLightColor[POINT_LIGHT_COUNT];
-    uniform vec3 u_pointLightPosition[POINT_LIGHT_COUNT];
-    uniform float u_pointLightDistance[POINT_LIGHT_COUNT];
-#endif
 
+    layout(set = 0, binding = 4) uniform pointLight {
+        PointLight value[POINT_LIGHT_COUNT];
+    } point_light;
+#endif
 
 // spot light
 #ifdef SPOT_LIGHT_COUNT
@@ -89,53 +90,57 @@ varying vec2 v_uv;
         float angleCos;
         float penumbraCos;
     };
-    uniform vec3 u_spotLightColor[SPOT_LIGHT_COUNT];
-    uniform vec3 u_spotLightPosition[SPOT_LIGHT_COUNT];
-    uniform vec3 u_spotLightDirection[SPOT_LIGHT_COUNT];
-    uniform float u_spotLightDistance[SPOT_LIGHT_COUNT];
-    uniform float u_spotLightAngleCos[SPOT_LIGHT_COUNT];
-    uniform float u_spotLightPenumbraCos[SPOT_LIGHT_COUNT];
+
+    layout(set = 0, binding = 5) uniform spotLight {
+        SpotLight value[SPOT_LIGHT_COUNT];
+    } spot_light;
 #endif
 
 // ambient light
-struct EnvMapLight {
+layout(set = 0, binding = 6) uniform envMapLight {
     vec3 diffuse;
-    float mipMapLevel;
-    float diffuseIntensity;
-    float specularIntensity;
-};
-uniform EnvMapLight u_envMapLight;
+    float mip_map_level;
+    float diffuse_intensity;
+    float specular_intensity;
+} env_map_light;
 
 #ifdef USE_SH
-    uniform vec3 u_env_sh[9];
+    layout(set = 0, binding = 7) uniform env_sh {
+        float value[9];
+    };
 #endif
 
 #ifdef USE_SPECULAR_ENV
-    uniform samplerCube u_env_specularSampler;
+    layout(set = 0, binding = 8) uniform samplerCube env_specularSampler;
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------
-uniform vec4 u_emissiveColor;
-uniform vec4 u_diffuseColor;
-uniform vec4 u_specularColor;
-uniform float u_shininess;
-uniform float u_normalIntensity;
-uniform float u_alphaCutoff;
+layout(set = 0, binding = 9) uniform blinnPhongData {
+    vec4 base_color;
+    vec4 specular_color;
+    vec4 emissive_color;
+    float normal_intensity;
+    float shininess;
+} blinn_phong_data;
+
+layout(set = 0, binding = 10) uniform alphaCutoff {
+    float value;
+} alpha_cutoff;
 
 #ifdef EMISSIVE_TEXTURE
-    uniform sampler2D u_emissiveTexture;
+    layout(set = 0, binding = 11) uniform sampler2D emissiveTexture;
 #endif
 
 #ifdef DIFFUSE_TEXTURE
-    uniform sampler2D u_diffuseTexture;
+    layout(set = 0, binding = 12) uniform sampler2D diffuseTexture;
 #endif
 
 #ifdef SPECULAR_TEXTURE
-    uniform sampler2D u_specularTexture;
+    layout(set = 0, binding = 13) uniform sampler2D specularTexture;
 #endif
 
 #ifdef NORMAL_TEXTURE
-    uniform sampler2D u_normalTexture;
+    layout(set = 0, binding = 14) uniform sampler2D normalTexture;
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -167,8 +172,8 @@ vec3 getNormal() {
         #else
             mat3 tbn = v_TBN;
         #endif
-        vec3 n = texture2D(u_normalTexture, v_uv).rgb;
-        n = normalize(tbn * ((2.0 * n - 1.0) * vec3(u_normalIntensity, u_normalIntensity, 1.0)));
+        vec3 n = texture2D(normalTexture, v_uv).rgb;
+        n = normalize(tbn * ((2.0 * n - 1.0) * vec3(blinn_phong_data.normal_intensity, blinn_phong_data.normal_intensity, 1.0)));
     #else
         #ifdef HAS_NORMAL
             vec3 n = normalize(v_normal);
@@ -185,17 +190,19 @@ vec3 getNormal() {
     return n;
 }
 
+layout(location = 0) out vec4 o_color;
+
 //----------------------------------------------------------------------------------------------------------------------
 //**********************************************************************************************************************
 //----------------------------------------------------------------------------------------------------------------------
 void main() {
     vec4 ambient = vec4(0.0);
-    vec4 emission = u_emissiveColor;
-    vec4 diffuse = u_diffuseColor;
-    vec4 specular = u_specularColor;
+    vec4 emission = blinn_phong_data.emissive_color;
+    vec4 diffuse = blinn_phong_data.diffuse_color;
+    vec4 specular = blinn_phong_data.specular_color;
 
     #ifdef EMISSIVE_TEXTURE
-        vec4 emissiveTextureColor = texture2D(u_emissiveTexture, v_uv);
+        vec4 emissiveTextureColor = texture2D(emissiveTexture, v_uv);
 //        #ifndef OASIS_COLORSPACE_GAMMA
 //            emissiveTextureColor = gammaToLinear(emissiveTextureColor);
 //        #endif
@@ -203,7 +210,7 @@ void main() {
     #endif
 
     #ifdef DIFFUSE_TEXTURE
-        vec4 diffuseTextureColor = texture2D(u_diffuseTexture, v_uv);
+        vec4 diffuseTextureColor = texture2D(diffuseTexture, v_uv);
 //        #ifndef OASIS_COLORSPACE_GAMMA
 //            diffuseTextureColor = gammaToLinear(diffuseTextureColor);
 //        #endif
@@ -215,18 +222,18 @@ void main() {
     #endif
 
     #ifdef SPECULAR_TEXTURE
-        vec4 specularTextureColor = texture2D(u_specularTexture, v_uv);
+        vec4 specularTextureColor = texture2D(specularTexture, v_uv);
 //        #ifndef OASIS_COLORSPACE_GAMMA
 //            specularTextureColor = gammaToLinear(specularTextureColor);
 //        #endif
         specular *= specularTextureColor;
     #endif
 
-    ambient = vec4(u_envMapLight.diffuse * u_envMapLight.diffuseIntensity, 1.0) * diffuse;
+    ambient = vec4(env_map_light.diffuse * env_map_light.diffuse_intensity, 1.0) * diffuse;
 
     //------------------------------------------------------------------------------------------------------------------
     #ifdef NEED_WORLDPOS
-        vec3 V =  normalize(u_cameraPos - v_pos);
+        vec3 V =  normalize(camera_data.camera_pos - v_pos);
     #endif
 
     //------------------------------------------------------------------------------------------------------------------
@@ -237,14 +244,13 @@ void main() {
     #ifdef DIRECT_LIGHT_COUNT
         DirectLight directionalLight;
         for (int i = 0; i < DIRECT_LIGHT_COUNT; i++) {
-            directionalLight.color = u_directLightColor[i];
-            directionalLight.direction = u_directLightDirection[i];
+            directionalLight = direct_light.value[i];
 
             float d = max(dot(N, -directionalLight.direction), 0.0);
             lightDiffuse += directionalLight.color * d;
 
             vec3 halfDir = normalize(V - directionalLight.direction);
-            float s = pow(clamp(dot(N, halfDir), 0.0, 1.0), u_shininess);
+            float s = pow(clamp(dot(N, halfDir), 0.0, 1.0), blinn_phong_data.shininess);
             lightSpecular += directionalLight.color * s;
         }
     #endif
@@ -252,9 +258,7 @@ void main() {
     #ifdef POINT_LIGHT_COUNT
         PointLight pointLight;
         for (int i = 0; i < POINT_LIGHT_COUNT; i++) {
-            pointLight.color = u_pointLightColor[i];
-            pointLight.position = u_pointLightPosition[i];
-            pointLight.distance = u_pointLightDistance[i];
+            pointLight = point_light.value[i];
 
             vec3 direction = v_pos - pointLight.position;
             float dist = length(direction);
@@ -265,7 +269,7 @@ void main() {
             lightDiffuse += pointLight.color * d;
 
             vec3 halfDir = normalize(V - direction);
-            float s = pow(clamp(dot(N, halfDir), 0.0, 1.0), u_shininess)  * decay;
+            float s = pow(clamp(dot(N, halfDir), 0.0, 1.0), blinn_phong_data.shininess)  * decay;
             lightSpecular += pointLight.color * s;
         }
     #endif
@@ -273,12 +277,7 @@ void main() {
     #ifdef SPOT_LIGHT_COUNT
         SpotLight spotLight;
         for (int i = 0; i < SPOT_LIGHT_COUNT; i++) {
-            spotLight.color = u_spotLightColor[i];
-            spotLight.position = u_spotLightPosition[i];
-            spotLight.direction = u_spotLightDirection[i];
-            spotLight.distance = u_spotLightDistance[i];
-            spotLight.angleCos = u_spotLightAngleCos[i];
-            spotLight.penumbraCos = u_spotLightPenumbraCos[i];
+            spotLight = spot_light.value[i];
 
             vec3 direction = spotLight.position - v_pos;
             float lightDistance = length(direction);
@@ -291,7 +290,7 @@ void main() {
             lightDiffuse += spotLight.color * d;
 
             vec3 halfDir = normalize(V + direction);
-            float s = pow(clamp(dot(N, halfDir), 0.0, 1.0), u_shininess) * decayTotal;
+            float s = pow(clamp(dot(N, halfDir), 0.0, 1.0), blinn_phong_data.shininess) * decayTotal;
             lightSpecular += spotLight.color * s;
         }
     #endif
@@ -300,14 +299,14 @@ void main() {
     specular *= vec4(lightSpecular, 1.0);
 
     #ifdef ALPHA_CUTOFF
-        if (diffuse.a < u_alphaCutoff) {
+        if (diffuse.a < alpha_cutoff.value) {
             discard;
         }
     #endif
 
     //------------------------------------------------------------------------------------------------------------------
-    gl_FragColor = emission + ambient + diffuse + specular;
-    gl_FragColor.a = diffuse.a;
+    o_color = emission + ambient + diffuse + specular;
+    o_color.a = diffuse.a;
 
 //    #ifndef OASIS_COLORSPACE_GAMMA
 //        gl_FragColor = linearToGamma(gl_FragColor);
