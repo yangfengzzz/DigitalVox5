@@ -98,7 +98,7 @@ const Vector4F &BaseMaterial::tiling_offset() const {
 
 void BaseMaterial::set_tiling_offset(const Vector4F &new_value) {
     tiling_offset_ = new_value;
-    shader_data_.set_data(tiling_offset_prop_, new_value);
+    shader_data_.set_data(tiling_offset_prop_, tiling_offset_);
 }
 
 VkSamplerCreateInfo BaseMaterial::last_sampler_create_info_;
@@ -112,7 +112,7 @@ tiling_offset_prop_("tilingOffset") {
     
     color_blend_state_.attachments.resize(1);
     set_blend_mode(BlendMode::NORMAL);
-    shader_data_.set_data(alpha_cutoff_prop_, 0.0f);
+    shader_data_.set_data(alpha_cutoff_prop_, alpha_cutoff_);
     
     if (!get_sampler_) {
         get_sampler_ = [&](const VkSamplerCreateInfo& info)->core::Sampler* {

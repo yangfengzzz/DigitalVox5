@@ -10,11 +10,11 @@
 
 namespace vox {
 AmbientLight::AmbientLight() :
-env_map_property_("u_envMapLight"),
-diffuse_sh_property_("u_env_sh"),
-diffuse_texture_property_("u_env_diffuseTexture"),
-specular_texture_property_("u_env_specularTexture"),
-brdf_texture_property_("u_env_brdfTexture"),
+env_map_property_("envMapLight"),
+diffuse_sh_property_("env_sh"),
+diffuse_texture_property_("env_diffuseTexture"),
+specular_texture_property_("env_specularTexture"),
+brdf_texture_property_("env_brdfTexture"),
 sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
 }
 
@@ -85,7 +85,8 @@ void AmbientLight::set_diffuse_spherical_harmonics(const SphericalHarmonics3 &va
     diffuse_spherical_harmonics_ = value;
     if (!scene_) return;
     
-    scene_->shader_data_.set_data(AmbientLight::diffuse_sh_property_, pre_compute_sh(value));
+    auto sh = pre_compute_sh(value);
+    scene_->shader_data_.set_data(AmbientLight::diffuse_sh_property_, sh);
 }
 
 std::shared_ptr<Image> AmbientLight::diffuse_texture() {

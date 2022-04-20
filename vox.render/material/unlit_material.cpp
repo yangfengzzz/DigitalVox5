@@ -14,7 +14,7 @@ const Color &UnlitMaterial::base_color() const {
 
 void UnlitMaterial::set_base_color(const Color &new_value) {
     base_color_ = new_value;
-    shader_data_.set_data(UnlitMaterial::base_color_prop_, new_value);
+    shader_data_.set_data(UnlitMaterial::base_color_prop_, base_color_);
 }
 
 std::shared_ptr<Image> UnlitMaterial::base_texture() const {
@@ -46,7 +46,7 @@ base_texture_prop_("baseTexture") {
 
     shader_data_.add_define(OMIT_NORMAL);
     
-    shader_data_.set_data(base_color_prop_, Color(1, 1, 1, 1));
+    shader_data_.set_data(base_color_prop_, base_color_);
 }
 
 }

@@ -26,12 +26,12 @@ LightManager &LightManager::get_singleton() {
 LightManager::LightManager(Scene *scene) :
 scene_(scene),
 shader_data_(scene->device()),
-point_light_property_("u_pointLight"),
-spot_light_property_("u_spotLight"),
-direct_light_property_("u_directLight"),
-forward_plus_prop_("u_cluster_uniform"),
-clusters_prop_("u_clusters"),
-cluster_lights_prop_("u_clusterLights") {
+point_light_property_("pointLight"),
+spot_light_property_("spotLight"),
+direct_light_property_("directLight"),
+forward_plus_prop_("cluster_uniform"),
+clusters_prop_("clusters"),
+cluster_lights_prop_("clusterLights") {
     //    Shader::create("cluster_debug", std::make_unique<WGSLUnlitVertex>(),
     //                   std::make_unique<WGSLClusterDebug>(tile_count_, max_lights_per_cluster_));
     //

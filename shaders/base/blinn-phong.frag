@@ -20,7 +20,7 @@ vec4 linearToGamma(vec4 linearIn){
     return vec4(pow(linearIn.rgb, vec3(1.0 / 2.2)), linearIn.a);
 }
 
-layout(set = 0, binding = 1) uniform cameraData {
+layout(set = 0, binding = 5) uniform cameraData {
     mat4 view_mat;
     mat4 proj_mat;
     mat4 vp_mat;
@@ -29,7 +29,7 @@ layout(set = 0, binding = 1) uniform cameraData {
     vec3 camera_pos;
 } camera_data;
 
-layout(set = 0, binding = 2) uniform rendererData {
+layout(set = 0, binding = 6) uniform rendererData {
     mat4 local_mat;
     mat4 model_mat;
     mat4 normal_mat;
@@ -64,7 +64,7 @@ layout (location = 0) in vec2 v_uv;
         vec3 direction;
     };
 
-    layout(set = 0, binding = 3) uniform directLight {
+    layout(set = 0, binding = 9) uniform directLight {
         DirectLight value[DIRECT_LIGHT_COUNT];
     } direct_light;
 #endif
@@ -77,7 +77,7 @@ layout (location = 0) in vec2 v_uv;
         float distance;
     };
 
-    layout(set = 0, binding = 4) uniform pointLight {
+    layout(set = 0, binding = 10) uniform pointLight {
         PointLight value[POINT_LIGHT_COUNT];
     } point_light;
 #endif
@@ -93,13 +93,13 @@ layout (location = 0) in vec2 v_uv;
         float penumbraCos;
     };
 
-    layout(set = 0, binding = 5) uniform spotLight {
+    layout(set = 0, binding = 11) uniform spotLight {
         SpotLight value[SPOT_LIGHT_COUNT];
     } spot_light;
 #endif
 
 // ambient light
-layout(set = 0, binding = 6) uniform envMapLight {
+layout(set = 0, binding = 12) uniform envMapLight {
     vec3 diffuse;
     float mip_map_level;
     float diffuse_intensity;
@@ -107,17 +107,17 @@ layout(set = 0, binding = 6) uniform envMapLight {
 } env_map_light;
 
 #ifdef USE_SH
-    layout(set = 0, binding = 7) uniform env_sh {
+    layout(set = 0, binding = 13) uniform env_sh {
         float value[9];
     };
 #endif
 
 #ifdef USE_SPECULAR_ENV
-    layout(set = 0, binding = 8) uniform samplerCube env_specularSampler;
+    layout(set = 0, binding = 14) uniform samplerCube env_specularTexture;
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------
-layout(set = 0, binding = 9) uniform blinnPhongData {
+layout(set = 0, binding = 15) uniform blinnPhongData {
     vec4 diffuse_color;
     vec4 specular_color;
     vec4 emissive_color;
@@ -125,24 +125,24 @@ layout(set = 0, binding = 9) uniform blinnPhongData {
     float shininess;
 } blinn_phong_data;
 
-layout(set = 0, binding = 10) uniform alphaCutoff {
+layout(set = 0, binding = 16) uniform alphaCutoff {
     float value;
 } alpha_cutoff;
 
 #ifdef EMISSIVE_TEXTURE
-    layout(set = 0, binding = 11) uniform sampler2D emissiveTexture;
+    layout(set = 0, binding = 17) uniform sampler2D emissiveTexture;
 #endif
 
 #ifdef DIFFUSE_TEXTURE
-    layout(set = 0, binding = 12) uniform sampler2D diffuseTexture;
+    layout(set = 0, binding = 18) uniform sampler2D diffuseTexture;
 #endif
 
 #ifdef SPECULAR_TEXTURE
-    layout(set = 0, binding = 13) uniform sampler2D specularTexture;
+    layout(set = 0, binding = 19) uniform sampler2D specularTexture;
 #endif
 
 #ifdef NORMAL_TEXTURE
-    layout(set = 0, binding = 14) uniform sampler2D normalTexture;
+    layout(set = 0, binding = 20) uniform sampler2D normalTexture;
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -34,7 +34,7 @@ layout(location = Position) in vec3 POSITION;
     layout(location = Weights_0) in vec4 WEIGHTS_0;
 
     #ifdef HAS_JOINT_TEXTURE
-        layout(set = 0, binding = 2) uniform sampler2D jointSampler;
+        layout(set = 0, binding = 2) uniform sampler2D jointTexture;
         layout(set = 0, binding = 3) uniform jointCount {
             float value;
         } joint_count;
@@ -187,10 +187,10 @@ void main() {
     #ifdef HAS_SKIN
         #ifdef HAS_JOINT_TEXTURE
             mat4 skinMatrix =
-            WEIGHTS_0.x * getJointMatrix(jointSampler, JOINTS_0.x) +
-            WEIGHTS_0.y * getJointMatrix(jointSampler, JOINTS_0.y) +
-            WEIGHTS_0.z * getJointMatrix(jointSampler, JOINTS_0.z) +
-            WEIGHTS_0.w * getJointMatrix(jointSampler, JOINTS_0.w);
+            WEIGHTS_0.x * getJointMatrix(jointTexture, JOINTS_0.x) +
+            WEIGHTS_0.y * getJointMatrix(jointTexture, JOINTS_0.y) +
+            WEIGHTS_0.z * getJointMatrix(jointTexture, JOINTS_0.z) +
+            WEIGHTS_0.w * getJointMatrix(jointTexture, JOINTS_0.w);
         #else
             mat4 skinMatrix =
             WEIGHTS_0.x * joint_matrix.value[int(JOINTS_0.x)] +

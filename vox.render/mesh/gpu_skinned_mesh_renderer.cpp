@@ -16,7 +16,7 @@ std::string GpuSkinnedMeshRenderer::name() {
 
 GpuSkinnedMeshRenderer::GpuSkinnedMeshRenderer(Entity *entity) :
 MeshRenderer(entity),
-joint_matrix_property_("u_jointMatrix") {
+joint_matrix_property_("jointMatrix") {
 }
 
 GpuSkinnedMeshRenderer::SkinPtr GpuSkinnedMeshRenderer::skin() {

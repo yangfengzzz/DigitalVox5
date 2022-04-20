@@ -36,12 +36,11 @@ enum class DiffuseMode {
  */
 class AmbientLight {
 public:
-    struct EnvMapLight {
+    struct alignas(16) EnvMapLight {
         Vector3F diffuse;
         uint32_t mip_map_level;
         float diffuse_intensity;
         float specular_intensity;
-        float pad1, pad2;
     };
     
     AmbientLight();

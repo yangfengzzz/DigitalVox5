@@ -26,7 +26,7 @@ public:
                             const std::function<core::Buffer *()> &functor);
     
     template<typename T>
-    void set_data(const std::string &property_name, const T &value) {
+    void set_data(const std::string &property_name, T &value) {
         auto iter = shader_buffers_.find(property_name);
         if (iter == shader_buffers_.end()) {
             shader_buffers_.insert(std::make_pair(property_name,
@@ -35,7 +35,7 @@ public:
                                                                                  VMA_MEMORY_USAGE_CPU_TO_GPU)));
         }
         iter = shader_buffers_.find(property_name);
-        iter->second->convert_and_update(value);
+        iter->second->update(&value, sizeof(T));
     }
     
     template<typename T>
