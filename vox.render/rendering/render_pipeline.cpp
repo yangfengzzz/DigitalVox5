@@ -13,7 +13,7 @@ subpasses_{std::move(subpasses)} {
     
     // Default clear value
     clear_value_[0].color = {0.0f, 0.0f, 0.0f, 1.0f};
-    clear_value_[1].depthStencil = {0.0f, ~0U};
+    clear_value_[1].depthStencil = {1.0f, 255U};
 }
 
 void RenderPipeline::prepare() {

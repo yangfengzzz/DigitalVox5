@@ -32,9 +32,9 @@ struct RasterizationState {
     
     VkPolygonMode polygon_mode{VK_POLYGON_MODE_FILL};
     
-    VkCullModeFlags cull_mode{VK_CULL_MODE_BACK_BIT};
+    VkCullModeFlags cull_mode{VK_CULL_MODE_FRONT_BIT};
     
-    VkFrontFace front_face{VK_FRONT_FACE_COUNTER_CLOCKWISE};
+    VkFrontFace front_face{VK_FRONT_FACE_CLOCKWISE};
     
     VkBool32 depth_bias_enable{VK_FALSE};
 };
@@ -75,7 +75,7 @@ struct DepthStencilState {
     VkBool32 depth_write_enable{VK_TRUE};
     
     // Note: Using Reversed depth-buffer for increased precision, so Greater depth values are kept
-    VkCompareOp depth_compare_op{VK_COMPARE_OP_GREATER};
+    VkCompareOp depth_compare_op{VK_COMPARE_OP_LESS};
     
     VkBool32 depth_bounds_test_enable{VK_FALSE};
     
