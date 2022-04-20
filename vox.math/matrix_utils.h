@@ -192,7 +192,7 @@ inline Matrix<T, 4, 4> makePerspective(T fovy, T aspect, T near, T far) {
                            0,
                            
                            0,
-                           f,
+                           -f,
                            0,
                            0,
                            

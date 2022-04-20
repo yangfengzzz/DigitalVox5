@@ -32,7 +32,7 @@ private:
 
 void PrimitiveApp::load_scene() {
     auto scene = scene_manager_->current_scene();
-    scene->ambient_light()->set_diffuse_solid_color(Color(1, 1, 1));
+//    scene->ambient_light()->set_diffuse_solid_color(Color(1, 1, 1));
     auto root_entity = scene->create_root_entity();
     
     auto camera_entity = root_entity->create_child();
@@ -45,7 +45,8 @@ void PrimitiveApp::load_scene() {
     auto light = root_entity->create_child("light");
     light->transform_->set_position(0, 3, 0);
     auto point_light = light->add_component<PointLight>();
-    point_light->intensity_ = 0.3;
+    point_light->intensity_ = 1.0;
+    point_light->distance_ = 100;
     
     auto cube_entity = root_entity->create_child();
     cube_entity->add_component<MoveScript>();
