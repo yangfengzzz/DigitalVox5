@@ -1,3 +1,5 @@
+#version 450
+
 #define PI 3.14159265359
 #define RECIPROCAL_PI 0.31830988618
 #define EPSILON 1e-6
@@ -18,8 +20,12 @@ vec4 linearToGamma(vec4 linearIn){
     return vec4(pow(linearIn.rgb, vec3(1.0 / 2.2)), linearIn.a);
 }
 
-layout(set = 0, binding = 1) uniform vec4 u_baseColor;
-layout(set = 0, binding = 2) uniform float u_alphaCutoff;
+layout(set = 0, binding = 1) uniform u_baseColor {
+    vec4 value;
+} base_color;
+layout(set = 0, binding = 2) uniform u_alphaCutoff {
+    float value;
+} alpha_cutoff;
 
 #ifdef HAS_BASE_TEXTURE
     layout(set = 0, binding = 3) uniform sampler2D u_baseTexture;
@@ -29,7 +35,7 @@ layout(location = 0) in vec2 v_uv;
 layout(location = 0) out vec4 o_color;
 
 void main() {
-    vec4 baseColor = u_baseColor;
+    vec4 baseColor = base_color.value;
 
     #ifdef HAS_BASE_TEXTURE
         vec4 textureColor = texture2D(u_baseTexture, v_uv);
@@ -37,7 +43,7 @@ void main() {
     #endif
 
     #ifdef NEED_ALPHA_CUTOFF
-    if (baseColor.a < u_alphaCutoff) {
+    if (base_color.value.a < alpha_cutoff.value) {
         discard;
     }
     #endif

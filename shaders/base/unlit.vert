@@ -1,9 +1,11 @@
-#include "common.h"
+#version 450
+
+#include "base/common.h"
 
 layout(location = Position) in vec3 POSITION;
 
 #ifdef HAS_UV
-    layout(location = UV_1) in vec2 TEXCOORD_0;
+    layout(location = UV_0) in vec2 TEXCOORD_0;
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -13,7 +15,9 @@ layout(location = Position) in vec3 POSITION;
 
     #ifdef HAS_JOINT_TEXTURE
         layout(set = 0, binding = 2) uniform sampler2D u_jointSampler;
-        layout(set = 0, binding = 3) uniform float u_jointCount;
+        layout(set = 0, binding = 3) uniform u_jointCount {
+            float value;
+        } joint_count;
 
         mat4 getJointMatrix(sampler2D smp, float index) {
             float base = index / u_jointCount;
@@ -28,7 +32,9 @@ layout(location = Position) in vec3 POSITION;
             return mat4(m0, m1, m2, m3);
         }
     #else
-        layout(set = 0, binding = 4) uniform mat4 u_jointMatrix[JOINTS_NUM];
+        layout(set = 0, binding = 4) uniform u_jointMatrix {
+            mat4 value[JOINTS_NUM];
+        } joint_matrix;
     #endif
 #endif
 
@@ -37,15 +43,33 @@ layout(location = Position) in vec3 POSITION;
     layout(location = Color_0) in vec4 COLOR_0;
 #endif
 
-layout(set = 0, binding = 5) uniform mat4 u_localMat;
-layout(set = 0, binding = 6) uniform mat4 u_modelMat;
-layout(set = 0, binding = 7) uniform mat4 u_viewMat;
-layout(set = 0, binding = 8) uniform mat4 u_projMat;
-layout(set = 0, binding = 9) uniform mat4 u_MVMat;
-layout(set = 0, binding = 10) uniform mat4 u_MVPMat;
-layout(set = 0, binding = 11) uniform mat4 u_normalMat;
-layout(set = 0, binding = 12) uniform vec3 u_cameraPos;
-layout(set = 0, binding = 13) uniform vec4 u_tilingOffset;
+layout(set = 0, binding = 5) uniform u_localMat {
+    mat4 value;
+} local_mat;
+
+layout(set = 0, binding = 6) uniform u_modelMat {
+    mat4 value;
+} model_mat;
+
+layout(set = 0, binding = 7) uniform u_viewMat {
+    mat4 value;
+} view_mat;
+
+layout(set = 0, binding = 8) uniform u_projMat {
+    mat4 value;
+} proj_mat;
+
+layout(set = 0, binding = 11) uniform u_normalMat {
+    mat4 value;
+} normal_mat;
+
+layout(set = 0, binding = 12) uniform u_cameraPos {
+    vec3 value;
+} camera_pos;
+
+layout(set = 0, binding = 13) uniform u_tilingOffset {
+    vec4 value;
+} tiling_offset;
 
 //----------------------------------------------------------------------------------------------------------------------
 #ifndef OMIT_NORMAL
@@ -80,7 +104,9 @@ layout(set = 0, binding = 13) uniform vec4 u_tilingOffset;
             layout(location = 23) in vec3 TANGENT_BS3;
         #endif
     #endif
-    layout(set = 0, binding = 14) uniform float u_blendShapeWeights[4];
+    layout(set = 0, binding = 14) uniform u_blendShapeWeights {
+        float value[4];
+    } blend_shape_weights;
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -119,7 +145,7 @@ void main() {
     //------------------------------------------------------------------------------------------------------------------
     #ifdef HAS_SKIN
         #ifdef HAS_JOINT_TEXTURE
-        mat4 skinMatrix =
+            mat4 skinMatrix =
             WEIGHTS_0.x * getJointMatrix(u_jointSampler, JOINTS_0.x) +
             WEIGHTS_0.y * getJointMatrix(u_jointSampler, JOINTS_0.y) +
             WEIGHTS_0.z * getJointMatrix(u_jointSampler, JOINTS_0.z) +
@@ -155,5 +181,5 @@ void main() {
     #endif
 
     //------------------------------------------------------------------------------------------------------------------
-    gl_Position = u_MVPMat * position;
+    gl_Position = proj_mat.value * view_mat.value * model_mat.value * position;
 }

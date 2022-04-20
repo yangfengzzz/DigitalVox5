@@ -69,9 +69,9 @@ void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
         
         // shader
         auto &vert_shader_module =
-        device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, material->vertex_source_, variant);
+        device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, material->vertex_source_, macros);
         auto &frag_shader_module =
-        device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, material->fragment_source_, variant);
+        device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, material->fragment_source_, macros);
         std::vector<ShaderModule *> shader_modules{&vert_shader_module, &frag_shader_module};
         auto &pipeline_layout = prepare_pipeline_layout(command_buffer, shader_modules);
         command_buffer.bind_pipeline_layout(pipeline_layout);

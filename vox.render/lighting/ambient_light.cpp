@@ -35,6 +35,8 @@ void AmbientLight::set_scene(Scene *value) {
     // Max level-of-detail should match mip level count
     sampler_create_info_.maxLod = std::numeric_limits<float>::max();
     sampler_create_info_.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+    sampler_create_info_.maxAnisotropy = 1;
+    sampler_create_info_.unnormalizedCoordinates = false;
     sampler_ = std::make_unique<core::Sampler>(scene_->device(), sampler_create_info_);
     
     env_map_light_.diffuse = Vector3F(0.212, 0.227, 0.259);

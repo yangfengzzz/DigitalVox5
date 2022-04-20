@@ -51,6 +51,9 @@ BaseMaterial(device, name),
 base_color_prop_("u_baseColor"),
 base_texture_prop_("u_baseTexture"),
 tiling_offset_prop_("u_tilingOffset") {
+    vertex_source_ = ShaderSource("base/unlit.vert");
+    fragment_source_ = ShaderSource("base/unlit.frag");
+
     shader_data_.add_define(OMIT_NORMAL);
     shader_data_.add_define(NEED_TILINGOFFSET);
     
