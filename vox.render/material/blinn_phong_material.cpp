@@ -6,6 +6,7 @@
 
 #include "blinn_phong_material.h"
 #include "shader/internal_variant_name.h"
+#include "shader/shader_manager.h"
 
 namespace vox {
 const Color &BlinnPhongMaterial::base_color() const {
@@ -138,8 +139,8 @@ base_texture_prop_("diffuseTexture"),
 specular_texture_prop_("specularTexture"),
 emissive_texture_prop_("emissiveTexture"),
 normal_texture_prop_("normalTexture") {
-    vertex_source_ = ShaderSource("base/blinn-phong.vert");
-    fragment_source_ = ShaderSource("base/blinn-phong.frag");
+    vertex_source_ = ShaderManager::get_singleton().load_shader("base/blinn-phong.vert");
+    fragment_source_ = ShaderManager::get_singleton().load_shader("base/blinn-phong.frag");
     
     shader_data_.add_define(NEED_WORLDPOS);
     shader_data_.set_data(blinn_phong_prop_, blinn_phong_data_);

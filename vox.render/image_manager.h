@@ -24,19 +24,16 @@ public:
     
     /**
      * @brief Loads in a ktx 2D texture
-     * @param file The filename of the texture to load
      */
     std::shared_ptr<Image> load_texture(const std::string &file);
     
     /**
      * @brief Loads in a ktx 2D texture array
-     * @param file The filename of the texture to load
      */
     std::shared_ptr<Image> load_texture_array(const std::string &file);
     
     /**
      * @brief Loads in a ktx 2D texture cubemap
-     * @param file The filename of the texture to load
      */
     std::shared_ptr<Image> load_texture_cubemap(const std::string &file);
     

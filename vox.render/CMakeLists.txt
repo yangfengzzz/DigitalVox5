@@ -513,7 +513,9 @@ set(SHADER_FILES shader/glsl_compiler.h
         shader/shader_variant.h
         shader/shader_variant.cpp
         shader/spirv_reflection.h
-        shader/spirv_reflection.cpp)
+        shader/spirv_reflection.cpp
+        shader/shader_manager.h
+        shader/shader_manager.cpp)
 
 set(MATERIAL_FILES material/material.h
         material/material.cpp

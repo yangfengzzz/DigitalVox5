@@ -6,6 +6,7 @@
 
 #include "unlit_material.h"
 #include "shader/internal_variant_name.h"
+#include "shader/shader_manager.h"
 
 namespace vox {
 const Color &UnlitMaterial::base_color() const {
@@ -41,8 +42,8 @@ UnlitMaterial::UnlitMaterial(Device &device, const std::string &name) :
 BaseMaterial(device, name),
 base_color_prop_("baseColor"),
 base_texture_prop_("baseTexture") {
-    vertex_source_ = ShaderSource("base/unlit.vert");
-    fragment_source_ = ShaderSource("base/unlit.frag");
+    vertex_source_ = ShaderManager::get_singleton().load_shader("base/unlit.vert");
+    fragment_source_ = ShaderManager::get_singleton().load_shader("base/unlit.frag");
 
     shader_data_.add_define(OMIT_NORMAL);
     
