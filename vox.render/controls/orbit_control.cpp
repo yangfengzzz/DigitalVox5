@@ -54,9 +54,9 @@ void OrbitControl::input_event(const InputEvent &input_event) {
             if (enable_move_ && mouse_button.get_action() == MouseAction::MOVE) {
                 on_mouse_move(mouse_button.get_pos_x(), mouse_button.get_pos_y());
             }
-            //        } else if (inputEvent.get_source() == EventSource::SCROLL) {
-            //            const auto &scroll_event = static_cast<const ScrollInputEvent &>(inputEvent);
-            //			on_mouse_wheel(scroll_event.get_offset_x(), scroll_event.get_offset_y());
+        } else if (input_event.get_source() == EventSource::SCROLL) {
+            const auto &scroll_event = static_cast<const ScrollInputEvent &>(input_event);
+            on_mouse_wheel(scroll_event.offset_x(), scroll_event.offset_y());
         } else if (input_event.get_source() == EventSource::TOUCHSCREEN) {
             // TODO
         }
@@ -288,13 +288,17 @@ void OrbitControl::on_mouse_wheel(double xoffset, double yoffset) {
 //MARK: - KeyBoard
 void OrbitControl::handle_key_down(KeyCode key) {
     switch (key) {
-        case KeyCode::UP:pan(0, key_pan_speed_);
+        case KeyCode::UP:
+            pan(0, key_pan_speed_);
             break;
-        case KeyCode::DOWN:pan(0, -key_pan_speed_);
+        case KeyCode::DOWN:
+            pan(0, -key_pan_speed_);
             break;
-        case KeyCode::LEFT:pan(key_pan_speed_, 0);
+        case KeyCode::LEFT:
+            pan(key_pan_speed_, 0);
             break;
-        case KeyCode::RIGHT:pan(-key_pan_speed_, 0);
+        case KeyCode::RIGHT:
+            pan(-key_pan_speed_, 0);
             break;
         default:break;
     }

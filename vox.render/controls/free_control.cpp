@@ -55,10 +55,10 @@ void FreeControl::input_event(const InputEvent &input_event) {
             } else if (mouse_button.get_action() == MouseAction::MOVE) {
                 on_mouse_move(mouse_button.get_pos_x(), mouse_button.get_pos_y());
             }
-            //        } else if (input_event.get_source() == EventSource::Scroll) {
-        } else if (input_event.get_source() == EventSource::TOUCHSCREEN) {
-            // TODO
-        }
+            } else if (input_event.get_source() == EventSource::SCROLL) {
+            } else if (input_event.get_source() == EventSource::TOUCHSCREEN) {
+                // TODO
+            }
     }
 }
 
