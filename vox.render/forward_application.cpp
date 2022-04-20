@@ -83,4 +83,9 @@ void ForwardApplication::input_event(const InputEvent &input_event) {
     components_manager_->call_script_input_event(input_event);
 }
 
+void ForwardApplication::render(CommandBuffer &command_buffer) {
+    light_manager_->draw(command_buffer);
+    GraphicsApplication::render(command_buffer);
+}
+
 }

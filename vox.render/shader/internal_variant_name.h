@@ -27,7 +27,7 @@ const std::string HAS_BLENDSHAPE_TANGENT = "HAS_BLENDSHAPE_TANGENT";
 // Skin
 const std::string HAS_SKIN = "HAS_SKIN";
 const std::string HAS_JOINT_TEXTURE = "HAS_JOINT_TEXTURE";
-const std::string JOINTS_COUNT = "JOINTS_COUNT";
+const std::string JOINTS_COUNT = "JOINTS_COUNT ";
 
 // Material
 const std::string NEED_ALPHA_CUTOFF = "NEED_ALPHA_CUTOFF";
@@ -46,9 +46,9 @@ const std::string HAS_SPECULARGLOSSINESSMAP = "HAS_SPECULARGLOSSINESSMAP";
 const std::string HAS_METALROUGHNESSMAP = "HAS_METALROUGHNESSMAP";
 
 // Light
-const std::string DIRECT_LIGHT_COUNT = "DIRECT_LIGHT_COUNT";
-const std::string POINT_LIGHT_COUNT = "POINT_LIGHT_COUNT";
-const std::string SPOT_LIGHT_COUNT = "SPOT_LIGHT_COUNT";
+const std::string DIRECT_LIGHT_COUNT = "DIRECT_LIGHT_COUNT ";
+const std::string POINT_LIGHT_COUNT = "POINT_LIGHT_COUNT ";
+const std::string SPOT_LIGHT_COUNT = "SPOT_LIGHT_COUNT ";
 
 // Enviroment
 const std::string HAS_SH = "HAS_SH";
@@ -60,10 +60,10 @@ const std::string NEED_PARTICLE_SCATTERING = "NEED_PARTICLE_SCATTERING";
 const std::string NEED_PARTICLE_VECTOR_FIELD = "NEED_PARTICLE_VECTOR_FIELD";
 const std::string NEED_PARTICLE_CURL_NOISE = "NEED_PARTICLE_CURL_NOISE";
 const std::string NEED_PARTICLE_VELOCITY_CONTROL = "NEED_PARTICLE_VELOCITY_CONTROL";
-const std::string PARTICLE_COUNT = "PARTICLE_COUNT";
+const std::string PARTICLE_COUNT = "PARTICLE_COUNT ";
 
 // Shadow
-const std::string SHADOW_MAP_COUNT = "SHADOW_MAP_COUNT";
-const std::string CUBE_SHADOW_MAP_COUNT = "CUBE_SHADOW_MAP_COUNT";
+const std::string SHADOW_MAP_COUNT = "SHADOW_MAP_COUNT ";
+const std::string CUBE_SHADOW_MAP_COUNT = "CUBE_SHADOW_MAP_COUNT ";
 
 }

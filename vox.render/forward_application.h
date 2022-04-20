@@ -37,6 +37,8 @@ public:
     
     void input_event(const InputEvent &input_event) override;
     
+    void render(CommandBuffer &command_buffer) override;
+
     virtual void load_scene() = 0;
     
 protected:

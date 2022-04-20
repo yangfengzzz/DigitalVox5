@@ -112,7 +112,7 @@ layout(set = 0, binding = 12) uniform envMapLight {
     };
 #endif
 
-#ifdef USE_SPECULAR_ENV
+#ifdef HAS_SPECULAR_ENV
     layout(set = 0, binding = 14) uniform samplerCube env_specularTexture;
 #endif
 
@@ -129,25 +129,25 @@ layout(set = 0, binding = 16) uniform alphaCutoff {
     float value;
 } alpha_cutoff;
 
-#ifdef EMISSIVE_TEXTURE
+#ifdef HAS_EMISSIVE_TEXTURE
     layout(set = 0, binding = 17) uniform sampler2D emissiveTexture;
 #endif
 
-#ifdef DIFFUSE_TEXTURE
+#ifdef HAS_DIFFUSE_TEXTURE
     layout(set = 0, binding = 18) uniform sampler2D diffuseTexture;
 #endif
 
-#ifdef SPECULAR_TEXTURE
+#ifdef HAS_SPECULAR_TEXTURE
     layout(set = 0, binding = 19) uniform sampler2D specularTexture;
 #endif
 
-#ifdef NORMAL_TEXTURE
+#ifdef HAS_NORMAL_TEXTURE
     layout(set = 0, binding = 20) uniform sampler2D normalTexture;
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------
 vec3 getNormal() {
-    #ifdef NORMAL_TEXTURE
+    #ifdef HAS_NORMAL_TEXTURE
         #ifndef HAS_TANGENT
             #ifdef HAS_DERIVATIVES
                 vec3 pos_dx = dFdx(v_pos);
@@ -203,7 +203,7 @@ void main() {
     vec4 diffuse = blinn_phong_data.diffuse_color;
     vec4 specular = blinn_phong_data.specular_color;
 
-    #ifdef EMISSIVE_TEXTURE
+    #ifdef HAS_EMISSIVE_TEXTURE
         vec4 emissiveTextureColor = texture(emissiveTexture, v_uv);
 //        #ifndef OASIS_COLORSPACE_GAMMA
 //            emissiveTextureColor = gammaToLinear(emissiveTextureColor);
@@ -211,7 +211,7 @@ void main() {
         emission *= emissiveTextureColor;
     #endif
 
-    #ifdef DIFFUSE_TEXTURE
+    #ifdef HAS_DIFFUSE_TEXTURE
         vec4 diffuseTextureColor = texture(diffuseTexture, v_uv);
 //        #ifndef OASIS_COLORSPACE_GAMMA
 //            diffuseTextureColor = gammaToLinear(diffuseTextureColor);
@@ -223,7 +223,7 @@ void main() {
         diffuse *= v_color;
     #endif
 
-    #ifdef SPECULAR_TEXTURE
+    #ifdef HAS_SPECULAR_TEXTURE
         vec4 specularTextureColor = texture(specularTexture, v_uv);
 //        #ifndef OASIS_COLORSPACE_GAMMA
 //            specularTextureColor = gammaToLinear(specularTextureColor);
@@ -300,7 +300,7 @@ void main() {
     diffuse *= vec4(lightDiffuse, 1.0);
     specular *= vec4(lightSpecular, 1.0);
 
-    #ifdef ALPHA_CUTOFF
+    #ifdef NEED_ALPHA_CUTOFF
         if (diffuse.a < alpha_cutoff.value) {
             discard;
         }
