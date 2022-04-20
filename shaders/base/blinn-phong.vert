@@ -229,18 +229,18 @@ void main() {
     //------------------------------------------------------------------------------------------------------------------
     #ifdef HAS_NORMAL
         #if defined(HAS_TANGENT) && defined(NORMAL_TEXTURE)
-            vec3 normalW = normalize(mat3(u_normalMat) * normal.xyz);
-            vec3 tangentW = normalize(mat3(u_normalMat) * tangent.xyz);
+            vec3 normalW = normalize(mat3(renderer_data.normal_mat) * normal.xyz);
+            vec3 tangentW = normalize(mat3(renderer_data.normal_mat) * tangent.xyz);
             vec3 bitangentW = cross(normalW, tangentW) * tangent.w;
             v_TBN = mat3(tangentW, bitangentW, normalW);
         #else
-            v_normal = normalize(mat3(u_normalMat) * normal);
+            v_normal = normalize(mat3(renderer_data.normal_mat) * normal);
         #endif
     #endif
 
     //------------------------------------------------------------------------------------------------------------------
     #ifdef NEED_WORLDPOS
-        vec4 temp_pos = u_modelMat * position;
+        vec4 temp_pos = renderer_data.model_mat * position;
         v_pos = temp_pos.xyz / temp_pos.w;
     #endif
 

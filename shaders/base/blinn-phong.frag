@@ -1,3 +1,5 @@
+#version 450
+
 #define PI 3.14159265359
 #define RECIPROCAL_PI 0.31830988618
 #define EPSILON 1e-6
@@ -116,7 +118,7 @@ layout(set = 0, binding = 6) uniform envMapLight {
 
 //----------------------------------------------------------------------------------------------------------------------
 layout(set = 0, binding = 9) uniform blinnPhongData {
-    vec4 base_color;
+    vec4 diffuse_color;
     vec4 specular_color;
     vec4 emissive_color;
     float normal_intensity;

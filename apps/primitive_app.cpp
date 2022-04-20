@@ -51,7 +51,7 @@ void PrimitiveApp::load_scene() {
     cube_entity->add_component<MoveScript>();
     auto renderer = cube_entity->add_component<MeshRenderer>();
     renderer->set_mesh(PrimitiveMesh::create_cuboid(*device_, 1));
-    auto material = std::make_shared<UnlitMaterial>(*device_);
+    auto material = std::make_shared<BlinnPhongMaterial>(*device_);
     material->set_base_color(Color(0.4, 0.6, 0.6));
     renderer->set_material(material);
     
