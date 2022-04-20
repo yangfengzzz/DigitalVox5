@@ -97,7 +97,7 @@ QuaternionF Transform::rotation_quaternion() {
 }
 
 void Transform::set_rotation_quaternion(const QuaternionF &value) {
-    rotation_quaternion_ = value;
+    rotation_quaternion_ = value.normalized();
     set_dirty_flag_true(TransformFlag::LOCAL_MATRIX | TransformFlag::LOCAL_EULER);
     set_dirty_flag_false(TransformFlag::LOCAL_QUAT);
     update_world_rotation_flag();
@@ -117,13 +117,13 @@ QuaternionF Transform::world_rotation_quaternion() {
 }
 
 void Transform::set_world_rotation_quaternion(const QuaternionF &value) {
-    world_rotation_quaternion_ = value;
+    world_rotation_quaternion_ = value.normalized();
     const auto kParent = get_parent_transform();
     if (kParent) {
         auto temp_quat_0 = kParent->world_rotation_quaternion().inverse();
-        rotation_quaternion_ = value * temp_quat_0;
+        rotation_quaternion_ = world_rotation_quaternion_ * temp_quat_0;
     } else {
-        rotation_quaternion_ = value;
+        rotation_quaternion_ = world_rotation_quaternion_;
     }
     set_rotation_quaternion(rotation_quaternion_);
     set_dirty_flag_false(TransformFlag::WORLD_QUAT);
