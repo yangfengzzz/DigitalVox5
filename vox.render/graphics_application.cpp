@@ -59,7 +59,7 @@ bool GraphicsApplication::prepare(Platform &platform) {
         return false;
     }
     
-    LOGI("Initializing Vulkan sample")
+    LOGI("Initializing DigitalVox")
     
     bool headless = platform.get_window().get_window_mode() == Window::Mode::HEADLESS;
     
