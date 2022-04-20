@@ -23,19 +23,26 @@ size_t ShaderVariant::get_id() const {
 
 void ShaderVariant::union_collection(const ShaderVariant &left, const ShaderVariant &right,
                                      ShaderVariant &result) {
+    std::set<std::string> collect;
     for (const std::string& def : left.get_processes()) {
-        std::string tmp_def(def.begin() + 1, def.end());
-        result.add_define(tmp_def);
+        collect.insert(def);
     }
     
     for (const std::string& def : right.get_processes()) {
-        std::string tmp_def(def.begin() + 1, def.end());
+        collect.insert(def);
+    }
+    
+    for (const std::string& def : collect) {
+        std::string tmp_def(def, 1);
         result.add_define(tmp_def);
     }
 }
 
 void ShaderVariant::add_define(const std::string &def) {
-    processes_.push_back("D" + def);
+    auto iter = std::find(processes_.begin(), processes_.end(), "D" + def);
+    if (iter == processes_.end()) {
+        processes_.push_back("D" + def);
+    }
     
     std::string tmp_def = def;
     

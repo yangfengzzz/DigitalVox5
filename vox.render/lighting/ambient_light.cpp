@@ -32,15 +32,7 @@ void AmbientLight::set_scene(Scene *value) {
     sampler_create_info_.compareOp = VK_COMPARE_OP_NEVER;
     sampler_create_info_.minLod = 0.0f;
     // Max level-of-detail should match mip level count
-    sampler_create_info_.maxLod = 0.0f;
-    // Only enable anisotropic filtering if enabled on the device
-    // Note that for simplicity, we will always be using max. available anisotropy level for the current device
-    // This may have an impact on performance, esp. on lower-specced devices
-    // In a real-world scenario the level of anisotropy should be a user setting or e.g. lowered for mobile devices by default
-    sampler_create_info_.maxAnisotropy = scene_->device().get_gpu().get_features().samplerAnisotropy
-    ? (scene_->device().get_gpu().get_properties().limits.maxSamplerAnisotropy)
-    : 1.0f;
-    sampler_create_info_.anisotropyEnable = scene_->device().get_gpu().get_features().samplerAnisotropy;
+    sampler_create_info_.maxLod = std::numeric_limits<float>::max();
     sampler_create_info_.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
     sampler_ = std::make_unique<core::Sampler>(scene_->device(), sampler_create_info_);
     

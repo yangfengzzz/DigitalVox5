@@ -189,6 +189,8 @@ void ModelMesh::upload_data(bool no_longer_accessible) {
     
     auto &queue = device_.get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
     
+    // keep stage buffer alive until submit finish
+    std::vector<core::Buffer> transient_buffers;
     auto &command_buffer = device_.request_command_buffer();
     
     command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
@@ -208,7 +210,8 @@ void ModelMesh::upload_data(bool no_longer_accessible) {
     
     command_buffer.copy_buffer(stage_buffer, *new_vertex_buffer, vertices.size() * sizeof(float));
     set_vertex_buffer_binding(0, std::move(new_vertex_buffer));
-    
+    transient_buffers.push_back(std::move(stage_buffer));
+
     if (indices_type_ == VkIndexType::VK_INDEX_TYPE_UINT16) {
         core::Buffer stage_buffer{device_,
             indices_16_.size() * sizeof(uint16_t),
@@ -225,6 +228,7 @@ void ModelMesh::upload_data(bool no_longer_accessible) {
         
         command_buffer.copy_buffer(stage_buffer, new_index_buffer, indices_16_.size() * sizeof(uint16_t));
         set_index_buffer_binding(std::make_unique<IndexBufferBinding>(std::move(new_index_buffer), indices_type_));
+        transient_buffers.push_back(std::move(stage_buffer));
     } else if (indices_type_ == VkIndexType::VK_INDEX_TYPE_UINT32) {
         core::Buffer stage_buffer{device_,
             indices_32_.size() * sizeof(uint32_t),
@@ -241,6 +245,7 @@ void ModelMesh::upload_data(bool no_longer_accessible) {
         
         command_buffer.copy_buffer(stage_buffer, new_index_buffer, indices_32_.size() * sizeof(uint32_t));
         set_index_buffer_binding(std::make_unique<IndexBufferBinding>(std::move(new_index_buffer), indices_type_));
+        transient_buffers.push_back(std::move(stage_buffer));
     }
     
     command_buffer.end();
