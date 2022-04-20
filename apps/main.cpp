@@ -9,6 +9,7 @@
 //#include "plugins/plugins.h"
 
 #include "primitive_app.h"
+#include "physx_app.h"
 
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
 #    include "platform/android/android_platform.h"
@@ -42,7 +43,7 @@ int main(int argc, char *argv[]) {
     std::vector<vox::Plugin *> plugins{};
     auto code = platform.initialize(plugins);
     if (code == vox::ExitCode::SUCCESS) {
-        platform.set_app(std::make_unique<vox::PrimitiveApp>());
+        platform.set_app(std::make_unique<vox::PhysXApp>());
         code = platform.main_loop();
     }
     platform.terminate(code);
