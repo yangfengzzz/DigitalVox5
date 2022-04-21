@@ -550,6 +550,12 @@
 		04D95D932810E98400E54DC2 /* file_logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D862810E72200E54DC2 /* file_logger.cpp */; };
 		04D95D952810E9C500E54DC2 /* benchmark_mode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D882810E72900E54DC2 /* benchmark_mode.cpp */; };
 		04D95D982810EACC00E54DC2 /* plugins.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D962810EACC00E54DC2 /* plugins.cpp */; };
+		04D95DA02810EEC900E54DC2 /* framework_graph.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D9A2810EEC900E54DC2 /* framework_graph.h */; };
+		04D95DA12810EEC900E54DC2 /* graph_node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D9B2810EEC900E54DC2 /* graph_node.cpp */; };
+		04D95DA22810EEC900E54DC2 /* framework_graph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D9C2810EEC900E54DC2 /* framework_graph.cpp */; };
+		04D95DA32810EEC900E54DC2 /* graph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D9D2810EEC900E54DC2 /* graph.cpp */; };
+		04D95DA42810EEC900E54DC2 /* graph_node.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D9E2810EEC900E54DC2 /* graph_node.h */; };
+		04D95DA52810EEC900E54DC2 /* graph.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D9F2810EEC900E54DC2 /* graph.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1159,6 +1165,12 @@
 		04D95D892810E72900E54DC2 /* benchmark_mode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = benchmark_mode.h; sourceTree = "<group>"; };
 		04D95D962810EACC00E54DC2 /* plugins.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = plugins.cpp; sourceTree = "<group>"; };
 		04D95D972810EACC00E54DC2 /* plugins.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = plugins.h; sourceTree = "<group>"; };
+		04D95D9A2810EEC900E54DC2 /* framework_graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = framework_graph.h; sourceTree = "<group>"; };
+		04D95D9B2810EEC900E54DC2 /* graph_node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = graph_node.cpp; sourceTree = "<group>"; };
+		04D95D9C2810EEC900E54DC2 /* framework_graph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = framework_graph.cpp; sourceTree = "<group>"; };
+		04D95D9D2810EEC900E54DC2 /* graph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = graph.cpp; sourceTree = "<group>"; };
+		04D95D9E2810EEC900E54DC2 /* graph_node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graph_node.h; sourceTree = "<group>"; };
+		04D95D9F2810EEC900E54DC2 /* graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graph.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1737,6 +1749,7 @@
 				0444E92F28055D9300C6F279 /* debug_info.h */,
 				0444E93028055D9300C6F279 /* debug_info.cpp */,
 				0444E81A2805556100C6F279 /* core */,
+				04D95D992810EE9E00E54DC2 /* graphing */,
 				0444E8CC280559BC00C6F279 /* platform */,
 				04D95D642810E39200E54DC2 /* plugins */,
 				0444E9FD28056E0900C6F279 /* stats */,
@@ -2181,6 +2194,19 @@
 			path = window_options;
 			sourceTree = "<group>";
 		};
+		04D95D992810EE9E00E54DC2 /* graphing */ = {
+			isa = PBXGroup;
+			children = (
+				04D95D9E2810EEC900E54DC2 /* graph_node.h */,
+				04D95D9B2810EEC900E54DC2 /* graph_node.cpp */,
+				04D95D9F2810EEC900E54DC2 /* graph.h */,
+				04D95D9D2810EEC900E54DC2 /* graph.cpp */,
+				04D95D9A2810EEC900E54DC2 /* framework_graph.h */,
+				04D95D9C2810EEC900E54DC2 /* framework_graph.cpp */,
+			);
+			path = graphing;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2209,6 +2235,7 @@
 				0444EA75280581C900C6F279 /* gltf_loader.h in Headers */,
 				0444E9C5280569C500C6F279 /* subpass.h in Headers */,
 				04D95CFF280C3DD000E54DC2 /* render_element.h in Headers */,
+				04D95DA02810EEC900E54DC2 /* framework_graph.h in Headers */,
 				0444E8BA280556B100C6F279 /* vk_common.h in Headers */,
 				0444E9DA28056A1900C6F279 /* resource_replay.h in Headers */,
 				0444EBBC28084BCE00C6F279 /* input_text.h in Headers */,
@@ -2298,6 +2325,7 @@
 				0444E9D728056A1900C6F279 /* buffer_pool.h in Headers */,
 				0444E9AD2805689000C6F279 /* sampled_image.h in Headers */,
 				0444E960280563DB00C6F279 /* parser.h in Headers */,
+				04D95DA52810EEC900E54DC2 /* graph.h in Headers */,
 				0444EA2E280571FA00C6F279 /* ktx_img.h in Headers */,
 				0444E95D280563DB00C6F279 /* plugin_base.h in Headers */,
 				0444EBD228084BD600C6F279 /* drag_int.h in Headers */,
@@ -2314,6 +2342,7 @@
 				0444E93928055F8100C6F279 /* queue.h in Headers */,
 				0444E9D428056A1900C6F279 /* semaphore_pool.h in Headers */,
 				0444EA0C28056E2700C6F279 /* frame_time_stats_provider.h in Headers */,
+				04D95DA42810EEC900E54DC2 /* graph_node.h in Headers */,
 				04D95D31280E328A00E54DC2 /* scene_animator.h in Headers */,
 				04D95C4A2809B28400E54DC2 /* orbit_control.h in Headers */,
 				0444E9D928056A1900C6F279 /* resource_record.h in Headers */,
@@ -2690,6 +2719,7 @@
 				04D95D0A280C4A3100E54DC2 /* graphics_application.cpp in Sources */,
 				0444E95C280563DB00C6F279 /* unix_platform.cpp in Sources */,
 				04D95C492809B28400E54DC2 /* free_control.cpp in Sources */,
+				04D95DA12810EEC900E54DC2 /* graph_node.cpp in Sources */,
 				0444E9C4280569C500C6F279 /* subpass.cpp in Sources */,
 				04D95C4C2809B28400E54DC2 /* spherical.cpp in Sources */,
 				0444EB4128084B9E00C6F279 /* text_clickable.cpp in Sources */,
@@ -2724,6 +2754,7 @@
 				0444EBB128084BCE00C6F279 /* input_int.cpp in Sources */,
 				04D95D5F2810508300E54DC2 /* shader_manager.cpp in Sources */,
 				0444E964280563E600C6F279 /* configuration.cpp in Sources */,
+				04D95DA22810EEC900E54DC2 /* framework_graph.cpp in Sources */,
 				0444E9C6280569C500C6F279 /* render_pipeline.cpp in Sources */,
 				0444E962280563DC00C6F279 /* parser.cpp in Sources */,
 				0444E9D828056A1900C6F279 /* resource_record.cpp in Sources */,
@@ -2816,6 +2847,7 @@
 				04D95D24280CF6AC00E54DC2 /* geometry_subpass.cpp in Sources */,
 				0444E9E328056AFA00C6F279 /* descriptor_set.cpp in Sources */,
 				04D95D52280EB57A00E54DC2 /* forward_application.cpp in Sources */,
+				04D95DA32810EEC900E54DC2 /* graph.cpp in Sources */,
 				0444E966280563E600C6F279 /* help_formatter.cpp in Sources */,
 				0444EB3D28084B9E00C6F279 /* text_colored.cpp in Sources */,
 				04D95CCD280BAE1B00E54DC2 /* shader_variant.cpp in Sources */,
