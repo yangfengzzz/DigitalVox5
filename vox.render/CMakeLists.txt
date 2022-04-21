@@ -67,10 +67,10 @@ set(RENDERING_FILES
         # Header files
         rendering/render_element.h
         rendering/pipeline_state.h
-#        rendering/postprocessing_pipeline.h
-#        rendering/postprocessing_pass.h
-#        rendering/postprocessing_renderpass.h
-#        rendering/postprocessing_computepass.h
+        #        rendering/postprocessing_pipeline.h
+        #        rendering/postprocessing_pass.h
+        #        rendering/postprocessing_renderpass.h
+        #        rendering/postprocessing_computepass.h
         rendering/render_context.h
         rendering/render_frame.h
         rendering/render_pipeline.h
@@ -79,10 +79,10 @@ set(RENDERING_FILES
         # Source files
         rendering/render_element.cpp
         rendering/pipeline_state.cpp
-#        rendering/postprocessing_pipeline.cpp
-#        rendering/postprocessing_pass.cpp
-#        rendering/postprocessing_renderpass.cpp
-#        rendering/postprocessing_computepass.cpp
+        #        rendering/postprocessing_pipeline.cpp
+        #        rendering/postprocessing_pass.cpp
+        #        rendering/postprocessing_renderpass.cpp
+        #        rendering/postprocessing_computepass.cpp
         rendering/render_context.cpp
         rendering/render_frame.cpp
         rendering/render_pipeline.cpp
@@ -550,18 +550,16 @@ set(PLUGINS_FILE
         plugins/force_close.h
         plugins/force_close.cpp)
 
-#set(GRAPHING_FILES
-#    # Header Files
-#    graphing/graph.h
-#    graphing/graph_node.h
-#    graphing/scene_graph.h
-#    graphing/framework_graph.h
-#
-#    # Source Files
-#    graphing/graph.cpp
-#    graphing/graph_node.cpp
-#    graphing/scene_graph.cpp
-#    graphing/framework_graph.cpp)
+set(GRAPHING_FILES
+        # Header Files
+        graphing/graph.h
+        graphing/graph_node.h
+        graphing/framework_graph.h
+
+        # Source Files
+        graphing/graph.cpp
+        graphing/graph_node.cpp
+        graphing/framework_graph.cpp)
 
 set(ANDROID_FILES
         # Header Files
@@ -605,7 +603,7 @@ source_group("rendering\\" FILES ${RENDERING_FILES})
 source_group("rendering\\subpasses" FILES ${RENDERING_SUBPASSES_FILES})
 source_group("\\" FILES ${SCENE_RESOURCE_FILES})
 source_group("stats\\" FILES ${STATS_FILES})
-#source_group("graphing\\" FILES ${GRAPHING_FILES})
+source_group("graphing\\" FILES ${GRAPHING_FILES})
 
 set(PROJECT_FILES
         ${PLATFORM_FILES}
@@ -626,7 +624,7 @@ set(PROJECT_FILES
         ${MATERIAL_FILES}
         ${LIGHT_FILE}
         ${PLUGINS_FILE}
-        #    ${GRAPHING_FILES}
+        ${GRAPHING_FILES}
         )
 
 # No need for explict casts from vk::HandleType to VkHandleType on ANDROID

@@ -6,13 +6,12 @@
 
 #include "graphing/graph_node.h"
 
-namespace vox {
-namespace graphing {
+namespace vox::graphing {
 Node::Node(size_t id, const char *title, const char *style, const nlohmann::json &data) {
-    attributes["id"] = id;
-    attributes["label"] = title;
-    attributes["data"] = data;
-    attributes["style"] = style;
+    attributes_["id"] = id;
+    attributes_["label"] = title;
+    attributes_["data"] = data;
+    attributes_["style"] = style;
 }
-}        // namespace graphing
+
 }        // namespace vox

@@ -19,25 +19,23 @@
 #include "resource_cache.h"
 #include "semaphore_pool.h"
 
-namespace vox {
-namespace graphing {
-namespace framework_graph {
+namespace vox::graphing::framework_graph {
 bool generate(RenderContext &context);
 
 template<typename T>
 size_t create_vk_node(Graph &graph, const char *name, const T &handle) {
-	std::stringstream temp;
-	temp << Node::handle_to_uintptr_t(handle);
-	std::string tag = "VK_HANDLE-" + temp.str();
-
-	size_t id = graph.find_ref(tag);
-
-	if (id == Graph::node_not_found) {
-		id = graph.create_node(name, "Vulkan", nlohmann::json{{name, Node::handle_to_uintptr_t(handle)}});
-		graph.add_ref(tag, id);
-	}
-
-	return id;
+    std::stringstream temp;
+    temp << Node::handle_to_uintptr_t(handle);
+    std::string tag = "VK_HANDLE-" + temp.str();
+    
+    size_t id = graph.find_ref(tag);
+    
+    if (id == Graph::node_not_found_) {
+        id = graph.create_node(name, "Vulkan", nlohmann::json{{name, Node::handle_to_uintptr_t(handle)}});
+        graph.add_ref(tag, id);
+    }
+    
+    return id;
 }
 
 size_t create_vk_image(Graph &graph, const VkImage &image);
@@ -48,7 +46,7 @@ size_t device_node(Graph &graph, const Device &device);
 size_t render_context_node(Graph &graph, const RenderContext &context);
 size_t semaphore_pool_node(Graph &graph, const SemaphorePool &semaphore_pool);
 size_t fence_pool_node(Graph &graph, const FencePool &fence_pool);
-size_t render_frame_node(Graph &graph, const std::unique_ptr<RenderFrame> &frame, std::string label);
+size_t render_frame_node(Graph &graph, const std::unique_ptr<RenderFrame> &frame, const std::string &label);
 size_t render_target_node(Graph &graph, const RenderTarget &render_target);
 size_t image_view_node(Graph &graph, const core::ImageView &image_view);
 size_t image_node(Graph &graph, const core::Image &image);
@@ -74,6 +72,4 @@ size_t depth_stencil_state_node(Graph &graph, const DepthStencilState &depth_ste
 size_t color_blend_state_node(Graph &graph, const ColorBlendState &color_blend_state);
 size_t color_blend_attachment_state_node(Graph &graph, const ColorBlendAttachmentState &state);
 
-}        // namespace framework_graph
-}        // namespace graphing
 }        // namespace vox
