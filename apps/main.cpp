@@ -6,7 +6,7 @@
 
 #include "logging.h"
 #include "platform/platform.h"
-//#include "plugins/plugins.h"
+#include "plugins/plugins.h"
 
 #include "primitive_app.h"
 #include "physx_app.h"
@@ -41,8 +41,7 @@ int main(int argc, char *argv[]) {
 #    endif
 #endif
 
-    std::vector<vox::Plugin *> plugins{};
-    auto code = platform.initialize(plugins);
+    auto code = platform.initialize(plugins::get_all());
     if (code == vox::ExitCode::SUCCESS) {
         platform.set_app(std::make_unique<vox::PhysXDynamicApp>());
         code = platform.main_loop();
