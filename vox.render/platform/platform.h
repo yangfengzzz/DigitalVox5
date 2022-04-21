@@ -44,7 +44,7 @@ public:
      * @param plugins plugins available to the platform
      * @return An exit code representing the outcome of initialization
      */
-    virtual ExitCode initialize(const std::vector<Plugin *> &plugins);
+    virtual ExitCode initialize(std::vector<Plugin *> plugins = {});
     
     /**
      * @brief Handles the main loop of the platform
@@ -176,6 +176,8 @@ private:
     Timer timer_;
     
     std::vector<Plugin *> plugins_;
+    
+    std::vector<std::unique_ptr<Plugin>> internal_plugins_;
     
     /// Static so can be set via JNI code in android_platform.cpp
     static std::vector<std::string> arguments_;

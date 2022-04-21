@@ -16,7 +16,7 @@
 #include <spdlog/spdlog.h>
 
 #include "logging.h"
-//#include "force_close/force_close.h"
+#include "../plugins/force_close.h"
 #include "platform/filesystem.h"
 #include "platform/parsers/CLI11.h"
 #include "platform/plugins/plugin.h"
@@ -31,7 +31,12 @@ std::string Platform::external_storage_directory_;
 
 std::string Platform::temp_directory_;
 
-ExitCode Platform::initialize(const std::vector<Plugin *> &plugins = {}) {
+ExitCode Platform::initialize(std::vector<Plugin *> plugins) {
+    internal_plugins_.emplace_back(std::make_unique<plugins::ForceClose>());
+    for (const auto& internal_plugin : internal_plugins_) {
+        plugins.emplace_back(internal_plugin.get());
+    }
+    
     auto sinks = get_platform_sinks();
     
     auto logger = std::make_shared<spdlog::logger>("logger", sinks.begin(), sinks.end());
@@ -189,12 +194,12 @@ void Platform::terminate(ExitCode code) {
     on_platform_close();
     
     // Halt on all unsuccessful exit codes unless ForceClose is in use
-    //    if (code != ExitCode::Success && !using_plugin<::plugins::ForceClose>()) {
-    //#ifndef ANDROID
-    //        std::cout << "Press any key to continue";
-    //        std::cin.get();
-    //#endif
-    //    }
+    if (code != ExitCode::SUCCESS && !using_plugin<plugins::ForceClose>()) {
+#ifndef ANDROID
+        std::cout << "Press any key to continue";
+        std::cin.get();
+#endif
+    }
 }
 
 void Platform::close() {

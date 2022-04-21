@@ -546,6 +546,10 @@ set(LIGHT_FILE
         lighting/ambient_light.h
         lighting/ambient_light.cpp)
 
+set(PLUGINS_FILE
+        plugins/force_close.h
+        plugins/force_close.cpp)
+
 #set(GRAPHING_FILES
 #    # Header Files
 #    graphing/graph.h
@@ -621,6 +625,7 @@ set(PROJECT_FILES
         ${SHADER_FILES}
         ${MATERIAL_FILES}
         ${LIGHT_FILE}
+        ${PLUGINS_FILE}
         #    ${GRAPHING_FILES}
         )
 
