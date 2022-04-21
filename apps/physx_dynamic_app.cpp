@@ -66,11 +66,11 @@ public:
         }
     }
     
-    void on_update(float delta_time) override {
-        auto flags = character_->move(displacement_, 0.1, delta_time);
+    void on_physics_update() override {
+        auto flags = character_->move(displacement_, 0.1, physics::PhysicsManager::fixed_time_step_);
         displacement_ = Vector3F();
         if (!flags.isSet(physx::PxControllerCollisionFlag::Enum::eCOLLISION_DOWN)) {
-            character_->move(Vector3F(0, -0.2, 0), 0.1, delta_time);
+            character_->move(Vector3F(0, -0.2, 0), 0.1, physics::PhysicsManager::fixed_time_step_);
         }
     }
 };
