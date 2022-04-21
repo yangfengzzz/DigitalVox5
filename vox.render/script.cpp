@@ -8,6 +8,7 @@
 #include "entity.h"
 #include "scene.h"
 #include "components_manager.h"
+#include "physics/physics_manager.h"
 
 namespace vox {
 std::string Script::name() {
@@ -41,6 +42,7 @@ void Script::on_enable() {
         components_manager->add_on_start_script(this);
     }
     components_manager->add_on_update_script(this);
+    physics::PhysicsManager::get_singleton().add_on_physics_update_script(this);
     entity_->add_script(this);
     onEnable();
 }
@@ -49,6 +51,7 @@ void Script::on_disable() {
     auto components_manager = ComponentsManager::get_singleton_ptr();
     components_manager->remove_on_start_script(this);
     components_manager->remove_on_update_script(this);
+    physics::PhysicsManager::get_singleton().remove_on_physics_update_script(this);
     entity_->remove_script(this);
     onDisable();
 }

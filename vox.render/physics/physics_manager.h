@@ -29,7 +29,17 @@ public:
     static uint32_t id_generator_;
     static Physics native_physics_;
     
+    /** The fixed time step in seconds at which physics are performed. */
+    static constexpr float fixed_time_step_ = 1.f / 60;
+    
+    /** The max sum of time step in seconds one frame. */
+    static constexpr float max_sum_time_step_ = 1.f / 3;
+    
     PhysicsManager();
+    
+    [[nodiscard]] Vector3F gravity() const;
+    
+    void set_gravity(const Vector3F &value);
     
 public:
     /**
@@ -95,6 +105,10 @@ public:
     
     void call_character_controller_on_late_update();
     
+    void add_on_physics_update_script(Script *script);
+    
+    void remove_on_physics_update_script(Script *script);
+    
 private:
     friend class Collider;
     
@@ -152,6 +166,8 @@ private:
     std::unordered_map<uint32_t, ColliderShapePtr> physical_objects_map_;
     std::vector<Collider *> colliders_;
     std::vector<CharacterController *> controllers_;
+    std::vector<Script *> on_physics_update_scripts_;
+    float rest_time_ = 0;
     
     std::function<void(PxShape *obj1, PxShape *obj2)> on_contact_enter_;
     std::function<void(PxShape *obj1, PxShape *obj2)> on_contact_exit_;

@@ -55,10 +55,7 @@ void ForwardApplication::update(float delta_time) {
     {
         components_manager_->call_script_on_start();
         
-        physics_manager_->call_collider_on_update();
         physics_manager_->update(delta_time);
-        physics_manager_->call_collider_on_late_update();
-        physics_manager_->call_character_controller_on_late_update();
         
         components_manager_->call_script_on_update(delta_time);
         //        _componentsManager->callAnimatorUpdate(deltaTime);

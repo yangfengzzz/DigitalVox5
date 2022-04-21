@@ -94,6 +94,11 @@ public:
     }
     
     /**
+     * Called before physics calculations, the number of times is related to the physical update frequency.
+     */
+    virtual void on_physics_update() {}
+    
+    /**
      * Called when the collision enter.
      * @param other ColliderShape
      */

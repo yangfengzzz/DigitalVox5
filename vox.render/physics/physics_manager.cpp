@@ -147,9 +147,29 @@ PhysicsManager::PhysicsManager() {
     native_character_controller_manager_ = PxCreateControllerManager(*native_physics_manager_);
 }
 
+Vector3F PhysicsManager::gravity() const {
+    auto g = native_physics_manager_->getGravity();
+    return {g.x, g.y, g.z};
+}
+
+void PhysicsManager::set_gravity(const Vector3F &value) {
+    native_physics_manager_->setGravity(PxVec3(value.x, value.y, value.z));
+}
+
 void PhysicsManager::update(float delta_time) {
-    native_physics_manager_->simulate(delta_time);
-    native_physics_manager_->fetchResults(true);
+    auto simulate_time = delta_time + rest_time_;
+    auto step = static_cast<uint32_t>(std::floor(std::min(max_sum_time_step_, simulate_time) / fixed_time_step_));
+    rest_time_ = simulate_time - static_cast<float>(step) * fixed_time_step_;
+    for (uint32_t i = 0; i < step; i++) {
+        for (auto &script : on_physics_update_scripts_) {
+            script->on_physics_update();
+        }
+        call_collider_on_update();
+        native_physics_manager_->simulate(fixed_time_step_);
+        native_physics_manager_->fetchResults(true);
+        call_collider_on_late_update();
+        call_character_controller_on_late_update();
+    }
 }
 
 void PhysicsManager::call_collider_on_update() {
@@ -200,6 +220,17 @@ void PhysicsManager::remove_character_controller(CharacterController *character_
     auto iter = std::find(controllers_.begin(), controllers_.end(), character_controller);
     if (iter != controllers_.end()) {
         controllers_.erase(iter);
+    }
+}
+
+void PhysicsManager::add_on_physics_update_script(Script *script) {
+    on_physics_update_scripts_.emplace_back(script);
+}
+
+void PhysicsManager::remove_on_physics_update_script(Script *script) {
+    auto iter = std::find(on_physics_update_scripts_.begin(), on_physics_update_scripts_.end(), script);
+    if (iter != on_physics_update_scripts_.end()) {
+        on_physics_update_scripts_.erase(iter);
     }
 }
 

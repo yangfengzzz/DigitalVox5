@@ -21,24 +21,24 @@
 namespace vox {
 namespace {
 class MoveScript : public Script {
-    Point3F pos_ = Point3F(-5, 0, 0);
-    float vel_ = 4;
+    float pos_ = -5;
+    float vel_ = 0.05;
     int8_t vel_sign_ = -1;
     
 public:
     explicit MoveScript(Entity *entity) : Script(entity) {
     }
     
-    void on_update(float delta_time) override {
-        if (pos_.x >= 5) {
+    void on_physics_update() override {
+        if (pos_ >= 5) {
             vel_sign_ = -1;
         }
-        if (pos_.x <= -5) {
+        if (pos_ <= -5) {
             vel_sign_ = 1;
         }
-        pos_.x += delta_time * vel_ * float(vel_sign_);
+        pos_ += vel_ * float(vel_sign_);
         
-        entity()->transform_->set_position(pos_);
+        entity()->transform_->set_world_position(pos_, 0, 0);
     }
 };
 
@@ -114,6 +114,7 @@ void PhysXApp::load_scene() {
     sphere_collider_shape->set_radius(radius);
     sphere_collider_shape->set_trigger(true);
     sphere_collider->add_shape(sphere_collider_shape);
+    sphere_collider->set_is_kinematic(true);
     
     sphere_entity->add_component<CollisionScript>();
     sphere_entity->add_component<MoveScript>();
