@@ -21,8 +21,7 @@ include(android_package)
 # create sample app project
 project(app LANGUAGES C CXX)
 
-#add_subdirectory(plugins)
-#add_subdirectory(apps)
+add_subdirectory(plugins)
 
 set(SRC
         primitive_app.cpp
@@ -49,7 +48,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/../vox.render
         ${CMAKE_CURRENT_SOURCE_DIR}/../vox.math)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE vox.render vox.math spdlog)
+target_link_libraries(${PROJECT_NAME} PRIVATE vox.render vox.math plugins spdlog)
 
 if (CMAKE_BUILD_TYPE MATCHES "Release")
     target_compile_definitions(${PROJECT_NAME} PUBLIC DISABLE_CUDA_PHYSX PX_PHYSX_CORE_EXPORTS NDEBUG PX_SUPPORT_PVD=0)
