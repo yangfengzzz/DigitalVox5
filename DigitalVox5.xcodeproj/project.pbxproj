@@ -540,6 +540,7 @@
 		04D95D5C28103C4C00E54DC2 /* physx_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D5A28103C4C00E54DC2 /* physx_app.cpp */; };
 		04D95D5F2810508300E54DC2 /* shader_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D5D2810508300E54DC2 /* shader_manager.cpp */; };
 		04D95D602810508300E54DC2 /* shader_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D5E2810508300E54DC2 /* shader_manager.h */; };
+		04D95D632810DCA000E54DC2 /* physx_dynamic_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D612810DCA000E54DC2 /* physx_dynamic_app.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1131,6 +1132,8 @@
 		04D95D5B28103C4C00E54DC2 /* physx_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = physx_app.h; sourceTree = "<group>"; };
 		04D95D5D2810508300E54DC2 /* shader_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shader_manager.cpp; sourceTree = "<group>"; };
 		04D95D5E2810508300E54DC2 /* shader_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader_manager.h; sourceTree = "<group>"; };
+		04D95D612810DCA000E54DC2 /* physx_dynamic_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = physx_dynamic_app.cpp; sourceTree = "<group>"; };
+		04D95D622810DCA000E54DC2 /* physx_dynamic_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = physx_dynamic_app.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1680,6 +1683,8 @@
 				04D95D54280EC2DB00E54DC2 /* primitive_app.cpp */,
 				04D95D5B28103C4C00E54DC2 /* physx_app.h */,
 				04D95D5A28103C4C00E54DC2 /* physx_app.cpp */,
+				04D95D622810DCA000E54DC2 /* physx_dynamic_app.h */,
+				04D95D612810DCA000E54DC2 /* physx_dynamic_app.cpp */,
 			);
 			path = apps;
 			sourceTree = "<group>";
@@ -2518,6 +2523,7 @@
 			files = (
 				04D95D5C28103C4C00E54DC2 /* physx_app.cpp in Sources */,
 				047BB5C62803A96500CD5749 /* main.cpp in Sources */,
+				04D95D632810DCA000E54DC2 /* physx_dynamic_app.cpp in Sources */,
 				04D95D56280EC2DB00E54DC2 /* primitive_app.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

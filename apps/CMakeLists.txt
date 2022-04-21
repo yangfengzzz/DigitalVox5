@@ -27,6 +27,7 @@ project(app LANGUAGES C CXX)
 set(SRC
         primitive_app.cpp
         physx_app.cpp
+        physx_dynamic_app.cpp
         main.cpp
         )
 
