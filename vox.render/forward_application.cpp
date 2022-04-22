@@ -19,6 +19,13 @@ ForwardApplication::~ForwardApplication() {
     light_manager_.reset();
     //    _shadowManager.reset();
     //    _particleManager.reset();
+    
+    image_manager_->collect_garbage();
+    image_manager_.reset();
+    shader_manager_->collect_garbage();
+    shader_manager_.reset();
+    mesh_manager_->collect_garbage();
+    mesh_manager_.reset();
 }
 
 bool ForwardApplication::prepare(Platform &platform) {
