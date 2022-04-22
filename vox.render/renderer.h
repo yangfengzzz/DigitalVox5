@@ -27,7 +27,6 @@ public:
     
     /** ShaderData related to renderer. */
     ShaderData shader_data_;
-    // @ignoreClone
     /** Whether it is clipped by the frustum, needs to be turned on camera.enableFrustumCulling. */
     bool is_culled_ = false;
     

@@ -8,7 +8,6 @@
 #include "entity.h"
 #include "scene.h"
 #include "matrix_utils.h"
-//#include "shader/shader.h"
 
 namespace vox {
 std::string Camera::name() {
@@ -123,9 +122,9 @@ Matrix4x4F Camera::projection_matrix() {
     last_aspect_size_.y = static_cast<float>(height_);
     if (!is_orthographic_) {
         projection_matrix_ = makePerspective(degreesToRadians(field_of_view_),
-											 aspect_ratio(),
-											 near_clip_plane_,
-											 far_clip_plane_);
+                                             aspect_ratio(),
+                                             near_clip_plane_,
+                                             far_clip_plane_);
     } else {
         const auto kWidth = orthographic_size_ * aspect_ratio();
         const auto kHeight = orthographic_size_;
@@ -187,13 +186,13 @@ Ray3F Camera::viewport_point_to_ray(const Vector2F &point) {
 Vector2F Camera::screen_to_viewport_point(const Vector2F &point) const {
     const Vector4F kViewport = this->viewport();
     return {(point.x / static_cast<float>(width_) - kViewport.x) / kViewport.z,
-        (point.y / static_cast<float>(height_) - kViewport.y) / kViewport.w};
+        1.f - (point.y / static_cast<float>(height_) - kViewport.y) / kViewport.w};
 }
 
 Vector3F Camera::screen_to_viewport_point(const Vector3F &point) const {
     const Vector4F kViewport = this->viewport();
     return {(point.x / static_cast<float>(width_) - kViewport.x) / kViewport.z,
-        (point.y / static_cast<float>(height_) - kViewport.y) / kViewport.w, 0};
+        1.f - (point.y / static_cast<float>(height_) - kViewport.y) / kViewport.w, 0};
 }
 
 Vector2F Camera::viewport_to_screen_point(const Vector2F &point) const {

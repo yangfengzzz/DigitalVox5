@@ -168,9 +168,7 @@ ModelMeshPtr PrimitiveMesh::create_cuboid(Device &device,
     uvs[22] = Vector2F(0, 1);
     uvs[23] = Vector2F(1, 1);
     
-    auto indices = std::vector<uint32_t>(36);
-    
-    // prettier-ignore
+    auto indices = std::vector<uint32_t>(36);    
     // Up
     indices[0] = 0;
     indices[1] = 2;
