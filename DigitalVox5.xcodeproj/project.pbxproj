@@ -561,6 +561,8 @@
 		04D95DAC281235EE00E54DC2 /* skybox_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DAA281235EE00E54DC2 /* skybox_app.cpp */; };
 		04D95DAF28125DA500E54DC2 /* assimp_parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DAD28125DA500E54DC2 /* assimp_parser.cpp */; };
 		04D95DB028125DA500E54DC2 /* assimp_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95DAE28125DA500E54DC2 /* assimp_parser.h */; };
+		04D95DB32812A0DB00E54DC2 /* mesh_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DB12812A0DB00E54DC2 /* mesh_manager.cpp */; };
+		04D95DB42812A0DB00E54DC2 /* mesh_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95DB22812A0DB00E54DC2 /* mesh_manager.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1182,6 +1184,8 @@
 		04D95DAB281235EE00E54DC2 /* skybox_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = skybox_app.h; sourceTree = "<group>"; };
 		04D95DAD28125DA500E54DC2 /* assimp_parser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = assimp_parser.cpp; sourceTree = "<group>"; };
 		04D95DAE28125DA500E54DC2 /* assimp_parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = assimp_parser.h; sourceTree = "<group>"; };
+		04D95DB12812A0DB00E54DC2 /* mesh_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mesh_manager.cpp; sourceTree = "<group>"; };
+		04D95DB22812A0DB00E54DC2 /* mesh_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mesh_manager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2032,6 +2036,8 @@
 				04D95CC3280BA0BA00E54DC2 /* primitive_mesh.cpp */,
 				04D95CC8280BA16A00E54DC2 /* wireframe_primitive_mesh.h */,
 				04D95CC7280BA16A00E54DC2 /* wireframe_primitive_mesh.cpp */,
+				04D95DB22812A0DB00E54DC2 /* mesh_manager.h */,
+				04D95DB12812A0DB00E54DC2 /* mesh_manager.cpp */,
 				04D95D01280C443E00E54DC2 /* mesh_renderer.h */,
 				04D95D00280C443E00E54DC2 /* mesh_renderer.cpp */,
 				04D95D4D280E447700E54DC2 /* gpu_skinned_mesh_renderer.h */,
@@ -2442,6 +2448,7 @@
 				0444EAC528083EC100C6F279 /* layer.h in Headers */,
 				0444EBE228084BDE00C6F279 /* button_colored.h in Headers */,
 				0444EAF028084B6600C6F279 /* plugin.h in Headers */,
+				04D95DB42812A0DB00E54DC2 /* mesh_manager.h in Headers */,
 				04D95C64280A8C6600E54DC2 /* static_collider.h in Headers */,
 				0444EBD128084BD600C6F279 /* drag_float.h in Headers */,
 				04D95C9F280A8C7D00E54DC2 /* sphere_collider_shape.h in Headers */,
@@ -2774,6 +2781,7 @@
 				0444EA2A280571FA00C6F279 /* astc_img.cpp in Sources */,
 				0444EBB128084BCE00C6F279 /* input_int.cpp in Sources */,
 				04D95D5F2810508300E54DC2 /* shader_manager.cpp in Sources */,
+				04D95DB32812A0DB00E54DC2 /* mesh_manager.cpp in Sources */,
 				0444E964280563E600C6F279 /* configuration.cpp in Sources */,
 				04D95DA22810EEC900E54DC2 /* framework_graph.cpp in Sources */,
 				0444E9C6280569C500C6F279 /* render_pipeline.cpp in Sources */,
