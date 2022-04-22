@@ -142,6 +142,10 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial* material) {
     switch (mode) {
         case aiShadingMode_Unlit: {
             auto mat = std::make_shared<UnlitMaterial>(device_);
+            aiColor4D color;
+            material->Get(AI_MATKEY_BASE_COLOR, color);
+            mat->set_base_color(Color(color.r, color.g, color.b, color.a));
+            
             mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
             result = mat;
             break;
@@ -150,6 +154,14 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial* material) {
         case aiShadingMode_Blinn:
         case aiShadingMode_Phong : {
             auto mat = std::make_shared<BlinnPhongMaterial>(device_);
+            float value;
+            material->Get(AI_MATKEY_SHININESS, value);
+            mat->set_shininess(value);
+            
+            aiColor4D color;
+            material->Get(AI_MATKEY_BASE_COLOR, color);
+            mat->set_base_color(Color(color.r, color.g, color.b, color.a));
+            
             mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
             mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
             mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
@@ -163,6 +175,14 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial* material) {
             material->Get(AI_MATKEY_ROUGHNESS_FACTOR, factor);
             if (factor < 0) {
                 auto mat = std::make_shared<PbrSpecularMaterial>(device_);
+                float value;
+                material->Get(AI_MATKEY_GLOSSINESS_FACTOR, value);
+                mat->set_glossiness(value);
+                
+                aiColor3D color;
+                material->Get(AI_MATKEY_SPECULAR_FACTOR, color);
+                mat->set_specular_color(Color(color.r, color.g, color.b, 1.0));
+                
                 mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
                 mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
                 mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
@@ -171,6 +191,11 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial* material) {
                 result = mat;
             } else {
                 auto mat = std::make_shared<PbrMaterial>(device_);
+                float value;
+                material->Get(AI_MATKEY_METALLIC_FACTOR, value);
+                mat->set_metallic(value);
+                material->Get(AI_MATKEY_ROUGHNESS_FACTOR, value);
+                mat->set_roughness(value);
                 mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
                 mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
                 mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
