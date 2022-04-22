@@ -559,6 +559,8 @@
 		04D95DA828122B7900E54DC2 /* skybox_subpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DA628122B7900E54DC2 /* skybox_subpass.cpp */; };
 		04D95DA928122B7900E54DC2 /* skybox_subpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95DA728122B7900E54DC2 /* skybox_subpass.h */; };
 		04D95DAC281235EE00E54DC2 /* skybox_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DAA281235EE00E54DC2 /* skybox_app.cpp */; };
+		04D95DAF28125DA500E54DC2 /* assimp_parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DAD28125DA500E54DC2 /* assimp_parser.cpp */; };
+		04D95DB028125DA500E54DC2 /* assimp_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95DAE28125DA500E54DC2 /* assimp_parser.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1178,6 +1180,8 @@
 		04D95DA728122B7900E54DC2 /* skybox_subpass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = skybox_subpass.h; sourceTree = "<group>"; };
 		04D95DAA281235EE00E54DC2 /* skybox_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = skybox_app.cpp; sourceTree = "<group>"; };
 		04D95DAB281235EE00E54DC2 /* skybox_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = skybox_app.h; sourceTree = "<group>"; };
+		04D95DAD28125DA500E54DC2 /* assimp_parser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = assimp_parser.cpp; sourceTree = "<group>"; };
+		04D95DAE28125DA500E54DC2 /* assimp_parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = assimp_parser.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2030,6 +2034,8 @@
 				04D95D00280C443E00E54DC2 /* mesh_renderer.cpp */,
 				04D95D4D280E447700E54DC2 /* gpu_skinned_mesh_renderer.h */,
 				04D95D4C280E447700E54DC2 /* gpu_skinned_mesh_renderer.cpp */,
+				04D95DAE28125DA500E54DC2 /* assimp_parser.h */,
+				04D95DAD28125DA500E54DC2 /* assimp_parser.cpp */,
 			);
 			path = mesh;
 			sourceTree = "<group>";
@@ -2432,6 +2438,7 @@
 				0444EBD028084BD600C6F279 /* drag_double.h in Headers */,
 				04D95C28280993DC00E54DC2 /* scene_manager.h in Headers */,
 				04D95C67280A8C6600E54DC2 /* physics.h in Headers */,
+				04D95DB028125DA500E54DC2 /* assimp_parser.h in Headers */,
 				0444EAC528083EC100C6F279 /* layer.h in Headers */,
 				0444EBE228084BDE00C6F279 /* button_colored.h in Headers */,
 				0444EAF028084B6600C6F279 /* plugin.h in Headers */,
@@ -2753,6 +2760,7 @@
 				0444EB8628084BBD00C6F279 /* menu_item.cpp in Sources */,
 				0444E9E528056AFA00C6F279 /* framebuffer.cpp in Sources */,
 				0444E93228055D9300C6F279 /* debug_info.cpp in Sources */,
+				04D95DAF28125DA500E54DC2 /* assimp_parser.cpp in Sources */,
 				0444EB2528084B9700C6F279 /* image.cpp in Sources */,
 				0444E945280560A000C6F279 /* fence_pool.cpp in Sources */,
 				04D95C2A280993DC00E54DC2 /* scene_manager.cpp in Sources */,
@@ -3136,6 +3144,8 @@
 					./third_party/physx/physx/source/physxgpu/include,
 					./third_party/physx/physx/../pxshared/include,
 					./third_party/physx/physx/source/foundation/include,
+					./third_party/assimp/include,
+					./third_party/assimp/build_debug/include,
 				);
 			};
 			name = Debug;
@@ -3247,6 +3257,8 @@
 					./third_party/physx/physx/source/physxgpu/include,
 					./third_party/physx/physx/../pxshared/include,
 					./third_party/physx/physx/source/foundation/include,
+					./third_party/assimp/include,
+					./third_party/assimp/build_release/include,
 				);
 			};
 			name = Release;
@@ -3324,6 +3336,8 @@
 					./third_party/physx/physx/source/physxgpu/include,
 					./third_party/physx/physx/../pxshared/include,
 					./third_party/physx/physx/source/foundation/include,
+					./third_party/assimp/include,
+					./third_party/assimp/build_debug/include,
 				);
 			};
 			name = Debug;
@@ -3398,6 +3412,8 @@
 					./third_party/physx/physx/source/physxgpu/include,
 					./third_party/physx/physx/../pxshared/include,
 					./third_party/physx/physx/source/foundation/include,
+					./third_party/assimp/include,
+					./third_party/assimp/build_release/include,
 				);
 			};
 			name = Release;
