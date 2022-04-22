@@ -32,15 +32,17 @@ std::shared_ptr<Image> PbrMaterial::metallic_roughness_texture() {
 }
 
 void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &new_value) {
-    BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
-    set_metallic_roughness_texture(new_value, BaseMaterial::last_sampler_create_info_);
+    if (new_value) {
+        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        set_metallic_roughness_texture(new_value, BaseMaterial::last_sampler_create_info_);
+    }
 }
 
 void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &new_value,
                                                  const VkSamplerCreateInfo &info) {
     metallic_roughness_texture_ = new_value;
-    shader_data_.set_texture(metallic_roughness_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
+        shader_data_.set_texture(metallic_roughness_texture_prop_, new_value, get_sampler_(info));
         shader_data_.add_define(HAS_METALROUGHNESSMAP);
     } else {
         shader_data_.remove_define(HAS_METALROUGHNESSMAP);

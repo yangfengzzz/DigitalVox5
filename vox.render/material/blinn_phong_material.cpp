@@ -23,14 +23,16 @@ std::shared_ptr<Image> BlinnPhongMaterial::base_texture() const {
 }
 
 void BlinnPhongMaterial::set_base_texture(const std::shared_ptr<Image> &new_value) {
-    BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
-    set_base_texture(new_value, BaseMaterial::last_sampler_create_info_);
+    if (new_value) {
+        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        set_base_texture(new_value, BaseMaterial::last_sampler_create_info_);
+    }
 }
 
 void BlinnPhongMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
-    shader_data_.set_texture(base_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
+        shader_data_.set_texture(base_texture_prop_, new_value, get_sampler_(info));
         shader_data_.add_define(HAS_DIFFUSE_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_DIFFUSE_TEXTURE);
@@ -51,15 +53,17 @@ std::shared_ptr<Image> BlinnPhongMaterial::specular_texture() const {
 }
 
 void BlinnPhongMaterial::set_specular_texture(const std::shared_ptr<Image> &new_value) {
-    BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
-    set_specular_texture(new_value, BaseMaterial::last_sampler_create_info_);
+    if (new_value) {
+        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        set_specular_texture(new_value, BaseMaterial::last_sampler_create_info_);
+    }
 }
 
 void BlinnPhongMaterial::set_specular_texture(const std::shared_ptr<Image> &new_value,
                                               const VkSamplerCreateInfo &info) {
     specular_texture_ = new_value;
-    shader_data_.set_texture(specular_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
+        shader_data_.set_texture(specular_texture_prop_, new_value, get_sampler_(info));
         shader_data_.add_define(HAS_SPECULAR_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_SPECULAR_TEXTURE);
@@ -80,15 +84,17 @@ std::shared_ptr<Image> BlinnPhongMaterial::emissive_texture() const {
 }
 
 void BlinnPhongMaterial::BlinnPhongMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_value) {
-    BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
-    set_emissive_texture(new_value, BaseMaterial::last_sampler_create_info_);
+    if (new_value) {
+        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        set_emissive_texture(new_value, BaseMaterial::last_sampler_create_info_);
+    }
 }
 
 void BlinnPhongMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_value,
                                               const VkSamplerCreateInfo &info) {
     emissive_texture_ = new_value;
-    shader_data_.set_texture(emissive_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
+        shader_data_.set_texture(emissive_texture_prop_, new_value, get_sampler_(info));
         shader_data_.add_define(HAS_EMISSIVE_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_EMISSIVE_TEXTURE);
@@ -100,14 +106,16 @@ std::shared_ptr<Image> BlinnPhongMaterial::normal_texture() const {
 }
 
 void BlinnPhongMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value) {
-    BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
-    set_normal_texture(new_value, BaseMaterial::last_sampler_create_info_);
+    if (new_value) {
+        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        set_normal_texture(new_value, BaseMaterial::last_sampler_create_info_);
+    }
 }
 
 void BlinnPhongMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     normal_texture_ = new_value;
-    shader_data_.set_texture(normal_texture_prop_, new_value, get_sampler_(info));
     if (new_value) {
+        shader_data_.set_texture(normal_texture_prop_, new_value, get_sampler_(info));
         shader_data_.add_define(HAS_NORMAL_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_NORMAL_TEXTURE);

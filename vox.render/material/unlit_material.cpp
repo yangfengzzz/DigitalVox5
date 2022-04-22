@@ -23,15 +23,16 @@ std::shared_ptr<Image> UnlitMaterial::base_texture() const {
 }
 
 void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value) {
-    BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
-    set_base_texture(new_value, BaseMaterial::last_sampler_create_info_);
+    if (new_value) {
+        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        set_base_texture(new_value, BaseMaterial::last_sampler_create_info_);
+    }
 }
 
 void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
-    shader_data_.set_texture(base_texture_prop_, new_value, get_sampler_(info));
-    
     if (new_value) {
+        shader_data_.set_texture(base_texture_prop_, new_value, get_sampler_(info));
         shader_data_.add_define(HAS_BASE_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_BASE_TEXTURE);
