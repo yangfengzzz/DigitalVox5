@@ -130,9 +130,7 @@ void CapsuleColliderShape::sync_capsule_geometry() {
     if (entity_) {
         auto radius = static_cast<PxCapsuleGeometry *>(native_geometry_.get())->radius;
         auto half_height = static_cast<PxCapsuleGeometry *>(native_geometry_.get())->halfHeight;
-        renderer_->set_mesh(WireframePrimitiveMesh::create_capsule_wire_frame(entity_->scene()->device(),
-                                                                              radius,
-                                                                              half_height * 2.0));
+        renderer_->set_mesh(WireframePrimitiveMesh::create_capsule_wire_frame(radius, half_height * 2.0));
     }
 }
 

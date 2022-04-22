@@ -18,6 +18,7 @@
 #include "material/pbr_material.h"
 #include "material/pbr_specular_material.h"
 #include "image_manager.h"
+#include "mesh/mesh_manager.h"
 
 namespace vox {
 AssimpParser::AssimpParser(Device& device):
@@ -63,7 +64,7 @@ void AssimpParser::process_node(Entity* root, aiNode *node, const aiScene *scene
 
 void AssimpParser::process_mesh(Entity* root, aiMesh *mesh, const aiScene *scene) {
     auto renderer = root->add_component<MeshRenderer>();
-    auto model_mesh = std::make_shared<ModelMesh>(device_);
+    auto model_mesh = MeshManager::get_singleton().load_model_mesh();
     renderer->set_mesh(model_mesh);
     
     std::vector<Vector3F> vec3_array(mesh->mNumVertices);

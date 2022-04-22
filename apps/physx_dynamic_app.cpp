@@ -97,7 +97,7 @@ void PhysXDynamicApp::load_scene() {
         
         auto renderer = plane_entity->add_component<MeshRenderer>();
         renderer->receive_shadow_ = true;
-        renderer->set_mesh(PrimitiveMesh::create_cuboid(*device_, size.x, size.y, size.z));
+        renderer->set_mesh(PrimitiveMesh::create_cuboid(size.x, size.y, size.z));
         renderer->set_material(mtl);
         plane_entity->transform_->set_position(position);
         plane_entity->transform_->set_rotation_quaternion(rotation);
@@ -115,7 +115,7 @@ void PhysXDynamicApp::load_scene() {
         auto box_entity = root_entity_->create_child("BoxEntity");
         auto box_renderer = box_entity->add_component<MeshRenderer>();
         box_renderer->cast_shadow_ = true;
-        box_renderer->set_mesh(PrimitiveMesh::create_cuboid(*device_, size.x, size.y, size.z));
+        box_renderer->set_mesh(PrimitiveMesh::create_cuboid(size.x, size.y, size.z));
         box_renderer->set_material(box_mtl);
         box_entity->transform_->set_position(position);
         box_entity->transform_->set_rotation_quaternion(rotation);
@@ -139,7 +139,7 @@ void PhysXDynamicApp::load_scene() {
         auto capsule_entity = root_entity_->create_child();
         auto renderer = capsule_entity->add_component<MeshRenderer>();
         renderer->cast_shadow_ = true;
-        renderer->set_mesh(PrimitiveMesh::create_capsule(*device_, radius, height, 20));
+        renderer->set_mesh(PrimitiveMesh::create_capsule(radius, height, 20));
         renderer->set_material(mtl);
         capsule_entity->transform_->set_position(position);
         capsule_entity->transform_->set_rotation_quaternion(rotation);
@@ -256,7 +256,7 @@ Entity *PhysXDynamicApp::add_sphere(float radius, const Point3F &position,
     auto sphere_entity = root_entity_->create_child();
     auto renderer = sphere_entity->add_component<MeshRenderer>();
     renderer->cast_shadow_ = true;
-    renderer->set_mesh(PrimitiveMesh::create_sphere(*device_, radius));
+    renderer->set_mesh(PrimitiveMesh::create_sphere(radius));
     renderer->set_material(mtl);
     sphere_entity->transform_->set_position(position);
     sphere_entity->transform_->set_rotation_quaternion(rotation);
@@ -283,7 +283,7 @@ Entity *PhysXDynamicApp::add_capsule(float radius, float height,
     auto capsule_entity = root_entity_->create_child();
     auto renderer = capsule_entity->add_component<MeshRenderer>();
     renderer->cast_shadow_ = true;
-    renderer->set_mesh(PrimitiveMesh::create_capsule(*device_, radius, height));
+    renderer->set_mesh(PrimitiveMesh::create_capsule(radius, height));
     renderer->set_material(mtl);
     capsule_entity->transform_->set_position(position);
     capsule_entity->transform_->set_rotation_quaternion(rotation);

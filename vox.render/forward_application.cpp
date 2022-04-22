@@ -26,6 +26,7 @@ bool ForwardApplication::prepare(Platform &platform) {
     
     image_manager_ = std::make_unique<ImageManager>(*device_);
     shader_manager_ = std::make_unique<ShaderManager>();
+    mesh_manager_ = std::make_unique<MeshManager>(*device_);
     
     components_manager_ = std::make_unique<ComponentsManager>();
     physics_manager_ = std::make_unique<physics::PhysicsManager>();

@@ -56,7 +56,7 @@ void SphereColliderShape::set_entity(Entity *value) {
     
     auto renderer = entity_->add_component<MeshRenderer>();
     renderer->set_material(std::make_shared<UnlitMaterial>(value->scene()->device()));
-    renderer->set_mesh(WireframePrimitiveMesh::create_sphere_wire_frame(value->scene()->device(), 1));
+    renderer->set_mesh(WireframePrimitiveMesh::create_sphere_wire_frame(1));
     sync_sphere_geometry();
 }
 

@@ -39,7 +39,7 @@ void SkyboxApp::load_scene() {
     
     auto model_entity = root_entity->create_child();
     auto renderer = model_entity->add_component<MeshRenderer>();
-    renderer->set_mesh(PrimitiveMesh::create_cuboid(*device_));
+    renderer->set_mesh(PrimitiveMesh::create_cuboid());
     auto material = std::make_shared<UnlitMaterial>(*device_);
     material->set_base_color(Color(0.6, 0.4, 0.7, 1.0));
     renderer->set_material(material);

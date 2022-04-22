@@ -51,7 +51,7 @@ void PrimitiveApp::load_scene() {
     auto cube_entity = root_entity->create_child();
     cube_entity->add_component<MoveScript>();
     auto renderer = cube_entity->add_component<MeshRenderer>();
-    renderer->set_mesh(PrimitiveMesh::create_cuboid(*device_, 1));
+    renderer->set_mesh(PrimitiveMesh::create_cuboid(1));
     auto material = std::make_shared<BlinnPhongMaterial>(*device_);
     material->set_base_color(Color(0.4, 0.6, 0.6));
     renderer->set_material(material);
@@ -59,7 +59,7 @@ void PrimitiveApp::load_scene() {
     auto plane_entity = root_entity->create_child();
     plane_entity->transform_->set_position(0, 5, 0);
     auto plane_renderer = plane_entity->add_component<MeshRenderer>();
-    plane_renderer->set_mesh(PrimitiveMesh::create_sphere(*device_, 1));
+    plane_renderer->set_mesh(PrimitiveMesh::create_sphere(1));
     auto textured_material = std::make_shared<BlinnPhongMaterial>(*device_);
     textured_material->set_base_texture(ImageManager::get_singleton().load_texture("Textures/wood.png"));
     plane_renderer->set_material(textured_material);

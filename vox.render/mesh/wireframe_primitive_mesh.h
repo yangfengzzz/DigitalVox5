@@ -15,11 +15,11 @@ namespace vox {
  */
 class WireframePrimitiveMesh {
 public:
-    static ModelMeshPtr create_cuboid_wire_frame(Device &device, float width, float height, float depth);
+    static ModelMeshPtr create_cuboid_wire_frame(float width, float height, float depth);
     
-    static ModelMeshPtr create_sphere_wire_frame(Device &device, float radius);
+    static ModelMeshPtr create_sphere_wire_frame(float radius);
     
-    static ModelMeshPtr create_capsule_wire_frame(Device &device, float radius, float height);
+    static ModelMeshPtr create_capsule_wire_frame(float radius, float height);
     
 private:
     static void create_circle_wire_frame(float radius,

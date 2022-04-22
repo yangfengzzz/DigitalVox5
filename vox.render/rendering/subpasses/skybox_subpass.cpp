@@ -5,7 +5,7 @@
 //  property of any third parties.
 
 #include "skybox_subpass.h"
-#include "mesh/model_mesh.h"
+#include "mesh/mesh_manager.h"
 #include "camera.h"
 
 namespace vox {
@@ -16,7 +16,7 @@ frag_shader_("base/skybox.frag") {
 }
 
 void SkyboxSubpass::create_cuboid() {
-    mesh_ = std::make_shared<ModelMesh>(render_context_.get_device());
+    mesh_ = MeshManager::get_singleton().load_model_mesh();
     
     const float kHalfLength = 0.5f;
     auto positions = std::vector<Vector3F>(24);

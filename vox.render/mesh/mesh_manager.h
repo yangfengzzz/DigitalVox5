@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "mesh.h"
+#include "model_mesh.h"
 #include "singleton.h"
 
 namespace vox {
@@ -16,15 +16,22 @@ public:
     
     static MeshManager *get_singleton_ptr();
     
+    explicit MeshManager(Device& device);
+    
+    ~MeshManager() = default;
+    
     /**
      * @brief Loads mesh
      */
-    std::shared_ptr<Mesh> load_mesh(const std::string &file);
+    std::shared_ptr<Mesh> load_mesh();
+    
+    std::shared_ptr<ModelMesh> load_model_mesh();
     
     void collect_garbage();
     
 private:
-    std::unordered_map<std::string, std::shared_ptr<Mesh>> mesh_pool_;
+    Device& device_;
+    std::vector<std::shared_ptr<Mesh>> mesh_pool_;
 };
 
 template<> inline MeshManager *Singleton<MeshManager>::ms_singleton_{nullptr};

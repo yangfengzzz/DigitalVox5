@@ -5,13 +5,13 @@
 //  property of any third parties.
 
 #include "primitive_mesh.h"
+#include "mesh_manager.h"
 
 namespace vox {
-ModelMeshPtr PrimitiveMesh::create_sphere(Device &device,
-                                          float radius,
+ModelMeshPtr PrimitiveMesh::create_sphere(float radius,
                                           size_t segments,
                                           bool no_longer_accessible) {
-    auto mesh = std::make_shared<ModelMesh>(device);
+    auto mesh = MeshManager::get_singleton().load_model_mesh();
     segments = std::max(size_t(2), segments);
     
     const auto kCount = segments + 1;
@@ -74,12 +74,11 @@ ModelMeshPtr PrimitiveMesh::create_sphere(Device &device,
     return mesh;
 }
 
-ModelMeshPtr PrimitiveMesh::create_cuboid(Device &device,
-                                          float width,
+ModelMeshPtr PrimitiveMesh::create_cuboid(float width,
                                           float height,
                                           float depth,
                                           bool no_longer_accessible) {
-    auto mesh = std::make_shared<ModelMesh>(device);
+    auto mesh = MeshManager::get_singleton().load_model_mesh();
     
     const auto kHalfWidth = width / 2;
     const auto kHalfHeight = height / 2;
@@ -221,13 +220,12 @@ ModelMeshPtr PrimitiveMesh::create_cuboid(Device &device,
     
 }
 
-ModelMeshPtr PrimitiveMesh::create_plane(Device &device,
-                                         float width,
+ModelMeshPtr PrimitiveMesh::create_plane(float width,
                                          float height,
                                          size_t horizontal_segments,
                                          size_t vertical_segments,
                                          bool no_longer_accessible) {
-    auto mesh = std::make_shared<ModelMesh>(device);
+    auto mesh = MeshManager::get_singleton().load_model_mesh();
     horizontal_segments = std::max(size_t(1), horizontal_segments);
     vertical_segments = std::max(size_t(1), vertical_segments);
     
@@ -289,14 +287,13 @@ ModelMeshPtr PrimitiveMesh::create_plane(Device &device,
     return mesh;
 }
 
-ModelMeshPtr PrimitiveMesh::create_cylinder(Device &device,
-                                            float radius_top,
+ModelMeshPtr PrimitiveMesh::create_cylinder(float radius_top,
                                             float radius_bottom,
                                             float height,
                                             size_t radial_segments,
                                             size_t height_segments,
                                             bool no_longer_accessible) {
-    auto mesh = std::make_shared<ModelMesh>(device);
+    auto mesh = MeshManager::get_singleton().load_model_mesh();
     
     const auto kRadialCount = radial_segments + 1;
     const auto kVerticalCount = height_segments + 1;
@@ -436,14 +433,13 @@ ModelMeshPtr PrimitiveMesh::create_cylinder(Device &device,
     return mesh;
 }
 
-ModelMeshPtr PrimitiveMesh::create_torus(Device &device,
-                                         float radius,
+ModelMeshPtr PrimitiveMesh::create_torus(float radius,
                                          float tube_radius,
                                          size_t radial_segments,
                                          size_t tubular_segments,
                                          float arc,
                                          bool no_longer_accessible) {
-    auto mesh = std::make_shared<ModelMesh>(device);
+    auto mesh = MeshManager::get_singleton().load_model_mesh();
     
     const auto kVertexCount = (radial_segments + 1) * (tubular_segments + 1);
     const auto kRectangleCount = radial_segments * tubular_segments;
@@ -507,13 +503,12 @@ ModelMeshPtr PrimitiveMesh::create_torus(Device &device,
     return mesh;
 }
 
-ModelMeshPtr PrimitiveMesh::create_cone(Device &device,
-                                        float radius,
+ModelMeshPtr PrimitiveMesh::create_cone(float radius,
                                         float height,
                                         size_t radial_segments,
                                         size_t height_segments,
                                         bool no_longer_accessible) {
-    auto mesh = std::make_shared<ModelMesh>(device);
+    auto mesh = MeshManager::get_singleton().load_model_mesh();
     
     const auto kRadialCount = radial_segments + 1;
     const auto kVerticalCount = height_segments + 1;
@@ -620,13 +615,12 @@ ModelMeshPtr PrimitiveMesh::create_cone(Device &device,
     return mesh;
 }
 
-ModelMeshPtr PrimitiveMesh::create_capsule(Device &device,
-                                           float radius,
+ModelMeshPtr PrimitiveMesh::create_capsule(float radius,
                                            float height,
                                            size_t radial_segments,
                                            size_t height_segments,
                                            bool no_longer_accessible) {
-    auto mesh = std::make_shared<ModelMesh>(device);
+    auto mesh = MeshManager::get_singleton().load_model_mesh();
     
     radial_segments = std::max(size_t(2), radial_segments);
     

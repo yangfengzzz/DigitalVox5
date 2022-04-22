@@ -5,10 +5,11 @@
 //  property of any third parties.
 
 #include "wireframe_primitive_mesh.h"
+#include "mesh_manager.h"
 
 namespace vox {
-ModelMeshPtr WireframePrimitiveMesh::create_cuboid_wire_frame(Device &device, float width, float height, float depth) {
-    auto mesh = std::make_shared<ModelMesh>(device);
+ModelMeshPtr WireframePrimitiveMesh::create_cuboid_wire_frame(float width, float height, float depth) {
+    auto mesh = MeshManager::get_singleton().load_model_mesh();
     
     auto half_width = width / 2;
     auto half_height = height / 2;
@@ -116,8 +117,8 @@ ModelMeshPtr WireframePrimitiveMesh::create_cuboid_wire_frame(Device &device, fl
     return mesh;
 }
 
-ModelMeshPtr WireframePrimitiveMesh::create_sphere_wire_frame(Device &device, float radius) {
-    auto mesh = std::make_shared<ModelMesh>(device);
+ModelMeshPtr WireframePrimitiveMesh::create_sphere_wire_frame(float radius) {
+    auto mesh = MeshManager::get_singleton().load_model_mesh();
     
     auto vertex_count = 40;
     auto shift = Vector3F();
@@ -141,8 +142,8 @@ ModelMeshPtr WireframePrimitiveMesh::create_sphere_wire_frame(Device &device, fl
     return mesh;
 }
 
-ModelMeshPtr WireframePrimitiveMesh::create_capsule_wire_frame(Device &device, float radius, float height) {
-    auto mesh = std::make_shared<ModelMesh>(device);
+ModelMeshPtr WireframePrimitiveMesh::create_capsule_wire_frame(float radius, float height) {
+    auto mesh = MeshManager::get_singleton().load_model_mesh();
     
     auto vertex_count = 40;
     auto shift = Vector3F();

@@ -87,7 +87,7 @@ void PhysXApp::load_scene() {
     auto box_mtl = std::make_shared<BlinnPhongMaterial>(*device_);
     auto box_renderer = box_entity->add_component<MeshRenderer>();
     box_mtl->set_base_color(Color(0.8, 0.3, 0.3, 1.0));
-    box_renderer->set_mesh(PrimitiveMesh::create_cuboid(*device_, cube_size, cube_size, cube_size));
+    box_renderer->set_mesh(PrimitiveMesh::create_cuboid(cube_size, cube_size, cube_size));
     box_renderer->set_material(box_mtl);
     
     auto box_collider = box_entity->add_component<physics::StaticCollider>();
@@ -105,7 +105,7 @@ void PhysXApp::load_scene() {
     std::default_random_engine e;
     std::uniform_real_distribution<float> u(0, 1);
     sphere_mtl->set_base_color(Color(u(e), u(e), u(e), 1));
-    sphere_renderer->set_mesh(PrimitiveMesh::create_sphere(*device_, radius));
+    sphere_renderer->set_mesh(PrimitiveMesh::create_sphere(radius));
     sphere_renderer->set_material(sphere_mtl);
     
     auto sphere_collider = sphere_entity->add_component<physics::DynamicCollider>();
