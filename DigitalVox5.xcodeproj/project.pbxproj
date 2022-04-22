@@ -248,7 +248,6 @@
 		0444EA5B2805772200C6F279 /* render_frame.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E9B0280568C300C6F279 /* render_frame.h */; };
 		0444EA5C2805772200C6F279 /* render_context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E9B2280568C400C6F279 /* render_context.cpp */; };
 		0444EA5D2805772200C6F279 /* render_context.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E9B4280568C400C6F279 /* render_context.h */; };
-		0444EA75280581C900C6F279 /* gltf_loader.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA73280581C800C6F279 /* gltf_loader.h */; };
 		0444EA78280581F300C6F279 /* heightmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA76280581F300C6F279 /* heightmap.h */; };
 		0444EA79280581F300C6F279 /* heightmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA77280581F300C6F279 /* heightmap.cpp */; };
 		0444EA822805AF2A00C6F279 /* pbr_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA802805AF2A00C6F279 /* pbr_material.h */; };
@@ -845,8 +844,6 @@
 		0444EA6B28057D1300C6F279 /* unix_d2d_platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unix_d2d_platform.cpp; sourceTree = "<group>"; };
 		0444EA6C28057D1300C6F279 /* direct_window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = direct_window.h; sourceTree = "<group>"; };
 		0444EA6D28057D1300C6F279 /* direct_window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = direct_window.cpp; sourceTree = "<group>"; };
-		0444EA72280581C800C6F279 /* gltf_loader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gltf_loader.cpp; sourceTree = "<group>"; };
-		0444EA73280581C800C6F279 /* gltf_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gltf_loader.h; sourceTree = "<group>"; };
 		0444EA76280581F300C6F279 /* heightmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = heightmap.h; sourceTree = "<group>"; };
 		0444EA77280581F300C6F279 /* heightmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = heightmap.cpp; sourceTree = "<group>"; };
 		0444EA7F2805AF2900C6F279 /* pbr_material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pbr_material.cpp; sourceTree = "<group>"; };
@@ -1797,8 +1794,6 @@
 				04D95CA4280AADFA00E54DC2 /* mesh */,
 				04D95DAE28125DA500E54DC2 /* assimp_parser.h */,
 				04D95DAD28125DA500E54DC2 /* assimp_parser.cpp */,
-				0444EA73280581C800C6F279 /* gltf_loader.h */,
-				0444EA72280581C800C6F279 /* gltf_loader.cpp */,
 				0444EBEA28084D3000C6F279 /* event.h */,
 				0444EBEB28084D3000C6F279 /* event-inl.h */,
 				0444EAC928084A7F00C6F279 /* ui */,
@@ -2255,7 +2250,6 @@
 				04D95C7D280A8C6E00E54DC2 /* translational_joint.h in Headers */,
 				0444EA382805720800C6F279 /* image.h in Headers */,
 				0444E8B52805567000C6F279 /* logging.h in Headers */,
-				0444EA75280581C900C6F279 /* gltf_loader.h in Headers */,
 				0444E9C5280569C500C6F279 /* subpass.h in Headers */,
 				04D95CFF280C3DD000E54DC2 /* render_element.h in Headers */,
 				04D95DA02810EEC900E54DC2 /* framework_graph.h in Headers */,

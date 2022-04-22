@@ -499,7 +499,9 @@ set(MESH_FILES mesh/index_buffer_binding.h
         mesh/primitive_mesh.h
         mesh/primitive_mesh.cpp
         mesh/wireframe_primitive_mesh.h
-        mesh/wireframe_primitive_mesh.cpp)
+        mesh/wireframe_primitive_mesh.cpp
+        mesh/mesh_manager.h
+        mesh/mesh_manager.cpp)
 
 set(SHADER_FILES shader/glsl_compiler.h
         shader/glsl_compiler.cpp
@@ -531,6 +533,11 @@ set(MATERIAL_FILES material/material.h
         material/pbr_specular_material.cpp
         material/blinn_phong_material.h
         material/blinn_phong_material.cpp)
+
+set(LOADER_FILES assimp_parser.h
+        assimp_parser.cpp)
+set(LOADER_SOURCE ../third_party/assimp/include
+        ../third_party/assimp/build_release/include)
 
 set(LIGHT_FILE
         lighting/light.h
@@ -622,6 +629,7 @@ set(PROJECT_FILES
         ${MESH_FILES}
         ${SHADER_FILES}
         ${MATERIAL_FILES}
+        ${LOADER_FILES}
         ${LIGHT_FILE}
         ${PLUGINS_FILE}
         ${GRAPHING_FILES}
@@ -698,7 +706,7 @@ if (${VKB_WARNINGS_AS_ERRORS})
     endif ()
 endif ()
 
-target_include_directories(${PROJECT_NAME} PUBLIC ../vox.math ./vox.render ${CMAKE_CURRENT_SOURCE_DIR} ${PHYSX_SOURCE})
+target_include_directories(${PROJECT_NAME} PUBLIC ../vox.math ./vox.render ${CMAKE_CURRENT_SOURCE_DIR} ${PHYSX_SOURCE} ${LOADER_SOURCE})
 
 # Link third party libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC

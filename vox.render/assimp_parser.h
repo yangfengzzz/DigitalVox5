@@ -15,31 +15,31 @@
 namespace vox {
 class AssimpParser {
 public:
-    AssimpParser(Device& device);
+    explicit AssimpParser(Device &device);
     
     /**
      * Simply load meshes from a file using assimp
      * Return true on success
      */
-    void load_model(Entity* root, const std::string& file, unsigned int pFlags);
+    void load_model(Entity *root, const std::string &file, unsigned int p_flags);
     
     /**
      * Processes a node in a recursive fashion.
      * Processes each individual mesh located at the node and repeats this process on its children nodes (if any).
      */
-    void process_node(Entity* root, aiNode *node, const aiScene *scene);
+    void process_node(Entity *root, aiNode *node, const aiScene *scene);
     
-    void process_mesh(Entity* root, aiMesh *mesh, const aiScene *scene);
+    void process_mesh(Entity *root, aiMesh *mesh, const aiScene *scene);
     
-    std::shared_ptr<Material> process_material(aiMaterial* material);
+    std::shared_ptr<Material> process_material(aiMaterial *material);
     
     std::shared_ptr<Image> process_textures(aiMaterial *mat, aiTextureType type);
     
 private:
-    std::string to_string(aiShadingMode mode);
+    static std::string to_string(aiShadingMode mode);
     
     std::string directory_;
-    Device& device_;
+    Device &device_;
 };
 
 }
