@@ -13,7 +13,7 @@ SkyboxSubpass::SkyboxSubpass(RenderContext &render_context, Scene *scene, Camera
 Subpass{render_context, scene, camera},
 vert_shader_module_(render_context.get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT,
                                                                                            ShaderSource("base/skybox.vert"), ShaderVariant())),
-frag_shader_module_(render_context.get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT,
+frag_shader_module_(render_context.get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT,
                                                                                            ShaderSource("base/skybox.frag"), ShaderVariant())) {
 }
 
@@ -42,6 +42,8 @@ void SkyboxSubpass::prepare() {
     
     depth_stencil_state_.depth_write_enable = false;
     depth_stencil_state_.depth_compare_op = VK_COMPARE_OP_LESS_OR_EQUAL;
+    color_blend_state_.attachments.resize(1);
+    rasterization_state_.cull_mode = VK_CULL_MODE_BACK_BIT;
     
     // Create a default sampler
     VkSamplerCreateInfo sampler_create_info = {};
@@ -49,19 +51,16 @@ void SkyboxSubpass::prepare() {
     sampler_create_info.magFilter = VK_FILTER_LINEAR;
     sampler_create_info.minFilter = VK_FILTER_LINEAR;
     sampler_create_info.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
-    sampler_create_info.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-    sampler_create_info.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-    sampler_create_info.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+    sampler_create_info.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    sampler_create_info.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    sampler_create_info.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
     sampler_create_info.mipLodBias = 0.0f;
-    sampler_create_info.compareOp = VK_COMPARE_OP_NEVER;
+    sampler_create_info.compareOp = VK_COMPARE_OP_LESS;
     sampler_create_info.minLod = 0.0f;
     // Max level-of-detail should match mip level count
-    sampler_create_info.maxLod = std::numeric_limits<float>::max();
-    // Only enable anisotropic filtering if enabled on the devicec
-    sampler_create_info.maxAnisotropy = render_context_.get_device().get_gpu().get_features().samplerAnisotropy ?
-    render_context_.get_device().get_gpu().get_properties().limits.maxSamplerAnisotropy : 1.0f;
-    sampler_create_info.anisotropyEnable = render_context_.get_device().get_gpu().get_features().samplerAnisotropy;
+    sampler_create_info.maxLod = 1.0f;
     sampler_create_info.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+    sampler_create_info.unnormalizedCoordinates = false;
     cube_sampler_ = std::make_unique<core::Sampler>(render_context_.get_device(), sampler_create_info);
 }
 
@@ -76,10 +75,14 @@ void SkyboxSubpass::draw(CommandBuffer &command_buffer) {
     }
     auto matrix = kProjectionMatrix * view_matrix;
     std::vector<uint8_t> bytes = to_bytes(matrix);
-    vp_matrix_->update(bytes.data(), bytes.size());
+    vp_matrix_->update(bytes);
     
     // pipeline state
+    command_buffer.set_rasterization_state(rasterization_state_);
+    command_buffer.set_multisample_state(multisample_state_);
     command_buffer.set_depth_stencil_state(depth_stencil_state_);
+    command_buffer.set_color_blend_state(color_blend_state_);
+    command_buffer.set_input_assembly_state(input_assembly_state_);
     
     // shader
     std::vector<ShaderModule *> shader_modules{&vert_shader_module_, &frag_shader_module_};

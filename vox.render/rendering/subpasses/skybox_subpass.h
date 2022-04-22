@@ -54,7 +54,12 @@ private:
     std::unique_ptr<core::Sampler> cube_sampler_{nullptr};
     std::unique_ptr<core::Buffer> vp_matrix_{nullptr};
     
+    InputAssemblyState input_assembly_state_;
+    RasterizationState rasterization_state_;
+    MultisampleState multisample_state_;
     DepthStencilState depth_stencil_state_;
+    ColorBlendState color_blend_state_;
+    
     ShaderModule &vert_shader_module_;
     ShaderModule &frag_shader_module_;
 };
