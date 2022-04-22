@@ -12,9 +12,9 @@ namespace vox {
 SkyboxSubpass::SkyboxSubpass(RenderContext &render_context, Scene *scene, Camera *camera) :
 Subpass{render_context, scene, camera},
 vert_shader_module_(render_context.get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT,
-                                                                                           ShaderSource(""), ShaderVariant())),
+                                                                                           ShaderSource("base/skybox.vert"), ShaderVariant())),
 frag_shader_module_(render_context.get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT,
-                                                                                           ShaderSource(""), ShaderVariant())) {
+                                                                                           ShaderSource("base/skybox.frag"), ShaderVariant())) {
 }
 
 void SkyboxSubpass::create_sphere(float radius) {
