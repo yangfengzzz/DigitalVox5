@@ -11,10 +11,8 @@
 namespace vox {
 SkyboxSubpass::SkyboxSubpass(RenderContext &render_context, Scene *scene, Camera *camera) :
 Subpass{render_context, scene, camera},
-vert_shader_module_(render_context.get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT,
-                                                                                           ShaderSource("base/skybox.vert"), ShaderVariant())),
-frag_shader_module_(render_context.get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT,
-                                                                                           ShaderSource("base/skybox.frag"), ShaderVariant())) {
+vert_shader_("base/skybox.vert"),
+frag_shader_("base/skybox.frag") {
 }
 
 void SkyboxSubpass::create_cuboid() {
@@ -23,35 +21,35 @@ void SkyboxSubpass::create_cuboid() {
     const float kHalfLength = 0.5f;
     auto positions = std::vector<Vector3F>(24);
     // Up
-    positions[0] = Vector3F(-kHalfLength, -kHalfLength, -kHalfLength);
-    positions[1] = Vector3F(kHalfLength, -kHalfLength, -kHalfLength);
-    positions[2] = Vector3F(kHalfLength, -kHalfLength, kHalfLength);
-    positions[3] = Vector3F(-kHalfLength, -kHalfLength, kHalfLength);
+    positions[0] = Vector3F(-kHalfLength, kHalfLength, -kHalfLength);
+    positions[1] = Vector3F(kHalfLength, kHalfLength, -kHalfLength);
+    positions[2] = Vector3F(kHalfLength, kHalfLength, kHalfLength);
+    positions[3] = Vector3F(-kHalfLength, kHalfLength, kHalfLength);
     // Down
-    positions[4] = Vector3F(-kHalfLength, kHalfLength, -kHalfLength);
-    positions[5] = Vector3F(kHalfLength, kHalfLength, -kHalfLength);
-    positions[6] = Vector3F(kHalfLength, kHalfLength, kHalfLength);
-    positions[7] = Vector3F(-kHalfLength, kHalfLength, kHalfLength);
+    positions[4] = Vector3F(-kHalfLength, -kHalfLength, -kHalfLength);
+    positions[5] = Vector3F(kHalfLength, -kHalfLength, -kHalfLength);
+    positions[6] = Vector3F(kHalfLength, -kHalfLength, kHalfLength);
+    positions[7] = Vector3F(-kHalfLength, -kHalfLength, kHalfLength);
     // Left
-    positions[8] = Vector3F(-kHalfLength, -kHalfLength, -kHalfLength);
-    positions[9] = Vector3F(-kHalfLength, -kHalfLength, kHalfLength);
-    positions[10] = Vector3F(-kHalfLength, kHalfLength, kHalfLength);
-    positions[11] = Vector3F(-kHalfLength, kHalfLength, -kHalfLength);
+    positions[8] = Vector3F(-kHalfLength, kHalfLength, -kHalfLength);
+    positions[9] = Vector3F(-kHalfLength, kHalfLength, kHalfLength);
+    positions[10] = Vector3F(-kHalfLength, -kHalfLength, kHalfLength);
+    positions[11] = Vector3F(-kHalfLength, -kHalfLength, -kHalfLength);
     // Right
-    positions[12] = Vector3F(kHalfLength, -kHalfLength, -kHalfLength);
-    positions[13] = Vector3F(kHalfLength, -kHalfLength, kHalfLength);
-    positions[14] = Vector3F(kHalfLength, kHalfLength, kHalfLength);
-    positions[15] = Vector3F(kHalfLength, kHalfLength, -kHalfLength);
+    positions[12] = Vector3F(kHalfLength, kHalfLength, -kHalfLength);
+    positions[13] = Vector3F(kHalfLength, kHalfLength, kHalfLength);
+    positions[14] = Vector3F(kHalfLength, -kHalfLength, kHalfLength);
+    positions[15] = Vector3F(kHalfLength, -kHalfLength, -kHalfLength);
     // Front
-    positions[16] = Vector3F(-kHalfLength, -kHalfLength, kHalfLength);
-    positions[17] = Vector3F(kHalfLength, -kHalfLength, kHalfLength);
-    positions[18] = Vector3F(kHalfLength, kHalfLength, kHalfLength);
-    positions[19] = Vector3F(-kHalfLength, kHalfLength, kHalfLength);
+    positions[16] = Vector3F(-kHalfLength, kHalfLength, kHalfLength);
+    positions[17] = Vector3F(kHalfLength, kHalfLength, kHalfLength);
+    positions[18] = Vector3F(kHalfLength, -kHalfLength, kHalfLength);
+    positions[19] = Vector3F(-kHalfLength, -kHalfLength, kHalfLength);
     // Back
-    positions[20] = Vector3F(-kHalfLength, -kHalfLength, -kHalfLength);
-    positions[21] = Vector3F(kHalfLength, -kHalfLength, -kHalfLength);
-    positions[22] = Vector3F(kHalfLength, kHalfLength, -kHalfLength);
-    positions[23] = Vector3F(-kHalfLength, kHalfLength, -kHalfLength);
+    positions[20] = Vector3F(-kHalfLength, kHalfLength, -kHalfLength);
+    positions[21] = Vector3F(kHalfLength, kHalfLength, -kHalfLength);
+    positions[22] = Vector3F(kHalfLength, -kHalfLength, -kHalfLength);
+    positions[23] = Vector3F(-kHalfLength, -kHalfLength, -kHalfLength);
     
     auto indices = std::vector<uint16_t>(36);
     // Up
@@ -115,14 +113,27 @@ void SkyboxSubpass::set_texture_cube_map(const std::shared_ptr<Image> &v) {
     cube_map_ = v;
 }
 
+void SkyboxSubpass::flip_vertically() {
+    is_flip_vertically_ = true;
+}
+
 void SkyboxSubpass::prepare() {
-    vp_matrix_ = std::make_unique<core::Buffer>(render_context_.get_device(), sizeof(Matrix4x4F),
+    auto &device = render_context_.get_device();
+    vp_matrix_ = std::make_unique<core::Buffer>(device, sizeof(Matrix4x4F),
                                                 VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                                                 VMA_MEMORY_USAGE_CPU_TO_GPU);
+    if (is_flip_vertically_) {
+        variant_.add_define("NEED_FLIP_Y");
+    }
+    device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT,
+                                                      vert_shader_, variant_);
+    device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT,
+                                                      frag_shader_, variant_);
     
     depth_stencil_state_.depth_write_enable = false;
     depth_stencil_state_.depth_compare_op = VK_COMPARE_OP_LESS_OR_EQUAL;
     color_blend_state_.attachments.resize(1);
+    rasterization_state_.cull_mode = VK_CULL_MODE_BACK_BIT;
     
     // Create a default sampler
     VkSamplerCreateInfo sampler_create_info = {};
@@ -162,7 +173,12 @@ void SkyboxSubpass::draw(CommandBuffer &command_buffer) {
     command_buffer.set_input_assembly_state(input_assembly_state_);
     
     // shader
-    std::vector<ShaderModule *> shader_modules{&vert_shader_module_, &frag_shader_module_};
+    auto &device = render_context_.get_device();
+    auto &vert_shader_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT,
+                                                                                 vert_shader_, variant_);
+    auto &frag_shader_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT,
+                                                                                 frag_shader_, variant_);
+    std::vector<ShaderModule *> shader_modules{&vert_shader_module, &frag_shader_module};
     auto &pipeline_layout = prepare_pipeline_layout(command_buffer, shader_modules);
     command_buffer.bind_pipeline_layout(pipeline_layout);
     

@@ -35,6 +35,8 @@ public:
 public:
     void create_cuboid();
     
+    void flip_vertically();
+    
     /**
      * Texture cube map of the sky box material.
      */
@@ -42,7 +44,8 @@ public:
     
     void set_texture_cube_map(const std::shared_ptr<Image> &v);
     
-private:    
+private:
+    bool is_flip_vertically_{false};
     ModelMeshPtr mesh_{nullptr};
     std::shared_ptr<Image> cube_map_{nullptr};
     std::unique_ptr<core::Sampler> cube_sampler_{nullptr};
@@ -54,8 +57,9 @@ private:
     DepthStencilState depth_stencil_state_;
     ColorBlendState color_blend_state_;
     
-    ShaderModule &vert_shader_module_;
-    ShaderModule &frag_shader_module_;
+    ShaderVariant variant_;
+    ShaderSource vert_shader_;
+    ShaderSource frag_shader_;
 };
 
 }
