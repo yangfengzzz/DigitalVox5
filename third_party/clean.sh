@@ -12,6 +12,12 @@ cd linux-release
 make clean
 cd ../../../../
 
+# ASSIMP #####################################
+cd assimp
+rm -rf build_release
+rm -rf build_debug
+cd ..
+
 # OZZ #####################################
 #cd ozz
 #rm -rf build_release
