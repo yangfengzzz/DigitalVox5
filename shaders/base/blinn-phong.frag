@@ -39,7 +39,7 @@ layout (location = 0) in vec2 v_uv;
 
 //----------------------------------------------------------------------------------------------------------------------
 #ifdef HAS_NORMAL
-    #if defined(HAS_TANGENT) && defined(NORMAL_TEXTURE)
+    #if defined(HAS_TANGENT) && defined(HAS_NORMAL_TEXTURE)
         layout (location = 2) in mat3 v_TBN;
     #else
         layout (location = 3) in vec3 v_normal;
