@@ -41,7 +41,7 @@ public:
     
 private:
     Device& device_;
-    std::vector<std::shared_ptr<Image>> image_pool_;
+    std::unordered_map<std::string, std::shared_ptr<Image>> image_pool_;
 };
 
 template<> inline ImageManager *Singleton<ImageManager>::ms_singleton_{nullptr};

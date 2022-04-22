@@ -17,6 +17,7 @@
 #include "material/blinn_phong_material.h"
 #include "material/pbr_material.h"
 #include "material/pbr_specular_material.h"
+#include "image_manager.h"
 
 namespace vox {
 AssimpParser::AssimpParser(Device& device):
@@ -24,6 +25,9 @@ device_(device) {
 }
 
 void AssimpParser::load_model(Entity* root, const std::string& file, unsigned int pFlags) {
+    // retrieve the directory path of the filepath
+    directory_ = file.substr(0, file.find_last_of('/'));
+    
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(file, pFlags | aiProcess_CalcTangentSpace);
     // check for errors
@@ -138,6 +142,7 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial* material) {
     switch (mode) {
         case aiShadingMode_Unlit: {
             auto mat = std::make_shared<UnlitMaterial>(device_);
+            mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
             result = mat;
             break;
         }
@@ -145,6 +150,10 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial* material) {
         case aiShadingMode_Blinn:
         case aiShadingMode_Phong : {
             auto mat = std::make_shared<BlinnPhongMaterial>(device_);
+            mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
+            mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
+            mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
+            mat->set_specular_texture(process_textures(material, aiTextureType_SPECULAR));
             result = mat;
             break;
         }
@@ -154,9 +163,19 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial* material) {
             material->Get(AI_MATKEY_ROUGHNESS_FACTOR, factor);
             if (factor < 0) {
                 auto mat = std::make_shared<PbrSpecularMaterial>(device_);
+                mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
+                mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
+                mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
+                mat->set_occlusion_texture(process_textures(material, aiTextureType_AMBIENT_OCCLUSION));
+                mat->set_specular_glossiness_texture(process_textures(material, aiTextureType_DIFFUSE));
                 result = mat;
             } else {
                 auto mat = std::make_shared<PbrMaterial>(device_);
+                mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
+                mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
+                mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
+                mat->set_occlusion_texture(process_textures(material, aiTextureType_AMBIENT_OCCLUSION));
+                mat->set_metallic_roughness_texture(process_textures(material, aiTextureType_DIFFUSE_ROUGHNESS));
                 result = mat;
             }
             break;
@@ -168,6 +187,18 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial* material) {
     }
     
     return result;
+}
+
+std::shared_ptr<Image> AssimpParser::process_textures(aiMaterial *mat, aiTextureType type) {
+    auto count = mat->GetTextureCount(type);
+    if (count > 0) {
+        aiString str;
+        mat->GetTexture(type, 0, &str);
+        std::string filename(str.C_Str());
+        filename = directory_ + '/' + filename;
+        return ImageManager::get_singleton().load_texture(filename);
+    }
+    return nullptr;
 }
 
 std::string AssimpParser::to_string(aiShadingMode mode) {

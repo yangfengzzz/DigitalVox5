@@ -10,6 +10,7 @@
 #include <assimp/scene.h>
 #include "scene_forward.h"
 #include "core/device.h"
+#include "image.h"
 
 namespace vox {
 class AssimpParser {
@@ -32,9 +33,12 @@ public:
     
     std::shared_ptr<Material> process_material(aiMaterial* material);
     
+    std::shared_ptr<Image> process_textures(aiMaterial *mat, aiTextureType type);
+    
 private:
     std::string to_string(aiShadingMode mode);
     
+    std::string directory_;
     Device& device_;
 };
 
