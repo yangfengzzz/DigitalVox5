@@ -8,7 +8,6 @@
 
 #include "rendering/subpass.h"
 
-
 namespace vox {
 /**
  * @brief This subpass is responsible for rendering a Scene

@@ -556,6 +556,8 @@
 		04D95DA32810EEC900E54DC2 /* graph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D9D2810EEC900E54DC2 /* graph.cpp */; };
 		04D95DA42810EEC900E54DC2 /* graph_node.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D9E2810EEC900E54DC2 /* graph_node.h */; };
 		04D95DA52810EEC900E54DC2 /* graph.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95D9F2810EEC900E54DC2 /* graph.h */; };
+		04D95DA828122B7900E54DC2 /* skybox_subpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DA628122B7900E54DC2 /* skybox_subpass.cpp */; };
+		04D95DA928122B7900E54DC2 /* skybox_subpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95DA728122B7900E54DC2 /* skybox_subpass.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1171,6 +1173,8 @@
 		04D95D9D2810EEC900E54DC2 /* graph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = graph.cpp; sourceTree = "<group>"; };
 		04D95D9E2810EEC900E54DC2 /* graph_node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graph_node.h; sourceTree = "<group>"; };
 		04D95D9F2810EEC900E54DC2 /* graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graph.h; sourceTree = "<group>"; };
+		04D95DA628122B7900E54DC2 /* skybox_subpass.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = skybox_subpass.cpp; sourceTree = "<group>"; };
+		04D95DA728122B7900E54DC2 /* skybox_subpass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = skybox_subpass.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2061,6 +2065,8 @@
 			children = (
 				04D95D23280CF6AC00E54DC2 /* geometry_subpass.h */,
 				04D95D22280CF6AC00E54DC2 /* geometry_subpass.cpp */,
+				04D95DA728122B7900E54DC2 /* skybox_subpass.h */,
+				04D95DA628122B7900E54DC2 /* skybox_subpass.cpp */,
 			);
 			path = subpasses;
 			sourceTree = "<group>";
@@ -2274,6 +2280,7 @@
 				0444EA5B2805772200C6F279 /* render_frame.h in Headers */,
 				04D95D53280EB57A00E54DC2 /* forward_application.h in Headers */,
 				0444EB5928084BA600C6F279 /* slider_multiple_doubles.h in Headers */,
+				04D95DA928122B7900E54DC2 /* skybox_subpass.h in Headers */,
 				0444EB5628084BA600C6F279 /* slider_float.h in Headers */,
 				0444EAE028084B5E00C6F279 /* canvas.h in Headers */,
 				0444E8C0280557ED00C6F279 /* resource_caching.h in Headers */,
@@ -2794,6 +2801,7 @@
 				0444EB5D28084BA600C6F279 /* slider_float.cpp in Sources */,
 				0444E9F528056B0500C6F279 /* shader_binding_table.cpp in Sources */,
 				0444E9DD28056A1900C6F279 /* resource_binding_state.cpp in Sources */,
+				04D95DA828122B7900E54DC2 /* skybox_subpass.cpp in Sources */,
 				04D95C25280993DC00E54DC2 /* component.cpp in Sources */,
 				0444EB2B28084B9700C6F279 /* separator.cpp in Sources */,
 				0444EA0A28056E2700C6F279 /* frame_time_stats_provider.cpp in Sources */,

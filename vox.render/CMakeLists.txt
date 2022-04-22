@@ -108,11 +108,11 @@ set(SCENE_RESOURCE_FILES
 set(RENDERING_SUBPASSES_FILES
         # Header files
         #    rendering/subpasses/forward_subpass.h
-        #    rendering/subpasses/lighting_subpass.h
+        rendering/subpasses/skybox_subpass.h
         rendering/subpasses/geometry_subpass.h
         # Source files
         #    rendering/subpasses/forward_subpass.cpp
-        #    rendering/subpasses/lighting_subpass.cpp
+        rendering/subpasses/skybox_subpass.cpp
         rendering/subpasses/geometry_subpass.cpp)
 
 set(STATS_FILES
