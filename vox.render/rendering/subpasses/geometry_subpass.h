@@ -41,9 +41,6 @@ protected:
                       const std::vector<RenderElement> &items,
                       const ShaderVariant &variant);
     
-    virtual PipelineLayout &prepare_pipeline_layout(CommandBuffer &command_buffer,
-                                                    const std::vector<ShaderModule *> &shader_modules);
-    
     uint32_t thread_index_{0};
 };
 

@@ -108,16 +108,4 @@ void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
     }
 }
 
-PipelineLayout &GeometrySubpass::prepare_pipeline_layout(CommandBuffer &command_buffer,
-                                                         const std::vector<ShaderModule *> &shader_modules) {
-    // Sets any specified resource modes
-    for (auto &shader_module : shader_modules) {
-        for (auto &resource_mode : resource_mode_map_) {
-            shader_module->set_resource_mode(resource_mode.first, resource_mode.second);
-        }
-    }
-    
-    return command_buffer.get_device().get_resource_cache().request_pipeline_layout(shader_modules);
-}
-
 }

@@ -51,10 +51,12 @@ private:
     
     ModelMeshPtr mesh_{nullptr};
     std::shared_ptr<Image> cube_map_{nullptr};
-    std::unique_ptr<core::Buffer> vp_matrix_;
+    std::unique_ptr<core::Sampler> cube_sampler_{nullptr};
+    std::unique_ptr<core::Buffer> vp_matrix_{nullptr};
     
-    ShaderSource vertex_source_;
-    ShaderSource fragment_source_;
+    DepthStencilState depth_stencil_state_;
+    ShaderModule &vert_shader_module_;
+    ShaderModule &frag_shader_module_;
 };
 
 }

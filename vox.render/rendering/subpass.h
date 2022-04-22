@@ -102,6 +102,9 @@ protected:
     
     static bool _compareFromFarToNear(const RenderElement &a, const RenderElement &b);
     
+    virtual PipelineLayout &prepare_pipeline_layout(CommandBuffer &command_buffer,
+                                                    const std::vector<ShaderModule *> &shader_modules);
+    
 private:
     std::string debug_name_{};
     

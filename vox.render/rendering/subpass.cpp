@@ -99,4 +99,16 @@ bool Subpass::_compareFromFarToNear(const RenderElement &a, const RenderElement 
     (b.renderer->distance_for_sort() < a.renderer->distance_for_sort());
 }
 
+PipelineLayout &Subpass::prepare_pipeline_layout(CommandBuffer &command_buffer,
+                                                 const std::vector<ShaderModule *> &shader_modules) {
+    // Sets any specified resource modes
+    for (auto &shader_module : shader_modules) {
+        for (auto &resource_mode : resource_mode_map_) {
+            shader_module->set_resource_mode(resource_mode.first, resource_mode.second);
+        }
+    }
+    
+    return command_buffer.get_device().get_resource_cache().request_pipeline_layout(shader_modules);
+}
+
 }        // namespace vox
