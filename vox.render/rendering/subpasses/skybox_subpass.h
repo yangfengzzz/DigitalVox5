@@ -33,8 +33,6 @@ public:
     void draw(CommandBuffer &command_buffer) override;
     
 public:
-    void create_sphere(float radius);
-    
     void create_cuboid();
     
     /**
@@ -44,11 +42,7 @@ public:
     
     void set_texture_cube_map(const std::shared_ptr<Image> &v);
     
-private:
-    enum class SkyBoxType {
-        CUBOID, SPHERE
-    } type_;
-    
+private:    
     ModelMeshPtr mesh_{nullptr};
     std::shared_ptr<Image> cube_map_{nullptr};
     std::unique_ptr<core::Sampler> cube_sampler_{nullptr};

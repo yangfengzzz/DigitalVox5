@@ -5,7 +5,7 @@
 //  property of any third parties.
 
 #include "skybox_subpass.h"
-#include "mesh/primitive_mesh.h"
+#include "mesh/model_mesh.h"
 #include "camera.h"
 
 namespace vox {
@@ -17,14 +17,94 @@ frag_shader_module_(render_context.get_device().get_resource_cache().request_sha
                                                                                            ShaderSource("base/skybox.frag"), ShaderVariant())) {
 }
 
-void SkyboxSubpass::create_sphere(float radius) {
-    mesh_ = PrimitiveMesh::create_sphere(render_context_.get_device(), radius);
-    type_ = SkyBoxType::SPHERE;
-}
-
 void SkyboxSubpass::create_cuboid() {
-    mesh_ = PrimitiveMesh::create_cuboid(render_context_.get_device(), 1, 1, 1);
-    type_ = SkyBoxType::CUBOID;
+    mesh_ = std::make_shared<ModelMesh>(render_context_.get_device());
+    
+    const float kHalfLength = 0.5f;
+    auto positions = std::vector<Vector3F>(24);
+    // Up
+    positions[0] = Vector3F(-kHalfLength, -kHalfLength, -kHalfLength);
+    positions[1] = Vector3F(kHalfLength, -kHalfLength, -kHalfLength);
+    positions[2] = Vector3F(kHalfLength, -kHalfLength, kHalfLength);
+    positions[3] = Vector3F(-kHalfLength, -kHalfLength, kHalfLength);
+    // Down
+    positions[4] = Vector3F(-kHalfLength, kHalfLength, -kHalfLength);
+    positions[5] = Vector3F(kHalfLength, kHalfLength, -kHalfLength);
+    positions[6] = Vector3F(kHalfLength, kHalfLength, kHalfLength);
+    positions[7] = Vector3F(-kHalfLength, kHalfLength, kHalfLength);
+    // Left
+    positions[8] = Vector3F(-kHalfLength, -kHalfLength, -kHalfLength);
+    positions[9] = Vector3F(-kHalfLength, -kHalfLength, kHalfLength);
+    positions[10] = Vector3F(-kHalfLength, kHalfLength, kHalfLength);
+    positions[11] = Vector3F(-kHalfLength, kHalfLength, -kHalfLength);
+    // Right
+    positions[12] = Vector3F(kHalfLength, -kHalfLength, -kHalfLength);
+    positions[13] = Vector3F(kHalfLength, -kHalfLength, kHalfLength);
+    positions[14] = Vector3F(kHalfLength, kHalfLength, kHalfLength);
+    positions[15] = Vector3F(kHalfLength, kHalfLength, -kHalfLength);
+    // Front
+    positions[16] = Vector3F(-kHalfLength, -kHalfLength, kHalfLength);
+    positions[17] = Vector3F(kHalfLength, -kHalfLength, kHalfLength);
+    positions[18] = Vector3F(kHalfLength, kHalfLength, kHalfLength);
+    positions[19] = Vector3F(-kHalfLength, kHalfLength, kHalfLength);
+    // Back
+    positions[20] = Vector3F(-kHalfLength, -kHalfLength, -kHalfLength);
+    positions[21] = Vector3F(kHalfLength, -kHalfLength, -kHalfLength);
+    positions[22] = Vector3F(kHalfLength, kHalfLength, -kHalfLength);
+    positions[23] = Vector3F(-kHalfLength, kHalfLength, -kHalfLength);
+    
+    auto indices = std::vector<uint16_t>(36);
+    // Up
+    indices[0] = 0;
+    indices[1] = 2;
+    indices[2] = 1;
+    indices[3] = 2;
+    indices[4] = 0;
+    indices[5] = 3;
+    // Down
+    indices[6] = 4;
+    indices[7] = 6;
+    indices[8] = 7;
+    indices[9] = 6;
+    indices[10] = 4;
+    indices[11] = 5;
+    // Left
+    indices[12] = 8;
+    indices[13] = 10;
+    indices[14] = 9;
+    indices[15] = 10;
+    indices[16] = 8;
+    indices[17] = 11;
+    // Right
+    indices[18] = 12;
+    indices[19] = 14;
+    indices[20] = 15;
+    indices[21] = 14;
+    indices[22] = 12;
+    indices[23] = 13;
+    // Front
+    indices[24] = 16;
+    indices[25] = 18;
+    indices[26] = 17;
+    indices[27] = 18;
+    indices[28] = 16;
+    indices[29] = 19;
+    // Back
+    indices[30] = 20;
+    indices[31] = 22;
+    indices[32] = 23;
+    indices[33] = 22;
+    indices[34] = 20;
+    indices[35] = 21;
+    
+    auto &bounds = mesh_->bounds_;
+    bounds.lowerCorner = Point3F(-kHalfLength, -kHalfLength, -kHalfLength);
+    bounds.upperCorner = Point3F(kHalfLength, kHalfLength, kHalfLength);
+    
+    mesh_->set_positions(positions);
+    mesh_->set_indices(indices);
+    mesh_->upload_data(true);
+    mesh_->add_sub_mesh(0, static_cast<uint32_t>(indices.size()));
 }
 
 const std::shared_ptr<Image> &SkyboxSubpass::texture_cube_map() const {
@@ -43,7 +123,6 @@ void SkyboxSubpass::prepare() {
     depth_stencil_state_.depth_write_enable = false;
     depth_stencil_state_.depth_compare_op = VK_COMPARE_OP_LESS_OR_EQUAL;
     color_blend_state_.attachments.resize(1);
-    rasterization_state_.cull_mode = VK_CULL_MODE_BACK_BIT;
     
     // Create a default sampler
     VkSamplerCreateInfo sampler_create_info = {};
@@ -67,12 +146,10 @@ void SkyboxSubpass::prepare() {
 void SkyboxSubpass::draw(CommandBuffer &command_buffer) {
     const auto kProjectionMatrix = camera_->projection_matrix();
     auto view_matrix = camera_->view_matrix();
-    if (type_ == SkyBoxType::CUBOID) {
-        view_matrix[12] = 0;
-        view_matrix[13] = 0;
-        view_matrix[14] = 0;
-        view_matrix[15] = 1;
-    }
+    view_matrix[12] = 0;
+    view_matrix[13] = 0;
+    view_matrix[14] = 0;
+    view_matrix[15] = 1;
     auto matrix = kProjectionMatrix * view_matrix;
     std::vector<uint8_t> bytes = to_bytes(matrix);
     vp_matrix_->update(bytes);
