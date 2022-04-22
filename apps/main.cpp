@@ -11,7 +11,9 @@
 #include "primitive_app.h"
 #include "physx_app.h"
 #include "physx_dynamic_app.h"
+#include "skybox_app.h"
 
+//MARK: - Entry
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
 #    include "platform/android/android_platform.h"
 void android_main(android_app *state)
@@ -43,7 +45,7 @@ int main(int argc, char *argv[]) {
 
     auto code = platform.initialize(plugins::get_all());
     if (code == vox::ExitCode::SUCCESS) {
-        platform.set_app(std::make_unique<vox::PhysXDynamicApp>());
+        platform.set_app(std::make_unique<vox::SkyboxApp>());
         code = platform.main_loop();
     }
     platform.terminate(code);
