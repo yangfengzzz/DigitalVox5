@@ -1791,6 +1791,8 @@
 				04D95CC1280B110900E54DC2 /* shader */,
 				04D95CDE280BEA7300E54DC2 /* material */,
 				04D95CA4280AADFA00E54DC2 /* mesh */,
+				04D95DAE28125DA500E54DC2 /* assimp_parser.h */,
+				04D95DAD28125DA500E54DC2 /* assimp_parser.cpp */,
 				0444EA73280581C800C6F279 /* gltf_loader.h */,
 				0444EA72280581C800C6F279 /* gltf_loader.cpp */,
 				0444EBEA28084D3000C6F279 /* event.h */,
@@ -2034,8 +2036,6 @@
 				04D95D00280C443E00E54DC2 /* mesh_renderer.cpp */,
 				04D95D4D280E447700E54DC2 /* gpu_skinned_mesh_renderer.h */,
 				04D95D4C280E447700E54DC2 /* gpu_skinned_mesh_renderer.cpp */,
-				04D95DAE28125DA500E54DC2 /* assimp_parser.h */,
-				04D95DAD28125DA500E54DC2 /* assimp_parser.cpp */,
 			);
 			path = mesh;
 			sourceTree = "<group>";
