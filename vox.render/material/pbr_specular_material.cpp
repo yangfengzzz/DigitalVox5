@@ -6,6 +6,7 @@
 
 #include "pbr_specular_material.h"
 #include "shader/internal_variant_name.h"
+#include "shader/shader_manager.h"
 
 namespace vox {
 const Color &PbrSpecularMaterial::specular_color() const {
@@ -50,6 +51,9 @@ PbrSpecularMaterial::PbrSpecularMaterial(Device &device, const std::string &name
 PbrBaseMaterial(device, name),
 pbr_specular_prop_("pbrSpecularData"),
 specular_glossiness_texture_prop_("specularGlossinessTexture") {
+    vertex_source_ = ShaderManager::get_singleton().load_shader("base/blinn-phong.vert");
+    fragment_source_ = ShaderManager::get_singleton().load_shader("base/pbr.frag");
+    
     shader_data_.set_data(pbr_specular_prop_, pbr_specular_data_);
 }
 

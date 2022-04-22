@@ -6,6 +6,7 @@
 
 #include "pbr_material.h"
 #include "shader/internal_variant_name.h"
+#include "shader/shader_manager.h"
 
 namespace vox {
 float PbrMaterial::metallic() const {
@@ -50,6 +51,10 @@ PbrMaterial::PbrMaterial(Device &device, const std::string &name) :
 PbrBaseMaterial(device, name),
 pbr_prop_("pbrData"),
 metallic_roughness_texture_prop_("metallicRoughnessTexture") {
+    shader_data_.add_define("IS_METALLIC_WORKFLOW");
+    vertex_source_ = ShaderManager::get_singleton().load_shader("base/blinn-phong.vert");
+    fragment_source_ = ShaderManager::get_singleton().load_shader("base/pbr.frag");
+    
     shader_data_.set_data(pbr_prop_, pbr_data_);
 }
 
