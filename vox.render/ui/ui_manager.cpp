@@ -9,6 +9,7 @@
 #include "matrix_utils.h"
 #include <GLFW/glfw3.h>
 #include "imgui_impl_glfw.h"
+#include "platform/filesystem.h"
 
 namespace vox::ui {
 namespace {
@@ -213,7 +214,7 @@ void UiManager::apply_style(Style p_style) {
 bool UiManager::load_font(const std::string &p_id, const std::string &p_path, float p_font_size) {
     if (fonts_.find(p_id) == fonts_.end()) {
         auto &io = ImGui::GetIO();
-        ImFont *font_instance = io.Fonts->AddFontFromFileTTF(p_path.c_str(), p_font_size);
+        ImFont *font_instance = io.Fonts->AddFontFromFileTTF((fs::path::get(fs::path::Type::ASSETS) + p_path).c_str(), p_font_size);
         
         if (font_instance) {
             fonts_[p_id] = font_instance;

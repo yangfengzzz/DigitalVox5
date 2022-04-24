@@ -22,6 +22,7 @@ VKBP_ENABLE_WARNINGS()
 #include "platform/platform.h"
 #include "platform/window.h"
 #include "rendering/render_context.h"
+#include "platform/glfw_window.h"
 
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
 #	include "platform/android/android_platform.h"
@@ -158,6 +159,7 @@ bool GraphicsApplication::prepare(Platform &platform) {
     create_render_context(platform);
     prepare_render_context();
     
+    gui_ = std::make_unique<ui::UiManager>(static_cast<GlfwWindow*>(&platform.get_window())->handle(), render_context_.get());
     stats_ = std::make_unique<vox::Stats>(*render_context_);
     
     // Start the sample in the first GUI configuration
