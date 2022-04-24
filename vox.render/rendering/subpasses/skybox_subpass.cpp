@@ -184,7 +184,7 @@ void SkyboxSubpass::draw(CommandBuffer &command_buffer) {
     
     // uniform & texture
     command_buffer.bind_buffer(*vp_matrix_, 0, vp_matrix_->get_size(), 0, 10, 0);
-    command_buffer.bind_image(cube_map_->get_vk_image_view(), *cube_sampler_, 0, 11, 0);
+    command_buffer.bind_image(cube_map_->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE), *cube_sampler_, 0, 11, 0);
     
     // vertex buffer
     command_buffer.set_vertex_input_state(mesh_->vertex_input_state());
