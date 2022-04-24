@@ -9,6 +9,7 @@
 #include <assimp/scene.h>
 #include <assimp/matrix4x4.h>
 #include <assimp/postprocess.h>
+#include "platform/filesystem.h"
 #include "logging.h"
 #include "entity.h"
 #include "mesh/mesh_renderer.h"
@@ -29,10 +30,10 @@ void AssimpParser::load_model(Entity *root, const std::string &file, unsigned in
     directory_ = file.substr(0, file.find_last_of('/'));
     
     Assimp::Importer importer;
-    const aiScene *scene = importer.ReadFile(file, p_flags | aiProcess_CalcTangentSpace);
+    const aiScene *scene = importer.ReadFile(fs::path::get(fs::path::Type::ASSETS) + file, p_flags | aiProcess_CalcTangentSpace);
     // check for errors
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-        LOGE("ERROR::ASSIMP:: %s", importer.GetErrorString())
+        LOGE("ERROR::ASSIMP:: {}", importer.GetErrorString())
     }
     
     // process ASSIMP's root node recursively
@@ -131,6 +132,11 @@ void AssimpParser::process_mesh(Entity *root, aiMesh *mesh, const aiScene *scene
     model_mesh->add_sub_mesh(0, static_cast<uint32_t>(indices.size()));
     model_mesh->upload_data(true);
     
+    const auto& min = mesh->mAABB.mMin;
+    const auto& max = mesh->mAABB.mMax;
+    model_mesh->bounds_.upperCorner = Point3F(max.x, max.y, max.z);
+    model_mesh->bounds_.lowerCorner = Point3F(min.x, min.y, min.z);
+
     // process materials
     renderer->set_material(process_material(scene->mMaterials[mesh->mMaterialIndex]));
 }
@@ -206,7 +212,7 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial *material) {
             break;
         }
             
-        default:LOGI("Unknown material type: %s", to_string(mode))
+        default:LOGI("Unknown material type: {}", to_string(mode))
             break;
     }
     
