@@ -49,6 +49,8 @@ public:
 private:
     Device& device_;
     std::unordered_map<std::string, std::shared_ptr<Image>> image_pool_;
+    VkSamplerCreateInfo sampler_create_info_;
+    std::unique_ptr<core::Sampler> sampler_{nullptr};
     
     ShaderData shader_data_;
     std::unique_ptr<PostProcessingPipeline> pipeline_{nullptr};
