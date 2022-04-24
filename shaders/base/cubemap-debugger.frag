@@ -1,6 +1,6 @@
 #version 450
 
-layout(set = 0, binding = 5)  sampler2D baseTexture;
+layout(set = 0, binding = 5) uniform sampler2D baseTexture;
 layout(set = 0, binding = 7) uniform faceIndex {
     int value;
 } face_index;

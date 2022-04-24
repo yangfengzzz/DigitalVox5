@@ -111,7 +111,7 @@ layout(set = 0, binding = 10) uniform envMapLight {
     float specular_intensity;
 } env_map_light;
 
-#ifdef USE_SH
+#ifdef HAS_SH
     layout(set = 0, binding = 11) uniform env_sh {
         float value[9];
     };
@@ -474,7 +474,7 @@ float getSpecularMIPLevel(float roughness, int maxMIPLevel) {
 }
 
 vec3 getLightProbeRadiance(GeometricContext geometry, float roughness, int maxMIPLevel, float specularIntensity) {
-    #ifndef USE_SPECULAR_ENV
+    #ifndef HAS_SPECULAR_ENV
         return vec3(0);
     #else
         vec3 reflectVec = reflect(-geometry.viewDir, geometry.normal);
@@ -483,7 +483,7 @@ vec3 getLightProbeRadiance(GeometricContext geometry, float roughness, int maxMI
         #ifdef HAS_TEX_LOD
             vec4 envMapColor = textureCubeLodEXT(env_specularTexture, reflectVec, specularMIPLevel);
         #else
-            vec4 envMapColor = textureCube(env_specularTexture, reflectVec, specularMIPLevel);
+            vec4 envMapColor = texture(env_specularTexture, reflectVec, specularMIPLevel);
         #endif
 
         #ifdef DECODE_ENV_RGBM
@@ -516,7 +516,7 @@ void main() {
     addTotalDirectRadiance(geometry, material, reflectedLight);
 
     // IBL diffuse
-    #ifdef USE_SH
+    #ifdef HAS_SH
         vec3 irradiance = getLightProbeIrradiance(env_sh.value, geometry.normal);
 //        #ifdef OASIS_COLORSPACE_GAMMA
 //            irradiance = linearToGamma(vec4(irradiance, 1.0)).rgb;
@@ -538,7 +538,7 @@ void main() {
         vec2 aoUV = v_uv;
         float ambientOcclusion = (texture(occlusionTexture, aoUV).r - 1.0) + 1.0;
         reflectedLight.indirectDiffuse *= ambientOcclusion;
-        #ifdef USE_SPECULAR_ENV
+        #ifdef HAS_SPECULAR_ENV
             reflectedLight.indirectSpecular *= computeSpecularOcclusion(ambientOcclusion, material.roughness, dotNV);
         #endif
     #endif
