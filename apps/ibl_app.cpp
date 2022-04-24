@@ -43,12 +43,14 @@ void IBLApp::load_scene() {
     materials_[9] = Material("Blue", Color(0.0f, 0.0f, 1.0f, 1.0), 0.1f, 1.0f);
     materials_[10] = Material("Black", Color(0.0f, 1.0, 1.0, 1.0), 0.1f, 1.0f);
     
-    const int kMaterialIndex = 0;
+    const int kMaterialIndex = 7;
     Material mat = materials_[kMaterialIndex];
     
     auto scene = scene_manager_->current_scene();
     auto ibl_map = ImageManager::get_singleton().generate_ibl("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
+    auto sh = ImageManager::get_singleton().generate_sh("Textures/uffizi_rgba16f_cube.ktx");
     scene->ambient_light()->set_specular_texture(ibl_map);
+    scene->ambient_light()->set_diffuse_spherical_harmonics(sh);
     
     auto root_entity = scene->create_root_entity();
     

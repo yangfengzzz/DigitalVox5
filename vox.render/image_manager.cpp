@@ -322,7 +322,7 @@ std::shared_ptr<Image> ImageManager::generate_ibl(const std::string &file,
             shader_data_.set_data("lodRoughness", std::move(allocation));
             
             shader_data_.set_storage_texture("o_results", target->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE, lod, 0, 1, 0));
-
+            
             ibl_pass_->set_dispatch_size({(source_width + 8) / 8, (source_width + 8) / 8, 6});
             pipeline_->draw(command_buffer, render_context.get_active_frame().get_render_target());
         }
@@ -332,6 +332,65 @@ std::shared_ptr<Image> ImageManager::generate_ibl(const std::string &file,
         image_pool_.insert(std::make_pair(file + "ibl", target));
         return target;
     }
+}
+
+SphericalHarmonics3 ImageManager::generate_sh(const std::string &file) {
+    auto source = load_texture_cubemap(file);
+    const auto &layers = source->get_layers();
+    auto &offsets = source->get_offsets();
+    uint32_t texture_size = source->get_extent().width;
+    float texelSize = 2.f / static_cast<float>(texture_size); // convolution is in the space of [-1, 1]
+    
+    float solidAngleSum = 0;
+    const uint32_t channelLength = 4;
+    SphericalHarmonics3 sh;
+    for (uint32_t layer = 0; layer < layers; layer++) {
+        uint64_t bufferOffset = offsets[layer][0];
+        float v = texelSize * 0.5f - 1.f;
+        for (uint32_t y = 0; y < texture_size; y++) {
+            float u = texelSize * 0.5f - 1.f;
+            for (uint32_t x = 0; x < texture_size; x++) {
+                uint64_t dataOffset = y * texture_size * channelLength + x * channelLength + bufferOffset;
+                Color color(source->data_[dataOffset], source->data_[dataOffset + 1], source->data_[dataOffset + 2], 0);
+                
+                Vector3F direction;
+                switch (layer) {
+                    case 0: // TextureCubeFace.PositiveX
+                        direction.set(1, -v, -u);
+                        break;
+                    case 1: // TextureCubeFace.NegativeX
+                        direction.set(-1, -v, u);
+                        break;
+                    case 2: // TextureCubeFace.PositiveY
+                        direction.set(u, 1, v);
+                        break;
+                    case 3: // TextureCubeFace.NegativeY
+                        direction.set(u, -1, -v);
+                        break;
+                    case 4: // TextureCubeFace.PositiveZ
+                        direction.set(u, -v, 1);
+                        break;
+                    case 5: //TextureCubeFace.NegativeZ
+                        direction.set(-u, -v, -1);
+                        break;
+                    default:
+                        break;
+                }
+                
+                /**
+                 * dA = cos = S / r = 4 / r
+                 * dw = dA / r2 = 4 / r / r2
+                 */
+                float solidAngle = 4.f / (direction.length() * direction.lengthSquared());
+                solidAngleSum += solidAngle;
+                sh.addLight(direction.normalized(), color, solidAngle);
+                u += texelSize;
+            }
+            v += texelSize;
+        }
+    }
+    sh = sh * ((4.f * M_PI) / solidAngleSum);
+    return sh;
 }
 
 }

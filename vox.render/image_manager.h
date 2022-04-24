@@ -12,6 +12,7 @@
 #include "singleton.h"
 #include "rendering/postprocessing_pipeline.h"
 #include "rendering/postprocessing_computepass.h"
+#include "spherical_harmonics3.h"
 
 namespace vox {
 class ImageManager: public Singleton<ImageManager> {
@@ -45,6 +46,8 @@ public:
 public:
     std::shared_ptr<Image> generate_ibl(const std::string &file,
                                         RenderContext &render_context);
+    
+    SphericalHarmonics3 generate_sh(const std::string &file);
     
 private:
     Device& device_;
