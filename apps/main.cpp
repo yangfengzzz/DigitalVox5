@@ -15,6 +15,8 @@
 #include "assimp_app.h"
 #include "gui_app.h"
 #include "pbr_app.h"
+#include "irradiance_app.h"
+#include "ibl_app.h"
 
 //MARK: - Entry
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
