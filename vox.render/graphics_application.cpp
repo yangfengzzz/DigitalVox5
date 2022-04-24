@@ -34,6 +34,9 @@ GraphicsApplication::~GraphicsApplication() {
         device_->wait_idle();
     }
         
+    if (render_pipeline_) {
+        render_pipeline_.reset();
+    }
     stats_.reset();
     gui_.reset();
     render_context_.reset();
