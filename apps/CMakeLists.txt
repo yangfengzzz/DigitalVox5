@@ -19,6 +19,7 @@ set(SRC
         skybox_app.cpp
         assimp_app.cpp
         gui_app.cpp
+        pbr_app.cpp
         main.cpp
         )
 

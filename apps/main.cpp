@@ -14,6 +14,7 @@
 #include "skybox_app.h"
 #include "assimp_app.h"
 #include "gui_app.h"
+#include "pbr_app.h"
 
 //MARK: - Entry
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
@@ -47,7 +48,7 @@ int main(int argc, char *argv[]) {
 
     auto code = platform.initialize(plugins::get_all());
     if (code == vox::ExitCode::SUCCESS) {
-        platform.set_app(std::make_unique<vox::GuiApp>());
+        platform.set_app(std::make_unique<vox::PbrApp>());
         code = platform.main_loop();
     }
     platform.terminate(code);

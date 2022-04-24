@@ -564,6 +564,7 @@
 		04D95DB42812A0DB00E54DC2 /* mesh_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95DB22812A0DB00E54DC2 /* mesh_manager.h */; };
 		04D95DB72814D06100E54DC2 /* assimp_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DB52814D06100E54DC2 /* assimp_app.cpp */; };
 		04D95DBA2814E07700E54DC2 /* gui_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DB82814E07700E54DC2 /* gui_app.cpp */; };
+		04D95DBD2814E60600E54DC2 /* pbr_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DBB2814E60600E54DC2 /* pbr_app.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1189,6 +1190,8 @@
 		04D95DB62814D06100E54DC2 /* assimp_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = assimp_app.h; sourceTree = "<group>"; };
 		04D95DB82814E07700E54DC2 /* gui_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gui_app.cpp; sourceTree = "<group>"; };
 		04D95DB92814E07700E54DC2 /* gui_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gui_app.h; sourceTree = "<group>"; };
+		04D95DBB2814E60600E54DC2 /* pbr_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pbr_app.cpp; sourceTree = "<group>"; };
+		04D95DBC2814E60600E54DC2 /* pbr_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pbr_app.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1747,6 +1750,8 @@
 				04D95DB52814D06100E54DC2 /* assimp_app.cpp */,
 				04D95DB92814E07700E54DC2 /* gui_app.h */,
 				04D95DB82814E07700E54DC2 /* gui_app.cpp */,
+				04D95DBC2814E60600E54DC2 /* pbr_app.h */,
+				04D95DBB2814E60600E54DC2 /* pbr_app.cpp */,
 			);
 			path = apps;
 			sourceTree = "<group>";
@@ -2690,6 +2695,7 @@
 				04D95DBA2814E07700E54DC2 /* gui_app.cpp in Sources */,
 				04D95D8F2810E87C00E54DC2 /* stop_after.cpp in Sources */,
 				04D95D912810E91700E54DC2 /* screenshot.cpp in Sources */,
+				04D95DBD2814E60600E54DC2 /* pbr_app.cpp in Sources */,
 				04D95DAC281235EE00E54DC2 /* skybox_app.cpp in Sources */,
 				04D95D5C28103C4C00E54DC2 /* physx_app.cpp in Sources */,
 				047BB5C62803A96500CD5749 /* main.cpp in Sources */,

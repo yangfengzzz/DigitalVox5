@@ -146,6 +146,7 @@ fabric.properties
 .DS_Store
 cmake-release
 cmake-debug
+imgui.ini
 apps/imgui.ini
 editor/imgui.ini
 editor/NodeEditor.terr3d
