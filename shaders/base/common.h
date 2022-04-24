@@ -1,6 +1,6 @@
 #define Position 0
 #define Normal 1
-#define  UV_0 2
+#define UV_0 2
 #define Tangent 3
 #define Bitangent 4
 #define Color_0 5

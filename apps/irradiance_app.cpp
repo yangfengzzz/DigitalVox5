@@ -18,6 +18,8 @@ namespace vox {
 class BakerMaterial : public BaseMaterial {
 public:
     explicit BakerMaterial(Device& device) : BaseMaterial(device, "cubemapDebugger") {
+        vertex_source_ = ShaderManager::get_singleton().load_shader("base/cubemap-debugger.vert");
+        fragment_source_ = ShaderManager::get_singleton().load_shader("base/cubemap-debugger.frag");
     }
     
     void set_base_texture(const core::ImageView &image_view) {
@@ -36,7 +38,7 @@ public:
     }
     
 private:
-    const std::string base_texture_prop_ = "base_texture";
+    const std::string base_texture_prop_ = "baseTexture";
     
     uint32_t face_index_{};
     const std::string face_index_prop_ = "faceIndex";
