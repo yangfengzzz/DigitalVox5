@@ -562,6 +562,7 @@
 		04D95DB028125DA500E54DC2 /* assimp_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95DAE28125DA500E54DC2 /* assimp_parser.h */; };
 		04D95DB32812A0DB00E54DC2 /* mesh_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DB12812A0DB00E54DC2 /* mesh_manager.cpp */; };
 		04D95DB42812A0DB00E54DC2 /* mesh_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95DB22812A0DB00E54DC2 /* mesh_manager.h */; };
+		04D95DB72814D06100E54DC2 /* assimp_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DB52814D06100E54DC2 /* assimp_app.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1183,6 +1184,8 @@
 		04D95DAE28125DA500E54DC2 /* assimp_parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = assimp_parser.h; sourceTree = "<group>"; };
 		04D95DB12812A0DB00E54DC2 /* mesh_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mesh_manager.cpp; sourceTree = "<group>"; };
 		04D95DB22812A0DB00E54DC2 /* mesh_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mesh_manager.h; sourceTree = "<group>"; };
+		04D95DB52814D06100E54DC2 /* assimp_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = assimp_app.cpp; sourceTree = "<group>"; };
+		04D95DB62814D06100E54DC2 /* assimp_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = assimp_app.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1737,6 +1740,8 @@
 				04D95D612810DCA000E54DC2 /* physx_dynamic_app.cpp */,
 				04D95DAB281235EE00E54DC2 /* skybox_app.h */,
 				04D95DAA281235EE00E54DC2 /* skybox_app.cpp */,
+				04D95DB62814D06100E54DC2 /* assimp_app.h */,
+				04D95DB52814D06100E54DC2 /* assimp_app.cpp */,
 			);
 			path = apps;
 			sourceTree = "<group>";
@@ -2676,6 +2681,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04D95DB72814D06100E54DC2 /* assimp_app.cpp in Sources */,
 				04D95D8F2810E87C00E54DC2 /* stop_after.cpp in Sources */,
 				04D95D912810E91700E54DC2 /* screenshot.cpp in Sources */,
 				04D95DAC281235EE00E54DC2 /* skybox_app.cpp in Sources */,
@@ -3067,6 +3073,7 @@
 					./vox.render,
 					./vox.math,
 				);
+				LD_RUNPATH_SEARCH_PATHS = ./third_party/assimp/build_debug/bin;
 				LIBRARY_SEARCH_PATHS = (
 					"./cmake-build-debug/third_party/lib/Debug/x86_64",
 					"./cmake-build-debug/third_party/glfw/src/lib/Debug/x86_64",
@@ -3078,6 +3085,7 @@
 					"./cmake-build-debug/third_party/glslang/OGLCompilersDLL/lib/Debug/x86_64",
 					./third_party/physX/physx/bin/linux.clang/debug,
 					/usr/local/lib,
+					./third_party/assimp/build_debug/bin,
 				);
 				OTHER_CPLUSPLUSFLAGS = "-fexceptions";
 				OTHER_LDFLAGS = (
@@ -3106,6 +3114,7 @@
 					"-lPhysXPvdSDK_static_64",
 					"-lPhysXExtensions_static_64",
 					"-lPhysXCharacterKinematic_static_64",
+					"-lassimpd",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = (
@@ -3180,6 +3189,7 @@
 					./vox.render,
 					./vox.math,
 				);
+				LD_RUNPATH_SEARCH_PATHS = ./third_party/assimp/build_release/bin;
 				LIBRARY_SEARCH_PATHS = (
 					"./cmake-build-release/third_party/lib/Release/x86_64",
 					"./cmake-build-release/third_party/glfw/src/lib/Release/x86_64",
@@ -3191,6 +3201,7 @@
 					"./cmake-build-release/third_party/glslang/OGLCompilersDLL/lib/Release/x86_64",
 					./third_party/physX/physx/bin/linux.clang/release,
 					/usr/local/lib,
+					./third_party/assimp/build_release/bin,
 				);
 				OTHER_CPLUSPLUSFLAGS = "-fexceptions";
 				OTHER_LDFLAGS = (
@@ -3219,6 +3230,7 @@
 					"-lPhysXPvdSDK_static_64",
 					"-lPhysXExtensions_static_64",
 					"-lPhysXCharacterKinematic_static_64",
+					"-lassimp",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = (

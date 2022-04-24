@@ -12,6 +12,7 @@
 #include "physx_app.h"
 #include "physx_dynamic_app.h"
 #include "skybox_app.h"
+#include "assimp_app.h"
 
 //MARK: - Entry
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
