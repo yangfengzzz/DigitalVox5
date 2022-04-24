@@ -12,6 +12,13 @@ device_(device) {
 }
 
 void ShaderData::bind_data(CommandBuffer &command_buffer, DescriptorSetLayout &descriptor_set_layout) {
+    for (auto &allocation : shader_buffer_pools_) {
+        if (auto layout_binding = descriptor_set_layout.get_layout_binding(allocation.first)) {
+            command_buffer.bind_buffer(allocation.second.get_buffer(), allocation.second.get_offset(),
+                                       allocation.second.get_size(), 0, layout_binding->binding, 0);
+        }
+    }
+    
     for (auto &buffer : shader_buffers_) {
         if (auto layout_binding = descriptor_set_layout.get_layout_binding(buffer.first)) {
             command_buffer.bind_buffer(*buffer.second, 0, buffer.second->get_size(), 0, layout_binding->binding, 0);
@@ -39,6 +46,10 @@ void ShaderData::bind_data(CommandBuffer &command_buffer, DescriptorSetLayout &d
                                       0, layout_binding->binding, 0);
         }
     }
+}
+
+void ShaderData::set_data(const std::string &property_name, BufferAllocation &&value) {
+    shader_buffer_pools_.insert(std::make_pair(property_name, std::move(value)));
 }
 
 void ShaderData::set_buffer_functor(const std::string &property_name,

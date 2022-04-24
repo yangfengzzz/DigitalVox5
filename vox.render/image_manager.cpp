@@ -313,9 +313,14 @@ std::shared_ptr<Image> ImageManager::generate_ibl(const std::string &file,
         shader_data_.set_sampled_texture("environmentMap", source->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE), sampler_.get());
         uint32_t source_width = source->get_extent().width;
         shader_data_.set_data("textureSize", source_width);
+        
+        auto &render_frame = render_context.get_active_frame();
         for (uint32_t lod = 0; lod < bakerMipmapCount; lod++) {
             float lodRoughness = float(lod) / float(bakerMipmapCount - 1); // linear
-            shader_data_.set_data("lodRoughness", lodRoughness);
+            auto allocation = render_frame.allocate_buffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(float), 0);
+            allocation.update(lodRoughness);
+            shader_data_.set_data("lodRoughness", std::move(allocation));
+            
             shader_data_.set_storage_texture("o_results", target->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE, lod, 0, 1, 0));
 
             ibl_pass_->set_dispatch_size({(source_width + 8) / 8, (source_width + 8) / 8, 6});
