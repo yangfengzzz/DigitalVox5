@@ -100,7 +100,7 @@ void AmbientLight::set_diffuse_texture(const std::shared_ptr<Image> &value) {
     auto &shader_data = scene_->shader_data_;
     
     if (value) {
-        shader_data.set_texture(AmbientLight::diffuse_texture_property_, diffuse_texture_, sampler_.get());
+        shader_data.set_sampled_texture(AmbientLight::diffuse_texture_property_, diffuse_texture_, sampler_.get());
         shader_data.add_define(HAS_DIFFUSE_ENV);
     } else {
         shader_data.remove_define(HAS_DIFFUSE_ENV);
@@ -138,7 +138,7 @@ void AmbientLight::set_specular_texture(const std::shared_ptr<Image> &value) {
     auto &shader_data = scene_->shader_data_;
     
     if (value) {
-        shader_data.set_texture(AmbientLight::specular_texture_property_, specular_reflection_, sampler_.get());
+        shader_data.set_sampled_texture(AmbientLight::specular_texture_property_, specular_reflection_, sampler_.get());
         env_map_light_.mip_map_level = static_cast<uint32_t>(value->get_mipmaps().size() - 1);
         scene_->shader_data_.set_data(AmbientLight::env_map_property_, env_map_light_);
         shader_data.add_define(HAS_SPECULAR_ENV);

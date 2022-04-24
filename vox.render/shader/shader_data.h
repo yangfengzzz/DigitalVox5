@@ -64,9 +64,21 @@ public:
         iter->second->update(value.data(), sizeof(T) * N);
     }
     
-    void set_texture(const std::string &texture_name,
-                     const std::shared_ptr<Image> &image,
-                     core::Sampler *sampler = nullptr);
+public:
+    void set_sampled_texture(const std::string &texture_name,
+                             const std::shared_ptr<Image> &image,
+                             core::Sampler *sampler);
+    
+    void set_storage_texture(const std::string &texture_name,
+                             const std::shared_ptr<Image> &image);
+    
+    inline const std::unordered_map<std::string, std::unique_ptr<core::SampledImage>>& sampled_textures() const {
+        return sampled_textures_;
+    }
+    
+    inline const std::unordered_map<std::string, std::unique_ptr<core::SampledImage>>& storage_textures() const {
+        return storage_textures_;
+    }
     
 public:
     /**
@@ -87,7 +99,8 @@ private:
     Device &device_;
     std::unordered_map<std::string, std::function<core::Buffer *()>> shader_buffer_functors_{};
     std::unordered_map<std::string, std::unique_ptr<core::Buffer>> shader_buffers_{};
-    std::unordered_map<std::string, std::unique_ptr<core::SampledImage>> shader_textures_{};
+    std::unordered_map<std::string, std::unique_ptr<core::SampledImage>> sampled_textures_{};
+    std::unordered_map<std::string, std::unique_ptr<core::SampledImage>> storage_textures_{};
     
     ShaderVariant variant_;
 };

@@ -27,7 +27,7 @@ public:
     
     void set_base_texture(std::shared_ptr<Image> new_value) {
         texture_ = std::move(new_value);
-        shader_data_.set_texture(base_texture_prop_, texture_);
+//        shader_data_.set_sampled_texture(base_texture_prop_, texture_);
     }
     
     /// Tiling and offset of main textures.

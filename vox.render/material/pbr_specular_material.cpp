@@ -42,7 +42,7 @@ void PbrSpecularMaterial::set_specular_glossiness_texture(const std::shared_ptr<
                                                           const VkSamplerCreateInfo &info) {
     specular_glossiness_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_texture(specular_glossiness_texture_prop_, new_value, get_sampler_(info));
+        shader_data_.set_sampled_texture(specular_glossiness_texture_prop_, new_value, get_sampler_(info));
         shader_data_.add_define(HAS_SPECULARGLOSSINESSMAP);
     } else {
         shader_data_.remove_define(HAS_SPECULARGLOSSINESSMAP);
