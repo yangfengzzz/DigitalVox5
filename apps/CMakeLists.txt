@@ -18,6 +18,7 @@ set(SRC
         physx_dynamic_app.cpp
         skybox_app.cpp
         assimp_app.cpp
+        gui_app.cpp
         main.cpp
         )
 

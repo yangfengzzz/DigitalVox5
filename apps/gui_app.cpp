@@ -4,15 +4,19 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "assimp_app.h"
+#include "gui_app.h"
 #include "mesh/mesh_renderer.h"
+#include "material/unlit_material.h"
 #include "camera.h"
 #include "controls/orbit_control.h"
-#include "assimp_parser.h"
-#include <assimp/postprocess.h>
+#include "ui/widgets/texts/text_labelled.h"
 
 namespace vox {
-void AssimpApp::load_scene() {
+void GuiApp::load_scene() {
+    gui_->set_canvas(canvas_);
+    canvas_.add_panel(panel_);
+    panel_.create_widget<ui::TextLabelled>("hello", "world");
+    
     auto scene = scene_manager_->current_scene();
     auto root_entity = scene->create_root_entity();
     
@@ -21,18 +25,6 @@ void AssimpApp::load_scene() {
     camera_entity->transform_->look_at(Point3F(0, 0, 0));
     main_camera_ = camera_entity->add_component<Camera>();
     camera_entity->add_component<control::OrbitControl>();
-    
-    // init point light
-    auto light = root_entity->create_child("light");
-    light->transform_->set_position(0, 3, 0);
-    auto point_light = light->add_component<PointLight>();
-    point_light->intensity_ = 1.0;
-    point_light->distance_ = 100;
-    
-    auto cube_entity = root_entity->create_child();
-    cube_entity->transform_->set_scale(0.01, 0.01, 0.01);
-    AssimpParser parser(*device_);
-    parser.load_model(cube_entity, "Models/Temple.obj", aiProcess_FlipUVs);
     
     scene->play();
 }

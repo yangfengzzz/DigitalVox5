@@ -13,6 +13,7 @@
 #include "physx_dynamic_app.h"
 #include "skybox_app.h"
 #include "assimp_app.h"
+#include "gui_app.h"
 
 //MARK: - Entry
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
@@ -46,7 +47,7 @@ int main(int argc, char *argv[]) {
 
     auto code = platform.initialize(plugins::get_all());
     if (code == vox::ExitCode::SUCCESS) {
-        platform.set_app(std::make_unique<vox::AssimpApp>());
+        platform.set_app(std::make_unique<vox::GuiApp>());
         code = platform.main_loop();
     }
     platform.terminate(code);
