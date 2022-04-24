@@ -1,3 +1,5 @@
+#version 450
+
 #define PI 3.14159265359
 #define RECIPROCAL_PI 0.31830988618
 #define EPSILON 1e-6
@@ -67,7 +69,7 @@ layout (location = 0) in vec2 v_uv;
         vec3 direction;
     };
 
-    layout(set = 0, binding = 9) uniform directLight {
+    layout(set = 0, binding = 7) uniform directLight {
         DirectLight value[DIRECT_LIGHT_COUNT];
     } direct_light;
 #endif
@@ -80,7 +82,7 @@ layout (location = 0) in vec2 v_uv;
         float distance;
     };
 
-    layout(set = 0, binding = 10) uniform pointLight {
+    layout(set = 0, binding = 8) uniform pointLight {
         PointLight value[POINT_LIGHT_COUNT];
     } point_light;
 #endif
@@ -96,13 +98,13 @@ layout (location = 0) in vec2 v_uv;
         float penumbraCos;
     };
 
-    layout(set = 0, binding = 11) uniform spotLight {
+    layout(set = 0, binding = 9) uniform spotLight {
         SpotLight value[SPOT_LIGHT_COUNT];
     } spot_light;
 #endif
 
 // ambient light
-layout(set = 0, binding = 12) uniform envMapLight {
+layout(set = 0, binding = 10) uniform envMapLight {
     vec3 diffuse;
     float mip_map_level;
     float diffuse_intensity;
@@ -110,59 +112,59 @@ layout(set = 0, binding = 12) uniform envMapLight {
 } env_map_light;
 
 #ifdef USE_SH
-    layout(set = 0, binding = 13) uniform env_sh {
+    layout(set = 0, binding = 11) uniform env_sh {
         float value[9];
     };
 #endif
 
 #ifdef HAS_SPECULAR_ENV
-    layout(set = 0, binding = 14) uniform samplerCube env_specularTexture;
+    layout(set = 0, binding = 12) uniform samplerCube env_specularTexture;
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------
-layout(set = 0, binding = 16) uniform alphaCutoff {
+layout(set = 0, binding = 13) uniform alphaCutoff {
     float value;
 } alpha_cutoff;
 
-layout(set = 0, binding = 6) uniform pbrBaseData {
+layout(set = 0, binding = 14) uniform pbrBaseData {
     vec4 base_color;
     vec4 emissive_color;
     float normal_texture_intensity;
     float occlusion_texture_intensity;
 } pbr_base_data;
 
-layout(set = 0, binding = 6) uniform pbrData {
+layout(set = 0, binding = 15) uniform pbrData {
     float metal;
     float roughness;
 } pbr_data;
 
-layout(set = 0, binding = 6) uniform pbrSpecularData {
+layout(set = 0, binding = 16) uniform pbrSpecularData {
     vec3 specular_color;
     float glossiness;
 } pbr_specular_data;
 
 #ifdef HAS_BASECOLORMAP
-    layout(set = 0, binding = 6) uniform sampler2D u_baseColorSampler;
+    layout(set = 0, binding = 17) uniform sampler2D u_baseColorSampler;
 #endif
 
 #ifdef HAS_NORMAL_TEXTURE
-    layout(set = 0, binding = 6) uniform sampler2D u_normalTexture;
+    layout(set = 0, binding = 18) uniform sampler2D u_normalTexture;
 #endif
 
 #ifdef HAS_EMISSIVEMAP
-    layout(set = 0, binding = 6) uniform sampler2D u_emissiveSampler;
+    layout(set = 0, binding = 19) uniform sampler2D u_emissiveSampler;
 #endif
 
 #ifdef HAS_METALROUGHNESSMAP
-    layout(set = 0, binding = 6) uniform sampler2D u_metallicRoughnessSampler;
+    layout(set = 0, binding = 20) uniform sampler2D u_metallicRoughnessSampler;
 #endif
 
 #ifdef HAS_SPECULARGLOSSINESSMAP
-    layout(set = 0, binding = 6) uniform sampler2D u_specularGlossinessSampler;
+    layout(set = 0, binding = 21) uniform sampler2D u_specularGlossinessSampler;
 #endif
 
 #ifdef HAS_OCCLUSIONMAP
-    layout(set = 0, binding = 6) uniform sampler2D u_occlusionSampler;
+    layout(set = 0, binding = 22) uniform sampler2D u_occlusionSampler;
 #endif
 
 struct ReflectedLight {
