@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "controls/orbit_control.h"
 #include "ui/widgets/texts/text_labelled.h"
+#include "ui/widgets/sliders/slider_float.h"
 
 namespace vox {
 void GuiApp::load_scene() {
@@ -24,7 +25,8 @@ void GuiApp::load_scene() {
     gui_->set_canvas(canvas_);
     canvas_.add_panel(panel_);
     panel_.create_widget<ui::TextLabelled>("hello", "world");
-    
+    panel_.create_widget<ui::SliderFloat>();
+
     auto scene = scene_manager_->current_scene();
     auto root_entity = scene->create_root_entity();
     
