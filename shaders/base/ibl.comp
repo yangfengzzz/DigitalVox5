@@ -209,5 +209,5 @@ void main() {
     color = LinearToRGBM(color, 5.0);
 
     ivec2 outputuv = ivec2(gl_GlobalInvocationID.x/scale, gl_GlobalInvocationID.y/scale);
-    imageStore(o_results, outputuv, color);
+    imageStore(o_results, ivec3(outputuv, face), color);
 }

@@ -301,7 +301,9 @@ std::shared_ptr<Image> ImageManager::generate_ibl(const std::string &file,
         std::vector<Mipmap> mipmap = source->get_mipmaps();
         
         auto target = std::make_shared<Image>(file + "ibl", std::vector<uint8_t>(), std::move(mipmap));
-        target->create_vk_image(device_);
+        target->set_layers(source->get_layers());
+        target->set_format(source->get_format());
+        target->create_vk_image(device_, 0, VK_IMAGE_USAGE_STORAGE_BIT);
         
         if (!pipeline_) {
             pipeline_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());

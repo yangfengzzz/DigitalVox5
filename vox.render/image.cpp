@@ -93,13 +93,13 @@ const std::vector<std::vector<VkDeviceSize>> &Image::get_offsets() const {
     return offsets_;
 }
 
-void Image::create_vk_image(Device const &device, VkImageCreateFlags flags) {
+void Image::create_vk_image(Device const &device, VkImageCreateFlags flags, VkImageUsageFlags image_usage) {
     assert(!vk_image_ && vk_image_views_.empty() && "Vulkan image already constructed");
     
     vk_image_ = std::make_unique<core::Image>(device,
                                               get_extent(),
                                               format_,
-                                              VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
+                                              image_usage,
                                               VMA_MEMORY_USAGE_GPU_ONLY,
                                               VK_SAMPLE_COUNT_1_BIT,
                                               to_u32(mipmaps_.size()),

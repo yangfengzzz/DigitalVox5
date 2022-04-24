@@ -63,7 +63,8 @@ public:
     
     void generate_mipmaps();
     
-    void create_vk_image(Device const &device, VkImageCreateFlags flags = 0);
+    void create_vk_image(Device const &device, VkImageCreateFlags flags = 0,
+                         VkImageUsageFlags image_usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT);
     
     [[nodiscard]] const core::Image &get_vk_image() const;
     
@@ -74,6 +75,8 @@ public:
                                                            uint32_t n_array_layers = 0);
     
 protected:
+    friend class ImageManager;
+    
     std::vector<uint8_t> &get_mut_data();
     
     void set_data(const uint8_t *raw_data, size_t size);
