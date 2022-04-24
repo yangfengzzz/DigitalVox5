@@ -545,7 +545,7 @@ void main() {
 
 
     // Emissive
-    vec3 emissiveRadiance = pbr_base_data.emissive_color;
+    vec3 emissiveRadiance = pbr_base_data.emissive_color.rgb;
     #ifdef HAS_EMISSIVEMAP
         vec4 emissiveColor = texture(emissiveTexture, v_uv);
 //        #ifndef OASIS_COLORSPACE_GAMMA
