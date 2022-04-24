@@ -47,26 +47,26 @@ void ShaderData::set_buffer_functor(const std::string &property_name,
 }
 
 void ShaderData::set_sampled_texture(const std::string &texture_name,
-                                     const std::shared_ptr<Image> &image,
+                                     const core::ImageView &image_view,
                                      core::Sampler *sampler) {
     auto iter = sampled_textures_.find(texture_name);
     if (iter == sampled_textures_.end()) {
         sampled_textures_.insert(std::make_pair(texture_name,
-                                                std::make_unique<core::SampledImage>(image->get_vk_image_view(),
+                                                std::make_unique<core::SampledImage>(image_view,
                                                                                      sampler)));
     } else {
-        iter->second = std::make_unique<core::SampledImage>(image->get_vk_image_view(), sampler);
+        iter->second = std::make_unique<core::SampledImage>(image_view, sampler);
     }
 }
 
 void ShaderData::set_storage_texture(const std::string &texture_name,
-                                     const std::shared_ptr<Image> &image) {
+                                     const core::ImageView &image_view) {
     auto iter = storage_textures_.find(texture_name);
     if (iter == storage_textures_.end()) {
         storage_textures_.insert(std::make_pair(texture_name,
-                                                std::make_unique<core::SampledImage>(image->get_vk_image_view(), nullptr)));
+                                                std::make_unique<core::SampledImage>(image_view, nullptr)));
     } else {
-        iter->second = std::make_unique<core::SampledImage>(image->get_vk_image_view(), nullptr);
+        iter->second = std::make_unique<core::SampledImage>(image_view, nullptr);
     }
 }
 

@@ -182,7 +182,7 @@ std::shared_ptr<Image> ImageManager::load_texture_cubemap(const std::string &fil
         return iter->second;
     } else {
         auto image = vox::Image::load(file, file);
-        image->create_vk_image(device_, VK_IMAGE_VIEW_TYPE_CUBE, VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
+        image->create_vk_image(device_, VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
         
         const auto &queue = device_.get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
         
@@ -264,32 +264,38 @@ void ImageManager::collect_garbage() {
 }
 
 std::shared_ptr<Image> ImageManager::generate_ibl(const std::string &file,
-                                                  CommandBuffer &command_buffer,
                                                   RenderContext &render_context) {
     auto iter = image_pool_.find(file + "ibl");
     if (iter != image_pool_.end()) {
         return iter->second;
     } else {
+        auto &command_buffer = render_context.begin();
+        
         auto source = load_texture_cubemap(file);
-        auto bakerMipmapCount = source->get_mipmaps().size();
-
-        auto target = std::make_shared<Image>(file + "ibl");
+        auto bakerMipmapCount = static_cast<uint32_t>(source->get_mipmaps().size());
+        std::vector<Mipmap> mipmap = source->get_mipmaps();
+        
+        auto target = std::make_shared<Image>(file + "ibl", std::vector<uint8_t>(), std::move(mipmap));
         target->create_vk_image(device_);
         
         if (!pipeline_) {
             pipeline_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
-            ibl_pass_ = &pipeline_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader(""));
+            ibl_pass_ = &pipeline_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/ibl.comp"));
             ibl_pass_->attach_shader_data(&shader_data_);
         }
-        
-        ibl_pass_->set_dispatch_size({source->get_extent().width / 8, source->get_extent().height / 8, 6});
-        shader_data_.set_sampled_texture("environmentMap", source, nullptr);
-        shader_data_.set_storage_texture("o_results", target);
-        for (size_t lod = 0; lod < bakerMipmapCount; lod++) {
+        shader_data_.set_sampled_texture("environmentMap", source->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE), nullptr);
+        for (uint32_t lod = 0; lod < bakerMipmapCount; lod++) {
+            shader_data_.set_storage_texture("o_results", target->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE, lod, 0, 1, 0));
+            
+            ibl_pass_->set_dispatch_size({source->get_mipmaps()[lod].extent.width / 8,
+                source->get_mipmaps()[lod].extent.height / 8, 6});
+            
             float lodRoughness = float(lod) / float(bakerMipmapCount - 1); // linear
             shader_data_.set_data("lodRoughness", lodRoughness);
             pipeline_->draw(command_buffer, render_context.get_active_frame().get_render_target());
         }
+        command_buffer.end();
+        render_context.submit(command_buffer);
         
         image_pool_.insert(std::make_pair(file + "ibl", target));
         return target;

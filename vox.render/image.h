@@ -63,12 +63,15 @@ public:
     
     void generate_mipmaps();
     
-    void create_vk_image(Device const &device, VkImageViewType image_view_type = VK_IMAGE_VIEW_TYPE_2D,
-                         VkImageCreateFlags flags = 0);
+    void create_vk_image(Device const &device, VkImageCreateFlags flags = 0);
     
     [[nodiscard]] const core::Image &get_vk_image() const;
     
-    [[nodiscard]] const core::ImageView &get_vk_image_view() const;
+    [[nodiscard]] const core::ImageView &get_vk_image_view(VkImageViewType view_type = VK_IMAGE_VIEW_TYPE_2D,
+                                                           uint32_t base_mip_level = 0,
+                                                           uint32_t base_array_layer = 0,
+                                                           uint32_t n_mip_levels = 0,
+                                                           uint32_t n_array_layers = 0);
     
 protected:
     std::vector<uint8_t> &get_mut_data();
@@ -105,7 +108,7 @@ private:
     
     std::unique_ptr<core::Image> vk_image_;
     
-    std::unique_ptr<core::ImageView> vk_image_view_;
+    std::unordered_map<size_t, std::unique_ptr<core::ImageView>> vk_image_views_;
 };
 
 }        // namespace vox

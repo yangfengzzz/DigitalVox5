@@ -32,7 +32,7 @@ void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value) {
 void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(base_texture_prop_, new_value, get_sampler_(info));
+        shader_data_.set_sampled_texture(base_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
         shader_data_.add_define(HAS_BASE_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_BASE_TEXTURE);

@@ -31,7 +31,7 @@ void PbrBaseMaterial::set_base_texture(const std::shared_ptr<Image> &new_value) 
 void PbrBaseMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(base_texture_prop_, new_value, get_sampler_(info));
+        shader_data_.set_sampled_texture(base_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
         shader_data_.add_define(HAS_BASE_COLORMAP);
     } else {
         shader_data_.remove_define(HAS_BASE_COLORMAP);
@@ -52,7 +52,7 @@ void PbrBaseMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value
 void PbrBaseMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     normal_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(normal_texture_prop_, new_value, get_sampler_(info));
+        shader_data_.set_sampled_texture(normal_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
         shader_data_.add_define(HAS_NORMAL_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_NORMAL_TEXTURE);
@@ -91,7 +91,7 @@ void PbrBaseMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_val
 void PbrBaseMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     emissive_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(emissive_texture_prop_, new_value, get_sampler_(info));
+        shader_data_.set_sampled_texture(emissive_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
         shader_data_.add_define(HAS_EMISSIVEMAP);
     } else {
         shader_data_.remove_define(HAS_EMISSIVEMAP);
@@ -112,7 +112,7 @@ void PbrBaseMaterial::set_occlusion_texture(const std::shared_ptr<Image> &new_va
 void PbrBaseMaterial::set_occlusion_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     occlusion_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(occlusion_texture_prop_, new_value, get_sampler_(info));
+        shader_data_.set_sampled_texture(occlusion_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
         shader_data_.add_define(HAS_OCCLUSIONMAP);
     } else {
         shader_data_.remove_define(HAS_OCCLUSIONMAP);

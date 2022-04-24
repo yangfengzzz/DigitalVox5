@@ -42,8 +42,8 @@ void AmbientLight::set_scene(Scene *value) {
     env_map_light_.diffuse = Vector3F(0.212, 0.227, 0.259);
     env_map_light_.diffuse_intensity = 1.0;
     env_map_light_.specular_intensity = 1.0;
-    scene_->shader_data_.set_data(AmbientLight::env_map_property_, env_map_light_);
-    // _scene->shaderData.setData(AmbientLight::_brdfTextureProperty,
+    scene_->shader_data_.set_data(env_map_property_, env_map_light_);
+    // _scene->shaderData.setData(_brdfTextureProperty,
     //                           value->engine()->resourceLoader()->createBRDFLookupTable());
 }
 
@@ -74,7 +74,7 @@ Color AmbientLight::diffuse_solid_color() const {
 
 void AmbientLight::set_diffuse_solid_color(const Color &value) {
     env_map_light_.diffuse = Vector3F(value.r, value.g, value.b);
-    scene_->shader_data_.set_data(AmbientLight::env_map_property_, env_map_light_);
+    scene_->shader_data_.set_data(env_map_property_, env_map_light_);
 }
 
 const SphericalHarmonics3 &AmbientLight::diffuse_spherical_harmonics() {
@@ -86,7 +86,7 @@ void AmbientLight::set_diffuse_spherical_harmonics(const SphericalHarmonics3 &va
     if (!scene_) return;
     
     auto sh = pre_compute_sh(value);
-    scene_->shader_data_.set_data(AmbientLight::diffuse_sh_property_, sh);
+    scene_->shader_data_.set_data(diffuse_sh_property_, sh);
 }
 
 std::shared_ptr<Image> AmbientLight::diffuse_texture() {
@@ -100,7 +100,8 @@ void AmbientLight::set_diffuse_texture(const std::shared_ptr<Image> &value) {
     auto &shader_data = scene_->shader_data_;
     
     if (value) {
-        shader_data.set_sampled_texture(AmbientLight::diffuse_texture_property_, diffuse_texture_, sampler_.get());
+        shader_data.set_sampled_texture(diffuse_texture_property_,
+                                        diffuse_texture_->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE), sampler_.get());
         shader_data.add_define(HAS_DIFFUSE_ENV);
     } else {
         shader_data.remove_define(HAS_DIFFUSE_ENV);
@@ -115,7 +116,7 @@ void AmbientLight::set_diffuse_intensity(float value) {
     env_map_light_.diffuse_intensity = value;
     if (!scene_) return;
     
-    scene_->shader_data_.set_data(AmbientLight::env_map_property_, env_map_light_);
+    scene_->shader_data_.set_data(env_map_property_, env_map_light_);
 }
 
 //MARK: - Specular
@@ -138,9 +139,9 @@ void AmbientLight::set_specular_texture(const std::shared_ptr<Image> &value) {
     auto &shader_data = scene_->shader_data_;
     
     if (value) {
-        shader_data.set_sampled_texture(AmbientLight::specular_texture_property_, specular_reflection_, sampler_.get());
+        shader_data.set_sampled_texture(specular_texture_property_, specular_reflection_->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE), sampler_.get());
         env_map_light_.mip_map_level = static_cast<uint32_t>(value->get_mipmaps().size() - 1);
-        scene_->shader_data_.set_data(AmbientLight::env_map_property_, env_map_light_);
+        scene_->shader_data_.set_data(env_map_property_, env_map_light_);
         shader_data.add_define(HAS_SPECULAR_ENV);
     } else {
         shader_data.remove_define(HAS_SPECULAR_ENV);
@@ -155,7 +156,7 @@ void AmbientLight::set_specular_intensity(float value) {
     env_map_light_.specular_intensity = value;
     if (!scene_) return;
     
-    scene_->shader_data_.set_data(AmbientLight::env_map_property_, env_map_light_);
+    scene_->shader_data_.set_data(env_map_property_, env_map_light_);
 }
 
 //MARK: - BRDF Texture

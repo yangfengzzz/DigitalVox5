@@ -42,7 +42,7 @@ void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &n
                                                  const VkSamplerCreateInfo &info) {
     metallic_roughness_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(metallic_roughness_texture_prop_, new_value, get_sampler_(info));
+        shader_data_.set_sampled_texture(metallic_roughness_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
         shader_data_.add_define(HAS_METALROUGHNESSMAP);
     } else {
         shader_data_.remove_define(HAS_METALROUGHNESSMAP);

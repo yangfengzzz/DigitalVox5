@@ -66,11 +66,11 @@ public:
     
 public:
     void set_sampled_texture(const std::string &texture_name,
-                             const std::shared_ptr<Image> &image,
+                             const core::ImageView &image_view,
                              core::Sampler *sampler);
     
     void set_storage_texture(const std::string &texture_name,
-                             const std::shared_ptr<Image> &image);
+                             const core::ImageView &image_view);
     
     inline const std::unordered_map<std::string, std::unique_ptr<core::SampledImage>>& sampled_textures() const {
         return sampled_textures_;

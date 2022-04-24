@@ -93,8 +93,8 @@ const std::vector<std::vector<VkDeviceSize>> &Image::get_offsets() const {
     return offsets_;
 }
 
-void Image::create_vk_image(Device const &device, VkImageViewType image_view_type, VkImageCreateFlags flags) {
-    assert(!vk_image_ && !vk_image_view_ && "Vulkan image already constructed");
+void Image::create_vk_image(Device const &device, VkImageCreateFlags flags) {
+    assert(!vk_image_ && vk_image_views_.empty() && "Vulkan image already constructed");
     
     vk_image_ = std::make_unique<core::Image>(device,
                                               get_extent(),
@@ -107,9 +107,6 @@ void Image::create_vk_image(Device const &device, VkImageViewType image_view_typ
                                               VK_IMAGE_TILING_OPTIMAL,
                                               flags);
     vk_image_->set_debug_name(name_);
-    
-    vk_image_view_ = std::make_unique<core::ImageView>(*vk_image_, image_view_type);
-    vk_image_view_->set_debug_name("View on " + name_);
 }
 
 const core::Image &Image::get_vk_image() const {
@@ -117,9 +114,25 @@ const core::Image &Image::get_vk_image() const {
     return *vk_image_;
 }
 
-const core::ImageView &Image::get_vk_image_view() const {
-    assert(vk_image_view_ && "Vulkan image view was not created");
-    return *vk_image_view_;
+const core::ImageView &Image::get_vk_image_view(VkImageViewType view_type,
+                                                uint32_t base_mip_level,
+                                                uint32_t base_array_layer,
+                                                uint32_t n_mip_levels,
+                                                uint32_t n_array_layers) {
+    std::size_t key = 0;
+    vox::hash_combine(key, view_type);
+    vox::hash_combine(key, base_mip_level);
+    vox::hash_combine(key, base_array_layer);
+    vox::hash_combine(key, n_mip_levels);
+    vox::hash_combine(key, n_array_layers);
+    auto iter = vk_image_views_.find(key);
+    if (iter == vk_image_views_.end()) {
+        vk_image_views_.insert(std::make_pair(key, std::make_unique<core::ImageView>(*vk_image_, view_type, get_format(),
+                                                                                     base_mip_level, base_array_layer,
+                                                                                     n_mip_levels, n_array_layers)));
+    }
+    
+    return *vk_image_views_.find(key)->second.get();
 }
 
 Mipmap &Image::get_mipmap(const size_t index) {

@@ -32,7 +32,7 @@ void BlinnPhongMaterial::set_base_texture(const std::shared_ptr<Image> &new_valu
 void BlinnPhongMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(base_texture_prop_, new_value, get_sampler_(info));
+        shader_data_.set_sampled_texture(base_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
         shader_data_.add_define(HAS_DIFFUSE_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_DIFFUSE_TEXTURE);
@@ -63,7 +63,7 @@ void BlinnPhongMaterial::set_specular_texture(const std::shared_ptr<Image> &new_
                                               const VkSamplerCreateInfo &info) {
     specular_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(specular_texture_prop_, new_value, get_sampler_(info));
+        shader_data_.set_sampled_texture(specular_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
         shader_data_.add_define(HAS_SPECULAR_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_SPECULAR_TEXTURE);
@@ -94,7 +94,7 @@ void BlinnPhongMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_
                                               const VkSamplerCreateInfo &info) {
     emissive_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(emissive_texture_prop_, new_value, get_sampler_(info));
+        shader_data_.set_sampled_texture(emissive_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
         shader_data_.add_define(HAS_EMISSIVE_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_EMISSIVE_TEXTURE);
@@ -115,7 +115,7 @@ void BlinnPhongMaterial::set_normal_texture(const std::shared_ptr<Image> &new_va
 void BlinnPhongMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     normal_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(normal_texture_prop_, new_value, get_sampler_(info));
+        shader_data_.set_sampled_texture(normal_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
         shader_data_.add_define(HAS_NORMAL_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_NORMAL_TEXTURE);

@@ -44,7 +44,6 @@ public:
     
 public:
     std::shared_ptr<Image> generate_ibl(const std::string &file,
-                                        CommandBuffer &command_buffer,
                                         RenderContext &render_context);
     
 private:

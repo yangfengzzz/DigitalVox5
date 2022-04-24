@@ -20,14 +20,9 @@ public:
     explicit BakerMaterial(Device& device) : BaseMaterial(device, "cubemapDebugger") {
     }
     
-    /// Base texture.
-    std::shared_ptr<Image> base_texture() {
-        return texture_;
-    }
-    
-    void set_base_texture(std::shared_ptr<Image> new_value) {
-        texture_ = std::move(new_value);
-//        shader_data_.set_sampled_texture(base_texture_prop_, texture_);
+    void set_base_texture(const core::ImageView &image_view) {
+        shader_data_.set_sampled_texture(base_texture_prop_, image_view,
+                                         get_sampler_(BaseMaterial::last_sampler_create_info_));
     }
     
     /// Tiling and offset of main textures.
@@ -41,7 +36,6 @@ public:
     }
     
 private:
-    std::shared_ptr<Image> texture_{nullptr};
     const std::string base_texture_prop_ = "base_texture";
     
     uint32_t face_index_{};
@@ -89,6 +83,19 @@ void IrradianceApp::load_scene() {
     planes[3]->transform_->set_position(1, -2, 0); // NY
     planes[4]->transform_->set_position(-1, 0, 0); // PZ
     planes[5]->transform_->set_position(3, 0, 0); // NZ
+    
+    auto cube_map = ImageManager::get_singleton().load_texture_cubemap("Textures/uffizi_rgba16f_cube.ktx");
+    auto ibl_map = ImageManager::get_singleton().generate_ibl("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
+    scene->ambient_light()->set_specular_texture(cube_map);
+    
+    auto change_mipmap = [&](uint32_t mipLevel) {
+        for (uint32_t i = 0; i < 6; i++) {
+            auto material = plane_materials[i];
+            material->set_base_texture(cube_map->get_vk_image_view(VK_IMAGE_VIEW_TYPE_2D, i, 0, 1, 0));
+            material->set_face_index(i);
+        }
+    };
+    change_mipmap(0);
     
     scene->play();
 }
