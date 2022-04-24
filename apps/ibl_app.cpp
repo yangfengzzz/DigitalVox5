@@ -50,6 +50,7 @@ void IBLApp::load_scene() {
     auto ibl_map = ImageManager::get_singleton().generate_ibl("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
     auto sh = ImageManager::get_singleton().generate_sh("Textures/uffizi_rgba16f_cube.ktx");
     scene->ambient_light()->set_specular_texture(ibl_map);
+    scene->ambient_light()->set_diffuse_mode(DiffuseMode::SPHERICAL_HARMONICS);
     scene->ambient_light()->set_diffuse_spherical_harmonics(sh);
     
     auto root_entity = scene->create_root_entity();

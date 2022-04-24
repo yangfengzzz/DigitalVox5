@@ -71,14 +71,6 @@ public:
     void set_diffuse_spherical_harmonics(const SphericalHarmonics3 &value);
     
     /**
-     * Diffuse reflection texture.
-     * @remarks This texture must be baked from MetalLoader::createIrradianceTexture
-     */
-    std::shared_ptr<Image> diffuse_texture();
-    
-    void set_diffuse_texture(const std::shared_ptr<Image> &value);
-    
-    /**
      * Diffuse reflection intensity.
      */
     [[nodiscard]] float diffuse_intensity() const;
@@ -108,15 +100,6 @@ public:
     
     void set_specular_intensity(float value);
     
-public:
-    /**
-     * brdf lookup texture.
-     * @remarks This texture must be baked from MetalLoader::createBRDFLookupTable
-     */
-    std::shared_ptr<Image> brdf_texture();
-    
-    void set_brdf_texture(const std::shared_ptr<Image> &value);
-    
 private:
     static std::array<float, 27> pre_compute_sh(const SphericalHarmonics3 &sh);
     
@@ -130,15 +113,9 @@ private:
     std::array<float, 27> sh_array_{};
     const std::string diffuse_sh_property_;
     
-    std::shared_ptr<Image> diffuse_texture_{nullptr};
-    const std::string diffuse_texture_property_;
-    
     bool specular_texture_decode_rgbm_{false};
     std::shared_ptr<Image> specular_reflection_{nullptr};
     const std::string specular_texture_property_;
-    
-    std::shared_ptr<Image> brdf_lut_texture_{nullptr};
-    const std::string brdf_texture_property_;
     
     Scene *scene_{nullptr};
     DiffuseMode diffuse_mode_ = DiffuseMode::SOLID_COLOR;

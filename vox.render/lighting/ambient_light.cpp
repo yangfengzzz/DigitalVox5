@@ -11,10 +11,8 @@
 namespace vox {
 AmbientLight::AmbientLight() :
 env_map_property_("envMapLight"),
-diffuse_sh_property_("env_sh"),
-diffuse_texture_property_("env_diffuseTexture"),
+diffuse_sh_property_("envSH"),
 specular_texture_property_("env_specularTexture"),
-brdf_texture_property_("env_brdfTexture"),
 sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
 }
 
@@ -43,8 +41,6 @@ void AmbientLight::set_scene(Scene *value) {
     env_map_light_.diffuse_intensity = 1.0;
     env_map_light_.specular_intensity = 1.0;
     scene_->shader_data_.set_data(env_map_property_, env_map_light_);
-    // _scene->shaderData.setData(_brdfTextureProperty,
-    //                           value->engine()->resourceLoader()->createBRDFLookupTable());
 }
 
 DiffuseMode AmbientLight::diffuse_mode() {
@@ -87,25 +83,6 @@ void AmbientLight::set_diffuse_spherical_harmonics(const SphericalHarmonics3 &va
     
     auto sh = pre_compute_sh(value);
     scene_->shader_data_.set_data(diffuse_sh_property_, sh);
-}
-
-std::shared_ptr<Image> AmbientLight::diffuse_texture() {
-    return diffuse_texture_;
-}
-
-void AmbientLight::set_diffuse_texture(const std::shared_ptr<Image> &value) {
-    diffuse_texture_ = value;
-    if (!scene_) return;
-    
-    auto &shader_data = scene_->shader_data_;
-    
-    if (value) {
-        shader_data.set_sampled_texture(diffuse_texture_property_,
-                                        diffuse_texture_->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE), sampler_.get());
-        shader_data.add_define(HAS_DIFFUSE_ENV);
-    } else {
-        shader_data.remove_define(HAS_DIFFUSE_ENV);
-    }
 }
 
 float AmbientLight::diffuse_intensity() const {
@@ -157,15 +134,6 @@ void AmbientLight::set_specular_intensity(float value) {
     if (!scene_) return;
     
     scene_->shader_data_.set_data(env_map_property_, env_map_light_);
-}
-
-//MARK: - BRDF Texture
-std::shared_ptr<Image> AmbientLight::brdf_texture() {
-    return brdf_lut_texture_;
-}
-
-void AmbientLight::set_brdf_texture(const std::shared_ptr<Image> &value) {
-    
 }
 
 std::array<float, 27> AmbientLight::pre_compute_sh(const SphericalHarmonics3 &sh) {

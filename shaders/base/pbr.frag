@@ -112,9 +112,9 @@ layout(set = 0, binding = 10) uniform envMapLight {
 } env_map_light;
 
 #ifdef HAS_SH
-    layout(set = 0, binding = 11) uniform env_sh {
-        float value[9];
-    };
+    layout(set = 0, binding = 11) uniform envSH {
+        vec3 value[9];
+    } env_sh;
 #endif
 
 #ifdef HAS_SPECULAR_ENV
