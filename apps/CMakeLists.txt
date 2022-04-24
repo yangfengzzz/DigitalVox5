@@ -1,19 +1,8 @@
-# Copyright (c) 2019-2021, Arm Limited and Contributors
+#  Copyright (c) 2022 Feng Yang
 #
-# SPDX-License-Identifier: Apache-2.0
-#
-# Licensed under the Apache License, Version 2.0 the "License";
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+#  I am making my contributions/submissions to this project solely in my
+#  personal capacity and am not conveying any rights to any intellectual
+#  property of any third parties.#
 
 cmake_minimum_required(VERSION 3.12)
 include(android_package)
@@ -28,6 +17,7 @@ set(SRC
         physx_app.cpp
         physx_dynamic_app.cpp
         skybox_app.cpp
+        assimp_app.cpp
         main.cpp
         )
 
@@ -53,20 +43,26 @@ target_link_libraries(${PROJECT_NAME} PRIVATE vox.render vox.math plugins spdlog
 
 if (CMAKE_BUILD_TYPE MATCHES "Release")
     target_compile_definitions(${PROJECT_NAME} PUBLIC DISABLE_CUDA_PHYSX PX_PHYSX_CORE_EXPORTS NDEBUG PX_SUPPORT_PVD=0)
-    target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/physX/physx/bin/linux.clang/release)
+    target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/physX/physx/bin/linux.clang/release
+            ${CMAKE_SOURCE_DIR}/third_party/assimp/build_release/bin)
 ELSEIF (CMAKE_BUILD_TYPE MATCHES "Debug")
     target_compile_definitions(${PROJECT_NAME} PUBLIC DISABLE_CUDA_PHYSX PX_PHYSX_CORE_EXPORTS _DEBUG PX_DEBUG=1 PX_CHECKED=1 PX_NVTX=0 PX_SUPPORT_PVD=1)
-    target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/physX/physx/bin/linux.clang/debug)
+    target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/physX/physx/bin/linux.clang/debug
+            ${CMAKE_SOURCE_DIR}/third_party/assimp/build_release/bin)
 endif ()
 
-target_link_libraries(${PROJECT_NAME} PUBLIC  libPhysX_static_64.a
+target_link_libraries(${PROJECT_NAME} PUBLIC
+        # PhysX
+        libPhysX_static_64.a
         libPhysXCharacterKinematic_static_64.a
         libPhysXCommon_static_64.a
         libPhysXCooking_static_64.a
         libPhysXExtensions_static_64.a
         libPhysXFoundation_static_64.a
         libPhysXPvdSDK_static_64.a
-        libPhysXVehicle_static_64.a)
+        libPhysXVehicle_static_64.a
+        # Assimp
+        assimp)
 
 # Create android project
 if (ANDROID)
