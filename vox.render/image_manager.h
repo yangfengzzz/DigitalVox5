@@ -10,6 +10,8 @@
 
 #include "image.h"
 #include "singleton.h"
+#include "rendering/postprocessing_pipeline.h"
+#include "rendering/postprocessing_computepass.h"
 
 namespace vox {
 class ImageManager: public Singleton<ImageManager> {
@@ -22,6 +24,9 @@ public:
     
     ~ImageManager() = default;
     
+    void collect_garbage();
+
+public:
     /**
      * @brief Loads in a ktx 2D texture
      */
@@ -37,11 +42,18 @@ public:
      */
     std::shared_ptr<Image> load_texture_cubemap(const std::string &file);
     
-    void collect_garbage();
+public:
+    std::shared_ptr<Image> generate_ibl(const std::string &file,
+                                        CommandBuffer &command_buffer,
+                                        RenderContext &render_context);
     
 private:
     Device& device_;
     std::unordered_map<std::string, std::shared_ptr<Image>> image_pool_;
+    
+    ShaderData shader_data_;
+    std::unique_ptr<PostProcessingPipeline> pipeline_{nullptr};
+    PostProcessingComputePass* ibl_pass_{nullptr};
 };
 
 template<> inline ImageManager *Singleton<ImageManager>::ms_singleton_{nullptr};
