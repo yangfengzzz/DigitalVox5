@@ -10,7 +10,7 @@ float saturate(float t) {
 }
 
 float whiteCompliment(float t) {
-    return 1.0 - saturate(a);
+    return 1.0 - saturate(t);
 }
 
 vec4 RGBMToLinear(vec4 value, float maxRange) {
@@ -144,27 +144,27 @@ layout(set = 0, binding = 16) uniform pbrSpecularData {
 } pbr_specular_data;
 
 #ifdef HAS_BASECOLORMAP
-    layout(set = 0, binding = 17) uniform sampler2D u_baseColorSampler;
+    layout(set = 0, binding = 17) uniform sampler2D baseColorTexture;
 #endif
 
 #ifdef HAS_NORMAL_TEXTURE
-    layout(set = 0, binding = 18) uniform sampler2D u_normalTexture;
+    layout(set = 0, binding = 18) uniform sampler2D normalTexture;
 #endif
 
 #ifdef HAS_EMISSIVEMAP
-    layout(set = 0, binding = 19) uniform sampler2D u_emissiveSampler;
+    layout(set = 0, binding = 19) uniform sampler2D emissiveTexture;
 #endif
 
 #ifdef HAS_METALROUGHNESSMAP
-    layout(set = 0, binding = 20) uniform sampler2D u_metallicRoughnessSampler;
+    layout(set = 0, binding = 20) uniform sampler2D metallicRoughnessTexture;
 #endif
 
 #ifdef HAS_SPECULARGLOSSINESSMAP
-    layout(set = 0, binding = 21) uniform sampler2D u_specularGlossinessSampler;
+    layout(set = 0, binding = 21) uniform sampler2D specularGlossinessTexture;
 #endif
 
 #ifdef HAS_OCCLUSIONMAP
-    layout(set = 0, binding = 22) uniform sampler2D u_occlusionSampler;
+    layout(set = 0, binding = 22) uniform sampler2D occlusionTexture;
 #endif
 
 struct ReflectedLight {
@@ -250,7 +250,7 @@ vec3 specularColor, float glossiness, float alphaCutoff){
     PhysicalMaterial material;
 
     #ifdef HAS_BASECOLORMAP
-        vec4 baseColor = texture(u_baseColorSampler, v_uv);
+        vec4 baseColor = texture(baseColorTexture, v_uv);
 //        #ifndef OASIS_COLORSPACE_GAMMA
 //            baseColor = gammaToLinear(baseColor);
 //        #endif
@@ -269,13 +269,13 @@ vec3 specularColor, float glossiness, float alphaCutoff){
     #endif
 
     #ifdef HAS_METALROUGHNESSMAP
-        vec4 metalRoughMapColor = texture(u_metallicRoughnessSampler, v_uv);
+        vec4 metalRoughMapColor = texture(metallicRoughnessTexture, v_uv);
         roughness *= metalRoughMapColor.g;
         metal *= metalRoughMapColor.b;
     #endif
 
     #ifdef HAS_SPECULARGLOSSINESSMAP
-        vec4 specularGlossinessColor = texture(u_specularGlossinessSampler, v_uv);
+        vec4 specularGlossinessColor = texture(specularGlossinessTexture, v_uv);
         specularColor *= specularGlossinessColor.rgb;
         glossiness *= specularGlossinessColor.a;
     #endif
@@ -408,8 +408,7 @@ void addTotalDirectRadiance(GeometricContext geometry, PhysicalMaterial material
     #ifdef DIRECT_LIGHT_COUNT
         DirectLight directionalLight;
         for (int i = 0; i < DIRECT_LIGHT_COUNT; i ++) {
-            directionalLight.color = u_directLightColor[i];
-            directionalLight.direction = u_directLightDirection[i];
+            directionalLight = direct_light.value[i];
 
             addDirectionalDirectLightRadiance(directionalLight, geometry, material, reflectedLight);
         }
@@ -418,10 +417,7 @@ void addTotalDirectRadiance(GeometricContext geometry, PhysicalMaterial material
     #ifdef POINT_LIGHT_COUNT
         PointLight pointLight;
         for (int i = 0; i < POINT_LIGHT_COUNT; i ++) {
-
-            pointLight.color = u_pointLightColor[i];
-            pointLight.position = u_pointLightPosition[i];
-            pointLight.distance = u_pointLightDistance[i];
+            pointLight = point_light.value[i];
 
             addPointDirectLightRadiance(pointLight, geometry, material, reflectedLight);
         }
@@ -430,12 +426,7 @@ void addTotalDirectRadiance(GeometricContext geometry, PhysicalMaterial material
     #ifdef SPOT_LIGHT_COUNT
         SpotLight spotLight;
         for (int i = 0; i < SPOT_LIGHT_COUNT; i ++) {
-            spotLight.color = u_spotLightColor[i];
-            spotLight.position = u_spotLightPosition[i];
-            spotLight.direction = u_spotLightDirection[i];
-            spotLight.distance = u_spotLightDistance[i];
-            spotLight.angleCos = u_spotLightAngleCos[i];
-            spotLight.penumbraCos = u_spotLightPenumbraCos[i];
+            spotLight = spot_light.value[i];
 
             addSpotDirectLightRadiance(spotLight, geometry, material, reflectedLight);
         }
@@ -490,9 +481,9 @@ vec3 getLightProbeRadiance(GeometricContext geometry, float roughness, int maxMI
         float specularMIPLevel = getSpecularMIPLevel(roughness, maxMIPLevel);
 
         #ifdef HAS_TEX_LOD
-            vec4 envMapColor = textureCubeLodEXT(u_env_specularSampler, reflectVec, specularMIPLevel);
+            vec4 envMapColor = textureCubeLodEXT(env_specularTexture, reflectVec, specularMIPLevel);
         #else
-            vec4 envMapColor = textureCube(u_env_specularSampler, reflectVec, specularMIPLevel);
+            vec4 envMapColor = textureCube(env_specularTexture, reflectVec, specularMIPLevel);
         #endif
 
         #ifdef DECODE_ENV_RGBM
@@ -515,8 +506,9 @@ layout(location = 0) out vec4 o_color;
 //**********************************************************************************************************************
 //----------------------------------------------------------------------------------------------------------------------
 void main() {
-    GeometricContext geometry = GeometricContext(v_pos, getNormal(), normalize(u_cameraPos - v_pos));
-    PhysicalMaterial material = getPhysicalMaterial(u_baseColor, u_metal, u_roughness, u_specularColor, u_glossiness, u_alphaCutoff);
+    GeometricContext geometry = GeometricContext(v_pos, getNormal(), normalize(camera_data.camera_pos - v_pos));
+    PhysicalMaterial material = getPhysicalMaterial(pbr_base_data.base_color, pbr_data.metal, pbr_data.roughness,
+    pbr_specular_data.specular_color, pbr_specular_data.glossiness, alpha_cutoff.value);
     ReflectedLight reflectedLight = ReflectedLight(vec3(0), vec3(0), vec3(0), vec3(0));
     float dotNV = saturate(dot(geometry.normal, geometry.viewDir));
 
@@ -525,31 +517,26 @@ void main() {
 
     // IBL diffuse
     #ifdef USE_SH
-        vec3 irradiance = getLightProbeIrradiance(u_env_sh, geometry.normal);
+        vec3 irradiance = getLightProbeIrradiance(env_sh.value, geometry.normal);
 //        #ifdef OASIS_COLORSPACE_GAMMA
 //            irradiance = linearToGamma(vec4(irradiance, 1.0)).rgb;
 //        #endif
-        irradiance *= u_envMapLight.diffuseIntensity;
+        irradiance *= env_map_light.diffuse_intensity;
     #else
-        vec3 irradiance = u_envMapLight.diffuse * u_envMapLight.diffuseIntensity;
+        vec3 irradiance = env_map_light.diffuse * env_map_light.diffuse_intensity;
         irradiance *= PI;
     #endif
 
     reflectedLight.indirectDiffuse += irradiance * BRDF_Diffuse_Lambert(material.diffuseColor);
 
     // IBL specular
-    vec3 radiance = getLightProbeRadiance(geometry, material.roughness, int(u_envMapLight.mipMapLevel), u_envMapLight.specularIntensity);
+    vec3 radiance = getLightProbeRadiance(geometry, material.roughness, int(env_map_light.mip_map_level), env_map_light.specular_intensity);
     reflectedLight.indirectSpecular += radiance * envBRDFApprox(material.specularColor, material.roughness, dotNV);
 
     // Occlusion
     #ifdef HAS_OCCLUSIONMAP
         vec2 aoUV = v_uv;
-        #ifdef HAS_UV1
-            if (u_occlusionTextureCoord == 1.0){
-                aoUV = v_uv1;
-            }
-        #endif
-        float ambientOcclusion = (texture(u_occlusionSampler, aoUV).r - 1.0) * u_occlusionStrength + 1.0;
+        float ambientOcclusion = (texture(occlusionTexture, aoUV).r - 1.0) + 1.0;
         reflectedLight.indirectDiffuse *= ambientOcclusion;
         #ifdef USE_SPECULAR_ENV
             reflectedLight.indirectSpecular *= computeSpecularOcclusion(ambientOcclusion, material.roughness, dotNV);
@@ -558,9 +545,9 @@ void main() {
 
 
     // Emissive
-    vec3 emissiveRadiance = u_emissiveColor;
+    vec3 emissiveRadiance = pbr_base_data.emissive_color;
     #ifdef HAS_EMISSIVEMAP
-        vec4 emissiveColor = texture(u_emissiveSampler, v_uv);
+        vec4 emissiveColor = texture(emissiveTexture, v_uv);
 //        #ifndef OASIS_COLORSPACE_GAMMA
 //            emissiveColor = gammaToLinear(emissiveColor);
 //        #endif
