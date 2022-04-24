@@ -34,7 +34,7 @@ void AssimpApp::load_scene() {
     auto cube_entity = root_entity->create_child();
     cube_entity->transform_->set_scale(0.01, 0.01, 0.01);
     AssimpParser parser(*device_);
-    parser.load_model(cube_entity, "Models/Temple.obj", aiProcess_GenSmoothNormals);
+    parser.load_model(cube_entity, "Models/Temple.obj", aiProcess_FlipUVs);
     
     scene->play();
 }

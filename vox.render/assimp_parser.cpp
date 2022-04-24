@@ -89,8 +89,8 @@ void AssimpParser::process_mesh(Entity *root, aiMesh *mesh, const aiScene *scene
         // use models where a vertex can have multiple texture coordinates. so we always take the first set (0).
         std::vector<Vector2F> vec2_array(mesh->mNumVertices);
         for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-            vec2_array[i].x = mesh->mTextureCoords[0]->x;
-            vec2_array[i].y = mesh->mTextureCoords[0]->y;
+            vec2_array[i].x = mesh->mTextureCoords[0][i].x;
+            vec2_array[i].y = mesh->mTextureCoords[0][i].y;
         }
         model_mesh->set_uvs(vec2_array);
         
@@ -112,10 +112,10 @@ void AssimpParser::process_mesh(Entity *root, aiMesh *mesh, const aiScene *scene
     if (mesh->mColors[0]) {
         std::vector<Color> color_array(mesh->mNumVertices);
         for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-            color_array[i].r = mesh->mColors[i]->r;
-            color_array[i].g = mesh->mColors[i]->g;
-            color_array[i].b = mesh->mColors[i]->b;
-            color_array[i].a = mesh->mColors[i]->a;
+            color_array[i].r = mesh->mColors[0][i].r;
+            color_array[i].g = mesh->mColors[0][i].g;
+            color_array[i].b = mesh->mColors[0][i].b;
+            color_array[i].a = mesh->mColors[0][i].a;
         }
         model_mesh->set_colors(color_array);
     }
@@ -149,8 +149,10 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial *material) {
         case aiShadingMode_Unlit: {
             auto mat = std::make_shared<UnlitMaterial>(device_);
             aiColor4D color;
-            material->Get(AI_MATKEY_BASE_COLOR, color);
-            mat->set_base_color(Color(color.r, color.g, color.b, color.a));
+            auto info = material->Get(AI_MATKEY_BASE_COLOR, color);
+            if (info == AI_SUCCESS) {
+                mat->set_base_color(Color(color.r, color.g, color.b, color.a));
+            }
             
             mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
             result = mat;
@@ -158,18 +160,21 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial *material) {
         }
             
         case aiShadingMode_PBR_BRDF : {
-            float factor = -1.0;
-            material->Get(AI_MATKEY_ROUGHNESS_FACTOR, factor);
-            if (factor < 0) {
+            float factor;
+            auto info = material->Get(AI_MATKEY_ROUGHNESS_FACTOR, factor);
+            if (info == AI_FAILURE) {
                 auto mat = std::make_shared<PbrSpecularMaterial>(device_);
                 float value;
-                material->Get(AI_MATKEY_GLOSSINESS_FACTOR, value);
-                mat->set_glossiness(value);
+                info = material->Get(AI_MATKEY_GLOSSINESS_FACTOR, value);
+                if (info == AI_SUCCESS) {
+                    mat->set_glossiness(value);
+                }
                 
                 aiColor3D color;
-                material->Get(AI_MATKEY_SPECULAR_FACTOR, color);
-                mat->set_specular_color(Color(color.r, color.g, color.b, 1.0));
-                
+                info = material->Get(AI_MATKEY_SPECULAR_FACTOR, color);
+                if (info == AI_SUCCESS) {
+                    mat->set_specular_color(Color(color.r, color.g, color.b, 1.0));
+                }
                 mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
                 mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
                 mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
@@ -179,10 +184,15 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial *material) {
             } else {
                 auto mat = std::make_shared<PbrMaterial>(device_);
                 float value;
-                material->Get(AI_MATKEY_METALLIC_FACTOR, value);
-                mat->set_metallic(value);
-                material->Get(AI_MATKEY_ROUGHNESS_FACTOR, value);
-                mat->set_roughness(value);
+                info = material->Get(AI_MATKEY_METALLIC_FACTOR, value);
+                if (info == AI_SUCCESS) {
+                    mat->set_metallic(value);
+                }
+                
+                info = material->Get(AI_MATKEY_ROUGHNESS_FACTOR, value);
+                if (info == AI_SUCCESS) {
+                    mat->set_roughness(value);
+                }
                 mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
                 mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
                 mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
@@ -197,13 +207,16 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial *material) {
         case aiShadingMode_Phong : {
             auto mat = std::make_shared<BlinnPhongMaterial>(device_);
             float value;
-            material->Get(AI_MATKEY_SHININESS, value);
-            mat->set_shininess(value);
+            auto info = material->Get(AI_MATKEY_SHININESS, value);
+            if (info == AI_SUCCESS) {
+                mat->set_shininess(value);
+            }
             
             aiColor4D color;
-            material->Get(AI_MATKEY_BASE_COLOR, color);
-            mat->set_base_color(Color(color.r, color.g, color.b, color.a));
-            
+            info = material->Get(AI_MATKEY_BASE_COLOR, color);
+            if (info == AI_SUCCESS) {
+                mat->set_base_color(Color(color.r, color.g, color.b, color.a));
+            }
             mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
             mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
             mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
@@ -216,13 +229,16 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial *material) {
             LOGI("Unknown material type: {}, use Blinn-Phong as default mat", to_string(mode))
             auto mat = std::make_shared<BlinnPhongMaterial>(device_);
             float value;
-            material->Get(AI_MATKEY_SHININESS, value);
-            mat->set_shininess(value);
-            
+            auto info = material->Get(AI_MATKEY_SHININESS, value);
+            if (info == AI_SUCCESS) {
+                mat->set_shininess(value);
+            }
+
             aiColor4D color;
-            material->Get(AI_MATKEY_BASE_COLOR, color);
-            mat->set_base_color(Color(color.r, color.g, color.b, color.a));
-            
+            info = material->Get(AI_MATKEY_BASE_COLOR, color);
+            if (info == AI_SUCCESS) {
+                mat->set_base_color(Color(color.r, color.g, color.b, color.a));
+            }
             mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
             mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
             mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
