@@ -32,6 +32,7 @@ void AssimpApp::load_scene() {
     point_light->distance_ = 100;
     
     auto cube_entity = root_entity->create_child();
+    cube_entity->transform_->set_scale(0.01, 0.01, 0.01);
     AssimpParser parser(*device_);
     parser.load_model(cube_entity, "Models/Temple.obj", aiProcess_GenSmoothNormals);
     

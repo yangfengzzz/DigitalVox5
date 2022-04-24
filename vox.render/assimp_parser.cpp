@@ -157,25 +157,6 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial *material) {
             break;
         }
             
-        case aiShadingMode_Blinn:
-        case aiShadingMode_Phong : {
-            auto mat = std::make_shared<BlinnPhongMaterial>(device_);
-            float value;
-            material->Get(AI_MATKEY_SHININESS, value);
-            mat->set_shininess(value);
-            
-            aiColor4D color;
-            material->Get(AI_MATKEY_BASE_COLOR, color);
-            mat->set_base_color(Color(color.r, color.g, color.b, color.a));
-            
-            mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
-            mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
-            mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
-            mat->set_specular_texture(process_textures(material, aiTextureType_SPECULAR));
-            result = mat;
-            break;
-        }
-            
         case aiShadingMode_PBR_BRDF : {
             float factor = -1.0;
             material->Get(AI_MATKEY_ROUGHNESS_FACTOR, factor);
@@ -212,8 +193,44 @@ std::shared_ptr<Material> AssimpParser::process_material(aiMaterial *material) {
             break;
         }
             
-        default:LOGI("Unknown material type: {}", to_string(mode))
+        case aiShadingMode_Blinn:
+        case aiShadingMode_Phong : {
+            auto mat = std::make_shared<BlinnPhongMaterial>(device_);
+            float value;
+            material->Get(AI_MATKEY_SHININESS, value);
+            mat->set_shininess(value);
+            
+            aiColor4D color;
+            material->Get(AI_MATKEY_BASE_COLOR, color);
+            mat->set_base_color(Color(color.r, color.g, color.b, color.a));
+            
+            mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
+            mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
+            mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
+            mat->set_specular_texture(process_textures(material, aiTextureType_SPECULAR));
+            result = mat;
             break;
+        }
+            
+        default: {
+            LOGI("Unknown material type: {}, use Blinn-Phong as default mat", to_string(mode))
+            auto mat = std::make_shared<BlinnPhongMaterial>(device_);
+            float value;
+            material->Get(AI_MATKEY_SHININESS, value);
+            mat->set_shininess(value);
+            
+            aiColor4D color;
+            material->Get(AI_MATKEY_BASE_COLOR, color);
+            mat->set_base_color(Color(color.r, color.g, color.b, color.a));
+            
+            mat->set_base_texture(process_textures(material, aiTextureType_DIFFUSE));
+            mat->set_normal_texture(process_textures(material, aiTextureType_NORMALS));
+            mat->set_emissive_texture(process_textures(material, aiTextureType_EMISSIVE));
+            mat->set_specular_texture(process_textures(material, aiTextureType_SPECULAR));
+            result = mat;
+            
+            break;
+        }
     }
     
     return result;
@@ -233,29 +250,41 @@ std::shared_ptr<Image> AssimpParser::process_textures(aiMaterial *mat, aiTexture
 
 std::string AssimpParser::to_string(aiShadingMode mode) {
     switch (mode) {
-        case aiShadingMode_Flat:return "Flat shading.";
+        case aiShadingMode_Flat:
+            return "Flat shading.";
             
-        case aiShadingMode_Gouraud:return "Simple Gouraud shading.";
+        case aiShadingMode_Gouraud:
+            return "Simple Gouraud shading.";
             
-        case aiShadingMode_Phong:return "Phong shading.";
+        case aiShadingMode_Phong:
+            return "Phong shading.";
             
-        case aiShadingMode_Blinn:return "Phong-Blinn shading.";
+        case aiShadingMode_Blinn:
+            return "Phong-Blinn shading.";
             
-        case aiShadingMode_Toon:return "Toon shading.";
+        case aiShadingMode_Toon:
+            return "Toon shading.";
             
-        case aiShadingMode_OrenNayar:return "OrenNayar shading.";
+        case aiShadingMode_OrenNayar:
+            return "OrenNayar shading.";
             
-        case aiShadingMode_Minnaert:return "Minnaert shading.";
+        case aiShadingMode_Minnaert:
+            return "Minnaert shading.";
             
-        case aiShadingMode_CookTorrance:return "CookTorrance shading.";
+        case aiShadingMode_CookTorrance:
+            return "CookTorrance shading.";
             
-        case aiShadingMode_Unlit:return "Unlit shading.";
+        case aiShadingMode_Unlit:
+            return "Unlit shading.";
             
-        case aiShadingMode_Fresnel:return "Fresnel shading.";
+        case aiShadingMode_Fresnel:
+            return "Fresnel shading.";
             
-        case aiShadingMode_PBR_BRDF:return "Physically-Based Rendering (PBR) shading.";
+        case aiShadingMode_PBR_BRDF:
+            return "Physically-Based Rendering (PBR) shading.";
             
-        default:return "Shading Limit.";
+        default:
+            return "Shading Limit.";
     }
 }
 
