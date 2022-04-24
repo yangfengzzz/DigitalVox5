@@ -86,14 +86,13 @@ void IrradianceApp::load_scene() {
     planes[4]->transform_->set_position(-1, 0, 0); // PZ
     planes[5]->transform_->set_position(3, 0, 0); // NZ
     
-    auto cube_map = ImageManager::get_singleton().load_texture_cubemap("Textures/uffizi_rgba16f_cube.ktx");
     auto ibl_map = ImageManager::get_singleton().generate_ibl("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
-    scene->ambient_light()->set_specular_texture(cube_map);
+    scene->ambient_light()->set_specular_texture(ibl_map);
     
     auto change_mipmap = [&](uint32_t mipLevel) {
         for (uint32_t i = 0; i < 6; i++) {
             auto material = plane_materials[i];
-            material->set_base_texture(cube_map->get_vk_image_view(VK_IMAGE_VIEW_TYPE_2D, 0, i, 0, 1));
+            material->set_base_texture(ibl_map->get_vk_image_view(VK_IMAGE_VIEW_TYPE_2D, 0, i, 0, 1));
             material->set_face_index(i);
         }
     };
