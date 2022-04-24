@@ -567,6 +567,10 @@
 		04D95DBD2814E60600E54DC2 /* pbr_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DBB2814E60600E54DC2 /* pbr_app.cpp */; };
 		04D95DC02814FBC800E54DC2 /* irradiance_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DBE2814FBC800E54DC2 /* irradiance_app.cpp */; };
 		04D95DC32814FC4000E54DC2 /* ibl_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DC12814FC4000E54DC2 /* ibl_app.cpp */; };
+		04D95DC52815140E00E54DC2 /* postprocessing_pass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D10280CF20200E54DC2 /* postprocessing_pass.cpp */; };
+		04D95DC62815140E00E54DC2 /* postprocessing_pipeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D0D280CF20100E54DC2 /* postprocessing_pipeline.cpp */; };
+		04D95DC72815140E00E54DC2 /* postprocessing_computepass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D12280CF20200E54DC2 /* postprocessing_computepass.cpp */; };
+		04D95DC82815144A00E54DC2 /* postprocessing_renderpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D0F280CF20200E54DC2 /* postprocessing_renderpass.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2739,6 +2743,7 @@
 				04D95D47280E3CED00E54DC2 /* light_manager.cpp in Sources */,
 				0444E9EA28056AFA00C6F279 /* command_pool.cpp in Sources */,
 				0444EB2A28084B9700C6F279 /* progress_bar.cpp in Sources */,
+				04D95DC82815144A00E54DC2 /* postprocessing_renderpass.cpp in Sources */,
 				0444EBBA28084BCE00C6F279 /* input_float.cpp in Sources */,
 				04D95D30280E328A00E54DC2 /* scene_animator.cpp in Sources */,
 				0444EB9A28084BC500C6F279 /* spacing.cpp in Sources */,
@@ -2867,6 +2872,7 @@
 				0444E961280563DB00C6F279 /* plugin.cpp in Sources */,
 				04D95CFA280C3D8600E54DC2 /* renderer.cpp in Sources */,
 				0444EB0928084B8000C6F279 /* widget_container.cpp in Sources */,
+				04D95DC62815140E00E54DC2 /* postprocessing_pipeline.cpp in Sources */,
 				04D95C66280A8C6600E54DC2 /* dynamic_collider.cpp in Sources */,
 				0444EA0D28056E2700C6F279 /* stats_provider.cpp in Sources */,
 				0444E9F428056B0500C6F279 /* acceleration_structure.cpp in Sources */,
@@ -2876,8 +2882,10 @@
 				0444EB6D28084BAF00C6F279 /* radio_button.cpp in Sources */,
 				04D95D4E280E447700E54DC2 /* gpu_skinned_mesh_renderer.cpp in Sources */,
 				04D95C9A280A8C7D00E54DC2 /* capsule_collider_shape.cpp in Sources */,
+				04D95DC52815140E00E54DC2 /* postprocessing_pass.cpp in Sources */,
 				04D95D35280E355B00E54DC2 /* light.cpp in Sources */,
 				04D95D02280C443E00E54DC2 /* mesh_renderer.cpp in Sources */,
+				04D95DC72815140E00E54DC2 /* postprocessing_computepass.cpp in Sources */,
 				0444EB9D28084BC500C6F279 /* dummy.cpp in Sources */,
 				0444EB7F28084BB600C6F279 /* plot.cpp in Sources */,
 				0444EB9F28084BC500C6F279 /* group_collapsable.cpp in Sources */,

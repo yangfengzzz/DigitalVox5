@@ -67,10 +67,10 @@ set(RENDERING_FILES
         # Header files
         rendering/render_element.h
         rendering/pipeline_state.h
-        #        rendering/postprocessing_pipeline.h
-        #        rendering/postprocessing_pass.h
-        #        rendering/postprocessing_renderpass.h
-        #        rendering/postprocessing_computepass.h
+        rendering/postprocessing_pipeline.h
+        rendering/postprocessing_pass.h
+        rendering/postprocessing_renderpass.h
+        rendering/postprocessing_computepass.h
         rendering/render_context.h
         rendering/render_frame.h
         rendering/render_pipeline.h
@@ -79,10 +79,10 @@ set(RENDERING_FILES
         # Source files
         rendering/render_element.cpp
         rendering/pipeline_state.cpp
-        #        rendering/postprocessing_pipeline.cpp
-        #        rendering/postprocessing_pass.cpp
-        #        rendering/postprocessing_renderpass.cpp
-        #        rendering/postprocessing_computepass.cpp
+        rendering/postprocessing_pipeline.cpp
+        rendering/postprocessing_pass.cpp
+        rendering/postprocessing_renderpass.cpp
+        rendering/postprocessing_computepass.cpp
         rendering/render_context.cpp
         rendering/render_frame.cpp
         rendering/render_pipeline.cpp

@@ -101,6 +101,7 @@ protected:
     [[nodiscard]] BarrierInfo get_predecessor_src_barrier_info(BarrierInfo fallback = {}) const;
 };
 
+//MARK: - PostProcessingPass
 /**
  * @brief CRTP base of all types of passes in a vox::PostProcessingPipeline.
  */

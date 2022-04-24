@@ -19,7 +19,6 @@ struct PairHasher {
     template<typename TPair>
     size_t operator()(const TPair &pair) const {
         std::hash<decltype(pair.first)> hash1{};
-        std::hash<decltype(pair.second)> hash2{};
         return hash1(pair.first) * 43 + pair.second;
     }
 };
@@ -56,8 +55,9 @@ class PostProcessingRenderPass;
  */
 class PostProcessingSubpass : public Subpass {
 public:
-    PostProcessingSubpass(PostProcessingRenderPass *parent, RenderContext &render_context, ShaderSource &&triangle_vs,
-                          ShaderSource &&fs, ShaderVariant &&fs_variant = {});
+    PostProcessingSubpass(PostProcessingRenderPass *parent, RenderContext &render_context,
+                          std::shared_ptr<ShaderSource> triangle_vs,
+                          std::shared_ptr<ShaderSource> fs, ShaderVariant &&fs_variant = {});
     
     PostProcessingSubpass(const PostProcessingSubpass &to_copy) = delete;
     PostProcessingSubpass &operator=(const PostProcessingSubpass &to_copy) = delete;
@@ -172,6 +172,8 @@ public:
 private:
     PostProcessingRenderPass *parent_;
     
+    std::shared_ptr<ShaderSource> vertex_shader_{nullptr};
+    std::shared_ptr<ShaderSource> fragment_shader_{nullptr};
     ShaderVariant fs_variant_{};
     
     AttachmentMap input_attachments_{};
@@ -186,6 +188,7 @@ private:
     void draw(CommandBuffer &command_buffer) override;
 };
 
+//MARK: - PostProcessingRenderPass
 /**
  * @brief A collection of vox::PostProcessingSubpass that are run as a single renderpass.
  */

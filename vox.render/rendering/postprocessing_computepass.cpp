@@ -107,8 +107,6 @@ void PostProcessingComputePass::transition_images(CommandBuffer &command_buffer,
         }
     }
     
-    const auto &bindings = pipeline_layout.get_descriptor_set_layout(0);
-    
     for (const auto &storage : storage_images_) {
         if (const uint32_t *attachment = storage.second.get_target_attachment()) {
             auto *storage_rt = storage.second.get_render_target();

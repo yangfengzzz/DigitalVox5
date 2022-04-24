@@ -14,10 +14,12 @@ constexpr uint32_t kAttachmentBitmask = 0x7FFFFFFF;
 
 PostProcessingSubpass::PostProcessingSubpass(PostProcessingRenderPass *parent,
                                              RenderContext &render_context,
-                                             ShaderSource &&triangle_vs,
-                                             ShaderSource &&fs,
+                                             std::shared_ptr<ShaderSource> triangle_vs,
+                                             std::shared_ptr<ShaderSource> fs,
                                              ShaderVariant &&fs_variant) :
-Subpass(render_context, std::move(triangle_vs), std::move(fs)),
+Subpass(render_context, nullptr, nullptr),
+vertex_shader_{std::move(triangle_vs)},
+fragment_shader_{std::move(fs)},
 parent_{parent},
 fs_variant_{std::move(fs_variant)} {
     set_disable_depth_stencil_attachment(true);
@@ -88,16 +90,16 @@ PostProcessingSubpass &PostProcessingSubpass::set_draw_func(DrawFunc &&new_func)
 void PostProcessingSubpass::prepare() {
     // Build all shaders upfront
     auto &resource_cache = render_context_.get_device().get_resource_cache();
-    resource_cache.request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader());
-    resource_cache.request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), fs_variant_);
+    resource_cache.request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, *vertex_shader_);
+    resource_cache.request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, *fragment_shader_, fs_variant_);
 }
 
 void PostProcessingSubpass::draw(CommandBuffer &command_buffer) {
     // Get shaders from cache
     auto &resource_cache = command_buffer.get_device().get_resource_cache();
-    auto &vert_shader_module = resource_cache.request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader());
+    auto &vert_shader_module = resource_cache.request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, *vertex_shader_);
     auto &frag_shader_module =
-    resource_cache.request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), fs_variant_);
+    resource_cache.request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, *fragment_shader_, fs_variant_);
     
     std::vector<ShaderModule *> shader_modules{&vert_shader_module, &frag_shader_module};
     
@@ -112,7 +114,6 @@ void PostProcessingSubpass::draw(CommandBuffer &command_buffer) {
     
     auto &render_target = *parent_->draw_render_target_;
     const auto &target_views = render_target.get_views();
-    const auto kNInputAttachments = uint32_t(get_input_attachments().size());
     
     if (parent_->uniform_buffer_alloc_ != nullptr) {
         // Bind buffer to set = 0, binding = 0
@@ -158,6 +159,7 @@ void PostProcessingSubpass::default_draw_func(vox::CommandBuffer &command_buffer
     command_buffer.draw(3, 1, 0, 0);
 }
 
+//MARK: - PostProcessingRenderPass
 PostProcessingRenderPass::PostProcessingRenderPass(PostProcessingPipeline *parent,
                                                    std::unique_ptr<core::Sampler> &&default_sampler) :
 PostProcessingPass{parent},
