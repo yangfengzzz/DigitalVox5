@@ -186,10 +186,10 @@ void main() {
         dir = vec3(-1., cy, cx);
     }
     else if (face == 2) { // PY
-        dir = vec3(cx, 1., -cy);
+        dir = vec3(cx, -1., cy);
     }
     else if (face == 3) { // NY
-        dir = vec3(cx, -1., cy);
+        dir = vec3(cx, 1., -cy);
     }
     else if (face == 4) { // PZ
         dir = vec3(cx, cy, 1.);
