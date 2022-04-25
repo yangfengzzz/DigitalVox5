@@ -342,7 +342,9 @@ SphericalHarmonics3 ImageManager::generate_sh(const std::string &file) {
     float texelSize = 2.f / static_cast<float>(texture_size); // convolution is in the space of [-1, 1]
     
     float solidAngleSum = 0;
-    const uint32_t channelLength = 4;
+    const uint32_t channelLength = get_bits_per_pixel(source->get_format()) / 8;
+    const uint32_t channelShift = channelLength / 4;
+    const uint32_t totalColor = std::pow(256, channelShift) - 1;
     SphericalHarmonics3 sh;
     for (uint32_t layer = 0; layer < layers; layer++) {
         uint64_t bufferOffset = offsets[layer][0];
@@ -351,7 +353,24 @@ SphericalHarmonics3 ImageManager::generate_sh(const std::string &file) {
             float u = texelSize * 0.5f - 1.f;
             for (uint32_t x = 0; x < texture_size; x++) {
                 uint64_t dataOffset = y * texture_size * channelLength + x * channelLength + bufferOffset;
-                Color color(source->data_[dataOffset], source->data_[dataOffset + 1], source->data_[dataOffset + 2], 0);
+                
+                float r = 0.f;
+                for (uint8_t i = 0; i < channelShift; i++) {
+                    r += source->data_[dataOffset + i] * std::pow(256, i);
+                }
+                
+                float g = 0.f;
+                for (uint8_t i = 0; i < channelShift; i++) {
+                    g += source->data_[dataOffset + i + channelShift] * std::pow(256, i);
+                }
+                
+                float b = 0.f;
+                for (uint8_t i = 0; i < channelShift; i++) {
+                    b += source->data_[dataOffset + i + 2 * channelShift] * std::pow(256, i);
+                }
+                Color color(r / static_cast<float>(totalColor),
+                            g / static_cast<float>(totalColor),
+                            b / static_cast<float>(totalColor), 0);
                 
                 Vector3F direction;
                 switch (layer) {
@@ -362,10 +381,10 @@ SphericalHarmonics3 ImageManager::generate_sh(const std::string &file) {
                         direction.set(-1, -v, u);
                         break;
                     case 2: // TextureCubeFace.PositiveY
-                        direction.set(u, 1, v);
+                        direction.set(u, -1, -v);
                         break;
                     case 3: // TextureCubeFace.NegativeY
-                        direction.set(u, -1, -v);
+                        direction.set(u, 1, v);
                         break;
                     case 4: // TextureCubeFace.PositiveZ
                         direction.set(u, -v, 1);
