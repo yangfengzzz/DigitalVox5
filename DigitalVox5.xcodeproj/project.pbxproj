@@ -401,6 +401,8 @@
 		0444EBEF2808534A00C6F279 /* inspector_item.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA8A28083E5B00C6F279 /* inspector_item.h */; };
 		0444EBF02808535F00C6F279 /* scene_forward.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA9F28083E5C00C6F279 /* scene_forward.h */; };
 		047BB5C62803A96500CD5749 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047BB5C52803A96500CD5749 /* main.cpp */; };
+		04AAD9B92816A44E00121576 /* shadow_subpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9B72816A44E00121576 /* shadow_subpass.cpp */; };
+		04AAD9BA2816A44E00121576 /* shadow_subpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AAD9B82816A44E00121576 /* shadow_subpass.h */; };
 		04D95C192808EE0500E54DC2 /* device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C152808EE0500E54DC2 /* device.cpp */; };
 		04D95C1A2808EE0500E54DC2 /* scratch_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */; };
 		04D95C1B2808EE0500E54DC2 /* scratch_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C172808EE0500E54DC2 /* scratch_buffer.h */; };
@@ -1013,6 +1015,8 @@
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		047BB5D02803A99E00CD5749 /* libvox.render.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.render.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5DF2803A9B700CD5749 /* libvox.math.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.math.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		04AAD9B72816A44E00121576 /* shadow_subpass.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shadow_subpass.cpp; sourceTree = "<group>"; };
+		04AAD9B82816A44E00121576 /* shadow_subpass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shadow_subpass.h; sourceTree = "<group>"; };
 		04D95C152808EE0500E54DC2 /* device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device.cpp; sourceTree = "<group>"; };
 		04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scratch_buffer.cpp; sourceTree = "<group>"; };
 		04D95C172808EE0500E54DC2 /* scratch_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch_buffer.h; sourceTree = "<group>"; };
@@ -2262,6 +2266,8 @@
 		04D95DC928162FB300E54DC2 /* shadow */ = {
 			isa = PBXGroup;
 			children = (
+				04AAD9B82816A44E00121576 /* shadow_subpass.h */,
+				04AAD9B72816A44E00121576 /* shadow_subpass.cpp */,
 				04D95DCB28162FCD00E54DC2 /* shadow_manager.h */,
 				04D95DCA28162FCD00E54DC2 /* shadow_manager.cpp */,
 			);
@@ -2407,6 +2413,7 @@
 				04D95D31280E328A00E54DC2 /* scene_animator.h in Headers */,
 				04D95C4A2809B28400E54DC2 /* orbit_control.h in Headers */,
 				0444E9D928056A1900C6F279 /* resource_record.h in Headers */,
+				04AAD9BA2816A44E00121576 /* shadow_subpass.h in Headers */,
 				0444EB7528084BAF00C6F279 /* color_picker.h in Headers */,
 				0444E95A2805633000C6F279 /* window.h in Headers */,
 				0444E8C62805585800C6F279 /* shader_module.h in Headers */,
@@ -2778,6 +2785,7 @@
 				0444EB4628084B9E00C6F279 /* text_selectable.cpp in Sources */,
 				04D95D932810E98400E54DC2 /* file_logger.cpp in Sources */,
 				0444EA1228056E2700C6F279 /* vulkan_stats_provider.cpp in Sources */,
+				04AAD9B92816A44E00121576 /* shadow_subpass.cpp in Sources */,
 				0444EB1B28084B8F00C6F279 /* panel_menu_bar.cpp in Sources */,
 				0444EBE528084BDE00C6F279 /* button_arrow.cpp in Sources */,
 				0444EB3E28084B9E00C6F279 /* text_labelled.cpp in Sources */,

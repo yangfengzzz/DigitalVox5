@@ -8,7 +8,7 @@
 
 #include "rendering/render_pipeline.h"
 #include "lighting/point_light.h"
-//#include "shadow_subpass.h"
+#include "shadow_subpass.h"
 #include "singleton.h"
 
 namespace vox {
