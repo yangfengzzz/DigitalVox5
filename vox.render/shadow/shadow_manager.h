@@ -76,7 +76,7 @@ public:
         Vector4F light_pos;
     };
     
-    static uint32_t shadow_count();
+    uint32_t shadow_count();
     
     static uint32_t cube_shadow_count();
     
@@ -125,7 +125,7 @@ private:
     
     float cascade_split_lambda_ = 0.5f;
     
-    static uint32_t shadow_count_;
+    std::vector<RenderTarget*> used_shadow_;
     std::vector<std::vector<std::unique_ptr<RenderTarget>>> shadow_maps_{};
     std::shared_ptr<Image> packed_texture_{nullptr};
     const std::string shadow_map_prop_;
