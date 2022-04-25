@@ -15,6 +15,11 @@ public:
                   Scene *scene,
                   Camera *camera);
     
+    /**
+     * @brief Thread index to use for allocating resources
+     */
+    void set_thread_index(uint32_t index);
+    
     void set_view_projection_matrix(const Matrix4x4F &vp);
     
     void set_viewport(const std::optional<VkViewport> &viewport);
@@ -22,11 +27,6 @@ public:
     void prepare() override;
     
     void draw(CommandBuffer &command_buffer) override;
-    
-    /**
-     * @brief Thread index to use for allocating resources
-     */
-    void set_thread_index(uint32_t index);
     
 protected:
     void draw_element(CommandBuffer &command_buffer,

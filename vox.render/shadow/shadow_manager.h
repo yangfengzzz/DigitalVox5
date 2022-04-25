@@ -18,7 +18,6 @@ public:
     static constexpr uint32_t max_shadow_ = 10;
     static constexpr uint32_t max_cube_shadow_ = 5;
     static constexpr uint32_t shadow_map_resolution_ = 4000;
-    static constexpr VkFormat shadow_map_format_ = VK_FORMAT_D32_SFLOAT;
     
     struct ShadowData {
         /**
@@ -86,7 +85,8 @@ public:
     static ShadowManager *get_singleton_ptr();
     
 public:
-    ShadowManager(Device& device, Scene *scene, Camera *camera);
+    ShadowManager(Device &device, RenderContext &render_context,
+                  Scene *scene, Camera *camera);
     
     float cascade_split_lambda();
     
@@ -114,16 +114,19 @@ private:
     std::unique_ptr<RenderTarget> create_shadow_render_target(uint32_t size);
     
 private:
-    Device& device_;
+    Device &device_;
+    RenderContext &render_context_;
+    
     Scene *scene_{nullptr};
     Camera *camera_{nullptr};
     
     std::unique_ptr<RenderPipeline> render_pipeline_{nullptr};
+    ShadowSubpass *shadow_subpass_{nullptr};
     
     float cascade_split_lambda_ = 0.5f;
     
     static uint32_t shadow_count_;
-    std::vector<std::shared_ptr<Image>> shadow_maps_{};
+    std::vector<std::vector<std::unique_ptr<RenderTarget>>> shadow_maps_{};
     std::shared_ptr<Image> packed_texture_{nullptr};
     const std::string shadow_map_prop_;
     const std::string shadow_sampler_prop_;
@@ -131,14 +134,12 @@ private:
     std::array<ShadowManager::ShadowData, ShadowManager::max_shadow_> shadow_datas_{};
     
     static uint32_t cube_shadow_count_;
-    std::vector<std::shared_ptr<Image>> cube_shadow_maps_{};
+    std::vector<std::vector<std::unique_ptr<RenderTarget>>> cube_shadow_maps_{};
     std::shared_ptr<Image> packed_cube_texture_{nullptr};
     const std::string cube_shadow_map_prop_;
     const std::string cube_shadow_sampler_prop_;
     const std::string cube_shadow_data_prop_;
     std::array<ShadowManager::CubeShadowData, ShadowManager::max_cube_shadow_> cube_shadow_datas_{};
-    
-    uint32_t num_ofdraw_call_ = 0;
     
     const std::array<std::pair<Vector3F, Vector3F>, 6> cube_map_direction_ = {
         std::make_pair(Vector3F(10, 0, 0), Vector3F(0, 1, 0)),
