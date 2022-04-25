@@ -14,7 +14,7 @@
 namespace vox {
 ShadowSubpass::ShadowSubpass(RenderContext &render_context, Scene *scene, Camera *camera) :
 Subpass{render_context, scene, camera} {
-    vertex_source_ = ShaderManager::get_singleton().load_shader("base/shadow_map.vert");
+    vertex_source_ = ShaderManager::get_singleton().load_shader("base/shadow-map.vert");
 }
 
 void ShadowSubpass::set_thread_index(uint32_t index) {

@@ -31,16 +31,18 @@ ForwardApplication::~ForwardApplication() {
 bool ForwardApplication::prepare(Platform &platform) {
     GraphicsApplication::prepare(platform);
     
+    // resource loader
     image_manager_ = std::make_unique<ImageManager>(*device_);
     shader_manager_ = std::make_unique<ShaderManager>();
     mesh_manager_ = std::make_unique<MeshManager>(*device_);
     
+    // logic system
     components_manager_ = std::make_unique<ComponentsManager>();
     physics_manager_ = std::make_unique<physics::PhysicsManager>();
     scene_manager_ = std::make_unique<SceneManager>(*device_);
     auto scene = scene_manager_->current_scene();
     
-    //    _particleManager = std::make_unique<ParticleManager>(_device);
+    // _particleManager = std::make_unique<ParticleManager>(_device);
     light_manager_ = std::make_unique<LightManager>(scene);
     {
         load_scene();
@@ -50,8 +52,11 @@ bool ForwardApplication::prepare(Platform &platform) {
         main_camera_->resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
     }
     light_manager_->set_camera(main_camera_);
+    
+    // internal manager
     shadow_manager_ = std::make_unique<ShadowManager>(*device_, *render_context_, scene, main_camera_);
     
+    // default render pipeline
     std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
     scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(get_render_context(), scene, main_camera_));
     set_render_pipeline(RenderPipeline(std::move(scene_subpasses)));
