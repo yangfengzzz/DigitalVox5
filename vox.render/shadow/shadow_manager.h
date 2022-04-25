@@ -131,7 +131,6 @@ private:
     std::vector<RenderTarget *> used_shadow_;
     std::vector<std::vector<std::unique_ptr<RenderTarget>>> shadow_maps_{};
     const std::string shadow_map_prop_;
-    const std::string shadow_sampler_prop_;
     const std::string shadow_data_prop_;
     std::array<ShadowManager::ShadowData, ShadowManager::max_shadow_> shadow_datas_{};
     
@@ -139,7 +138,6 @@ private:
     std::vector<std::vector<std::unique_ptr<RenderTarget>>> cube_shadow_maps_{};
     std::shared_ptr<Image> packed_cube_texture_{nullptr};
     const std::string cube_shadow_map_prop_;
-    const std::string cube_shadow_sampler_prop_;
     const std::string cube_shadow_data_prop_;
     std::array<ShadowManager::CubeShadowData, ShadowManager::max_cube_shadow_> cube_shadow_datas_{};
     

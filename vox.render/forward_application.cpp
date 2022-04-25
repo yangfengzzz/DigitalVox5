@@ -17,7 +17,7 @@ ForwardApplication::~ForwardApplication() {
     components_manager_.reset();
     physics_manager_.reset();
     light_manager_.reset();
-    //    _shadowManager.reset();
+    shadow_manager_.reset();
     //    _particleManager.reset();
     
     image_manager_->collect_garbage();
@@ -50,7 +50,7 @@ bool ForwardApplication::prepare(Platform &platform) {
         main_camera_->resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
     }
     light_manager_->set_camera(main_camera_);
-    //    _shadowManager = std::make_unique<ShadowManager>(scene, _mainCamera);
+    shadow_manager_ = std::make_unique<ShadowManager>(*device_, *render_context_, scene, main_camera_);
     
     std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
     scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(get_render_context(), scene, main_camera_));

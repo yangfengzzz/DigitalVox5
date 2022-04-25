@@ -37,11 +37,9 @@ render_context_(render_context),
 scene_(scene),
 camera_(camera),
 shadow_map_prop_("u_shadowMap"),
-shadow_sampler_prop_("u_shadowSampler"),
 shadow_data_prop_("u_shadowData"),
 
 cube_shadow_map_prop_("u_cubeShadowMap"),
-cube_shadow_sampler_prop_("u_cubeShadowSampler"),
 cube_shadow_data_prop_("u_cubeShadowData"),
 sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
     // Create a default sampler
