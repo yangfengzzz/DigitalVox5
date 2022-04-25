@@ -150,12 +150,7 @@ private:
         std::make_pair(Vector3F(0, 0, -10), Vector3F(0, 1, 0)),
     };
     
-    const std::array<Vector4F, shadow_map_cascade_count_> viewport_ = {
-        Vector4F(0, 0, shadow_map_resolution_ / 2, shadow_map_resolution_ / 2),
-        Vector4F(shadow_map_resolution_ / 2, 0, shadow_map_resolution_ / 2, shadow_map_resolution_ / 2),
-        Vector4F(0, shadow_map_resolution_ / 2, shadow_map_resolution_ / 2, shadow_map_resolution_ / 2),
-        Vector4F(shadow_map_resolution_ / 2, shadow_map_resolution_ / 2, shadow_map_resolution_ / 2, shadow_map_resolution_ / 2),
-    };
+    std::array<VkViewport, shadow_map_cascade_count_> viewport_;
 };
 
 template<> inline ShadowManager *Singleton<ShadowManager>::ms_singleton_{nullptr};
