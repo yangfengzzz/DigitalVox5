@@ -555,7 +555,9 @@ set(LIGHT_FILE
 
 set(SHADOW_FILE
         shadow/shadow_manager.cpp
-        shadow/shadow_manager.h)
+        shadow/shadow_manager.h
+        shadow/shadow_subpass.cpp
+        shadow/shadow_subpass.h)
 
 set(PLUGINS_FILE
         plugins/force_close.h

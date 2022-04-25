@@ -86,7 +86,7 @@ public:
     static ShadowManager *get_singleton_ptr();
     
 public:
-    ShadowManager(Scene *scene, Camera *camera);
+    ShadowManager(Device& device, Scene *scene, Camera *camera);
     
     float cascade_split_lambda();
     
@@ -111,7 +111,10 @@ private:
     
     void update_point_shadow(PointLight *light, ShadowManager::CubeShadowData &shadow_data);
     
+    std::unique_ptr<RenderTarget> create_shadow_render_target(uint32_t size);
+    
 private:
+    Device& device_;
     Scene *scene_{nullptr};
     Camera *camera_{nullptr};
     

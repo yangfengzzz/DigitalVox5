@@ -31,6 +31,37 @@ ShadowManager &ShadowManager::get_singleton() {
     return (*ms_singleton_);
 }
 
+ShadowManager::ShadowManager(Device& device, Scene *scene, Camera *camera):
+device_(device),
+scene_(scene),
+camera_(camera),
+shadow_map_prop_("u_shadowMap"),
+shadow_sampler_prop_("u_shadowSampler"),
+shadow_data_prop_("u_shadowData"),
+
+cube_shadow_map_prop_("u_cubeShadowMap"),
+cube_shadow_sampler_prop_("u_cubeShadowSampler"),
+cube_shadow_data_prop_("u_cubeShadowData") {
+}
+
+std::unique_ptr<RenderTarget> ShadowManager::create_shadow_render_target(uint32_t size) {
+    VkExtent3D extent{size, size, 1};
+    
+    core::Image depth_image{device_,
+        extent,
+        get_suitable_depth_format(device_.get_gpu().get_handle()),
+        VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
+        VMA_MEMORY_USAGE_GPU_ONLY
+    };
+    
+    std::vector<core::Image> images;
+    
+    images.push_back(std::move(depth_image));
+    
+    return std::make_unique<RenderTarget>(std::move(images));
+}
+
+
 void ShadowManager::update_spot_shadow(SpotLight *light, ShadowManager::ShadowData &shadow_data) {
     shadow_data.radius = light->shadow_radius();
     shadow_data.bias = light->shadow_bias();
