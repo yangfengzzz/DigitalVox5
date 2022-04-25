@@ -125,9 +125,11 @@ private:
     
     float cascade_split_lambda_ = 0.5f;
     
+    VkSamplerCreateInfo sampler_create_info_;
+    std::unique_ptr<core::Sampler> sampler_{nullptr};
+    
     std::vector<RenderTarget*> used_shadow_;
     std::vector<std::vector<std::unique_ptr<RenderTarget>>> shadow_maps_{};
-    std::shared_ptr<Image> packed_texture_{nullptr};
     const std::string shadow_map_prop_;
     const std::string shadow_sampler_prop_;
     const std::string shadow_data_prop_;

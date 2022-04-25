@@ -287,6 +287,7 @@ void ImageManager::collect_garbage() {
     }
 }
 
+// MARK: - PBR
 std::shared_ptr<Image> ImageManager::generate_ibl(const std::string &file,
                                                   RenderContext &render_context) {
     auto iter = image_pool_.find(file + "ibl");
@@ -410,6 +411,33 @@ SphericalHarmonics3 ImageManager::generate_sh(const std::string &file) {
     }
     sh = sh * (static_cast<float>(4.0 * M_PI) / solid_angle_sum);
     return sh;
+}
+
+//MARK: - Shadow
+std::shared_ptr<Image> ImageManager::packed_shadow_map(CommandBuffer &command_buffer,
+                                                       std::vector<RenderTarget*> used_shadow,
+                                                       uint32_t shadow_map_resolution) {
+    if (!packed_shadow_map_ || packed_shadow_map_->get_layers() != used_shadow.size()) {
+        std::vector<Mipmap> mipmap(1);
+        mipmap[0].extent.width = shadow_map_resolution;
+        mipmap[0].extent.height = shadow_map_resolution;
+        packed_shadow_map_ = std::make_shared<Image>("shadowmap", std::vector<uint8_t>(), std::move(mipmap));
+        packed_shadow_map_->set_layers(static_cast<uint32_t>(used_shadow.size()));
+        packed_shadow_map_->set_format(get_suitable_depth_format(command_buffer.get_device().get_gpu().get_handle()));
+        packed_shadow_map_->create_vk_image(command_buffer.get_device());
+    }
+    
+    std::vector<VkImageCopy> regions(1);
+    regions[0].extent = {shadow_map_resolution, shadow_map_resolution, 1};
+    regions[0].dstSubresource.layerCount = 1;
+    
+    for (uint32_t i = 0; i < used_shadow.size(); i++) {
+        regions[0].dstSubresource.baseArrayLayer = i;
+
+        const auto& src_img = used_shadow[i]->get_views()[0].get_image();
+        command_buffer.copy_image(src_img, packed_shadow_map_->get_vk_image(), regions);
+    }
+    return packed_shadow_map_;
 }
 
 }

@@ -49,6 +49,11 @@ public:
     
     SphericalHarmonics3 generate_sh(const std::string &file);
     
+public:
+    std::shared_ptr<Image> packed_shadow_map(CommandBuffer &command_buffer,
+                                             std::vector<RenderTarget*> used_shadow,
+                                             uint32_t shadow_map_resolution);
+    
 private:
     Device& device_;
     std::unordered_map<std::string, std::shared_ptr<Image>> image_pool_;
@@ -58,6 +63,8 @@ private:
     ShaderData shader_data_;
     std::unique_ptr<PostProcessingPipeline> pipeline_{nullptr};
     PostProcessingComputePass* ibl_pass_{nullptr};
+    
+    std::shared_ptr<Image> packed_shadow_map_{nullptr};
 };
 
 template<> inline ImageManager *Singleton<ImageManager>::ms_singleton_{nullptr};

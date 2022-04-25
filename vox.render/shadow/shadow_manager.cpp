@@ -42,7 +42,31 @@ shadow_data_prop_("u_shadowData"),
 
 cube_shadow_map_prop_("u_cubeShadowMap"),
 cube_shadow_sampler_prop_("u_cubeShadowSampler"),
-cube_shadow_data_prop_("u_cubeShadowData") {
+cube_shadow_data_prop_("u_cubeShadowData"),
+sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
+    // Create a default sampler
+    sampler_create_info_.magFilter = VK_FILTER_LINEAR;
+    sampler_create_info_.minFilter = VK_FILTER_LINEAR;
+    sampler_create_info_.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+    sampler_create_info_.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+    sampler_create_info_.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+    sampler_create_info_.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+    sampler_create_info_.mipLodBias = 0.0f;
+    sampler_create_info_.compareOp = VK_COMPARE_OP_LESS;
+    sampler_create_info_.minLod = 0.0f;
+    // Max level-of-detail should match mip level count
+    sampler_create_info_.maxLod = 0.0f;
+    // Only enable anisotropic filtering if enabled on the device
+    // Note that for simplicity, we will always be using max. available anisotropy level for the current device
+    // This may have an impact on performance, esp. on lower-specced devices
+    // In a real-world scenario the level of anisotropy should be a user setting or e.g. lowered for mobile devices by default
+    sampler_create_info_.maxAnisotropy = device.get_gpu().get_features().samplerAnisotropy
+    ? (device.get_gpu().get_properties().limits.maxSamplerAnisotropy)
+    : 1.0f;
+    sampler_create_info_.anisotropyEnable = device.get_gpu().get_features().samplerAnisotropy;
+    sampler_create_info_.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+    sampler_ = std::make_unique<core::Sampler>(device, sampler_create_info_);
+    
     auto subpass = std::make_unique<ShadowSubpass>(render_context_, scene, camera);
     shadow_subpass_ = subpass.get();
     render_pipeline_ = std::make_unique<RenderPipeline>();
@@ -68,6 +92,9 @@ void ShadowManager::draw(CommandBuffer &command_buffer) {
     draw_spot_shadow_map(command_buffer);
     draw_direct_shadow_map(command_buffer);
     if (!used_shadow_.empty()) {
+        auto image = ImageManager::get_singleton().packed_shadow_map(command_buffer, used_shadow_, shadow_map_resolution_);
+        scene_->shader_data_.set_sampled_texture(shadow_map_prop_, image->get_vk_image_view(), sampler_.get());
+        scene_->shader_data_.set_data(shadow_data_prop_, shadow_datas_);
     }
     
     cube_shadow_count_ = 0;
