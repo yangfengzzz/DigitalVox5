@@ -88,7 +88,7 @@ public:
     ShadowManager(Device &device, RenderContext &render_context,
                   Scene *scene, Camera *camera);
     
-    float cascade_split_lambda();
+    float cascade_split_lambda() const;
     
     void set_cascade_split_lambda(float value);
     
@@ -128,7 +128,7 @@ private:
     VkSamplerCreateInfo sampler_create_info_;
     std::unique_ptr<core::Sampler> sampler_{nullptr};
     
-    std::vector<RenderTarget*> used_shadow_;
+    std::vector<RenderTarget *> used_shadow_;
     std::vector<std::vector<std::unique_ptr<RenderTarget>>> shadow_maps_{};
     const std::string shadow_map_prop_;
     const std::string shadow_sampler_prop_;
@@ -152,7 +152,7 @@ private:
         std::make_pair(Vector3F(0, 0, -10), Vector3F(0, 1, 0)),
     };
     
-    std::array<VkViewport, shadow_map_cascade_count_> viewport_;
+    std::array<VkViewport, shadow_map_cascade_count_> viewport_{};
 };
 
 template<> inline ShadowManager *Singleton<ShadowManager>::ms_singleton_{nullptr};
