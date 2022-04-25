@@ -571,6 +571,8 @@
 		04D95DC62815140E00E54DC2 /* postprocessing_pipeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D0D280CF20100E54DC2 /* postprocessing_pipeline.cpp */; };
 		04D95DC72815140E00E54DC2 /* postprocessing_computepass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D12280CF20200E54DC2 /* postprocessing_computepass.cpp */; };
 		04D95DC82815144A00E54DC2 /* postprocessing_renderpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95D0F280CF20200E54DC2 /* postprocessing_renderpass.cpp */; };
+		04D95DCC28162FCD00E54DC2 /* shadow_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95DCA28162FCD00E54DC2 /* shadow_manager.cpp */; };
+		04D95DCD28162FCD00E54DC2 /* shadow_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95DCB28162FCD00E54DC2 /* shadow_manager.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1202,6 +1204,8 @@
 		04D95DBF2814FBC800E54DC2 /* irradiance_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = irradiance_app.h; sourceTree = "<group>"; };
 		04D95DC12814FC4000E54DC2 /* ibl_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ibl_app.cpp; sourceTree = "<group>"; };
 		04D95DC22814FC4000E54DC2 /* ibl_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ibl_app.h; sourceTree = "<group>"; };
+		04D95DCA28162FCD00E54DC2 /* shadow_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shadow_manager.cpp; sourceTree = "<group>"; };
+		04D95DCB28162FCD00E54DC2 /* shadow_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shadow_manager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1813,6 +1817,7 @@
 				0444E9D128056A1900C6F279 /* resource_binding_state.cpp */,
 				0444E96F280564DB00C6F279 /* rendering */,
 				04D95D32280E351E00E54DC2 /* lighting */,
+				04D95DC928162FB300E54DC2 /* shadow */,
 				0444EA322805720800C6F279 /* image.h */,
 				0444EA312805720800C6F279 /* image.cpp */,
 				0444EA23280571CC00C6F279 /* image */,
@@ -2254,6 +2259,15 @@
 			path = graphing;
 			sourceTree = "<group>";
 		};
+		04D95DC928162FB300E54DC2 /* shadow */ = {
+			isa = PBXGroup;
+			children = (
+				04D95DCB28162FCD00E54DC2 /* shadow_manager.h */,
+				04D95DCA28162FCD00E54DC2 /* shadow_manager.cpp */,
+			);
+			path = shadow;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2459,6 +2473,7 @@
 				0444EB0E28084B8000C6F279 /* panel_transformable.h in Headers */,
 				0444EBB728084BCE00C6F279 /* input_float.h in Headers */,
 				04D95CB8280AF6A700E54DC2 /* mesh.h in Headers */,
+				04D95DCD28162FCD00E54DC2 /* shadow_manager.h in Headers */,
 				0444EB2728084B9700C6F279 /* separator.h in Headers */,
 				0444E9552805633000C6F279 /* platform.h in Headers */,
 				0444EB2928084B9700C6F279 /* bullet.h in Headers */,
@@ -2903,6 +2918,7 @@
 				04D95CB7280AF6A700E54DC2 /* mesh.cpp in Sources */,
 				0444E94B2805628200C6F279 /* shader_module.cpp in Sources */,
 				04D95D39280E36CD00E54DC2 /* spot_light.cpp in Sources */,
+				04D95DCC28162FCD00E54DC2 /* shadow_manager.cpp in Sources */,
 				0444EB6A28084BAF00C6F279 /* radio_button_linker.cpp in Sources */,
 				0444E94128055FD400C6F279 /* debug.cpp in Sources */,
 				0444EB9828084BC500C6F279 /* tree_node.cpp in Sources */,

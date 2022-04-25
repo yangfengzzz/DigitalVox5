@@ -553,6 +553,10 @@ set(LIGHT_FILE
         lighting/ambient_light.h
         lighting/ambient_light.cpp)
 
+set(SHADOW_FILE
+        shadow/shadow_manager.cpp
+        shadow/shadow_manager.h)
+
 set(PLUGINS_FILE
         plugins/force_close.h
         plugins/force_close.cpp)
@@ -631,6 +635,7 @@ set(PROJECT_FILES
         ${MATERIAL_FILES}
         ${LOADER_FILES}
         ${LIGHT_FILE}
+        ${SHADOW_FILE}
         ${PLUGINS_FILE}
         ${GRAPHING_FILES}
         )
