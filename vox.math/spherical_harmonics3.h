@@ -23,9 +23,9 @@ class SphericalHarmonics3 {
 public:
     SphericalHarmonics3();
     
-    SphericalHarmonics3(std::array<float, 27> coefficients);
+	SphericalHarmonics3(std::array<float, 27> coefficients);
     
-    const std::array<float, 27> &coefficients() const;
+    [[nodiscard]] const std::array<float, 27> &coefficients() const;
     
     /**
      * Add light to SphericalHarmonics3.
@@ -50,7 +50,7 @@ public:
     
 private:
     /** The coefficients of SphericalHarmonics3. */
-    std::array<float, 27> _coefficients;
+    std::array<float, 27> _coefficients{};
 };
 
 }

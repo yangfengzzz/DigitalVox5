@@ -20,9 +20,9 @@ ImageManager &ImageManager::get_singleton() {
 
 ImageManager::ImageManager(Device& device):
 device_(device),
-shader_data_(device) {
+shader_data_(device),
+sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
     // Create a default sampler
-    sampler_create_info_ = {VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO};
     sampler_create_info_.magFilter = VK_FILTER_LINEAR;
     sampler_create_info_.minFilter = VK_FILTER_LINEAR;
     sampler_create_info_.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
@@ -297,7 +297,7 @@ std::shared_ptr<Image> ImageManager::generate_ibl(const std::string &file,
         command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
         
         auto source = load_texture_cubemap(file);
-        auto bakerMipmapCount = static_cast<uint32_t>(source->get_mipmaps().size());
+        auto baker_mipmap_count = static_cast<uint32_t>(source->get_mipmaps().size());
         std::vector<Mipmap> mipmap = source->get_mipmaps();
         
         auto target = std::make_shared<Image>(file + "ibl", std::vector<uint8_t>(), std::move(mipmap));
@@ -315,10 +315,10 @@ std::shared_ptr<Image> ImageManager::generate_ibl(const std::string &file,
         shader_data_.set_data("textureSize", source_width);
         
         auto &render_frame = render_context.get_active_frame();
-        for (uint32_t lod = 0; lod < bakerMipmapCount; lod++) {
-            float lodRoughness = float(lod) / float(bakerMipmapCount - 1); // linear
+        for (uint32_t lod = 0; lod < baker_mipmap_count; lod++) {
+            float lod_roughness = float(lod) / float(baker_mipmap_count - 1); // linear
             auto allocation = render_frame.allocate_buffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(float), 0);
-            allocation.update(lodRoughness);
+            allocation.update(lod_roughness);
             shader_data_.set_data("lodRoughness", std::move(allocation));
             
             shader_data_.set_storage_texture("o_results", target->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE, lod, 0, 1, 0));
@@ -339,38 +339,38 @@ SphericalHarmonics3 ImageManager::generate_sh(const std::string &file) {
     const auto &layers = source->get_layers();
     auto &offsets = source->get_offsets();
     uint32_t texture_size = source->get_extent().width;
-    float texelSize = 2.f / static_cast<float>(texture_size); // convolution is in the space of [-1, 1]
+    float texel_size = 2.f / static_cast<float>(texture_size); // convolution is in the space of [-1, 1]
     
-    float solidAngleSum = 0;
-    const uint32_t channelLength = get_bits_per_pixel(source->get_format()) / 8;
-    const uint32_t channelShift = channelLength / 4;
-    const uint32_t totalColor = std::pow(256, channelShift) - 1;
+    float solid_angle_sum = 0;
+    const uint32_t kChannelLength = get_bits_per_pixel(source->get_format()) / 8;
+    const uint32_t kChannelShift = kChannelLength / 4;
+    const float kTotalColor = std::powf(256.f, static_cast<float>(kChannelShift)) - 1;
     SphericalHarmonics3 sh;
     for (uint32_t layer = 0; layer < layers; layer++) {
-        uint64_t bufferOffset = offsets[layer][0];
-        float v = texelSize * 0.5f - 1.f;
+        uint64_t buffer_offset = offsets[layer][0];
+        float v = texel_size * 0.5f - 1.f;
         for (uint32_t y = 0; y < texture_size; y++) {
-            float u = texelSize * 0.5f - 1.f;
+            float u = texel_size * 0.5f - 1.f;
             for (uint32_t x = 0; x < texture_size; x++) {
-                uint64_t dataOffset = y * texture_size * channelLength + x * channelLength + bufferOffset;
+                uint64_t data_offset = y * texture_size * kChannelLength + x * kChannelLength + buffer_offset;
                 
                 float r = 0.f;
-                for (uint8_t i = 0; i < channelShift; i++) {
-                    r += source->data_[dataOffset + i] * std::pow(256, i);
+                for (uint8_t i = 0; i < kChannelShift; i++) {
+                    r += static_cast<float>(source->data_[data_offset + i]) * std::powf(256.f, i);
                 }
                 
                 float g = 0.f;
-                for (uint8_t i = 0; i < channelShift; i++) {
-                    g += source->data_[dataOffset + i + channelShift] * std::pow(256, i);
+                for (uint8_t i = 0; i < kChannelShift; i++) {
+                    g += static_cast<float>(source->data_[data_offset + i + kChannelShift]) * std::powf(256.f, i);
                 }
                 
                 float b = 0.f;
-                for (uint8_t i = 0; i < channelShift; i++) {
-                    b += source->data_[dataOffset + i + 2 * channelShift] * std::pow(256, i);
+                for (uint8_t i = 0; i < kChannelShift; i++) {
+                    b += static_cast<float>(source->data_[data_offset + i + 2 * kChannelShift]) * std::powf(256.f, i);
                 }
-                Color color(r / static_cast<float>(totalColor),
-                            g / static_cast<float>(totalColor),
-                            b / static_cast<float>(totalColor), 0);
+                Color color(r / kTotalColor,
+							g / kTotalColor,
+							b / kTotalColor, 0);
                 
                 Vector3F direction;
                 switch (layer) {
@@ -400,15 +400,15 @@ SphericalHarmonics3 ImageManager::generate_sh(const std::string &file) {
                  * dA = cos = S / r = 4 / r
                  * dw = dA / r2 = 4 / r / r2
                  */
-                float solidAngle = 4.f / (direction.length() * direction.lengthSquared());
-                solidAngleSum += solidAngle;
-                sh.addLight(direction.normalized(), color, solidAngle);
-                u += texelSize;
+                float solid_angle = 4.f / (direction.length() * direction.lengthSquared());
+                solid_angle_sum += solid_angle;
+                sh.addLight(direction.normalized(), color, solid_angle);
+                u += texel_size;
             }
-            v += texelSize;
+            v += texel_size;
         }
     }
-    sh = sh * ((4.f * M_PI) / solidAngleSum);
+    sh = sh * (static_cast<float>(4.0 * M_PI) / solid_angle_sum);
     return sh;
 }
 
