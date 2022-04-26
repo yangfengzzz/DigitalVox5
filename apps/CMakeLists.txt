@@ -22,6 +22,8 @@ set(SRC
         pbr_app.cpp
         irradiance_app.cpp
         ibl_app.cpp
+        shadowmap_app.cpp
+        cascade_shadowmap_app.cpp
         main.cpp
         )
 
