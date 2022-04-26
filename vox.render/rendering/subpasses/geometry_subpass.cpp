@@ -10,6 +10,8 @@
 #include "camera.h"
 #include "renderer.h"
 #include "components_manager.h"
+#include "shadow/shadow_manager.h"
+#include "shader/internal_variant_name.h"
 
 namespace vox {
 GeometrySubpass::GeometrySubpass(RenderContext &render_context, Scene *scene, Camera *camera) :
@@ -46,8 +48,11 @@ void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
     auto &device = command_buffer.get_device();
     for (auto &element : items) {
         auto macros = variant;
-        
         auto &renderer = element.renderer;
+        uint32_t shadow_count = ShadowManager::get_singleton().shadow_count();
+        if (renderer->receive_shadow_ && shadow_count != 0) {
+            renderer->shader_data_.add_define(SHADOW_MAP_COUNT + std::to_string(shadow_count));
+        }
         renderer->update_shader_data();
         renderer->shader_data_.merge_variants(macros, macros);
         

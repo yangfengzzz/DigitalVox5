@@ -1,5 +1,5 @@
-#ifdef SHADOW_COUNT
-layout(set = 0, binding = 17) uniform sampler2DArray shadowMap;
+#ifdef SHADOW_MAP_COUNT
+layout(set = 0, binding = 22) uniform sampler2DArray shadowMap;
 
 struct ShadowData {
     float bias;
@@ -10,8 +10,8 @@ struct ShadowData {
     float cascadeSplits[4];
 };
 
-layout(set = 0, binding = 18) uniform shadowData {
-    ShadowData value[SHADOW_COUNT];
+layout(set = 0, binding = 23) uniform shadowData {
+    ShadowData value[SHADOW_MAP_COUNT];
 } shadow_data;
 
 const vec2 offsets[4] = vec2[](
@@ -34,13 +34,13 @@ float textureProj(vec3 worldPos, vec3 viewPos, vec2 off, int index) {
         }
     }
 
-    vec4 shadowCoord = shadow_data.value[index].vp[cascadeIndex] * float4(worldPos, 1.0);
+    vec4 shadowCoord = shadow_data.value[index].vp[cascadeIndex] * vec4(worldPos, 1.0);
     vec2 xy = shadowCoord.xy;
     xy /= shadowCoord.w;
     xy = xy * 0.5 + 0.5;
     xy.y = 1 - xy.y;
     xy *= scale;
-    float shadow_sample = texture(shadowMap, vec3(xy + off + offsets[cascadeIndex], index));
+    float shadow_sample = texture(shadowMap, vec3(xy + off + offsets[cascadeIndex], index)).r;
     float current_sample = shadowCoord.z / shadowCoord.w;
 
     if (current_sample > shadow_sample) {
@@ -63,7 +63,7 @@ float filterPCF(vec3 worldPos, vec3 viewPos, int index) {
         }
     }
 
-    vec4 shadowCoord = shadow_data.value[index].vp[cascadeIndex] * float4(worldPos, 1.0);
+    vec4 shadowCoord = shadow_data.value[index].vp[cascadeIndex] * vec4(worldPos, 1.0);
     vec2 xy = shadowCoord.xy;
     xy /= shadowCoord.w;
     xy = xy * 0.5 + 0.5;
@@ -77,7 +77,7 @@ float filterPCF(vec3 worldPos, vec3 viewPos, int index) {
     float total = 0.0;
     for (int x = -neighborWidth; x <= neighborWidth; x++) {
         for (int y = -neighborWidth; y <= neighborWidth; y++) {
-            float shadow_sample = texture(shadowMap, vec3(xy + float2(x, y) * texelSize + offsets[cascadeIndex], index));
+            float shadow_sample = texture(shadowMap, vec3(xy + vec2(x, y) * texelSize + offsets[cascadeIndex], index)).r;
             float current_sample = shadowCoord.z / shadowCoord.w;
             if (current_sample > shadow_sample) {
                 total += shadow_data.value[index].intensity;
