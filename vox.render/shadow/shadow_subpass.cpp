@@ -7,6 +7,7 @@
 #include "shadow_subpass.h"
 #include "components_manager.h"
 #include "shader/shader_manager.h"
+#include "shadow_manager.h"
 #include "camera.h"
 #include "renderer.h"
 #include "mesh/mesh.h"
@@ -54,7 +55,25 @@ void ShadowSubpass::draw(CommandBuffer &command_buffer) {
     
     if (!viewports_.empty()) {
         command_buffer.set_viewport(0, viewports_);
+        
+        VkExtent2D extent{ShadowManager::shadow_map_resolution_/2, ShadowManager::shadow_map_resolution_/2};
+        VkRect2D scissor{};
+        scissor.extent = extent;
+        command_buffer.set_scissor(0, {scissor});
+    } else {
+        VkViewport viewport{};
+        viewport.width = static_cast<float>(ShadowManager::shadow_map_resolution_);
+        viewport.height = static_cast<float>(ShadowManager::shadow_map_resolution_);
+        viewport.minDepth = 0.0f;
+        viewport.maxDepth = 1.0f;
+        command_buffer.set_viewport(0, {viewport});
+        
+        VkExtent2D extent{ShadowManager::shadow_map_resolution_, ShadowManager::shadow_map_resolution_};
+        VkRect2D scissor{};
+        scissor.extent = extent;
+        command_buffer.set_scissor(0, {scissor});
     }
+
     
     auto compile_macros = ShaderVariant();
     scene_->shader_data_.merge_variants(compile_macros, compile_macros);

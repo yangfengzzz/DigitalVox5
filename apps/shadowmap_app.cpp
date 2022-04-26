@@ -70,7 +70,7 @@ void ShadowMapApp::load_scene() {
     light3->add_component<LightMovementReverse>();
     auto direct_light = light3->add_component<DirectLight>();
     direct_light->intensity_ = 0.2;
-//    direct_light->set_enable_shadow(true);
+    direct_light->set_enable_shadow(true);
     
     // create box test entity
     float cube_size = 2.0;

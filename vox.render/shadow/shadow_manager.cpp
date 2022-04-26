@@ -70,6 +70,10 @@ sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
     render_pipeline_ = std::make_unique<RenderPipeline>();
     render_pipeline_->add_subpass(std::move(subpass));
     
+    std::vector<VkClearValue> clear_value(1);
+    clear_value[0].depthStencil = {1.0f, 255U};
+    render_pipeline_->set_clear_value(clear_value);
+    
     auto offset = static_cast<float>(shadow_map_resolution_ / 2);
     viewport_[0] = {0.f, 0.f, offset, offset, 0.f, 1.f};
     viewport_[1] = {offset, 0.f, offset, offset, 0.f, 1.f};
