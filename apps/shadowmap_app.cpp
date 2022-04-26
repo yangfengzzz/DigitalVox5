@@ -64,7 +64,7 @@ void ShadowMapApp::load_scene() {
     auto spot_light = light->add_component<SpotLight>();
     spot_light->intensity_ = 0.2;
     spot_light->distance_ = 100;
-//    spot_light->set_enable_shadow(true);
+    spot_light->set_enable_shadow(true);
     
     auto light3 = root_entity->create_child("light3");
     light3->add_component<LightMovementReverse>();

@@ -113,6 +113,8 @@ private:
     
     std::unique_ptr<RenderTarget> create_shadow_render_target(uint32_t size);
     
+    void record_shadow_pass_image_memory_barrier(CommandBuffer &command_buffer, RenderTarget &render_target);
+    
 private:
     Device &device_;
     RenderContext &render_context_;

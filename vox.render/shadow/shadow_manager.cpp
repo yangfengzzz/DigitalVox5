@@ -121,7 +121,10 @@ void ShadowManager::draw_spot_shadow_map(CommandBuffer &command_buffer) {
             }
             
             shadow_subpass_->set_view_projection_matrix(shadow_datas_[shadow_count].vp[0]);
+            
+            record_shadow_pass_image_memory_barrier(command_buffer, *render_target);
             render_pipeline_->draw(command_buffer, *render_target);
+            command_buffer.end_render_pass();
             used_shadow_.emplace_back(render_target);
         }
     }
@@ -158,7 +161,10 @@ void ShadowManager::draw_direct_shadow_map(CommandBuffer &command_buffer) {
                     load_store[1].load_op = VK_ATTACHMENT_LOAD_OP_LOAD;
                 }
                 render_pipeline_->set_load_store(load_store);
+                
+                record_shadow_pass_image_memory_barrier(command_buffer, *render_target);
                 render_pipeline_->draw(command_buffer, *render_target);
+                command_buffer.end_render_pass();
             }
             used_shadow_.emplace_back(render_target);
         }
@@ -208,6 +214,20 @@ std::unique_ptr<RenderTarget> ShadowManager::create_shadow_render_target(uint32_
     std::vector<core::Image> images;
     images.push_back(std::move(depth_image));
     return std::make_unique<RenderTarget>(std::move(images));
+}
+
+void ShadowManager::record_shadow_pass_image_memory_barrier(CommandBuffer &command_buffer, RenderTarget &render_target) {
+    auto &shadowmap = render_target.get_views().at(0);
+
+    ImageMemoryBarrier memory_barrier{};
+    memory_barrier.old_layout      = VK_IMAGE_LAYOUT_UNDEFINED;
+    memory_barrier.new_layout      = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+    memory_barrier.src_access_mask = 0;
+    memory_barrier.dst_access_mask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+    memory_barrier.src_stage_mask  = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+    memory_barrier.dst_stage_mask  = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;
+
+    command_buffer.image_memory_barrier(shadowmap, memory_barrier);
 }
 
 void ShadowManager::update_spot_shadow(SpotLight *light, ShadowManager::ShadowData &shadow_data) {
