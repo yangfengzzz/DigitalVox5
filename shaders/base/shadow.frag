@@ -7,11 +7,11 @@ struct ShadowData {
     float radius;
     float dump;
     mat4 vp[4];
-    float cascadeSplits[4];
+    vec4 cascadeSplits;
 };
 
 layout(set = 0, binding = 23) uniform shadowData {
-    ShadowData value[SHADOW_MAP_COUNT];
+    ShadowData value[10];
 } shadow_data;
 
 const vec2 offsets[4] = vec2[](
@@ -38,7 +38,6 @@ float textureProj(vec3 worldPos, vec3 viewPos, vec2 off, int index) {
     vec2 xy = shadowCoord.xy;
     xy /= shadowCoord.w;
     xy = xy * 0.5 + 0.5;
-    xy.y = 1 - xy.y;
     xy *= scale;
     float shadow_sample = texture(shadowMap, vec3(xy + off + offsets[cascadeIndex], index)).r;
     float current_sample = shadowCoord.z / shadowCoord.w;
@@ -67,7 +66,6 @@ float filterPCF(vec3 worldPos, vec3 viewPos, int index) {
     vec2 xy = shadowCoord.xy;
     xy /= shadowCoord.w;
     xy = xy * 0.5 + 0.5;
-    xy.y = 1 - xy.y;
     xy *= scale;
 
     const int neighborWidth = 3;

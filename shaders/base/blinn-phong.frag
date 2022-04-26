@@ -194,7 +194,7 @@ vec3 getNormal() {
         #endif
     #endif
 
-    n *= float(gl_FrontFacing) * 2.0 - 1.0;
+//    n *= float(gl_FrontFacing) * 2.0 - 1.0;
     return n;
 }
 
