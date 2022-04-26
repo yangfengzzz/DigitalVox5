@@ -35,7 +35,7 @@ void main() {
         }
     }
 
-    float depth = texture(shadowMap, vec3(v_uv, 0));
+    float depth = texture(shadowMap, vec3(v_uv, 0)).r;
     if (cascadeIndex == 0) {
         o_color = vec4(1, 1, 1, 1);
     } else if (cascadeIndex == 1) {
