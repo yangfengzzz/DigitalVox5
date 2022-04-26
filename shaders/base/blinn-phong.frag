@@ -1,5 +1,7 @@
 #version 450
 
+#include "base/shadow.frag"
+
 #define PI 3.14159265359
 #define RECIPROCAL_PI 0.31830988618
 #define EPSILON 1e-6
