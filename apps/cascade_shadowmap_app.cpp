@@ -65,8 +65,8 @@ void CascadeShadowMapApp::load_scene() {
     
     auto plane_renderer = plane_entity->add_component<MeshRenderer>();
     plane_renderer->set_mesh(PrimitiveMesh::create_plane(10, 400));
-    // plane_renderer->set_material(plane_mtl);
-    plane_renderer->set_material(shadow_debug);
+    plane_renderer->set_material(plane_mtl);
+    // plane_renderer->set_material(shadow_debug);
     plane_renderer->receive_shadow_ = true;
     
     scene->play();

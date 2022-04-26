@@ -55,11 +55,6 @@ void ShadowSubpass::draw(CommandBuffer &command_buffer) {
     
     if (!viewports_.empty()) {
         command_buffer.set_viewport(0, viewports_);
-        
-        VkExtent2D extent{ShadowManager::shadow_map_resolution_/2, ShadowManager::shadow_map_resolution_/2};
-        VkRect2D scissor{};
-        scissor.extent = extent;
-        command_buffer.set_scissor(0, {scissor});
     } else {
         VkViewport viewport{};
         viewport.width = static_cast<float>(ShadowManager::shadow_map_resolution_);
@@ -67,11 +62,6 @@ void ShadowSubpass::draw(CommandBuffer &command_buffer) {
         viewport.minDepth = 0.0f;
         viewport.maxDepth = 1.0f;
         command_buffer.set_viewport(0, {viewport});
-        
-        VkExtent2D extent{ShadowManager::shadow_map_resolution_, ShadowManager::shadow_map_resolution_};
-        VkRect2D scissor{};
-        scissor.extent = extent;
-        command_buffer.set_scissor(0, {scissor});
     }
 
     

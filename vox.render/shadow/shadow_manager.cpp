@@ -160,9 +160,9 @@ void ShadowManager::draw_direct_shadow_map(CommandBuffer &command_buffer) {
                 shadow_subpass_->set_viewport(viewport_[i]);
                 
                 if (i == 0) {
-                    load_store[1].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
+                    load_store[0].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
                 } else {
-                    load_store[1].load_op = VK_ATTACHMENT_LOAD_OP_LOAD;
+                    load_store[0].load_op = VK_ATTACHMENT_LOAD_OP_LOAD;
                 }
                 render_pipeline_->set_load_store(load_store);
                 
@@ -173,7 +173,7 @@ void ShadowManager::draw_direct_shadow_map(CommandBuffer &command_buffer) {
             used_shadow_.emplace_back(render_target);
         }
     }
-    load_store[1].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    load_store[0].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
     render_pipeline_->set_load_store(load_store);
     shadow_subpass_->set_viewport(std::nullopt);
 }
