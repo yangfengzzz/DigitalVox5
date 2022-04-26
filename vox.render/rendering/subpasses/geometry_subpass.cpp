@@ -64,7 +64,10 @@ void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
         ScopedDebugLabel submesh_debug_label{command_buffer, mesh->name_.c_str()};
         
         // pipeline state
+        material->rasterization_state_.depth_bias_enable = VK_TRUE;
         command_buffer.set_rasterization_state(material->rasterization_state_);
+        command_buffer.set_depth_bias(0.01, 0.01, 1.0);
+
         auto multisample = material->multisample_state_;
         multisample.rasterization_samples = sample_count_;
         command_buffer.set_multisample_state(multisample);

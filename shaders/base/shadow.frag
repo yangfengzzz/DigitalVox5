@@ -1,5 +1,5 @@
 #ifdef SHADOW_MAP_COUNT
-layout(set = 0, binding = 22) uniform sampler2DArray shadowMap;
+layout(set = 0, binding = 22) uniform sampler2DArrayShadow shadowMap;
 
 struct ShadowData {
     float bias;
@@ -39,10 +39,9 @@ float textureProj(vec3 worldPos, vec3 viewPos, vec2 off, int index) {
     xy /= shadowCoord.w;
     xy = xy * 0.5 + 0.5;
     xy *= scale;
-    float shadow_sample = texture(shadowMap, vec3(xy + off + offsets[cascadeIndex], index)).r;
-    float current_sample = shadowCoord.z / shadowCoord.w;
+    float shadow_sample = texture(shadowMap, vec4(xy + off + offsets[cascadeIndex], index, shadowCoord.z / shadowCoord.w));
 
-    if (current_sample > shadow_sample) {
+    if (shadow_sample < 1.0) {
         return shadow_data.value[index].intensity;
     } else {
         return 1.0;
@@ -75,9 +74,8 @@ float filterPCF(vec3 worldPos, vec3 viewPos, int index) {
     float total = 0.0;
     for (int x = -neighborWidth; x <= neighborWidth; x++) {
         for (int y = -neighborWidth; y <= neighborWidth; y++) {
-            float shadow_sample = texture(shadowMap, vec3(xy + vec2(x, y) * texelSize + offsets[cascadeIndex], index)).r;
-            float current_sample = shadowCoord.z / shadowCoord.w;
-            if (current_sample > shadow_sample) {
+            float shadow_sample = texture(shadowMap, vec4(xy + vec2(x, y) * texelSize + offsets[cascadeIndex], index, shadowCoord.z / shadowCoord.w));
+            if (shadow_sample < 1.0) {
                 total += shadow_data.value[index].intensity;
             } else {
                 total += 1.0;

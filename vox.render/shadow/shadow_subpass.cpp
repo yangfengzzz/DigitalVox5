@@ -36,6 +36,7 @@ void ShadowSubpass::set_viewport(const std::optional<VkViewport> &viewport) {
 }
 
 void ShadowSubpass::prepare() {
+    rasterization_state_.depth_bias_enable = VK_TRUE;
     depth_stencil_state_.depth_compare_op = VK_COMPARE_OP_LESS_OR_EQUAL;
 }
 
@@ -46,7 +47,7 @@ void ShadowSubpass::draw(CommandBuffer &command_buffer) {
     command_buffer.set_multisample_state(multisample_state_);
     command_buffer.set_depth_stencil_state(depth_stencil_state_);
     command_buffer.set_input_assembly_state(input_assembly_state_);
-    command_buffer.set_depth_bias(-1.4f, 0.0f, -1.7f);
+    command_buffer.set_depth_bias(0.01, 0.01, 1.0);
     
     auto &render_frame = render_context_.get_active_frame();
     auto allocation = render_frame.allocate_buffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(Matrix4x4F), 0);

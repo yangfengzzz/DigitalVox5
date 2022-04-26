@@ -50,19 +50,12 @@ sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
     sampler_create_info_.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
     sampler_create_info_.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
     sampler_create_info_.mipLodBias = 0.0f;
+    sampler_create_info_.compareEnable = VK_TRUE;
     sampler_create_info_.compareOp = VK_COMPARE_OP_LESS;
     sampler_create_info_.minLod = 0.0f;
     // Max level-of-detail should match mip level count
     sampler_create_info_.maxLod = 0.0f;
-    // Only enable anisotropic filtering if enabled on the device
-    // Note that for simplicity, we will always be using max. available anisotropy level for the current device
-    // This may have an impact on performance, esp. on lower-specced devices
-    // In a real-world scenario the level of anisotropy should be a user setting or e.g. lowered for mobile devices by default
-    sampler_create_info_.maxAnisotropy = device.get_gpu().get_features().samplerAnisotropy
-    ? (device.get_gpu().get_properties().limits.maxSamplerAnisotropy)
-    : 1.0f;
-    sampler_create_info_.anisotropyEnable = device.get_gpu().get_features().samplerAnisotropy;
-    sampler_create_info_.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+    sampler_create_info_.unnormalizedCoordinates = VK_FALSE;
     sampler_ = std::make_unique<core::Sampler>(device, sampler_create_info_);
     
     auto subpass = std::make_unique<ShadowSubpass>(render_context_, scene, camera);
@@ -74,6 +67,10 @@ sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
     clear_value[0].depthStencil = {1.0f, 255U};
     render_pipeline_->set_clear_value(clear_value);
     
+    std::vector<LoadStoreInfo> load_store_info(1);
+    load_store_info[0].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    render_pipeline_->set_load_store(load_store_info);
+
     auto offset = static_cast<float>(shadow_map_resolution_ / 2);
     viewport_[0] = {0.f, 0.f, offset, offset, 0.f, 1.f};
     viewport_[1] = {offset, 0.f, offset, offset, 0.f, 1.f};

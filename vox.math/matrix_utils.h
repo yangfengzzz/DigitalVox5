@@ -159,7 +159,7 @@ inline Matrix<T, 4, 4> makeOrtho(T left, T right, T bottom, T top, T near, T far
                            0,
                            
                            0,
-                           -2 * bt,
+                           2 * bt,
                            0,
                            0,
                            
