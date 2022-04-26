@@ -95,7 +95,7 @@ void ShadowManager::draw(CommandBuffer &command_buffer) {
     draw_direct_shadow_map(command_buffer);
     if (!used_shadow_.empty()) {
         auto image = ImageManager::get_singleton().packed_shadow_map(command_buffer, used_shadow_, shadow_map_resolution_);
-        scene_->shader_data_.set_sampled_texture(shadow_map_prop_, image->get_vk_image_view(), sampler_.get());
+        scene_->shader_data_.set_sampled_texture(shadow_map_prop_, image->get_vk_image_view(VK_IMAGE_VIEW_TYPE_2D_ARRAY), sampler_.get());
         scene_->shader_data_.set_data(shadow_data_prop_, shadow_datas_);
     }
     
