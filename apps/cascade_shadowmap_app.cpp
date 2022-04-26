@@ -11,9 +11,19 @@
 #include "camera.h"
 #include "controls/orbit_control.h"
 #include "lighting/direct_light.h"
-//#include "shadow/shadow_debug_material.h"
 
 namespace vox {
+namespace {
+class ShadowDebugMaterial : public BaseMaterial {
+public:
+    ShadowDebugMaterial(Device &device):BaseMaterial(device, "") {
+        vertex_source_ = ShaderManager::get_singleton().load_shader("base/blinn-phong.vert");
+        fragment_source_ = ShaderManager::get_singleton().load_shader("base/cascade-shadow-debugger.frag");
+    }
+};
+
+} // namespace
+
 void CascadeShadowMapApp::load_scene() {
     auto scene = scene_manager_->current_scene();
     auto root_entity = scene->create_root_entity();
@@ -51,7 +61,7 @@ void CascadeShadowMapApp::load_scene() {
     plane_mtl->set_base_color(Color(1.0, 0, 0, 1.0));
     plane_mtl->set_render_face(RenderFace::DOUBLE);
     
-    // auto shadow_debug = std::make_shared<ShadowDebugMaterial>(*device_);
+    auto shadow_debug = std::make_shared<ShadowDebugMaterial>(*device_);
     
     auto plane_renderer = plane_entity->add_component<MeshRenderer>();
     plane_renderer->set_mesh(PrimitiveMesh::create_plane(10, 400));
