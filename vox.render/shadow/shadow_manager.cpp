@@ -36,11 +36,11 @@ device_(device),
 render_context_(render_context),
 scene_(scene),
 camera_(camera),
-shadow_map_prop_("u_shadowMap"),
-shadow_data_prop_("u_shadowData"),
+shadow_map_prop_("shadowMap"),
+shadow_data_prop_("shadowData"),
 
-cube_shadow_map_prop_("u_cubeShadowMap"),
-cube_shadow_data_prop_("u_cubeShadowData"),
+cube_shadow_map_prop_("cubeShadowMap"),
+cube_shadow_data_prop_("cubeShadowData"),
 sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
     // Create a default sampler
     sampler_create_info_.magFilter = VK_FILTER_LINEAR;

@@ -141,6 +141,10 @@ layout (location = 0) out vec2 v_uv;
     layout (location = 4) out vec3 v_pos;
 #endif
 
+#ifdef SHADOW_MAP_COUNT
+    layout (location = 5) out vec3 view_pos;
+#endif
+
 //----------------------------------------------------------------------------------------------------------------------
 //**********************************************************************************************************************
 //----------------------------------------------------------------------------------------------------------------------
@@ -242,6 +246,10 @@ void main() {
     #ifdef NEED_WORLDPOS
         vec4 temp_pos = renderer_data.model_mat * position;
         v_pos = temp_pos.xyz / temp_pos.w;
+    #endif
+
+    #ifdef SHADOW_MAP_COUNT
+        view_pos = (camera_data.view_mat * renderer_data.model_mat * position).xyz;
     #endif
 
     //------------------------------------------------------------------------------------------------------------------
