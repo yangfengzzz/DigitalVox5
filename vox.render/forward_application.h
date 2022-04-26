@@ -44,6 +44,8 @@ public:
     
     virtual void load_scene() = 0;
     
+    virtual void update_gpu_task(CommandBuffer &command_buffer);
+    
 protected:
     Camera *main_camera_{nullptr};
     

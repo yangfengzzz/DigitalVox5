@@ -63,20 +63,14 @@ void ShadowMapApp::load_scene() {
     light->add_component<LightMovement>();
     auto spot_light = light->add_component<SpotLight>();
     spot_light->intensity_ = 0.2;
-    spot_light->set_enable_shadow(true);
-    
-    auto light2 = root_entity->create_child("light2");
-    light2->transform_->set_position(0, 10, 0);
-    light2->transform_->look_at(Point3F(0, 0, 0), Vector3F(1, 0, 0));
-    auto point_light = light2->add_component<PointLight>();
-    point_light->intensity_ = 0.2;
-    point_light->set_enable_shadow(true); // slow
+    spot_light->distance_ = 100;
+//    spot_light->set_enable_shadow(true);
     
     auto light3 = root_entity->create_child("light3");
     light3->add_component<LightMovementReverse>();
     auto direct_light = light3->add_component<DirectLight>();
     direct_light->intensity_ = 0.2;
-    direct_light->set_enable_shadow(true);
+//    direct_light->set_enable_shadow(true);
     
     // create box test entity
     float cube_size = 2.0;

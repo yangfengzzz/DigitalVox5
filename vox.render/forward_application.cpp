@@ -96,8 +96,13 @@ void ForwardApplication::input_event(const InputEvent &input_event) {
 }
 
 void ForwardApplication::render(CommandBuffer &command_buffer) {
-    light_manager_->draw(command_buffer);
+    update_gpu_task(command_buffer);
     GraphicsApplication::render(command_buffer);
+}
+
+void ForwardApplication::update_gpu_task(CommandBuffer &command_buffer) {
+    shadow_manager_->draw(command_buffer);
+    light_manager_->draw(command_buffer);
 }
 
 }
