@@ -52,24 +52,12 @@ const VertexInputState &Mesh::vertex_input_state() const {
     return vertex_input_state_;
 }
 
-void Mesh::set_vertex_buffer_binding(size_t index, std::unique_ptr<core::Buffer> &&binding) {
-    if (vertex_buffer_bindings_.size() > index) {
-        vertex_buffer_bindings_[index] = std::move(binding);
-    } else {
-        vertex_buffer_bindings_.insert(vertex_buffer_bindings_.begin() + index, std::move(binding));
-    }
-}
-
 void Mesh::set_index_buffer_binding(std::unique_ptr<IndexBufferBinding> &&binding) {
     index_buffer_binding_ = std::move(binding);
 }
 
-const std::vector<std::unique_ptr<core::Buffer>> &Mesh::vertex_buffer_bindings() const {
-    return vertex_buffer_bindings_;
-}
-
 const IndexBufferBinding *Mesh::index_buffer_binding() const {
-    return index_buffer_binding_? index_buffer_binding_.get() : nullptr;
+    return index_buffer_binding_ ? index_buffer_binding_.get() : nullptr;
 }
 
 }

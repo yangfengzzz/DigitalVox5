@@ -8,6 +8,7 @@
 #include "entity.h"
 #include "scene.h"
 #include "mesh/mesh_renderer.h"
+#include "mesh/mesh_manager.h"
 #include "particle_manager.h"
 #include "shader/internal_variant_name.h"
 
@@ -41,20 +42,16 @@ dp_buffer_prop_("u_dpBuffer"),
 sort_indices_buffer_prop_("u_sortIndicesBuffer") {
     alloc_buffer();
     
-    mesh_ = std::make_shared<Mesh>();
+    mesh_ = MeshManager::get_singleton().load_buffer_mesh();
     mesh_->add_sub_mesh(0, 4);
     
-    //    std::vector<wgpu::VertexAttribute> vertexAttributes(3);
-    //    vertexAttributes[0].format = wgpu::VertexFormat::Float32x4;
-    //    vertexAttributes[0].offset = 0;
-    //    vertexAttributes[0].shaderLocation = 0;
-    //    vertexAttributes[1].format = wgpu::VertexFormat::Float32x4;
-    //    vertexAttributes[1].offset = sizeof(Vector4F);
-    //    vertexAttributes[1].shaderLocation = 1;
-    //    vertexAttributes[2].format = wgpu::VertexFormat::Float32x4;
-    //    vertexAttributes[2].offset = 2 * sizeof(Vector4F);
-    //    vertexAttributes[2].shaderLocation = 2;
-    //    _mesh->setVertexLayouts(vertexAttributes, sizeof(TParticle), wgpu::VertexStepMode::Instance);
+    std::vector<VkVertexInputAttributeDescription> vertex_input_attributes(3);
+    vertex_input_attributes[0] = initializers::vertex_input_attribute_description(0, 0, VK_FORMAT_R32G32B32A32_SFLOAT, 0);
+    vertex_input_attributes[1] = initializers::vertex_input_attribute_description(0, 1, VK_FORMAT_R32G32B32A32_SFLOAT, sizeof(Vector4F));
+    vertex_input_attributes[2] = initializers::vertex_input_attribute_description(0, 2, VK_FORMAT_R32G32B32A32_SFLOAT, 2 * sizeof(Vector4F));
+    std::vector<VkVertexInputBindingDescription> vertex_input_bindings(1);
+    vertex_input_bindings[0] = initializers::vertex_input_binding_description(0, sizeof(TParticle), VK_VERTEX_INPUT_RATE_INSTANCE);
+    mesh_->set_vertex_input_state(vertex_input_bindings, vertex_input_attributes);
     
     material_ = std::make_shared<ParticleMaterial>(entity->scene()->device());
     set_material(material_);
@@ -147,7 +144,7 @@ void ParticleRenderer::update(float delta_time) {
     
     // todo
     mesh_->set_instance_count(num_alive_particles_);
-    // _mesh->set_vertex_buffer_binding(_appendConsumeBuffer[_read].get());
+    mesh_->set_vertex_buffer_binding(0, append_consume_buffer_[read_].get());
     generate_random_values();
 }
 

@@ -52,6 +52,17 @@ public:
      */
     explicit ModelMesh(Device &device);
     
+    /**
+     * Vertex buffer binding collection.
+     */
+    [[nodiscard]] const std::vector<std::unique_ptr<core::Buffer>> &vertex_buffer_bindings() const;
+    
+    void set_vertex_buffer_binding(size_t index, std::unique_ptr<core::Buffer> &&binding);
+    
+    [[nodiscard]] size_t vertex_buffer_count() const override;
+    
+    [[nodiscard]] const core::Buffer *vertex_buffer(size_t index) const override;
+    
 public:
     /**
      * Set positions for the mesh.
@@ -135,6 +146,7 @@ public:
     
 private:
     Device &device_;
+    std::vector<std::unique_ptr<core::Buffer>> vertex_buffer_bindings_{};
     
     void update_vertex_state();
     

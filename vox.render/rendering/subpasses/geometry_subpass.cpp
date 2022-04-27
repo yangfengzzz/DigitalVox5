@@ -93,8 +93,8 @@ void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
         
         // vertex buffer
         command_buffer.set_vertex_input_state(mesh->vertex_input_state());
-        for (uint32_t j = 0; j < mesh->vertex_buffer_bindings().size(); j++) {
-            const auto &vertex_buffer_binding = mesh->vertex_buffer_bindings()[j];
+        for (uint32_t j = 0; j < mesh->vertex_buffer_count(); j++) {
+            const auto vertex_buffer_binding = mesh->vertex_buffer(j);
             if (vertex_buffer_binding) {
                 std::vector<std::reference_wrapper<const core::Buffer>> buffers;
                 buffers.emplace_back(std::ref(*vertex_buffer_binding));

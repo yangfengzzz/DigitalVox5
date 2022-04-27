@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "buffer_mesh.h"
 #include "model_mesh.h"
 #include "singleton.h"
 
@@ -16,21 +17,21 @@ public:
     
     static MeshManager *get_singleton_ptr();
     
-    explicit MeshManager(Device& device);
+    explicit MeshManager(Device &device);
     
     ~MeshManager() = default;
     
     /**
      * @brief Loads mesh
      */
-    std::shared_ptr<Mesh> load_mesh();
+    std::shared_ptr<BufferMesh> load_buffer_mesh();
     
     std::shared_ptr<ModelMesh> load_model_mesh();
     
     void collect_garbage();
     
 private:
-    Device& device_;
+    Device &device_;
     std::vector<std::shared_ptr<Mesh>> mesh_pool_;
 };
 

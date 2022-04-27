@@ -490,6 +490,8 @@ set(MESH_FILES mesh/index_buffer_binding.h
         mesh/sub_mesh.cpp
         mesh/mesh.h
         mesh/mesh.cpp
+        mesh/buffer_mesh.h
+        mesh/buffer_mesh.cpp
         mesh/model_mesh.h
         mesh/model_mesh.cpp
         mesh/mesh_renderer.h

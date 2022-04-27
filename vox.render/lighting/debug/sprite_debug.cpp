@@ -36,7 +36,7 @@ std::string SpriteDebug::name() {
 
 SpriteDebug::SpriteDebug(Entity *entity) :
 Script(entity) {
-    spot_light_mesh_ = MeshManager::get_singleton().load_mesh();
+    spot_light_mesh_ = MeshManager::get_singleton().load_buffer_mesh();
     spot_light_mesh_->add_sub_mesh(0, 4);
     spot_entity_ = entity->create_child();
     auto spot_renderer = spot_entity_->add_component<MeshRenderer>();
@@ -45,7 +45,7 @@ Script(entity) {
     spot_renderer->set_material(mtl);
     spot_renderer->set_mesh(spot_light_mesh_);
     
-    point_light_mesh_ = MeshManager::get_singleton().load_mesh();
+    point_light_mesh_ = MeshManager::get_singleton().load_buffer_mesh();
     point_light_mesh_->add_sub_mesh(0, 4);
     point_entity_ = entity->create_child();
     auto point_renderer = point_entity_->add_component<MeshRenderer>();

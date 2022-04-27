@@ -8,7 +8,7 @@
 
 #include "renderer.h"
 #include "particle_material.h"
-#include "mesh/mesh.h"
+#include "mesh/buffer_mesh.h"
 #include <random>
 
 namespace vox {
@@ -179,7 +179,7 @@ public:
 private:
     uint32_t num_alive_particles_ = 0;
     
-    std::shared_ptr<Mesh> mesh_{nullptr};
+    std::shared_ptr<BufferMesh> mesh_{nullptr};
     std::shared_ptr<ParticleMaterial> material_{nullptr};
     
     std::random_device random_device_;
@@ -189,7 +189,7 @@ private:
     std::vector<float> random_vec_{};
     const std::string random_buffer_prop_;
     
-    ParticleSimulationData simulation_data_;
+    ParticleSimulationData simulation_data_{};
     const std::string simulation_data_prop_;
     
     ParticleEmitterData emitter_data_;

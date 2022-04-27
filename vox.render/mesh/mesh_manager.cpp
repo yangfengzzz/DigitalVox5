@@ -7,7 +7,7 @@
 #include "mesh_manager.h"
 
 namespace vox {
-MeshManager::MeshManager(Device& device):
+MeshManager::MeshManager(Device &device) :
 device_(device) {}
 
 MeshManager *MeshManager::get_singleton_ptr() {
@@ -19,8 +19,8 @@ MeshManager &MeshManager::get_singleton() {
     return (*ms_singleton_);
 }
 
-std::shared_ptr<Mesh> MeshManager::load_mesh() {
-    auto mesh = std::make_shared<Mesh>();
+std::shared_ptr<BufferMesh> MeshManager::load_buffer_mesh() {
+    auto mesh = std::make_shared<BufferMesh>();
     mesh_pool_.emplace_back(mesh);
     return mesh;
 }
@@ -32,7 +32,7 @@ std::shared_ptr<ModelMesh> MeshManager::load_model_mesh() {
 }
 
 void MeshManager::collect_garbage() {
-    mesh_pool_.erase(std::remove_if(mesh_pool_.begin(), mesh_pool_.end(), [](const std::shared_ptr<Mesh>& mesh){
+    mesh_pool_.erase(std::remove_if(mesh_pool_.begin(), mesh_pool_.end(), [](const std::shared_ptr<Mesh> &mesh) {
         return mesh.use_count() == 1;
     }), mesh_pool_.end());
 }
