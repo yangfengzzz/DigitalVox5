@@ -11,6 +11,7 @@
 #include "direct_light.h"
 #include "shader/shader_data.h"
 #include "rendering/postprocessing_pipeline.h"
+#include "rendering/postprocessing_computepass.h"
 #include "singleton.h"
 
 namespace vox {
@@ -19,7 +20,7 @@ namespace vox {
  */
 class LightManager : public Singleton<LightManager> {
 public:
-    static constexpr uint32_t forward_plus_enable_min_count_ = 20;
+    static constexpr uint32_t forward_plus_enable_min_count_ = 1;
     static constexpr std::array<uint32_t, 3> tile_count_ = {32, 18, 48};
     static constexpr uint32_t total_tiles_ = tile_count_[0] * tile_count_[1] * tile_count_[2];
     
@@ -86,9 +87,7 @@ public:
     
     [[nodiscard]] const std::vector<DirectLight *> &direct_lights() const;
     
-public:
-    [[nodiscard]] bool enable_forward_plus() const;
-    
+public:    
     void draw(CommandBuffer &command_buffer, RenderTarget &render_target);
     
 private:
@@ -110,17 +109,7 @@ private:
     void update_shader_data(ShaderData &shader_data);
     
 private:
-    bool enable_forward_plus_{false};
-    
-    struct ProjectionUniforms {
-        Matrix4x4F matrix;
-        Matrix4x4F inverse_matrix;
-        std::array<uint32_t, 2> output_size;
-        float z_near;
-        float z_far;
-        Matrix4x4F view_matrix;
-    };
-    ProjectionUniforms forward_plus_uniforms_;
+    Vector4F forward_plus_uniforms_;
     const std::string forward_plus_prop_;
     
     struct ClusterBounds {
@@ -149,7 +138,9 @@ private:
     std::unique_ptr<core::Buffer> cluster_lights_buffer_;
     
     ShaderData shader_data_;
+    PostProcessingComputePass* bounds_pass_{nullptr};
     std::unique_ptr<PostProcessingPipeline> cluster_bounds_compute_{nullptr};
+    PostProcessingComputePass* lights_pass_{nullptr};
     std::unique_ptr<PostProcessingPipeline> cluster_lights_compute_{nullptr};
 };
 

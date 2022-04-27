@@ -1,5 +1,5 @@
 const uint MAX_LIGHTS_PER_CLUSTER = 50;
-const vec3 tileCount = vec3(32, 18, 48);
+const ivec3 tileCount = ivec3(32, 18, 48);
 
 struct ClusterBounds {
     vec3 minAABB;
@@ -22,18 +22,18 @@ float linearDepth(vec4 projection, float depthSample) {
     return projection.w * projection.z / fma(depthSample, projection.z - projection.w, projection.w);
 }
 
-vec3 getTile(vec4 projection, vec4 fragCoord) {
+ivec3 getTile(vec4 projection, vec4 fragCoord) {
     // TODO: scale and bias calculation can be moved outside the shader to save cycles.
     float sliceScale = float(tileCount.z) / log2(projection.w / projection.z);
     float sliceBias = -(float(tileCount.z) * log2(projection.z) / log2(projection.w / projection.z));
-    float zTile = uint(max(log2(linearDepth(projection, fragCoord.z)) * sliceScale + sliceBias, 0.0));
+    uint zTile = uint(max(log2(linearDepth(projection, fragCoord.z)) * sliceScale + sliceBias, 0.0));
 
-    return vec3(uint(fragCoord.x / (projection.x / float(tileCount.x))),
+    return ivec3(uint(fragCoord.x / (projection.x / float(tileCount.x))),
     uint(fragCoord.y / (projection.y / float(tileCount.y))),
     zTile);
 }
 
 uint getClusterIndex(vec4 projection, vec4 fragCoord) {
-    vec3 tile = getTile(projection, fragCoord);
+    ivec3 tile = getTile(projection, fragCoord);
     return uint(tile.x + tile.y * tileCount.x + tile.z * tileCount.x * tileCount.y);
 }

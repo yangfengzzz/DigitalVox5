@@ -7,7 +7,6 @@
 #include "light_manager.h"
 #include "shader/internal_variant_name.h"
 #include "shader/shader_manager.h"
-#include "rendering/postprocessing_computepass.h"
 #include "scene.h"
 #include "camera.h"
 #include "logging.h"
@@ -39,26 +38,28 @@ cluster_lights_prop_("clusterLights") {
     });
     
     cluster_lights_buffer_ = std::make_unique<core::Buffer>(device, sizeof(ClusterLightGroup),
-                                                            VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, VMA_MEMORY_USAGE_GPU_ONLY);
+                                                            VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, VMA_MEMORY_USAGE_CPU_TO_GPU);
     scene_->shader_data_.set_buffer_functor(cluster_lights_prop_, [this]() -> core::Buffer* {
         return cluster_lights_buffer_.get();
     });
     
     cluster_bounds_compute_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
-    auto bounds_pass = &cluster_bounds_compute_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/light/cluster_bounds.comp"));
-    bounds_pass->set_dispatch_size(dispatch_size_);
-    bounds_pass->attach_shader_data(&shader_data_);
-    bounds_pass->attach_shader_data(&scene_->shader_data_);
+    bounds_pass_ = &cluster_bounds_compute_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/light/cluster_bounds.comp"));
+    bounds_pass_->set_dispatch_size(dispatch_size_);
+    bounds_pass_->attach_shader_data(&shader_data_);
+    bounds_pass_->attach_shader_data(&scene_->shader_data_);
     
     cluster_lights_compute_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
-    auto lights_pass = &cluster_lights_compute_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/light/cluster_light.comp"));
-    lights_pass->set_dispatch_size(dispatch_size_);
-    lights_pass->attach_shader_data(&shader_data_);
-    lights_pass->attach_shader_data(&scene_->shader_data_);
+    lights_pass_ = &cluster_lights_compute_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/light/cluster_light.comp"));
+    lights_pass_->set_dispatch_size(dispatch_size_);
+    lights_pass_->attach_shader_data(&shader_data_);
+    lights_pass_->attach_shader_data(&scene_->shader_data_);
 }
 
 void LightManager::set_camera(Camera *camera) {
     camera_ = camera;
+    bounds_pass_->attach_shader_data(&camera_->shader_data_);
+    lights_pass_->attach_shader_data(&camera_->shader_data_);
 }
 
 //MARK: - Point Light
@@ -167,29 +168,24 @@ void LightManager::update_shader_data(ShaderData &shader_data) {
 }
 
 //MARK: - Forward Plus
-bool LightManager::enable_forward_plus() const {
-    return enable_forward_plus_;
-}
-
 void LightManager::draw(CommandBuffer &command_buffer, RenderTarget &render_target) {
     update_shader_data(scene_->shader_data_);
     
     size_t point_light_count = point_lights_.size();
     size_t spot_light_count = spot_lights_.size();
     if (point_light_count + spot_light_count > forward_plus_enable_min_count_) {
-        enable_forward_plus_ = true;
+        scene_->shader_data_.add_define("NEED_FORWARD_PLUS");
+
         bool update_bounds = false;
         
-        forward_plus_uniforms_.matrix = camera_->projection_matrix();
-        forward_plus_uniforms_.inverse_matrix = camera_->inverse_projection_matrix();
-        if (forward_plus_uniforms_.output_size[0] != camera_->width() ||
-            forward_plus_uniforms_.output_size[1] != camera_->height()) {
+        if (forward_plus_uniforms_.x != camera_->width() ||
+            forward_plus_uniforms_.y != camera_->height()) {
             update_bounds = true;
-            forward_plus_uniforms_.output_size = {camera_->framebuffer_width(), camera_->framebuffer_height()};
+            forward_plus_uniforms_.x = camera_->framebuffer_width();
+            forward_plus_uniforms_.y = camera_->framebuffer_height();
         }
-        forward_plus_uniforms_.z_near = camera_->near_clip_plane();
-        forward_plus_uniforms_.z_far = camera_->far_clip_plane();
-        forward_plus_uniforms_.view_matrix = camera_->view_matrix();
+        forward_plus_uniforms_.z = camera_->near_clip_plane();
+        forward_plus_uniforms_.w = camera_->far_clip_plane();
         scene_->shader_data_.set_data(forward_plus_prop_, forward_plus_uniforms_);
         
         // Reset the light offset counter to 0 before populating the light clusters.
