@@ -1,6 +1,6 @@
 #version 450
 
-#include "base/cluster_bounds.comp"
+#include "base/cluster_common.comp"
 
 vec3 lineIntersectionToZPlane(vec3 a, vec3 b, float zDistance) {
     vec3 normal = vec3(0.0, 0.0, 1.0);
@@ -28,9 +28,14 @@ layout(set = 0, binding = 10) uniform clusterUniform {
     vec4 value;
 } cluster_uniform;
 
-layout(set = 0, binding = 11) uniform projInvMat {
-    mat4 value;
-} proj_inv_mat;
+layout(set = 0, binding = 5) uniform cameraData {
+    mat4 view_mat;
+    mat4 proj_mat;
+    mat4 vp_mat;
+    mat4 view_inv_mat;
+    mat4 proj_inv_mat;
+    vec3 camera_pos;
+} camera_data;
 
 layout(binding = 12) buffer u_clusters {
     ClusterBounds bounds[32 * 18 * 48]; // TOTAL_TILES
@@ -47,8 +52,8 @@ void main() {
     vec4 maxPoint_sS = vec4(vec2(float(gl_GlobalInvocationID.x+1u), float(gl_GlobalInvocationID.y+1u)) * tileSize, 0.0, 1.0);
     vec4 minPoint_sS = vec4(vec2(float(gl_GlobalInvocationID.x), float(gl_GlobalInvocationID.y)) * tileSize, 0.0, 1.0);
 
-    vec3 maxPoint_vS = screen2View(cluster_uniform.value, proj_inv_mat.value, maxPoint_sS).xyz;
-    vec3 minPoint_vS = screen2View(cluster_uniform.value, proj_inv_mat.value, minPoint_sS).xyz;
+    vec3 maxPoint_vS = screen2View(cluster_uniform.value, camera_data.proj_inv_mat, maxPoint_sS).xyz;
+    vec3 minPoint_vS = screen2View(cluster_uniform.value, camera_data.proj_inv_mat, minPoint_sS).xyz;
 
     float tileNear = -cluster_uniform.value.z * pow(cluster_uniform.value.w/ cluster_uniform.value.z,
     float(gl_GlobalInvocationID.z)/float(tileCount.z));

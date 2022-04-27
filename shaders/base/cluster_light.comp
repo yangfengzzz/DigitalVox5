@@ -1,6 +1,6 @@
 #version 450
 
-#include "base/cluster_bounds.comp"
+#include "base/cluster_common.comp"
 
 float sqDistPointAABB(vec3 point, vec3 minAABB, vec3 maxAABB) {
     float sqDist = 0.0;
@@ -35,9 +35,7 @@ layout(binding = 12) buffer u_clusters {
 } clusters;
 
 layout(binding = 12) buffer clusterLights {
-    uint offset;
-    ClusterLights lights[32 * 18 * 48];// TOTAL_TILES
-    uint indices[50 * 32 * 18 * 48];// MAX_LIGHTS_PER_CLUSTER * TOTAL_TILES
+    ClusterLightGroup value;
 } cluster_lights;
 
 // point light
@@ -127,12 +125,12 @@ void main() {
         }
     #endif
 
-    uint offset = atomicAdd(cluster_lights.offset, clusterLightCount);
+    uint offset = atomicAdd(cluster_lights.value.offset, clusterLightCount);
 
     for (uint i = 0u; i < clusterLightCount; i = i + 1u) {
-        cluster_lights.indices[offset + i] = cluserLightIndices[i];
+        cluster_lights.value.indices[offset + i] = cluserLightIndices[i];
     }
-    cluster_lights.lights[tileIndex].offset = offset;
-    cluster_lights.lights[tileIndex].point_count = pointLightCount;
-    cluster_lights.lights[tileIndex].spot_count = clusterLightCount - pointLightCount;
+    cluster_lights.value.lights[tileIndex].offset = offset;
+    cluster_lights.value.lights[tileIndex].point_count = pointLightCount;
+    cluster_lights.value.lights[tileIndex].spot_count = clusterLightCount - pointLightCount;
 }

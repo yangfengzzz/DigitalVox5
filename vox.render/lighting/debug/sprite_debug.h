@@ -12,7 +12,9 @@
 namespace vox {
 class SpriteDebugMaterial : public BaseMaterial {
 public:
-    SpriteDebugMaterial(Device &device, bool is_spot_light);
+    SpriteDebugMaterial(Device &device);
+    
+    void set_is_spot_light(bool value);
 };
 
 class SpriteDebug : public Script {

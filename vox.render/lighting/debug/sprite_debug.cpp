@@ -13,19 +13,22 @@
 #include "lighting/light_manager.h"
 
 namespace vox {
-SpriteDebugMaterial::SpriteDebugMaterial(Device &device, bool is_spot_light) :
+SpriteDebugMaterial::SpriteDebugMaterial(Device &device) :
 BaseMaterial(device) {
     set_is_transparent(true);
     set_blend_mode(BlendMode::ADDITIVE);
     
-    vertex_source_ = ShaderManager::get_singleton().load_shader("base/spotlight_sprite_debug.vert");
-    if (is_spot_light) {
-        fragment_source_ = ShaderManager::get_singleton().load_shader("base/spotlight_sprite_debug.frag");
-    } else {
-        fragment_source_ = ShaderManager::get_singleton().load_shader("base/pointlight_sprite_debug.frag");
+    vertex_source_ = ShaderManager::get_singleton().load_shader("base/light_sprite_debug.vert");
+    fragment_source_ = ShaderManager::get_singleton().load_shader("base/light_sprite_debug.frag");
+}
+
+void SpriteDebugMaterial::set_is_spot_light(bool value) {
+    if (value) {
+        shader_data_.add_define("IS_SPOT_LIGHT");
     }
 }
 
+//MARK: - SpriteDebug
 std::string SpriteDebug::name() {
     return "SpriteDebug";
 }
@@ -36,14 +39,16 @@ Script(entity) {
     spot_light_mesh_->add_sub_mesh(0, 4);
     spot_entity_ = entity->create_child();
     auto spot_renderer = spot_entity_->add_component<MeshRenderer>();
-    spot_renderer->set_material(std::make_shared<SpriteDebugMaterial>(entity->scene()->device(), true));
+    auto mtl = std::make_shared<SpriteDebugMaterial>(entity->scene()->device());
+    mtl->set_is_spot_light(true);
+    spot_renderer->set_material(mtl);
     spot_renderer->set_mesh(spot_light_mesh_);
     
     point_light_mesh_ = MeshManager::get_singleton().load_mesh();
     point_light_mesh_->add_sub_mesh(0, 4);
     point_entity_ = entity->create_child();
     auto point_renderer = point_entity_->add_component<MeshRenderer>();
-    point_renderer->set_material(std::make_shared<SpriteDebugMaterial>(entity->scene()->device(), false));
+    point_renderer->set_material(std::make_shared<SpriteDebugMaterial>(entity->scene()->device()));
     point_renderer->set_mesh(point_light_mesh_);
 }
 

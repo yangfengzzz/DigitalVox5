@@ -5,18 +5,18 @@ struct ClusterBounds {
     vec3 minAABB;
     vec3 maxAABB;
 };
-//struct Clusters {
-//    ClusterBounds bounds[32 * 18 * 48];// TOTAL_TILES
-//};
 
 struct ClusterLights {
     uint offset;
     uint point_count;
     uint spot_count;
 };
-//struct ClusterLightGroup {
-//
-//};
+
+struct ClusterLightGroup {
+    uint offset;
+    ClusterLights lights[32 * 18 * 48];// TOTAL_TILES
+    uint indices[50 * 32 * 18 * 48];// MAX_LIGHTS_PER_CLUSTER * TOTAL_TILES
+};
 
 float linearDepth(vec4 projection, float depthSample) {
     return projection.w * projection.z / fma(depthSample, projection.z - projection.w, projection.w);
