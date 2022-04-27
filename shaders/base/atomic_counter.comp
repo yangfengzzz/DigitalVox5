@@ -1,7 +1,11 @@
 #version 450
 
-layout(set = 0, binding = 6) uniform atomic_uint atomic_counter;
+layout(binding = 6) buffer atomicCounter {
+    uint value;
+} atomic_counter;
+
+layout(local_size_x = 2, local_size_y = 2, local_size_z = 2) in;
 
 void main() {
-    atomicCounterIncrement(atomic_counter);
+    atomicAdd(atomic_counter.value, 1);
 }

@@ -20,7 +20,7 @@ private:
 public:
     explicit AtomicMaterial(Device &device) :
     BaseMaterial(device, "atomicRender"),
-    atomic_prop_("atomic_counter") {
+    atomic_prop_("atomicCounter") {
         atomic_buffer_ = std::make_unique<core::Buffer>(device, sizeof(uint32_t),
                                                         VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
                                                         VMA_MEMORY_USAGE_GPU_ONLY);
