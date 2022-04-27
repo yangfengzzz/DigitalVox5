@@ -4,9 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-
-#ifndef DIGITALVOX_VOX_RENDER_IMAGE_MANAGER_H_
-#define DIGITALVOX_VOX_RENDER_IMAGE_MANAGER_H_
+#pragma once
 
 #include "image.h"
 #include "singleton.h"
@@ -70,4 +68,3 @@ private:
 template<> inline ImageManager *Singleton<ImageManager>::ms_singleton_{nullptr};
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_IMAGE_MANAGER_H_ */

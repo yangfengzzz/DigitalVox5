@@ -400,6 +400,12 @@
 		0444EBEE2808534A00C6F279 /* inspector_item.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA8728083E5B00C6F279 /* inspector_item.cpp */; };
 		0444EBEF2808534A00C6F279 /* inspector_item.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA8A28083E5B00C6F279 /* inspector_item.h */; };
 		0444EBF02808535F00C6F279 /* scene_forward.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA9F28083E5C00C6F279 /* scene_forward.h */; };
+		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
+		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
+		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
+		046988412819DCC500EF1EE1 /* particle_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883F2819DCC500EF1EE1 /* particle_material.h */; };
+		046988442819DCD500EF1EE1 /* particle_renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 046988422819DCD500EF1EE1 /* particle_renderer.cpp */; };
+		046988452819DCD500EF1EE1 /* particle_renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 046988432819DCD500EF1EE1 /* particle_renderer.h */; };
 		047BB5C62803A96500CD5749 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047BB5C52803A96500CD5749 /* main.cpp */; };
 		049A9D7B2818E10E001937A7 /* atomic_compute_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049A9D792818E10E001937A7 /* atomic_compute_app.cpp */; };
 		049A9D7F2818F356001937A7 /* sprite_debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049A9D7D2818F356001937A7 /* sprite_debug.cpp */; };
@@ -1020,6 +1026,12 @@
 		0444EBDE28084BDE00C6F279 /* button_small.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = button_small.h; sourceTree = "<group>"; };
 		0444EBEA28084D3000C6F279 /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event.h; sourceTree = "<group>"; };
 		0444EBEB28084D3000C6F279 /* event-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "event-inl.h"; sourceTree = "<group>"; };
+		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
+		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
+		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
+		0469883F2819DCC500EF1EE1 /* particle_material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_material.h; sourceTree = "<group>"; };
+		046988422819DCD500EF1EE1 /* particle_renderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_renderer.cpp; sourceTree = "<group>"; };
+		046988432819DCD500EF1EE1 /* particle_renderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_renderer.h; sourceTree = "<group>"; };
 		047BB5C22803A96500CD5749 /* apps */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apps; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		047BB5D02803A99E00CD5749 /* libvox.render.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.render.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1752,6 +1764,19 @@
 			path = panel_transformables;
 			sourceTree = "<group>";
 		};
+		04698839281988E600EF1EE1 /* particle */ = {
+			isa = PBXGroup;
+			children = (
+				0469883F2819DCC500EF1EE1 /* particle_material.h */,
+				0469883E2819DCC400EF1EE1 /* particle_material.cpp */,
+				046988432819DCD500EF1EE1 /* particle_renderer.h */,
+				046988422819DCD500EF1EE1 /* particle_renderer.cpp */,
+				0469883B2819892B00EF1EE1 /* particle_manager.h */,
+				0469883A2819892B00EF1EE1 /* particle_manager.cpp */,
+			);
+			path = particle;
+			sourceTree = "<group>";
+		};
 		047BB5B92803A96500CD5749 = {
 			isa = PBXGroup;
 			children = (
@@ -1855,6 +1880,7 @@
 				0444E96F280564DB00C6F279 /* rendering */,
 				04D95D32280E351E00E54DC2 /* lighting */,
 				04D95DC928162FB300E54DC2 /* shadow */,
+				04698839281988E600EF1EE1 /* particle */,
 				0444EA322805720800C6F279 /* image.h */,
 				0444EA312805720800C6F279 /* image.cpp */,
 				0444EA23280571CC00C6F279 /* image */,
@@ -2332,6 +2358,7 @@
 				0444EB8028084BB600C6F279 /* plot.h in Headers */,
 				0444E9DB28056A1900C6F279 /* resource_binding_state.h in Headers */,
 				0444EBF02808535F00C6F279 /* scene_forward.h in Headers */,
+				046988412819DCC500EF1EE1 /* particle_material.h in Headers */,
 				0444E951280562C700C6F279 /* image.h in Headers */,
 				0444E8B8280556B100C6F279 /* vk_initializers.h in Headers */,
 				04D95D0B280C4A3100E54DC2 /* graphics_application.h in Headers */,
@@ -2502,6 +2529,7 @@
 				0444E9F328056B0500C6F279 /* shader_binding_table.h in Headers */,
 				04D95CB4280AE52900E54DC2 /* sub_mesh.h in Headers */,
 				0444EB3F28084B9E00C6F279 /* text_clickable.h in Headers */,
+				0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */,
 				0444EB6F28084BAF00C6F279 /* combo_box.h in Headers */,
 				0444E9AE2805689000C6F279 /* sampler.h in Headers */,
 				0444E92228055CE400C6F279 /* instance.h in Headers */,
@@ -2573,6 +2601,7 @@
 				04D95C2F280994DE00E54DC2 /* transform.h in Headers */,
 				0444EBCB28084BD600C6F279 /* drag_multiple_scalars.h in Headers */,
 				0444EBA328084BC500C6F279 /* group_collapsable.h in Headers */,
+				046988452819DCD500EF1EE1 /* particle_renderer.h in Headers */,
 				0444EA1528056E2700C6F279 /* vulkan_stats_provider.h in Headers */,
 				0444E950280562C700C6F279 /* image_view.h in Headers */,
 			);
@@ -2892,6 +2921,7 @@
 				0444E962280563DC00C6F279 /* parser.cpp in Sources */,
 				0444E9D828056A1900C6F279 /* resource_record.cpp in Sources */,
 				0444EB7328084BAF00C6F279 /* combo_box.cpp in Sources */,
+				046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */,
 				0444EB1628084B8700C6F279 /* panel_window.cpp in Sources */,
 				04D95D4A280E3FD900E54DC2 /* ambient_light.cpp in Sources */,
 				0444EBE028084BDE00C6F279 /* button_colored.cpp in Sources */,
@@ -2925,6 +2955,7 @@
 				04D95C81280A8C6E00E54DC2 /* joint.cpp in Sources */,
 				0444E92D28055D5D00C6F279 /* timer.cpp in Sources */,
 				0444EB5D28084BA600C6F279 /* slider_float.cpp in Sources */,
+				046988442819DCD500EF1EE1 /* particle_renderer.cpp in Sources */,
 				0444E9F528056B0500C6F279 /* shader_binding_table.cpp in Sources */,
 				0444E9DD28056A1900C6F279 /* resource_binding_state.cpp in Sources */,
 				04D95DA828122B7900E54DC2 /* skybox_subpass.cpp in Sources */,
@@ -2993,6 +3024,7 @@
 				04D95CCD280BAE1B00E54DC2 /* shader_variant.cpp in Sources */,
 				04D95C30280994DE00E54DC2 /* transform.cpp in Sources */,
 				04D95C79280A8C6E00E54DC2 /* configurable_joint.cpp in Sources */,
+				0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */,
 				0444EA582805772200C6F279 /* render_frame.cpp in Sources */,
 				04D95C80280A8C6E00E54DC2 /* translational_joint.cpp in Sources */,
 				0444EB8928084BBD00C6F279 /* menu_list.cpp in Sources */,

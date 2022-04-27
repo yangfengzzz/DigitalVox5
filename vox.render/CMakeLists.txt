@@ -563,6 +563,14 @@ set(SHADOW_FILE
         shadow/shadow_subpass.cpp
         shadow/shadow_subpass.h)
 
+set(PARTICLE_FILE
+        particle/particle_material.h
+        particle/particle_material.cpp
+        particle/particle_renderer.h
+        particle/particle_renderer.cpp
+        particle/particle_manager.h
+        particle/particle_manager.cpp)
+
 set(PLUGINS_FILE
         plugins/force_close.h
         plugins/force_close.cpp)
@@ -642,6 +650,7 @@ set(PROJECT_FILES
         ${LOADER_FILES}
         ${LIGHT_FILE}
         ${SHADOW_FILE}
+        ${PARTICLE_FILE}
         ${PLUGINS_FILE}
         ${GRAPHING_FILES}
         )
