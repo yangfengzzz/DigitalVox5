@@ -29,7 +29,7 @@ public:
         });
         
         vertex_source_ = ShaderManager::get_singleton().load_shader("base/unlit.vert");
-        fragment_source_ = ShaderManager::get_singleton().load_shader("base/atomic_counter.frag");
+        fragment_source_ = ShaderManager::get_singleton().load_shader("base/compute/atomic_counter.frag");
     }
 };
 
@@ -63,7 +63,7 @@ bool AtomicComputeApp::prepare(Platform &platform) {
     ForwardApplication::prepare(platform);
     
     pipeline_ = std::make_unique<PostProcessingPipeline>(*render_context_, ShaderSource());
-    auto atomic_pass = &pipeline_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/atomic_counter.comp"));
+    auto atomic_pass = &pipeline_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/compute/atomic_counter.comp"));
     atomic_pass->set_dispatch_size({1, 1, 1});
     atomic_pass->attach_shader_data(&material_->shader_data_);
     
