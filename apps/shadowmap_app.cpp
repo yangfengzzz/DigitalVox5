@@ -12,6 +12,7 @@
 #include "camera.h"
 #include "lighting/direct_light.h"
 #include "lighting/spot_light.h"
+#include <unistd.h>
 
 namespace vox {
 namespace {

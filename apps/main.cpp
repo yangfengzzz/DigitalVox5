@@ -19,6 +19,7 @@
 #include "ibl_app.h"
 #include "shadowmap_app.h"
 #include "cascade_shadowmap_app.h"
+#include "atomic_compute_app.h"
 
 //MARK: - Entry
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
