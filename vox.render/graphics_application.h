@@ -187,7 +187,7 @@ protected:
      * @brief Triggers the render pipeline, it can be overridden by samples to specialize their rendering logic
      * @param command_buffer The command buffer to record the commands to
      */
-    virtual void render(CommandBuffer &command_buffer);
+    virtual void render(CommandBuffer &command_buffer, RenderTarget &render_target);
     
     /**
      * @brief Get additional sample-specific instance layers.

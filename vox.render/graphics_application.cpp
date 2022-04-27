@@ -283,7 +283,7 @@ void GraphicsApplication::draw(CommandBuffer &command_buffer, RenderTarget &rend
 }
 
 void GraphicsApplication::draw_renderpass(CommandBuffer &command_buffer, RenderTarget &render_target) {
-    render(command_buffer);
+    render(command_buffer, render_target);
     
     if (gui_) {
         gui_->draw(command_buffer);
@@ -292,9 +292,8 @@ void GraphicsApplication::draw_renderpass(CommandBuffer &command_buffer, RenderT
     command_buffer.end_render_pass();
 }
 
-void GraphicsApplication::render(CommandBuffer &command_buffer) {
+void GraphicsApplication::render(CommandBuffer &command_buffer, RenderTarget &render_target) {
     if (render_pipeline_) {
-        auto& render_target = render_context_->get_active_frame().get_render_target();
         set_viewport_and_scissor(command_buffer, render_target.get_extent());
         render_pipeline_->draw(command_buffer, render_target);
     }

@@ -40,11 +40,11 @@ public:
     
     void input_event(const InputEvent &input_event) override;
     
-    void render(CommandBuffer &command_buffer) override;
+    void render(CommandBuffer &command_buffer, RenderTarget &render_target) override;
     
     virtual void load_scene() = 0;
     
-    virtual void update_gpu_task(CommandBuffer &command_buffer);
+    virtual void update_gpu_task(CommandBuffer &command_buffer, RenderTarget &render_target);
     
 protected:
     Camera *main_camera_{nullptr};

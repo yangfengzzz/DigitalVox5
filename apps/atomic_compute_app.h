@@ -16,7 +16,7 @@ public:
     
     void load_scene() override;
     
-    void update_gpu_task(CommandBuffer &command_buffer) override;
+    void update_gpu_task(CommandBuffer &command_buffer, RenderTarget &render_target) override;
     
 private:
     std::shared_ptr<Material> material_{nullptr};
