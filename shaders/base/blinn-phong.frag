@@ -1,6 +1,7 @@
 #version 450
 
-#include "base/shadow.frag"
+#include "base/shadow/shadow.frag"
+#include "base/light/cluster_common.comp"
 
 #define PI 3.14159265359
 #define RECIPROCAL_PI 0.31830988618
@@ -22,6 +23,15 @@ vec4 linearToGamma(vec4 linearIn){
     return vec4(pow(linearIn.rgb, vec3(1.0 / 2.2)), linearIn.a);
 }
 
+layout(binding = 21) buffer clusterLights {
+    ClusterLightGroup value;
+} cluster_lights;
+
+layout(set = 0, binding = 22) uniform clusterUniform {
+    vec4 value;
+} cluster_uniform;
+
+//----------------------------------------------------------------------------------------------------------------------
 layout(set = 0, binding = 5) uniform cameraData {
     mat4 view_mat;
     mat4 proj_mat;
@@ -263,10 +273,26 @@ void main() {
         }
     #endif
 
+    uint clusterIndex = 0;
+    uint lightOffset = 0;
+    #ifdef NEED_FORWARD_PLUS
+        clusterIndex = getClusterIndex(cluster_uniform.value, gl_FragCoord);
+        lightOffset  = cluster_lights.value.lights[clusterIndex].offset;
+    #endif
+
     #ifdef POINT_LIGHT_COUNT
+        uint lightCount = POINT_LIGHT_COUNT;
+        #ifdef NEED_FORWARD_PLUS
+            lightCount = cluster_lights.value.lights[clusterIndex].point_count;
+        #endif
+
         PointLight pointLight;
-        for (int i = 0; i < POINT_LIGHT_COUNT; i++) {
-            pointLight = point_light.value[i];
+        for (int i = 0; i < lightCount; i++) {
+            uint index = i;
+            #ifdef NEED_FORWARD_PLUS
+                index = cluster_lights.value.indices[lightOffset + i];
+            #endif
+            pointLight = point_light.value[index];
 
             vec3 direction = v_pos - pointLight.position;
             float dist = length(direction);
@@ -283,9 +309,20 @@ void main() {
     #endif
 
     #ifdef SPOT_LIGHT_COUNT
+        uint pointlightCount;
+        uint lightCount2 = SPOT_LIGHT_COUNT;
+        #ifdef NEED_FORWARD_PLUS
+            pointlightCount = cluster_lights.value.lights[clusterIndex].point_count;
+            lightCount2 = cluster_lights.value.lights[clusterIndex].spot_count;
+        #endif
+
         SpotLight spotLight;
-        for (int i = 0; i < SPOT_LIGHT_COUNT; i++) {
-            spotLight = spot_light.value[i];
+        for (int i = 0; i < lightCount2; i++) {
+            uint index = i;
+            #ifdef NEED_FORWARD_PLUS
+                index = cluster_lights.value.indices[lightOffset + i + pointlightCount];
+            #endif
+            spotLight = spot_light.value[index];
 
             vec3 direction = spotLight.position - v_pos;
             float lightDistance = length(direction);
