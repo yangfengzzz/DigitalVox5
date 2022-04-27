@@ -2,7 +2,7 @@
 
 layout(location = 0) in vec2 v_uv;
 layout(location = 0) out vec4 o_color;
-layout(set = 0, binding = 6) uniform atomicCounter {
+layout(set = 0, binding = 36) uniform atomicCounter {
     uint value;
 } atomic_counter;
 
