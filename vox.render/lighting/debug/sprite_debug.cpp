@@ -18,8 +18,8 @@ BaseMaterial(device) {
     set_is_transparent(true);
     set_blend_mode(BlendMode::ADDITIVE);
     
-    vertex_source_ = ShaderManager::get_singleton().load_shader("base/light_sprite_debug.vert");
-    fragment_source_ = ShaderManager::get_singleton().load_shader("base/light_sprite_debug.frag");
+    vertex_source_ = ShaderManager::get_singleton().load_shader("base/light/light_sprite.vert");
+    fragment_source_ = ShaderManager::get_singleton().load_shader("base/light/light_sprite.frag");
 }
 
 void SpriteDebugMaterial::set_is_spot_light(bool value) {

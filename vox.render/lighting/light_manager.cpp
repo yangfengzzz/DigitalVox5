@@ -45,13 +45,13 @@ cluster_lights_prop_("clusterLights") {
     });
     
     cluster_bounds_compute_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
-    auto bounds_pass = &cluster_bounds_compute_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/atomic_counter.comp"));
+    auto bounds_pass = &cluster_bounds_compute_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/light/cluster_bounds.comp"));
     bounds_pass->set_dispatch_size(dispatch_size_);
     bounds_pass->attach_shader_data(&shader_data_);
     bounds_pass->attach_shader_data(&scene_->shader_data_);
     
     cluster_lights_compute_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
-    auto lights_pass = &cluster_lights_compute_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/atomic_counter.comp"));
+    auto lights_pass = &cluster_lights_compute_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/light/cluster_light.comp"));
     lights_pass->set_dispatch_size(dispatch_size_);
     lights_pass->attach_shader_data(&shader_data_);
     lights_pass->attach_shader_data(&scene_->shader_data_);
