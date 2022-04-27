@@ -406,6 +406,8 @@
 		049A9D802818F356001937A7 /* sprite_debug.h in Headers */ = {isa = PBXBuildFile; fileRef = 049A9D7E2818F356001937A7 /* sprite_debug.h */; };
 		049A9D832818F6EF001937A7 /* cluster_debug_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049A9D812818F6EF001937A7 /* cluster_debug_material.cpp */; };
 		049A9D842818F6EF001937A7 /* cluster_debug_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 049A9D822818F6EF001937A7 /* cluster_debug_material.h */; };
+		049A9D872818F979001937A7 /* cluster_forward_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049A9D852818F978001937A7 /* cluster_forward_app.cpp */; };
+		049A9D8A2818FA0C001937A7 /* multi_light_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049A9D882818FA0C001937A7 /* multi_light_app.cpp */; };
 		04AAD9B92816A44E00121576 /* shadow_subpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9B72816A44E00121576 /* shadow_subpass.cpp */; };
 		04AAD9BA2816A44E00121576 /* shadow_subpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AAD9B82816A44E00121576 /* shadow_subpass.h */; };
 		04AAD9BD2817717E00121576 /* shadowmap_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9BB2817717E00121576 /* shadowmap_app.cpp */; };
@@ -1028,6 +1030,10 @@
 		049A9D7E2818F356001937A7 /* sprite_debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sprite_debug.h; sourceTree = "<group>"; };
 		049A9D812818F6EF001937A7 /* cluster_debug_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cluster_debug_material.cpp; sourceTree = "<group>"; };
 		049A9D822818F6EF001937A7 /* cluster_debug_material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cluster_debug_material.h; sourceTree = "<group>"; };
+		049A9D852818F978001937A7 /* cluster_forward_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cluster_forward_app.cpp; sourceTree = "<group>"; };
+		049A9D862818F978001937A7 /* cluster_forward_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cluster_forward_app.h; sourceTree = "<group>"; };
+		049A9D882818FA0C001937A7 /* multi_light_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = multi_light_app.cpp; sourceTree = "<group>"; };
+		049A9D892818FA0C001937A7 /* multi_light_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = multi_light_app.h; sourceTree = "<group>"; };
 		04AAD9B72816A44E00121576 /* shadow_subpass.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shadow_subpass.cpp; sourceTree = "<group>"; };
 		04AAD9B82816A44E00121576 /* shadow_subpass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shadow_subpass.h; sourceTree = "<group>"; };
 		04AAD9BB2817717E00121576 /* shadowmap_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shadowmap_app.cpp; sourceTree = "<group>"; };
@@ -1797,6 +1803,10 @@
 				04AAD9BE2817739500121576 /* cascade_shadowmap_app.cpp */,
 				049A9D7A2818E10E001937A7 /* atomic_compute_app.h */,
 				049A9D792818E10E001937A7 /* atomic_compute_app.cpp */,
+				049A9D862818F978001937A7 /* cluster_forward_app.h */,
+				049A9D852818F978001937A7 /* cluster_forward_app.cpp */,
+				049A9D892818FA0C001937A7 /* multi_light_app.h */,
+				049A9D882818FA0C001937A7 /* multi_light_app.cpp */,
 			);
 			path = apps;
 			sourceTree = "<group>";
@@ -2771,9 +2781,11 @@
 				04D95D912810E91700E54DC2 /* screenshot.cpp in Sources */,
 				04D95DBD2814E60600E54DC2 /* pbr_app.cpp in Sources */,
 				04D95DAC281235EE00E54DC2 /* skybox_app.cpp in Sources */,
+				049A9D8A2818FA0C001937A7 /* multi_light_app.cpp in Sources */,
 				04D95D5C28103C4C00E54DC2 /* physx_app.cpp in Sources */,
 				047BB5C62803A96500CD5749 /* main.cpp in Sources */,
 				04D95D8E2810E7E500E54DC2 /* window_options.cpp in Sources */,
+				049A9D872818F979001937A7 /* cluster_forward_app.cpp in Sources */,
 				04D95DC02814FBC800E54DC2 /* irradiance_app.cpp in Sources */,
 				04D95D632810DCA000E54DC2 /* physx_dynamic_app.cpp in Sources */,
 				04AAD9BD2817717E00121576 /* shadowmap_app.cpp in Sources */,

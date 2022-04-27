@@ -25,6 +25,8 @@ set(SRC
         shadowmap_app.cpp
         cascade_shadowmap_app.cpp
         atomic_compute_app.cpp
+        cluster_forward_app.cpp
+        multi_light_app.cpp
         main.cpp
         )
 

@@ -21,4 +21,17 @@ BaseMaterial(device) {
     }
 }
 
+std::string SpriteDebug::name() {
+    return "SpriteDebug";
+}
+
+SpriteDebug::SpriteDebug(Entity *entity) :
+Script(entity) {
+    
+}
+
+void SpriteDebug::on_update(float delta_time) {
+    
+}
+
 }
