@@ -43,7 +43,7 @@ bool ForwardApplication::prepare(Platform &platform) {
     auto scene = scene_manager_->current_scene();
     
     // _particleManager = std::make_unique<ParticleManager>(_device);
-    light_manager_ = std::make_unique<LightManager>(scene);
+    light_manager_ = std::make_unique<LightManager>(scene, *render_context_);
     {
         load_scene();
         auto extent = platform.get_window().get_extent();
@@ -102,7 +102,7 @@ void ForwardApplication::render(CommandBuffer &command_buffer, RenderTarget &ren
 
 void ForwardApplication::update_gpu_task(CommandBuffer &command_buffer, RenderTarget &render_target) {
     shadow_manager_->draw(command_buffer);
-    light_manager_->draw(command_buffer);
+    light_manager_->draw(command_buffer, render_target);
 }
 
 }

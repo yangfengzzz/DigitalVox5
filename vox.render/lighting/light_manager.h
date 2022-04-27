@@ -10,7 +10,7 @@
 #include "spot_light.h"
 #include "direct_light.h"
 #include "shader/shader_data.h"
-//#include "rendering/compute_pass.h"
+#include "rendering/postprocessing_pipeline.h"
 #include "singleton.h"
 
 namespace vox {
@@ -38,7 +38,7 @@ public:
     
     static LightManager *get_singleton_ptr();
     
-    explicit LightManager(Scene *scene);
+    explicit LightManager(Scene *scene, RenderContext &render_context);
     
     void set_camera(Camera *camera);
     
@@ -89,7 +89,7 @@ public:
 public:
     [[nodiscard]] bool enable_forward_plus() const;
     
-    void draw(CommandBuffer &command_buffer);
+    void draw(CommandBuffer &command_buffer, RenderTarget &render_target);
     
 private:
     Scene *scene_{nullptr};
@@ -149,8 +149,8 @@ private:
     std::unique_ptr<core::Buffer> cluster_lights_buffer_;
     
     ShaderData shader_data_;
-    //    std::unique_ptr<ComputePass> _clusterBoundsCompute{nullptr};
-    //    std::unique_ptr<ComputePass> _clusterLightsCompute{nullptr};
+    std::unique_ptr<PostProcessingPipeline> cluster_bounds_compute_{nullptr};
+    std::unique_ptr<PostProcessingPipeline> cluster_lights_compute_{nullptr};
 };
 
 template<> inline LightManager *Singleton<LightManager>::ms_singleton_{nullptr};

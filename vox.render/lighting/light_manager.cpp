@@ -6,11 +6,10 @@
 
 #include "light_manager.h"
 #include "shader/internal_variant_name.h"
+#include "shader/shader_manager.h"
+#include "rendering/postprocessing_computepass.h"
 #include "scene.h"
 #include "camera.h"
-//#include "lighting/wgsl/wgsl_cluster_compute.h"
-//#include "lighting/wgsl/wgsl_cluster_debug.h"
-//#include "shaderlib/wgsl_unlit.h"
 #include "logging.h"
 
 namespace vox {
@@ -23,7 +22,7 @@ LightManager &LightManager::get_singleton() {
     return (*ms_singleton_);
 }
 
-LightManager::LightManager(Scene *scene) :
+LightManager::LightManager(Scene *scene, RenderContext &render_context) :
 scene_(scene),
 shader_data_(scene->device()),
 point_light_property_("pointLight"),
@@ -32,35 +31,30 @@ direct_light_property_("directLight"),
 forward_plus_prop_("cluster_uniform"),
 clusters_prop_("clusters"),
 cluster_lights_prop_("clusterLights") {
-    //    Shader::create("cluster_debug", std::make_unique<WGSLUnlitVertex>(),
-    //                   std::make_unique<WGSLClusterDebug>(tile_count_, max_lights_per_cluster_));
-    //
-    //    auto &device = scene_->device();
-    //    clusters_buffer_ = std::make_unique<Buffer>(device, sizeof(Clusters),
-    //                                                wgpu::BufferUsage::Storage | wgpu::BufferUsage::CopyDst);
-    //    shader_data_.setBufferFunctor(clusters_prop_, [this]() -> Buffer {
-    //        return *clusters_buffer_;
-    //    });
-    //
-    //    cluster_lights_buffer_ = std::make_unique<Buffer>(device, sizeof(ClusterLightGroup),
-    //                                                      wgpu::BufferUsage::Storage | wgpu::BufferUsage::CopyDst);
-    //    scene_->shaderData.setBufferFunctor(cluster_lights_prop_, [this]() -> Buffer {
-    //        return *cluster_lights_buffer_;
-    //    });
-    //
-    //    _clusterBoundsCompute =
-    //    std::make_unique<ComputePass>(device, std::make_unique<WGSLClusterBoundsSource>(tile_count_, max_lights_per_cluster_,
-    //                                                                                    workgroup_size_));
-    //    _clusterBoundsCompute->attachShaderData(&shader_data_);
-    //    _clusterBoundsCompute->attachShaderData(&scene_->shaderData);
-    //    _clusterBoundsCompute->setDispatchCount(dispatch_size_[0], dispatch_size_[1], dispatch_size_[2]);
-    //
-    //    _clusterLightsCompute =
-    //    std::make_unique<ComputePass>(device, std::make_unique<WGSLClusterLightsSource>(tile_count_, max_lights_per_cluster_,
-    //                                                                                    workgroup_size_));
-    //    _clusterLightsCompute->attachShaderData(&shader_data_);
-    //    _clusterLightsCompute->attachShaderData(&scene_->shaderData);
-    //    _clusterLightsCompute->setDispatchCount(dispatch_size_[0], dispatch_size_[1], dispatch_size_[2]);
+    auto &device = scene_->device();
+    clusters_buffer_ = std::make_unique<core::Buffer>(device, sizeof(Clusters),
+                                                      VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, VMA_MEMORY_USAGE_GPU_ONLY);
+    shader_data_.set_buffer_functor(clusters_prop_, [this]() -> core::Buffer* {
+        return clusters_buffer_.get();
+    });
+    
+    cluster_lights_buffer_ = std::make_unique<core::Buffer>(device, sizeof(ClusterLightGroup),
+                                                            VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, VMA_MEMORY_USAGE_GPU_ONLY);
+    scene_->shader_data_.set_buffer_functor(cluster_lights_prop_, [this]() -> core::Buffer* {
+        return cluster_lights_buffer_.get();
+    });
+    
+    cluster_bounds_compute_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
+    auto bounds_pass = &cluster_bounds_compute_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/atomic_counter.comp"));
+    bounds_pass->set_dispatch_size(dispatch_size_);
+    bounds_pass->attach_shader_data(&shader_data_);
+    bounds_pass->attach_shader_data(&scene_->shader_data_);
+    
+    cluster_lights_compute_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
+    auto lights_pass = &cluster_lights_compute_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/atomic_counter.comp"));
+    lights_pass->set_dispatch_size(dispatch_size_);
+    lights_pass->attach_shader_data(&shader_data_);
+    lights_pass->attach_shader_data(&scene_->shader_data_);
 }
 
 void LightManager::set_camera(Camera *camera) {
@@ -177,7 +171,7 @@ bool LightManager::enable_forward_plus() const {
     return enable_forward_plus_;
 }
 
-void LightManager::draw(CommandBuffer &command_buffer) {
+void LightManager::draw(CommandBuffer &command_buffer, RenderTarget &render_target) {
     update_shader_data(scene_->shader_data_);
     
     size_t point_light_count = point_lights_.size();
@@ -199,15 +193,12 @@ void LightManager::draw(CommandBuffer &command_buffer) {
         scene_->shader_data_.set_data(forward_plus_prop_, forward_plus_uniforms_);
         
         // Reset the light offset counter to 0 before populating the light clusters.
-        //        uint32_t empty = 0;
-        //        cluster_lights_buffer_->uploadData(scene_->device(), &empty, sizeof(uint32_t));
-        //
-        //        auto encoder = commandEncoder.BeginComputePass();
-        //        if (updateBounds) {
-        //            _clusterBoundsCompute->compute(encoder);
-        //        }
-        //        _clusterLightsCompute->compute(encoder);
-        //        encoder.End();
+        uint32_t empty = 0;
+        cluster_lights_buffer_->update(&empty, sizeof(uint32_t));
+        if (update_bounds) {
+            cluster_bounds_compute_->draw(command_buffer, render_target);
+        }
+        cluster_lights_compute_->draw(command_buffer, render_target);
     }
 }
 
