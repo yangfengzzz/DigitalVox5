@@ -28,6 +28,23 @@ void ClusterForwardApp::load_scene() {
     main_camera_ = camera_entity->add_component<Camera>();
     camera_entity->add_component<control::OrbitControl>();
     
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dis(0.0, 1.0);
+    // init point light
+    for (uint32_t i = 0; i < 15; i++) {
+        auto light = root_entity->create_child("light");
+        light->transform_->set_position(10 * dis(gen), 2, 10 * dis(gen));
+        light->add_component<PointLight>();
+    }
+    
+    // init spot light
+    for (uint32_t i = 0; i < 15; i++) {
+        auto light = root_entity->create_child("light");
+        light->transform_->set_position(10 * dis(gen), 2, 10 * dis(gen));
+        light->add_component<SpotLight>();
+    }
+    
     // init point light
     auto light = root_entity->create_child("light");
     light->transform_->set_position(3, 3, 0);
