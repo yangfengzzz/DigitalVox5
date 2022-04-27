@@ -17,6 +17,7 @@ SpriteDebugMaterial::SpriteDebugMaterial(Device &device) :
 BaseMaterial(device) {
     set_is_transparent(true);
     set_blend_mode(BlendMode::ADDITIVE);
+    input_assembly_state_.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
     
     vertex_source_ = ShaderManager::get_singleton().load_shader("base/light/light_sprite.vert");
     fragment_source_ = ShaderManager::get_singleton().load_shader("base/light/light_sprite.frag");

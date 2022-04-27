@@ -20,9 +20,11 @@ void BaseMaterial::set_is_transparent(bool new_value) {
     is_transparent_ = new_value;
     
     if (new_value) {
+        color_blend_state_.attachments[0].blend_enable = VK_TRUE;
         depth_stencil_state_.depth_write_enable = false;
         render_queue_ = RenderQueueType::TRANSPARENT;
     } else {
+        color_blend_state_.attachments[0].blend_enable = VK_FALSE;
         depth_stencil_state_.depth_write_enable = true;
         render_queue_ = alpha_cutoff_ > 0 ? RenderQueueType::ALPHA_TEST : RenderQueueType::OPAQUE;
     }

@@ -15,7 +15,7 @@ const mat4 vulkanInverseMap = mat4(1,0,0,0,
                                     0, 0, 0, 1);
 
 vec4 clipToView(mat4 inverseMatrix, vec4 clip) {
-    vec4 view = vulkanMap * inverseMatrix * clip;
+    vec4 view = vulkanInverseMap * inverseMatrix * clip;
     return view / vec4(view.w, view.w, view.w, view.w);
 }
 
