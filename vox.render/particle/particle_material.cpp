@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "particle_material.h"
+#include "shader/shader_manager.h"
 
 namespace vox {
 ParticleMaterial::ParticleMaterial(Device &device) :
@@ -12,8 +13,12 @@ BaseMaterial(device, "particle_instancing"),
 particle_data_prop_("u_particleData") {
     shader_data_.set_data(particle_data_prop_, particle_data_);
     
+    vertex_source_ = ShaderManager::get_singleton().load_shader("base/unlit.vert");
+    fragment_source_ = ShaderManager::get_singleton().load_shader("base/light/cluster_debug.frag");
+    
     set_is_transparent(true);
     set_blend_mode(BlendMode::ADDITIVE);
+    input_assembly_state_.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
 }
 
 float ParticleMaterial::min_particle_size() const {

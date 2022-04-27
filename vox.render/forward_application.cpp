@@ -18,7 +18,7 @@ ForwardApplication::~ForwardApplication() {
     physics_manager_.reset();
     light_manager_.reset();
     shadow_manager_.reset();
-    //    _particleManager.reset();
+    particle_manager_.reset();
     
     image_manager_->collect_garbage();
     image_manager_.reset();
@@ -42,7 +42,7 @@ bool ForwardApplication::prepare(Platform &platform) {
     scene_manager_ = std::make_unique<SceneManager>(*device_);
     auto scene = scene_manager_->current_scene();
     
-    // _particleManager = std::make_unique<ParticleManager>(_device);
+    particle_manager_ = std::make_unique<ParticleManager>(*device_, *render_context_);
     light_manager_ = std::make_unique<LightManager>(scene, *render_context_);
     {
         load_scene();
@@ -103,6 +103,7 @@ void ForwardApplication::render(CommandBuffer &command_buffer, RenderTarget &ren
 void ForwardApplication::update_gpu_task(CommandBuffer &command_buffer, RenderTarget &render_target) {
     shadow_manager_->draw(command_buffer);
     light_manager_->draw(command_buffer, render_target);
+    particle_manager_->draw(command_buffer, render_target);
 }
 
 }

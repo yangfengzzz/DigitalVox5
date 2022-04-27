@@ -15,7 +15,7 @@
 #include "physics/physics_manager.h"
 #include "shadow/shadow_manager.h"
 #include "lighting/light_manager.h"
-//#include "particle/particle_manager.h"
+#include "particle/particle_manager.h"
 #include "scene_manager.h"
 
 namespace vox {
@@ -61,7 +61,7 @@ protected:
     std::unique_ptr<SceneManager> scene_manager_{nullptr};
     std::unique_ptr<ShadowManager> shadow_manager_{nullptr};
     std::unique_ptr<LightManager> light_manager_{nullptr};
-    //    std::unique_ptr<ParticleManager> _particleManager{nullptr};
+    std::unique_ptr<ParticleManager> particle_manager_{nullptr};
 };
 
 }
