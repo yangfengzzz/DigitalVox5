@@ -551,7 +551,11 @@ set(LIGHT_FILE
         lighting/light_manager.h
         lighting/light_manager.cpp
         lighting/ambient_light.h
-        lighting/ambient_light.cpp)
+        lighting/ambient_light.cpp
+        lighting/debug/cluster_debug_material.h
+        lighting/debug/cluster_debug_material.cpp
+        lighting/debug/sprite_debug.h
+        lighting/debug/sprite_debug.cpp)
 
 set(SHADOW_FILE
         shadow/shadow_manager.cpp
