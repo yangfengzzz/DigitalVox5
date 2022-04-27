@@ -28,7 +28,7 @@ vec3 getTile(vec4 projection, vec4 fragCoord) {
     float sliceBias = -(float(tileCount.z) * log2(projection.z) / log2(projection.w / projection.z));
     float zTile = uint(max(log2(linearDepth(projection, fragCoord.z)) * sliceScale + sliceBias, 0.0));
 
-    return vec3(uint32_t(fragCoord.x / (projection.x / float(tileCount.x))),
+    return vec3(uint(fragCoord.x / (projection.x / float(tileCount.x))),
     uint(fragCoord.y / (projection.y / float(tileCount.y))),
     zTile);
 }

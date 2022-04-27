@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
 
     auto code = platform.initialize(plugins::get_all());
     if (code == vox::ExitCode::SUCCESS) {
-        platform.set_app(std::make_unique<vox::AtomicComputeApp>());
+        platform.set_app(std::make_unique<vox::ClusterForwardApp>());
         code = platform.main_loop();
     }
     platform.terminate(code);

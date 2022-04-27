@@ -1,5 +1,7 @@
 #version 450
 
+#include "base/light/cluster_common.comp"
+
 layout(location = 0) in vec2 v_uv;
 layout(location = 0) out vec4 o_color;
 
@@ -12,7 +14,7 @@ layout(binding = 12) buffer clusterLights {
 } cluster_lights;
 
 void main() {
-    uint clusterIndex = getClusterIndex(cluster_uniform.value, gl_Position);
+    uint clusterIndex = getClusterIndex(cluster_uniform.value, gl_FragCoord);
     uint lightCount = cluster_lights.value.lights[clusterIndex].point_count + cluster_lights.value.lights[clusterIndex].spot_count;
     float lightFactor = float(lightCount) / float(MAX_LIGHTS_PER_CLUSTER);
 

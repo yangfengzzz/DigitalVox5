@@ -44,21 +44,21 @@ layout (location = 0) out vec2 localPos;
 layout (location = 1) out vec3 color;
 
 void main() {
-    localPos = pos[gl_VertexID];
+    localPos = pos[gl_VertexIndex];
     #ifdef IS_SPOT_LIGHT
-        color = spot_light.value[gl_InstanceID].color;
-        vec3 worldPos = vec3(localPos, 0.0) * spot_light.value[gl_InstanceID].distance * 0.025;
+        color = spot_light.value[gl_InstanceIndex].color;
+        vec3 worldPos = vec3(localPos, 0.0) * spot_light.value[gl_InstanceIndex].distance * 0.025;
     #else
-        color = point_light.value[gl_InstanceID].color;
-        vec3 worldPos = vec3(localPos, 0.0) * point_light.value[gl_InstanceID].distance * 0.025;
+        color = point_light.value[gl_InstanceIndex].color;
+        vec3 worldPos = vec3(localPos, 0.0) * point_light.value[gl_InstanceIndex].distance * 0.025;
     #endif
 
     // Generate a billboarded model view matrix
     mat4 bbModelViewMatrix = mat4(1.0);
     #ifdef IS_SPOT_LIGHT
-        bbModelViewMatrix[3] = vec4(spot_light.value[gl_InstanceID].position, 1.0);
+        bbModelViewMatrix[3] = vec4(spot_light.value[gl_InstanceIndex].position, 1.0);
     #else
-        bbModelViewMatrix[3] = vec4(point_light.value[gl_InstanceID].position, 1.0);
+        bbModelViewMatrix[3] = vec4(point_light.value[gl_InstanceIndex].position, 1.0);
     #endif
     bbModelViewMatrix = camera_data.view_mat * bbModelViewMatrix;
     bbModelViewMatrix[0][0] = 1.0;

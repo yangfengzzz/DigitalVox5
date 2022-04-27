@@ -28,8 +28,8 @@ shader_data_(scene->device()),
 point_light_property_("pointLight"),
 spot_light_property_("spotLight"),
 direct_light_property_("directLight"),
-forward_plus_prop_("cluster_uniform"),
-clusters_prop_("clusters"),
+forward_plus_prop_("clusterUniform"),
+clusters_prop_("u_clusters"),
 cluster_lights_prop_("clusterLights") {
     auto &device = scene_->device();
     clusters_buffer_ = std::make_unique<core::Buffer>(device, sizeof(Clusters),
