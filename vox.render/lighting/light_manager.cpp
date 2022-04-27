@@ -178,8 +178,8 @@ void LightManager::draw(CommandBuffer &command_buffer, RenderTarget &render_targ
 
         bool update_bounds = false;
         
-        if (forward_plus_uniforms_.x != camera_->width() ||
-            forward_plus_uniforms_.y != camera_->height()) {
+        if (forward_plus_uniforms_.x != camera_->framebuffer_width() ||
+            forward_plus_uniforms_.y != camera_->framebuffer_height()) {
             update_bounds = true;
             forward_plus_uniforms_.x = camera_->framebuffer_width();
             forward_plus_uniforms_.y = camera_->framebuffer_height();
