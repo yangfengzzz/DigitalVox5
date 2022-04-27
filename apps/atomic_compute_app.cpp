@@ -20,7 +20,7 @@ private:
 public:
     explicit AtomicMaterial(Device &device) :
     BaseMaterial(device, "atomicRender"),
-    atomic_prop_("atomic") {
+    atomic_prop_("atomic_counter") {
         atomic_buffer_ = std::make_unique<core::Buffer>(device, sizeof(uint32_t),
                                                         VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
                                                         VMA_MEMORY_USAGE_GPU_ONLY);
@@ -29,7 +29,7 @@ public:
         });
         
         vertex_source_ = ShaderManager::get_singleton().load_shader("base/unlit.vert");
-        fragment_source_ = ShaderManager::get_singleton().load_shader("");
+        fragment_source_ = ShaderManager::get_singleton().load_shader("base/atomic_counter.frag");
     }
 };
 
@@ -63,7 +63,7 @@ bool AtomicComputeApp::prepare(Platform &platform) {
     ForwardApplication::prepare(platform);
     
     pipeline_ = std::make_unique<PostProcessingPipeline>(*render_context_, ShaderSource());
-    auto atomic_pass = &pipeline_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/ibl.comp"));
+    auto atomic_pass = &pipeline_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/atomic_counter.comp"));
     atomic_pass->set_dispatch_size({1, 1, 1});
     atomic_pass->attach_shader_data(&material_->shader_data_);
     
