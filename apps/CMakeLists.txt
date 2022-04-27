@@ -24,6 +24,7 @@ set(SRC
         ibl_app.cpp
         shadowmap_app.cpp
         cascade_shadowmap_app.cpp
+        atomic_compute_app.cpp
         main.cpp
         )
 
