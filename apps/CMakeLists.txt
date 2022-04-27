@@ -27,6 +27,7 @@ set(SRC
         atomic_compute_app.cpp
         cluster_forward_app.cpp
         multi_light_app.cpp
+        particle_app.cpp
         main.cpp
         )
 

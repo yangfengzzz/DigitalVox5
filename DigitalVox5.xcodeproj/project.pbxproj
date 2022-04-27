@@ -408,6 +408,7 @@
 		046988452819DCD500EF1EE1 /* particle_renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 046988432819DCD500EF1EE1 /* particle_renderer.h */; };
 		046988482819EC9600EF1EE1 /* buffer_mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 046988462819EC9600EF1EE1 /* buffer_mesh.cpp */; };
 		046988492819EC9600EF1EE1 /* buffer_mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 046988472819EC9600EF1EE1 /* buffer_mesh.h */; };
+		0469884C2819F1C400EF1EE1 /* particle_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469884A2819F1C400EF1EE1 /* particle_app.cpp */; };
 		047BB5C62803A96500CD5749 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047BB5C52803A96500CD5749 /* main.cpp */; };
 		049A9D7B2818E10E001937A7 /* atomic_compute_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049A9D792818E10E001937A7 /* atomic_compute_app.cpp */; };
 		049A9D7F2818F356001937A7 /* sprite_debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049A9D7D2818F356001937A7 /* sprite_debug.cpp */; };
@@ -1036,6 +1037,8 @@
 		046988432819DCD500EF1EE1 /* particle_renderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_renderer.h; sourceTree = "<group>"; };
 		046988462819EC9600EF1EE1 /* buffer_mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = buffer_mesh.cpp; sourceTree = "<group>"; };
 		046988472819EC9600EF1EE1 /* buffer_mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = buffer_mesh.h; sourceTree = "<group>"; };
+		0469884A2819F1C400EF1EE1 /* particle_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_app.cpp; sourceTree = "<group>"; };
+		0469884B2819F1C400EF1EE1 /* particle_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_app.h; sourceTree = "<group>"; };
 		047BB5C22803A96500CD5749 /* apps */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apps; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		047BB5D02803A99E00CD5749 /* libvox.render.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.render.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1836,6 +1839,8 @@
 				049A9D852818F978001937A7 /* cluster_forward_app.cpp */,
 				049A9D892818FA0C001937A7 /* multi_light_app.h */,
 				049A9D882818FA0C001937A7 /* multi_light_app.cpp */,
+				0469884B2819F1C400EF1EE1 /* particle_app.h */,
+				0469884A2819F1C400EF1EE1 /* particle_app.cpp */,
 			);
 			path = apps;
 			sourceTree = "<group>";
@@ -2831,6 +2836,7 @@
 				04D95D56280EC2DB00E54DC2 /* primitive_app.cpp in Sources */,
 				04D95D922810E96600E54DC2 /* fps_logger.cpp in Sources */,
 				04D95D952810E9C500E54DC2 /* benchmark_mode.cpp in Sources */,
+				0469884C2819F1C400EF1EE1 /* particle_app.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

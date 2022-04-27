@@ -22,6 +22,7 @@
 #include "atomic_compute_app.h"
 #include "cluster_forward_app.h"
 #include "multi_light_app.h"
+#include "particle_app.h"
 
 //MARK: - Entry
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
