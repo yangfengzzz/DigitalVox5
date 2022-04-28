@@ -1,6 +1,6 @@
 #version 450
 
-layout(set = 0, binding = 1) uniform baseColor {
+layout(set = 0, binding = 10) uniform baseColor {
     vec4 base_color;
 };
 

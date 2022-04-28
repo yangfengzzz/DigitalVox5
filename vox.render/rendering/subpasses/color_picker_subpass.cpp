@@ -10,12 +10,18 @@
 #include "mesh/mesh.h"
 #include "components_manager.h"
 #include "logging.h"
+#include "shader/shader_manager.h"
 
 namespace vox {
+ColorPickerMaterial::ColorPickerMaterial(Device &device) :
+BaseMaterial(device) {
+    vertex_source_ = ShaderManager::get_singleton().load_shader("base/unlit.vert");
+    fragment_source_ = ShaderManager::get_singleton().load_shader("base/editor/color_picker.frag");
+}
+
 ColorPickerSubpass::ColorPickerSubpass(RenderContext &render_context, Scene *scene, Camera *camera) :
 Subpass{render_context, scene, camera},
-vert_shader_("base/unlit.vert"),
-frag_shader_("base/editor/color_picker.frag") {
+material_(render_context_.get_device()){
 }
 
 Vector3F ColorPickerSubpass::id_to_color(uint32_t id) {
@@ -86,17 +92,18 @@ void ColorPickerSubpass::draw_element(CommandBuffer &command_buffer,
         current_id_ += 1;
         
         // pipeline state
-        command_buffer.set_rasterization_state(rasterization_state_);
-        command_buffer.set_multisample_state(multisample_state_);
-        command_buffer.set_depth_stencil_state(depth_stencil_state_);
-        command_buffer.set_color_blend_state(color_blend_state_);
-        command_buffer.set_input_assembly_state(input_assembly_state_);
-        
+        material_.multisample_state_.rasterization_samples = sample_count_;
+        command_buffer.set_multisample_state(material_.multisample_state_);
+        command_buffer.set_depth_stencil_state(material_.depth_stencil_state_);
+        command_buffer.set_color_blend_state(material_.color_blend_state_);
+        command_buffer.set_input_assembly_state(material_.input_assembly_state_);
+        command_buffer.set_rasterization_state(material_.rasterization_state_);
+
         // shader
         auto &vert_shader_module =
-        device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, vert_shader_, macros);
+        device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, *material_.vertex_source_, macros);
         auto &frag_shader_module =
-        device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, frag_shader_, macros);
+        device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, *material_.fragment_source_, macros);
         std::vector<ShaderModule *> shader_modules{&vert_shader_module, &frag_shader_module};
         auto &pipeline_layout = prepare_pipeline_layout(command_buffer, shader_modules);
         command_buffer.bind_pipeline_layout(pipeline_layout);

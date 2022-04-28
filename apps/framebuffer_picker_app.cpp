@@ -49,6 +49,8 @@ void FramebufferPickerApp::load_scene() {
     sphere_mtl->set_base_color(Color(u(e), u(e), u(e), 1));
     sphere_renderer->set_mesh(PrimitiveMesh::create_sphere(radius));
     sphere_renderer->set_material(sphere_mtl);
+    
+    scene->play();
 }
 
 void FramebufferPickerApp::pick_functor(Renderer *renderer, const MeshPtr &mesh) {
@@ -92,6 +94,8 @@ bool FramebufferPickerApp::prepare(Platform &platform) {
     color_picker_render_pipeline_ = std::make_unique<RenderPipeline>();
     color_picker_render_pipeline_->add_subpass(std::move(subpass));
     
+    stage_buffer_ = std::make_unique<core::Buffer>(*device_, 4, VK_BUFFER_USAGE_TRANSFER_DST_BIT, VMA_MEMORY_USAGE_GPU_TO_CPU);
+
     return true;
 }
 

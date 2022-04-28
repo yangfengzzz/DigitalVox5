@@ -8,8 +8,14 @@
 
 #include "rendering/subpass.h"
 #include "shader/shader_source.h"
+#include "material/base_material.h"
 
 namespace vox {
+class ColorPickerMaterial : public BaseMaterial {
+public:
+    ColorPickerMaterial(Device &device);
+};
+
 /**
  * @brief This subpass is responsible for rendering a ColorPicker
  */
@@ -57,15 +63,7 @@ private:
     uint32_t current_id_ = 0;
     std::unordered_map<size_t, std::pair<Renderer *, MeshPtr>> primitives_map_;
     
-    InputAssemblyState input_assembly_state_;
-    RasterizationState rasterization_state_;
-    MultisampleState multisample_state_;
-    DepthStencilState depth_stencil_state_;
-    ColorBlendState color_blend_state_;
-    
-    ShaderVariant variant_;
-    ShaderSource vert_shader_;
-    ShaderSource frag_shader_;
+    ColorPickerMaterial material_;
 };
 
 }
