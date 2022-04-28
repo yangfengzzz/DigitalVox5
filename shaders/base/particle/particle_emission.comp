@@ -21,21 +21,41 @@ layout(set = 0, binding = 5) uniform emitterData {
     float particle_min_age;
     float particle_max_age;
     float pad;
-} emitter_data;
+};
 
 //-----------------------------------------------------------------------------
 
-layout(binding = 5) buffer writeCount {
-    uint value;
-} write_count;
+layout(binding = ATOMIC_COUNTER_BINDING_FIRST)
+buffer writeCount {
+    uint write_count;
+};
 
-layout(set = 0, binding = 5) writeonly buffer ParticleBufferA {
-    TParticle value[];
-} particle_buffer_a;
+#if SPARKLE_USE_SOA_LAYOUT
+    layout(binding = STORAGE_BINDING_PARTICLE_POSITIONS_A)
+    writeonly buffer PositionBufferA {
+        vec4 positions[];
+    };
 
-layout(set = 0, binding = 5) readonly buffer RandomBuffer {
-    float value[];
-} random_buffer;
+    layout(binding = STORAGE_BINDING_PARTICLE_VELOCITIES_A)
+    writeonly buffer VelocityBufferA {
+        vec4 velocities[];
+    };
+
+    layout(binding = STORAGE_BINDING_PARTICLE_ATTRIBUTES_A)
+    writeonly buffer AttributeBufferA {
+        vec4 attributes[];
+    };
+#else
+    layout(binding = STORAGE_BINDING_PARTICLES_FIRST)
+    writeonly buffer ParticleBufferA {
+        TParticle particles[];
+    };
+#endif
+
+layout(binding = STORAGE_BINDING_RANDOM_VALUES)
+readonly buffer RandomBuffer {
+    float randbuffer[];
+};
 
 // ----------------------------------------------------------------------------
 
@@ -43,13 +63,19 @@ void PushParticle(in vec3 position, in vec3 velocity, in float age) {
     // Emit particle id.
     const uint id = atomicAdd(write_count.value, 1);
 
-    TParticle p;
-    p.position = vec4(position, 1.0f);
-    p.velocity = vec4(velocity, 0.0f);
-    p.start_age = age;
-    p.age = age;
-    p.id = id;
-    particles[id] = p;
+    #if SPARKLE_USE_SOA_LAYOUT
+        positions[id]  = vec4(position, 1.0f);
+        velocities[id] = vec4(velocity, 0.0f);
+        attributes[id] = vec4(age, age, 0.0f, uintBitsToFloat(id));
+    #else
+        TParticle p;
+        p.position = vec4(position, 1.0f);
+        p.velocity = vec4(velocity, 0.0f);
+        p.start_age = age;
+        p.age = age;
+        p.id = id;
+        particles[id] = p;
+    #endif
 }
 
 // ----------------------------------------------------------------------------
@@ -60,18 +86,18 @@ void CreateParticle(const uint gid) {
     const vec3 rn = vec3(randbuffer[rid], randbuffer[rid+1u], randbuffer[rid+2u]);
 
     // Position
-    vec3 pos = emitter_data.emitter_position;
-    if (emitter_data.emitter_type == 1) {
-        //pos += disk_distribution(emitter_data.emitter_radius, rn.xy);
-        pos += disk_even_distribution(emitter_data.emitter_radius, gid, emitter_data.emit_count);
-    } else if (emitter_data.emitter_type == 2) {
-        pos += sphere_distribution(emitter_data.emitter_radius, rn.xy);
-    } else if (emitter_data.emitter_type == 3) {
-        pos += ball_distribution(emitter_data.emitter_radius, rn);
+    vec3 pos = emitter_position;
+    if (emitter_type == 1) {
+        //pos += disk_distribution(emitter_radius, rn.xy);
+        pos += disk_even_distribution(emitter_radius, gid, emit_count);
+    } else if (emitter_type == 2) {
+        pos += sphere_distribution(emitter_radius, rn.xy);
+    } else if (emitter_type == 3) {
+        pos += ball_distribution(emitter_radius, rn);
     }
 
     // Velocity
-    vec3 vel = emitter_data.emitter_direction;
+    vec3 vel = emitter_direction;
 
     // Age
     // The age is set by thread groups to assure we have a number of particles
@@ -81,7 +107,7 @@ void CreateParticle(const uint gid) {
     // skipped in following stages].
     const float single_rand = randbuffer[gid];
 
-    const float age = mix(emitter_data.particle_min_age, emitter_data.particle_max_age, single_rand);
+    const float age = mix(particle_min_age, particle_max_age, single_rand);
 
     PushParticle(pos, vel, age);
 }
@@ -92,7 +118,7 @@ layout(local_size_x = PARTICLES_KERNEL_GROUP_WIDTH) in;
 void main() {
     const uint gid = gl_GlobalInvocationID.x;
 
-    if (gid < emitter_data.emit_count) {
+    if (gid < emit_count) {
         CreateParticle(gid);
     }
 }

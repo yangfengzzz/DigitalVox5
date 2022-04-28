@@ -6,7 +6,8 @@
 
 #include "base/particle/particle_config.h"
 
-layout(binding = 10) writeonly buffer IndexBuffer {
+layout(binding = STORAGE_BINDING_INDICES_FIRST)
+writeonly buffer IndexBuffer {
     uint indices[];
 };
 
