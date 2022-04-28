@@ -28,6 +28,7 @@ set(SRC
         cluster_forward_app.cpp
         multi_light_app.cpp
         particle_app.cpp
+        framebuffer_picker_app.cpp
         main.cpp
         )
 

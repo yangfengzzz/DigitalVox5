@@ -402,6 +402,7 @@
 		0444EBF02808535F00C6F279 /* scene_forward.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA9F28083E5C00C6F279 /* scene_forward.h */; };
 		04523DB3281A86110079CC3C /* color_picker_subpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DB1281A86110079CC3C /* color_picker_subpass.cpp */; };
 		04523DB4281A86110079CC3C /* color_picker_subpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DB2281A86110079CC3C /* color_picker_subpass.h */; };
+		04523DB7281A8EE90079CC3C /* framebuffer_picker_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DB5281A8EE90079CC3C /* framebuffer_picker_app.cpp */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -1033,6 +1034,8 @@
 		0444EBEB28084D3000C6F279 /* event-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "event-inl.h"; sourceTree = "<group>"; };
 		04523DB1281A86110079CC3C /* color_picker_subpass.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = color_picker_subpass.cpp; sourceTree = "<group>"; };
 		04523DB2281A86110079CC3C /* color_picker_subpass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = color_picker_subpass.h; sourceTree = "<group>"; };
+		04523DB5281A8EE90079CC3C /* framebuffer_picker_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = framebuffer_picker_app.cpp; sourceTree = "<group>"; };
+		04523DB6281A8EE90079CC3C /* framebuffer_picker_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = framebuffer_picker_app.h; sourceTree = "<group>"; };
 		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
 		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
 		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
@@ -1845,6 +1848,8 @@
 				049A9D882818FA0C001937A7 /* multi_light_app.cpp */,
 				0469884B2819F1C400EF1EE1 /* particle_app.h */,
 				0469884A2819F1C400EF1EE1 /* particle_app.cpp */,
+				04523DB6281A8EE90079CC3C /* framebuffer_picker_app.h */,
+				04523DB5281A8EE90079CC3C /* framebuffer_picker_app.cpp */,
 			);
 			path = apps;
 			sourceTree = "<group>";
@@ -2827,6 +2832,7 @@
 				04D95D8F2810E87C00E54DC2 /* stop_after.cpp in Sources */,
 				04D95DC32814FC4000E54DC2 /* ibl_app.cpp in Sources */,
 				04D95D912810E91700E54DC2 /* screenshot.cpp in Sources */,
+				04523DB7281A8EE90079CC3C /* framebuffer_picker_app.cpp in Sources */,
 				04D95DBD2814E60600E54DC2 /* pbr_app.cpp in Sources */,
 				04D95DAC281235EE00E54DC2 /* skybox_app.cpp in Sources */,
 				049A9D8A2818FA0C001937A7 /* multi_light_app.cpp in Sources */,
