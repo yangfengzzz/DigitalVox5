@@ -400,6 +400,8 @@
 		0444EBEE2808534A00C6F279 /* inspector_item.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA8728083E5B00C6F279 /* inspector_item.cpp */; };
 		0444EBEF2808534A00C6F279 /* inspector_item.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA8A28083E5B00C6F279 /* inspector_item.h */; };
 		0444EBF02808535F00C6F279 /* scene_forward.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA9F28083E5C00C6F279 /* scene_forward.h */; };
+		04523DB3281A86110079CC3C /* color_picker_subpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DB1281A86110079CC3C /* color_picker_subpass.cpp */; };
+		04523DB4281A86110079CC3C /* color_picker_subpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DB2281A86110079CC3C /* color_picker_subpass.h */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -1029,6 +1031,8 @@
 		0444EBDE28084BDE00C6F279 /* button_small.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = button_small.h; sourceTree = "<group>"; };
 		0444EBEA28084D3000C6F279 /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event.h; sourceTree = "<group>"; };
 		0444EBEB28084D3000C6F279 /* event-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "event-inl.h"; sourceTree = "<group>"; };
+		04523DB1281A86110079CC3C /* color_picker_subpass.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = color_picker_subpass.cpp; sourceTree = "<group>"; };
+		04523DB2281A86110079CC3C /* color_picker_subpass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = color_picker_subpass.h; sourceTree = "<group>"; };
 		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
 		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
 		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
@@ -2198,6 +2202,8 @@
 				04D95D22280CF6AC00E54DC2 /* geometry_subpass.cpp */,
 				04D95DA728122B7900E54DC2 /* skybox_subpass.h */,
 				04D95DA628122B7900E54DC2 /* skybox_subpass.cpp */,
+				04523DB2281A86110079CC3C /* color_picker_subpass.h */,
+				04523DB1281A86110079CC3C /* color_picker_subpass.cpp */,
 			);
 			path = subpasses;
 			sourceTree = "<group>";
@@ -2453,6 +2459,7 @@
 				04D95D1C280CF27500E54DC2 /* postprocessing_pipeline.h in Headers */,
 				0444E9BE2805695200C6F279 /* pipeline_state.h in Headers */,
 				04D95D20280CF2F400E54DC2 /* postprocessing_computepass.h in Headers */,
+				04523DB4281A86110079CC3C /* color_picker_subpass.h in Headers */,
 				0444EB2628084B9700C6F279 /* progress_bar.h in Headers */,
 				04D95D42280E36FC00E54DC2 /* direct_light.h in Headers */,
 				0444E9F128056AFA00C6F279 /* descriptor_set_layout.h in Headers */,
@@ -2999,6 +3006,7 @@
 				0444E9F428056B0500C6F279 /* acceleration_structure.cpp in Sources */,
 				04D95CFE280C3DD000E54DC2 /* render_element.cpp in Sources */,
 				0444E9492805618000C6F279 /* buffer.cpp in Sources */,
+				04523DB3281A86110079CC3C /* color_picker_subpass.cpp in Sources */,
 				04D95CF3280C32BE00E54DC2 /* pbr_material.cpp in Sources */,
 				0444EB6D28084BAF00C6F279 /* radio_button.cpp in Sources */,
 				04D95D4E280E447700E54DC2 /* gpu_skinned_mesh_renderer.cpp in Sources */,
