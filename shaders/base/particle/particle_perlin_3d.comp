@@ -1,3 +1,6 @@
+#ifndef SHADER_PERLIN_NOISE_3D_GLSL_
+#define SHADER_PERLIN_NOISE_3D_GLSL_
+
 #include "base/particle/particle_perlin.comp"
 
 // Classical Perlin Noise 3D
@@ -129,3 +132,4 @@ float fbm_3d(vec3 ws) {
     return N * fbm_pnoise(ws, zoom, octave, freq, w);
 }
 
+#endif  // SHADER_PERLIN_NOISE_3D_GLSL_

@@ -8,6 +8,9 @@
 //
 //------------------------------------------------------------------------------
 
+#ifndef SHADER_DISTANCE_UTILS_GLSL_
+#define SHADER_DISTANCE_UTILS_GLSL_
+
 //MARK: - CSG operations
 
 float opUnion(float d1, float d2) {
@@ -63,3 +66,5 @@ float sdTorus(vec3 p, vec2 t) {
     vec2 q = vec2(length(p.xz) - t.x, p.y);
     return length(q) - t.y;
 }
+
+#endif  // SHADER_DISTANCE_UTILS_GLSL_

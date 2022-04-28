@@ -1,3 +1,19 @@
+// -----------------------------------------------------------------------------
+//
+//      Compute curl noise.
+//
+//      ref : 'Curl-Noise for Procedural Fluid Flow' - Robert Bridson & al
+//            'Turbulent Particles demo' - Phillip Rideout
+//
+//      Note : This code is based on Bridson & Rideout implementation.
+//
+//             This is not a MAIN shader, it must be included.
+//
+//------------------------------------------------------------------------------
+
+#ifndef SHADER_CURLNOISE_GLSL_
+#define SHADER_CURLNOISE_GLSL_
+
 #include "base/particle/particle_perlin_3d.comp"
 #include "base/particle/particle_distance_func.comp"
 
@@ -107,3 +123,5 @@ float ramp(float x) {
 vec3 noise3d(vec3 seed) {
     return vec3(pnoise(seed), pnoise(seed + vec3(31.416f, -47.853f, 12.793f)), pnoise(seed + vec3(-233.145f, -113.408f, -185.31f)));
 }
+
+#endif  // SHADER_CURLNOISE_GLSL_

@@ -1,3 +1,6 @@
+#ifndef SHADER_PERLIN_NOISE_2D_GLSL_
+#define SHADER_PERLIN_NOISE_2D_GLSL_
+
 #include "base/particle/particle_perlin.comp"
 
 void pnoise_gradients(vec2 pt, vec2 scaledTileRes, out vec4 gradients, out vec4 fpt) {
@@ -157,3 +160,5 @@ float fbm_dpnoise(vec2 pt, const float zoom, const int numOctave, const float fr
 
     return sum;
 }
+
+#endif  // SHADER_PERLIN_NOISE_2D_GLSL_

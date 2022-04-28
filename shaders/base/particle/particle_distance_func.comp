@@ -1,6 +1,9 @@
+#ifndef SHADER_DISTANCE_FUNC_GLSL_
+#define SHADER_DISTANCE_FUNC_GLSL_
+
 #include "base/particle/particle_distance_utils.comp"
 
-float compute_gradient(vec3 p, inout vec3 normal) {
+float compute_gradient(vec3 p, out vec3 normal) {
     const float d = sample_distance(p);
 
     const vec2 eps = vec2(1e-2f, 0.0f);
@@ -16,3 +19,5 @@ float compute_gradient(vec3 p, inout vec3 normal) {
 float sample_distance(vec3 p) {
     return p.y; //sdSphere(p - vec3(30.0f, 110.0f, 0.0f), 64.0);
 }
+
+#endif  // SHADER_DISTANCE_FUNC_GLSL_
