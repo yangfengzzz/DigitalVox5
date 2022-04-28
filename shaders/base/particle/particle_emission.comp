@@ -1,0 +1,98 @@
+// ============================================================================
+/*
+ * First Stage of the particle system.
+ * Initialize particles and add them to a buffer
+*/
+// ============================================================================
+
+#version 450
+
+#include "base/particle/particle_math.comp"
+#include "base/particle/particle_config.h"
+
+//-----------------------------------------------------------------------------
+
+layout(set = 0, binding = 5) uniform emitterData {
+    vec3 emitter_position;
+    uint emit_count;
+    vec3 emitter_direction;
+    uint emitter_type;
+    float emitter_radius;
+    float particle_min_age;
+    float particle_max_age;
+    float pad;
+} emitter_data;
+
+//-----------------------------------------------------------------------------
+
+layout(binding = 5) buffer writeCount {
+    uint value;
+} write_count;
+
+layout(set = 0, binding = 5) writeonly buffer ParticleBufferA {
+    TParticle value[];
+} particle_buffer_a;
+
+layout(set = 0, binding = 5) readonly buffer RandomBuffer {
+    float value[];
+} random_buffer;
+
+// ----------------------------------------------------------------------------
+
+void PushParticle(in vec3 position, in vec3 velocity, in float age) {
+    // Emit particle id.
+    const uint id = atomicAdd(write_count.value, 1);
+
+    TParticle p;
+    p.position = vec4(position, 1.0f);
+    p.velocity = vec4(velocity, 0.0f);
+    p.start_age = age;
+    p.age = age;
+    p.id = id;
+    particles[id] = p;
+}
+
+// ----------------------------------------------------------------------------
+
+void CreateParticle(const uint gid) {
+    // Random vector.
+    const uint rid = 3u * gid;
+    const vec3 rn = vec3(randbuffer[rid], randbuffer[rid+1u], randbuffer[rid+2u]);
+
+    // Position
+    vec3 pos = emitter_data.emitter_position;
+    if (emitter_data.emitter_type == 1) {
+        //pos += disk_distribution(emitter_data.emitter_radius, rn.xy);
+        pos += disk_even_distribution(emitter_data.emitter_radius, gid, emitter_data.emit_count);
+    } else if (emitter_data.emitter_type == 2) {
+        pos += sphere_distribution(emitter_data.emitter_radius, rn.xy);
+    } else if (emitter_data.emitter_type == 3) {
+        pos += ball_distribution(emitter_data.emitter_radius, rn);
+    }
+
+    // Velocity
+    vec3 vel = emitter_data.emitter_direction;
+
+    // Age
+    // The age is set by thread groups to assure we have a number of particles
+    // factors of groupWidth, this method is safe but prevents continuous emission.
+    const float group_rand = randbuffer[gl_WorkGroupID.x];
+    // [As the threadgroup are not full, some dead particles might appears if not
+    // skipped in following stages].
+    const float single_rand = randbuffer[gid];
+
+    const float age = mix(emitter_data.particle_min_age, emitter_data.particle_max_age, single_rand);
+
+    PushParticle(pos, vel, age);
+}
+
+// ----------------------------------------------------------------------------
+
+layout(local_size_x = PARTICLES_KERNEL_GROUP_WIDTH) in;
+void main() {
+    const uint gid = gl_GlobalInvocationID.x;
+
+    if (gid < emitter_data.emit_count) {
+        CreateParticle(gid);
+    }
+}

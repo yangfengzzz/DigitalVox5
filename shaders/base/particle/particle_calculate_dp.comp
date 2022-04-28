@@ -1,0 +1,48 @@
+// ============================================================================
+/*
+ * Compute in view space the dot product between particles position and the
+ * view vector, giving their distance to the camera.
+ *
+ * Used to sort particles for alpha-blending before rendering.
+*/
+// ============================================================================
+
+#version 450
+
+#include "base/particle/particle_config.h"
+
+// ----------------------------------------------------------------------------
+
+uniform mat4 uViewMatrix;
+
+// ----------------------------------------------------------------------------
+
+layout(binding = 3) readonly buffer ParticleBufferB {
+    TParticle value[];
+} particle_buffer_b;
+
+layout(binding = 4) writeonly coherent buffer DotProducts {
+    float dp[];
+} dot_products;
+
+// ----------------------------------------------------------------------------
+
+vec4 GetPositionWS(in uint id) {
+    return vec4(particles[id].position.xyz, 1.0f);
+}
+
+// ----------------------------------------------------------------------------
+
+layout(local_size_x = PARTICLES_KERNEL_GROUP_WIDTH) in;
+void main() {
+    const uint tid = gl_GlobalInvocationID.x;
+
+    // Transform a particle's position from world space to view space.
+    vec4 positionVS = uViewMatrix * GetPositionWS(tid);
+
+    // The default front of camera in view space.
+    const vec3 targetVS = vec3(0.0f, 0.0f, -1.0f);
+
+    // Distance of the particle from the camera.
+    dp[tid] = dot(targetVS, positionVS.xyz);
+}

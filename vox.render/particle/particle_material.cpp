@@ -10,7 +10,7 @@
 namespace vox {
 ParticleMaterial::ParticleMaterial(Device &device) :
 BaseMaterial(device, "particle_instancing"),
-particle_data_prop_("u_particleData") {
+particle_data_prop_("particleData") {
     shader_data_.set_data(particle_data_prop_, particle_data_);
     
     vertex_source_ = ShaderManager::get_singleton().load_shader("base/unlit.vert");
