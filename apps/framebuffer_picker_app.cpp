@@ -95,7 +95,7 @@ bool FramebufferPickerApp::prepare(Platform &platform) {
     color_picker_render_pipeline_->add_subpass(std::move(subpass));
     
     stage_buffer_ = std::make_unique<core::Buffer>(*device_, 4, VK_BUFFER_USAGE_TRANSFER_DST_BIT, VMA_MEMORY_USAGE_GPU_TO_CPU);
-
+    
     return true;
 }
 
@@ -127,12 +127,13 @@ void FramebufferPickerApp::pick(float offset_x, float offset_y) {
 }
 
 void FramebufferPickerApp::render(CommandBuffer &command_buffer, RenderTarget &render_target) {
-    ForwardApplication::render(command_buffer, render_target);
     if (need_pick_) {
         color_picker_render_pipeline_->draw(command_buffer, *color_picker_render_target_);
         command_buffer.end_render_pass();
         copy_render_target_to_buffer(command_buffer);
     }
+    
+    ForwardApplication::render(command_buffer, render_target);
 }
 
 void FramebufferPickerApp::update(float delta_time) {
@@ -166,6 +167,9 @@ void FramebufferPickerApp::copy_render_target_to_buffer(CommandBuffer &command_b
     regions[0].imageSubresource.layerCount = 1;
     regions[0].imageOffset.x = static_cast<float>(kLeft);
     regions[0].imageOffset.y = canvas_height - kBottom;
+    regions[0].imageExtent.width = 1;
+    regions[0].imageExtent.height = 1;
+    regions[0].imageExtent.depth = 1;
     command_buffer
         .copy_image_to_buffer(color_picker_render_target_->get_views().at(0).get_image(), VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
                               *stage_buffer_, regions);
