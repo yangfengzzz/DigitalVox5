@@ -13,7 +13,7 @@
 namespace vox {
 class ColorPickerMaterial : public BaseMaterial {
 public:
-    ColorPickerMaterial(Device &device);
+    explicit ColorPickerMaterial(Device &device);
 };
 
 /**
@@ -42,7 +42,7 @@ public:
     /**
      * Convert id to RGB color value, 0 and 0xffffff are illegal values.
      */
-    static Vector3F id_to_color(uint32_t id);
+    static Color id_to_color(uint32_t id);
     
     /**
      * Convert RGB color to id.

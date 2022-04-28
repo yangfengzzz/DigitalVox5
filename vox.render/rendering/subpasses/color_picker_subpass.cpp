@@ -21,15 +21,15 @@ BaseMaterial(device) {
 
 ColorPickerSubpass::ColorPickerSubpass(RenderContext &render_context, Scene *scene, Camera *camera) :
 Subpass{render_context, scene, camera},
-material_(render_context_.get_device()){
+material_(render_context_.get_device()) {
 }
 
-Vector3F ColorPickerSubpass::id_to_color(uint32_t id) {
+Color ColorPickerSubpass::id_to_color(uint32_t id) {
     if (id >= 0xffffff) {
         LOGE("Framebuffer Picker encounter primitive's id greater than {}", std::to_string(0xffffff))
     }
     
-    return {(id & 0xff) / 255.0, ((id & 0xff00) >> 8) / 255.0, ((id & 0xff0000) >> 16) / 255.0};
+    return {(id & 0xff) / 255.f, ((id & 0xff00) >> 8) / 255.f, ((id & 0xff0000) >> 16) / 255.f, 1.f};
 }
 
 uint32_t ColorPickerSubpass::color_to_id(const std::array<uint8_t, 4> &color) {
@@ -84,11 +84,9 @@ void ColorPickerSubpass::draw_element(CommandBuffer &command_buffer,
         ScopedDebugLabel submesh_debug_label{command_buffer, mesh->name_.c_str()};
         
         primitives_map_[current_id_] = std::make_pair(renderer, mesh);
-        Vector3F color = id_to_color(current_id_);
-        auto reverse_color = Color(color.z, color.y, color.x, 1);
         auto &render_frame = render_context_.get_active_frame();
         auto allocation = render_frame.allocate_buffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(Color), 0);
-        allocation.update(reverse_color);
+        allocation.update(id_to_color(current_id_));
         current_id_ += 1;
         
         // pipeline state
@@ -98,7 +96,7 @@ void ColorPickerSubpass::draw_element(CommandBuffer &command_buffer,
         command_buffer.set_color_blend_state(material_.color_blend_state_);
         command_buffer.set_input_assembly_state(material_.input_assembly_state_);
         command_buffer.set_rasterization_state(material_.rasterization_state_);
-
+        
         // shader
         auto &vert_shader_module =
         device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, *material_.vertex_source_, macros);

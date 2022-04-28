@@ -93,6 +93,9 @@ bool FramebufferPickerApp::prepare(Platform &platform) {
     color_picker_subpass_ = subpass.get();
     color_picker_render_pipeline_ = std::make_unique<RenderPipeline>();
     color_picker_render_pipeline_->add_subpass(std::move(subpass));
+    auto clear_value = color_picker_render_pipeline_->get_clear_value();
+    clear_value[0].color = {1.0f, 1.0f, 1.0f, 1.0f};
+    color_picker_render_pipeline_->set_clear_value(clear_value);
     
     stage_buffer_ = std::make_unique<core::Buffer>(*device_, 4, VK_BUFFER_USAGE_TRANSFER_DST_BIT, VMA_MEMORY_USAGE_GPU_TO_CPU);
     
@@ -160,13 +163,13 @@ void FramebufferPickerApp::copy_render_target_to_buffer(CommandBuffer &command_b
     
     const float kNx = (kPx - kViewport.x) / kViewWidth;
     const float kNy = (kPy - kViewport.y) / kViewHeight;
-    const uint32_t kLeft = std::floor(kNx * (canvas_width - 1));
-    const uint32_t kBottom = std::floor((1 - kNy) * (canvas_height - 1));
+    const uint32_t kLeft = std::floor(kNx * static_cast<float>(canvas_width - 1));
+    const uint32_t kBottom = std::floor((1 - kNy) * static_cast<float>(canvas_height - 1));
     
     std::vector<VkBufferImageCopy> regions(1);
     regions[0].imageSubresource.layerCount = 1;
-    regions[0].imageOffset.x = static_cast<float>(kLeft);
-    regions[0].imageOffset.y = canvas_height - kBottom;
+    regions[0].imageOffset.x = static_cast<int32_t>(kLeft);
+    regions[0].imageOffset.y = static_cast<int32_t>(canvas_height - kBottom);
     regions[0].imageExtent.width = 1;
     regions[0].imageExtent.height = 1;
     regions[0].imageExtent.depth = 1;
@@ -179,10 +182,7 @@ void FramebufferPickerApp::read_color_from_render_target() {
     uint8_t *raw = stage_buffer_->map();
     if (raw) {
         memcpy(pixel_.data(), raw, 4);
-        auto result = color_picker_subpass_->get_object_by_color(pixel_);
-        if (result.first) {
-            pick_result_ = result;
-        }
+        pick_result_ = color_picker_subpass_->get_object_by_color(pixel_);
     }
     stage_buffer_->unmap();
 }

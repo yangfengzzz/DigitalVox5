@@ -19,7 +19,7 @@ public:
     
 public:
     bool prepare(Platform &platform) override;
-
+    
     bool resize(uint32_t win_width, uint32_t win_height,
                 uint32_t fb_width, uint32_t fb_height) override;
     
