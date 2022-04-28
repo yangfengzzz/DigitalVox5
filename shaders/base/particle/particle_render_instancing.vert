@@ -19,7 +19,7 @@ layout(set = 0, binding = 5) uniform cameraData {
 };
 
 layout(binding = 10)
-writeonly buffer ParticleBufferB {
+writeonly buffer writeConsumeBuffer {
     TParticle write_particles[];
 };
 

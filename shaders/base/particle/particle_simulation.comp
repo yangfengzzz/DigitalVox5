@@ -16,7 +16,7 @@
 
 // ----------------------------------------------------------------------------
 
-layout(set = 0, binding = 5) uniform particleSimulationData {
+layout(set = 0, binding = 5) uniform simulationData {
     float time_step;
     uint bounding_volume_type;
     float bbox_size;
@@ -28,17 +28,17 @@ layout(set = 0, binding = 5) uniform particleSimulationData {
 };
 
 // Vector field sampler.
-layout(set = 0, binding = 6) uniform sampler3D uVectorFieldSampler;
+layout(set = 0, binding = 6) uniform sampler3D vectorFieldSampler;
 
 // ----------------------------------------------------------------------------
 
 layout(binding = ATOMIC_COUNTER_BINDING_FIRST)
-buffer readCount {
+buffer readAtomicBuffer {
     int read_count;
 };
 
 layout(binding = ATOMIC_COUNTER_BINDING_SECOND)
-buffer writeCount {
+buffer writeAtomicBuffer {
     int write_count;
 };
 
@@ -75,19 +75,19 @@ buffer writeCount {
 #else
     // READ
     layout(binding = STORAGE_BINDING_PARTICLES_FIRST)
-    readonly buffer ParticleBufferA {
+    readonly buffer readConsumeBuffer {
         TParticle read_particles[];
     };
 
     // WRITE
     layout(binding = STORAGE_BINDING_PARTICLES_SECOND)
-    writeonly buffer ParticleBufferB {
+    writeonly buffer writeConsumeBuffer {
         TParticle write_particles[];
     };
 #endif// SPARKLE_USE_SOA_LAYOUT
 
 layout(binding = STORAGE_BINDING_RANDOM_VALUES)
-readonly buffer RandomBuffer {
+readonly buffer randomBuffer {
     float randbuffer[];
 };
 

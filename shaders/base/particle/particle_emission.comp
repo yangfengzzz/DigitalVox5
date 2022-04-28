@@ -26,8 +26,8 @@ layout(set = 0, binding = 5) uniform emitterData {
 //-----------------------------------------------------------------------------
 
 layout(binding = ATOMIC_COUNTER_BINDING_FIRST)
-buffer writeCount {
-    uint write_count;
+buffer readAtomicBuffer {
+    uint read_count;
 };
 
 #if SPARKLE_USE_SOA_LAYOUT
@@ -47,13 +47,13 @@ buffer writeCount {
     };
 #else
     layout(binding = STORAGE_BINDING_PARTICLES_FIRST)
-    writeonly buffer ParticleBufferA {
+    writeonly buffer readConsumeBuffer {
         TParticle particles[];
     };
 #endif
 
 layout(binding = STORAGE_BINDING_RANDOM_VALUES)
-readonly buffer RandomBuffer {
+readonly buffer randomBuffer {
     float randbuffer[];
 };
 
@@ -61,7 +61,7 @@ readonly buffer RandomBuffer {
 
 void PushParticle(in vec3 position, in vec3 velocity, in float age) {
     // Emit particle id.
-    const uint id = atomicAdd(write_count.value, 1);
+    const uint id = atomicAdd(read_count, 1);
 
     #if SPARKLE_USE_SOA_LAYOUT
         positions[id]  = vec4(position, 1.0f);

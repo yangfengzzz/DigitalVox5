@@ -29,17 +29,17 @@ std::string ParticleRenderer::name() {
 
 ParticleRenderer::ParticleRenderer(Entity *entity) :
 Renderer(entity),
-random_buffer_prop_("u_randomBuffer"),
-simulation_data_prop_("u_simulationData"),
-emitter_data_prop_("u_emitterData"),
-vector_field_texture_prop_("u_vectorFieldTexture"),
+random_buffer_prop_("randomBuffer"),
+simulation_data_prop_("simulationData"),
+emitter_data_prop_("emitterData"),
+vector_field_texture_prop_("vectorFieldSampler"),
 
-read_atomic_buffer_prop_("u_readAtomicBuffer"),
-write_atomic_buffer_prop_("u_writeAtomicBuffer"),
-read_consume_buffer_prop_("u_readConsumeBuffer"),
-write_consume_buffer_prop_("u_writeConsumeBuffer"),
-dp_buffer_prop_("u_dpBuffer"),
-sort_indices_buffer_prop_("u_sortIndicesBuffer") {
+read_atomic_buffer_prop_("readAtomicBuffer"),
+write_atomic_buffer_prop_("writeAtomicBuffer"),
+read_consume_buffer_prop_("readConsumeBuffer"),
+write_consume_buffer_prop_("writeConsumeBuffer"),
+dp_buffer_prop_("dpBuffer"),
+sort_indices_buffer_prop_("sortIndicesBuffer") {
     alloc_buffer();
     
     mesh_ = MeshManager::get_singleton().load_buffer_mesh();
