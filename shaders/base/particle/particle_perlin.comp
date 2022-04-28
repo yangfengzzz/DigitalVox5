@@ -23,9 +23,9 @@
 #define NOISE_ENABLE_TILING   0
 #define NOISE_TILE_RES        vec3(512.0f)
 
-layout(set = 0, binding = 22) uniform uPerlinNoisePermutationSeed {
-    int perlin_noise_permutation_seed;
-};
+//layout(set = 0, binding = 22) uniform uPerlinNoisePermutationSeed {
+const int perlin_noise_permutation_seed = 42;
+//};
 
 //------------------------------------------------------------------------------
 

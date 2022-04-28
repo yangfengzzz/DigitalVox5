@@ -24,6 +24,8 @@ readonly buffer writeConsumeBuffer {
     TParticle write_particles[];
 };
 
+layout(location = 0) in vec3 POSITION;
+
 layout (location = 0) out vec2 uv;
 layout (location = 1) out vec3 color;
 layout (location = 2) out float decay;
@@ -34,7 +36,8 @@ void main() {
     decay = curve_inout(dAge, 0.55f);
 
     uv = pos[gl_VertexIndex];
-    vec3 worldPos = vec3(uv, 0.0) * compute_size(1, decay) * 0.025; // todo
+    vec4 worldPosApprox = proj_mat * view_mat * vec4(POSITION.xyz, 1.0);
+    vec3 worldPos = vec3(uv, 0.0) * compute_size(worldPosApprox.z/worldPosApprox.w, decay) * 0.025; // todo
 
     // Generate a billboarded model view matrix
     mat4 bbModelViewMatrix = mat4(1.0);

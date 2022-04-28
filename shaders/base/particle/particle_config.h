@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 
 // Kernel group width used across the particles pipeline.
-#define PARTICLES_KERNEL_GROUP_WIDTH        512u
+#define PARTICLES_KERNEL_GROUP_WIDTH        256u
 
 // ----------------------------------------------------------------------------
 
