@@ -25,7 +25,7 @@ layout(set = 0, binding = 5) uniform particleSimulationData {
     float curl_noise_factor;
     float curl_noise_scale;
     float velocity_factor;
-} particle_simulation_data;
+};
 
 // Vector field sampler.
 layout(set = 0, binding = 6) uniform sampler3D uVectorFieldSampler;

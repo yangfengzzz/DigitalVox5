@@ -21,11 +21,11 @@ ParticleManager &ParticleManager::get_singleton() {
 ParticleManager::ParticleManager(Device &device, RenderContext &render_context) {
     emitter_pipeline_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
     emitter_pass_ = &emitter_pipeline_
-    ->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/light/cluster_bounds.comp"));
+    ->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/particle/particle_emission.comp"));
     
     simulation_pipeline_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
     simulation_pass_ = &simulation_pipeline_
-    ->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/light/cluster_bounds.comp"));
+    ->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/particle/particle_simulation.comp"));
 }
 
 const std::vector<ParticleRenderer *> &ParticleManager::particles() const {
