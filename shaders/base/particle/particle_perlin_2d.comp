@@ -1,4 +1,6 @@
-void pnoise_gradients(vec2 pt, vec2 scaledTileRes, int uPerlinNoisePermutationSeed, inout vec4 gradients, inout vec4 fpt) {
+#include "base/particle/particle_perlin.comp"
+
+void pnoise_gradients(vec2 pt, vec2 scaledTileRes, out vec4 gradients, out vec4 fpt) {
     // Retrieve the integral part (for indexation)
     vec4 ipt = floor(pt.xyxy) + vec4(0.0f, 0.0f, 1.0f, 1.0f);
 
@@ -11,7 +13,7 @@ void pnoise_gradients(vec2 pt, vec2 scaledTileRes, int uPerlinNoisePermutationSe
     // Compute the 4 corners hashed gradient indices
     vec4 ix = ipt.xzxz;
     vec4 iy = ipt.yyww;
-    vec4 p = permute(permute(ix, uPerlinNoisePermutationSeed) + iy, uPerlinNoisePermutationSeed);
+    vec4 p = permute(permute(ix) + iy);
     /*
      Fast version for :
      p.x = P(P(ipt.x)      + ipt.y);
@@ -62,15 +64,15 @@ void pnoise_gradients(vec2 pt, vec2 scaledTileRes, int uPerlinNoisePermutationSe
     gradients = vec4(n00, n10, n01, n11);
 }
 
-void pnoise_gradients(vec2 pt, int uPerlinNoisePermutationSeed, inout vec4 gradients, inout vec4 fpt) {
-    pnoise_gradients(pt, vec2(0.0f), uPerlinNoisePermutationSeed,
+void pnoise_gradients(vec2 pt, out vec4 gradients, out vec4 fpt) {
+    pnoise_gradients(pt, vec2(0.0f),
     gradients, fpt);
 }
 
 // Classical Perlin Noise 2D
-float pnoise(vec2 pt, vec2 scaledTileRes, int uPerlinNoisePermutationSeed) {
+float pnoise(vec2 pt, vec2 scaledTileRes) {
     vec4 g, fpt;
-    pnoise_gradients(pt, scaledTileRes, uPerlinNoisePermutationSeed, g, fpt);
+    pnoise_gradients(pt, scaledTileRes, g, fpt);
 
     // Interpolate gradients
     vec2 u = fade(fpt.xy);
@@ -81,15 +83,15 @@ float pnoise(vec2 pt, vec2 scaledTileRes, int uPerlinNoisePermutationSeed) {
     return noise;
 }
 
-float pnoise(vec2 pt, int uPerlinNoisePermutationSeed) {
-    return pnoise(pt, vec2(0.0f), uPerlinNoisePermutationSeed);
+float pnoise(vec2 pt) {
+    return pnoise(pt, vec2(0.0f));
 }
 
 
 // Derivative Perlin Noise 2D
-vec3 dpnoise(vec2 pt, vec2 scaledTileRes, int uPerlinNoisePermutationSeed) {
+vec3 dpnoise(vec2 pt, vec2 scaledTileRes) {
     vec4 g, fpt;
-    pnoise_gradients(pt, scaledTileRes, uPerlinNoisePermutationSeed, g, fpt);
+    pnoise_gradients(pt, scaledTileRes, g, fpt);
 
     float k0 = g.x;
     float k1 = g.y - g.x;
@@ -107,14 +109,14 @@ vec3 dpnoise(vec2 pt, vec2 scaledTileRes, int uPerlinNoisePermutationSeed) {
     return res;
 }
 
-vec3 dpnoise(vec2 pt, int uPerlinNoisePermutationSeed) {
-    return dpnoise(pt, vec2(0.0f), uPerlinNoisePermutationSeed);
+vec3 dpnoise(vec2 pt) {
+    return dpnoise(pt, vec2(0.0f));
 }
 
 
-//MARK: -- Fractional Brownian Motion function --
+//MARK: -- Fractional Brownian Motion function -------------------------------------------------------------------------
 // Classical Perlin Noise fbm 2D
-float fbm_pnoise(vec2 pt, const float zoom, const int numOctave, const float frequency, const float amplitude, int uPerlinNoisePermutationSeed) {
+float fbm_pnoise(vec2 pt, const float zoom, const int numOctave, const float frequency, const float amplitude) {
     float sum = 0.0f;
     float f = frequency;
     float w = amplitude;
@@ -123,7 +125,7 @@ float fbm_pnoise(vec2 pt, const float zoom, const int numOctave, const float fre
     vec2 scaledTileRes = zoom * NOISE_TILE_RES.xy;
 
     for (int i = 0; i < numOctave; ++i) {
-        sum += w * pnoise(f*v, f*scaledTileRes, uPerlinNoisePermutationSeed);
+        sum += w * pnoise(f*v, f*scaledTileRes);
         f *= frequency;
         w *= amplitude;
     }
@@ -132,7 +134,7 @@ float fbm_pnoise(vec2 pt, const float zoom, const int numOctave, const float fre
 }
 
 // Derivative Perlin Noise fbm 2D
-float fbm_dpnoise(vec2 pt, const float zoom, const int numOctave, const float frequency, const float amplitude, int uPerlinNoisePermutationSeed) {
+float fbm_dpnoise(vec2 pt, const float zoom, const int numOctave, const float frequency, const float amplitude) {
     float sum = 0.0f;
 
     float f = frequency;
@@ -143,7 +145,7 @@ float fbm_dpnoise(vec2 pt, const float zoom, const int numOctave, const float fr
     vec2 scaledTileRes = zoom * NOISE_TILE_RES.xy;
 
     for (int i=0; i<numOctave; ++i) {
-        vec3 n = dpnoise(f*v, f*scaledTileRes, uPerlinNoisePermutationSeed);
+        vec3 n = dpnoise(f*v, f*scaledTileRes);
         dn += n.yz;
 
         float crestFactor = 1.0f / (1.0f + dot(dn, dn));

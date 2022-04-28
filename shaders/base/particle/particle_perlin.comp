@@ -1,3 +1,29 @@
+// -----------------------------------------------------------------------------
+//
+//      Compute classical Perlin Noise (2D/3D).
+//
+//      ref : 'Improving Noise' - Ken Perlin
+//            'Implementing Improved Perlin Noise' - Ken Perlin
+//            'Implementing Improved Perlin Noise' - Simon Green
+//            'Advanced Perlin Noise' - Inigo Quilez
+//            'Simplex noise demystified' - Stefan Gustavson
+//
+//      Note : This code is based on Stefan Gustavson & Ian McEwan noise
+//             implementation.
+//
+//             This is not a MAIN shader, it must be included.
+//
+//      Todo : implement Simplex Noise.
+//
+//------------------------------------------------------------------------------
+
+#define NOISE_ENABLE_TILING   0
+#define NOISE_TILE_RES        vec3(512.0f)
+
+layout(set = 0, binding = 2) uniform uPerlinNoisePermutationSeed {
+    int value;
+} perlin_noise_permutation_seed;
+
 // Fast computation of x modulo 289
 vec3 mod289(vec3 x) {
     return x - floor(x * (1.0f / 289.0f)) * 289.0f;
@@ -8,8 +34,8 @@ vec4 mod289(vec4 x) {
 }
 
 // Compute indices for the PRNG
-vec4 permute(vec4 x, int uPerlinNoisePermutationSeed) {
-    return mod289(((x*34.0f)+1.0f)*x + uPerlinNoisePermutationSeed);
+vec4 permute(vec4 x) {
+    return mod289(((x*34.0f)+1.0f)*x + perlin_noise_permutation_seed.value);
 }
 
 // Quintic interpolant

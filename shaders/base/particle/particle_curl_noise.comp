@@ -1,16 +1,19 @@
-vec3 compute_curl(vec3 p, int uPerlinNoisePermutationSeed) {
+#include "base/particle/particle_perlin_3d.comp"
+#include "base/particle/particle_distance_func.comp"
+
+vec3 compute_curl(vec3 p) {
     const float eps = 1e-4f;
 
     const vec3 dx = vec3(eps, 0.0f, 0.0f);
     const vec3 dy = dx.yxy;
     const vec3 dz = dx.yyx;
 
-    vec3 p00 = sample_potential(p + dx, uPerlinNoisePermutationSeed);
-    vec3 p01 = sample_potential(p - dx, uPerlinNoisePermutationSeed);
-    vec3 p10 = sample_potential(p + dy, uPerlinNoisePermutationSeed);
-    vec3 p11 = sample_potential(p - dy, uPerlinNoisePermutationSeed);
-    vec3 p20 = sample_potential(p + dz, uPerlinNoisePermutationSeed);
-    vec3 p21 = sample_potential(p - dz, uPerlinNoisePermutationSeed);
+    vec3 p00 = sample_potential(p + dx);
+    vec3 p01 = sample_potential(p - dx);
+    vec3 p10 = sample_potential(p + dy);
+    vec3 p11 = sample_potential(p - dy);
+    vec3 p20 = sample_potential(p + dz);
+    vec3 p21 = sample_potential(p - dz);
 
     vec3 v;
     v.x = p11.z - p10.z - p21.y + p20.y;
@@ -22,7 +25,7 @@ vec3 compute_curl(vec3 p, int uPerlinNoisePermutationSeed) {
 }
 
 // [ User customized sampling function ]
-vec3 sample_potential(vec3 p, int uPerlinNoisePermutationSeed) {
+vec3 sample_potential(vec3 p) {
     const uint num_octaves = 4u;
 
     // Potential
@@ -54,7 +57,7 @@ vec3 sample_potential(vec3 p, int uPerlinNoisePermutationSeed) {
         const float inv_noise_scale = 1.0f / noise_gain;
 
         vec3 s = p * inv_noise_scale;
-        vec3 n = noise3d(s, uPerlinNoisePermutationSeed);
+        vec3 n = noise3d(s);
 
         match_boundary(inv_noise_scale, distance, normal, psi);
         psi += height_factor * noise_gain * n;
@@ -101,8 +104,6 @@ float ramp(float x) {
     return smoothstep_2(-1.0f, 1.0f, x) * 2.0f - 1.0f;
 }
 
-vec3 noise3d(vec3 seed, int uPerlinNoisePermutationSeed) {
-    return vec3(pnoise(seed, uPerlinNoisePermutationSeed),
-    pnoise(seed + vec3(31.416f, -47.853f, 12.793f), uPerlinNoisePermutationSeed),
-    pnoise(seed + vec3(-233.145f, -113.408f, -185.31f), uPerlinNoisePermutationSeed));
+vec3 noise3d(vec3 seed) {
+    return vec3(pnoise(seed), pnoise(seed + vec3(31.416f, -47.853f, 12.793f)), pnoise(seed + vec3(-233.145f, -113.408f, -185.31f)));
 }

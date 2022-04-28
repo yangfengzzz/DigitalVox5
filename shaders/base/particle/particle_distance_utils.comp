@@ -1,3 +1,13 @@
+// -----------------------------------------------------------------------------
+//
+//      Distance functions helpers for simple shapes and CSG operations.
+//
+//      ref : 'modeling with distance functions' - Inigo Quilez
+//
+//             This is not a MAIN shader, it must be included.
+//
+//------------------------------------------------------------------------------
+
 //MARK: - CSG operations
 
 float opUnion(float d1, float d2) {
