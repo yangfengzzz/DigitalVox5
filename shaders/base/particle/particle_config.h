@@ -46,8 +46,8 @@
 
 // ----------------------------------------------------------------------------
 
-#define ATOMIC_COUNTER_BINDING_FIRST                     0
-#define ATOMIC_COUNTER_BINDING_SECOND                    1
+#define ATOMIC_COUNTER_BINDING_FIRST                     12
+#define ATOMIC_COUNTER_BINDING_SECOND                    13
 
 // ----------------------------------------------------------------------------
 

@@ -17,6 +17,21 @@
 #include "base/particle/particle_perlin_3d.comp"
 #include "base/particle/particle_distance_func.comp"
 
+// ----------------------------------------------------------------------------
+
+vec3 compute_curl(in vec3 p);
+vec3 sample_potential(in vec3 p);
+void match_boundary(in float inv_noise_scale, in float d, in vec3 normal, inout vec3 psi);
+
+// higher order smoothstep.
+float smoothstep_2(float edge0, float edge1, float x);
+// smoothed a value in [-1, 1]
+float ramp(float x);
+// return a vector of noise values.
+vec3 noise3d(in vec3 seed);
+
+// ----------------------------------------------------------------------------
+
 vec3 compute_curl(vec3 p) {
     const float eps = 1e-4f;
 

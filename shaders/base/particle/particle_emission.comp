@@ -12,7 +12,7 @@
 
 //-----------------------------------------------------------------------------
 
-layout(set = 0, binding = 5) uniform emitterData {
+layout(set = 0, binding = 14) uniform emitterData {
     vec3 emitter_position;
     uint emit_count;
     vec3 emitter_direction;

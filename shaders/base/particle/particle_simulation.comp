@@ -16,7 +16,7 @@
 
 // ----------------------------------------------------------------------------
 
-layout(set = 0, binding = 5) uniform simulationData {
+layout(set = 0, binding = 14) uniform simulationData {
     float time_step;
     uint bounding_volume_type;
     float bbox_size;
@@ -28,7 +28,7 @@ layout(set = 0, binding = 5) uniform simulationData {
 };
 
 // Vector field sampler.
-layout(set = 0, binding = 6) uniform sampler3D vectorFieldSampler;
+layout(set = 0, binding = 15) uniform sampler3D vectorFieldSampler;
 
 // ----------------------------------------------------------------------------
 
@@ -285,12 +285,12 @@ void CollideBox(in vec3 corner, in vec3 center, inout vec3 pos, inout vec3 vel) 
 }
 
 void CollisionHandling(inout vec3 pos, inout vec3 vel) {
-    const float r = 0.5f * uBBoxSize;
+    const float r = 0.5f * bbox_size;
 
-    if (bounding_volume == 0)
+    if (bounding_volume_type == 0)
         CollideSphere(r, vec3(0.0f), pos, vel);
     else
-        if (bounding_volume == 1)
+        if (bounding_volume_type == 1)
             CollideBox(vec3(r), vec3(0.0f), pos, vel);
 }
 

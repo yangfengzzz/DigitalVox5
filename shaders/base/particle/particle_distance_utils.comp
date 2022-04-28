@@ -31,7 +31,7 @@ float opSubstraction(float d1, float d2) {
 }
 
 vec3 opRepeat(vec3 p, vec3 c) {
-    return fmod(p, c) - 0.5f*c;
+    return mod(p, c) - 0.5f*c;
 }
 
 float opDisplacement(vec3 p, float d) {
@@ -41,7 +41,7 @@ float opDisplacement(vec3 p, float d) {
 
 //MARK: - PRIMITIVE ----------------------------------------------------------------------------------------------------
 
-float sdPlane(vec3 p, float4 n) {
+float sdPlane(vec3 p, vec4 n) {
     //n.xyz = normalize(n.xyz);
     return n.w + dot(p, n.xyz);
 }

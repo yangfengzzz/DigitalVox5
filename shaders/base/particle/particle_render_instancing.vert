@@ -1,6 +1,7 @@
 #version 450
 
 #include "base/particle/particle_render_common.comp"
+#include "base/particle/particle_config.h"
 
 const vec2 pos[4] = vec2[](
     vec2(-1.0, 1.0),
@@ -9,7 +10,7 @@ const vec2 pos[4] = vec2[](
     vec2(1.0, -1.0)
 );
 
-layout(set = 0, binding = 5) uniform cameraData {
+layout(set = 0, binding = 25) uniform cameraData {
     mat4 view_mat;
     mat4 proj_mat;
     mat4 vp_mat;
@@ -19,7 +20,7 @@ layout(set = 0, binding = 5) uniform cameraData {
 };
 
 layout(binding = 10)
-writeonly buffer writeConsumeBuffer {
+readonly buffer writeConsumeBuffer {
     TParticle write_particles[];
 };
 
@@ -33,7 +34,7 @@ void main() {
     decay = curve_inout(dAge, 0.55f);
 
     uv = pos[gl_VertexIndex];
-    vec3 worldPos = vec3(uv, 0.0) * compute_size(position.z/position.w, decay) * 0.025;
+    vec3 worldPos = vec3(uv, 0.0) * compute_size(1, decay) * 0.025; // todo
 
     // Generate a billboarded model view matrix
     mat4 bbModelViewMatrix = mat4(1.0);
@@ -51,6 +52,6 @@ void main() {
     bbModelViewMatrix[2][1] = 0.0;
     bbModelViewMatrix[2][2] = 1.0;
 
-    gl_Position = camera_data.proj_mat * bbModelViewMatrix * vec4(worldPos, 1.0);
+    gl_Position = proj_mat * bbModelViewMatrix * vec4(worldPos, 1.0);
     color = base_color(write_particles[gl_InstanceIndex].position.xyz, decay);
 }

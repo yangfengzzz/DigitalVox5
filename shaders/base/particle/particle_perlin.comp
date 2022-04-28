@@ -23,12 +23,14 @@
 #define NOISE_ENABLE_TILING   0
 #define NOISE_TILE_RES        vec3(512.0f)
 
-layout(set = 0, binding = 2) uniform uPerlinNoisePermutationSeed {
-    int value;
-} perlin_noise_permutation_seed;
+layout(set = 0, binding = 22) uniform uPerlinNoisePermutationSeed {
+    int perlin_noise_permutation_seed;
+};
+
+//------------------------------------------------------------------------------
 
 // Fast computation of x modulo 289
-vec3 mod289(vec3 x) {
+vec3 mod289(in vec3 x) {
     return x - floor(x * (1.0f / 289.0f)) * 289.0f;
 }
 
@@ -38,18 +40,18 @@ vec4 mod289(vec4 x) {
 
 // Compute indices for the PRNG
 vec4 permute(vec4 x) {
-    return mod289(((x*34.0f)+1.0f)*x + perlin_noise_permutation_seed.value);
+    return mod289(((x*34.0f)+1.0f)*x + perlin_noise_permutation_seed);
 }
 
 // Quintic interpolant
-vec2 fade(vec2 u) {
+vec2 fade(in vec2 u) {
     return u*u*u*(u*(u*6.0f - 15.0f) + 10.0f);
 
     // Original cubic interpolant (faster, but not 2nd order derivable)
     //return u*u*(3.0f - 2.0f*u);
 }
 
-vec3 fade(vec3 u) {
+vec3 fade(in vec3 u) {
     return u*u*u*(u*(u*6.0f - 15.0f) + 10.0f);
 }
 

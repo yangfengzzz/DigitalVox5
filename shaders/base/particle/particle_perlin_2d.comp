@@ -3,6 +3,24 @@
 
 #include "base/particle/particle_perlin.comp"
 
+// ----------------------------------------------------------------------------
+
+// Classical Perlin Noise 2D
+float pnoise(in vec2 pt, in vec2 scaledTileRes);
+float pnoise(in vec2 pt);
+
+// Derivative Perlin Noise 2D
+vec3 dpnoise(in vec2 pt, in vec2 scaledTileRes);
+vec3 dpnoise(in vec2 pt);
+
+// Classical Perlin Noise fbm 2D
+float fbm_pnoise(in vec2 pt, const float zoom, const int numOctave, const float frequency, const float amplitude);
+
+// Derivative Perlin Noise fbm 2D
+float fbm_dpnoise(in vec2 pt, const float zoom, const int numOctave, const float frequency, const float amplitude);
+
+// ----------------------------------------------------------------------------
+
 void pnoise_gradients(vec2 pt, vec2 scaledTileRes, out vec4 gradients, out vec4 fpt) {
     // Retrieve the integral part (for indexation)
     vec4 ipt = floor(pt.xyxy) + vec4(0.0f, 0.0f, 1.0f, 1.0f);
@@ -40,7 +58,7 @@ void pnoise_gradients(vec2 pt, vec2 scaledTileRes, out vec4 gradients, out vec4 
 
     // 'Fast' normalization
     vec4 dp = vec4(dot(g00, g00), dot(g10, g10), dot(g01, g01), dot(g11, g11));
-    vec4 norm = rsqrt(dp);
+    vec4 norm = inversesqrt(dp);
     g00 *= norm.x;
     g10 *= norm.y;
     g01 *= norm.z;
