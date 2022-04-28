@@ -9,10 +9,12 @@
 #include "mesh/mesh_renderer.h"
 #include "material/unlit_material.h"
 #include "material/blinn_phong_material.h"
+#include "platform/platform.h"
 #include "camera.h"
 
 namespace vox {
 void FramebufferPickerApp::load_scene() {
+    u = std::uniform_real_distribution<float>(0, 1);
     auto scene = scene_manager_->current_scene();
     auto root_entity = scene->create_root_entity();
     
@@ -20,11 +22,6 @@ void FramebufferPickerApp::load_scene() {
     camera_entity->transform_->set_position(10, 10, 10);
     camera_entity->transform_->look_at(Point3F(0, 0, 0));
     main_camera_ = camera_entity->add_component<Camera>();
-    
-    auto subpass = std::make_unique<ColorPickerSubpass>(*render_context_, scene, main_camera_);
-    color_picker_subpass_ = subpass.get();
-    color_picker_render_pipeline_ = std::make_unique<RenderPipeline>();
-    color_picker_render_pipeline_->add_subpass(std::move(subpass));
     
     // init point light
     auto light = root_entity->create_child("light");
@@ -54,9 +51,93 @@ void FramebufferPickerApp::load_scene() {
     sphere_renderer->set_material(sphere_mtl);
 }
 
+void FramebufferPickerApp::pick_functor(Renderer *renderer, const MeshPtr &mesh) {
+    if (renderer && mesh) {
+        static_cast<BlinnPhongMaterial *>(renderer->get_material().get())->set_base_color(Color(u(e), u(e), u(e), 1));
+    }
+}
+
+//MARK: - Render Pipeline
+std::unique_ptr<RenderTarget> FramebufferPickerApp::create_render_target(uint32_t width, uint32_t height) {
+    VkExtent3D extent{width, height, 1};
+    
+    core::Image color_target{
+        *device_, extent,
+        VK_FORMAT_R8G8B8A8_UNORM,
+        VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
+        VMA_MEMORY_USAGE_GPU_ONLY
+    };
+    
+    core::Image depth_image{
+        *device_, extent,
+        get_suitable_depth_format(device_->get_gpu().get_handle()),
+        VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
+        VMA_MEMORY_USAGE_GPU_ONLY
+    };
+    
+    std::vector<core::Image> images;
+    images.push_back(std::move(color_target));
+    images.push_back(std::move(depth_image));
+    return std::make_unique<RenderTarget>(std::move(images));
+}
+
+bool FramebufferPickerApp::prepare(Platform &platform) {
+    ForwardApplication::prepare(platform);
+    auto extent = platform.get_window().get_extent();
+    auto factor = static_cast<uint32_t>(platform.get_window().get_content_scale_factor());
+    color_picker_render_target_ = create_render_target(extent.width * factor, extent.height * factor);
+    
+    auto subpass = std::make_unique<ColorPickerSubpass>(*render_context_, scene_manager_->current_scene(), main_camera_);
+    color_picker_subpass_ = subpass.get();
+    color_picker_render_pipeline_ = std::make_unique<RenderPipeline>();
+    color_picker_render_pipeline_->add_subpass(std::move(subpass));
+    
+    return true;
+}
+
+bool FramebufferPickerApp::resize(uint32_t win_width, uint32_t win_height,
+                                  uint32_t fb_width, uint32_t fb_height) {
+    ForwardApplication::resize(win_width, win_height, fb_width, fb_height);
+    
+    if (color_picker_render_target_->get_extent().width != fb_width ||
+        color_picker_render_target_->get_extent().height != fb_height) {
+        color_picker_render_target_ = create_render_target(fb_width, fb_height);
+    }
+    return true;
+}
+
+//MARK: - Main Loop
+void FramebufferPickerApp::input_event(const InputEvent &input_event) {
+    ForwardApplication::input_event(input_event);
+    if (input_event.get_source() == EventSource::MOUSE) {
+        const auto &mouse_button = static_cast<const MouseButtonInputEvent &>(input_event);
+        if (mouse_button.get_action() == MouseAction::DOWN) {
+            pick(mouse_button.get_pos_x(), mouse_button.get_pos_y());
+        }
+    }
+}
+
 void FramebufferPickerApp::pick(float offset_x, float offset_y) {
     need_pick_ = true;
     pick_pos_ = Vector2F(offset_x, offset_y);
+}
+
+void FramebufferPickerApp::render(CommandBuffer &command_buffer, RenderTarget &render_target) {
+    ForwardApplication::render(command_buffer, render_target);
+    if (need_pick_) {
+        color_picker_render_pipeline_->draw(command_buffer, *color_picker_render_target_);
+        command_buffer.end_render_pass();
+        copy_render_target_to_buffer(command_buffer);
+    }
+}
+
+void FramebufferPickerApp::update(float delta_time) {
+    ForwardApplication::update(delta_time);
+    if (need_pick_) {
+        read_color_from_render_target();
+        pick_functor(pick_result_.first, pick_result_.second);
+        need_pick_ = false;
+    }
 }
 
 void FramebufferPickerApp::copy_render_target_to_buffer(CommandBuffer &command_buffer) {
