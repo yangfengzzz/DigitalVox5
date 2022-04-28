@@ -41,8 +41,6 @@ public:
     }
     
     void on_update(float delta_time) override {
-        usleep(3000); // tempora solution
-        
         total_time_ += delta_time;
         total_time_ = fmod(total_time_, 100);
         entity()->transform_->set_position(10 * std::cos(speed_ * total_time_), 10, 10 * std::sin(speed_ * total_time_));

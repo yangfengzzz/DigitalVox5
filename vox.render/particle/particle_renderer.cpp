@@ -138,7 +138,6 @@ void ParticleRenderer::update_bounds(BoundingBox3F &world_bounds) {
 }
 
 void ParticleRenderer::update(float delta_time) {
-//    usleep(5000);
     set_time_step(delta_time * ParticleManager::get_singleton().time_step_factor());
     write_ = 1 - write_;
     read_ = 1 - read_;

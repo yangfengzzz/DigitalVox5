@@ -231,6 +231,7 @@ void GraphicsApplication::update(float delta_time) {
     render_context_->submit(command_buffer);
     
     platform_->on_post_draw(get_render_context());
+    device_->wait_idle(); // sync cpu and gpu
 }
 
 void GraphicsApplication::draw(CommandBuffer &command_buffer, RenderTarget &render_target) {

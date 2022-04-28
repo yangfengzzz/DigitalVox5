@@ -1,5 +1,5 @@
 #ifdef SHADOW_MAP_COUNT
-layout(set = 0, binding = 22) uniform sampler2DArrayShadow shadowMap;
+layout(set = 0, binding = 25) uniform sampler2DArrayShadow shadowMap;
 
 struct ShadowData {
     float bias;
@@ -10,7 +10,7 @@ struct ShadowData {
     vec4 cascadeSplits;
 };
 
-layout(set = 0, binding = 23) uniform shadowData {
+layout(set = 0, binding = 26) uniform shadowData {
     ShadowData value[10];
 } shadow_data;
 
