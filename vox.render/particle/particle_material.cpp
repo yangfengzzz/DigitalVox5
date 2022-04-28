@@ -13,8 +13,8 @@ BaseMaterial(device, "particle_instancing"),
 particle_data_prop_("particleData") {
     shader_data_.set_data(particle_data_prop_, particle_data_);
     
-    vertex_source_ = ShaderManager::get_singleton().load_shader("base/unlit.vert");
-    fragment_source_ = ShaderManager::get_singleton().load_shader("base/light/cluster_debug.frag");
+    vertex_source_ = ShaderManager::get_singleton().load_shader("base/particle/particle_render_instancing.vert");
+    fragment_source_ = ShaderManager::get_singleton().load_shader("base/particle/particle_render_instancing.frag");
     
     set_is_transparent(true);
     set_blend_mode(BlendMode::ADDITIVE);
