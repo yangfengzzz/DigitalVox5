@@ -8,7 +8,6 @@
 
 #include "ui/widgets/visual/separator.h"
 #include "ui/widgets/sliders/slider_int.h"
-#include "ui/widgets/sliders/slider_float.h"
 #include "ui/widgets/drags/drag_float.h"
 #include "ui/widgets/selection/color_edit.h"
 #include "ui/widgets/texts/text.h"
@@ -18,245 +17,243 @@
 #include "entity_creation_menu.h"
 #include "editor_settings.h"
 
-namespace vox {
-namespace editor {
-namespace ui {
+namespace vox::editor::ui {
 MenuBar::MenuBar() {
-    createFileMenu();
-    createBuildMenu();
-    createWindowMenu();
-    createActorsMenu();
-    createResourcesMenu();
-    createSettingsMenu();
-    createLayoutMenu();
-    createHelpMenu();
+    create_file_menu();
+    create_build_menu();
+    create_window_menu();
+    create_actors_menu();
+    create_resources_menu();
+    create_settings_menu();
+    create_layout_menu();
+    create_help_menu();
 }
 
-void MenuBar::handleShortcuts(float p_deltaTime) {
+void MenuBar::handle_shortcuts(float delta_time) {
     
 }
 
-void MenuBar::registerPanel(const std::string &p_name, PanelWindow &p_panel) {
-    auto &menuItem = _windowMenu->createWidget<MenuItem>(p_name, "", true, true);
-    menuItem.valueChangedEvent += std::bind(&PanelWindow::setOpened, &p_panel, std::placeholders::_1);
+void MenuBar::register_panel(const std::string &name, PanelWindow &panel) {
+    auto &menu_item = window_menu_->create_widget<MenuItem>(name, "", true, true);
+    menu_item.value_changed_event_ += std::bind(&PanelWindow::set_opened, &panel, std::placeholders::_1);
     
-    _panels.emplace(p_name, std::make_pair(std::ref(p_panel), std::ref(menuItem)));
+    panels_.emplace(name, std::make_pair(std::ref(panel), std::ref(menu_item)));
 }
 
-void MenuBar::createFileMenu() {
-    auto &fileMenu = createWidget<MenuList>("File");
-    fileMenu.createWidget<MenuItem>("New Scene", "CTRL + N").clickedEvent +=
-    std::bind(&EditorActions::loadEmptyScene, EditorActions::getSingletonPtr());
+void MenuBar::create_file_menu() {
+    auto &file_menu = create_widget<MenuList>("File");
+    file_menu.create_widget<MenuItem>("New Scene", "CTRL + N").clicked_event_ +=
+    std::bind(&EditorActions::load_empty_scene, EditorActions::get_singleton_ptr());
     
-    fileMenu.createWidget<MenuItem>("Save Scene", "CTRL + S").clickedEvent +=
-    std::bind(&EditorActions::saveSceneChanges, EditorActions::getSingletonPtr());
+    file_menu.create_widget<MenuItem>("Save Scene", "CTRL + S").clicked_event_ +=
+    std::bind(&EditorActions::save_scene_changes, EditorActions::get_singleton_ptr());
     
-    fileMenu.createWidget<MenuItem>("Save Scene As...", "CTRL + SHIFT + S").clickedEvent +=
-    std::bind(&EditorActions::saveAs, EditorActions::getSingletonPtr());
+    file_menu.create_widget<MenuItem>("Save Scene As...", "CTRL + SHIFT + S").clicked_event_ +=
+    std::bind(&EditorActions::save_as, EditorActions::get_singleton_ptr());
     
-    fileMenu.createWidget<MenuItem>("Exit", "ALT + F4").clickedEvent += [] {
+    file_menu.create_widget<MenuItem>("Exit", "ALT + F4").clicked_event_ += [] {
         // EDITOR_CONTEXT(window)->SetShouldClose(true);
     };
 }
 
-void MenuBar::createBuildMenu() {
-    auto &buildMenu = createWidget<MenuList>("Build");
-    buildMenu.createWidget<MenuItem>("Build game").clickedEvent +=
-    std::bind(&EditorActions::build, EditorActions::getSingletonPtr(), false, false);
+void MenuBar::create_build_menu() {
+    auto &build_menu = create_widget<MenuList>("Build");
+    build_menu.create_widget<MenuItem>("Build game").clicked_event_ +=
+    std::bind(&EditorActions::build, EditorActions::get_singleton_ptr(), false, false);
     
-    buildMenu.createWidget<MenuItem>("Build game and run").clickedEvent +=
-    std::bind(&EditorActions::build, EditorActions::getSingletonPtr(), true, false);
+    build_menu.create_widget<MenuItem>("Build game and run").clicked_event_ +=
+    std::bind(&EditorActions::build, EditorActions::get_singleton_ptr(), true, false);
     
-    buildMenu.createWidget<Separator>();
-    buildMenu.createWidget<MenuItem>("Temporary build").clickedEvent +=
-    std::bind(&EditorActions::build, EditorActions::getSingletonPtr(), true, true);
+    build_menu.create_widget<Separator>();
+    build_menu.create_widget<MenuItem>("Temporary build").clicked_event_ +=
+    std::bind(&EditorActions::build, EditorActions::get_singleton_ptr(), true, true);
 }
 
-void MenuBar::createWindowMenu() {
-    _windowMenu = &createWidget<MenuList>("Window");
-    _windowMenu->createWidget<MenuItem>("Close all").clickedEvent += std::bind(&MenuBar::openEveryWindows, this, false);
-    _windowMenu->createWidget<MenuItem>("Open all").clickedEvent += std::bind(&MenuBar::openEveryWindows, this, true);
-    _windowMenu->createWidget<Separator>();
+void MenuBar::create_window_menu() {
+    window_menu_ = &create_widget<MenuList>("Window");
+    window_menu_->create_widget<MenuItem>("Close all").clicked_event_ += std::bind(&MenuBar::open_every_windows, this, false);
+    window_menu_->create_widget<MenuItem>("Open all").clicked_event_ += std::bind(&MenuBar::open_every_windows, this, true);
+    window_menu_->create_widget<Separator>();
     
     /* When the menu is opened, we update which window is marked as "Opened" or "Closed" */
-    _windowMenu->clickedEvent += std::bind(&MenuBar::updateToggleableItems, this);
+    window_menu_->clicked_event_ += std::bind(&MenuBar::update_toggleable_items, this);
 }
 
-void MenuBar::createActorsMenu() {
-    auto &actorsMenu = createWidget<MenuList>("Actors");
-    EntityCreationMenu::generateEntityCreationMenu(actorsMenu);
+void MenuBar::create_actors_menu() {
+    auto &actors_menu = create_widget<MenuList>("Actors");
+    EntityCreationMenu::generate_entity_creation_menu(actors_menu);
 }
 
-void MenuBar::createResourcesMenu() {
-    auto &resourcesMenu = createWidget<MenuList>("Resources");
-    resourcesMenu.createWidget<MenuItem>("Compile shaders").clickedEvent +=
-    std::bind(&EditorActions::compileShaders, EditorActions::getSingletonPtr());
+void MenuBar::create_resources_menu() {
+    auto &resources_menu = create_widget<MenuList>("Resources");
+    resources_menu.create_widget<MenuItem>("Compile shaders").clicked_event_ +=
+    std::bind(&EditorActions::compile_shaders, EditorActions::get_singleton_ptr());
     
-    resourcesMenu.createWidget<MenuItem>("Save materials").clickedEvent +=
-    std::bind(&EditorActions::saveMaterials, EditorActions::getSingletonPtr());
+    resources_menu.create_widget<MenuItem>("Save materials").clicked_event_ +=
+    std::bind(&EditorActions::save_materials, EditorActions::get_singleton_ptr());
 }
 
-void MenuBar::createSettingsMenu() {
-    auto &settingsMenu = createWidget<MenuList>("Settings");
-    settingsMenu.createWidget<MenuItem>("Spawn actors at origin", "", true, true).valueChangedEvent +=
-    std::bind(&EditorActions::setEntitySpawnAtOrigin, EditorActions::getSingletonPtr(), std::placeholders::_1);
+void MenuBar::create_settings_menu() {
+    auto &settings_menu = create_widget<MenuList>("Settings");
+    settings_menu.create_widget<MenuItem>("Spawn actors at origin", "", true, true).value_changed_event_ +=
+    std::bind(&EditorActions::set_entity_spawn_at_origin, EditorActions::get_singleton_ptr(), std::placeholders::_1);
     
-    settingsMenu.createWidget<MenuItem>("Vertical Synchronization", "", true, true).valueChangedEvent += [this](bool p_value) {
+    settings_menu.create_widget<MenuItem>("Vertical Synchronization", "", true, true).value_changed_event_ += [this](bool value) {
         // EDITOR_CONTEXT(device)->SetVsync(p_value);
     };
     
-    auto &cameraSpeedMenu = settingsMenu.createWidget<MenuList>("Camera Speed");
+    auto &camera_speed_menu = settings_menu.create_widget<MenuList>("Camera Speed");
     {
-        cameraSpeedMenu.createWidget<SliderInt>(1, 50, 15, SliderOrientation::HORIZONTAL, "Scene View").valueChangedEvent +=
-        std::bind(&EditorActions::setSceneViewCameraSpeed, EditorActions::getSingletonPtr(), std::placeholders::_1);
+        camera_speed_menu.create_widget<SliderInt>(1, 50, 15, SliderOrientation::HORIZONTAL, "Scene View").value_changed_event_ +=
+        std::bind(&EditorActions::set_scene_view_camera_speed, EditorActions::get_singleton_ptr(), std::placeholders::_1);
         
-        cameraSpeedMenu.createWidget<SliderInt>(1, 50, 15, SliderOrientation::HORIZONTAL, "Asset View").valueChangedEvent +=
-        std::bind(&EditorActions::setAssetViewCameraSpeed, EditorActions::getSingletonPtr(), std::placeholders::_1);
+        camera_speed_menu.create_widget<SliderInt>(1, 50, 15, SliderOrientation::HORIZONTAL, "Asset View").value_changed_event_ +=
+        std::bind(&EditorActions::set_asset_view_camera_speed, EditorActions::get_singleton_ptr(), std::placeholders::_1);
     }
     
-    auto &cameraPositionMenu = settingsMenu.createWidget<MenuList>("Reset Camera");
+    auto &camera_position_menu = settings_menu.create_widget<MenuList>("Reset Camera");
     {
-        cameraPositionMenu.createWidget<MenuItem>("Scene View").clickedEvent +=
-        std::bind(&EditorActions::resetSceneViewCameraPosition, EditorActions::getSingletonPtr());
+        camera_position_menu.create_widget<MenuItem>("Scene View").clicked_event_ +=
+        std::bind(&EditorActions::reset_scene_view_camera_position, EditorActions::get_singleton_ptr());
         
-        cameraPositionMenu.createWidget<MenuItem>("Asset View").clickedEvent +=
-        std::bind(&EditorActions::resetAssetViewCameraPosition, EditorActions::getSingletonPtr());
+        camera_position_menu.create_widget<MenuItem>("Asset View").clicked_event_ +=
+        std::bind(&EditorActions::reset_asset_view_camera_position, EditorActions::get_singleton_ptr());
     }
     
-    auto &viewColors = settingsMenu.createWidget<MenuList>("View Colors");
+    auto &view_colors = settings_menu.create_widget<MenuList>("View Colors");
     {
-        auto &sceneViewBackground = viewColors.createWidget<MenuList>("Scene View Background");
-        auto &sceneViewBackgroundPicker = sceneViewBackground.createWidget<ColorEdit>(false, Color{0.098f, 0.098f, 0.098f});
-        sceneViewBackgroundPicker.colorChangedEvent += [this](const auto &color) {
+        auto &scene_view_background = view_colors.create_widget<MenuList>("Scene View Background");
+        auto &scene_view_background_picker = scene_view_background.create_widget<ColorEdit>(false, Color{0.098f, 0.098f, 0.098f});
+        scene_view_background_picker.color_changed_event_ += [this](const auto &color) {
             // EDITOR_PANEL(Panels::SceneView, "Scene View").GetCamera().SetClearColor({ color.r, color.g, color.b });
         };
-        sceneViewBackground.createWidget<MenuItem>("Reset").clickedEvent += [this, &sceneViewBackgroundPicker] {
+        scene_view_background.create_widget<MenuItem>("Reset").clicked_event_ += [this, &scene_view_background_picker] {
             // EDITOR_PANEL(Panels::SceneView, "Scene View").GetCamera().SetClearColor({ 0.098f, 0.098f, 0.098f });
             // sceneViewBackgroundPicker.color = { 0.098f, 0.098f, 0.098f };
         };
         
-        auto &sceneViewGrid = viewColors.createWidget<MenuList>("Scene View Grid");
-        auto &sceneViewGridPicker = sceneViewGrid.createWidget<ColorEdit>(false, Color(0.176f, 0.176f, 0.176f));
-        sceneViewGridPicker.colorChangedEvent += [this](const auto &color) {
+        auto &scene_view_grid = view_colors.create_widget<MenuList>("Scene View Grid");
+        auto &scene_view_grid_picker = scene_view_grid.create_widget<ColorEdit>(false, Color(0.176f, 0.176f, 0.176f));
+        scene_view_grid_picker.color_changed_event_ += [this](const auto &color) {
             // EDITOR_PANEL(Panels::SceneView, "Scene View").SetGridColor({ color.r, color.g, color.b });
         };
-        sceneViewGrid.createWidget<MenuItem>("Reset").clickedEvent += [this, &sceneViewGridPicker] {
+        scene_view_grid.create_widget<MenuItem>("Reset").clicked_event_ += [this, &scene_view_grid_picker] {
             // EDITOR_PANEL(Panels::SceneView, "Scene View").SetGridColor(OvMaths::FVector3(0.176f, 0.176f, 0.176f));
             // sceneViewGridPicker.color = OvUI::Types::Color(0.176f, 0.176f, 0.176f);
         };
         
-        auto &assetViewBackground = viewColors.createWidget<MenuList>("Asset View Background");
-        auto &assetViewBackgroundPicker = assetViewBackground.createWidget<ColorEdit>(false, Color{0.098f, 0.098f, 0.098f});
-        assetViewBackgroundPicker.colorChangedEvent += [this](const auto &color) {
+        auto &asset_view_background = view_colors.create_widget<MenuList>("Asset View Background");
+        auto &asset_view_background_picker = asset_view_background.create_widget<ColorEdit>(false, Color{0.098f, 0.098f, 0.098f});
+        asset_view_background_picker.color_changed_event_ += [this](const auto &color) {
             // EDITOR_PANEL(Panels::AssetView, "Asset View").GetCamera().SetClearColor({ color.r, color.g, color.b });
         };
-        assetViewBackground.createWidget<MenuItem>("Reset").clickedEvent += [this, &assetViewBackgroundPicker] {
+        asset_view_background.create_widget<MenuItem>("Reset").clicked_event_ += [this, &asset_view_background_picker] {
             // EDITOR_PANEL(Panels::AssetView, "Asset View").GetCamera().SetClearColor({ 0.098f, 0.098f, 0.098f });
             // assetViewBackgroundPicker.color = { 0.098f, 0.098f, 0.098f };
         };
         
-        auto &assetViewGrid = viewColors.createWidget<MenuList>("Asset View Grid");
-        auto &assetViewGridPicker = assetViewGrid.createWidget<ColorEdit>(false, Color(0.176f, 0.176f, 0.176f));
-        assetViewGridPicker.colorChangedEvent += [this](const auto &color) {
+        auto &asset_view_grid = view_colors.create_widget<MenuList>("Asset View Grid");
+        auto &asset_view_grid_picker = asset_view_grid.create_widget<ColorEdit>(false, Color(0.176f, 0.176f, 0.176f));
+        asset_view_grid_picker.color_changed_event_ += [this](const auto &color) {
             // EDITOR_PANEL(Panels::AssetView, "Asset View").SetGridColor({ color.r, color.g, color.b });
         };
-        assetViewGrid.createWidget<MenuItem>("Reset").clickedEvent += [this, &assetViewGridPicker] {
+        asset_view_grid.create_widget<MenuItem>("Reset").clicked_event_ += [this, &asset_view_grid_picker] {
             // EDITOR_PANEL(Panels::AssetView, "Asset View").SetGridColor(OvMaths::FVector3(0.176f, 0.176f, 0.176f));
             // assetViewGridPicker.color = OvUI::Types::Color(0.176f, 0.176f, 0.176f);
         };
     }
     
-    auto &sceneViewBillboardScaleMenu = settingsMenu.createWidget<MenuList>("3D Icons Scales");
+    auto &scene_view_billboard_scale_menu = settings_menu.create_widget<MenuList>("3D Icons Scales");
     {
-        auto &lightBillboardScaleSlider =
-        sceneViewBillboardScaleMenu.createWidget<SliderInt>(0, 100, static_cast<int>(EditorSettings::LightBillboardScale * 100.0f),
-                                                            SliderOrientation::HORIZONTAL, "Lights");
-        lightBillboardScaleSlider.valueChangedEvent += [this](int p_value) {
-            EditorSettings::LightBillboardScale = p_value / 100.0f;
+        auto &light_billboard_scale_slider =
+        scene_view_billboard_scale_menu
+            .create_widget<SliderInt>(0, 100, static_cast<int>(EditorSettings::light_billboard_scale_ * 100.0f),
+                                      SliderOrientation::HORIZONTAL, "Lights");
+        light_billboard_scale_slider.value_changed_event_ += [this](int value) {
+            EditorSettings::light_billboard_scale_ = value / 100.0f;
         };
-        lightBillboardScaleSlider.format = "%d %%";
+        light_billboard_scale_slider.format_ = "%d %%";
     }
     
-    auto &snappingMenu = settingsMenu.createWidget<MenuList>("Snapping");
+    auto &snapping_menu = settings_menu.create_widget<MenuList>("Snapping");
     {
-        snappingMenu.createWidget<DragFloat>(0.001f, 999999.0f, EditorSettings::TranslationSnapUnit, 0.05f,
-                                             "Translation Unit").valueChangedEvent += [this](float p_value) {
-            EditorSettings::TranslationSnapUnit = p_value;
+        snapping_menu.create_widget<DragFloat>(0.001f, 999999.0f, EditorSettings::translation_snap_unit_, 0.05f,
+                                               "Translation Unit").value_changed_event_ += [this](float value) {
+            EditorSettings::translation_snap_unit_ = value;
         };
-        snappingMenu.createWidget<DragFloat>(0.001f, 999999.0f, EditorSettings::RotationSnapUnit, 1.0f,
-                                             "Rotation Unit").valueChangedEvent += [this](float p_value) {
-            EditorSettings::RotationSnapUnit = p_value;
+        snapping_menu.create_widget<DragFloat>(0.001f, 999999.0f, EditorSettings::rotation_snap_unit_, 1.0f,
+                                               "Rotation Unit").value_changed_event_ += [this](float value) {
+            EditorSettings::rotation_snap_unit_ = value;
         };
-        snappingMenu.createWidget<DragFloat>(0.001f, 999999.0f, EditorSettings::ScalingSnapUnit, 0.05f,
-                                             "Scaling Unit").valueChangedEvent += [this](float p_value) {
-            EditorSettings::ScalingSnapUnit = p_value;
+        snapping_menu.create_widget<DragFloat>(0.001f, 999999.0f, EditorSettings::scaling_snap_unit_, 0.05f,
+                                               "Scaling Unit").value_changed_event_ += [this](float value) {
+            EditorSettings::scaling_snap_unit_ = value;
         };
     }
     
-    auto &debuggingMenu = settingsMenu.createWidget<MenuList>("Debugging");
+    auto &debugging_menu = settings_menu.create_widget<MenuList>("Debugging");
     {
-        debuggingMenu.createWidget<MenuItem>("Show geometry bounds", "", true,
-                                             EditorSettings::ShowGeometryBounds).valueChangedEvent += [this](bool p_value) {
-            EditorSettings::ShowGeometryBounds = p_value;
+        debugging_menu.create_widget<MenuItem>("Show geometry bounds", "", true,
+                                               EditorSettings::show_geometry_bounds_).value_changed_event_ += [this](bool value) {
+            EditorSettings::show_geometry_bounds_ = value;
         };
-        debuggingMenu.createWidget<MenuItem>("Show lights bounds", "", true,
-                                             EditorSettings::ShowLightBounds).valueChangedEvent += [this](bool p_value) {
-            EditorSettings::ShowLightBounds = p_value;
+        debugging_menu.create_widget<MenuItem>("Show lights bounds", "", true,
+                                               EditorSettings::show_light_bounds_).value_changed_event_ += [this](bool value) {
+            EditorSettings::show_light_bounds_ = value;
         };
-        auto &subMenu = debuggingMenu.createWidget<MenuList>("Frustum culling visualizer...");
-        subMenu.createWidget<MenuItem>("For geometry", "", true,
-                                       EditorSettings::ShowGeometryFrustumCullingInSceneView).valueChangedEvent += [this](bool p_value) {
-            EditorSettings::ShowGeometryFrustumCullingInSceneView = p_value;
+        auto &sub_menu = debugging_menu.create_widget<MenuList>("Frustum culling visualizer...");
+        sub_menu.create_widget<MenuItem>("For geometry", "", true,
+                                         EditorSettings::show_geometry_frustum_culling_in_scene_view_).value_changed_event_ +=
+        [this](bool value) {
+            EditorSettings::show_geometry_frustum_culling_in_scene_view_ = value;
         };
-        subMenu.createWidget<MenuItem>("For lights", "", true,
-                                       EditorSettings::ShowLightFrustumCullingInSceneView).valueChangedEvent += [this](bool p_value) {
-            EditorSettings::ShowLightFrustumCullingInSceneView = p_value;
+        sub_menu.create_widget<MenuItem>("For lights", "", true,
+                                         EditorSettings::show_light_frustum_culling_in_scene_view_).value_changed_event_ +=
+        [this](bool value) {
+            EditorSettings::show_light_frustum_culling_in_scene_view_ = value;
         };
     }
 }
 
-void MenuBar::createLayoutMenu() {
-    auto &layoutMenu = createWidget<MenuList>("Layout");
-    layoutMenu.createWidget<MenuItem>("Reset").clickedEvent +=
-    std::bind(&EditorActions::resetLayout, EditorActions::getSingletonPtr());
+void MenuBar::create_layout_menu() {
+    auto &layout_menu = create_widget<MenuList>("Layout");
+    layout_menu.create_widget<MenuItem>("Reset").clicked_event_ +=
+    std::bind(&EditorActions::reset_layout, EditorActions::get_singleton_ptr());
 }
 
-void MenuBar::createHelpMenu() {
-    auto &helpMenu = createWidget<MenuList>("Help");
-    helpMenu.createWidget<MenuItem>("GitHub").clickedEvent += [] {
-        openURL("https://github.com/ArcheGraphics");
+void MenuBar::create_help_menu() {
+    auto &help_menu = create_widget<MenuList>("Help");
+    help_menu.create_widget<MenuItem>("GitHub").clicked_event_ += [] {
+        open_url("https://github.com/ArcheGraphics");
     };
-    helpMenu.createWidget<MenuItem>("Tutorials").clickedEvent += [] {
-        openURL("https://arche.graphics/docs/intro");
+    help_menu.create_widget<MenuItem>("Tutorials").clicked_event_ += [] {
+        open_url("https://arche.graphics/docs/intro");
     };
-    helpMenu.createWidget<MenuItem>("Scripting API").clickedEvent += [] {
-        openURL("https://arche.graphics/docs/intro");
+    help_menu.create_widget<MenuItem>("Scripting API").clicked_event_ += [] {
+        open_url("https://arche.graphics/docs/intro");
     };
-    helpMenu.createWidget<Separator>();
-    helpMenu.createWidget<MenuItem>("Bug Report").clickedEvent += [] {
-        openURL("https://github.com/ArcheGraphics/Arche-cpp/issues");
+    help_menu.create_widget<Separator>();
+    help_menu.create_widget<MenuItem>("Bug Report").clicked_event_ += [] {
+        open_url("https://github.com/ArcheGraphics/Arche-cpp/issues");
     };
-    helpMenu.createWidget<MenuItem>("Feature Request").clickedEvent += [] {
-        openURL("https://github.com/ArcheGraphics/Arche-cpp/issues");
+    help_menu.create_widget<MenuItem>("Feature Request").clicked_event_ += [] {
+        open_url("https://github.com/ArcheGraphics/Arche-cpp/issues");
     };
-    helpMenu.createWidget<Separator>();
-    helpMenu.createWidget<MenuItem>("Arche.js").clickedEvent += [] {
-        openURL("https://github.com/ArcheGraphics/Arche.js");
+    help_menu.create_widget<Separator>();
+    help_menu.create_widget<MenuItem>("Arche.js").clicked_event_ += [] {
+        open_url("https://github.com/ArcheGraphics/Arche.js");
     };
-    helpMenu.createWidget<::vox::ui::Text>("Version: 0.0.1");
+    help_menu.create_widget<::vox::ui::Text>("Version: 0.0.1");
 }
 
-void MenuBar::updateToggleableItems() {
-    for (auto&[name, panel]: _panels)
-        panel.second.get().checked = panel.first.get().isOpened();
+void MenuBar::update_toggleable_items() {
+    for (auto &[name, panel] : panels_)
+        panel.second.get().checked_ = panel.first.get().is_opened();
 }
 
-void MenuBar::openEveryWindows(bool p_state) {
-    for (auto&[name, panel]: _panels)
-        panel.first.get().setOpened(p_state);
+void MenuBar::open_every_windows(bool state) {
+    for (auto &[name, panel] : panels_)
+        panel.first.get().set_opened(state);
 }
 
-
-}
-}
 }

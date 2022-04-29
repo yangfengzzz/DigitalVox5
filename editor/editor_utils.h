@@ -4,86 +4,79 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef editor_utils_hpp
-#define editor_utils_hpp
+#pragma once
 
 #include <string>
 
-namespace vox {
-namespace editor {
-std::string uChar2Hex(unsigned char c);
+namespace vox::editor {
+std::string u_char_2_hex(unsigned char c);
 
 struct Hash {
-    Hash() {
-    }
-
+    Hash() = default;
+    
     Hash(unsigned char *d, int l) {
         length = l;
         data = new unsigned char[length];
         std::memcpy(data, d, length);
     }
-
-    ~Hash() {
-        //delete[] data;
-    }
-
-    std::string toString() {
+    
+    ~Hash() = default;
+    
+    [[nodiscard]] std::string to_string() const {
         std::string hash;
-
+        
         for (int i = 0; i < length; i++) {
-            hash += uChar2Hex(data[i]);
+            hash += u_char_2_hex(data[i]);
         }
-
+        
         return hash;
     }
-
+    
     int length = 0;
-    unsigned char *data;
+    unsigned char *data{};
 };
 
-
-#define MAX(x, y) (x > y ? x : y)
-
+#define MAX(x, y) ((x) > (y) ? (x) : (y))
 
 #ifdef TERR3D_WIN32
 std::wstring s2ws(const std::string &s);
 #endif
 
-void openURL(std::string url);
+void open_url(std::string url);
 
-std::string showSaveFileDialog(std::string ext = ".terr3d");
+std::string show_save_file_dialog(std::string ext = ".terr3d");
 
 std::string openfilename();
 
-std::string showOpenFileDialog(std::string ext = "*.glsl");
+std::string show_open_file_dialog(std::string ext = "*.glsl");
 
-std::string readShaderSourceFile(std::string path, bool *result);
+std::string read_shader_source_file(std::string path, bool *result);
 
-std::string getExecutablePath();
+std::string get_executable_path();
 
-std::string getExecutableDir();
+std::string get_executable_dir();
 
-std::string generateId(uint32_t length);
+std::string generate_id(uint32_t length);
 
-std::string fetchURL(std::string baseURL, std::string path);
+std::string fetch_url(std::string base_url, std::string path);
 
-char *uChar2Char(unsigned char *data, int length);
+char *u_char_2_char(unsigned char *data, int length);
 
-bool fileExists(std::string path, bool writeAccess = false);
+bool file_exists(std::string path, bool write_access = false);
 
-bool pathExist(const std::string &s);
+bool path_exist(const std::string &s);
 
-bool isNetWorkConnected();
+bool is_net_work_connected();
 
-char *readBinaryFile(std::string path, int *size, uint32_t sizeToLoad = -1);
+char *read_binary_file(std::string path, int *size, uint32_t size_to_load = -1);
 
-char *readBinaryFile(std::string path, uint32_t sizeToLoad = -1);
+char *read_binary_file(std::string path, uint32_t size_to_load = -1);
 
-Hash MD5File(std::string path);
+Hash md_5_file(std::string path);
 
-void downloadFile(std::string baseURL, std::string urlPath, std::string path, int size = -1);
+void download_file(std::string base_url, std::string url_path, std::string path, int size = -1);
 
-void saveToFile(std::string filename, std::string content = "");
+void save_to_file(std::string filename, std::string content = "");
 
 void log(const char *log);
 
@@ -94,22 +87,20 @@ void log(std::string log);
 void regSet(HKEY hkeyHive, const char *pszVar, const char *pszValue);
 #endif
 
-void accocFileType();
+void accoc_file_type();
 
-void mkDir(std::string path);
+void mk_dir(std::string path);
 
-void copyFileData(std::string source, std::string destination);
+void copy_file_data(std::string source, std::string destination);
 
-bool deleteFileT(std::string path);
+bool delete_file_t(std::string path);
 
-bool isKeyDown(int key);
+bool is_key_down(int key);
 
-bool isMouseButtonDown(int button);
+bool is_mouse_button_down(int button);
 
-void showMessageBox(std::string message, std::string title = "Info");
+void show_message_box(std::string message, std::string title = "Info");
 
-void toggleSystemConsole();
+void toggle_system_console();
 
 }
-}
-#endif /* editor_utils_hpp */

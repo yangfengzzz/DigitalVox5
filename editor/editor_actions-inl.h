@@ -4,29 +4,24 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef editor_actions_inl_h
-#define editor_actions_inl_h
+#pragma once
 
 #include "editor_actions.h"
 #include "entity.h"
 
-namespace vox {
-namespace editor {
+namespace vox::editor {
 template<typename T>
-inline Entity* EditorActions::createMonoComponentEntity(bool p_focusOnCreation, Entity* p_parent) {
-    auto instance = createEmptyEntity(false, p_parent);
-
-    T* component = instance->addComponent<T>();
-
-    instance->name = component->name();
-
-    if (p_focusOnCreation)
-        selectEntity(instance);
-
+inline Entity *EditorActions::create_mono_component_entity(bool focus_on_creation, Entity *parent) {
+    auto instance = create_empty_entity(false, parent);
+    
+    T *component = instance->add_component<T>();
+    
+    instance->name_ = component->name();
+    
+    if (focus_on_creation)
+        select_entity(instance);
+    
     return instance;
 }
 
-
 }
-}
-#endif /* editor_actions_inl_h */

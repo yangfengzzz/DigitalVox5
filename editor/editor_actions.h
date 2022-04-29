@@ -4,15 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef editor_actions_hpp
-#define editor_actions_hpp
+#pragma once
 
 #include "panels_manager.h"
 #include "vector3.h"
-#include "filesystem.h"
+#include "platform/filesystem.h"
 #include "scene_forward.h"
 #include "singleton.h"
-#include <tinyxml2.h>
 
 namespace vox {
 namespace editor {
@@ -21,21 +19,21 @@ namespace editor {
  */
 class EditorActions : public Singleton<EditorActions> {
 public:
-    static EditorActions &getSingleton(void);
+    static EditorActions &get_singleton();
     
-    static EditorActions *getSingletonPtr(void);
+    static EditorActions *get_singleton_ptr();
     
     /**
      * Constructor
      */
-    EditorActions(ui::PanelsManager& p_panelsManager);
+    explicit EditorActions(ui::PanelsManager &panels_manager);
     
     //MARK: - TOOLS
 public:
     /**
      * Returns the panels manager
      */
-    ui::PanelsManager& panelsManager();
+    ui::PanelsManager &panels_manager();
     
     //MARK: - SETTINGS
 public:
@@ -47,47 +45,47 @@ public:
     /**
      * Defines if new entities should be spawned at origin
      */
-    void setEntitySpawnAtOrigin(bool value);
+    void set_entity_spawn_at_origin(bool value);
     
     /**
      * Defines how new entities should be spawned
      */
-    void setEntitySpawnMode(EntitySpawnMode value);
+    void set_entity_spawn_mode(EntitySpawnMode value);
     
     /**
      * Reset the editor layout
      */
-    void resetLayout();
+    void reset_layout();
     
     /**
      * Defines the scene view camera speed
      */
-    void setSceneViewCameraSpeed(int speed);
+    void set_scene_view_camera_speed(int speed);
     
     /**
      * Returns the scene view camera speed
      */
-    int sceneViewCameraSpeed();
+    int scene_view_camera_speed();
     
     /**
      * Defines the asset view camera speed
      */
-    void setAssetViewCameraSpeed(int p_speed);
+    void set_asset_view_camera_speed(int speed);
     
     /**
      * Returns the asset view camera speed
      */
-    int assetViewCameraSpeed();
+    int asset_view_camera_speed();
     
     /**
      * Resets the scene view camera position to the default one
      */
-    void resetSceneViewCameraPosition();
+    void reset_scene_view_camera_position();
     
     /**
      * Resets the scene view camera position to the default one
      */
-    void resetAssetViewCameraPosition();
+    void reset_asset_view_camera_position();
     
     //MARK: - GAME
 public:
@@ -99,32 +97,32 @@ public:
     /**
      * Returns the current editor state/mode
      */
-    EditorMode currentEditorMode() const;
+    [[nodiscard]] EditorMode current_editor_mode() const;
     
     /**
      * Defines the editor state/mode
      */
-    void setEditorMode(EditorMode newEditorMode);
+    void set_editor_mode(EditorMode new_editor_mode);
     
     /**
      * Start playing the current scene and update the editor mode
      */
-    void startPlaying();
+    void start_playing();
     
     /**
      * Pause the current playing scene and update the editor mode
      */
-    void pauseGame();
+    void pause_game();
     
     /**
-     * Stop platying the current scene and update the editor mode
+     * Stop playing the current scene and update the editor mode
      */
-    void stopPlaying();
+    void stop_playing();
     
     /**
      * Play the current frame and pause the editor
      */
-    void nextFrame();
+    void next_frame();
     
     //MARK: - Entity_CREATION_DESTRUCTION
 public:
@@ -132,35 +130,35 @@ public:
      * Create an entity with the given component type
      */
     template<typename T>
-    Entity* createMonoComponentEntity(bool p_focusOnCreation = true, Entity* p_parent = nullptr);
+    Entity *create_mono_component_entity(bool focus_on_creation = true, Entity *parent = nullptr);
     
     /**
      * Calculate the position where to spawn the entity using the current camera position and forward
      */
-    Vector3F calculateEntitySpawnPoint(float p_distanceToCamera);
+    Vector3F calculate_entity_spawn_point(float distance_to_camera);
     
     /**
      * Create an empty entity
      */
-    Entity* createEmptyEntity(bool p_focusOnCreation = true, Entity* p_parent = nullptr,
-                                const std::string& p_name = "");
+    Entity *create_empty_entity(bool focus_on_creation = true, Entity *parent = nullptr,
+                                const std::string &name = "");
     
     /**
      * Create an entity with a model renderer and a material renderer. The model renderer with use the model identified
      * by the given path
      */
-    Entity* createEntityWithModel(const std::string& p_path, bool p_focusOnCreation = true,
-                                   Entity* p_parent = nullptr, const std::string& p_name = "");
+    Entity *create_entity_with_model(const std::string &path, bool focus_on_creation = true,
+                                     Entity *parent = nullptr, const std::string &name = "");
     
     /**
      * Destroy an entity from his scene
      */
-    bool destroyEntity(Entity* p_entity);
+    bool destroy_entity(Entity *entity);
     
     /**
      * Duplicate an entity
      */
-    void duplicateEntity(Entity* p_toDuplicate, Entity* p_forcedParent = nullptr, bool p_focus = true);
+    void duplicate_entity(Entity *to_duplicate, Entity *forced_parent = nullptr, bool focus = true);
     
     
     //MARK: - ENTITY_MANIPULATION
@@ -168,91 +166,91 @@ public:
     /**
      * Select an entity and show him in inspector
      */
-    void selectEntity(Entity* p_target);
+    void select_entity(Entity *target);
     
     /**
      * Unselect any selected entity and clearing the inspector
      */
-    void unselectEntity();
+    void unselect_entity();
     
     /**
      * Returns true if any entity is selected
      */
-    bool isAnyEntitySelected() const;
+    [[nodiscard]] bool is_any_entity_selected() const;
     
     /**
      * Returns the selected entity. Make sur you verified that an entity is selected
      * with IsAnyEntitySelected() before calling this method
      */
-    Entity* getSelectedEntity() const;
+    [[nodiscard]] Entity *get_selected_entity() const;
     
     /**
      * Moves the camera to the target entity
      */
-    void moveToTarget(Entity* p_target);
+    void move_to_target(Entity *target);
     
     //MARK: - RESOURCE_MANAGEMENT
 public:
     /**
      * Compile every loaded shaders
      */
-    void compileShaders();
+    void compile_shaders();
     
     /**
      * Save every materials to their respective files
      */
-    void saveMaterials();
+    void save_materials();
     
     /**
      * Import an asset
      */
-    bool importAsset(const std::string& p_initialDestinationDirectory);
+    bool import_asset(const std::string &initial_destination_directory);
     
     /**
      * Import an asset at location
      */
-    bool importAssetAtLocation(const std::string& p_destination);
+    bool import_asset_at_location(const std::string &destination);
     
     /**
      * Returns the real path of a resource (complete absolute path)
      */
-    std::string getRealPath(const std::string& p_path);
+    std::string get_real_path(const std::string &path);
     
     /**
      * Returns the resource path of a file
      */
-    std::string getResourcePath(const std::string& p_path, bool p_isFromEngine = false);
+    std::string get_resource_path(const std::string &path, bool is_from_engine = false);
     
     /**
      * Returns the script path of a file
      */
-    std::string getScriptPath(const std::string& p_path);
+    std::string get_script_path(const std::string &path);
     
     /**
      * Propagate the folder rename everywhere (Resource manager, scenes, materials...)
      */
-    void propagateFolderRename(std::string p_previousName, const std::string p_newName);
+    void propagate_folder_rename(const std::string &previous_name, const std::string &new_name);
     
     /**
      * Propagate the folder destruction everywhere (Resource manager, scenes, materials...)
      */
-    void propagateFolderDestruction(std::string p_folderPath);
+    void propagate_folder_destruction(const std::string &folder_path);
     
     /**
      * Propagate the script rename in scenes and inspector
      */
-    void propagateScriptRename(std::string p_previousName, std::string p_newName);
+    void propagate_script_rename(const std::string &previous_name, const std::string &new_name);
     
     /**
      * Propagate the file rename everywhere it is used
      */
-    void propagateFileRename(std::string p_previousName, std::string p_newName);
+    void propagate_file_rename(const std::string &previous_name, const std::string &new_name);
     
     /**
      * Propagate the file rename through concerned files
      */
-    void propagateFileRenameThroughSavedFilesOfType(const std::string& p_previousName, const std::string& p_newName,
-                                                    fs::FileType p_fileType);
+    void propagate_file_rename_through_saved_files_of_type(const std::string &previous_name, const std::string &new_name,
+                                                           fs::FileType file_type);
     
     
     //MARK: - SCENE
@@ -260,39 +258,39 @@ public:
     /**
      * Load an empty scene. Any unsaved changes to the current scene will be discarded
      */
-    void loadEmptyScene();
+    void load_empty_scene();
     
     /**
      * Save the current scene to the given path
      */
-    void saveCurrentSceneTo(const std::string& p_path);
+    void save_current_scene_to(const std::string &path);
     
     /**
      * Load a scene from the disk
      */
-    void loadSceneFromDisk(const std::string& p_path, bool p_absolute = false);
+    void load_scene_from_disk(const std::string &path, bool absolute = false);
     
     /**
      * Returns true if the current scene has been loaded from disk
      */
-    bool isCurrentSceneLoadedFromDisk() const;
+    [[nodiscard]] bool is_current_scene_loaded_from_disk() const;
     
     /**
      * Save the current scene to its disk location
      */
-    void saveSceneChanges();
+    void save_scene_changes();
     
     /**
      * Save the current scene to a new disk location (Can create a duplication of the scene file)
      */
-    void saveAs();
+    void save_as();
     
     //MARK: - SCRIPTING
 public:
     /**
      * Refresh every scripts (Re-interpret)
      */
-    void refreshScripts();
+    void refresh_scripts();
     
     
     //MARK: - BUILDING
@@ -300,49 +298,47 @@ public:
     /**
      * Ask the user to select the build folder
      */
-    std::optional<std::string> selectBuildFolder();
+    std::optional<std::string> select_build_folder();
     
     /**
      * Build the current project
      */
-    void build(bool p_autoRun = false, bool p_tempFolder = false);
+    void build(bool auto_run = false, bool temp_folder = false);
     
     /**
      * Build the current project at the given location
      */
-    void buildAtLocation(const std::string& p_configuration, const std::string p_buildPath, bool p_autoRun = false);
+    void build_at_location(const std::string &configuration, const std::string &build_path, bool auto_run = false);
     
     //MARK: - ACTION_SYSTEM
     /**
      * Prepare an action for a future call
      */
-    void delayAction(std::function<void()> p_action, uint32_t p_frames = 1);
+    void delay_action(const std::function<void()> &action, uint32_t frames = 1);
     
     /**
      * Execute every actions that should be executed at this frame (Decrement the frame counter for each actions)
      */
-    void executeDelayedActions();
+    void execute_delayed_actions();
     
 public:
-    Event<Entity*> entitySelectedEvent;
-    Event<Entity*> entityUnselectedEvent;
-    Event<EditorMode> editorModeChangedEvent;
-    Event<> playEvent;
+    Event<Entity *> entity_selected_event_;
+    Event<Entity *> entity_unselected_event_;
+    Event<EditorMode> editor_mode_changed_event_;
+    Event<> play_event_;
     
 private:
-    ui::PanelsManager& _panelsManager;
+    ui::PanelsManager &panels_manager_;
     
-    EntitySpawnMode _entitySpawnMode = EntitySpawnMode::ORIGIN;
-    EditorMode _editorMode = EditorMode::EDIT;
+    EntitySpawnMode entity_spawn_mode_ = EntitySpawnMode::ORIGIN;
+    EditorMode editor_mode_ = EditorMode::EDIT;
     
-    std::vector<std::pair<uint32_t, std::function<void()>>> _delayedActions;
+    std::vector<std::pair<uint32_t, std::function<void()>>> delayed_actions_;
     
-    tinyxml2::XMLDocument _sceneBackup;
+    nlohmann::json scene_backup_;
 };
 
 }
-template<> inline editor::EditorActions* Singleton<editor::EditorActions>::msSingleton{nullptr};
+template<> inline editor::EditorActions *Singleton<editor::EditorActions>::ms_singleton_{nullptr};
 }
 #include "editor_actions-inl.h"
-
-#endif /* editor_actions_hpp */

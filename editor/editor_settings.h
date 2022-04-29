@@ -4,13 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef editor_settings_h
-#define editor_settings_h
+#pragma once
 
 #include "event.h"
 
-namespace vox {
-namespace editor {
+namespace vox::editor {
 /**
  * Accessible from anywhere editor settings
  */
@@ -22,42 +20,42 @@ public:
         /**
          * Creates the property with a default value
          */
-        Property(T p_value) : _value(p_value) {}
+        Property(T value) : value_(value) {}
         
         /**
          * Event called when the property value changes
          */
-        Event<T> onValueChanged;
+        Event<T> on_value_changed_;
         
         /**
          * Assign a new value to the property
          */
-        inline T& operator=(T p_value) {
-            set(p_value);
-            return _value;
+        inline T &operator=(T value) {
+            set(value);
+            return value_;
         }
         
         /**
-         * Assign a new valeu to the property
+         * Assign a new value to the property
          */
-        inline void set(T p_value) {
-            _value = p_value;
-            onValueChanged.invoke(_value);
+        inline void set(T value) {
+            value_ = value;
+            on_value_changed_.invoke(value_);
         }
         
         inline operator T() {
-            return _value;
+            return value_;
         }
         
         /**
          * Returns the value of the property
          */
-        inline T Get() const {
-            return _value;
+        [[nodiscard]] inline T get() const {
+            return value_;
         }
         
     private:
-        T _value;
+        T value_;
     };
     
     /**
@@ -65,18 +63,14 @@ public:
      */
     EditorSettings() = delete;
     
-    inline static Property<bool> ShowGeometryBounds = { false };
-    inline static Property<bool> ShowLightBounds = { false };
-    inline static Property<bool> ShowGeometryFrustumCullingInSceneView = { false };
-    inline static Property<bool> ShowLightFrustumCullingInSceneView = { false };
-    inline static Property<float> LightBillboardScale = { 0.5f };
-    inline static Property<float> TranslationSnapUnit = { 1.0f };
-    inline static Property<float> RotationSnapUnit = { 15.0f };
-    inline static Property<float> ScalingSnapUnit = { 1.0f };
+    inline static Property<bool> show_geometry_bounds_ = {false};
+    inline static Property<bool> show_light_bounds_ = {false};
+    inline static Property<bool> show_geometry_frustum_culling_in_scene_view_ = {false};
+    inline static Property<bool> show_light_frustum_culling_in_scene_view_ = {false};
+    inline static Property<float> light_billboard_scale_ = {0.5f};
+    inline static Property<float> translation_snap_unit_ = {1.0f};
+    inline static Property<float> rotation_snap_unit_ = {15.0f};
+    inline static Property<float> scaling_snap_unit_ = {1.0f};
 };
 
-
 }
-}
-
-#endif /* editor_settings_h */

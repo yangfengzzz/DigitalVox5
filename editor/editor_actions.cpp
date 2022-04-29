@@ -7,232 +7,230 @@
 #include "editor_actions.h"
 
 namespace vox {
-editor::EditorActions *editor::EditorActions::getSingletonPtr(void) {
-    return msSingleton;
+editor::EditorActions *editor::EditorActions::get_singleton_ptr() {
+    return ms_singleton_;
 }
 
-editor::EditorActions &editor::EditorActions::getSingleton(void) {
-    assert(msSingleton);
-    return (*msSingleton);
+editor::EditorActions &editor::EditorActions::get_singleton() {
+    assert(ms_singleton_);
+    return (*ms_singleton_);
 }
 
 namespace editor {
-EditorActions::EditorActions(ui::PanelsManager& p_panelsManager):
-_panelsManager(p_panelsManager){
+EditorActions::EditorActions(ui::PanelsManager &panels_manager) :
+panels_manager_(panels_manager) {
     
 }
 
 //MARK: - TOOLS
-ui::PanelsManager& EditorActions::panelsManager() {
-    return _panelsManager;
+ui::PanelsManager &EditorActions::panels_manager() {
+    return panels_manager_;
 }
 
 //MARK: - SETTINGS
-void EditorActions::setEntitySpawnAtOrigin(bool value) {
+void EditorActions::set_entity_spawn_at_origin(bool value) {
     
 }
 
-void EditorActions::setEntitySpawnMode(EntitySpawnMode value) {
+void EditorActions::set_entity_spawn_mode(EntitySpawnMode value) {
     
 }
 
-void EditorActions::resetLayout() {
+void EditorActions::reset_layout() {
     
 }
 
-void EditorActions::setSceneViewCameraSpeed(int speed) {
+void EditorActions::set_scene_view_camera_speed(int speed) {
     
 }
 
-int EditorActions::sceneViewCameraSpeed() {
+int EditorActions::scene_view_camera_speed() {
     return 0;
 }
 
-void EditorActions::setAssetViewCameraSpeed(int p_speed) {
+void EditorActions::set_asset_view_camera_speed(int speed) {
     
 }
 
-int EditorActions::assetViewCameraSpeed() {
+int EditorActions::asset_view_camera_speed() {
     return 0;
 }
 
-void EditorActions::resetSceneViewCameraPosition() {
+void EditorActions::reset_scene_view_camera_position() {
     
 }
 
-void EditorActions::resetAssetViewCameraPosition() {
+void EditorActions::reset_asset_view_camera_position() {
     
 }
 
 //MARK: - GAME
-EditorActions::EditorMode EditorActions::currentEditorMode() const {
-    return _editorMode;
+EditorActions::EditorMode EditorActions::current_editor_mode() const {
+    return editor_mode_;
 }
 
-void EditorActions::setEditorMode(EditorMode newEditorMode) {
+void EditorActions::set_editor_mode(EditorMode new_editor_mode) {
     
 }
 
-void EditorActions::startPlaying() {
+void EditorActions::start_playing() {
     
 }
 
-void EditorActions::pauseGame() {
+void EditorActions::pause_game() {
     
 }
 
-void EditorActions::stopPlaying() {
+void EditorActions::stop_playing() {
     
 }
 
-void EditorActions::nextFrame() {
+void EditorActions::next_frame() {
     
 }
 
 //MARK: - Entity_CREATION_DESTRUCTION
-Vector3F EditorActions::calculateEntitySpawnPoint(float p_distanceToCamera) {
+Vector3F EditorActions::calculate_entity_spawn_point(float distance_to_camera) {
     return Vector3F();
 }
 
-Entity* EditorActions::createEmptyEntity(bool p_focusOnCreation, Entity* p_parent, const std::string& p_name) {
+Entity *EditorActions::create_empty_entity(bool focus_on_creation, Entity *parent, const std::string &name) {
     return nullptr;
 }
 
-
-Entity* EditorActions::createEntityWithModel(const std::string& p_path, bool p_focusOnCreation,
-                                              Entity* p_parent, const std::string& p_name) {
+Entity *EditorActions::create_entity_with_model(const std::string &path, bool focus_on_creation,
+                                                Entity *parent, const std::string &name) {
     return nullptr;
 }
 
-bool EditorActions::destroyEntity(Entity* entity) {
+bool EditorActions::destroy_entity(Entity *entity) {
     return false;
 }
 
-void EditorActions::duplicateEntity(Entity* p_toDuplicate, Entity* p_forcedParent, bool p_focus) {
+void EditorActions::duplicate_entity(Entity *to_duplicate, Entity *forced_parent, bool focus) {
     
 }
 
 //MARK: - ENTITY_MANIPULATION
-void EditorActions::selectEntity(Entity* p_target) {
+void EditorActions::select_entity(Entity *target) {
     
 }
 
-void EditorActions::unselectEntity() {
+void EditorActions::unselect_entity() {
     
 }
 
-bool EditorActions::isAnyEntitySelected() const {
+bool EditorActions::is_any_entity_selected() const {
     return false;
 }
 
-Entity* EditorActions::getSelectedEntity() const {
+Entity *EditorActions::get_selected_entity() const {
     return nullptr;
 }
 
-void EditorActions::moveToTarget(Entity* p_target) {
+void EditorActions::move_to_target(Entity *target) {
     
 }
 
 //MARK: - RESOURCE_MANAGEMENT
-void EditorActions::compileShaders() {
+void EditorActions::compile_shaders() {
     
 }
 
-void EditorActions::saveMaterials() {
+void EditorActions::save_materials() {
     
 }
 
-bool EditorActions::importAsset(const std::string& p_initialDestinationDirectory) {
+bool EditorActions::import_asset(const std::string &initial_destination_directory) {
     return false;
 }
 
-bool EditorActions::importAssetAtLocation(const std::string& p_destination) {
+bool EditorActions::import_asset_at_location(const std::string &destination) {
     return false;
 }
 
-std::string EditorActions::getRealPath(const std::string& p_path) {
+std::string EditorActions::get_real_path(const std::string &path) {
     return "";
 }
 
-std::string EditorActions::getResourcePath(const std::string& p_path, bool p_isFromEngine) {
+std::string EditorActions::get_resource_path(const std::string &path, bool is_from_engine) {
     return "";
 }
 
-std::string EditorActions::getScriptPath(const std::string& p_path) {
+std::string EditorActions::get_script_path(const std::string &path) {
     return "";
 }
 
-void EditorActions::propagateFolderRename(std::string p_previousName, const std::string p_newName) {
+void EditorActions::propagate_folder_rename(const std::string &previous_name, const std::string &new_name) {
     
 }
 
-void EditorActions::propagateFolderDestruction(std::string p_folderPath) {
+void EditorActions::propagate_folder_destruction(const std::string &folder_path) {
     
 }
 
-void EditorActions::propagateScriptRename(std::string p_previousName, std::string p_newName) {
+void EditorActions::propagate_script_rename(const std::string &previous_name, const std::string &new_name) {
     
 }
 
-void EditorActions::propagateFileRename(std::string p_previousName, std::string p_newName) {
+void EditorActions::propagate_file_rename(const std::string &previous_name, const std::string &new_name) {
     
 }
 
-void EditorActions::propagateFileRenameThroughSavedFilesOfType(const std::string& p_previousName, const std::string& p_newName,
-                                                               fs::FileType p_fileType) {
+void EditorActions::propagate_file_rename_through_saved_files_of_type(const std::string &previous_name, const std::string &new_name,
+                                                                      fs::FileType file_type) {
     
 }
-
 
 //MARK: - SCENE
-void EditorActions::loadEmptyScene() {
+void EditorActions::load_empty_scene() {
     
 }
 
-void EditorActions::saveCurrentSceneTo(const std::string& p_path) {
+void EditorActions::save_current_scene_to(const std::string &path) {
     
 }
 
-void EditorActions::loadSceneFromDisk(const std::string& p_path, bool p_absolute) {
+void EditorActions::load_scene_from_disk(const std::string &path, bool absolute) {
     
 }
 
-bool EditorActions::isCurrentSceneLoadedFromDisk() const {
+bool EditorActions::is_current_scene_loaded_from_disk() const {
     return false;
 }
 
-void EditorActions::saveSceneChanges() {
+void EditorActions::save_scene_changes() {
     
 }
 
-void EditorActions::saveAs() {
+void EditorActions::save_as() {
     
 }
 
 //MARK: - SCRIPTING
-void EditorActions::refreshScripts() {
+void EditorActions::refresh_scripts() {
     
 }
 
 //MARK: - BUILDING
-std::optional<std::string> EditorActions::selectBuildFolder() {
+std::optional<std::string> EditorActions::select_build_folder() {
     return std::nullopt;
 }
 
-void EditorActions::build(bool p_autoRun, bool p_tempFolder) {
+void EditorActions::build(bool auto_run, bool temp_folder) {
     
 }
 
-void EditorActions::buildAtLocation(const std::string& p_configuration, const std::string p_buildPath, bool p_autoRun) {
+void EditorActions::build_at_location(const std::string &configuration, const std::string &build_path, bool auto_run) {
     
 }
 
 //MARK: - ACTION_SYSTEM
-void EditorActions::delayAction(std::function<void()> p_action, uint32_t p_frames) {
+void EditorActions::delay_action(const std::function<void()> &action, uint32_t frames) {
     
 }
 
-void EditorActions::executeDelayedActions() {
+void EditorActions::execute_delayed_actions() {
     
 }
 

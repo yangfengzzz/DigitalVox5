@@ -412,6 +412,10 @@
 		04523DD4281BB3F90079CC3C /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444EA562805770F00C6F279 /* IOKit.framework */; };
 		04523DD5281BB3FD0079CC3C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444EA54280576F800C6F279 /* Cocoa.framework */; };
 		04523E08281BCD070079CC3C /* editor_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DFE281BCCD90079CC3C /* editor_utils.cpp */; };
+		04523E09281BD3940079CC3C /* editor_actions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E00281BCCD90079CC3C /* editor_actions.cpp */; };
+		04523E0C281BD3CB0079CC3C /* panels_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E0B281BD3CB0079CC3C /* panels_manager.cpp */; };
+		04523E0F281BD4FF0079CC3C /* entity_creation_menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E0D281BD4FF0079CC3C /* entity_creation_menu.cpp */; };
+		04523E10281BD55E0079CC3C /* menu_bar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE9281BCC2D0079CC3C /* menu_bar.cpp */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -1104,6 +1108,10 @@
 		04523E01281BCCD90079CC3C /* editor_application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = editor_application.cpp; sourceTree = "<group>"; };
 		04523E02281BCCD90079CC3C /* editor_resources.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = editor_resources.cpp; sourceTree = "<group>"; };
 		04523E03281BCCD90079CC3C /* editor_settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = editor_settings.h; sourceTree = "<group>"; };
+		04523E0A281BD3CB0079CC3C /* panels_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = panels_manager.h; sourceTree = "<group>"; };
+		04523E0B281BD3CB0079CC3C /* panels_manager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = panels_manager.cpp; sourceTree = "<group>"; };
+		04523E0D281BD4FF0079CC3C /* entity_creation_menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entity_creation_menu.cpp; sourceTree = "<group>"; };
+		04523E0E281BD4FF0079CC3C /* entity_creation_menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entity_creation_menu.h; sourceTree = "<group>"; };
 		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
 		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
 		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
@@ -1865,16 +1873,20 @@
 				04523DCA281BB3320079CC3C /* editor.entitlements */,
 				04523DDA281BCC000079CC3C /* ui */,
 				04523DC5281BB0C30079CC3C /* main.cpp */,
+				04523DFB281BCCD90079CC3C /* editor_application.h */,
+				04523E01281BCCD90079CC3C /* editor_application.cpp */,
 				04523DFF281BCCD90079CC3C /* editor_utils.h */,
 				04523DFE281BCCD90079CC3C /* editor_utils.cpp */,
 				04523E03281BCCD90079CC3C /* editor_settings.h */,
 				04523DFC281BCCD90079CC3C /* editor_actions.h */,
 				04523DFA281BCCD90079CC3C /* editor_actions-inl.h */,
 				04523E00281BCCD90079CC3C /* editor_actions.cpp */,
-				04523DFB281BCCD90079CC3C /* editor_application.h */,
-				04523E01281BCCD90079CC3C /* editor_application.cpp */,
 				04523DFD281BCCD90079CC3C /* editor_resources.h */,
 				04523E02281BCCD90079CC3C /* editor_resources.cpp */,
+				04523E0A281BD3CB0079CC3C /* panels_manager.h */,
+				04523E0B281BD3CB0079CC3C /* panels_manager.cpp */,
+				04523E0E281BD4FF0079CC3C /* entity_creation_menu.h */,
+				04523E0D281BD4FF0079CC3C /* entity_creation_menu.cpp */,
 				04523DCC281BB3960079CC3C /* primitive_app.h */,
 				04523DCB281BB3960079CC3C /* primitive_app.cpp */,
 			);
@@ -2982,8 +2994,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04523E10281BD55E0079CC3C /* menu_bar.cpp in Sources */,
+				04523E0F281BD4FF0079CC3C /* entity_creation_menu.cpp in Sources */,
 				04523E08281BCD070079CC3C /* editor_utils.cpp in Sources */,
+				04523E0C281BD3CB0079CC3C /* panels_manager.cpp in Sources */,
 				04523DC6281BB0C30079CC3C /* main.cpp in Sources */,
+				04523E09281BD3940079CC3C /* editor_actions.cpp in Sources */,
 				04523DCD281BB3960079CC3C /* primitive_app.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

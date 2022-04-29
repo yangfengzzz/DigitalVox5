@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef menu_bar_hpp
-#define menu_bar_hpp
+#pragma once
 
 #include "ui/widgets/panels/panel_menu_bar.h"
 #include "ui/widgets/panel_transformables/panel_window.h"
@@ -15,8 +14,7 @@
 namespace vox {
 using namespace ui;
 
-namespace editor {
-namespace ui {
+namespace editor::ui {
 class MenuBar : public PanelMenuBar {
     using PanelMap = std::unordered_map<std::string, std::pair<std::reference_wrapper<PanelWindow>, std::reference_wrapper<MenuItem>>>;
     
@@ -28,43 +26,40 @@ public:
     
     /**
      * Check inputs for menubar shortcuts
-     * @param p_deltaTime p_deltaTime
      */
-    void handleShortcuts(float p_deltaTime);
+    void handle_shortcuts(float delta_time);
     
     /**
      * Register a panel to the menu bar window menu
      */
-    void registerPanel(const std::string &p_name, PanelWindow &p_panel);
+    void register_panel(const std::string &name, PanelWindow &panel);
     
 private:
-    void createFileMenu();
+    void create_file_menu();
     
-    void createBuildMenu();
+    void create_build_menu();
     
-    void createWindowMenu();
+    void create_window_menu();
     
-    void createActorsMenu();
+    void create_actors_menu();
     
-    void createResourcesMenu();
+    void create_resources_menu();
     
-    void createSettingsMenu();
+    void create_settings_menu();
     
-    void createLayoutMenu();
+    void create_layout_menu();
     
-    void createHelpMenu();
+    void create_help_menu();
     
-    void updateToggleableItems();
+    void update_toggleable_items();
     
-    void openEveryWindows(bool p_state);
+    void open_every_windows(bool state);
     
 private:
-    PanelMap _panels;
+    PanelMap panels_;
     
-    MenuList *_windowMenu{nullptr};
+    MenuList *window_menu_{nullptr};
 };
 
 }
 }
-}
-#endif /* menu_bar_hpp */
