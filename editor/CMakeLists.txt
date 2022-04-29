@@ -15,6 +15,7 @@ set(UI_FILES
         ui/project_settings.cpp
         editor_utils.cpp
         editor_actions.cpp
+        editor_resources.cpp
         panels_manager.cpp
         entity_creation_menu.cpp)
 

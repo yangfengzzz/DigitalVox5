@@ -83,8 +83,7 @@ IMGUI_IMPL_API VkDescriptorSet ImGui_ImplVulkan_AddTexture(VkSampler sampler, Vk
 IMGUI_IMPL_API bool ImGui_ImplVulkan_LoadFunctions(PFN_vkVoidFunction(*loader_func)(const char *function_name, void *user_data),
                                                    void *user_data = NULL);
 
-//-------------------------------------------------------------------------
-// Internal / Miscellaneous Vulkan Helpers
+//MARK: - Internal / Miscellaneous Vulkan Helpers
 // (Used by example's main.cpp. Used by multi-viewport features. PROBABLY NOT used by your own engine/app.)
 //-------------------------------------------------------------------------
 // You probably do NOT need to use or care about those functions.

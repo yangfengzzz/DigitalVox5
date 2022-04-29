@@ -6,104 +6,97 @@
 
 #include "editor_resources.h"
 #include "raw_icon.h"
-#include "filesystem.h"
+#include "platform/filesystem.h"
+#include "core/device.h"
+#include "ui/imgui_impl_vulkan.h"
 #include <vector>
 
-namespace vox {
-namespace editor {
-EditorResources::EditorResources(wgpu::Device& device,
-                                 const std::string& p_editorAssetsPath):
-_device(device) {
+namespace vox::editor {
+EditorResources::EditorResources(Device &device,
+                                 const std::string &editor_assets_path) :
+device_(device),
+sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
+    // Create a default sampler
+    sampler_create_info_.magFilter = VK_FILTER_LINEAR;
+    sampler_create_info_.minFilter = VK_FILTER_LINEAR;
+    sampler_create_info_.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+    sampler_create_info_.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    sampler_create_info_.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    sampler_create_info_.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    sampler_create_info_.mipLodBias = 0.0f;
+    sampler_create_info_.compareOp = VK_COMPARE_OP_NEVER;
+    sampler_create_info_.minLod = 0.0f;
+    // Max level-of-detail should match mip level count
+    sampler_create_info_.maxLod = 0.0f;
+    // Only enable anisotropic filtering if enabled on the device
+    // Note that for simplicity, we will always be using max. available anisotropy level for the current device
+    // This may have an impact on performance, esp. on lower-specced devices
+    // In a real-world scenario the level of anisotropy should be a user setting or e.g. lowered for mobile devices by default
+    sampler_create_info_.maxAnisotropy = device.get_gpu().get_features().samplerAnisotropy
+    ? (device.get_gpu().get_properties().limits.maxSamplerAnisotropy)
+    : 1.0f;
+    sampler_create_info_.anisotropyEnable = device.get_gpu().get_features().samplerAnisotropy;
+    sampler_create_info_.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+    
+    sampler_ = std::make_unique<core::Sampler>(device, sampler_create_info_);
+    
     /* Buttons */
     {
-        _textures["Button_Play"] = _createFromPixelBuffer(BUTTON_PLAY, 64);
-        _textures["Button_Pause"] = _createFromPixelBuffer(BUTTON_PAUSE, 64);
-        _textures["Button_Stop"] = _createFromPixelBuffer(BUTTON_STOP, 64);
-        _textures["Button_Next"] = _createFromPixelBuffer(BUTTON_NEXT, 64);
-        _textures["Button_Refresh"] = _createFromPixelBuffer(BUTTON_REFRESH, 64);
+        texture_ids_["Button_Play"] = create_from_pixel_buffer(BUTTON_PLAY, 64);
+        texture_ids_["Button_Pause"] = create_from_pixel_buffer(BUTTON_PAUSE, 64);
+        texture_ids_["Button_Stop"] = create_from_pixel_buffer(BUTTON_STOP, 64);
+        texture_ids_["Button_Next"] = create_from_pixel_buffer(BUTTON_NEXT, 64);
+        texture_ids_["Button_Refresh"] = create_from_pixel_buffer(BUTTON_REFRESH, 64);
     }
     
     /* Icons */
     {
-        _textures["Icon_Unknown"] = _createFromPixelBuffer(ICON_FILE, 16);
-        _textures["Icon_Folder"] = _createFromPixelBuffer(ICON_FOLDER, 16);
-        _textures["Icon_Texture"] = _createFromPixelBuffer(ICON_TEXTURE, 16);
-        _textures["Icon_Model"] = _createFromPixelBuffer(ICON_MODEL, 16);
-        _textures["Icon_Shader"] = _createFromPixelBuffer(ICON_SHADER, 16);
-        _textures["Icon_Material"] = _createFromPixelBuffer(ICON_MATERIAL, 16);
-        _textures["Icon_Scene"] = _createFromPixelBuffer(ICON_SCENE, 16);
-        _textures["Icon_Sound"] = _createFromPixelBuffer(ICON_SOUND, 16);
-        _textures["Icon_Script"] = _createFromPixelBuffer(ICON_SCRIPT, 16);
-        _textures["Icon_Font"] = _createFromPixelBuffer(ICON_FONT, 16);
+        texture_ids_["Icon_Unknown"] = create_from_pixel_buffer(ICON_FILE, 16);
+        texture_ids_["Icon_Folder"] = create_from_pixel_buffer(ICON_FOLDER, 16);
+        texture_ids_["Icon_Texture"] = create_from_pixel_buffer(ICON_TEXTURE, 16);
+        texture_ids_["Icon_Model"] = create_from_pixel_buffer(ICON_MODEL, 16);
+        texture_ids_["Icon_Shader"] = create_from_pixel_buffer(ICON_SHADER, 16);
+        texture_ids_["Icon_Material"] = create_from_pixel_buffer(ICON_MATERIAL, 16);
+        texture_ids_["Icon_Scene"] = create_from_pixel_buffer(ICON_SCENE, 16);
+        texture_ids_["Icon_Sound"] = create_from_pixel_buffer(ICON_SOUND, 16);
+        texture_ids_["Icon_Script"] = create_from_pixel_buffer(ICON_SCRIPT, 16);
+        texture_ids_["Icon_Font"] = create_from_pixel_buffer(ICON_FONT, 16);
         
-        _textures["Bill_Point_Light"] = _createFromPixelBuffer(BILL_PLIGHT, 128);
-        _textures["Bill_Spot_Light"] = _createFromPixelBuffer(BILL_SLIGHT, 128);
-        _textures["Bill_Directional_Light"] = _createFromPixelBuffer(BILL_DLIGHT, 128);
-        _textures["Bill_Ambient_Box_Light"] = _createFromPixelBuffer(BILL_ABLIGHT, 128);
-        _textures["Bill_Ambient_Sphere_Light"] = _createFromPixelBuffer(BILL_ASLIGHT, 128);
+        texture_ids_["Bill_Point_Light"] = create_from_pixel_buffer(BILL_PLIGHT, 128);
+        texture_ids_["Bill_Spot_Light"] = create_from_pixel_buffer(BILL_SLIGHT, 128);
+        texture_ids_["Bill_Directional_Light"] = create_from_pixel_buffer(BILL_DLIGHT, 128);
+        texture_ids_["Bill_Ambient_Box_Light"] = create_from_pixel_buffer(BILL_ABLIGHT, 128);
+        texture_ids_["Bill_Ambient_Sphere_Light"] = create_from_pixel_buffer(BILL_ASLIGHT, 128);
         
     }
 }
 
-EditorResources::~EditorResources() {
+VkDescriptorSet EditorResources::get_file_icon(const std::string &filename) {
+    return get_texture("Icon_" + fs::file_type_to_string(fs::extra_file_type(filename)));
+}
+
+VkDescriptorSet EditorResources::get_texture(const std::string &id) {
+    if (texture_ids_.find(id) != texture_ids_.end())
+        return texture_ids_.at(id);
     
+    return VK_NULL_HANDLE;
 }
 
-wgpu::TextureView EditorResources::getFileIcon(const std::string& p_filename) {
-    return getTexture("Icon_" + fs::fileTypeToString(fs::extraFileType(p_filename)));
-}
-
-
-wgpu::TextureView EditorResources::getTexture(const std::string& p_id) {
-    if (_textures.find(p_id) != _textures.end())
-        return _textures.at(p_id).CreateView();
+VkDescriptorSet EditorResources::create_from_pixel_buffer(const std::vector<uint64_t> &data, uint8_t width) {
+    std::vector<uint8_t> raw_data{reinterpret_cast<const uint8_t *>(data.data()),
+        reinterpret_cast<const uint8_t *>(data.data()) + sizeof(uint64_t) * data.size()};
+    std::vector<Mipmap> mip_map(1);
+    mip_map[0].extent.width = width;
+    mip_map[0].extent.height = width;
+    mip_map[0].extent.depth = 1;
+    auto image = std::make_unique<Image>("icon", std::move(raw_data), std::move(mip_map));
+    image->create_vk_image(device_);
+    ImageManager::get_singleton().upload_image(image.get());
     
-    return nullptr;
+    auto descriptor = ImGui_ImplVulkan_AddTexture(sampler_->get_handle(), image->get_vk_image_view().get_handle(),
+                                                  VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+    images_.emplace_back(std::move(image));
+    return descriptor;
 }
 
-//MARK: - Helper
-wgpu::Texture EditorResources::_createFromPixelBuffer(const std::vector<uint64_t>& data, uint8_t width) {
-    wgpu::TextureDescriptor textureDesc;
-    textureDesc.size.width = width;
-    textureDesc.size.height = width;
-    textureDesc.size.depthOrArrayLayers = 1;
-    textureDesc.format = wgpu::TextureFormat::RGBA8Unorm;
-    textureDesc.usage = wgpu::TextureUsage::TextureBinding  | wgpu::TextureUsage::CopyDst;
-    textureDesc.mipLevelCount = 1;
-    auto nativeTexture = _device.CreateTexture(&textureDesc);
-    
-    wgpu::ImageCopyTexture imageCopyTexture = _createImageCopyTexture(nativeTexture, 0, {0, 0, 0});
-    wgpu::TextureDataLayout textureLayout = _createTextureDataLayout(0, 4 * width, wgpu::kCopyStrideUndefined);
-    wgpu::Extent3D copySize = {width, width, 1};
-    _device.GetQueue().WriteTexture(&imageCopyTexture, data.data(), sizeof(uint64_t) * data.size(), &textureLayout, &copySize);
-    
-    return nativeTexture;
-}
-
-wgpu::ImageCopyTexture EditorResources::_createImageCopyTexture(wgpu::Texture texture,
-                                                                uint32_t mipLevel,
-                                                                wgpu::Origin3D origin,
-                                                                wgpu::TextureAspect aspect) {
-    wgpu::ImageCopyTexture imageCopyTexture;
-    imageCopyTexture.texture = texture;
-    imageCopyTexture.mipLevel = mipLevel;
-    imageCopyTexture.origin = origin;
-    imageCopyTexture.aspect = aspect;
-    
-    return imageCopyTexture;
-}
-
-wgpu::TextureDataLayout EditorResources::_createTextureDataLayout(uint64_t offset,
-                                                                  uint32_t bytesPerRow,
-                                                                  uint32_t rowsPerImage) {
-    wgpu::TextureDataLayout textureDataLayout;
-    textureDataLayout.offset = offset;
-    textureDataLayout.bytesPerRow = bytesPerRow;
-    textureDataLayout.rowsPerImage = rowsPerImage;
-    
-    return textureDataLayout;
-}
-
-
-}
 }

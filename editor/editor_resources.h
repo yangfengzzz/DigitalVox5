@@ -4,63 +4,45 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef editor_resources_hpp
-#define editor_resources_hpp
+#pragma once
 
 #include <string>
 #include <unordered_map>
-#include <webgpu/webgpu_cpp.h>
+#include "image_manager.h"
+#include "core/sampler.h"
 
-namespace vox {
-namespace editor {
+namespace vox::editor {
 /**
  * Handle the creation and storage of editor specific resources
  */
 class EditorResources {
 public:
-    /**
-     * Constructor
-     * @param p_editorAssetsPath p_editorAssetsPath
-     */
-    EditorResources(wgpu::Device& device,
-                    const std::string& p_editorAssetsPath);
+    EditorResources(Device &device,
+                    const std::string &editor_assets_path);
     
     /**
      * Destructor
      */
-    ~EditorResources();
+    ~EditorResources() = default;
     
     /**
      * Returns the file icon identified by the given string or nullptr on fail
-     * @param p_filename p_filename
      */
-    wgpu::TextureView getFileIcon(const std::string& p_filename);
+    VkDescriptorSet get_file_icon(const std::string &filename);
     
     /**
      * Returns the texture identified by the given string or nullptr on fail
-     * @param p_id p_id
      */
-    wgpu::TextureView getTexture(const std::string& p_id);
+    VkDescriptorSet get_texture(const std::string &id);
     
 private:
-    wgpu::Device& _device;
-    std::unordered_map<std::string, wgpu::Texture> _textures;
+    Device &device_;
+    std::unordered_map<std::string, VkDescriptorSet> texture_ids_;
+    std::vector<std::unique_ptr<::vox::Image>> images_;
+    VkSamplerCreateInfo sampler_create_info_;
+    std::unique_ptr<core::Sampler> sampler_{nullptr};
     
-    wgpu::Texture _createFromPixelBuffer(const std::vector<uint64_t>& data, uint8_t width);
-    
-    wgpu::ImageCopyTexture
-    _createImageCopyTexture(wgpu::Texture texture,
-                            uint32_t level,
-                            wgpu::Origin3D origin,
-                            wgpu::TextureAspect aspect = wgpu::TextureAspect::All);
-    
-    wgpu::TextureDataLayout
-    _createTextureDataLayout(uint64_t offset,
-                             uint32_t bytesPerRow,
-                             uint32_t rowsPerImage = wgpu::kCopyStrideUndefined);
+    VkDescriptorSet create_from_pixel_buffer(const std::vector<uint64_t> &data, uint8_t width);
 };
 
-
 }
-}
-#endif /* editor_resources_hpp */

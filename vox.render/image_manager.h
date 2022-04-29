@@ -41,6 +41,8 @@ public:
      */
     std::shared_ptr<Image> load_texture_cubemap(const std::string &file);
     
+    void upload_image(Image* image);
+    
 public:
     std::shared_ptr<Image> generate_ibl(const std::string &file,
                                         RenderContext &render_context);
