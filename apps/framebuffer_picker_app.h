@@ -51,6 +51,8 @@ private:
     std::array<uint8_t, 4> pixel_{};
     std::unique_ptr<core::Buffer> stage_buffer_;
     
+    std::vector<VkBufferImageCopy> regions_;
+    
     void copy_render_target_to_buffer(CommandBuffer &command_buffer);
     void read_color_from_render_target();
     
