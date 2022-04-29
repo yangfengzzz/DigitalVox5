@@ -116,7 +116,7 @@ void ImageManager::upload_image(Image* image) {
             buffer_copy_region.imageExtent.width = image->get_extent().width >> i;
             buffer_copy_region.imageExtent.height = image->get_extent().height >> i;
             buffer_copy_region.imageExtent.depth = 1;
-            buffer_copy_region.bufferOffset = offsets[layer][i];
+            buffer_copy_region.bufferOffset = offsets.size() < layer? offsets[layer][i] : mipmaps[i].offset;
             
             buffer_copy_regions.push_back(buffer_copy_region);
         }
