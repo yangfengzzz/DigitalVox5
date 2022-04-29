@@ -88,6 +88,10 @@ Framebuffer &ResourceCache::request_framebuffer(const RenderTarget &render_targe
     return request_resource(device_, recorder_, framebuffer_mutex_, state_.framebuffers, render_target, render_pass);
 }
 
+core::Sampler &ResourceCache::request_sampler(const VkSamplerCreateInfo& info) {
+    return request_resource(device_, recorder_, sampler_mutex_, state_.samplers, info);
+}
+
 void ResourceCache::clear_pipelines() {
     state_.graphics_pipelines.clear();
     state_.compute_pipelines.clear();

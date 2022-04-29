@@ -7,7 +7,6 @@
 #include "unlit_material.h"
 #include "shader/internal_variant_name.h"
 #include "shader/shader_manager.h"
-#include "material_manager.h"
 
 namespace vox {
 const Color &UnlitMaterial::base_color() const {
@@ -25,8 +24,8 @@ std::shared_ptr<Image> UnlitMaterial::base_texture() const {
 
 void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
-        MaterialManager::get_singleton().last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
-        set_base_texture(new_value, MaterialManager::get_singleton().last_sampler_create_info_);
+        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        set_base_texture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
@@ -34,7 +33,7 @@ void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, co
     base_texture_ = new_value;
     if (new_value) {
         shader_data_.set_sampled_texture(base_texture_prop_, new_value->get_vk_image_view(),
-                                         MaterialManager::get_singleton().get_sampler(info));
+                                         &device_.get_resource_cache().request_sampler(info));
         shader_data_.add_define(HAS_BASE_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_BASE_TEXTURE);

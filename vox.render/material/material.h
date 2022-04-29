@@ -9,7 +9,7 @@
 #include "rendering/pipeline_state.h"
 #include "shader/shader_data.h"
 #include "enums/render_queue_type.h"
-#include "resource_caching.h"
+#include "core/device.h"
 
 namespace vox {
 /**
@@ -42,6 +42,9 @@ public:
     Material(Material &&other) = default;
     
     virtual ~Material() = default;
+    
+protected:
+    Device& device_;
 };
 
 }        // namespace vox

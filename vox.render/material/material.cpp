@@ -10,6 +10,7 @@
 
 namespace vox {
 Material::Material(Device &device, std::string name) :
+device_(device),
 shader_data_(device),
 name_{std::move(name)} {
 }

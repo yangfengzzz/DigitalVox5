@@ -16,6 +16,7 @@
 #include "core/descriptor_set_layout.h"
 #include "core/framebuffer.h"
 #include "core/pipeline.h"
+#include "core/sampler.h"
 #include "resource_record.h"
 #include "resource_replay.h"
 
@@ -48,6 +49,8 @@ struct ResourceCacheState {
     std::unordered_map<std::size_t, DescriptorSet> descriptor_sets;
     
     std::unordered_map<std::size_t, Framebuffer> framebuffers;
+    
+    std::unordered_map<std::size_t, core::Sampler> samplers;
 };
 
 /**
@@ -104,6 +107,8 @@ public:
     Framebuffer &request_framebuffer(const RenderTarget &render_target,
                                      const RenderPass &render_pass);
     
+    core::Sampler &request_sampler(const VkSamplerCreateInfo& info);
+    
     void clear_pipelines();
     
     /// @brief Update those descriptor sets referring to old views
@@ -144,6 +149,8 @@ private:
     std::mutex compute_pipeline_mutex_;
     
     std::mutex framebuffer_mutex_;
+    
+    std::mutex sampler_mutex_;
 };
 
 }        // namespace vox
