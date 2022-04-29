@@ -12,12 +12,14 @@ project(editor LANGUAGES C CXX)
 
 set(UI_FILES
         ui/menu_bar.cpp
+        ui/project_settings.cpp
         editor_utils.cpp
         editor_actions.cpp
         panels_manager.cpp
         entity_creation_menu.cpp)
 
 set(SRC
+        ini_file.cpp
         ${UI_FILES}
         primitive_app.cpp
         main.cpp

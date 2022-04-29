@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef project_settings_hpp
-#define project_settings_hpp
+#pragma once
 
 #include "ui/widgets/texts/text.h"
 #include "ui/widgets/panel_transformables/panel_window.h"
@@ -14,64 +13,59 @@
 namespace vox {
 using namespace ui;
 
-namespace editor {
-namespace ui {
+namespace editor::ui {
 class ProjectSettings : public PanelWindow {
 public:
     /**
      * Constructor
-     * @param p_title p_title
-     * @param p_opened p_opened
-     * @param p_windowSettings p_windowSettings
+     * @param title title
+     * @param opened opened
+     * @param window_settings windowSettings
      */
-    ProjectSettings(const std::string &p_title, bool p_opened,
-                    const PanelWindowSettings &p_windowSettings,
-                    const std::string &p_projectPath, const std::string &p_projectName);
+    ProjectSettings(const std::string &title, bool opened,
+                    const PanelWindowSettings &window_settings,
+                    const std::string &project_path, const std::string &project_name);
     
     /**
      * Generate a gatherer that will get the value associated to the given key
-     * @param p_keyName p_keyName
+     * @param key_name keyName
      */
     template<typename T>
-    std::function<T()> generateGatherer(const std::string &p_keyName) {
-        return std::bind(&fs::IniFile::get<T>, &_projectSettings, p_keyName);
+    std::function<T()> generate_gatherer(const std::string &key_name) {
+        return std::bind(&fs::IniFile::get<T>, &project_settings_, key_name);
     }
     
     /**
      * Generate a provider that will set the value associated to the given key
-     * @param p_keyName p_keyName
+     * @param key_name keyName
      */
     template<typename T>
-    std::function<void(T)> generateProvider(const std::string &p_keyName) {
-        return std::bind(&fs::IniFile::set<T>, &_projectSettings, p_keyName, std::placeholders::_1);
+    std::function<void(T)> generate_provider(const std::string &key_name) {
+        return std::bind(&fs::IniFile::set<T>, &project_settings_, key_name, std::placeholders::_1);
     }
     
 public:
     /**
      * Reset project settings ini file
      */
-    void resetProjectSettings();
+    void reset_project_settings();
     
     /**
      * Verify that project settings are complete (No missing key).
      * Returns true if the integrity is verified
      */
-    bool isProjectSettingsIntegrityVerified();
+    bool is_project_settings_integrity_verified();
     
     /**
      * Apply project settings to the ini file
      */
-    void applyProjectSettings();
+    void apply_project_settings();
     
-    
-    fs::IniFile &projectSettings();
+    fs::IniFile &project_settings();
     
 private:
-    fs::IniFile _projectSettings;
+    fs::IniFile project_settings_;
 };
 
-
 }
 }
-}
-#endif /* project_settings_hpp */
