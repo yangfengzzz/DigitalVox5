@@ -236,6 +236,8 @@ set(UI_FILES ui/canvas.h
         ui/gui_drawer.cpp
         ui/imgui_impl_glfw.h
         ui/imgui_impl_glfw.cpp
+        ui/imgui_impl_vulkan.cpp
+        ui/imgui_impl_vulkan.h
         ui/ui_manager.h
         ui/ui_manager.cpp
 

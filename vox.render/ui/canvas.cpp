@@ -6,10 +6,12 @@
 
 #include "canvas.h"
 #include "imgui_impl_glfw.h"
+#include "imgui_impl_vulkan.h"
 
 namespace vox::ui {
 void Canvas::draw() {
     if (!panels_.empty()) {
+        ImGui_ImplVulkan_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         

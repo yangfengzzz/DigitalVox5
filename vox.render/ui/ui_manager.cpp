@@ -6,66 +6,52 @@
 
 #include "ui_manager.h"
 #include "matrix4x4.h"
-#include "matrix_utils.h"
 #include <GLFW/glfw3.h>
 #include "imgui_impl_glfw.h"
+#include "imgui_impl_vulkan.h"
 #include "platform/filesystem.h"
+#include "vk_initializers.h"
 
 namespace vox::ui {
-namespace {
-void upload_draw_data(ImDrawData *draw_data, const uint8_t *vertex_data, const uint8_t *index_data) {
-    auto *vtx_dst = (ImDrawVert *)vertex_data;
-    auto *idx_dst = (ImDrawIdx *)index_data;
-    
-    for (int n = 0; n < draw_data->CmdListsCount; n++) {
-        const ImDrawList *cmd_list = draw_data->CmdLists[n];
-        memcpy(vtx_dst, cmd_list->VtxBuffer.Data, cmd_list->VtxBuffer.Size * sizeof(ImDrawVert));
-        memcpy(idx_dst, cmd_list->IdxBuffer.Data, cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx));
-        vtx_dst += cmd_list->VtxBuffer.Size;
-        idx_dst += cmd_list->IdxBuffer.Size;
-    }
-}
-
-} // namespace
+static ImGui_ImplVulkan_InitInfo info;
 
 UiManager::UiManager(GLFWwindow *p_glfw_window,
-                     RenderContext *context, Style p_style):
-context_(context) {
+                     RenderContext *render_context, Style p_style) :
+render_context_(render_context) {
     ImGui::CreateContext();
     
-    ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly =
-    true; /* Disable moving windows by dragging another thing than the title bar */
+    /* Disable moving windows by dragging another thing than the title bar */
+    ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
     enable_docking(false);
     
     apply_style(p_style);
     
+    setup_render_pass();
+    setup_descriptor_pool();
+    info.Instance = render_context->get_device().get_gpu().get_instance().get_handle();
+    info.PhysicalDevice = render_context->get_device().get_gpu().get_handle();
+    info.Device = render_context->get_device().get_handle();
+    info.Queue = render_context->get_device().get_suitable_graphics_queue().get_handle();
+    info.QueueFamily = render_context->get_device().get_queue_family_index(VK_QUEUE_GRAPHICS_BIT);
+    info.PipelineCache = VK_NULL_HANDLE;
+    info.DescriptorPool = descriptor_pool_;
+    info.Subpass = 0;
+    info.MinImageCount = 2;
+    info.ImageCount = static_cast<uint32_t>(render_context->get_render_frames().size());
+    info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+    info.Allocator = nullptr;
+    info.CheckVkResultFn = nullptr;
+    
     ImGui_ImplGlfw_InitForOpenGL(p_glfw_window, true);
-    
-    // Create texture sampler
-    VkSamplerCreateInfo sampler_info{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO};
-    sampler_info.maxAnisotropy = 1.0f;
-    sampler_info.magFilter = VK_FILTER_LINEAR;
-    sampler_info.minFilter = VK_FILTER_LINEAR;
-    sampler_info.mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST;
-    sampler_info.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-    sampler_info.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-    sampler_info.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-    sampler_info.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
-    
-    vox::ShaderSource vert_shader("imgui.vert");
-    vox::ShaderSource frag_shader("imgui.frag");
-    
-    std::vector<vox::ShaderModule *> shader_modules;
-    shader_modules.push_back(&context_->get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, vert_shader, {}));
-    shader_modules.push_back(&context_->get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, frag_shader, {}));
-    
-    pipeline_layout_ = &context_->get_device().get_resource_cache().request_pipeline_layout(shader_modules);
-    
-    sampler_ = std::make_unique<core::Sampler>(context_->get_device(), sampler_info);
-    sampler_->set_debug_name("GUI sampler");
+    ImGui_ImplVulkan_LoadFunctions([](const char *function_name, void *user_data) {
+        auto app = static_cast<UiManager *>(user_data);
+        return vkGetInstanceProcAddr(app->render_context_->get_device().get_gpu().get_instance().get_handle(), function_name);
+    }, this);
+    ImGui_ImplVulkan_Init(&info, render_pass_);
 }
 
 UiManager::~UiManager() {
+    ImGui_ImplVulkan_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 }
@@ -239,7 +225,7 @@ bool UiManager::use_font(const std::string &p_id) {
     
     if (found_font != fonts_.end()) {
         ImGui::GetIO().FontDefault = found_font->second;
-		update_font_texture();
+        update_font_texture();
         return true;
     }
     
@@ -248,7 +234,7 @@ bool UiManager::use_font(const std::string &p_id) {
 
 void UiManager::use_default_font() {
     ImGui::GetIO().FontDefault = nullptr;
-	update_font_texture();
+    update_font_texture();
 }
 
 void UiManager::enable_editor_layout_save(bool p_value) {
@@ -272,7 +258,7 @@ void UiManager::set_editor_layout_autosave_frequency(float p_frequency) {
     ImGui::GetIO().IniSavingRate = p_frequency;
 }
 
-float UiManager::editor_layout_autosave_frequency(float p_frequeny) {
+float UiManager::editor_layout_autosave_frequency(float p_frequency) {
     return ImGui::GetIO().IniSavingRate;
 }
 
@@ -312,275 +298,124 @@ void UiManager::pop_current_font() {
 }
 
 //MARK: - Vulkan IMGUI Bindings
-void UiManager::update_font_texture() {
-    // Create font texture
-    unsigned char *font_data;
-    int tex_width, tex_height;
-    ImGuiIO &io = ImGui::GetIO();
-    io.Fonts->GetTexDataAsRGBA32(&font_data, &tex_width, &tex_height);
-    size_t upload_size = tex_width * tex_height * 4 * sizeof(char);
+void UiManager::setup_render_pass() {
+    std::array<VkAttachmentDescription, 2> attachments = {};
+    // Color attachment
+    attachments[0].format = render_context_->get_format();
+    attachments[0].samples = VK_SAMPLE_COUNT_1_BIT;
+    attachments[0].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    attachments[0].storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+    attachments[0].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+    attachments[0].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    attachments[0].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    attachments[0].finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+    // Depth attachment
+    attachments[1].format = get_suitable_depth_format(render_context_->get_device().get_gpu().get_handle());
+    attachments[1].samples = VK_SAMPLE_COUNT_1_BIT;
+    attachments[1].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    attachments[1].storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    attachments[1].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    attachments[1].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    attachments[1].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    attachments[1].finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
     
-    auto &device = context_->get_device();
+    VkAttachmentReference color_reference = {};
+    color_reference.attachment = 0;
+    color_reference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
     
-    // Create target image for copy
-    VkExtent3D font_extent{to_u32(tex_width), to_u32(tex_height), 1u};
+    VkAttachmentReference depth_reference = {};
+    depth_reference.attachment = 1;
+    depth_reference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
     
-    font_image_ = std::make_unique<core::Image>(device, font_extent, VK_FORMAT_R8G8B8A8_UNORM,
-                                                VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
-                                                VMA_MEMORY_USAGE_GPU_ONLY);
-    font_image_->set_debug_name("GUI font image");
+    VkSubpassDescription subpass_description = {};
+    subpass_description.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+    subpass_description.colorAttachmentCount = 1;
+    subpass_description.pColorAttachments = &color_reference;
+    subpass_description.pDepthStencilAttachment = &depth_reference;
+    subpass_description.inputAttachmentCount = 0;
+    subpass_description.pInputAttachments = nullptr;
+    subpass_description.preserveAttachmentCount = 0;
+    subpass_description.pPreserveAttachments = nullptr;
+    subpass_description.pResolveAttachments = nullptr;
     
-    font_image_view_ = std::make_unique<core::ImageView>(*font_image_, VK_IMAGE_VIEW_TYPE_2D);
-    font_image_view_->set_debug_name("View on GUI font image");
+    // Subpass dependencies for layout transitions
+    std::array<VkSubpassDependency, 2> dependencies{};
     
-    // Upload font data into the vulkan image memory
+    dependencies[0].srcSubpass = VK_SUBPASS_EXTERNAL;
+    dependencies[0].dstSubpass = 0;
+    dependencies[0].srcStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+    dependencies[0].dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT
+    | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;
+    dependencies[0].srcAccessMask = VK_ACCESS_MEMORY_READ_BIT;
+    dependencies[0].dstAccessMask =
+    VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT
+    | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+    dependencies[0].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
+    
+    dependencies[1].srcSubpass = 0;
+    dependencies[1].dstSubpass = VK_SUBPASS_EXTERNAL;
+    dependencies[1].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT
+    | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;
+    dependencies[1].dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+    dependencies[1].srcAccessMask =
+    VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT
+    | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+    dependencies[1].dstAccessMask = VK_ACCESS_MEMORY_READ_BIT;
+    dependencies[1].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
+    
+    VkRenderPassCreateInfo render_pass_create_info = {};
+    render_pass_create_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+    render_pass_create_info.attachmentCount = static_cast<uint32_t>(attachments.size());
+    render_pass_create_info.pAttachments = attachments.data();
+    render_pass_create_info.subpassCount = 1;
+    render_pass_create_info.pSubpasses = &subpass_description;
+    render_pass_create_info.dependencyCount = static_cast<uint32_t>(dependencies.size());
+    render_pass_create_info.pDependencies = dependencies.data();
+    
+    VK_CHECK(vkCreateRenderPass(render_context_->get_device().get_handle(), &render_pass_create_info, nullptr, &render_pass_));
+}
+
+void UiManager::setup_descriptor_pool() {
+    VkDescriptorPoolSize pool_sizes[] =
     {
-        core::Buffer stage_buffer{device, upload_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VMA_MEMORY_USAGE_CPU_ONLY, 0};
-        stage_buffer.update({font_data, font_data + upload_size});
-        
-        auto &command_buffer = device.request_command_buffer();
-        
-        FencePool fence_pool{device};
-        
-        // Begin recording
-        command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT, nullptr);
-        
-        {
-            // Prepare for transfer
-            ImageMemoryBarrier memory_barrier{};
-            memory_barrier.old_layout = VK_IMAGE_LAYOUT_UNDEFINED;
-            memory_barrier.new_layout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-            memory_barrier.src_access_mask = 0;
-            memory_barrier.dst_access_mask = VK_ACCESS_TRANSFER_WRITE_BIT;
-            memory_barrier.src_stage_mask = VK_PIPELINE_STAGE_HOST_BIT;
-            memory_barrier.dst_stage_mask = VK_PIPELINE_STAGE_TRANSFER_BIT;
-            
-            command_buffer.image_memory_barrier(*font_image_view_, memory_barrier);
-        }
-        
-        // Copy
-        VkBufferImageCopy buffer_copy_region{};
-        buffer_copy_region.imageSubresource.layerCount = font_image_view_->get_subresource_range().layerCount;
-        buffer_copy_region.imageSubresource.aspectMask = font_image_view_->get_subresource_range().aspectMask;
-        buffer_copy_region.imageExtent = font_image_->get_extent();
-        
-        command_buffer.copy_buffer_to_image(stage_buffer, *font_image_, {buffer_copy_region});
-        
-        {
-            // Prepare for fragmen shader
-            ImageMemoryBarrier memory_barrier{};
-            memory_barrier.old_layout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-            memory_barrier.new_layout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-            memory_barrier.src_access_mask = VK_ACCESS_TRANSFER_WRITE_BIT;
-            memory_barrier.dst_access_mask = VK_ACCESS_SHADER_READ_BIT;
-            memory_barrier.src_stage_mask = VK_PIPELINE_STAGE_TRANSFER_BIT;
-            memory_barrier.dst_stage_mask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-            
-            command_buffer.image_memory_barrier(*font_image_view_, memory_barrier);
-        }
-        
-        // End recording
-        command_buffer.end();
-        
-        auto &queue = device.get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
-        
-        queue.submit(command_buffer, device.request_fence());
-        
-        // Wait for the command buffer to finish its work before destroying the staging buffer
-        device.get_fence_pool().wait();
-        device.get_fence_pool().reset();
-        device.get_command_pool().reset_pool();
-    }
-}
-
-void UiManager::update(const float delta_time) {
-    // Update imGui
-    ImGuiIO &io = ImGui::GetIO();
-    auto extent = context_->get_surface_extent();
-    resize(extent.width, extent.height);
-    io.DeltaTime = delta_time;
-}
-
-void UiManager::resize(const uint32_t width, const uint32_t height) {
-    auto &io = ImGui::GetIO();
-    io.DisplaySize.x = static_cast<float>(width);
-    io.DisplaySize.y = static_cast<float>(height);
+        {VK_DESCRIPTOR_TYPE_SAMPLER, 1000},
+        {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000},
+        {VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000},
+        {VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000},
+        {VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000},
+        {VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000},
+        {VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000},
+        {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000},
+        {VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000},
+        {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000},
+        {VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000}
+    };
+    VkDescriptorPoolCreateInfo pool_info = {};
+    pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+    pool_info.maxSets = 1000 * IM_ARRAYSIZE(pool_sizes);
+    pool_info.poolSizeCount = (uint32_t)IM_ARRAYSIZE(pool_sizes);
+    pool_info.pPoolSizes = pool_sizes;
+    VK_CHECK(vkCreateDescriptorPool(render_context_->get_device().get_handle(), &pool_info, nullptr, &descriptor_pool_));
 }
 
 void UiManager::draw(CommandBuffer &command_buffer) {
     if (current_canvas_) {
         current_canvas_->draw();
-        ScopedDebugLabel debug_label{command_buffer, "GUI"};
-        
-        // Vertex input state
-        VkVertexInputBindingDescription vertex_input_binding{};
-        vertex_input_binding.stride = to_u32(sizeof(ImDrawVert));
-        
-        // Location 0: Position
-        VkVertexInputAttributeDescription pos_attr{};
-        pos_attr.format = VK_FORMAT_R32G32_SFLOAT;
-        pos_attr.offset = to_u32(offsetof(ImDrawVert, pos));
-        
-        // Location 1: UV
-        VkVertexInputAttributeDescription uv_attr{};
-        uv_attr.location = 1;
-        uv_attr.format = VK_FORMAT_R32G32_SFLOAT;
-        uv_attr.offset = to_u32(offsetof(ImDrawVert, uv));
-        
-        // Location 2: Color
-        VkVertexInputAttributeDescription col_attr{};
-        col_attr.location = 2;
-        col_attr.format = VK_FORMAT_R8G8B8A8_UNORM;
-        col_attr.offset = to_u32(offsetof(ImDrawVert, col));
-        
-        VertexInputState vertex_input_state{};
-        vertex_input_state.bindings = {vertex_input_binding};
-        vertex_input_state.attributes = {pos_attr, uv_attr, col_attr};
-        
-        command_buffer.set_vertex_input_state(vertex_input_state);
-        
-        // Blend state
-        vox::ColorBlendAttachmentState color_attachment{};
-        color_attachment.blend_enable = VK_TRUE;
-        color_attachment.color_write_mask =
-        VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT;
-        color_attachment.src_color_blend_factor = VK_BLEND_FACTOR_SRC_ALPHA;
-        color_attachment.dst_color_blend_factor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-        color_attachment.src_alpha_blend_factor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-        
-        vox::ColorBlendState blend_state{};
-        blend_state.attachments = {color_attachment};
-        
-        command_buffer.set_color_blend_state(blend_state);
-        
-        vox::RasterizationState rasterization_state{};
-        rasterization_state.cull_mode = VK_CULL_MODE_NONE;
-        command_buffer.set_rasterization_state(rasterization_state);
-        
-        vox::DepthStencilState depth_state{};
-        depth_state.depth_test_enable = VK_FALSE;
-        depth_state.depth_write_enable = VK_FALSE;
-        command_buffer.set_depth_stencil_state(depth_state);
-        
-        // Bind pipeline layout
-        command_buffer.bind_pipeline_layout(*pipeline_layout_);
-        
-        command_buffer.bind_image(*font_image_view_, *sampler_, 0, 0, 0);
-        
-        // Pre-rotation
-        auto &io = ImGui::GetIO();
-        auto push_transform = Matrix4x4F();
-        
-        if (context_->has_swapchain()) {
-            auto transform = context_->get_swapchain().get_transform();
-            
-            Vector3F rotation_axis = Vector3F(0.0f, 0.0f, 1.0f);
-            if (transform & VK_SURFACE_TRANSFORM_ROTATE_90_BIT_KHR) {
-                push_transform *= makeRotationMatrix(rotation_axis, degreesToRadians(90.0f));
-            } else if (transform & VK_SURFACE_TRANSFORM_ROTATE_270_BIT_KHR) {
-                push_transform *= makeRotationMatrix(rotation_axis, degreesToRadians(270.0f));
-            } else if (transform & VK_SURFACE_TRANSFORM_ROTATE_180_BIT_KHR) {
-                push_transform *= makeRotationMatrix(rotation_axis, degreesToRadians(180.0f));
-            }
-        }
-        
-        // GUI coordinate space to screen space
-        push_transform *= makeTranslationMatrix(Point3F(-1.0f, -1.0f, 0.0f));
-        push_transform *= makeScaleMatrix(2.0f / io.DisplaySize.x, 2.0f / io.DisplaySize.y, 0.0f);
-        
-        // Push constants
-        command_buffer.push_constants(push_transform);
-        
-        // If a render context is used, then use the frames buffer pools to allocate GUI vertex/index data from
-        update_buffers(command_buffer, context_->get_active_frame());
-        
-        // Render commands
-        ImDrawData *draw_data = ImGui::GetDrawData();
-        int32_t vertex_offset = 0;
-        uint32_t index_offset = 0;
-        
-        if (!draw_data || draw_data->CmdListsCount == 0) {
-            return;
-        }
-        
-        for (int32_t i = 0; i < draw_data->CmdListsCount; i++) {
-            const ImDrawList *cmd_list = draw_data->CmdLists[i];
-            for (int32_t j = 0; j < cmd_list->CmdBuffer.Size; j++) {
-                const ImDrawCmd *cmd = &cmd_list->CmdBuffer[j];
-                VkRect2D scissor_rect;
-                scissor_rect.offset.x = std::max(static_cast<int32_t>(cmd->ClipRect.x), 0);
-                scissor_rect.offset.y = std::max(static_cast<int32_t>(cmd->ClipRect.y), 0);
-                scissor_rect.extent.width = static_cast<uint32_t>(cmd->ClipRect.z - cmd->ClipRect.x);
-                scissor_rect.extent.height = static_cast<uint32_t>(cmd->ClipRect.w - cmd->ClipRect.y);
-                
-                // Adjust for pre-rotation if necessary
-                if (context_->has_swapchain()) {
-                    auto transform = context_->get_swapchain().get_transform();
-                    if (transform & VK_SURFACE_TRANSFORM_ROTATE_90_BIT_KHR) {
-                        scissor_rect.offset.x = static_cast<uint32_t>(io.DisplaySize.y - cmd->ClipRect.w);
-                        scissor_rect.offset.y = static_cast<uint32_t>(cmd->ClipRect.x);
-                        scissor_rect.extent.width = static_cast<uint32_t>(cmd->ClipRect.w - cmd->ClipRect.y);
-                        scissor_rect.extent.height = static_cast<uint32_t>(cmd->ClipRect.z - cmd->ClipRect.x);
-                    } else if (transform & VK_SURFACE_TRANSFORM_ROTATE_180_BIT_KHR) {
-                        scissor_rect.offset.x = static_cast<uint32_t>(io.DisplaySize.x - cmd->ClipRect.z);
-                        scissor_rect.offset.y = static_cast<uint32_t>(io.DisplaySize.y - cmd->ClipRect.w);
-                        scissor_rect.extent.width = static_cast<uint32_t>(cmd->ClipRect.z - cmd->ClipRect.x);
-                        scissor_rect.extent.height = static_cast<uint32_t>(cmd->ClipRect.w - cmd->ClipRect.y);
-                    } else if (transform & VK_SURFACE_TRANSFORM_ROTATE_270_BIT_KHR) {
-                        scissor_rect.offset.x = static_cast<uint32_t>(cmd->ClipRect.y);
-                        scissor_rect.offset.y = static_cast<uint32_t>(io.DisplaySize.x - cmd->ClipRect.z);
-                        scissor_rect.extent.width = static_cast<uint32_t>(cmd->ClipRect.w - cmd->ClipRect.y);
-                        scissor_rect.extent.height = static_cast<uint32_t>(cmd->ClipRect.z - cmd->ClipRect.x);
-                    }
-                }
-                
-                command_buffer.set_scissor(0, {scissor_rect});
-                command_buffer.draw_indexed(cmd->ElemCount, 1, index_offset, vertex_offset, 0);
-                index_offset += cmd->ElemCount;
-            }
-            vertex_offset += cmd_list->VtxBuffer.Size;
-        }
+        ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), command_buffer.get_handle());
     }
 }
 
-void UiManager::update_buffers(CommandBuffer &command_buffer, RenderFrame &render_frame) {
-    ImDrawData *draw_data = ImGui::GetDrawData();
+void UiManager::update_font_texture() {
+    auto &command_buffer = render_context_->begin();
+    command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
     
-    if (!draw_data) {
-        return;
-    }
+    ImGui_ImplVulkan_CreateFontsTexture(command_buffer.get_handle());
     
-    size_t vertex_buffer_size = draw_data->TotalVtxCount * sizeof(ImDrawVert);
-    size_t index_buffer_size = draw_data->TotalIdxCount * sizeof(ImDrawIdx);
-    
-    if ((vertex_buffer_size == 0) || (index_buffer_size == 0)) {
-        return;
-    }
-    
-    std::vector<uint8_t> vertex_data(vertex_buffer_size);
-    std::vector<uint8_t> index_data(index_buffer_size);
-    
-    upload_draw_data(draw_data, vertex_data.data(), index_data.data());
-    
-    auto vertex_allocation = context_->get_active_frame().allocate_buffer(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-                                                                          vertex_buffer_size);
-    
-    vertex_allocation.update(vertex_data);
-    
-    std::vector<std::reference_wrapper<const core::Buffer>> buffers;
-    buffers.emplace_back(std::ref(vertex_allocation.get_buffer()));
-    
-    std::vector<VkDeviceSize> offsets{vertex_allocation.get_offset()};
-    
-    command_buffer.bind_vertex_buffers(0, buffers, offsets);
-    
-    auto index_allocation = context_->get_active_frame().allocate_buffer(VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
-                                                                         index_buffer_size);
-    
-    index_allocation.update(index_data);
-    
-    command_buffer.bind_index_buffer(index_allocation.get_buffer(), index_allocation.get_offset(),
-                                     VK_INDEX_TYPE_UINT16);
+    command_buffer.end();
+    render_context_->submit(command_buffer);
+    render_context_->get_device().wait_idle();
+    ImGui_ImplVulkan_DestroyFontUploadObjects();
 }
 
 }

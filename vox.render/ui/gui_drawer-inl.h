@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_GUI_DRAWER_INL_H_
-#define DIGITALVOX_VOX_RENDER_UI_GUI_DRAWER_INL_H_
+#pragma once
 
 #include "gui_drawer.h"
 
@@ -60,4 +59,3 @@ inline void GuiDrawer::draw_scalar(WidgetContainer &p_root, const std::string &p
 }
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_GUI_DRAWER_INL_H_ */

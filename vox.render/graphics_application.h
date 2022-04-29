@@ -164,12 +164,6 @@ protected:
     void update_stats(float delta_time);
     
     /**
-     * @brief Update GUI
-     * @param delta_time delta_time
-     */
-    void update_gui(float delta_time);
-    
-    /**
      * @brief Prepares the render target and draws to it, calling draw_renderpass
      * @param command_buffer The command buffer to record the commands to
      * @param render_target The render target that is being drawn to

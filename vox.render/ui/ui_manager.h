@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_UI_MANAGER_H_
-#define DIGITALVOX_VOX_RENDER_UI_UI_MANAGER_H_
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -100,7 +99,7 @@ public:
     /**
      * Returns the current frequency (in seconds) for the auto saving system of the editor layout
      */
-    static float editor_layout_autosave_frequency(float p_frequeny);
+    static float editor_layout_autosave_frequency(float p_frequency);
     
     /**
      * Enable the docking system
@@ -130,20 +129,6 @@ public:
      */
     void remove_canvas();
     
-public:
-    /**
-     * @brief Handles resizing of the window
-     * @param width New width of the window
-     * @param height New height of the window
-     */
-    static void resize(uint32_t width, uint32_t height);
-    
-    /**
-     * @brief Updates the Gui
-     * @param delta_time Time passed since last update
-     */
-    void update(float delta_time);
-    
     /**
      * @brief Draws the Gui
      * @param command_buffer Command buffer to register draw-commands
@@ -162,25 +147,26 @@ private:
     std::string layout_save_filename_ = "imgui.ini";
     
 private:
+    RenderContext *render_context_{nullptr};
+    
+    // Global render pass for frame buffer writes
+    VkRenderPass render_pass_ = VK_NULL_HANDLE;
+    
+    // Descriptor set pool
+    VkDescriptorPool descriptor_pool_ = VK_NULL_HANDLE;
+    
     /**
      * @brief Updates the Font Texture
      */
     void update_font_texture();
     
     /**
-     * @brief Updates Vulkan buffers
-     * @param render_frame Frame to render into
+     * @brief Setup a default render pass
+     *        Can be overriden in derived class to setup a custom render pass (e.g. for MSAA)
      */
-    void update_buffers(CommandBuffer &command_buffer, RenderFrame &render_frame);
+    void setup_render_pass();
     
-    RenderContext* context_{nullptr};
-    
-    std::unique_ptr<core::Image> font_image_;
-    std::unique_ptr<core::ImageView> font_image_view_;
-    std::unique_ptr<core::Sampler> sampler_{nullptr};
-    
-    PipelineLayout *pipeline_layout_{nullptr};
+    void setup_descriptor_pool();
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_UI_MANAGER_H_ */

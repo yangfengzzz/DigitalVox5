@@ -206,15 +206,7 @@ void GraphicsApplication::update_stats(float delta_time) {
     }
 }
 
-void GraphicsApplication::update_gui(float delta_time) {
-    if (gui_) {
-        gui_->update(delta_time);
-    }
-}
-
 void GraphicsApplication::update(float delta_time) {
-    update_gui(delta_time);
-    
     auto &command_buffer = render_context_->begin();
     
     // Collect the performance data for the sample graphs
@@ -303,10 +295,6 @@ void GraphicsApplication::render(CommandBuffer &command_buffer, RenderTarget &re
 bool GraphicsApplication::resize(uint32_t win_width, uint32_t win_height,
                                  uint32_t fb_width, uint32_t fb_height) {
     Application::resize(win_width, win_height, fb_width, fb_height);
-    
-    if (gui_) {
-        gui_->resize(win_width, win_height);
-    }
     
     if (stats_) {
         stats_->resize(win_width);
