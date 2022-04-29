@@ -13,6 +13,7 @@ project(editor LANGUAGES C CXX)
 set(UI_FILES
         ui/menu_bar.cpp
         ui/project_settings.cpp
+        ui/tool_bar.cpp
         editor_utils.cpp
         editor_actions.cpp
         editor_resources.cpp

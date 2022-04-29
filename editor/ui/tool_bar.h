@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef tool_bar_hpp
-#define tool_bar_hpp
+#pragma once
 
 #include "ui/widgets/buttons/button_image.h"
 #include "ui/widgets/panel_transformables/panel_window.h"
@@ -19,30 +18,23 @@ class EditorResources;
 namespace ui {
 class Toolbar : public PanelWindow {
 public:
-    /**
-     * Constructor
-     * @param p_title p_title
-     * @param p_opened p_opened
-     * @param p_windowSettings p_windowSettings
-     */
-    Toolbar(const std::string &p_title, bool p_opened,
-            const PanelWindowSettings &p_windowSettings,
+    Toolbar(const std::string &new_mode, bool opened,
+            const PanelWindowSettings &window_settings,
             EditorResources *resource);
     
     /**
      * Custom implementation of the draw method
      */
-    void _draw_Impl() override;
+    void draw_impl() override;
     
 private:
-    EditorResources *_resource{nullptr};
-    ButtonImage *_playButton{nullptr};
-    ButtonImage *_pauseButton{nullptr};
-    ButtonImage *_stopButton{nullptr};
-    ButtonImage *_nextButton{nullptr};
+    EditorResources *resource_{nullptr};
+    ButtonImage *play_button_{nullptr};
+    ButtonImage *pause_button_{nullptr};
+    ButtonImage *stop_button_{nullptr};
+    ButtonImage *next_button_{nullptr};
 };
 
 }
 }
 }
-#endif /* tool_bar_hpp */

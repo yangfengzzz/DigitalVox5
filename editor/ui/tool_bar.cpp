@@ -9,92 +9,83 @@
 #include "editor_actions.h"
 #include "editor_resources.h"
 
-namespace vox {
-namespace editor {
-namespace ui {
+namespace vox::editor::ui {
 
-Toolbar::Toolbar(const std::string &p_title, bool p_opened,
-                 const PanelWindowSettings &p_windowSettings,
+Toolbar::Toolbar(const std::string &title, bool opened,
+                 const PanelWindowSettings &window_settings,
                  EditorResources *resource) :
-PanelWindow(p_title, p_opened, p_windowSettings),
-_resource(resource) {
-    std::string iconFolder = ":Textures/Icons/";
+PanelWindow(title, opened, window_settings),
+resource_(resource) {
+    std::string icon_folder = ":Textures/Icons/";
     
-    _playButton = &createWidget<ButtonImage>(_resource->getTexture("Button_Play"), Vector2F{20, 20});
-    _pauseButton = &createWidget<ButtonImage>(_resource->getTexture("Button_Pause"), Vector2F{20, 20});
-    _stopButton = &createWidget<ButtonImage>(_resource->getTexture("Button_Stop"), Vector2F{20, 20});
-    _nextButton = &createWidget<ButtonImage>(_resource->getTexture("Button_Next"), Vector2F{20, 20});
+    play_button_ = &create_widget<ButtonImage>(resource_->get_texture("Button_Play"), Vector2F{20, 20});
+    pause_button_ = &create_widget<ButtonImage>(resource_->get_texture("Button_Pause"), Vector2F{20, 20});
+    stop_button_ = &create_widget<ButtonImage>(resource_->get_texture("Button_Stop"), Vector2F{20, 20});
+    next_button_ = &create_widget<ButtonImage>(resource_->get_texture("Button_Next"), Vector2F{20, 20});
     
-    createWidget<Spacing>(0).lineBreak = false;
-    auto &refreshButton = createWidget<ButtonImage>(_resource->getTexture("Button_Refresh"), Vector2F{20, 20});
+    create_widget<Spacing>(0).line_break_ = false;
+    auto &refresh_button = create_widget<ButtonImage>(resource_->get_texture("Button_Refresh"), Vector2F{20, 20});
     
-    _playButton->lineBreak = false;
-    _pauseButton->lineBreak = false;
-    _stopButton->lineBreak = false;
-    _nextButton->lineBreak = false;
-    refreshButton.lineBreak = false;
+    play_button_->line_break_ = false;
+    pause_button_->line_break_ = false;
+    stop_button_->line_break_ = false;
+    next_button_->line_break_ = false;
+    refresh_button.line_break_ = false;
     
-    _playButton->clickedEvent +=
-    std::bind(&EditorActions::startPlaying, EditorActions::getSingletonPtr());
+    play_button_->clicked_event_ +=
+    std::bind(&EditorActions::start_playing, EditorActions::get_singleton_ptr());
     
-    _pauseButton->clickedEvent +=
-    std::bind(&EditorActions::pauseGame, EditorActions::getSingletonPtr());
+    pause_button_->clicked_event_ +=
+    std::bind(&EditorActions::pause_game, EditorActions::get_singleton_ptr());
     
-    _stopButton->clickedEvent +=
-    std::bind(&EditorActions::stopPlaying, EditorActions::getSingletonPtr());
+    stop_button_->clicked_event_ +=
+    std::bind(&EditorActions::stop_playing, EditorActions::get_singleton_ptr());
     
-    _nextButton->clickedEvent +=
-    std::bind(&EditorActions::nextFrame, EditorActions::getSingletonPtr());
+    next_button_->clicked_event_ +=
+    std::bind(&EditorActions::next_frame, EditorActions::get_singleton_ptr());
     
-    refreshButton.clickedEvent +=
-    std::bind(&EditorActions::refreshScripts, EditorActions::getSingletonPtr());
+    refresh_button.clicked_event_ +=
+    std::bind(&EditorActions::refresh_scripts, EditorActions::get_singleton_ptr());
     
-    EditorActions::getSingleton().editorModeChangedEvent += [this](EditorActions::EditorMode p_newMode) {
-        auto enable = [](ButtonImage *p_button, bool p_enable) {
-            p_button->disabled = !p_enable;
-            p_button->tint = p_enable ? Color{1.0f, 1.0f, 1.0f, 1.0f} : Color{1.0f, 1.0f, 1.0f, 0.15f};
+    EditorActions::get_singleton().editor_mode_changed_event_ += [this](EditorActions::EditorMode new_mode) {
+        auto enable = [](ButtonImage *button, bool enable) {
+            button->disabled_ = !enable;
+            button->tint_ = enable ? Color{1.0f, 1.0f, 1.0f, 1.0f} : Color{1.0f, 1.0f, 1.0f, 0.15f};
         };
         
-        switch (p_newMode) {
-            case EditorActions::EditorMode::EDIT:
-                enable(_playButton, true);
-                enable(_pauseButton, false);
-                enable(_stopButton, false);
-                enable(_nextButton, false);
+        switch (new_mode) {
+            case EditorActions::EditorMode::EDIT:enable(play_button_, true);
+                enable(pause_button_, false);
+                enable(stop_button_, false);
+                enable(next_button_, false);
                 break;
-            case EditorActions::EditorMode::PLAY:
-                enable(_playButton, false);
-                enable(_pauseButton, true);
-                enable(_stopButton, true);
-                enable(_nextButton, true);
+            case EditorActions::EditorMode::PLAY:enable(play_button_, false);
+                enable(pause_button_, true);
+                enable(stop_button_, true);
+                enable(next_button_, true);
                 break;
-            case EditorActions::EditorMode::PAUSE:
-                enable(_playButton, true);
-                enable(_pauseButton, false);
-                enable(_stopButton, true);
-                enable(_nextButton, true);
+            case EditorActions::EditorMode::PAUSE:enable(play_button_, true);
+                enable(pause_button_, false);
+                enable(stop_button_, true);
+                enable(next_button_, true);
                 break;
-            case EditorActions::EditorMode::FRAME_BY_FRAME:
-                enable(_playButton, true);
-                enable(_pauseButton, false);
-                enable(_stopButton, true);
-                enable(_nextButton, true);
+            case EditorActions::EditorMode::FRAME_BY_FRAME:enable(play_button_, true);
+                enable(pause_button_, false);
+                enable(stop_button_, true);
+                enable(next_button_, true);
                 break;
         }
     };
     
-    EditorActions::getSingleton().setEditorMode(EditorActions::EditorMode::EDIT);
+    EditorActions::get_singleton().set_editor_mode(EditorActions::EditorMode::EDIT);
 }
 
-void Toolbar::_draw_Impl() {
+void Toolbar::draw_impl() {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 10));
     
-    PanelWindow::_draw_Impl();
+    PanelWindow::draw_impl();
     
     ImGui::PopStyleVar();
 }
 
-
-}
-}
 }
