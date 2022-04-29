@@ -525,8 +525,6 @@ set(SHADER_FILES shader/glsl_compiler.h
 
 set(MATERIAL_FILES material/material.h
         material/material.cpp
-        material/material_manager.h
-        material/material_manager.cpp
         material/base_material.h
         material/base_material.cpp
         material/unlit_material.h

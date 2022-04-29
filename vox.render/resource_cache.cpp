@@ -183,6 +183,7 @@ void ResourceCache::clear() {
     state_.descriptor_sets.clear();
     state_.descriptor_set_layouts.clear();
     state_.render_passes.clear();
+    state_.samplers.clear();
     clear_pipelines();
     clear_framebuffers();
 }
