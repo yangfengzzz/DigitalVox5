@@ -7,6 +7,7 @@
 #include "pbr_specular_material.h"
 #include "shader/internal_variant_name.h"
 #include "shader/shader_manager.h"
+#include "material_manager.h"
 
 namespace vox {
 const Color &PbrSpecularMaterial::specular_color() const {
@@ -33,8 +34,8 @@ std::shared_ptr<Image> PbrSpecularMaterial::specular_glossiness_texture() const 
 
 void PbrSpecularMaterial::set_specular_glossiness_texture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
-        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
-        set_specular_glossiness_texture(new_value, BaseMaterial::last_sampler_create_info_);
+        MaterialManager::get_singleton().last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        set_specular_glossiness_texture(new_value, MaterialManager::get_singleton().last_sampler_create_info_);
     }
 }
 
@@ -42,7 +43,7 @@ void PbrSpecularMaterial::set_specular_glossiness_texture(const std::shared_ptr<
                                                           const VkSamplerCreateInfo &info) {
     specular_glossiness_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(specular_glossiness_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
+        shader_data_.set_sampled_texture(specular_glossiness_texture_prop_, new_value->get_vk_image_view(), MaterialManager::get_singleton().get_sampler(info));
         shader_data_.add_define(HAS_SPECULARGLOSSINESSMAP);
     } else {
         shader_data_.remove_define(HAS_SPECULARGLOSSINESSMAP);

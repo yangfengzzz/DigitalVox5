@@ -55,3 +55,4 @@ add_subdirectory(vox.render)
 
 # Add apps
 add_subdirectory(apps)
+add_subdirectory(editor)

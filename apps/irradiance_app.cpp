@@ -24,7 +24,7 @@ public:
     
     void set_base_texture(const core::ImageView &image_view) {
         shader_data_.set_sampled_texture(base_texture_prop_, image_view,
-                                         get_sampler_(BaseMaterial::last_sampler_create_info_));
+                                         MaterialManager::get_singleton().get_sampler(MaterialManager::get_singleton().last_sampler_create_info_));
     }
     
     /// Tiling and offset of main textures.

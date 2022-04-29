@@ -37,9 +37,6 @@ public:
     DepthStencilState depth_stencil_state_;
     ColorBlendState color_blend_state_;
     
-    /** sampler pool*/
-    static std::unordered_map<VkSamplerCreateInfo, std::unique_ptr<core::Sampler>> sampler_pool_;
-    
     explicit Material(Device &device, std::string name = "");
     
     Material(Material &&other) = default;

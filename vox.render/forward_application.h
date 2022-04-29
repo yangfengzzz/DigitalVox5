@@ -10,6 +10,7 @@
 #include "image_manager.h"
 #include "shader/shader_manager.h"
 #include "mesh/mesh_manager.h"
+#include "material/material_manager.h"
 
 #include "components_manager.h"
 #include "physics/physics_manager.h"
@@ -55,6 +56,7 @@ protected:
     std::unique_ptr<ImageManager> image_manager_{nullptr};
     std::unique_ptr<ShaderManager> shader_manager_{nullptr};
     std::unique_ptr<MeshManager> mesh_manager_{nullptr};
+    std::unique_ptr<MaterialManager> material_manager_{nullptr};
     
     std::unique_ptr<ComponentsManager> components_manager_{nullptr};
     std::unique_ptr<physics::PhysicsManager> physics_manager_{nullptr};

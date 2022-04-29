@@ -7,6 +7,7 @@
 #include "blinn_phong_material.h"
 #include "shader/internal_variant_name.h"
 #include "shader/shader_manager.h"
+#include "material_manager.h"
 
 namespace vox {
 const Color &BlinnPhongMaterial::base_color() const {
@@ -24,15 +25,15 @@ std::shared_ptr<Image> BlinnPhongMaterial::base_texture() const {
 
 void BlinnPhongMaterial::set_base_texture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
-        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
-        set_base_texture(new_value, BaseMaterial::last_sampler_create_info_);
+        MaterialManager::get_singleton().last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        set_base_texture(new_value, MaterialManager::get_singleton().last_sampler_create_info_);
     }
 }
 
 void BlinnPhongMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(base_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
+        shader_data_.set_sampled_texture(base_texture_prop_, new_value->get_vk_image_view(), MaterialManager::get_singleton().get_sampler(info));
         shader_data_.add_define(HAS_DIFFUSE_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_DIFFUSE_TEXTURE);
@@ -54,8 +55,8 @@ std::shared_ptr<Image> BlinnPhongMaterial::specular_texture() const {
 
 void BlinnPhongMaterial::set_specular_texture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
-        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
-        set_specular_texture(new_value, BaseMaterial::last_sampler_create_info_);
+        MaterialManager::get_singleton().last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        set_specular_texture(new_value, MaterialManager::get_singleton().last_sampler_create_info_);
     }
 }
 
@@ -63,7 +64,7 @@ void BlinnPhongMaterial::set_specular_texture(const std::shared_ptr<Image> &new_
                                               const VkSamplerCreateInfo &info) {
     specular_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(specular_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
+        shader_data_.set_sampled_texture(specular_texture_prop_, new_value->get_vk_image_view(), MaterialManager::get_singleton().get_sampler(info));
         shader_data_.add_define(HAS_SPECULAR_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_SPECULAR_TEXTURE);
@@ -85,8 +86,8 @@ std::shared_ptr<Image> BlinnPhongMaterial::emissive_texture() const {
 
 void BlinnPhongMaterial::BlinnPhongMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
-        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
-        set_emissive_texture(new_value, BaseMaterial::last_sampler_create_info_);
+        MaterialManager::get_singleton().last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        set_emissive_texture(new_value, MaterialManager::get_singleton().last_sampler_create_info_);
     }
 }
 
@@ -94,7 +95,7 @@ void BlinnPhongMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_
                                               const VkSamplerCreateInfo &info) {
     emissive_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(emissive_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
+        shader_data_.set_sampled_texture(emissive_texture_prop_, new_value->get_vk_image_view(), MaterialManager::get_singleton().get_sampler(info));
         shader_data_.add_define(HAS_EMISSIVE_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_EMISSIVE_TEXTURE);
@@ -107,15 +108,15 @@ std::shared_ptr<Image> BlinnPhongMaterial::normal_texture() const {
 
 void BlinnPhongMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
-        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
-        set_normal_texture(new_value, BaseMaterial::last_sampler_create_info_);
+        MaterialManager::get_singleton().last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        set_normal_texture(new_value, MaterialManager::get_singleton().last_sampler_create_info_);
     }
 }
 
 void BlinnPhongMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     normal_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(normal_texture_prop_, new_value->get_vk_image_view(), get_sampler_(info));
+        shader_data_.set_sampled_texture(normal_texture_prop_, new_value->get_vk_image_view(), MaterialManager::get_singleton().get_sampler(info));
         shader_data_.add_define(HAS_NORMAL_TEXTURE);
     } else {
         shader_data_.remove_define(HAS_NORMAL_TEXTURE);
