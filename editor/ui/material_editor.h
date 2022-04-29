@@ -4,30 +4,23 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef material_editor_hpp
-#define material_editor_hpp
+#pragma once
 
 #include "ui/widgets/panel_transformables/panel_window.h"
 #include "ui/widgets/texts/text.h"
 #include "ui/widgets/layout/group.h"
 #include "ui/widgets/layout/columns.h"
+#include "material/material.h"
 
 namespace vox {
 using namespace ui;
 
-namespace editor {
-namespace ui {
+namespace editor::ui {
 class MaterialEditor : public PanelWindow {
 public:
-    /**
-     * Constructor
-     * @param p_title p_title
-     * @param p_opened p_opened
-     * @param p_windowSettings p_windowSettings
-     */
-    MaterialEditor(const std::string &p_title,
-                   bool p_opened,
-                   const PanelWindowSettings &p_windowSettings);
+    MaterialEditor(const std::string &title,
+                   bool opened,
+                   const PanelWindowSettings &window_settings);
     
     /**
      * Refresh the material editor
@@ -36,19 +29,18 @@ public:
     
     /**
      * Defines the target material of the material editor
-     * @param p_newTarget
      */
-    //    void setTarget(OvCore::Resources::Material& p_newTarget);
+    void set_target(const std::shared_ptr<Material> &new_target);
     
     /**
      * Returns the target of the material editor
      */
-    //    OvCore::Resources::Material* GetTarget() const;
+    [[nodiscard]] std::shared_ptr<Material> get_target() const;
     
     /**
      * Remove the target of the material editor (Clear the material editor)
      */
-    void removeTarget();
+    void remove_target();
     
     /**
      * Launch the preview of the currently targeted material
@@ -61,44 +53,41 @@ public:
     void reset();
     
 private:
-    void onMaterialDropped();
+    void on_material_dropped();
     
-    void onShaderDropped();
+    void on_shader_dropped();
     
-    void createHeaderButtons();
+    void create_header_buttons();
     
-    void createMaterialSelector();
+    void create_material_selector();
     
-    void createShaderSelector();
+    void create_shader_selector();
     
-    void createMaterialSettings();
+    void create_material_settings();
     
-    void createShaderSettings();
+    void create_shader_settings();
     
-    void generateShaderSettingsContent();
+    void generate_shader_settings_content();
     
-    void generateMaterialSettingsContent();
+    void generate_material_settings_content();
     
 private:
-    //    OvCore::Resources::Material* m_target        = nullptr;
-    //    OvRendering::Resources::Shader* m_shader    = nullptr;
+    std::shared_ptr<Material> target_{nullptr};
+    ShaderSource *shader_{nullptr};
     
-    Text *_targetMaterialText{nullptr};
-    Text *_shaderText{nullptr};
+    Text *target_material_text_{nullptr};
+    Text *shader_text_{nullptr};
     
-    Event<> _materialDroppedEvent;
-    Event<> _shaderDroppedEvent;
+    Event<> material_dropped_event_;
+    Event<> shader_dropped_event_;
     
-    Group *_settings{nullptr};
-    Group *_materialSettings{nullptr};
-    Group *_shaderSettings{nullptr};
+    Group *settings_{nullptr};
+    Group *material_settings_{nullptr};
+    Group *shader_settings_{nullptr};
     
-    Columns<2> *_shaderSettingsColumns{nullptr};
-    Columns<2> *_materialSettingsColumns{nullptr};
+    Columns<2> *shader_settings_columns_{nullptr};
+    Columns<2> *material_settings_columns_{nullptr};
 };
 
-
 }
 }
-}
-#endif /* material_editor_hpp */

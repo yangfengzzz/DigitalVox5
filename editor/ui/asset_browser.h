@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef asset_browser_hpp
-#define asset_browser_hpp
+#pragma once
 
 #include "ui/widgets/panel_transformables/panel_window.h"
 #include "ui/widgets/layout/group.h"
@@ -14,29 +13,18 @@
 #include <unordered_map>
 #include <queue>
 
-namespace vox {
-namespace editor {
-namespace ui {
+namespace vox::editor::ui {
 /**
  * A panel that handle asset management
  */
 class AssetBrowser : public ::vox::ui::PanelWindow {
 public:
-    /**
-     * Constructor
-     * @param p_title p_title
-     * @parma p_opened p_opened
-     * @param p_windowSettings p_windowSettings
-     * @param p_engineAssetFolder p_engineAssetFolder
-     * @param p_projectAssetFolder p_projectAssetFolder
-     * @param p_projectScriptFolder p_projectScriptFolder
-     */
-    AssetBrowser(const std::string &p_title,
-                 bool p_opened,
-                 const ::vox::ui::PanelWindowSettings &p_windowSettings,
-                 const std::string &p_engineAssetFolder = "",
-                 const std::string &p_projectAssetFolder = "",
-                 const std::string &p_projectScriptFolder = "");
+    AssetBrowser(const std::string &title,
+                 bool opened,
+                 const ::vox::ui::PanelWindowSettings &window_settings,
+                 const std::string &engine_asset_folder = "",
+                 const std::string &project_asset_folder = "",
+                 const std::string &project_script_folder = "");
     
     /**
      * Fill the asset browser panels with widgets corresponding to elements in the asset folder
@@ -54,25 +42,21 @@ public:
     void refresh();
     
 private:
-    void parseFolder(::vox::ui::TreeNode &p_root, const std::filesystem::directory_entry &p_directory,
-                     bool p_isEngineItem, bool p_scriptFolder = false);
+    void parse_folder(::vox::ui::TreeNode &root, const std::filesystem::directory_entry &directory,
+                      bool is_engine_item, bool script_folder = false);
     
-    void considerItem(::vox::ui::TreeNode *p_root, const std::filesystem::directory_entry &p_entry,
-                      bool p_isEngineItem, bool p_autoOpen = false, bool p_scriptFolder = false);
+    void consider_item(::vox::ui::TreeNode *root, const std::filesystem::directory_entry &entry,
+                       bool is_engine_item, bool auto_open = false, bool script_folder = false);
     
 public:
-    static const std::string __FILENAMES_CHARS;
+    static const std::string filenames_chars_;
     
 private:
-    std::string _engineAssetFolder;
-    std::string _projectAssetFolder;
-    std::string _projectScriptFolder;
-    ::vox::ui::Group *_assetList;
-    std::unordered_map<::vox::ui::TreeNode *, std::string> _pathUpdate;
+    std::string engine_asset_folder_;
+    std::string project_asset_folder_;
+    std::string project_script_folder_;
+    ::vox::ui::Group *asset_list_;
+    std::unordered_map<::vox::ui::TreeNode *, std::string> path_update_;
 };
 
-
 }
-}
-}
-#endif /* asset_browser_hpp */

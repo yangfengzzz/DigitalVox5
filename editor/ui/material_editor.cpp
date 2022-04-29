@@ -19,98 +19,158 @@ namespace vox {
 namespace editor {
 namespace ui {
 namespace {
-void drawHybridVec3(WidgetContainer &p_root, const std::string &p_name, Vector3F &p_data,
-                    float p_step, float p_min, float p_max) {
-    GUIDrawer::createTitle(p_root, p_name);
+void draw_hybrid_vec_3(WidgetContainer &p_root, const std::string &p_name, Vector3F &p_data,
+                       float p_step, float p_min, float p_max) {
+    GuiDrawer::create_title(p_root, p_name);
     
-    auto &rightSide = p_root.createWidget<Group>();
+    auto &right_side = p_root.create_widget<Group>();
     
-    auto &xyzWidget = rightSide.createWidget<DragMultipleScalars<float, 3>>(GUIDrawer::getDataType<float>(), p_min, p_max,
-                                                                            0.f, p_step, "", GUIDrawer::getFormat<float>());
-    auto &xyzDispatcher = xyzWidget.addPlugin<DataDispatcher<std::array<float, 3>>>();
-    xyzDispatcher.registerReference(reinterpret_cast<std::array<float, 3> &>(p_data));
-    xyzWidget.lineBreak = false;
+    auto &xyz_widget = right_side.create_widget<DragMultipleScalars<float, 3>>(GuiDrawer::get_data_type<float>(), p_min, p_max,
+                                                                               0.f, p_step, "", GuiDrawer::get_format<float>());
+    auto &xyz_dispatcher = xyz_widget.add_plugin<DataDispatcher<std::array<float, 3>>>();
+    xyz_dispatcher.register_reference(reinterpret_cast<std::array<float, 3> &>(p_data));
+    xyz_widget.line_break_ = false;
     
-    auto &rgbWidget = rightSide.createWidget<ColorEdit>(false, Color{p_data.x, p_data.y, p_data.z});
-    auto &rgbDispatcher = rgbWidget.addPlugin<DataDispatcher<Color>>();
-    rgbDispatcher.registerReference(reinterpret_cast<Color &>(p_data));
-    rgbWidget.enabled = false;
-    rgbWidget.lineBreak = false;
+    auto &rgb_widget = right_side.create_widget<ColorEdit>(false, Color{p_data.x, p_data.y, p_data.z});
+    auto &rgb_dispatcher = rgb_widget.add_plugin<DataDispatcher<Color>>();
+    rgb_dispatcher.register_reference(reinterpret_cast<Color &>(p_data));
+    rgb_widget.enabled_ = false;
+    rgb_widget.line_break_ = false;
     
-    auto &xyzButton = rightSide.createWidget<ButtonSimple>("XYZ");
-    xyzButton.idleBackgroundColor = {0.7f, 0.5f, 0.0f};
-    xyzButton.lineBreak = false;
+    auto &xyz_button = right_side.create_widget<ButtonSimple>("XYZ");
+    xyz_button.idle_background_color_ = {0.7f, 0.5f, 0.0f};
+    xyz_button.line_break_ = false;
     
-    auto &rgbButton = rightSide.createWidget<ButtonSimple>("RGB");
-    rgbButton.idleBackgroundColor = {0.7f, 0.5f, 0.0f};
+    auto &rgb_button = right_side.create_widget<ButtonSimple>("RGB");
+    rgb_button.idle_background_color_ = {0.7f, 0.5f, 0.0f};
     
-    xyzButton.clickedEvent += [&] {
-        xyzWidget.enabled = true;
-        rgbWidget.enabled = false;
+    xyz_button.clicked_event_ += [&] {
+        xyz_widget.enabled_ = true;
+        rgb_widget.enabled_ = false;
     };
     
-    rgbButton.clickedEvent += [&] {
-        xyzWidget.enabled = false;
-        rgbWidget.enabled = true;
+    rgb_button.clicked_event_ += [&] {
+        xyz_widget.enabled_ = false;
+        rgb_widget.enabled_ = true;
     };
 }
 
-void drawHybridVec4(WidgetContainer &p_root, const std::string &p_name, Vector4F &p_data,
-                    float p_step, float p_min, float p_max) {
-    GUIDrawer::createTitle(p_root, p_name);
+void draw_hybrid_vec_4(WidgetContainer &p_root, const std::string &p_name, Vector4F &p_data,
+                       float p_step, float p_min, float p_max) {
+    GuiDrawer::create_title(p_root, p_name);
     
-    auto &rightSide = p_root.createWidget<Group>();
+    auto &right_side = p_root.create_widget<Group>();
     
-    auto &xyzWidget = rightSide.createWidget<DragMultipleScalars<float, 4>>(GUIDrawer::getDataType<float>(), p_min, p_max,
-                                                                            0.f, p_step, "", GUIDrawer::getFormat<float>());
-    auto &xyzDispatcher = xyzWidget.addPlugin<DataDispatcher<std::array<float, 4>>>();
-    xyzDispatcher.registerReference(reinterpret_cast<std::array<float, 4> &>(p_data));
-    xyzWidget.lineBreak = false;
+    auto &xyz_widget = right_side.create_widget<DragMultipleScalars<float, 4>>(GuiDrawer::get_data_type<float>(), p_min, p_max,
+                                                                               0.f, p_step, "", GuiDrawer::get_format<float>());
+    auto &xyz_dispatcher = xyz_widget.add_plugin<DataDispatcher<std::array<float, 4>>>();
+    xyz_dispatcher.register_reference(reinterpret_cast<std::array<float, 4> &>(p_data));
+    xyz_widget.line_break_ = false;
     
-    auto &rgbaWidget = rightSide.createWidget<ColorEdit>(true, Color{p_data.x, p_data.y, p_data.z, p_data.w});
-    auto &rgbaDispatcher = rgbaWidget.addPlugin<DataDispatcher<Color>>();
-    rgbaDispatcher.registerReference(reinterpret_cast<Color &>(p_data));
-    rgbaWidget.enabled = false;
-    rgbaWidget.lineBreak = false;
+    auto &rgba_widget = right_side.create_widget<ColorEdit>(true, Color{p_data.x, p_data.y, p_data.z, p_data.w});
+    auto &rgba_dispatcher = rgba_widget.add_plugin<DataDispatcher<Color>>();
+    rgba_dispatcher.register_reference(reinterpret_cast<Color &>(p_data));
+    rgba_widget.enabled_ = false;
+    rgba_widget.line_break_ = false;
     
-    auto &xyzwButton = rightSide.createWidget<ButtonSimple>("XYZW");
-    xyzwButton.idleBackgroundColor = {0.7f, 0.5f, 0.0f};
-    xyzwButton.lineBreak = false;
+    auto &xyzw_button = right_side.create_widget<ButtonSimple>("XYZW");
+    xyzw_button.idle_background_color_ = {0.7f, 0.5f, 0.0f};
+    xyzw_button.line_break_ = false;
     
-    auto &rgbaButton = rightSide.createWidget<ButtonSimple>("RGBA");
-    rgbaButton.idleBackgroundColor = {0.7f, 0.5f, 0.0f};
+    auto &rgba_button = right_side.create_widget<ButtonSimple>("RGBA");
+    rgba_button.idle_background_color_ = {0.7f, 0.5f, 0.0f};
     
-    xyzwButton.clickedEvent += [&] {
-        xyzWidget.enabled = true;
-        rgbaWidget.enabled = false;
+    xyzw_button.clicked_event_ += [&] {
+        xyz_widget.enabled_ = true;
+        rgba_widget.enabled_ = false;
     };
     
-    rgbaButton.clickedEvent += [&] {
-        xyzWidget.enabled = false;
-        rgbaWidget.enabled = true;
+    rgba_button.clicked_event_ += [&] {
+        xyz_widget.enabled_ = false;
+        rgba_widget.enabled_ = true;
     };
 }
 } // namespace
 
+//MARK: - MaterialEditor
 MaterialEditor::MaterialEditor(const std::string &p_title,
                                bool p_opened,
-                               const PanelWindowSettings &p_windowSettings) :
-PanelWindow(p_title, p_opened, p_windowSettings) {
-    createHeaderButtons();
-    createWidget<Separator>();
-    createMaterialSelector();
-    _settings = &createWidget<Group>();
-    createShaderSelector();
-    createMaterialSettings();
-    createShaderSettings();
+                               const PanelWindowSettings &window_settings) :
+PanelWindow(p_title, p_opened, window_settings) {
+    create_header_buttons();
+    create_widget<Separator>();
+    create_material_selector();
+    settings_ = &create_widget<Group>();
+    create_shader_selector();
+    create_material_settings();
+    create_shader_settings();
     
-    _settings->enabled = false;
-    _shaderSettings->enabled = false;
+    settings_->enabled_ = false;
+    shader_settings_->enabled_ = false;
     
-    _materialDroppedEvent += std::bind(&MaterialEditor::onMaterialDropped, this);
-    _shaderDroppedEvent += std::bind(&MaterialEditor::onShaderDropped, this);
+    material_dropped_event_ += std::bind(&MaterialEditor::on_material_dropped, this);
+    shader_dropped_event_ += std::bind(&MaterialEditor::on_shader_dropped, this);
 }
 
+void MaterialEditor::refresh() {
+    
+}
+
+void MaterialEditor::set_target(const std::shared_ptr<Material> &new_target) {
+    
+}
+
+std::shared_ptr<Material> MaterialEditor::get_target() const {
+    return nullptr;
+}
+
+void MaterialEditor::remove_target() {
+    
+}
+
+void MaterialEditor::preview() {
+    
+}
+
+void MaterialEditor::reset() {
+    
+}
+
+void MaterialEditor::on_material_dropped() {
+    
+}
+
+void MaterialEditor::on_shader_dropped() {
+    
+}
+
+void MaterialEditor::create_header_buttons() {
+    
+}
+
+void MaterialEditor::create_material_selector() {
+    
+}
+
+void MaterialEditor::create_shader_selector() {
+    
+}
+
+void MaterialEditor::create_material_settings() {
+    
+}
+
+void MaterialEditor::create_shader_settings() {
+    
+}
+
+void MaterialEditor::generate_shader_settings_content() {
+    
+}
+
+void MaterialEditor::generate_material_settings_content() {
+    
+}
 
 }
 }

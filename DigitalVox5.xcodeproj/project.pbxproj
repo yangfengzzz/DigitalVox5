@@ -420,6 +420,8 @@
 		04523E15281BE6C10079CC3C /* project_settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE7281BCC2D0079CC3C /* project_settings.cpp */; };
 		04523E17281C14500079CC3C /* editor_resources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E02281BCCD90079CC3C /* editor_resources.cpp */; };
 		04523E18281C1AD90079CC3C /* tool_bar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE4281BCC2C0079CC3C /* tool_bar.cpp */; };
+		04523E19281C296B0079CC3C /* asset_browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE6281BCC2D0079CC3C /* asset_browser.cpp */; };
+		04523E1A281C2A9B0079CC3C /* material_editor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DEE281BCC2D0079CC3C /* material_editor.cpp */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -3011,7 +3013,9 @@
 				04523E0F281BD4FF0079CC3C /* entity_creation_menu.cpp in Sources */,
 				04523E08281BCD070079CC3C /* editor_utils.cpp in Sources */,
 				04523E0C281BD3CB0079CC3C /* panels_manager.cpp in Sources */,
+				04523E19281C296B0079CC3C /* asset_browser.cpp in Sources */,
 				04523E17281C14500079CC3C /* editor_resources.cpp in Sources */,
+				04523E1A281C2A9B0079CC3C /* material_editor.cpp in Sources */,
 				04523E15281BE6C10079CC3C /* project_settings.cpp in Sources */,
 				04523E14281BE69D0079CC3C /* ini_file.cpp in Sources */,
 				04523DC6281BB0C30079CC3C /* main.cpp in Sources */,
