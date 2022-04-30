@@ -411,22 +411,43 @@
 		04523DD3281BB3F20079CC3C /* libvox.render.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 047BB5D02803A99E00CD5749 /* libvox.render.a */; };
 		04523DD4281BB3F90079CC3C /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444EA562805770F00C6F279 /* IOKit.framework */; };
 		04523DD5281BB3FD0079CC3C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444EA54280576F800C6F279 /* Cocoa.framework */; };
-		04523E08281BCD070079CC3C /* editor_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DFE281BCCD90079CC3C /* editor_utils.cpp */; };
-		04523E09281BD3940079CC3C /* editor_actions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E00281BCCD90079CC3C /* editor_actions.cpp */; };
-		04523E0C281BD3CB0079CC3C /* panels_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E0B281BD3CB0079CC3C /* panels_manager.cpp */; };
-		04523E0F281BD4FF0079CC3C /* entity_creation_menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E0D281BD4FF0079CC3C /* entity_creation_menu.cpp */; };
-		04523E10281BD55E0079CC3C /* menu_bar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE9281BCC2D0079CC3C /* menu_bar.cpp */; };
-		04523E14281BE69D0079CC3C /* ini_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E11281BE69D0079CC3C /* ini_file.cpp */; };
-		04523E15281BE6C10079CC3C /* project_settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE7281BCC2D0079CC3C /* project_settings.cpp */; };
-		04523E17281C14500079CC3C /* editor_resources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E02281BCCD90079CC3C /* editor_resources.cpp */; };
-		04523E18281C1AD90079CC3C /* tool_bar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE4281BCC2C0079CC3C /* tool_bar.cpp */; };
-		04523E19281C296B0079CC3C /* asset_browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE6281BCC2D0079CC3C /* asset_browser.cpp */; };
-		04523E1A281C2A9B0079CC3C /* material_editor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DEE281BCC2D0079CC3C /* material_editor.cpp */; };
-		04523E1B281C2EE20079CC3C /* hierarchy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DDE281BCC2C0079CC3C /* hierarchy.cpp */; };
 		04523E20281CBC8A0079CC3C /* behaviour-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E1D281CBC890079CC3C /* behaviour-inl.h */; };
 		04523E21281CBC8A0079CC3C /* behaviour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E1E281CBC8A0079CC3C /* behaviour.cpp */; };
 		04523E22281CBC8A0079CC3C /* behaviour.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E1F281CBC8A0079CC3C /* behaviour.h */; };
-		04523E23281CC1A30079CC3C /* inspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE2281BCC2C0079CC3C /* inspector.cpp */; };
+		04523E33281CC5410079CC3C /* asset_properties.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DE5281BCC2D0079CC3C /* asset_properties.h */; };
+		04523E34281CC5410079CC3C /* menu_bar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE9281BCC2D0079CC3C /* menu_bar.cpp */; };
+		04523E35281CC5410079CC3C /* editor_actions.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DFC281BCCD90079CC3C /* editor_actions.h */; };
+		04523E36281CC5410079CC3C /* hierarchy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DDE281BCC2C0079CC3C /* hierarchy.cpp */; };
+		04523E37281CC5410079CC3C /* editor_application.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DFB281BCCD90079CC3C /* editor_application.h */; };
+		04523E38281CC5410079CC3C /* project_settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE7281BCC2D0079CC3C /* project_settings.cpp */; };
+		04523E39281CC5410079CC3C /* menu_bar.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DEC281BCC2D0079CC3C /* menu_bar.h */; };
+		04523E3A281CC5410079CC3C /* project_settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DE0281BCC2C0079CC3C /* project_settings.h */; };
+		04523E3B281CC5410079CC3C /* profiler_window.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DDF281BCC2C0079CC3C /* profiler_window.h */; };
+		04523E3C281CC5410079CC3C /* entity_creation_menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E0D281BD4FF0079CC3C /* entity_creation_menu.cpp */; };
+		04523E3D281CC5410079CC3C /* tool_bar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE4281BCC2C0079CC3C /* tool_bar.cpp */; };
+		04523E3E281CC5410079CC3C /* panels_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E0B281BD3CB0079CC3C /* panels_manager.cpp */; };
+		04523E3F281CC5410079CC3C /* inspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DE1281BCC2C0079CC3C /* inspector.h */; };
+		04523E40281CC5410079CC3C /* inspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE2281BCC2C0079CC3C /* inspector.cpp */; };
+		04523E41281CC5410079CC3C /* material_editor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DEE281BCC2D0079CC3C /* material_editor.cpp */; };
+		04523E42281CC5410079CC3C /* editor_actions-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DFA281BCCD90079CC3C /* editor_actions-inl.h */; };
+		04523E44281CC5410079CC3C /* editor_actions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E00281BCCD90079CC3C /* editor_actions.cpp */; };
+		04523E45281CC5410079CC3C /* asset_browser.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DEB281BCC2D0079CC3C /* asset_browser.h */; };
+		04523E46281CC5410079CC3C /* editor_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DFF281BCCD90079CC3C /* editor_utils.h */; };
+		04523E47281CC5410079CC3C /* entity_creation_menu.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E0E281BD4FF0079CC3C /* entity_creation_menu.h */; };
+		04523E48281CC5410079CC3C /* material_editor.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DE3281BCC2C0079CC3C /* material_editor.h */; };
+		04523E49281CC5410079CC3C /* hierarchy.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DDD281BCC2C0079CC3C /* hierarchy.h */; };
+		04523E4A281CC5410079CC3C /* panels_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E0A281BD3CB0079CC3C /* panels_manager.h */; };
+		04523E4B281CC5410079CC3C /* editor_resources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E02281BCCD90079CC3C /* editor_resources.cpp */; };
+		04523E4E281CC5410079CC3C /* asset_browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE6281BCC2D0079CC3C /* asset_browser.cpp */; };
+		04523E4F281CC5410079CC3C /* console.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DDC281BCC2C0079CC3C /* console.h */; };
+		04523E50281CC5410079CC3C /* tool_bar.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DE8281BCC2D0079CC3C /* tool_bar.h */; };
+		04523E51281CC5410079CC3C /* editor_settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E03281BCCD90079CC3C /* editor_settings.h */; };
+		04523E52281CC5410079CC3C /* editor_resources.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523DFD281BCCD90079CC3C /* editor_resources.h */; };
+		04523E54281CC5410079CC3C /* editor_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DFE281BCCD90079CC3C /* editor_utils.cpp */; };
+		04523E55281CC5460079CC3C /* ini_file.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E12281BE69D0079CC3C /* ini_file.h */; };
+		04523E56281CC5460079CC3C /* ini_file-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E13281BE69D0079CC3C /* ini_file-inl.h */; };
+		04523E57281CC5460079CC3C /* ini_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E11281BE69D0079CC3C /* ini_file.cpp */; };
+		04523E58281CC5460079CC3C /* raw_icon.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E16281BEBEC0079CC3C /* raw_icon.h */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -1130,6 +1151,7 @@
 		04523E1D281CBC890079CC3C /* behaviour-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "behaviour-inl.h"; sourceTree = "<group>"; };
 		04523E1E281CBC8A0079CC3C /* behaviour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = behaviour.cpp; sourceTree = "<group>"; };
 		04523E1F281CBC8A0079CC3C /* behaviour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = behaviour.h; sourceTree = "<group>"; };
+		04523E28281CC4920079CC3C /* libvox.editor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.editor.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
 		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
 		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
@@ -1364,6 +1386,13 @@
 				04523DD4281BB3F90079CC3C /* IOKit.framework in Frameworks */,
 				04523DD2281BB3F20079CC3C /* libvox.math.a in Frameworks */,
 				04523DD3281BB3F20079CC3C /* libvox.render.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04523E26281CC4920079CC3C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1889,26 +1918,7 @@
 			isa = PBXGroup;
 			children = (
 				04523DCA281BB3320079CC3C /* editor.entitlements */,
-				04523E12281BE69D0079CC3C /* ini_file.h */,
-				04523E13281BE69D0079CC3C /* ini_file-inl.h */,
-				04523E11281BE69D0079CC3C /* ini_file.cpp */,
-				04523E16281BEBEC0079CC3C /* raw_icon.h */,
-				04523DDA281BCC000079CC3C /* ui */,
 				04523DC5281BB0C30079CC3C /* main.cpp */,
-				04523DFB281BCCD90079CC3C /* editor_application.h */,
-				04523E01281BCCD90079CC3C /* editor_application.cpp */,
-				04523DFF281BCCD90079CC3C /* editor_utils.h */,
-				04523DFE281BCCD90079CC3C /* editor_utils.cpp */,
-				04523E03281BCCD90079CC3C /* editor_settings.h */,
-				04523DFC281BCCD90079CC3C /* editor_actions.h */,
-				04523DFA281BCCD90079CC3C /* editor_actions-inl.h */,
-				04523E00281BCCD90079CC3C /* editor_actions.cpp */,
-				04523DFD281BCCD90079CC3C /* editor_resources.h */,
-				04523E02281BCCD90079CC3C /* editor_resources.cpp */,
-				04523E0A281BD3CB0079CC3C /* panels_manager.h */,
-				04523E0B281BD3CB0079CC3C /* panels_manager.cpp */,
-				04523E0E281BD4FF0079CC3C /* entity_creation_menu.h */,
-				04523E0D281BD4FF0079CC3C /* entity_creation_menu.cpp */,
 				04523DCC281BB3960079CC3C /* primitive_app.h */,
 				04523DCB281BB3960079CC3C /* primitive_app.cpp */,
 			);
@@ -1942,6 +1952,32 @@
 			path = ui;
 			sourceTree = "<group>";
 		};
+		04523E29281CC4920079CC3C /* vox.editor */ = {
+			isa = PBXGroup;
+			children = (
+				04523E12281BE69D0079CC3C /* ini_file.h */,
+				04523E13281BE69D0079CC3C /* ini_file-inl.h */,
+				04523E11281BE69D0079CC3C /* ini_file.cpp */,
+				04523E16281BEBEC0079CC3C /* raw_icon.h */,
+				04523DDA281BCC000079CC3C /* ui */,
+				04523DFB281BCCD90079CC3C /* editor_application.h */,
+				04523E01281BCCD90079CC3C /* editor_application.cpp */,
+				04523DFF281BCCD90079CC3C /* editor_utils.h */,
+				04523DFE281BCCD90079CC3C /* editor_utils.cpp */,
+				04523E03281BCCD90079CC3C /* editor_settings.h */,
+				04523DFC281BCCD90079CC3C /* editor_actions.h */,
+				04523DFA281BCCD90079CC3C /* editor_actions-inl.h */,
+				04523E00281BCCD90079CC3C /* editor_actions.cpp */,
+				04523DFD281BCCD90079CC3C /* editor_resources.h */,
+				04523E02281BCCD90079CC3C /* editor_resources.cpp */,
+				04523E0A281BD3CB0079CC3C /* panels_manager.h */,
+				04523E0B281BD3CB0079CC3C /* panels_manager.cpp */,
+				04523E0E281BD4FF0079CC3C /* entity_creation_menu.h */,
+				04523E0D281BD4FF0079CC3C /* entity_creation_menu.cpp */,
+			);
+			path = vox.editor;
+			sourceTree = "<group>";
+		};
 		04698839281988E600EF1EE1 /* particle */ = {
 			isa = PBXGroup;
 			children = (
@@ -1961,6 +1997,7 @@
 				047BB5E02803A9B700CD5749 /* vox.math */,
 				047BB5D12803A99E00CD5749 /* vox.render */,
 				047BB5C42803A96500CD5749 /* apps */,
+				04523E29281CC4920079CC3C /* vox.editor */,
 				04523DC4281BB0C30079CC3C /* editor */,
 				047BB5C32803A96500CD5749 /* Products */,
 				0444EA4C2805766F00C6F279 /* Frameworks */,
@@ -1974,6 +2011,7 @@
 				047BB5D02803A99E00CD5749 /* libvox.render.a */,
 				047BB5DF2803A9B700CD5749 /* libvox.math.a */,
 				04523DC3281BB0C30079CC3C /* editor */,
+				04523E28281CC4920079CC3C /* libvox.editor.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2539,6 +2577,34 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		04523E24281CC4920079CC3C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04523E55281CC5460079CC3C /* ini_file.h in Headers */,
+				04523E33281CC5410079CC3C /* asset_properties.h in Headers */,
+				04523E52281CC5410079CC3C /* editor_resources.h in Headers */,
+				04523E49281CC5410079CC3C /* hierarchy.h in Headers */,
+				04523E50281CC5410079CC3C /* tool_bar.h in Headers */,
+				04523E51281CC5410079CC3C /* editor_settings.h in Headers */,
+				04523E42281CC5410079CC3C /* editor_actions-inl.h in Headers */,
+				04523E56281CC5460079CC3C /* ini_file-inl.h in Headers */,
+				04523E4F281CC5410079CC3C /* console.h in Headers */,
+				04523E3B281CC5410079CC3C /* profiler_window.h in Headers */,
+				04523E45281CC5410079CC3C /* asset_browser.h in Headers */,
+				04523E48281CC5410079CC3C /* material_editor.h in Headers */,
+				04523E39281CC5410079CC3C /* menu_bar.h in Headers */,
+				04523E4A281CC5410079CC3C /* panels_manager.h in Headers */,
+				04523E58281CC5460079CC3C /* raw_icon.h in Headers */,
+				04523E46281CC5410079CC3C /* editor_utils.h in Headers */,
+				04523E3F281CC5410079CC3C /* inspector.h in Headers */,
+				04523E37281CC5410079CC3C /* editor_application.h in Headers */,
+				04523E3A281CC5410079CC3C /* project_settings.h in Headers */,
+				04523E35281CC5410079CC3C /* editor_actions.h in Headers */,
+				04523E47281CC5410079CC3C /* entity_creation_menu.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		047BB5CC2803A99E00CD5749 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -2919,6 +2985,23 @@
 			productReference = 04523DC3281BB0C30079CC3C /* editor */;
 			productType = "com.apple.product-type.tool";
 		};
+		04523E27281CC4920079CC3C /* vox.editor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04523E30281CC4920079CC3C /* Build configuration list for PBXNativeTarget "vox.editor" */;
+			buildPhases = (
+				04523E24281CC4920079CC3C /* Headers */,
+				04523E25281CC4920079CC3C /* Sources */,
+				04523E26281CC4920079CC3C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = vox.editor;
+			productName = vox.editor;
+			productReference = 04523E28281CC4920079CC3C /* libvox.editor.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		047BB5C12803A96500CD5749 /* apps */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 047BB5C92803A96500CD5749 /* Build configuration list for PBXNativeTarget "apps" */;
@@ -2984,6 +3067,9 @@
 					04523DC2281BB0C30079CC3C = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
+					04523E27281CC4920079CC3C = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
 					047BB5C12803A96500CD5749 = {
 						CreatedOnToolsVersion = 13.3;
 					};
@@ -3011,6 +3097,7 @@
 				047BB5DE2803A9B700CD5749 /* vox.math */,
 				047BB5CF2803A99E00CD5749 /* vox.render */,
 				047BB5C12803A96500CD5749 /* apps */,
+				04523E27281CC4920079CC3C /* vox.editor */,
 				04523DC2281BB0C30079CC3C /* editor */,
 			);
 		};
@@ -3021,21 +3108,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04523E18281C1AD90079CC3C /* tool_bar.cpp in Sources */,
-				04523E10281BD55E0079CC3C /* menu_bar.cpp in Sources */,
-				04523E0F281BD4FF0079CC3C /* entity_creation_menu.cpp in Sources */,
-				04523E08281BCD070079CC3C /* editor_utils.cpp in Sources */,
-				04523E0C281BD3CB0079CC3C /* panels_manager.cpp in Sources */,
-				04523E23281CC1A30079CC3C /* inspector.cpp in Sources */,
-				04523E19281C296B0079CC3C /* asset_browser.cpp in Sources */,
-				04523E17281C14500079CC3C /* editor_resources.cpp in Sources */,
-				04523E1B281C2EE20079CC3C /* hierarchy.cpp in Sources */,
-				04523E1A281C2A9B0079CC3C /* material_editor.cpp in Sources */,
-				04523E15281BE6C10079CC3C /* project_settings.cpp in Sources */,
-				04523E14281BE69D0079CC3C /* ini_file.cpp in Sources */,
 				04523DC6281BB0C30079CC3C /* main.cpp in Sources */,
-				04523E09281BD3940079CC3C /* editor_actions.cpp in Sources */,
 				04523DCD281BB3960079CC3C /* primitive_app.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04523E25281CC4920079CC3C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04523E40281CC5410079CC3C /* inspector.cpp in Sources */,
+				04523E57281CC5460079CC3C /* ini_file.cpp in Sources */,
+				04523E41281CC5410079CC3C /* material_editor.cpp in Sources */,
+				04523E4E281CC5410079CC3C /* asset_browser.cpp in Sources */,
+				04523E34281CC5410079CC3C /* menu_bar.cpp in Sources */,
+				04523E38281CC5410079CC3C /* project_settings.cpp in Sources */,
+				04523E3D281CC5410079CC3C /* tool_bar.cpp in Sources */,
+				04523E54281CC5410079CC3C /* editor_utils.cpp in Sources */,
+				04523E3C281CC5410079CC3C /* entity_creation_menu.cpp in Sources */,
+				04523E3E281CC5410079CC3C /* panels_manager.cpp in Sources */,
+				04523E44281CC5410079CC3C /* editor_actions.cpp in Sources */,
+				04523E36281CC5410079CC3C /* hierarchy.cpp in Sources */,
+				04523E4B281CC5410079CC3C /* editor_resources.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3523,6 +3617,165 @@
 					"-lassimp",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					./third_party/vma/src,
+					./third_party/volk,
+					./third_party/vulkan/include,
+					./third_party/spdlog/include,
+					./third_party/glm,
+					./third_party/glslang,
+					./third_party/tinygltf,
+					./third_party/cli11/include,
+					./third_party/glfw/include,
+					"./third_party/spirv-cross",
+					./third_party/hwcpipe,
+					./third_party/imgui,
+					./third_party/astc/Source,
+					./third_party/stb,
+					./third_party/ktx/include,
+					./third_party/CTPL,
+					/usr/local/include,
+					./third_party/physx/physx/source/common/src/mac,
+					./third_party/physx/physx/include,
+					./third_party/physx/physx/source/common/include,
+					./third_party/physx/physx/source/common/src,
+					./third_party/physx/physx/source/geomutils/include,
+					./third_party/physx/physx/source/geomutils/src,
+					./third_party/physx/physx/source/geomutils/src/contact,
+					./third_party/physx/physx/source/geomutils/src/common,
+					./third_party/physx/physx/source/geomutils/src/convex,
+					./third_party/physx/physx/source/geomutils/src/distance,
+					./third_party/physx/physx/source/geomutils/src/sweep,
+					./third_party/physx/physx/source/geomutils/src/gjk,
+					./third_party/physx/physx/source/geomutils/src/intersection,
+					./third_party/physx/physx/source/geomutils/src/mesh,
+					./third_party/physx/physx/source/geomutils/src/hf,
+					./third_party/physx/physx/source/geomutils/src/pcm,
+					./third_party/physx/physx/source/geomutils/src/ccd,
+					./third_party/physx/physx/source/physxgpu/include,
+					./third_party/physx/physx/../pxshared/include,
+					./third_party/physx/physx/source/foundation/include,
+					./third_party/assimp/include,
+					./third_party/assimp/build_release/include,
+					./third_party/sol2/single/include,
+					/usr/local/include/lua,
+				);
+			};
+			name = Release;
+		};
+		04523E31281CC4920079CC3C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4SL5L673UU;
+				EXCLUDED_ARCHS = arm64;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'ROOT_PATH_SIZE=39'",
+					VKB_VULKAN_DEBUG,
+					VK_NO_PROTOTYPES,
+					VK_USE_PLATFORM_METAL_EXT,
+					LIBKTX,
+					"'KTX_FEATURE_WRITE=0'",
+					"'BASISD_SUPPORT_KTX2_ZSTD=0'",
+					BASISU_NO_ITERATOR_DEBUG_LEVEL,
+					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
+					"$(inherited)",
+					DISABLE_CUDA_PHYSX,
+					PX_PHYSX_CORE_EXPORTS,
+					_DEBUG,
+					"'PX_DEBUG=1'",
+					"'PX_CHECKED=1'",
+					"'PX_NVTX=0'",
+					"'PX_SUPPORT_PVD=1'",
+				);
+				HEADER_SEARCH_PATHS = (
+					./vox.render,
+					./vox.math,
+					./vox.editor,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					./third_party/vma/src,
+					./third_party/volk,
+					./third_party/vulkan/include,
+					./third_party/spdlog/include,
+					./third_party/glm,
+					./third_party/glslang,
+					./third_party/tinygltf,
+					./third_party/cli11/include,
+					./third_party/glfw/include,
+					"./third_party/spirv-cross",
+					./third_party/hwcpipe,
+					./third_party/imgui,
+					./third_party/astc/Source,
+					./third_party/stb,
+					./third_party/ktx/include,
+					./third_party/CTPL,
+					/usr/local/include,
+					./third_party/physx/physx/source/common/src/mac,
+					./third_party/physx/physx/include,
+					./third_party/physx/physx/source/common/include,
+					./third_party/physx/physx/source/common/src,
+					./third_party/physx/physx/source/geomutils/include,
+					./third_party/physx/physx/source/geomutils/src,
+					./third_party/physx/physx/source/geomutils/src/contact,
+					./third_party/physx/physx/source/geomutils/src/common,
+					./third_party/physx/physx/source/geomutils/src/convex,
+					./third_party/physx/physx/source/geomutils/src/distance,
+					./third_party/physx/physx/source/geomutils/src/sweep,
+					./third_party/physx/physx/source/geomutils/src/gjk,
+					./third_party/physx/physx/source/geomutils/src/intersection,
+					./third_party/physx/physx/source/geomutils/src/mesh,
+					./third_party/physx/physx/source/geomutils/src/hf,
+					./third_party/physx/physx/source/geomutils/src/pcm,
+					./third_party/physx/physx/source/geomutils/src/ccd,
+					./third_party/physx/physx/source/physxgpu/include,
+					./third_party/physx/physx/../pxshared/include,
+					./third_party/physx/physx/source/foundation/include,
+					./third_party/assimp/include,
+					./third_party/assimp/build_debug/include,
+					./third_party/sol2/single/include,
+					/usr/local/include/lua,
+				);
+			};
+			name = Debug;
+		};
+		04523E32281CC4920079CC3C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4SL5L673UU;
+				EXCLUDED_ARCHS = arm64;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'ROOT_PATH_SIZE=39'",
+					VKB_VULKAN_DEBUG,
+					VK_NO_PROTOTYPES,
+					VK_USE_PLATFORM_METAL_EXT,
+					LIBKTX,
+					"'KTX_FEATURE_WRITE=0'",
+					"'BASISD_SUPPORT_KTX2_ZSTD=0'",
+					BASISU_NO_ITERATOR_DEBUG_LEVEL,
+					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
+					"$(inherited)",
+					DISABLE_CUDA_PHYSX,
+					PX_PHYSX_CORE_EXPORTS,
+					NDEBUG,
+					"'PX_SUPPORT_PVD=0'",
+				);
+				HEADER_SEARCH_PATHS = (
+					./vox.render,
+					./vox.math,
+					./vox.editor,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					./third_party/vma/src,
 					./third_party/volk,
@@ -4113,6 +4366,15 @@
 			buildConfigurations = (
 				04523DC8281BB0C30079CC3C /* Debug */,
 				04523DC9281BB0C30079CC3C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04523E30281CC4920079CC3C /* Build configuration list for PBXNativeTarget "vox.editor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04523E31281CC4920079CC3C /* Debug */,
+				04523E32281CC4920079CC3C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
