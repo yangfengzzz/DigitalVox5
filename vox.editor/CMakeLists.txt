@@ -24,7 +24,9 @@ set(UI_FILES
 
 set(VIEW_FILES
         view/view.cpp
-        view/view.h)
+        view/view.h
+        view/game_view.cpp
+        view/game_view.h)
 
 set(FRAMEWORK_FILES
         ini_file.cpp

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_BACKGROUND_H_
-#define DIGITALVOX_VOX_RENDER_BACKGROUND_H_
+#pragma once
 
 #include "color.h"
 
@@ -39,11 +38,9 @@ public:
      * @defaultValue `new Color(0.25, 0.25, 0.25, 1.0)`
      * @remarks When `mode` is `BackgroundMode.SolidColor`, the property will take effects.
      */
-    Color solidColor_ = Color(0.25, 0.25, 0.25, 1.0);
+    Color solid_color_ = Color(0.25, 0.25, 0.25, 1.0);
     
     Background() = default;
 };
 
 }
-
-#endif /* DIGITALVOX_VOX_RENDER_BACKGROUND_H_ */
