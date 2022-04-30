@@ -22,9 +22,14 @@ set(UI_FILES
         panels_manager.cpp
         entity_creation_menu.cpp)
 
+set(VIEW_FILES
+        view/view.cpp
+        view/view.h)
+
 set(FRAMEWORK_FILES
         ini_file.cpp
         ${UI_FILES}
+        ${VIEW_FILES}
         )
 
 set(LUA_SOURCE
