@@ -55,7 +55,8 @@ void View::update(float p_delta_time) {
         }
         
         image_->size_ = Vector2F(static_cast<float>(win_width), static_cast<float>(win_height));
-        if (create_render_target(win_width * 2, win_height * 2)) {
+        if (win_width * 2 != render_target_->get_extent().width || win_height * 2 != render_target_->get_extent().height) {
+            render_target_ = create_render_target(win_width * 2, win_height * 2);
             image_->set_texture_view(ImGui_ImplVulkan_AddTexture(sampler_->get_handle(), render_target_->get_views().at(0).get_handle(),
                                                                  VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL));
         }
@@ -73,32 +74,27 @@ std::pair<uint16_t, uint16_t> View::safe_size() const {
     return {static_cast<uint16_t>(result.x), static_cast<uint16_t>(result.y)};
 }
 
-bool View::create_render_target(uint32_t width, uint32_t height) {
-    if (width != render_target_->get_extent().width || height != render_target_->get_extent().height) {
-        VkExtent3D extent{width, height, 1};
-        
-        core::Image color_target{
-            render_context_.get_device(), extent,
-            VK_FORMAT_R8G8B8A8_UNORM,
-            VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
-            VMA_MEMORY_USAGE_GPU_ONLY
-        };
-        
-        core::Image depth_image{
-            render_context_.get_device(), extent,
-            get_suitable_depth_format(render_context_.get_device().get_gpu().get_handle()),
-            VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
-            VMA_MEMORY_USAGE_GPU_ONLY
-        };
-        
-        std::vector<core::Image> images;
-        images.push_back(std::move(color_target));
-        images.push_back(std::move(depth_image));
-        render_target_ = std::make_unique<RenderTarget>(std::move(images));
-        return true;
-    } else {
-        return false;
-    }
+std::unique_ptr<RenderTarget> View::create_render_target(uint32_t width, uint32_t height) {
+    VkExtent3D extent{width, height, 1};
+    
+    core::Image color_target{
+        render_context_.get_device(), extent,
+        VK_FORMAT_R8G8B8A8_UNORM,
+        VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
+        VMA_MEMORY_USAGE_GPU_ONLY
+    };
+    
+    core::Image depth_image{
+        render_context_.get_device(), extent,
+        get_suitable_depth_format(render_context_.get_device().get_gpu().get_handle()),
+        VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
+        VMA_MEMORY_USAGE_GPU_ONLY
+    };
+    
+    std::vector<core::Image> images;
+    images.push_back(std::move(color_target));
+    images.push_back(std::move(depth_image));
+    return std::make_unique<RenderTarget>(std::move(images));
 }
 
 //MARK: - Grid

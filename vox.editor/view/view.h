@@ -69,7 +69,8 @@ protected:
     std::unique_ptr<core::Sampler> sampler_{nullptr};
     std::unique_ptr<RenderTarget> render_target_{nullptr};
     std::unique_ptr<RenderPipeline> render_pipeline_{nullptr};
-    bool create_render_target(uint32_t width, uint32_t height);
+    
+    std::unique_ptr<RenderTarget> create_render_target(uint32_t width, uint32_t height);
 };
 
 //MARK: - Grid

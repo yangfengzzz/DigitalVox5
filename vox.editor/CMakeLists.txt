@@ -28,7 +28,9 @@ set(VIEW_FILES
         view/game_view.cpp
         view/game_view.h
         view/asset_view.cpp
-        view/asset_view.h)
+        view/asset_view.h
+        view/scene_view.cpp
+        view/scene_view.h)
 
 set(IMGUI_FILES
         imgui/crude_json.cpp
