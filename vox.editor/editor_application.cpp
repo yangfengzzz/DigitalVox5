@@ -27,10 +27,10 @@ GraphicsApplication(),
 project_path_(project_path),
 project_name_(project_name),
 project_file_path_(project_path + project_name + ".project"),
-engine_assets_path_(std::filesystem::canonical("./Data").string() + "/"),
-project_assets_path_(project_path + "/Assets/"),
-project_scripts_path_(project_path + "/Scripts/"),
-editor_assets_path_("/Data/Editor/"),
+engine_assets_path_(std::filesystem::canonical("./assets").string() + "/"),
+project_assets_path_(project_path + "./assets/"),
+project_scripts_path_(project_path + "./assets/Scripts/"),
+editor_assets_path_("./assets/Editor/"),
 panels_manager_(canvas_) {
 }
 
@@ -55,9 +55,9 @@ EditorApplication::~EditorApplication() {
 bool EditorApplication::prepare(Platform &platform) {
     GraphicsApplication::prepare(platform);
     
-    gui_->load_font("Ruda_Big", "../assets/Fonts/Ruda-Bold.ttf", 16);
-    gui_->load_font("Ruda_Small", "../assets/Fonts/Ruda-Bold.ttf", 12);
-    gui_->load_font("Ruda_Medium", "../assets/Fonts/Ruda-Bold.ttf", 14);
+    gui_->load_font("Ruda_Big", "Fonts/Ruda-Bold.ttf", 16);
+    gui_->load_font("Ruda_Small", "Fonts/Ruda-Bold.ttf", 12);
+    gui_->load_font("Ruda_Medium", "Fonts/Ruda-Bold.ttf", 14);
     gui_->use_font("Ruda_Medium");
     gui_->set_editor_layout_autosave_frequency(60.0f);
     gui_->enable_editor_layout_save(true);
@@ -80,7 +80,6 @@ bool EditorApplication::prepare(Platform &platform) {
         auto extent = platform.get_window().get_extent();
         auto factor = static_cast<uint32_t>(platform.get_window().get_content_scale_factor());
         components_manager_->call_script_resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
-        main_camera_->resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
     }
     light_manager_->set_camera(main_camera_);
     
@@ -88,8 +87,10 @@ bool EditorApplication::prepare(Platform &platform) {
     shadow_manager_ = std::make_unique<ShadowManager>(*device_, *render_context_, scene, main_camera_);
     
     // default render pipeline
+    auto subpass = std::make_unique<GeometrySubpass>(get_render_context(), scene, nullptr);
+    subpass->set_render_mode(GeometrySubpass::RenderMode::MANUAL);
     std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
-    scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(get_render_context(), scene, main_camera_));
+    scene_subpasses.emplace_back(std::move(subpass));
     set_render_pipeline(RenderPipeline(std::move(scene_subpasses)));
     
     editor_actions_ = std::make_unique<EditorActions>(panels_manager_);
@@ -193,7 +194,6 @@ bool EditorApplication::resize(uint32_t win_width, uint32_t win_height,
                                uint32_t fb_width, uint32_t fb_height) {
     GraphicsApplication::resize(win_width, win_height, fb_width, fb_height);
     components_manager_->call_script_resize(win_width, win_height, fb_width, fb_height);
-    main_camera_->resize(win_width, win_height, fb_width, fb_height);
     return true;
 }
 

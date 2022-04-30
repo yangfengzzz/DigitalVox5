@@ -43,7 +43,9 @@ void GeometrySubpass::prepare() {}
 void GeometrySubpass::draw(CommandBuffer &command_buffer) {
     auto compile_variant = ShaderVariant();
     scene_->shader_data_.merge_variants(compile_variant, compile_variant);
-    camera_->shader_data_.merge_variants(compile_variant, compile_variant);
+    if (camera_) {
+        camera_->shader_data_.merge_variants(compile_variant, compile_variant);
+    }
     
     if (mode_ == RenderMode::MANUAL) {
         draw_element(command_buffer, elements_, compile_variant);
