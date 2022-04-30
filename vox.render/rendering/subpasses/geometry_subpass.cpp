@@ -18,6 +18,22 @@ GeometrySubpass::GeometrySubpass(RenderContext &render_context, Scene *scene, Ca
 Subpass{render_context, scene, camera} {
 }
 
+GeometrySubpass::RenderMode GeometrySubpass::render_mode() const {
+    return mode_;
+}
+
+void GeometrySubpass::set_render_mode(RenderMode mode) {
+    mode_ = mode;
+}
+
+void GeometrySubpass::add_render_element(const RenderElement &element) {
+    elements_.emplace_back(element);
+}
+
+void GeometrySubpass::clear_all_render_element() {
+    elements_.clear();
+}
+
 void GeometrySubpass::set_thread_index(uint32_t index) {
     thread_index_ = index;
 }
@@ -29,17 +45,21 @@ void GeometrySubpass::draw(CommandBuffer &command_buffer) {
     scene_->shader_data_.merge_variants(compile_variant, compile_variant);
     camera_->shader_data_.merge_variants(compile_variant, compile_variant);
     
-    std::vector<RenderElement> opaque_queue;
-    std::vector<RenderElement> alpha_test_queue;
-    std::vector<RenderElement> transparent_queue;
-    ComponentsManager::get_singleton().call_render(camera_, opaque_queue, alpha_test_queue, transparent_queue);
-    std::sort(opaque_queue.begin(), opaque_queue.end(), _compareFromNearToFar);
-    std::sort(alpha_test_queue.begin(), alpha_test_queue.end(), _compareFromNearToFar);
-    std::sort(transparent_queue.begin(), transparent_queue.end(), _compareFromFarToNear);
-    
-    draw_element(command_buffer, opaque_queue, compile_variant);
-    draw_element(command_buffer, alpha_test_queue, compile_variant);
-    draw_element(command_buffer, transparent_queue, compile_variant);
+    if (mode_ == RenderMode::MANUAL) {
+        draw_element(command_buffer, elements_, compile_variant);
+    } else {
+        std::vector<RenderElement> opaque_queue;
+        std::vector<RenderElement> alpha_test_queue;
+        std::vector<RenderElement> transparent_queue;
+        ComponentsManager::get_singleton().call_render(camera_, opaque_queue, alpha_test_queue, transparent_queue);
+        std::sort(opaque_queue.begin(), opaque_queue.end(), _compareFromNearToFar);
+        std::sort(alpha_test_queue.begin(), alpha_test_queue.end(), _compareFromNearToFar);
+        std::sort(transparent_queue.begin(), transparent_queue.end(), _compareFromFarToNear);
+        
+        draw_element(command_buffer, opaque_queue, compile_variant);
+        draw_element(command_buffer, alpha_test_queue, compile_variant);
+        draw_element(command_buffer, transparent_queue, compile_variant);
+    }
 }
 
 void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
@@ -67,7 +87,7 @@ void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
         material->rasterization_state_.depth_bias_enable = VK_TRUE;
         command_buffer.set_rasterization_state(material->rasterization_state_);
         command_buffer.set_depth_bias(0.01, 0.01, 1.0);
-
+        
         auto multisample = material->multisample_state_;
         multisample.rasterization_samples = sample_count_;
         command_buffer.set_multisample_state(multisample);
@@ -94,10 +114,10 @@ void GeometrySubpass::draw_element(CommandBuffer &command_buffer,
         // vertex buffer
         command_buffer.set_vertex_input_state(mesh->vertex_input_state());
         for (uint32_t j = 0; j < mesh->vertex_buffer_count(); j++) {
-            const auto vertex_buffer_binding = mesh->vertex_buffer(j);
-            if (vertex_buffer_binding) {
+            const auto kVertexBufferBinding = mesh->vertex_buffer(j);
+            if (kVertexBufferBinding) {
                 std::vector<std::reference_wrapper<const core::Buffer>> buffers;
-                buffers.emplace_back(std::ref(*vertex_buffer_binding));
+                buffers.emplace_back(std::ref(*kVertexBufferBinding));
                 command_buffer.bind_vertex_buffers(j, buffers, {0});
             }
         }

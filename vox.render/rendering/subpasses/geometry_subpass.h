@@ -14,6 +14,11 @@ namespace vox {
  */
 class GeometrySubpass : public Subpass {
 public:
+    enum class RenderMode {
+        AUTO,
+        MANUAL
+    };
+    
     /**
      * @brief Constructs a subpass for the geometry pass of Deferred rendering
      * @param render_context Render context
@@ -36,12 +41,24 @@ public:
      */
     void set_thread_index(uint32_t index);
     
+public:
+    [[nodiscard]] RenderMode render_mode() const;
+    
+    void set_render_mode(RenderMode mode);
+    
+    void add_render_element(const RenderElement &element);
+    
+    void clear_all_render_element();
+    
 protected:
     void draw_element(CommandBuffer &command_buffer,
                       const std::vector<RenderElement> &items,
                       const ShaderVariant &variant);
     
     uint32_t thread_index_{0};
+    
+    RenderMode mode_ = RenderMode::AUTO;
+    std::vector<RenderElement> elements_{};
 };
 
 }

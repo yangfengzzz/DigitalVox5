@@ -452,6 +452,8 @@
 		04523E60281CC7630079CC3C /* view.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E5E281CC7630079CC3C /* view.h */; };
 		04523E63281D23CA0079CC3C /* game_view.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E61281D23CA0079CC3C /* game_view.cpp */; };
 		04523E64281D23CA0079CC3C /* game_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E62281D23CA0079CC3C /* game_view.h */; };
+		04523E6D281D265D0079CC3C /* asset_view.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E6B281D265D0079CC3C /* asset_view.cpp */; };
+		04523E6E281D265D0079CC3C /* asset_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E6C281D265D0079CC3C /* asset_view.h */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -1181,6 +1183,8 @@
 		04523E5E281CC7630079CC3C /* view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = view.h; sourceTree = "<group>"; };
 		04523E61281D23CA0079CC3C /* game_view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = game_view.cpp; sourceTree = "<group>"; };
 		04523E62281D23CA0079CC3C /* game_view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = game_view.h; sourceTree = "<group>"; };
+		04523E6B281D265D0079CC3C /* asset_view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = asset_view.cpp; sourceTree = "<group>"; };
+		04523E6C281D265D0079CC3C /* asset_view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = asset_view.h; sourceTree = "<group>"; };
 		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
 		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
 		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
@@ -2015,6 +2019,8 @@
 				04523E5D281CC7630079CC3C /* view.cpp */,
 				04523E62281D23CA0079CC3C /* game_view.h */,
 				04523E61281D23CA0079CC3C /* game_view.cpp */,
+				04523E6C281D265D0079CC3C /* asset_view.h */,
+				04523E6B281D265D0079CC3C /* asset_view.cpp */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -2636,6 +2642,7 @@
 				04523E60281CC7630079CC3C /* view.h in Headers */,
 				04523E48281CC5410079CC3C /* material_editor.h in Headers */,
 				04523E64281D23CA0079CC3C /* game_view.h in Headers */,
+				04523E6E281D265D0079CC3C /* asset_view.h in Headers */,
 				04523E39281CC5410079CC3C /* menu_bar.h in Headers */,
 				04523E4A281CC5410079CC3C /* panels_manager.h in Headers */,
 				04523E58281CC5460079CC3C /* raw_icon.h in Headers */,
@@ -3172,6 +3179,7 @@
 				04523E38281CC5410079CC3C /* project_settings.cpp in Sources */,
 				04523E3D281CC5410079CC3C /* tool_bar.cpp in Sources */,
 				04523E54281CC5410079CC3C /* editor_utils.cpp in Sources */,
+				04523E6D281D265D0079CC3C /* asset_view.cpp in Sources */,
 				04523E3C281CC5410079CC3C /* entity_creation_menu.cpp in Sources */,
 				04523E3E281CC5410079CC3C /* panels_manager.cpp in Sources */,
 				04523E5F281CC7630079CC3C /* view.cpp in Sources */,
