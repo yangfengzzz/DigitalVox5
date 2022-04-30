@@ -52,6 +52,7 @@ add_subdirectory(vox.math)
 
 # Add render framework
 add_subdirectory(vox.render)
+add_subdirectory(vox.editor)
 
 # Add apps
 add_subdirectory(apps)

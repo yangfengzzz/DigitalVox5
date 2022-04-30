@@ -10,23 +10,7 @@ include(android_package)
 # create sample app project
 project(editor LANGUAGES C CXX)
 
-set(UI_FILES
-        ui/menu_bar.cpp
-        ui/project_settings.cpp
-        ui/tool_bar.cpp
-        ui/asset_browser.cpp
-        ui/material_editor.cpp
-        ui/hierarchy.cpp
-        ui/inspector.cpp
-        editor_utils.cpp
-        editor_actions.cpp
-        editor_resources.cpp
-        panels_manager.cpp
-        entity_creation_menu.cpp)
-
 set(SRC
-        ini_file.cpp
-        ${UI_FILES}
         primitive_app.cpp
         main.cpp
         )
