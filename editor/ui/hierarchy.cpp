@@ -247,7 +247,7 @@ void Hierarchy::add_entity_by_instance(Entity *entity) {
         
         text_selectable.consider_widget(*element.second);
         
-        entity->add_child(element.first);
+        entity->add_child(element.first->parent()->remove_child(element.first));
     };
     auto &dispatcher = text_selectable.add_plugin<DataDispatcher<std::string>>();
     

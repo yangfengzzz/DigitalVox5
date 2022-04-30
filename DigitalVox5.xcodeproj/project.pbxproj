@@ -423,6 +423,9 @@
 		04523E19281C296B0079CC3C /* asset_browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE6281BCC2D0079CC3C /* asset_browser.cpp */; };
 		04523E1A281C2A9B0079CC3C /* material_editor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DEE281BCC2D0079CC3C /* material_editor.cpp */; };
 		04523E1B281C2EE20079CC3C /* hierarchy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DDE281BCC2C0079CC3C /* hierarchy.cpp */; };
+		04523E20281CBC8A0079CC3C /* behaviour-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E1D281CBC890079CC3C /* behaviour-inl.h */; };
+		04523E21281CBC8A0079CC3C /* behaviour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E1E281CBC8A0079CC3C /* behaviour.cpp */; };
+		04523E22281CBC8A0079CC3C /* behaviour.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E1F281CBC8A0079CC3C /* behaviour.h */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -1123,6 +1126,9 @@
 		04523E12281BE69D0079CC3C /* ini_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ini_file.h; sourceTree = "<group>"; };
 		04523E13281BE69D0079CC3C /* ini_file-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ini_file-inl.h"; sourceTree = "<group>"; };
 		04523E16281BEBEC0079CC3C /* raw_icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = raw_icon.h; sourceTree = "<group>"; };
+		04523E1D281CBC890079CC3C /* behaviour-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "behaviour-inl.h"; sourceTree = "<group>"; };
+		04523E1E281CBC8A0079CC3C /* behaviour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = behaviour.cpp; sourceTree = "<group>"; };
+		04523E1F281CBC8A0079CC3C /* behaviour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = behaviour.h; sourceTree = "<group>"; };
 		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
 		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
 		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
@@ -2102,6 +2108,9 @@
 				04D95C362809A23400E54DC2 /* script.h */,
 				04D95C382809A23400E54DC2 /* script.cpp */,
 				04D95C412809B24700E54DC2 /* controls */,
+				04523E1F281CBC8A0079CC3C /* behaviour.h */,
+				04523E1D281CBC890079CC3C /* behaviour-inl.h */,
+				04523E1E281CBC8A0079CC3C /* behaviour.cpp */,
 				04D95D2F280E328A00E54DC2 /* scene_animator.h */,
 				04D95D2E280E328A00E54DC2 /* scene_animator.cpp */,
 				04D95D2B280E327E00E54DC2 /* scene_animation_clip.h */,
@@ -2635,6 +2644,7 @@
 				0444EBCC28084BD600C6F279 /* drag_multiple_doubles.h in Headers */,
 				0444EB9E28084BC500C6F279 /* dummy.h in Headers */,
 				0444E8BD2805579F00C6F279 /* helpers.h in Headers */,
+				04523E22281CBC8A0079CC3C /* behaviour.h in Headers */,
 				0444E92128055CE400C6F279 /* physical_device.h in Headers */,
 				0444E9F228056B0500C6F279 /* render_pass.h in Headers */,
 				0444EBE128084BDE00C6F279 /* button_image.h in Headers */,
@@ -2716,6 +2726,7 @@
 				0444EB6F28084BAF00C6F279 /* combo_box.h in Headers */,
 				0444E9AE2805689000C6F279 /* sampler.h in Headers */,
 				0444E92228055CE400C6F279 /* instance.h in Headers */,
+				04523E20281CBC8A0079CC3C /* behaviour-inl.h in Headers */,
 				0444E94228055FD400C6F279 /* debug.h in Headers */,
 				0444E946280560A000C6F279 /* fence_pool.h in Headers */,
 				0444EB1728084B8700C6F279 /* panel_window.h in Headers */,
@@ -3095,6 +3106,7 @@
 				0444EB4628084B9E00C6F279 /* text_selectable.cpp in Sources */,
 				04D95D932810E98400E54DC2 /* file_logger.cpp in Sources */,
 				0444EA1228056E2700C6F279 /* vulkan_stats_provider.cpp in Sources */,
+				04523E21281CBC8A0079CC3C /* behaviour.cpp in Sources */,
 				04AAD9B92816A44E00121576 /* shadow_subpass.cpp in Sources */,
 				0444EB1B28084B8F00C6F279 /* panel_menu_bar.cpp in Sources */,
 				0444EBE528084BDE00C6F279 /* button_arrow.cpp in Sources */,
@@ -3432,6 +3444,8 @@
 					./third_party/physx/physx/source/foundation/include,
 					./third_party/assimp/include,
 					./third_party/assimp/build_debug/include,
+					./third_party/sol2/single/include,
+					/usr/local/include/lua,
 				);
 			};
 			name = Debug;
@@ -3547,6 +3561,8 @@
 					./third_party/physx/physx/source/foundation/include,
 					./third_party/assimp/include,
 					./third_party/assimp/build_release/include,
+					./third_party/sol2/single/include,
+					/usr/local/include/lua,
 				);
 			};
 			name = Release;
@@ -3776,6 +3792,8 @@
 					./third_party/physx/physx/source/foundation/include,
 					./third_party/assimp/include,
 					./third_party/assimp/build_debug/include,
+					./third_party/sol2/single/include,
+					/usr/local/include/lua,
 				);
 			};
 			name = Debug;
@@ -3892,6 +3910,8 @@
 					./third_party/physx/physx/source/foundation/include,
 					./third_party/assimp/include,
 					./third_party/assimp/build_release/include,
+					./third_party/sol2/single/include,
+					/usr/local/include/lua,
 				);
 			};
 			name = Release;
@@ -3971,6 +3991,8 @@
 					./third_party/physx/physx/source/foundation/include,
 					./third_party/assimp/include,
 					./third_party/assimp/build_debug/include,
+					./third_party/sol2/single/include,
+					/usr/local/include/lua,
 				);
 			};
 			name = Debug;
@@ -4047,6 +4069,8 @@
 					./third_party/physx/physx/source/foundation/include,
 					./third_party/assimp/include,
 					./third_party/assimp/build_release/include,
+					./third_party/sol2/single/include,
+					/usr/local/include/lua,
 				);
 			};
 			name = Release;

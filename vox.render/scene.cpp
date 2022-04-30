@@ -25,7 +25,7 @@ Device &Scene::device() {
     return device_;
 }
 
-[[maybe_unused]] const std::shared_ptr<AmbientLight> &Scene::ambient_light() const {
+const std::shared_ptr<AmbientLight> &Scene::ambient_light() const {
     return ambient_light_;
 }
 

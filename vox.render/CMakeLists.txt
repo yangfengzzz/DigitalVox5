@@ -410,6 +410,14 @@ set(SCENE_FILES
         camera.cpp
         script.h
         script.cpp
+        behaviour.h
+        behaviour-inl.h
+        behaviour.cpp
+        )
+
+set(LUA_SOURCE
+        ../third_party/sol2/single/include
+        /usr/local/include/lua
         )
 
 set(CONTROL_FILES controls/spherical.h
@@ -730,7 +738,7 @@ if (${VKB_WARNINGS_AS_ERRORS})
     endif ()
 endif ()
 
-target_include_directories(${PROJECT_NAME} PUBLIC ../vox.math ./vox.render ${CMAKE_CURRENT_SOURCE_DIR} ${PHYSX_SOURCE} ${LOADER_SOURCE})
+target_include_directories(${PROJECT_NAME} PUBLIC ../vox.math ./vox.render ${CMAKE_CURRENT_SOURCE_DIR} ${PHYSX_SOURCE} ${LOADER_SOURCE} ${LUA_SOURCE})
 
 # Link third party libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC
