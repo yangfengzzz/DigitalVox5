@@ -7,7 +7,7 @@
 #include "logging.h"
 #include "platform/platform.h"
 
-#include "primitive_app.h"
+#include "editor_application.h"
 
 //MARK: - Entry
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 
     auto code = platform.initialize({});
     if (code == vox::ExitCode::SUCCESS) {
-        platform.set_app(std::make_unique<vox::PrimitiveApp>());
+        platform.set_app(std::make_unique<vox::editor::EditorApplication>("", ""));
         code = platform.main_loop();
     }
     platform.terminate(code);

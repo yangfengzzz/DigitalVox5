@@ -11,7 +11,6 @@ include(android_package)
 project(editor LANGUAGES C CXX)
 
 set(SRC
-        primitive_app.cpp
         main.cpp
         )
 
@@ -30,10 +29,11 @@ endif ()
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../vox.editor
         ${CMAKE_CURRENT_SOURCE_DIR}/../vox.render
         ${CMAKE_CURRENT_SOURCE_DIR}/../vox.math)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE vox.render vox.math spdlog)
+target_link_libraries(${PROJECT_NAME} PRIVATE vox.render vox.math vox.editor spdlog)
 
 if (CMAKE_BUILD_TYPE MATCHES "Release")
     target_compile_definitions(${PROJECT_NAME} PUBLIC DISABLE_CUDA_PHYSX PX_PHYSX_CORE_EXPORTS NDEBUG PX_SUPPORT_PVD=0)

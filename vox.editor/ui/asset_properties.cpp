@@ -6,7 +6,7 @@
 
 #include "asset_properties.h"
 #include "editor_actions.h"
-#include "filesystem.h"
+#include "platform/filesystem.h"
 
 #include "ui/widgets/visual/separator.h"
 #include "ui/widgets/layout/group.h"
@@ -17,9 +17,7 @@
 
 #include "size_converter.h"
 
-namespace vox {
-namespace editor {
-namespace ui {
+namespace vox::editor::ui {
 AssetProperties::AssetProperties(const std::string &p_title, bool p_opened,
                                  const PanelWindowSettings &p_window_settings,
                                  AssetView &view) :
@@ -48,7 +46,7 @@ asset_view_(view) {
 }
 
 void AssetProperties::set_target(const std::string &p_path) {
-    resource_ = p_path == "" ? p_path : EditorActions::get_singleton().get_resource_path(p_path);
+    resource_ = p_path.empty() ? p_path : EditorActions::get_singleton().get_resource_path(p_path);
     
     if (asset_selector_) {
         asset_selector_->content_ = resource_;
@@ -301,6 +299,4 @@ void AssetProperties::apply() {
     refresh();
 }
 
-}
-}
 }
