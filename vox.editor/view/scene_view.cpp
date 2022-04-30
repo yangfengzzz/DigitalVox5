@@ -31,7 +31,6 @@ scene_(scene) {
     
     // scene render target
     {
-        // default render pipeline
         std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
         scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(render_context_, scene, main_camera_));
         render_pipeline_ = std::make_unique<RenderPipeline>(std::move(scene_subpasses));
@@ -121,7 +120,6 @@ void SceneView::render(CommandBuffer &command_buffer) {
         
         if (need_pick_) {
             read_color_from_render_target();
-            //            pick_functor(pick_result_.first, pick_result_.second);
             need_pick_ = false;
         }
     }

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef asset_properties_hpp
-#define asset_properties_hpp
+#pragma once
 
 #include "event.h"
 #include "ini_file.h"
@@ -20,25 +19,18 @@
 namespace vox {
 using namespace ui;
 
-namespace editor {
-namespace ui {
+namespace editor::ui {
 class AssetProperties : public PanelWindow {
 public:
-    /**
-     * Constructor
-     * @param p_title p_title
-     * @param p_opened p_opened
-     * @param p_windowSettings p_windowSettings
-     */
     AssetProperties(const std::string &p_title, bool p_opened,
-                    const PanelWindowSettings &p_windowSettings,
+                    const PanelWindowSettings &p_window_settings,
                     AssetView &view);
     
     /**
      * Defines the target of the asset settings editor
      * @param p_path p_path
      */
-    void setTarget(const std::string &p_path);
+    void set_target(const std::string &p_path);
     
     /**
      * Refresh the panel to show the current target settings
@@ -51,41 +43,38 @@ public:
     void preview();
     
 private:
-    void createHeaderButtons();
+    void create_header_buttons();
     
-    void createAssetSelector();
+    void create_asset_selector();
     
-    void createSettings();
+    void create_settings();
     
-    void createInfo();
+    void create_info();
     
-    void createModelSettings();
+    void create_model_settings();
     
-    void createTextureSettings();
+    void create_texture_settings();
     
     void apply();
     
 private:
-    AssetView &_assetView;
-    std::string _resource;
+    AssetView &asset_view_;
+    std::string resource_;
     
-    Event<> _targetChanged;
-    Group *_settings{nullptr};
-    Group *_info{nullptr};
-    ButtonSimple *_applyButton{nullptr};
-    ButtonSimple *_revertButton{nullptr};
-    ButtonSimple *_previewButton{nullptr};
-    ButtonSimple *_resetButton{nullptr};
-    Widget *_headerSeparator{nullptr};
-    Widget *_headerLineBreak{nullptr};
-    Columns<2> *_settingsColumns{nullptr};
-    Columns<2> *_infoColumns{nullptr};
-    Text *_assetSelector{nullptr};
-    std::unique_ptr<fs::IniFile> _metadata{nullptr};
+    Event<> target_changed_;
+    Group *settings_{nullptr};
+    Group *info_{nullptr};
+    ButtonSimple *apply_button_{nullptr};
+    ButtonSimple *revert_button_{nullptr};
+    ButtonSimple *preview_button_{nullptr};
+    ButtonSimple *reset_button_{nullptr};
+    Widget *header_separator_{nullptr};
+    Widget *header_line_break_{nullptr};
+    Columns<2> *settings_columns_{nullptr};
+    Columns<2> *info_columns_{nullptr};
+    Text *asset_selector_{nullptr};
+    std::unique_ptr<fs::IniFile> metadata_{nullptr};
 };
 
-
 }
 }
-}
-#endif /* asset_properties_hpp */

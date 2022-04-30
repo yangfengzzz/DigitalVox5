@@ -21,196 +21,195 @@ namespace vox {
 namespace editor {
 namespace ui {
 AssetProperties::AssetProperties(const std::string &p_title, bool p_opened,
-                                 const PanelWindowSettings &p_windowSettings,
+                                 const PanelWindowSettings &p_window_settings,
                                  AssetView &view) :
-PanelWindow(p_title, p_opened, p_windowSettings),
-_assetView(view) {
-    _targetChanged += [this]() {
-        setTarget(_assetSelector->content);
+PanelWindow(p_title, p_opened, p_window_settings),
+asset_view_(view) {
+    target_changed_ += [this]() {
+        set_target(asset_selector_->content_);
     };
     
-    createHeaderButtons();
+    create_header_buttons();
     
-    _headerSeparator = &createWidget<::vox::ui::Separator>();
-    _headerSeparator->enabled = false;
+    header_separator_ = &create_widget<::vox::ui::Separator>();
+    header_separator_->enabled_ = false;
     
-    createAssetSelector();
+    create_asset_selector();
     
-    _settings = &createWidget<GroupCollapsable>("Settings");
-    _settingsColumns = &_settings->createWidget<Columns<2>>();
-    _settingsColumns->widths[0] = 150;
+    settings_ = &create_widget<GroupCollapsable>("Settings");
+    settings_columns_ = &settings_->create_widget<Columns<2>>();
+    settings_columns_->widths_[0] = 150;
     
-    _info = &createWidget<GroupCollapsable>("Info");
-    _infoColumns = &_info->createWidget<Columns<2>>();
-    _infoColumns->widths[0] = 150;
+    info_ = &create_widget<GroupCollapsable>("Info");
+    info_columns_ = &info_->create_widget<Columns<2>>();
+    info_columns_->widths_[0] = 150;
     
-    _settings->enabled = _info->enabled = false;
+    settings_->enabled_ = info_->enabled_ = false;
 }
 
-void AssetProperties::setTarget(const std::string &p_path) {
-    _resource = p_path == "" ? p_path : EditorActions::getSingleton().getResourcePath(p_path);
+void AssetProperties::set_target(const std::string &p_path) {
+    resource_ = p_path == "" ? p_path : EditorActions::get_singleton().get_resource_path(p_path);
     
-    if (_assetSelector) {
-        _assetSelector->content = _resource;
+    if (asset_selector_) {
+        asset_selector_->content_ = resource_;
     }
     
     refresh();
 }
 
 void AssetProperties::refresh() {
-    _metadata = std::make_unique<::vox::fs::IniFile>(EditorActions::getSingleton().getRealPath(_resource) + ".meta");
+    metadata_ = std::make_unique<::vox::fs::IniFile>(EditorActions::get_singleton().get_real_path(resource_) + ".meta");
     
-    createSettings();
-    createInfo();
+    create_settings();
+    create_info();
     
-    _applyButton->enabled = _settings->enabled;
-    _resetButton->enabled = _settings->enabled;
-    _revertButton->enabled = _settings->enabled;
+    apply_button_->enabled_ = settings_->enabled_;
+    reset_button_->enabled_ = settings_->enabled_;
+    revert_button_->enabled_ = settings_->enabled_;
     
-    switch (fs::extraFileType(_resource)) {
+    switch (fs::extra_file_type(resource_)) {
         case fs::FileType::MODEL:
         case fs::FileType::TEXTURE:
-        case fs::FileType::MATERIAL:
-            _previewButton->enabled = true;
+        case fs::FileType::MATERIAL:preview_button_->enabled_ = true;
             break;
-        default:
-            _previewButton->enabled = false;
+        default:preview_button_->enabled_ = false;
             break;
     }
     
     // Enables the header separator (And the line break) if at least one button is enabled
-    _headerSeparator->enabled = _applyButton->enabled || _resetButton->enabled || _revertButton->enabled || _previewButton->enabled;
-    _headerLineBreak->enabled = _headerSeparator->enabled;
+    header_separator_->enabled_ =
+    apply_button_->enabled_ || reset_button_->enabled_ || revert_button_->enabled_ || preview_button_->enabled_;
+    header_line_break_->enabled_ = header_separator_->enabled_;
 }
 
 void AssetProperties::preview() {
-    const auto fileType = fs::extraFileType(_resource);
+    const auto kFileType = fs::extra_file_type(resource_);
     
-    if (fileType == fs::FileType::MODEL) {
+    if (kFileType == fs::FileType::MODEL) {
         // if (auto resource = OVSERVICE(OvCore::ResourceManagement::ModelManager).GetResource(resource)) {
         //     _assetView.setResource(resource);
         // }
-    } else if (fileType == fs::FileType::TEXTURE) {
+    } else if (kFileType == fs::FileType::TEXTURE) {
         // if (auto resource = OVSERVICE(OvCore::ResourceManagement::TextureManager).GetResource(resource)) {
         //     _assetView.setResource(resource);
         // }
     }
     
-    _assetView.open();
+    asset_view_.open();
 }
 
-void AssetProperties::createHeaderButtons() {
-    _applyButton = &createWidget<ButtonSimple>("Apply");
-    _applyButton->idleBackgroundColor = {0.0f, 0.5f, 0.0f};
-    _applyButton->enabled = false;
-    _applyButton->lineBreak = false;
-    _applyButton->clickedEvent += std::bind(&AssetProperties::apply, this);
+void AssetProperties::create_header_buttons() {
+    apply_button_ = &create_widget<ButtonSimple>("Apply");
+    apply_button_->idle_background_color_ = {0.0f, 0.5f, 0.0f};
+    apply_button_->enabled_ = false;
+    apply_button_->line_break_ = false;
+    apply_button_->clicked_event_ += std::bind(&AssetProperties::apply, this);
     
-    _revertButton = &createWidget<ButtonSimple>("Revert");
-    _revertButton->idleBackgroundColor = {0.7f, 0.5f, 0.0f};
-    _revertButton->enabled = false;
-    _revertButton->lineBreak = false;
-    _revertButton->clickedEvent += std::bind(&AssetProperties::setTarget, this, _resource);
+    revert_button_ = &create_widget<ButtonSimple>("Revert");
+    revert_button_->idle_background_color_ = {0.7f, 0.5f, 0.0f};
+    revert_button_->enabled_ = false;
+    revert_button_->line_break_ = false;
+    revert_button_->clicked_event_ += std::bind(&AssetProperties::set_target, this, resource_);
     
-    _previewButton = &createWidget<ButtonSimple>("Preview");
-    _previewButton->idleBackgroundColor = {0.7f, 0.5f, 0.0f};
-    _previewButton->enabled = false;
-    _previewButton->lineBreak = false;
-    _previewButton->clickedEvent += std::bind(&AssetProperties::preview, this);
+    preview_button_ = &create_widget<ButtonSimple>("Preview");
+    preview_button_->idle_background_color_ = {0.7f, 0.5f, 0.0f};
+    preview_button_->enabled_ = false;
+    preview_button_->line_break_ = false;
+    preview_button_->clicked_event_ += std::bind(&AssetProperties::preview, this);
     
-    _resetButton = &createWidget<ButtonSimple>("Reset to default");
-    _resetButton->idleBackgroundColor = {0.5f, 0.0f, 0.0f};
-    _resetButton->enabled = false;
-    _resetButton->lineBreak = false;
-    _resetButton->clickedEvent += [this] {
-        _metadata->removeAll();
-        createSettings();
+    reset_button_ = &create_widget<ButtonSimple>("Reset to default");
+    reset_button_->idle_background_color_ = {0.5f, 0.0f, 0.0f};
+    reset_button_->enabled_ = false;
+    reset_button_->line_break_ = false;
+    reset_button_->clicked_event_ += [this] {
+        metadata_->remove_all();
+        create_settings();
     };
     
-    _headerLineBreak = &createWidget<NewLine>();
-    _headerLineBreak->enabled = false;
+    header_line_break_ = &create_widget<NewLine>();
+    header_line_break_->enabled_ = false;
 }
 
-void AssetProperties::createAssetSelector() {
-    auto &columns = createWidget<Columns<2>>();
-    columns.widths[0] = 150;
+void AssetProperties::create_asset_selector() {
+    auto &columns = create_widget<Columns<2>>();
+    columns.widths_[0] = 150;
     // assetSelector = &OvCore::Helpers::GUIDrawer::DrawAsset(columns, "Target", resource, &targetChanged);
 }
 
-void AssetProperties::createSettings() {
-    _settingsColumns->removeAllWidgets();
+void AssetProperties::create_settings() {
+    settings_columns_->remove_all_widgets();
     
-    const auto fileType = fs::extraFileType(_resource);
+    const auto kFileType = fs::extra_file_type(resource_);
     
-    _settings->enabled = true;
+    settings_->enabled_ = true;
     
-    if (fileType == fs::FileType::MODEL) {
-        createModelSettings();
-    } else if (fileType == fs::FileType::TEXTURE) {
-        createTextureSettings();
+    if (kFileType == fs::FileType::MODEL) {
+        create_model_settings();
+    } else if (kFileType == fs::FileType::TEXTURE) {
+        create_texture_settings();
     } else {
-        _settings->enabled = false;
+        settings_->enabled_ = false;
     }
 }
 
-void AssetProperties::createInfo() {
-    const auto realPath = EditorActions::getSingleton().getRealPath(_resource);
+void AssetProperties::create_info() {
+    const auto kRealPath = EditorActions::get_singleton().get_real_path(resource_);
     
-    _infoColumns->removeAllWidgets();
+    info_columns_->remove_all_widgets();
     
-    if (std::filesystem::exists(realPath)) {
-        _info->enabled = true;
+    if (std::filesystem::exists(kRealPath)) {
+        info_->enabled_ = true;
         
-        GUIDrawer::createTitle(*_infoColumns, "Path");
-        _infoColumns->createWidget<Text>(realPath);
+        GuiDrawer::create_title(*info_columns_, "Path");
+        info_columns_->create_widget<Text>(kRealPath);
         
-        GUIDrawer::createTitle(*_infoColumns, "Size");
-        const auto[size, unit] = SizeConverter::convertToOptimalUnit(static_cast<float>(std::filesystem::file_size(realPath)),
-                                                                     SizeConverter::SizeUnit::BYTE);
-        _infoColumns->createWidget<Text>(std::to_string(size) + " " + SizeConverter::unitToString(unit));
+        GuiDrawer::create_title(*info_columns_, "Size");
+        const auto [kSize, kUnit] = SizeConverter::convert_to_optimal_unit(static_cast<float>(std::filesystem::file_size(kRealPath)),
+                                                                           SizeConverter::SizeUnit::BYTE);
+        info_columns_->create_widget<Text>(std::to_string(kSize) + " " + SizeConverter::unit_to_string(kUnit));
         
-        GUIDrawer::createTitle(*_infoColumns, "Metadata");
-        _infoColumns->createWidget<Text>(std::filesystem::exists(realPath + ".meta") ? "Yes" : "No");
+        GuiDrawer::create_title(*info_columns_, "Metadata");
+        info_columns_->create_widget<Text>(std::filesystem::exists(kRealPath + ".meta") ? "Yes" : "No");
     } else {
-        _info->enabled = false;
+        info_->enabled_ = false;
     }
 }
 
-#define MODEL_FLAG_ENTRY(setting) GUIDrawer::drawBoolean(*_settingsColumns, setting, [&]() { \
-return _metadata->get<bool>(setting); }, [&](bool value) { _metadata->set<bool>(setting, value); })
+#define MODEL_FLAG_ENTRY(setting) GuiDrawer::draw_boolean(*settings_columns_, setting, [&]() { \
+return metadata_->get<bool>(setting); }, [&](bool value) { metadata_->set<bool>(setting, value); })
 
-void AssetProperties::createModelSettings() {
-    _metadata->add("CALC_TANGENT_SPACE", true);
-    _metadata->add("JOIN_IDENTICAL_VERTICES", true);
-    _metadata->add("MAKE_LEFT_HANDED", false);
-    _metadata->add("TRIANGULATE", true);
-    _metadata->add("REMOVE_COMPONENT", false);
-    _metadata->add("GEN_NORMALS", false);
-    _metadata->add("GEN_SMOOTH_NORMALS", true);
-    _metadata->add("SPLIT_LARGE_MESHES", false);
-    _metadata->add("PRE_TRANSFORVERTICES", true);
-    _metadata->add("LIMIT_BONE_WEIGHTS", false);
-    _metadata->add("VALIDATE_DATA_STRUCTURE", false);
-    _metadata->add("IMPROVE_CACHE_LOCALITY", true);
-    _metadata->add("REMOVE_REDUNDANT_MATERIALS", false);
-    _metadata->add("FIX_INFACING_NORMALS", false);
-    _metadata->add("SORT_BY_PTYPE", false);
-    _metadata->add("FIND_DEGENERATES", false);
-    _metadata->add("FIND_INVALID_DATA", true);
-    _metadata->add("GEN_UV_COORDS", true);
-    _metadata->add("TRANSFORUV_COORDS", false);
-    _metadata->add("FIND_INSTANCES", true);
-    _metadata->add("OPTIMIZE_MESHES", true);
-    _metadata->add("OPTIMIZE_GRAPH", true);
-    _metadata->add("FLIP_UVS", false);
-    _metadata->add("FLIP_WINDING_ORDER", false);
-    _metadata->add("SPLIT_BY_BONE_COUNT", false);
-    _metadata->add("DEBONE", true);
-    _metadata->add("GLOBAL_SCALE", true);
-    _metadata->add("EMBED_TEXTURES", false);
-    _metadata->add("FORCE_GEN_NORMALS", false);
-    _metadata->add("DROP_NORMALS", false);
-    _metadata->add("GEN_BOUNDING_BOXES", false);
+void AssetProperties::create_model_settings() {
+    metadata_->add("CALC_TANGENT_SPACE", true);
+    metadata_->add("JOIN_IDENTICAL_VERTICES", true);
+    metadata_->add("MAKE_LEFT_HANDED", false);
+    metadata_->add("TRIANGULATE", true);
+    metadata_->add("REMOVE_COMPONENT", false);
+    metadata_->add("GEN_NORMALS", false);
+    metadata_->add("GEN_SMOOTH_NORMALS", true);
+    metadata_->add("SPLIT_LARGE_MESHES", false);
+    metadata_->add("PRE_TRANSFORVERTICES", true);
+    metadata_->add("LIMIT_BONE_WEIGHTS", false);
+    metadata_->add("VALIDATE_DATA_STRUCTURE", false);
+    metadata_->add("IMPROVE_CACHE_LOCALITY", true);
+    metadata_->add("REMOVE_REDUNDANT_MATERIALS", false);
+    metadata_->add("FIX_INFACING_NORMALS", false);
+    metadata_->add("SORT_BY_PTYPE", false);
+    metadata_->add("FIND_DEGENERATES", false);
+    metadata_->add("FIND_INVALID_DATA", true);
+    metadata_->add("GEN_UV_COORDS", true);
+    metadata_->add("TRANSFORUV_COORDS", false);
+    metadata_->add("FIND_INSTANCES", true);
+    metadata_->add("OPTIMIZE_MESHES", true);
+    metadata_->add("OPTIMIZE_GRAPH", true);
+    metadata_->add("FLIP_UVS", false);
+    metadata_->add("FLIP_WINDING_ORDER", false);
+    metadata_->add("SPLIT_BY_BONE_COUNT", false);
+    metadata_->add("DEBONE", true);
+    metadata_->add("GLOBAL_SCALE", true);
+    metadata_->add("EMBED_TEXTURES", false);
+    metadata_->add("FORCE_GEN_NORMALS", false);
+    metadata_->add("DROP_NORMALS", false);
+    metadata_->add("GEN_BOUNDING_BOXES", false);
     
     MODEL_FLAG_ENTRY("CALC_TANGENT_SPACE");
     MODEL_FLAG_ENTRY("JOIN_IDENTICAL_VERTICES");
@@ -245,12 +244,12 @@ void AssetProperties::createModelSettings() {
     MODEL_FLAG_ENTRY("GEN_BOUNDING_BOXES");
 };
 
-void AssetProperties::createTextureSettings() {
+void AssetProperties::create_texture_settings() {
     // _metadata->add("MIN_FILTER", static_cast<int>(OvRendering::Settings::ETextureFilteringMode::LINEAR_MIPMAP_LINEAR));
     // _metadata->add("MAG_FILTER", static_cast<int>(OvRendering::Settings::ETextureFilteringMode::LINEAR));
-    _metadata->add("ENABLE_MIPMAPPING", true);
+    metadata_->add("ENABLE_MIPMAPPING", true);
     
-    std::map<int, std::string> filteringModes
+    std::map<int, std::string> filtering_modes
     {
         {0x2600, "NEAREST"},
         {0x2601, "LINEAR"},
@@ -260,48 +259,47 @@ void AssetProperties::createTextureSettings() {
         {0x2702, "NEAREST_MIPMAP_LINEAR"}
     };
     
-    GUIDrawer::createTitle(*_settingsColumns, "MIN_FILTER");
-    auto &minFilter = _settingsColumns->createWidget<ComboBox>(_metadata->get<int>("MIN_FILTER"));
-    minFilter.choices = filteringModes;
-    minFilter.valueChangedEvent += [this](int p_choice) {
-        _metadata->set("MIN_FILTER", p_choice);
+    GuiDrawer::create_title(*settings_columns_, "MIN_FILTER");
+    auto &min_filter = settings_columns_->create_widget<ComboBox>(metadata_->get<int>("MIN_FILTER"));
+    min_filter.choices_ = filtering_modes;
+    min_filter.value_changed_event_ += [this](int p_choice) {
+        metadata_->set("MIN_FILTER", p_choice);
     };
     
-    GUIDrawer::createTitle(*_settingsColumns, "MAG_FILTER");
-    auto &magFilter = _settingsColumns->createWidget<ComboBox>(_metadata->get<int>("MAG_FILTER"));
-    magFilter.choices = filteringModes;
-    magFilter.valueChangedEvent += [this](int p_choice) {
-        _metadata->set("MAG_FILTER", p_choice);
+    GuiDrawer::create_title(*settings_columns_, "MAG_FILTER");
+    auto &mag_filter = settings_columns_->create_widget<ComboBox>(metadata_->get<int>("MAG_FILTER"));
+    mag_filter.choices_ = filtering_modes;
+    mag_filter.value_changed_event_ += [this](int p_choice) {
+        metadata_->set("MAG_FILTER", p_choice);
     };
     
-    GUIDrawer::drawBoolean(*_settingsColumns, "ENABLE_MIPMAPPING", [&]() {
-        return _metadata->get<bool>("ENABLE_MIPMAPPING");
+    GuiDrawer::draw_boolean(*settings_columns_, "ENABLE_MIPMAPPING", [&]() {
+        return metadata_->get<bool>("ENABLE_MIPMAPPING");
     }, [&](bool value) {
-        _metadata->set<bool>("ENABLE_MIPMAPPING", value);
+        metadata_->set<bool>("ENABLE_MIPMAPPING", value);
     });
 }
 
 void AssetProperties::apply() {
-    _metadata->rewrite();
+    metadata_->rewrite();
     
-    const auto resourcePath = EditorActions::getSingleton().getResourcePath(_resource);
-    const auto fileType = fs::extraFileType(_resource);
+    const auto kResourcePath = EditorActions::get_singleton().get_resource_path(resource_);
+    const auto kFileType = fs::extra_file_type(resource_);
     
-//    if (fileType == fs::FileType::MODEL) {
-//        auto &modelManager = OVSERVICE(OvCore::ResourceManagement::ModelManager);
-//        if (modelManager.IsResourceRegistered(resourcePath)) {
-//            modelManager.AResourceManager::ReloadResource(resourcePath);
-//        }
-//    } else if (fileType == fs::FileType::TEXTURE) {
-//        auto &textureManager = OVSERVICE(OvCore::ResourceManagement::TextureManager);
-//        if (textureManager.IsResourceRegistered(resourcePath)) {
-//            textureManager.AResourceManager::ReloadResource(resourcePath);
-//        }
-//    }
+    //    if (fileType == fs::FileType::MODEL) {
+    //        auto &modelManager = OVSERVICE(OvCore::ResourceManagement::ModelManager);
+    //        if (modelManager.IsResourceRegistered(resourcePath)) {
+    //            modelManager.AResourceManager::ReloadResource(resourcePath);
+    //        }
+    //    } else if (fileType == fs::FileType::TEXTURE) {
+    //        auto &textureManager = OVSERVICE(OvCore::ResourceManagement::TextureManager);
+    //        if (textureManager.IsResourceRegistered(resourcePath)) {
+    //            textureManager.AResourceManager::ReloadResource(resourcePath);
+    //        }
+    //    }
     
     refresh();
 }
-
 
 }
 }

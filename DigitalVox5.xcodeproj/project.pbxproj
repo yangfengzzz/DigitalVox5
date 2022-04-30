@@ -472,6 +472,9 @@
 		04523E96281D56860079CC3C /* crude_json.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E94281D56860079CC3C /* crude_json.h */; };
 		04523E99281D57F40079CC3C /* scene_view.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E97281D57F40079CC3C /* scene_view.cpp */; };
 		04523E9A281D57F40079CC3C /* scene_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E98281D57F40079CC3C /* scene_view.h */; };
+		04523E9D281D69560079CC3C /* size_converter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E9B281D69560079CC3C /* size_converter.cpp */; };
+		04523E9E281D69560079CC3C /* size_converter.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E9C281D69560079CC3C /* size_converter.h */; };
+		04523E9F281D696F0079CC3C /* asset_properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DED281BCC2D0079CC3C /* asset_properties.cpp */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -1224,6 +1227,8 @@
 		04523E94281D56860079CC3C /* crude_json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crude_json.h; sourceTree = "<group>"; };
 		04523E97281D57F40079CC3C /* scene_view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scene_view.cpp; sourceTree = "<group>"; };
 		04523E98281D57F40079CC3C /* scene_view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scene_view.h; sourceTree = "<group>"; };
+		04523E9B281D69560079CC3C /* size_converter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = size_converter.cpp; sourceTree = "<group>"; };
+		04523E9C281D69560079CC3C /* size_converter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = size_converter.h; sourceTree = "<group>"; };
 		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
 		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
 		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
@@ -2031,6 +2036,8 @@
 				04523E13281BE69D0079CC3C /* ini_file-inl.h */,
 				04523E11281BE69D0079CC3C /* ini_file.cpp */,
 				04523E16281BEBEC0079CC3C /* raw_icon.h */,
+				04523E9C281D69560079CC3C /* size_converter.h */,
+				04523E9B281D69560079CC3C /* size_converter.cpp */,
 				04523E73281D56320079CC3C /* imgui */,
 				04523DDA281BCC000079CC3C /* ui */,
 				04523E5C281CC7480079CC3C /* view */,
@@ -2716,6 +2723,7 @@
 				04523E8E281D56580079CC3C /* imgui_zmo.h in Headers */,
 				04523E92281D56580079CC3C /* imgui_curve.h in Headers */,
 				04523E48281CC5410079CC3C /* material_editor.h in Headers */,
+				04523E9E281D69560079CC3C /* size_converter.h in Headers */,
 				04523E64281D23CA0079CC3C /* game_view.h in Headers */,
 				04523E85281D56580079CC3C /* imgui_shapes.h in Headers */,
 				04523E6E281D265D0079CC3C /* asset_view.h in Headers */,
@@ -3253,6 +3261,7 @@
 				04523E8F281D56580079CC3C /* imgui_node_editor.cpp in Sources */,
 				04523E95281D56860079CC3C /* crude_json.cpp in Sources */,
 				04523E63281D23CA0079CC3C /* game_view.cpp in Sources */,
+				04523E9F281D696F0079CC3C /* asset_properties.cpp in Sources */,
 				04523E57281CC5460079CC3C /* ini_file.cpp in Sources */,
 				04523E41281CC5410079CC3C /* material_editor.cpp in Sources */,
 				04523E4E281CC5410079CC3C /* asset_browser.cpp in Sources */,
@@ -3262,6 +3271,7 @@
 				04523E8C281D56580079CC3C /* imgui_canvas.cpp in Sources */,
 				04523E91281D56580079CC3C /* imgui_zmo.cpp in Sources */,
 				04523E3D281CC5410079CC3C /* tool_bar.cpp in Sources */,
+				04523E9D281D69560079CC3C /* size_converter.cpp in Sources */,
 				04523E88281D56580079CC3C /* imgui_curve.cpp in Sources */,
 				04523E99281D57F40079CC3C /* scene_view.cpp in Sources */,
 				04523E54281CC5410079CC3C /* editor_utils.cpp in Sources */,
