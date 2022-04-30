@@ -426,6 +426,7 @@
 		04523E20281CBC8A0079CC3C /* behaviour-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E1D281CBC890079CC3C /* behaviour-inl.h */; };
 		04523E21281CBC8A0079CC3C /* behaviour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E1E281CBC8A0079CC3C /* behaviour.cpp */; };
 		04523E22281CBC8A0079CC3C /* behaviour.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E1F281CBC8A0079CC3C /* behaviour.h */; };
+		04523E23281CC1A30079CC3C /* inspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DE2281BCC2C0079CC3C /* inspector.cpp */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -3025,6 +3026,7 @@
 				04523E0F281BD4FF0079CC3C /* entity_creation_menu.cpp in Sources */,
 				04523E08281BCD070079CC3C /* editor_utils.cpp in Sources */,
 				04523E0C281BD3CB0079CC3C /* panels_manager.cpp in Sources */,
+				04523E23281CC1A30079CC3C /* inspector.cpp in Sources */,
 				04523E19281C296B0079CC3C /* asset_browser.cpp in Sources */,
 				04523E17281C14500079CC3C /* editor_resources.cpp in Sources */,
 				04523E1B281C2EE20079CC3C /* hierarchy.cpp in Sources */,

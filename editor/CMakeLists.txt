@@ -17,6 +17,7 @@ set(UI_FILES
         ui/asset_browser.cpp
         ui/material_editor.cpp
         ui/hierarchy.cpp
+        ui/inspector.cpp
         editor_utils.cpp
         editor_actions.cpp
         editor_resources.cpp

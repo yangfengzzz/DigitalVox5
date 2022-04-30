@@ -21,164 +21,159 @@
 #include "ui/gui_drawer.h"
 #include "editor_actions.h"
 
-namespace vox {
-namespace editor {
-namespace ui {
-Inspector::Inspector(const std::string &p_title,
-                     bool p_opened,
-                     const PanelWindowSettings &p_windowSettings) :
-PanelWindow(p_title, p_opened, p_windowSettings) {
-    _inspectorHeader = &createWidget<Group>();
-    _inspectorHeader->enabled = false;
-    _entityInfo = &createWidget<Group>();
+namespace vox::editor::ui {
+Inspector::Inspector(const std::string &title,
+                     bool opened,
+                     const PanelWindowSettings &window_settings) :
+PanelWindow(title, opened, window_settings) {
+    inspector_header_ = &create_widget<Group>();
+    inspector_header_->enabled_ = false;
+    entity_info_ = &create_widget<Group>();
     
-    auto &headerColumns = _inspectorHeader->createWidget<Columns<2>>();
+    auto &header_columns = inspector_header_->create_widget<Columns<2>>();
     
-    /* Name field */
-    auto nameGatherer = [this] {
-        return _targetEntity ? _targetEntity->name : "%undef%";
+    /* name_ field */
+    auto name_gatherer = [this] {
+        return target_entity_ ? target_entity_->name_ : "%undef%";
     };
-    auto nameProvider = [this](const std::string &p_newName) {
-        if (_targetEntity) _targetEntity->name = p_newName;
+    auto name_provider = [this](const std::string &new_name) {
+        if (target_entity_) target_entity_->name_ = new_name;
     };
-    GUIDrawer::drawString(headerColumns, "Name", nameGatherer, nameProvider);
+    GuiDrawer::draw_string(header_columns, "Name", name_gatherer, name_provider);
     
     /* Active field */
-    auto activeGatherer = [this] {
-        return _targetEntity ? _targetEntity->isActive() : false;
+    auto active_gatherer = [this] {
+        return target_entity_ != nullptr && target_entity_->is_active();
     };
-    auto activeProvider = [this](bool p_active) {
-        if (_targetEntity) _targetEntity->setIsActive(p_active);
+    auto active_provider = [this](bool active) {
+        if (target_entity_) target_entity_->set_is_active(active);
     };
-    GUIDrawer::drawBoolean(headerColumns, "Active", activeGatherer, activeProvider);
+    GuiDrawer::draw_boolean(header_columns, "Active", active_gatherer, active_provider);
     
 }
 
 Inspector::~Inspector() {
-    Entity::destroyedEvent -= _destroyedListener;
-    unFocus();
+    Entity::destroyed_event_ -= destroyed_listener_;
+    un_focus();
 }
 
-void Inspector::focusEntity(Entity* p_target) {
-    if (_targetEntity)
-        unFocus();
+void Inspector::focus_entity(Entity *target) {
+    if (target_entity_)
+        un_focus();
     
-    _entityInfo->removeAllWidgets();
+    entity_info_->remove_all_widgets();
     
-    _targetEntity = p_target;
+    target_entity_ = target;
     
-    _componentAddedListener = _targetEntity->componentAddedEvent += [this](auto useless) {
-        EditorActions::getSingleton().delayAction([this] {
+    component_added_listener_ = target_entity_->component_added_event_ += [this](auto useless) {
+        EditorActions::get_singleton().delay_action([this] {
             refresh();
         });
     };
-    _behaviourAddedListener = _targetEntity->behaviourAddedEvent += [this](auto useless) {
-        EditorActions::getSingleton().delayAction([this] {
+    behaviour_added_listener_ = target_entity_->behaviour_added_event_ += [this](auto useless) {
+        EditorActions::get_singleton().delay_action([this] {
             refresh();
         });
     };
-    _componentRemovedListener = _targetEntity->componentRemovedEvent += [this](auto useless) {
-        EditorActions::getSingleton().delayAction([this] {
+    component_removed_listener_ = target_entity_->component_removed_event_ += [this](auto useless) {
+        EditorActions::get_singleton().delay_action([this] {
             refresh();
         });
     };
-    _behaviourRemovedListener = _targetEntity->behaviourRemovedEvent += [this](auto useless) {
-        EditorActions::getSingleton().delayAction([this] {
+    behaviour_removed_listener_ = target_entity_->behaviour_removed_event_ += [this](auto useless) {
+        EditorActions::get_singleton().delay_action([this] {
             refresh();
         });
     };
     
-    _inspectorHeader->enabled = true;
+    inspector_header_->enabled_ = true;
     
-    createEntityInspector(p_target);
+    create_entity_inspector(target);
     
     // Force component and script selectors to trigger their ChangedEvent to update button states
-    _componentSelectorWidget->valueChangedEvent.invoke(_componentSelectorWidget->currentChoice);
-    _scriptSelectorWidget->contentChangedEvent.invoke(_scriptSelectorWidget->content);
+    component_selector_widget_->value_changed_event_.invoke(component_selector_widget_->current_choice_);
+    script_selector_widget_->content_changed_event_.invoke(script_selector_widget_->content_);
     
-    EditorActions::getSingleton().entitySelectedEvent.invoke(_targetEntity);
+    EditorActions::get_singleton().entity_selected_event_.invoke(target_entity_);
 }
 
-void Inspector::unFocus() {
-    if (_targetEntity) {
-        _targetEntity->componentAddedEvent -= _componentAddedListener;
-        _targetEntity->componentRemovedEvent -= _componentRemovedListener;
-        _targetEntity->behaviourAddedEvent -= _behaviourAddedListener;
-        _targetEntity->behaviourRemovedEvent -= _behaviourRemovedListener;
+void Inspector::un_focus() {
+    if (target_entity_) {
+        target_entity_->component_added_event_ -= component_added_listener_;
+        target_entity_->component_removed_event_ -= component_removed_listener_;
+        target_entity_->behaviour_added_event_ -= behaviour_added_listener_;
+        target_entity_->behaviour_removed_event_ -= behaviour_removed_listener_;
     }
     
-    softUnFocus();
+    soft_un_focus();
 }
 
-void Inspector::softUnFocus() {
-    if (_targetEntity) {
-        EditorActions::getSingleton().entityUnselectedEvent.invoke(_targetEntity);
-        _inspectorHeader->enabled = false;
-        _targetEntity = nullptr;
-        _entityInfo->removeAllWidgets();
+void Inspector::soft_un_focus() {
+    if (target_entity_) {
+        EditorActions::get_singleton().entity_unselected_event_.invoke(target_entity_);
+        inspector_header_->enabled_ = false;
+        target_entity_ = nullptr;
+        entity_info_->remove_all_widgets();
     }
 }
 
-Entity* Inspector::targetEntity() const {
-    return _targetEntity;
+Entity *Inspector::target_entity() const {
+    return target_entity_;
 }
 
-void Inspector::createEntityInspector(Entity* &p_target) {
+void Inspector::create_entity_inspector(Entity *target) {
     std::map<std::string, Component *> components;
     
-//    for (auto &component: p_target->_components)
-//        if (component->name() != "Transform")
-//            components[component->name()] = component.get();
+    //    for (auto &component: target->_components)
+    //        if (component->name() != "Transform")
+    //            components[component->name()] = component.get();
     
-    auto transform = p_target->getComponent<Transform>();
+    auto transform = target->get_component<Transform>();
     if (transform)
-        drawComponent(transform);
+        draw_component(transform);
     
-    for (auto&[name, instance]: components)
-        drawComponent(instance);
+    for (auto &[name, instance] : components)
+        draw_component(instance);
     
-//    auto &behaviours = p_target.GetBehaviours();
-//
-//    for (auto&[name, behaviour]: behaviours)
-//        DrawBehaviour(behaviour);
+    //    auto &behaviours = target.GetBehaviours();
+    //
+    //    for (auto&[name, behaviour]: behaviours)
+    //        DrawBehaviour(behaviour);
 }
 
-void Inspector::drawComponent(Component *p_component) {
-    if (auto inspectorItem = dynamic_cast<InspectorItem *>(p_component); inspectorItem) {
-        auto &header = _entityInfo->createWidget<GroupCollapsable>(p_component->name());
-        header.closable = !dynamic_cast<Transform *>(p_component);
-        header.closeEvent += [this, &header, &p_component] {
-//            if (p_component->entity()->_removeComponent(p_component))
-//                _componentSelectorWidget->valueChangedEvent.invoke(_componentSelectorWidget->currentChoice);
+void Inspector::draw_component(Component *component) {
+    if (auto inspector_item = dynamic_cast<InspectorItem *>(component); inspector_item) {
+        auto &header = entity_info_->create_widget<GroupCollapsable>(component->name());
+        header.closable_ = !dynamic_cast<Transform *>(component);
+        header.close_event_ += [this, &header, &component] {
+            //            if (component->entity()->_removeComponent(component))
+            //                _componentSelectorWidget->value_changed_event_.invoke(_componentSelectorWidget->currentChoice);
         };
-        auto &columns = header.createWidget<Columns<2>>();
-        columns.widths[0] = 200;
-        inspectorItem->onInspector(columns);
+        auto &columns = header.create_widget<Columns<2>>();
+        columns.widths_[0] = 200;
+        inspector_item->on_inspector(columns);
     }
 }
 
-void Inspector::drawBehaviour(Behaviour *p_behaviour) {
-    if (auto inspectorItem = dynamic_cast<InspectorItem *>(p_behaviour); inspectorItem) {
-        auto &header = _entityInfo->createWidget<GroupCollapsable>(p_behaviour->name());
-        header.closable = true;
-        header.closeEvent += [this, &header, &p_behaviour] {
-//            p_behaviour->entity()->removeBehaviour(p_behaviour);
+void Inspector::draw_behaviour(Behaviour *behaviour) {
+    if (auto inspector_item = dynamic_cast<InspectorItem *>(behaviour); inspector_item) {
+        auto &header = entity_info_->create_widget<GroupCollapsable>(behaviour->name());
+        header.closable_ = true;
+        header.close_event_ += [this, &header, &behaviour] {
+            //            behaviour->entity()->removeBehaviour(behaviour);
         };
         
-        auto &columns = header.createWidget<Columns<2>>();
-        columns.widths[0] = 200;
-        inspectorItem->onInspector(columns);
+        auto &columns = header.create_widget<Columns<2>>();
+        columns.widths_[0] = 200;
+        inspector_item->on_inspector(columns);
     }
 }
 
 void Inspector::refresh() {
-    if (_targetEntity) {
-        _entityInfo->removeAllWidgets();
-        createEntityInspector(_targetEntity);
+    if (target_entity_) {
+        entity_info_->remove_all_widgets();
+        create_entity_inspector(target_entity_);
     }
 }
 
-
-}
-}
 }

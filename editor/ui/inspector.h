@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef inspector_hpp
-#define inspector_hpp
+#pragma once
 
 #include "ui/widgets/panel_transformables/panel_window.h"
 #include "ui/widgets/layout/group_collapsable.h"
@@ -21,60 +20,52 @@
 namespace vox {
 using namespace ui;
 
-namespace editor {
-namespace ui {
+namespace editor::ui {
 class Inspector : public PanelWindow {
 public:
-    /**
-     * Constructor
-     * @param p_title p_title
-     * @param p_opened p_opened
-     * @param p_windowSettings p_windowSettings
-     */
-    Inspector(const std::string &p_title,
-              bool p_opened,
-              const PanelWindowSettings &p_windowSettings);
+    Inspector(const std::string &p_new_name,
+              bool opened,
+              const PanelWindowSettings &window_settings);
     
     /**
      * Destructor
      */
-    ~Inspector();
+    ~Inspector() override;
     
     /**
      * Focus the given entity
-     * @param p_target p_target
      */
-    void focusEntity(Entity* p_target);
+    void focus_entity(Entity *target);
     
     /**
      * Unfocus the currently targeted entity
      */
-    void unFocus();
+    void un_focus();
     
     /**
      * Unfocus the currently targeted entity without removing listeners attached to this entity
      */
-    void softUnFocus();
+    void soft_un_focus();
     
     /**
      * Returns the currently selected entity
      */
-    Entity* targetEntity() const;
+    [[nodiscard]] Entity *target_entity() const;
     
     /**
      * Create the entity inspector for the given entity
      */
-    void createEntityInspector(Entity* &p_target);
+    void create_entity_inspector(Entity *target);
     
     /**
      * Draw the given component in inspector
      */
-    void drawComponent(Component *p_component);
+    void draw_component(Component *component);
     
     /**
      * Draw the given behaviour in inspector
      */
-    void drawBehaviour(Behaviour *p_behaviour);
+    void draw_behaviour(Behaviour *behaviour);
     
     /**
      * Refresh the inspector
@@ -82,20 +73,18 @@ public:
     void refresh();
     
 private:
-    Entity* _targetEntity{nullptr};
-    Group *_entityInfo;
-    Group *_inspectorHeader;
-    ComboBox *_componentSelectorWidget;
-    InputText *_scriptSelectorWidget;
+    Entity *target_entity_{nullptr};
+    Group *entity_info_;
+    Group *inspector_header_;
+    ComboBox *component_selector_widget_{};
+    InputText *script_selector_widget_{};
     
-    uint64_t _componentAddedListener = 0;
-    uint64_t _componentRemovedListener = 0;
-    uint64_t _behaviourAddedListener = 0;
-    uint64_t _behaviourRemovedListener = 0;
-    uint64_t _destroyedListener = 0;
+    uint64_t component_added_listener_ = 0;
+    uint64_t component_removed_listener_ = 0;
+    uint64_t behaviour_added_listener_ = 0;
+    uint64_t behaviour_removed_listener_ = 0;
+    uint64_t destroyed_listener_ = 0;
 };
 
 }
 }
-}
-#endif /* inspector_hpp */
