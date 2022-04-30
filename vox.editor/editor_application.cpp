@@ -4,183 +4,205 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
+#include "platform/platform.h"
+
 #include "editor_application.h"
-#include "engine.h"
+#include "rendering/subpasses/geometry_subpass.h"
 #include "camera.h"
-#include "glfw_window.h"
 
 #include "ui/menu_bar.h"
 #include "ui/hierarchy.h"
 #include "ui/inspector.h"
-#include "ui/profiler_window.h"
+//#include "ui/profiler_window.h"
 #include "ui/tool_bar.h"
 #include "ui/project_settings.h"
-#include "ui/console.h"
+//#include "ui/console.h"
 #include "view/game_view.h"
 #include "view/scene_view.h"
 #include "view/asset_view.h"
 
-#include "shaderlib/wgsl_grid.h"
-
-namespace vox {
-namespace editor {
-EditorApplication::EditorApplication(const std::string& projectPath, const std::string& projectName):
+namespace vox::editor {
+EditorApplication::EditorApplication(const std::string& project_path, const std::string& project_name):
 GraphicsApplication(),
-projectPath(projectPath),
-projectName(projectName),
-projectFilePath(projectPath + projectName + ".project"),
-engineAssetsPath(std::filesystem::canonical("./Data").string() + "/"),
-projectAssetsPath(projectPath + "/Assets/"),
-projectScriptsPath(projectPath + "/Scripts/"),
-editorAssetsPath("/Data/Editor/"),
-_panelsManager(_canvas) {
-    Shader::create("editor-grid", std::make_unique<WGSLGridVertex>(), std::make_unique<WGSLGridFragment>());
+project_path_(project_path),
+project_name_(project_name),
+project_file_path_(project_path + project_name + ".project"),
+engine_assets_path_(std::filesystem::canonical("./Data").string() + "/"),
+project_assets_path_(project_path + "/Assets/"),
+project_scripts_path_(project_path + "/Scripts/"),
+editor_assets_path_("/Data/Editor/"),
+panels_manager_(canvas_) {
 }
 
-bool EditorApplication::prepare(Engine &engine) {
-    GraphicsApplication::prepare(engine);
+EditorApplication::~EditorApplication() {
+    // release first
+    scene_manager_.reset();
     
-    _gui = std::make_unique<::vox::ui::UIManager>(static_cast<GlfwWindow*>(&engine.window())->handle(), _renderContext.get());
-    _gui->loadFont("Ruda_Big", "../assets/Fonts/Ruda-Bold.ttf", 16);
-    _gui->loadFont("Ruda_Small", "../assets/Fonts/Ruda-Bold.ttf", 12);
-    _gui->loadFont("Ruda_Medium", "../assets/Fonts/Ruda-Bold.ttf", 14);
-    _gui->useFont("Ruda_Medium");
-    _gui->setEditorLayoutAutosaveFrequency(60.0f);
-    _gui->enableEditorLayoutSave(true);
-    _gui->enableDocking(true);
+    components_manager_.reset();
+    physics_manager_.reset();
+    light_manager_.reset();
+    shadow_manager_.reset();
+    particle_manager_.reset();
     
-    _sceneManager = std::make_unique<SceneManager>(_device);
-    auto scene = _sceneManager->currentScene();
+    image_manager_->collect_garbage();
+    image_manager_.reset();
+    shader_manager_->collect_garbage();
+    shader_manager_.reset();
+    mesh_manager_->collect_garbage();
+    mesh_manager_.reset();
+}
+
+bool EditorApplication::prepare(Platform &platform) {
+    GraphicsApplication::prepare(platform);
     
-    _particleManager = std::make_unique<ParticleManager>(_device);
-    _lightManager = std::make_unique<LightManager>(scene);
+    gui_->load_font("Ruda_Big", "../assets/Fonts/Ruda-Bold.ttf", 16);
+    gui_->load_font("Ruda_Small", "../assets/Fonts/Ruda-Bold.ttf", 12);
+    gui_->load_font("Ruda_Medium", "../assets/Fonts/Ruda-Bold.ttf", 14);
+    gui_->use_font("Ruda_Medium");
+    gui_->set_editor_layout_autosave_frequency(60.0f);
+    gui_->enable_editor_layout_save(true);
+    gui_->enable_docking(true);
+    
+    // resource loader
+    image_manager_ = std::make_unique<ImageManager>(*device_);
+    shader_manager_ = std::make_unique<ShaderManager>();
+    mesh_manager_ = std::make_unique<MeshManager>(*device_);
+    
+    // logic system
+    components_manager_ = std::make_unique<ComponentsManager>();
+    physics_manager_ = std::make_unique<physics::PhysicsManager>();
+    scene_manager_ = std::make_unique<SceneManager>(*device_);
+    auto scene = scene_manager_->current_scene();
+    
+    particle_manager_ = std::make_unique<ParticleManager>(*device_, *render_context_);
+    light_manager_ = std::make_unique<LightManager>(scene, *render_context_);
     {
-        auto extent = engine.window().extent();
-        auto factor = engine.window().contentScaleFactor();
-        scene->updateSize(extent.width, extent.height, factor * extent.width, factor * extent.height);
+        auto extent = platform.get_window().get_extent();
+        auto factor = static_cast<uint32_t>(platform.get_window().get_content_scale_factor());
+        components_manager_->call_script_resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
+        main_camera_->resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
     }
-    _lightManager->setCamera(_mainCamera);
-    _shadowManager = std::make_unique<ShadowManager>(scene, _mainCamera);
+    light_manager_->set_camera(main_camera_);
     
-    // Create a render pass descriptor for thelighting and composition pass
-    // Whatever rendered in the final pass needs to be stored so it can be displayed
-    _renderPassDescriptor.colorAttachmentCount = 1;
-    _renderPassDescriptor.colorAttachments = &_colorAttachments;
+    // internal manager
+    shadow_manager_ = std::make_unique<ShadowManager>(*device_, *render_context_, scene, main_camera_);
     
-    _colorAttachments.storeOp = wgpu::StoreOp::Store;
-    _colorAttachments.loadOp = wgpu::LoadOp::Clear;
-    auto& color = scene->background.solidColor;
-    _colorAttachments.clearValue = wgpu::Color{color.r, color.g, color.b, color.a};
+    // default render pipeline
+    std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
+    scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(get_render_context(), scene, main_camera_));
+    set_render_pipeline(RenderPipeline(std::move(scene_subpasses)));
     
-    _editorActions = std::make_unique<EditorActions>(_panelsManager);
-    _editorResources = std::make_unique<EditorResources>(_device, editorAssetsPath);
-    setupUI();
+    editor_actions_ = std::make_unique<EditorActions>(panels_manager_);
+    editor_resources_ = std::make_unique<EditorResources>(*device_, editor_assets_path_);
+    setup_ui();
     
     return true;
 }
 
-void EditorApplication::setupUI() {
+void EditorApplication::setup_ui() {
     PanelWindowSettings settings;
     settings.closable = true;
     settings.collapsable = true;
     settings.dockable = true;
     
-    _panelsManager.createPanel<ui::MenuBar>("Menu Bar");
-    _panelsManager.createPanel<ui::ProfilerWindow>("Profiler", true, settings, 0.25f);
-    _panelsManager.createPanel<ui::Console>("Console", true, settings);
-    _panelsManager.createPanel<ui::Hierarchy>("Hierarchy", true, settings);
-    _panelsManager.createPanel<ui::Inspector>("Inspector", true, settings);
-    _panelsManager.createPanel<ui::SceneView>("Scene View", true, settings,
-                                              _renderContext.get(), _sceneManager->currentScene());
-    _panelsManager.createPanel<ui::GameView>("Game View", true, settings,
-                                             _renderContext.get(), _sceneManager->currentScene());
+    panels_manager_.create_panel<ui::MenuBar>("Menu Bar");
+    // _panelsManager.create_panel<ui::ProfilerWindow>("Profiler", true, settings, 0.25f);
+    // _panelsManager.create_panel<ui::Console>("Console", true, settings);
+    panels_manager_.create_panel<ui::Hierarchy>("Hierarchy", true, settings);
+    panels_manager_.create_panel<ui::Inspector>("Inspector", true, settings);
+    panels_manager_.create_panel<ui::SceneView>("Scene View", true, settings,
+                                                *render_context_, scene_manager_->current_scene());
+    panels_manager_.create_panel<ui::GameView>("Game View", true, settings,
+                                               *render_context_, scene_manager_->current_scene());
     
-    _panelsManager.createPanel<ui::AssetView>("Asset View", true, settings,
-                                              _renderContext.get(), _sceneManager->currentScene());
-    _panelsManager.createPanel<ui::Toolbar>("Toolbar", true, settings, _editorResources.get());
-    _panelsManager.createPanel<ui::ProjectSettings>("Project Settings", false, settings, projectPath, projectName);
+    panels_manager_.create_panel<ui::AssetView>("Asset View", true, settings,
+                                                *render_context_, scene_manager_->current_scene());
+    panels_manager_.create_panel<ui::Toolbar>("Toolbar", true, settings, editor_resources_.get());
+    panels_manager_.create_panel<ui::ProjectSettings>("Project Settings", false, settings, project_path_, project_name_);
     
-    _canvas.makeDockspace(true);
-    _gui->setCanvas(_canvas);
+    canvas_.make_dock_space(true);
+    gui_->set_canvas(canvas_);
 }
 
-void EditorApplication::renderViews(float deltaTime, wgpu::CommandEncoder& commandEncoder) {
-    auto& gameView = _panelsManager.getPanelAs<ui::GameView>("Game View");
-    auto& sceneView = _panelsManager.getPanelAs<ui::SceneView>("Scene View");
-    auto& assetView = _panelsManager.getPanelAs<ui::AssetView>("Asset View");
+void EditorApplication::render_views(float delta_time, CommandBuffer &command_buffer) {
+    auto& game_view = panels_manager_.get_panel_as<ui::GameView>("Game View");
+    auto& scene_view = panels_manager_.get_panel_as<ui::SceneView>("Scene View");
+    auto& asset_view = panels_manager_.get_panel_as<ui::AssetView>("Asset View");
     
     {
         // PROFILER_SPY("Editor Views Update");
-        assetView.update(deltaTime);
-        gameView.update(deltaTime);
-        sceneView.update(deltaTime);
+        asset_view.update(delta_time);
+        game_view.update(delta_time);
+        scene_view.update(delta_time);
     }
     
-    if (assetView.isOpened()) {
+    if (asset_view.is_opened()) {
         // PROFILER_SPY("Game View Rendering");
-        assetView.render(commandEncoder);
+        asset_view.render(command_buffer);
     }
     
-    if (gameView.isOpened()) {
+    if (game_view.is_opened()) {
         // PROFILER_SPY("Game View Rendering");
-        gameView.render(commandEncoder);
+        game_view.render(command_buffer);
     }
     
-    if (sceneView.isOpened()) {
+    if (scene_view.is_opened()) {
         // PROFILER_SPY("Scene View Rendering");
-        sceneView.render(commandEncoder);
+        scene_view.render(command_buffer);
     }
 }
 
-void EditorApplication::updateEditorPanels(float deltaTime) {
-    auto& menuBar = _panelsManager.getPanelAs<ui::MenuBar>("Menu Bar");
-    menuBar.handleShortcuts(deltaTime);
+void EditorApplication::update_editor_panels(float delta_time) {
+    auto& menu_bar = panels_manager_.get_panel_as<ui::MenuBar>("Menu Bar");
+    menu_bar.handle_shortcuts(delta_time);
 }
 
-void EditorApplication::update(float deltaTime) {
-    GraphicsApplication::update(deltaTime);
-    _sceneManager->currentScene()->update(deltaTime);
-    
-    wgpu::CommandEncoder commandEncoder = _device.CreateCommandEncoder();
-    updateGPUTask(commandEncoder);
-    updateEditorPanels(deltaTime);
-    renderViews(deltaTime, commandEncoder);
-    
-    // Render the gui
-    _colorAttachments.view = _renderContext->currentDrawableTexture();
-    wgpu::RenderPassEncoder encoder = commandEncoder.BeginRenderPass(&_renderPassDescriptor);
-    encoder.PushDebugGroup("GUI Rendering");
-    _gui->render(encoder);
-    encoder.PopDebugGroup();
-    encoder.End();
-    
-    // Finalize rendering here & push the command buffer to the GPU
-    wgpu::CommandBuffer commands = commandEncoder.Finish();
-    _device.GetQueue().Submit(1, &commands);
-    _renderContext->present();
+void EditorApplication::update(float delta_time) {
+    {
+        components_manager_->call_script_on_start();
+        
+        physics_manager_->update(delta_time);
+        
+        components_manager_->call_script_on_update(delta_time);
+        //        _componentsManager->callAnimatorUpdate(deltaTime);
+        components_manager_->call_scene_animator_update(delta_time);
+        components_manager_->call_script_on_late_update(delta_time);
+        
+        components_manager_->call_renderer_on_update(delta_time);
+        scene_manager_->current_scene()->update_shader_data();
+    }
+    delta_time_ = delta_time;
+    GraphicsApplication::update(delta_time);
 }
 
-void EditorApplication::updateGPUTask(wgpu::CommandEncoder& commandEncoder) {
-    _shadowManager->draw(commandEncoder);
-    _lightManager->draw(commandEncoder);
-    _particleManager->draw(commandEncoder);
+void EditorApplication::render(CommandBuffer &command_buffer, RenderTarget &render_target) {
+    update_gpu_task(command_buffer, render_target);
+    update_editor_panels(delta_time_);
+    render_views(delta_time_, command_buffer);
+    
+    GraphicsApplication::render(command_buffer, render_target);
+}
+
+void EditorApplication::update_gpu_task(CommandBuffer &command_buffer, RenderTarget &render_target) {
+    shadow_manager_->draw(command_buffer);
+    light_manager_->draw(command_buffer, render_target);
+    particle_manager_->draw(command_buffer, render_target);
 }
 
 bool EditorApplication::resize(uint32_t win_width, uint32_t win_height,
                                uint32_t fb_width, uint32_t fb_height) {
     GraphicsApplication::resize(win_width, win_height, fb_width, fb_height);
-    
-    _sceneManager->currentScene()->updateSize(win_width, win_height, fb_width, fb_height);
+    components_manager_->call_script_resize(win_width, win_height, fb_width, fb_height);
+    main_camera_->resize(win_width, win_height, fb_width, fb_height);
     return true;
 }
 
-void EditorApplication::inputEvent(const InputEvent &inputEvent) {
-    GraphicsApplication::inputEvent(inputEvent);
-    _sceneManager->currentScene()->updateInputEvent(inputEvent);
+void EditorApplication::input_event(const InputEvent &input_event) {
+    GraphicsApplication::input_event(input_event);
+    components_manager_->call_script_input_event(input_event);
     
-    auto& sceneView = _panelsManager.getPanelAs<ui::SceneView>("Scene View");
-    sceneView.inputEvent(inputEvent);
+    auto& scene_view = panels_manager_.get_panel_as<ui::SceneView>("Scene View");
+    scene_view.input_event(input_event);
 }
 
-}
 }

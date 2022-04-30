@@ -38,7 +38,7 @@ public:
         if constexpr (std::is_base_of<PanelWindow, T>::value) {
             panels_.emplace(id, std::make_unique<T>(id, std::forward<Args>(args)...));
             T &instance = *static_cast<T *>(panels_.at(id).get());
-            get_panel_as<MenuBar>("Menu Bar").register_panel(instance.name, instance);
+            get_panel_as<MenuBar>("Menu Bar").register_panel(instance.name_, instance);
         } else {
             panels_.emplace(id, std::make_unique<T>(std::forward<Args>(args)...));
         }

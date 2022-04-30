@@ -22,7 +22,8 @@ set(UI_FILES
         editor_actions.cpp
         editor_resources.cpp
         panels_manager.cpp
-        entity_creation_menu.cpp)
+        entity_creation_menu.cpp
+        editor_application.cpp)
 
 set(VIEW_FILES
         view/view.cpp

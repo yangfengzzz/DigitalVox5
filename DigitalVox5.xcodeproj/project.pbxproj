@@ -475,6 +475,7 @@
 		04523E9D281D69560079CC3C /* size_converter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E9B281D69560079CC3C /* size_converter.cpp */; };
 		04523E9E281D69560079CC3C /* size_converter.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523E9C281D69560079CC3C /* size_converter.h */; };
 		04523E9F281D696F0079CC3C /* asset_properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DED281BCC2D0079CC3C /* asset_properties.cpp */; };
+		04523EA0281D72DF0079CC3C /* editor_application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523E01281BCCD90079CC3C /* editor_application.cpp */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -2041,8 +2042,6 @@
 				04523E73281D56320079CC3C /* imgui */,
 				04523DDA281BCC000079CC3C /* ui */,
 				04523E5C281CC7480079CC3C /* view */,
-				04523DFB281BCCD90079CC3C /* editor_application.h */,
-				04523E01281BCCD90079CC3C /* editor_application.cpp */,
 				04523DFF281BCCD90079CC3C /* editor_utils.h */,
 				04523DFE281BCCD90079CC3C /* editor_utils.cpp */,
 				04523E03281BCCD90079CC3C /* editor_settings.h */,
@@ -2055,6 +2054,8 @@
 				04523E0B281BD3CB0079CC3C /* panels_manager.cpp */,
 				04523E0E281BD4FF0079CC3C /* entity_creation_menu.h */,
 				04523E0D281BD4FF0079CC3C /* entity_creation_menu.cpp */,
+				04523DFB281BCCD90079CC3C /* editor_application.h */,
+				04523E01281BCCD90079CC3C /* editor_application.cpp */,
 			);
 			path = vox.editor;
 			sourceTree = "<group>";
@@ -3265,6 +3266,7 @@
 				04523E57281CC5460079CC3C /* ini_file.cpp in Sources */,
 				04523E41281CC5410079CC3C /* material_editor.cpp in Sources */,
 				04523E4E281CC5410079CC3C /* asset_browser.cpp in Sources */,
+				04523EA0281D72DF0079CC3C /* editor_application.cpp in Sources */,
 				04523E34281CC5410079CC3C /* menu_bar.cpp in Sources */,
 				04523E38281CC5410079CC3C /* project_settings.cpp in Sources */,
 				04523E87281D56580079CC3C /* imgui_shapes.cpp in Sources */,
