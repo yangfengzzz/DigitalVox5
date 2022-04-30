@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef hierarchy_hpp
-#define hierarchy_hpp
+#pragma once
 
 #include "scene_forward.h"
 #include "ui/widgets/panel_transformables/panel_window.h"
@@ -15,19 +14,12 @@
 namespace vox {
 using namespace ui;
 
-namespace editor {
-namespace ui {
+namespace editor::ui {
 class Hierarchy : public PanelWindow {
 public:
-    /**
-     * Constructor
-     * @param p_title p_title
-     * @param p_opened p_opened
-     * @param p_windowSettings p_windowSettings
-     */
-    Hierarchy(const std::string &p_title,
-              bool p_opened,
-              const PanelWindowSettings &p_windowSettings);
+    Hierarchy(const std::string &title,
+              bool opened,
+              const PanelWindowSettings &window_settings);
     
     /**
      * Clear hierarchy nodes
@@ -37,55 +29,47 @@ public:
     /**
      * Unselect every widgets
      */
-    void unselectEntitiesWidgets();
+    void unselect_entities_widgets();
     
     /**
      * Select the widget corresponding to the given entity
-     * @param p_entity p_entity
      */
-    void selectEntityByInstance(Entity* p_entity);
+    void select_entity_by_instance(Entity *entity);
     
     /**
      * Select the widget
-     * @param p_widget p_widget
      */
-    void selectEntityByWidget(TreeNode &p_widget);
+    void select_entity_by_widget(TreeNode &widget);
     
     /**
      * Attach the given entity linked widget to its parent widget
-     * @param p_entity p_entity
      */
-    void attachEntityToParent(Entity* p_entity);
+    void attach_entity_to_parent(Entity *entity);
     
     /**
      * Detach the given entity linked widget from its parent widget
-     * @param p_entity p_entity
      */
-    void detachFromParent(Entity* p_entity);
+    void detach_from_parent(Entity *entity);
     
     /**
      * Delete the widget referencing the given entity
-     * @param p_entity p_entity
      */
-    void deleteEntityByInstance(Entity* p_entity);
+    void delete_entity_by_instance(Entity *entity);
     
     /**
      * Add a widget referencing the given entity
-     * @param p_entity p_entity
      */
-    void addEntityByInstance(Entity* p_entity);
+    void add_entity_by_instance(Entity *entity);
     
 public:
-    Event<Entity* &> entitySelectedEvent;
-    Event<Entity* &> entityUnselectedEvent;
+    Event<Entity *&> entity_selected_event_;
+    Event<Entity *&> entity_unselected_event_;
     
 private:
-    TreeNode *_sceneRoot;
+    TreeNode *scene_root_;
     
-    std::unordered_map<Entity*, TreeNode *> _widgetEntityLink;
+    std::unordered_map<Entity *, TreeNode *> widget_entity_link_;
 };
 
 }
 }
-}
-#endif /* hierarchy_hpp */
