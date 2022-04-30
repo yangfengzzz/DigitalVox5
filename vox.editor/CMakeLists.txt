@@ -30,10 +30,32 @@ set(VIEW_FILES
         view/asset_view.cpp
         view/asset_view.h)
 
+set(IMGUI_FILES
+        imgui/crude_json.cpp
+        imgui/crude_json.h
+        imgui/imgui_bezier_math.h
+        imgui/imgui_bezier_math.inl
+        imgui/imgui_canvas.cpp
+        imgui/imgui_canvas.h
+        imgui/imgui_curve.cpp
+        imgui/imgui_curve.h
+        imgui/imgui_extra_math.h
+        imgui/imgui_extra_math.inl
+        imgui/imgui_node_editor.cpp
+        imgui/imgui_node_editor.h
+        imgui/imgui_node_editor_api.cpp
+        imgui/imgui_node_editor_internal.h
+        imgui/imgui_node_editor_internal.inl
+        imgui/imgui_shapes.cpp
+        imgui/imgui_shapes.h
+        imgui/imgui_zmo.cpp
+        imgui/imgui_zmo.h)
+
 set(FRAMEWORK_FILES
         ini_file.cpp
         ${UI_FILES}
         ${VIEW_FILES}
+        ${IMGUI_FILES}
         )
 
 set(LUA_SOURCE
