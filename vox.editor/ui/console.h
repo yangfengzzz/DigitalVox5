@@ -10,6 +10,7 @@
 #include "ui/widgets/layout/group.h"
 #include "ui/widgets/texts/text_colored.h"
 #include "logging.h"
+#include "spdlog/sinks/base_sink.h"
 
 namespace vox {
 using namespace ui;
@@ -20,6 +21,8 @@ public:
     Console(const std::string &title,
             bool opened,
             const PanelWindowSettings &window_settings);
+    
+    ~Console();
     
     /**
      * Method called when a log event occurred
@@ -57,6 +60,7 @@ private:
 private:
     Group *log_group_{nullptr};
     std::unordered_map<TextColored *, spdlog::level::level_enum> log_text_widgets_{};
+    std::shared_ptr<spdlog::sinks::base_sink<spdlog::details::null_mutex>> console_sink_{nullptr};
     
     bool clear_on_play_ = true;
     bool show_info_log_ = true;

@@ -11,7 +11,6 @@
 #include "ui/widgets/visual/separator.h"
 #include "ui/widgets/layout/spacing.h"
 #include "editor_actions.h"
-#include "spdlog/sinks/base_sink.h"
 
 namespace vox::editor::ui {
 namespace {
@@ -21,15 +20,21 @@ public:
     explicit ConsoleSink(Console *console) : console_(console) {
     }
     
+    void on_destroy() {
+        console_ = nullptr;
+    }
+    
 protected:
     void sink_it_(const spdlog::details::log_msg &msg) override {
-        // log_msg is a struct containing the log entry info like level, timestamp, thread id etc.
-        // msg.raw contains preformatted log
-        
-        // If needed (very likely but not mandatory), the sink formats the message before sending it to its final destination:
-        spdlog::memory_buf_t formatted;
-        spdlog::sinks::base_sink<Mutex>::formatter_->format(msg, formatted);
-        console_->on_log_intercepted(msg.level, fmt::to_string(formatted));
+        if (console_) {
+            // log_msg is a struct containing the log entry info like level, timestamp, thread id etc.
+            // msg.raw contains preformatted log
+            
+            // If needed (very likely but not mandatory), the sink formats the message before sending it to its final destination:
+            spdlog::memory_buf_t formatted;
+            spdlog::sinks::base_sink<Mutex>::formatter_->format(msg, formatted);
+            console_->on_log_intercepted(msg.level, fmt::to_string(formatted));
+        }
     }
     
     void flush_() override {}
@@ -44,8 +49,8 @@ Console::Console(const std::string &title,
                  bool opened,
                  const PanelWindowSettings &window_settings) :
 PanelWindow(title, opened, window_settings) {
-    auto console_sink = std::make_shared<ConsoleSink<spdlog::details::null_mutex>>(this);
-    spdlog::default_logger()->sinks().push_back(console_sink);
+    console_sink_ = std::make_shared<ConsoleSink<spdlog::details::null_mutex>>(this);
+    spdlog::default_logger()->sinks().push_back(console_sink_);
     
     allow_horizontal_scrollbar_ = true;
     
@@ -81,6 +86,12 @@ PanelWindow(title, opened, window_settings) {
     log_group_->reverse_draw_order();
     
     EditorActions::get_singleton().play_event_ += std::bind(&Console::clear_on_play, this);
+}
+
+Console::~Console() {
+    log_text_widgets_.clear();
+    static_cast<ConsoleSink<spdlog::details::null_mutex>*>(console_sink_.get())->on_destroy();
+    console_sink_.reset();
 }
 
 void Console::on_log_intercepted(spdlog::level::level_enum log_level,
