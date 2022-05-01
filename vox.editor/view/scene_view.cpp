@@ -91,7 +91,7 @@ void SceneView::update(float delta_time) {
     if (win_width > 0 && render_target_->get_extent().width != win_width * 2) {
         main_camera_->set_aspect_ratio(float(win_width) / float(win_height));
         main_camera_->resize(win_width, win_height, win_width * 2, win_height * 2);
-        color_picker_render_target_ = create_render_target(win_width * 2, win_height * 2);
+        color_picker_render_target_ = create_render_target(win_width * 2, win_height * 2, VK_FORMAT_R8G8B8A8_UNORM);
     }
 }
 

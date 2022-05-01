@@ -123,6 +123,7 @@ void EditorApplication::setup_ui() {
     
     canvas_.make_dock_space(true);
     gui_->set_canvas(canvas_);
+    scene_manager_->current_scene()->play();
 }
 
 void EditorApplication::render_views(float delta_time, CommandBuffer &command_buffer) {

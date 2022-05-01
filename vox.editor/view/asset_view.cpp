@@ -31,6 +31,7 @@ scene_(scene) {
     subpass_ = static_cast<GeometrySubpass*>(scene_subpasses[0].get());
     render_pipeline_ = std::make_unique<RenderPipeline>(std::move(scene_subpasses));
     
+    subpass_->set_render_mode(GeometrySubpass::RenderMode::MANUAL);
     subpass_->add_render_element(elements_[0]);
     subpass_->add_render_element(elements_[1]);
 }

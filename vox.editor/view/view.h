@@ -70,7 +70,8 @@ protected:
     std::unique_ptr<RenderTarget> render_target_{nullptr};
     std::unique_ptr<RenderPipeline> render_pipeline_{nullptr};
     
-    std::unique_ptr<RenderTarget> create_render_target(uint32_t width, uint32_t height);
+    std::unique_ptr<RenderTarget> create_render_target(uint32_t width, uint32_t height,
+                                                       VkFormat format = VK_FORMAT_UNDEFINED);
 };
 
 //MARK: - Grid

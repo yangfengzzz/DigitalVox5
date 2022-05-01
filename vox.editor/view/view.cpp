@@ -76,12 +76,13 @@ std::pair<uint16_t, uint16_t> View::safe_size() const {
     return {static_cast<uint16_t>(result.x), static_cast<uint16_t>(result.y)};
 }
 
-std::unique_ptr<RenderTarget> View::create_render_target(uint32_t width, uint32_t height) {
+std::unique_ptr<RenderTarget> View::create_render_target(uint32_t width, uint32_t height,
+                                                         VkFormat format) {
     VkExtent3D extent{width, height, 1};
     
     core::Image color_target{
         render_context_.get_device(), extent,
-        VK_FORMAT_R8G8B8A8_UNORM,
+        format == VK_FORMAT_UNDEFINED? render_context_.get_swapchain().get_format() : format,
         VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
         VMA_MEMORY_USAGE_GPU_ONLY
     };
