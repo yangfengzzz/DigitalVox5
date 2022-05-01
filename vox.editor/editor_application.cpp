@@ -116,8 +116,8 @@ void EditorApplication::setup_ui() {
     panels_manager_.create_panel<ui::GameView>("Game View", true, settings,
                                                *render_context_, scene_manager_->current_scene());
 
-//    panels_manager_.create_panel<ui::AssetView>("Asset View", true, settings,
-//                                                *render_context_, scene_manager_->current_scene());
+    panels_manager_.create_panel<ui::AssetView>("Asset View", true, settings,
+                                                *render_context_, scene_manager_->current_scene());
     panels_manager_.create_panel<ui::Toolbar>("Toolbar", true, settings, editor_resources_.get());
     panels_manager_.create_panel<ui::ProjectSettings>("Project Settings", false, settings, project_path_, project_name_);
     
@@ -132,15 +132,15 @@ void EditorApplication::render_views(float delta_time, CommandBuffer &command_bu
     
     {
 //        // PROFILER_SPY("Editor Views Update");
-//        asset_view.update(delta_time);
+        asset_view.update(delta_time);
         game_view.update(delta_time);
 //        scene_view.update(delta_time);
     }
 
-//    if (asset_view.is_opened()) {
-//        // PROFILER_SPY("Game View Rendering");
-//        asset_view.render(command_buffer);
-//    }
+    if (asset_view.is_opened()) {
+        // PROFILER_SPY("Game View Rendering");
+        asset_view.render(command_buffer);
+    }
 
     if (game_view.is_opened()) {
         // PROFILER_SPY("Game View Rendering");

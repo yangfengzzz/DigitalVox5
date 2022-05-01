@@ -103,8 +103,8 @@ std::unique_ptr<RenderTarget> View::create_render_target(uint32_t width, uint32_
 GridMaterial::GridMaterial(Device &device) :
 BaseMaterial(device, "editor-grid") {
     set_is_transparent(true);
-    vertex_source_ = ShaderManager::get_singleton().load_shader("");
-    fragment_source_ = ShaderManager::get_singleton().load_shader("");
+    vertex_source_ = ShaderManager::get_singleton().load_shader("base/editor/grid.vert");
+    fragment_source_ = ShaderManager::get_singleton().load_shader("base/editor/grid.frag");
 }
 
 const Vector3F &View::grid_color() const {
@@ -117,24 +117,6 @@ void View::set_grid_color(const Vector3F &p_color) {
 
 ModelMeshPtr View::create_plane() {
     auto mesh = MeshManager::get_singleton().load_model_mesh();
-    
-    auto positions = std::vector<Vector3F>(4);
-    positions[0] = Vector3F(-1, -1, 0);
-    positions[1] = Vector3F(1, -1, 0);
-    positions[2] = Vector3F(-1, 1, 0);
-    positions[3] = Vector3F(1, 1, 0);
-    
-    auto indices = std::vector<uint32_t>(6);
-    indices[0] = 1;
-    indices[1] = 2;
-    indices[2] = 0;
-    indices[3] = 1;
-    indices[4] = 3;
-    indices[5] = 2;
-    
-    mesh->set_positions(positions);
-    mesh->set_indices(indices);
-    mesh->upload_data(true);
     mesh->add_sub_mesh(0, 6);
     return mesh;
 }
