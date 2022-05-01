@@ -45,6 +45,9 @@ scene_(scene) {
         auto clear_value = color_picker_render_pipeline_->get_clear_value();
         clear_value[0].color = {1.0f, 1.0f, 1.0f, 1.0f};
         color_picker_render_pipeline_->set_clear_value(clear_value);
+        
+        // dont't render grid when pick
+        color_picker_subpass_->add_exclusive_renderer(editor_root->get_component<MeshRenderer>());
     }
     
     stage_buffer_ = std::make_unique<core::Buffer>(render_context.get_device(), 4,
@@ -64,9 +67,9 @@ void SceneView::load_scene(Entity *root_entity) {
     main_camera_ = camera_entity->add_component<Camera>();
     camera_control_ = camera_entity->add_component<control::OrbitControl>();
     
-//    auto grid = root_entity->add_component<MeshRenderer>();
-//    grid->set_mesh(create_plane());
-//    grid->set_material(std::make_shared<GridMaterial>(render_context_.get_device()));
+    auto grid = root_entity->add_component<MeshRenderer>();
+    grid->set_mesh(create_plane());
+    grid->set_material(std::make_shared<GridMaterial>(render_context_.get_device()));
     
     // init point light
     auto light = root_entity->create_child("light");

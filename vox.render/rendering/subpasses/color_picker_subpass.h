@@ -39,6 +39,11 @@ public:
     void draw(CommandBuffer &command_buffer) override;
     
 public:
+    void add_exclusive_renderer(Renderer* renderer);
+    
+    void clear_exclusive_list();
+    
+public:
     /**
      * Convert id to RGB color value, 0 and 0xffffff are illegal values.
      */
@@ -64,6 +69,8 @@ private:
     std::unordered_map<size_t, std::pair<Renderer *, MeshPtr>> primitives_map_;
     
     ColorPickerMaterial material_;
+    
+    std::vector<Renderer *> exclusive_list_;
 };
 
 }

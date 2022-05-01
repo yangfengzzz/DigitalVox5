@@ -24,6 +24,14 @@ Subpass{render_context, scene, camera},
 material_(render_context_.get_device()) {
 }
 
+void ColorPickerSubpass::add_exclusive_renderer(Renderer* renderer) {
+    exclusive_list_.emplace_back(renderer);
+}
+
+void ColorPickerSubpass::clear_exclusive_list() {
+    exclusive_list_.clear();
+}
+
 Color ColorPickerSubpass::id_to_color(uint32_t id) {
     if (id >= 0xffffff) {
         LOGE("Framebuffer Picker encounter primitive's id greater than {}", std::to_string(0xffffff))
@@ -75,6 +83,10 @@ void ColorPickerSubpass::draw_element(CommandBuffer &command_buffer,
                                       const ShaderVariant &variant) {
     auto &device = command_buffer.get_device();
     for (auto &element : items) {
+        auto exclusive = std::find(exclusive_list_.begin(), exclusive_list_.end(), element.renderer);
+        if (exclusive != exclusive_list_.end()) {
+            continue;
+        }
         auto macros = variant;
         auto &renderer = element.renderer;
         renderer->update_shader_data();
