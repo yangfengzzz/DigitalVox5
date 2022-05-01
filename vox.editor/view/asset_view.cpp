@@ -85,7 +85,7 @@ void AssetView::render(CommandBuffer &command_buffer) {
         camera_control_->onDisable();
     }
     
-    if (render_target_ && is_focused()) {
+    if (render_target_) {
         render_pipeline_->draw(command_buffer, *render_target_);
     }
 }
