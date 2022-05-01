@@ -415,6 +415,20 @@ set(SCENE_FILES
         behaviour.cpp
         )
 
+set(LUA_FILES
+        lua/lua_binder.cpp
+        lua/lua_binder.h
+        lua/lua_component_binder.cpp
+        lua/lua_component_binder.h
+        lua/lua_entity_binder.cpp
+        lua/lua_entity_binder.h
+        lua/lua_global_binder.cpp
+        lua/lua_global_binder.h
+        lua/lua_math_binder.cpp
+        lua/lua_math_binder.h
+        lua/script_interpreter.cpp
+        lua/script_interpreter.h)
+
 set(LUA_SOURCE
         ../third_party/sol2/single/include
         /usr/local/include/lua
@@ -665,6 +679,7 @@ set(PROJECT_FILES
         ${PARTICLE_FILE}
         ${PLUGINS_FILE}
         ${GRAPHING_FILES}
+        ${LUA_FILES}
         )
 
 # No need for explict casts from vk::HandleType to VkHandleType on ANDROID
