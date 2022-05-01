@@ -4,41 +4,33 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef console_hpp
-#define console_hpp
+#pragma once
 
 #include "ui/widgets/panel_transformables/panel_window.h"
 #include "ui/widgets/layout/group.h"
 #include "ui/widgets/texts/text_colored.h"
-#include <glog/logging.h>
+#include "logging.h"
 
 namespace vox {
 using namespace ui;
 
-namespace editor {
-namespace ui {
+namespace editor::ui {
 class Console : public PanelWindow {
 public:
-    /**
-     * Constructor
-     * @param p_title p_title
-     * @param p_opened p_opened
-     * @param p_windowSettings p_windowSettings
-     */
-    Console(const std::string &p_title,
-            bool p_opened,
-            const PanelWindowSettings &p_windowSettings);
+    Console(const std::string &title,
+            bool opened,
+            const PanelWindowSettings &window_settings);
     
     /**
      * Method called when a log event occurred
      */
-    void onLogIntercepted(google::LogSeverity logLevel,
-                          const std::string &message);
+    void on_log_intercepted(spdlog::level::level_enum log_level,
+                            const std::string &message);
     
     /**
      * Called when the scene plays. It will clear the console if the "Clear on play" settings is on
      */
-    void clearOnPlay();
+    void clear_on_play();
     
     /**
      * Clear the console
@@ -48,34 +40,29 @@ public:
     /**
      * Filter logs using defined filters
      */
-    void filterLogs();
+    void filter_logs();
     
     /**
      * Verify if a given log level is allowed by the current filter
-     * @param p_logLevel p_logLevel
      */
-    bool isAllowedByFilter(google::LogSeverity p_logLevel);
+    bool is_allowed_by_filter(spdlog::level::level_enum log_level) const;
     
 private:
-    void setShowInfoLogs(bool p_value);
+    void set_show_info_logs(bool value);
     
-    void setShowWarningLogs(bool p_value);
+    void set_show_warning_logs(bool value);
     
-    void setShowErrorLogs(bool p_value);
+    void set_show_error_logs(bool value);
     
 private:
-    Group *_logGroup{nullptr};
-    std::unique_ptr<google::LogSink> _consoleSink{nullptr};
-    std::unordered_map<TextColored *, google::LogSeverity> _logTextWidgets{};
+    Group *log_group_{nullptr};
+    std::unordered_map<TextColored *, spdlog::level::level_enum> log_text_widgets_{};
     
-    bool _clearOnPlay = true;
-    bool _showInfoLog = true;
-    bool _showWarningLog = true;
-    bool _showErrorLog = true;
+    bool clear_on_play_ = true;
+    bool show_info_log_ = true;
+    bool show_warning_log_ = true;
+    bool show_error_log_ = true;
 };
 
-
 }
 }
-}
-#endif /* console_hpp */

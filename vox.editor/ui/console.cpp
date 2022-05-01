@@ -11,144 +11,134 @@
 #include "ui/widgets/visual/separator.h"
 #include "ui/widgets/layout/spacing.h"
 #include "editor_actions.h"
+#include "spdlog/sinks/base_sink.h"
 
-namespace vox {
-namespace editor {
-namespace ui {
+namespace vox::editor::ui {
 namespace {
-class ConsoleSink : public google::LogSink {
+template<typename Mutex>
+class ConsoleSink : public spdlog::sinks::base_sink<Mutex> {
 public:
-    ConsoleSink(Console *console) : _console(console) {
+    explicit ConsoleSink(Console *console) : console_(console) {
     }
     
-    virtual void send(google::LogSeverity severity, const char *full_filename,
-                      const char *base_filename, int line,
-                      const google::LogMessageTime &logmsgtime, const char *message,
-                      size_t message_len) {
-        _console->onLogIntercepted(severity, google::LogSink::ToString(severity, full_filename,
-                                                                       line, logmsgtime,
-                                                                       message, message_len));
+protected:
+    void sink_it_(const spdlog::details::log_msg &msg) override {
+        // log_msg is a struct containing the log entry info like level, timestamp, thread id etc.
+        // msg.raw contains preformatted log
+        
+        // If needed (very likely but not mandatory), the sink formats the message before sending it to its final destination:
+        spdlog::memory_buf_t formatted;
+        spdlog::sinks::base_sink<Mutex>::formatter_->format(msg, formatted);
+        console_->on_log_intercepted(msg.level, fmt::to_string(formatted));
     }
     
-    virtual void WaitTillSent() {
-        _console->onLogIntercepted(google::INFO, "console: waitTillSent");
-    }
+    void flush_() override {}
     
 private:
-    Console *_console;
+    Console *console_;
 };
 
 } // namespace
 
-Console::Console(const std::string &p_title,
-                 bool p_opened,
-                 const PanelWindowSettings &p_windowSettings) :
-PanelWindow(p_title, p_opened, p_windowSettings) {
-    _consoleSink = std::make_unique<ConsoleSink>(this);
-    google::AddLogSink(_consoleSink.get());
+Console::Console(const std::string &title,
+                 bool opened,
+                 const PanelWindowSettings &window_settings) :
+PanelWindow(title, opened, window_settings) {
+    auto console_sink = std::make_shared<ConsoleSink<spdlog::details::null_mutex>>(this);
+    spdlog::default_logger()->sinks().push_back(console_sink);
     
-    allowHorizontalScrollbar = true;
+    allow_horizontal_scrollbar_ = true;
     
-    auto &clearButton = createWidget<ButtonSimple>("Clear");
-    clearButton.size = {50.f, 0.f};
-    clearButton.idleBackgroundColor = {0.5f, 0.f, 0.f};
-    clearButton.clickedEvent += std::bind(&Console::clear, this);
-    clearButton.lineBreak = false;
+    auto &clear_button = create_widget<ButtonSimple>("Clear");
+    clear_button.size_ = {50.f, 0.f};
+    clear_button.idle_background_color_ = {0.5f, 0.f, 0.f};
+    clear_button.clicked_event_ += std::bind(&Console::clear, this);
+    clear_button.line_break_ = false;
     
-    auto &clearOnPlay = createWidget<CheckBox>(_clearOnPlay, "Auto clear on play");
+    auto &clear_on_play = create_widget<CheckBox>(clear_on_play_, "Auto clear on play");
     
-    createWidget<Spacing>(5).lineBreak = false;
+    create_widget<Spacing>(5).line_break_ = false;
     
-    auto &enableInfo = createWidget<CheckBox>(true, "Info");
-    auto &enableWarning = createWidget<CheckBox>(true, "Warning");
-    auto &enableError = createWidget<CheckBox>(true, "Error");
+    auto &enable_info = create_widget<CheckBox>(true, "Info");
+    auto &enable_warning = create_widget<CheckBox>(true, "Warning");
+    auto &enable_error = create_widget<CheckBox>(true, "Error");
     
-    clearOnPlay.lineBreak = false;
-    enableInfo.lineBreak = false;
-    enableWarning.lineBreak = false;
-    enableError.lineBreak = true;
+    clear_on_play.line_break_ = false;
+    enable_info.line_break_ = false;
+    enable_warning.line_break_ = false;
+    enable_error.line_break_ = true;
     
-    clearOnPlay.valueChangedEvent += [this](bool p_value) {
-        _clearOnPlay = p_value;
+    clear_on_play.value_changed_event_ += [this](bool value) {
+        clear_on_play_ = value;
     };
-    enableInfo.valueChangedEvent += std::bind(&Console::setShowInfoLogs, this, std::placeholders::_1);
-    enableWarning.valueChangedEvent += std::bind(&Console::setShowWarningLogs, this, std::placeholders::_1);
-    enableError.valueChangedEvent += std::bind(&Console::setShowErrorLogs, this, std::placeholders::_1);
+    enable_info.value_changed_event_ += std::bind(&Console::set_show_info_logs, this, std::placeholders::_1);
+    enable_warning.value_changed_event_ += std::bind(&Console::set_show_warning_logs, this, std::placeholders::_1);
+    enable_error.value_changed_event_ += std::bind(&Console::set_show_error_logs, this, std::placeholders::_1);
     
-    createWidget<Separator>();
+    create_widget<Separator>();
     
-    _logGroup = &createWidget<Group>();
-    _logGroup->reverseDrawOrder();
+    log_group_ = &create_widget<Group>();
+    log_group_->reverse_draw_order();
     
-    EditorActions::getSingleton().playEvent += std::bind(&Console::clearOnPlay, this);
+    EditorActions::get_singleton().play_event_ += std::bind(&Console::clear_on_play, this);
 }
 
-void Console::onLogIntercepted(google::LogSeverity logLevel,
-                               const std::string &message) {
-    Color logColor;
-    switch (logLevel) {
-        case google::INFO:
-            logColor = {0.f, 1.f, 1.f, 1.f};
+void Console::on_log_intercepted(spdlog::level::level_enum log_level,
+                                 const std::string &message) {
+    Color log_color;
+    switch (log_level) {
+        case spdlog::level::info:log_color = {0.f, 1.f, 1.f, 1.f};
             break;
-        case google::WARNING:
-            logColor = {1.f, 1.f, 0.f, 1.f};
+        case spdlog::level::warn:log_color = {1.f, 1.f, 0.f, 1.f};
             break;
-        case google::ERROR:
-            logColor = {1.f, 0.f, 0.f, 1.f};
+        case spdlog::level::err:log_color = {1.f, 0.f, 0.f, 1.f};
             break;
-        default:
-            logColor = {1.f, 1.f, 1.f, 1.f};
+        default:log_color = {1.f, 1.f, 1.f, 1.f};
             break;
     }
-    auto &consoleItem1 = _logGroup->createWidget<TextColored>(message, logColor);
-    consoleItem1.enabled = isAllowedByFilter(logLevel);
-    _logTextWidgets[&consoleItem1] = logLevel;
+    auto &console_item = log_group_->create_widget<TextColored>(message, log_color);
+    console_item.enabled_ = is_allowed_by_filter(log_level);
+    log_text_widgets_[&console_item] = log_level;
 }
 
-void Console::clearOnPlay() {
-    if (_clearOnPlay)
+void Console::clear_on_play() {
+    if (clear_on_play_)
         clear();
 }
 
 void Console::clear() {
-    _logTextWidgets.clear();
-    _logGroup->removeAllWidgets();
+    log_text_widgets_.clear();
+    log_group_->remove_all_widgets();
 }
 
-void Console::filterLogs() {
-    for (const auto&[widget, logLevel]: _logTextWidgets)
-        widget->enabled = isAllowedByFilter(logLevel);
+void Console::filter_logs() {
+    for (const auto &[kWidget, kLogLevel] : log_text_widgets_)
+        kWidget->enabled_ = is_allowed_by_filter(kLogLevel);
 }
 
-bool Console::isAllowedByFilter(google::LogSeverity logLevel) {
-    switch (logLevel) {
-        case google::INFO:
-            return _showInfoLog;
-        case google::WARNING:
-            return _showWarningLog;
-        case google::ERROR:
-            return _showErrorLog;
+bool Console::is_allowed_by_filter(spdlog::level::level_enum log_level) const {
+    switch (log_level) {
+        case spdlog::level::info:return show_info_log_;
+        case spdlog::level::warn:return show_warning_log_;
+        case spdlog::level::err:return show_error_log_;
     }
     
     return false;
 }
 
-void Console::setShowInfoLogs(bool p_value) {
-    _showInfoLog = p_value;
-    filterLogs();
+void Console::set_show_info_logs(bool value) {
+    show_info_log_ = value;
+    filter_logs();
 }
 
-void Console::setShowWarningLogs(bool p_value) {
-    _showWarningLog = p_value;
-    filterLogs();
+void Console::set_show_warning_logs(bool value) {
+    show_warning_log_ = value;
+    filter_logs();
 }
 
-void Console::setShowErrorLogs(bool p_value) {
-    _showErrorLog = p_value;
-    filterLogs();
+void Console::set_show_error_logs(bool value) {
+    show_error_log_ = value;
+    filter_logs();
 }
 
-
-}
-}
 }

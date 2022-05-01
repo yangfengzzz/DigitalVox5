@@ -18,6 +18,7 @@ set(UI_FILES
         ui/inspector.cpp
         ui/asset_properties.cpp
         ui/profiler_window.cpp
+        ui/console.cpp
         size_converter.cpp
         editor_utils.cpp
         editor_actions.cpp
