@@ -55,7 +55,9 @@ void View::update(float p_delta_time) {
         }
         
         image_->size_ = Vector2F(static_cast<float>(win_width), static_cast<float>(win_height));
-        if (win_width * 2 != render_target_->get_extent().width || win_height * 2 != render_target_->get_extent().height) {
+        if (!render_target_ ||
+            win_width * 2 != render_target_->get_extent().width ||
+            win_height * 2 != render_target_->get_extent().height) {
             render_target_ = create_render_target(win_width * 2, win_height * 2);
             image_->set_texture_view(ImGui_ImplVulkan_AddTexture(sampler_->get_handle(), render_target_->get_views().at(0).get_handle(),
                                                                  VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL));
