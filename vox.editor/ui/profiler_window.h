@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef profiler_window_hpp
-#define profiler_window_hpp
+#pragma once
 
 #include "profiling/profiler.h"
 
@@ -19,32 +18,31 @@
 namespace vox {
 using namespace ui;
 
-namespace editor {
-namespace ui {
+namespace editor::ui {
 class ProfilerWindow : public PanelWindow {
 public:
     /**
      * Constructor
      */
-    ProfilerWindow(const std::string &p_title,
-                   bool p_opened,
-                   const PanelWindowSettings &p_windowSettings,
-                   float p_frequency);
+    ProfilerWindow(const std::string &title,
+                   bool opened,
+                   const PanelWindowSettings &window_settings,
+                   float frequency);
     
     /**
      * Update profiling information
      */
-    void update(float p_deltaTime);
+    void update(float delta_time);
     
     /**
      * Enable or disable the profiler
      */
-    void enable(bool p_value, bool p_disableLog = false);
+    void enable(bool value, bool disable_log = false);
     
 private:
-    Color calculateActionColor(double p_percentage) const;
+    [[nodiscard]] static Color calculate_action_color(double percentage);
     
-    std::string generateActionString(ProfilerReport::Action &p_action);
+    static std::string generate_action_string(ProfilerReport::Action &action);
     
 private:
     enum class ProfilingMode {
@@ -52,23 +50,20 @@ private:
         CAPTURE
     };
     
-    float _frequency;
-    float _timer = 0.f;
-    float _fpsTimer = 0.f;
-    ProfilingMode _profilingMode = ProfilingMode::DEFAULT;
+    float frequency_;
+    float timer_ = 0.f;
+    float fps_timer_ = 0.f;
+    ProfilingMode profiling_mode_ = ProfilingMode::DEFAULT;
     
-    Profiler _profiler;
+    Profiler profiler_;
     
-    Widget *_separator;
-    ButtonSimple *_captureResumeButton;
-    TextColored *_fpsText;
-    TextColored *_elapsedFramesText;
-    TextColored *_elapsedTimeText;
-    Columns<5> *_actionList;
+    Widget *separator_;
+    ButtonSimple *capture_resume_button_;
+    TextColored *fps_text_;
+    TextColored *elapsed_frames_text_;
+    TextColored *elapsed_time_text_;
+    Columns<5> *action_list_;
 };
 
-
 }
 }
-}
-#endif /* profiler_window_hpp */

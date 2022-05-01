@@ -488,6 +488,12 @@
 		04523EC6281E68600079CC3C /* lua_global_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523EAE281E682D0079CC3C /* lua_global_binder.cpp */; };
 		04523EC7281E68600079CC3C /* script_interpreter.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523EA7281E682D0079CC3C /* script_interpreter.h */; };
 		04523EC8281E68600079CC3C /* lua_entity_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523EAF281E682D0079CC3C /* lua_entity_binder.h */; };
+		04523ECF281E73930079CC3C /* profiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523ECA281E73920079CC3C /* profiler.h */; };
+		04523ED0281E73930079CC3C /* profiler_spy.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523ECB281E73920079CC3C /* profiler_spy.h */; };
+		04523ED1281E73930079CC3C /* profiler_spy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523ECC281E73930079CC3C /* profiler_spy.cpp */; };
+		04523ED2281E73930079CC3C /* profiler_report.h in Headers */ = {isa = PBXBuildFile; fileRef = 04523ECD281E73930079CC3C /* profiler_report.h */; };
+		04523ED3281E73930079CC3C /* profiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523ECE281E73930079CC3C /* profiler.cpp */; };
+		04523ED4281E758B0079CC3C /* profiler_window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DDB281BCC2C0079CC3C /* profiler_window.cpp */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -1259,6 +1265,11 @@
 		04523EAE281E682D0079CC3C /* lua_global_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_global_binder.cpp; sourceTree = "<group>"; };
 		04523EAF281E682D0079CC3C /* lua_entity_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_entity_binder.h; sourceTree = "<group>"; };
 		04523EB0281E682D0079CC3C /* lua_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_binder.cpp; sourceTree = "<group>"; };
+		04523ECA281E73920079CC3C /* profiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = profiler.h; sourceTree = "<group>"; };
+		04523ECB281E73920079CC3C /* profiler_spy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = profiler_spy.h; sourceTree = "<group>"; };
+		04523ECC281E73930079CC3C /* profiler_spy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = profiler_spy.cpp; sourceTree = "<group>"; };
+		04523ECD281E73930079CC3C /* profiler_report.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = profiler_report.h; sourceTree = "<group>"; };
+		04523ECE281E73930079CC3C /* profiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = profiler.cpp; sourceTree = "<group>"; };
 		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
 		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
 		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
@@ -2082,6 +2093,7 @@
 				04523E00281BCCD90079CC3C /* editor_actions.cpp */,
 				04523DFD281BCCD90079CC3C /* editor_resources.h */,
 				04523E02281BCCD90079CC3C /* editor_resources.cpp */,
+				04523EC9281E73630079CC3C /* profiling */,
 				04523DFB281BCCD90079CC3C /* editor_application.h */,
 				04523E01281BCCD90079CC3C /* editor_application.cpp */,
 			);
@@ -2146,6 +2158,18 @@
 				04523EAC281E682D0079CC3C /* script_interpreter.cpp */,
 			);
 			path = lua;
+			sourceTree = "<group>";
+		};
+		04523EC9281E73630079CC3C /* profiling */ = {
+			isa = PBXGroup;
+			children = (
+				04523ECD281E73930079CC3C /* profiler_report.h */,
+				04523ECA281E73920079CC3C /* profiler.h */,
+				04523ECE281E73930079CC3C /* profiler.cpp */,
+				04523ECB281E73920079CC3C /* profiler_spy.h */,
+				04523ECC281E73930079CC3C /* profiler_spy.cpp */,
+			);
+			path = profiling;
 			sourceTree = "<group>";
 		};
 		04698839281988E600EF1EE1 /* particle */ = {
@@ -2779,11 +2803,14 @@
 				04523E39281CC5410079CC3C /* menu_bar.h in Headers */,
 				04523E4A281CC5410079CC3C /* panels_manager.h in Headers */,
 				04523E58281CC5460079CC3C /* raw_icon.h in Headers */,
+				04523ECF281E73930079CC3C /* profiler.h in Headers */,
 				04523E46281CC5410079CC3C /* editor_utils.h in Headers */,
 				04523E3F281CC5410079CC3C /* inspector.h in Headers */,
 				04523E37281CC5410079CC3C /* editor_application.h in Headers */,
+				04523ED2281E73930079CC3C /* profiler_report.h in Headers */,
 				04523E8D281D56580079CC3C /* imgui_extra_math.h in Headers */,
 				04523E3A281CC5410079CC3C /* project_settings.h in Headers */,
+				04523ED0281E73930079CC3C /* profiler_spy.h in Headers */,
 				04523E35281CC5410079CC3C /* editor_actions.h in Headers */,
 				04523E47281CC5410079CC3C /* entity_creation_menu.h in Headers */,
 				04523E8A281D56580079CC3C /* imgui_node_editor.h in Headers */,
@@ -3318,15 +3345,18 @@
 				04523E63281D23CA0079CC3C /* game_view.cpp in Sources */,
 				04523E9F281D696F0079CC3C /* asset_properties.cpp in Sources */,
 				04523E57281CC5460079CC3C /* ini_file.cpp in Sources */,
+				04523ED3281E73930079CC3C /* profiler.cpp in Sources */,
 				04523E41281CC5410079CC3C /* material_editor.cpp in Sources */,
 				04523E4E281CC5410079CC3C /* asset_browser.cpp in Sources */,
 				04523EA0281D72DF0079CC3C /* editor_application.cpp in Sources */,
 				04523E34281CC5410079CC3C /* menu_bar.cpp in Sources */,
+				04523ED1281E73930079CC3C /* profiler_spy.cpp in Sources */,
 				04523E38281CC5410079CC3C /* project_settings.cpp in Sources */,
 				04523E87281D56580079CC3C /* imgui_shapes.cpp in Sources */,
 				04523E8C281D56580079CC3C /* imgui_canvas.cpp in Sources */,
 				04523E91281D56580079CC3C /* imgui_zmo.cpp in Sources */,
 				04523E3D281CC5410079CC3C /* tool_bar.cpp in Sources */,
+				04523ED4281E758B0079CC3C /* profiler_window.cpp in Sources */,
 				04523E9D281D69560079CC3C /* size_converter.cpp in Sources */,
 				04523E88281D56580079CC3C /* imgui_curve.cpp in Sources */,
 				04523E99281D57F40079CC3C /* scene_view.cpp in Sources */,

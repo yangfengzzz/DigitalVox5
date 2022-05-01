@@ -13,7 +13,7 @@
 #include "ui/menu_bar.h"
 #include "ui/hierarchy.h"
 #include "ui/inspector.h"
-//#include "ui/profiler_window.h"
+#include "ui/profiler_window.h"
 #include "ui/tool_bar.h"
 #include "ui/project_settings.h"
 //#include "ui/console.h"
@@ -108,8 +108,8 @@ void EditorApplication::setup_ui() {
     settings.dockable = true;
     
     panels_manager_.create_panel<ui::MenuBar>("Menu Bar");
-    // _panelsManager.create_panel<ui::ProfilerWindow>("Profiler", true, settings, 0.25f);
-    // _panelsManager.create_panel<ui::Console>("Console", true, settings);
+    panels_manager_.create_panel<ui::ProfilerWindow>("Profiler", true, settings, 0.25f);
+    // panels_manager_.create_panel<ui::Console>("Console", true, settings);
     panels_manager_.create_panel<ui::Hierarchy>("Hierarchy", true, settings);
     panels_manager_.create_panel<ui::Inspector>("Inspector", true, settings);
     panels_manager_.create_panel<ui::SceneView>("Scene View", true, settings,

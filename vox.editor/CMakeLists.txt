@@ -17,6 +17,7 @@ set(UI_FILES
         ui/hierarchy.cpp
         ui/inspector.cpp
         ui/asset_properties.cpp
+        ui/profiler_window.cpp
         size_converter.cpp
         editor_utils.cpp
         editor_actions.cpp

@@ -15,9 +15,7 @@
 #include "ui/widgets/buttons/button_small.h"
 #include "ui/widgets/selection/color_edit.h"
 
-namespace vox {
-namespace editor {
-namespace ui {
+namespace vox::editor::ui {
 namespace {
 void draw_hybrid_vec_3(WidgetContainer &p_root, const std::string &p_name, Vector3F &p_data,
                        float p_step, float p_min, float p_max) {
@@ -172,6 +170,4 @@ void MaterialEditor::generate_material_settings_content() {
     
 }
 
-}
-}
 }
