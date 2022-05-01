@@ -111,8 +111,8 @@ void EditorApplication::setup_ui() {
     // _panelsManager.create_panel<ui::Console>("Console", true, settings);
     panels_manager_.create_panel<ui::Hierarchy>("Hierarchy", true, settings);
     panels_manager_.create_panel<ui::Inspector>("Inspector", true, settings);
-//    panels_manager_.create_panel<ui::SceneView>("Scene View", true, settings,
-//                                                *render_context_, scene_manager_->current_scene());
+    panels_manager_.create_panel<ui::SceneView>("Scene View", true, settings,
+                                                *render_context_, scene_manager_->current_scene());
     panels_manager_.create_panel<ui::GameView>("Game View", true, settings,
                                                *render_context_, scene_manager_->current_scene());
 
@@ -132,10 +132,10 @@ void EditorApplication::render_views(float delta_time, CommandBuffer &command_bu
     auto &asset_view = panels_manager_.get_panel_as<ui::AssetView>("Asset View");
     
     {
-//        // PROFILER_SPY("Editor Views Update");
+        // PROFILER_SPY("Editor Views Update");
         asset_view.update(delta_time);
         game_view.update(delta_time);
-//        scene_view.update(delta_time);
+        scene_view.update(delta_time);
     }
 
     if (asset_view.is_opened()) {
@@ -148,10 +148,10 @@ void EditorApplication::render_views(float delta_time, CommandBuffer &command_bu
         game_view.render(command_buffer);
     }
 
-//    if (scene_view.is_opened()) {
-//        // PROFILER_SPY("Scene View Rendering");
-//        scene_view.render(command_buffer);
-//    }
+    if (scene_view.is_opened()) {
+        // PROFILER_SPY("Scene View Rendering");
+        scene_view.render(command_buffer);
+    }
 }
 
 void EditorApplication::update_editor_panels(float delta_time) {
@@ -203,7 +203,7 @@ void EditorApplication::input_event(const InputEvent &input_event) {
     components_manager_->call_script_input_event(input_event);
     
     auto &scene_view = panels_manager_.get_panel_as<ui::SceneView>("Scene View");
-//    scene_view.input_event(input_event);
+    scene_view.input_event(input_event);
 }
 
 }

@@ -64,9 +64,9 @@ void SceneView::load_scene(Entity *root_entity) {
     main_camera_ = camera_entity->add_component<Camera>();
     camera_control_ = camera_entity->add_component<control::OrbitControl>();
     
-    auto grid = root_entity->add_component<MeshRenderer>();
-    grid->set_mesh(create_plane());
-    grid->set_material(std::make_shared<GridMaterial>(render_context_.get_device()));
+//    auto grid = root_entity->add_component<MeshRenderer>();
+//    grid->set_mesh(create_plane());
+//    grid->set_material(std::make_shared<GridMaterial>(render_context_.get_device()));
     
     // init point light
     auto light = root_entity->create_child("light");
@@ -88,7 +88,7 @@ void SceneView::update(float delta_time) {
     View::update(delta_time);
     
     auto [win_width, win_height] = safe_size();
-    if (win_width > 0 && render_target_->get_extent().width != win_width * 2) {
+    if (win_width > 0 && (!color_picker_render_target_ || render_target_->get_extent().width != win_width * 2)) {
         main_camera_->set_aspect_ratio(float(win_width) / float(win_height));
         main_camera_->resize(win_width, win_height, win_width * 2, win_height * 2);
         color_picker_render_target_ = create_render_target(win_width * 2, win_height * 2, VK_FORMAT_R8G8B8A8_UNORM);
@@ -147,15 +147,25 @@ void SceneView::draw_impl() {
             if (ImGuizmo::IsOver()) {
                 camera_control_->set_enabled(false);
             }
-            
-            auto renderer = pick_result_.first;
+            // camera transform
             auto camera_projection = main_camera_->projection_matrix();
+            camera_projection(1, 1) *= -1; // vulkan flip
             auto camera_view = main_camera_->view_matrix();
-            auto model_mat = renderer->entity()->transform_->local_matrix();
+            auto& camera_transform = main_camera_->entity()->transform_;
+            
+            // renderer transform
+            auto renderer = pick_result_.first;
+            auto& renderer_transform = renderer->entity()->transform_;
+            auto model_mat = renderer_transform->local_matrix();
+            
+            // open gizmo
+            cam_distance_ = camera_transform->world_position().distanceTo(renderer_transform->world_position());
             edit_transform(camera_view.data(), camera_projection.data(), model_mat.data());
-            renderer->entity()->transform_->set_local_matrix(model_mat);
+            
+            // data store
+            renderer_transform->set_local_matrix(model_mat);
             camera_view.invert();
-            main_camera_->entity()->transform_->set_world_matrix(camera_view);
+            camera_transform->set_world_matrix(camera_view);
         }
     }
     ImGui::End();
@@ -195,7 +205,10 @@ void SceneView::read_color_from_render_target() {
     uint8_t *raw = stage_buffer_->map();
     if (raw) {
         memcpy(pixel_.data(), raw, 4);
-        pick_result_ = color_picker_subpass_->get_object_by_color(pixel_);
+        auto result = color_picker_subpass_->get_object_by_color(pixel_);
+        if (result.first) {
+            pick_result_ = result;
+        }
     }
     stage_buffer_->unmap();
 }
