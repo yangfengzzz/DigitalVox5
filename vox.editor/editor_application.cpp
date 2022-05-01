@@ -20,6 +20,7 @@
 #include "view/game_view.h"
 #include "view/scene_view.h"
 #include "view/asset_view.h"
+#include "profiling/profiler_spy.h"
 
 namespace vox::editor {
 EditorApplication::EditorApplication(const std::string &project_path, const std::string &project_name) :
@@ -115,7 +116,7 @@ void EditorApplication::setup_ui() {
                                                 *render_context_, scene_manager_->current_scene());
     panels_manager_.create_panel<ui::GameView>("Game View", true, settings,
                                                *render_context_, scene_manager_->current_scene());
-
+    
     panels_manager_.create_panel<ui::AssetView>("Asset View", true, settings,
                                                 *render_context_, scene_manager_->current_scene());
     panels_manager_.create_panel<ui::Toolbar>("Toolbar", true, settings, editor_resources_.get());
@@ -132,24 +133,24 @@ void EditorApplication::render_views(float delta_time, CommandBuffer &command_bu
     auto &asset_view = panels_manager_.get_panel_as<ui::AssetView>("Asset View");
     
     {
-        // PROFILER_SPY("Editor Views Update");
+        PROFILER_SPY("Editor Views Update");
         asset_view.update(delta_time);
         game_view.update(delta_time);
         scene_view.update(delta_time);
     }
-
+    
     if (asset_view.is_opened()) {
-        // PROFILER_SPY("Game View Rendering");
+        PROFILER_SPY("Game View Rendering");
         asset_view.render(command_buffer);
     }
-
+    
     if (game_view.is_opened()) {
-        // PROFILER_SPY("Game View Rendering");
+        PROFILER_SPY("Game View Rendering");
         game_view.render(command_buffer);
     }
-
+    
     if (scene_view.is_opened()) {
-        // PROFILER_SPY("Scene View Rendering");
+        PROFILER_SPY("Scene View Rendering");
         scene_view.render(command_buffer);
     }
 }

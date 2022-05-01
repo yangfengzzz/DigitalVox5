@@ -56,11 +56,19 @@ set(IMGUI_FILES
         imgui/imgui_zmo.cpp
         imgui/imgui_zmo.h)
 
+set(PROFILING
+        profiling/profiler.cpp
+        profiling/profiler.h
+        profiling/profiler_report.h
+        profiling/profiler_spy.cpp
+        profiling/profiler_spy.h)
+
 set(FRAMEWORK_FILES
         ini_file.cpp
         ${UI_FILES}
         ${VIEW_FILES}
         ${IMGUI_FILES}
+        ${PROFILING}
         )
 
 set(LUA_SOURCE
