@@ -30,6 +30,9 @@ scene_(scene) {
     scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(render_context_, scene, main_camera_));
     subpass_ = static_cast<GeometrySubpass*>(scene_subpasses[0].get());
     render_pipeline_ = std::make_unique<RenderPipeline>(std::move(scene_subpasses));
+    auto clear_value = render_pipeline_->get_clear_value();
+    clear_value[0].color = {0.2f, 0.4f, 0.6f, 1.f};
+    render_pipeline_->set_clear_value(clear_value);
     
     subpass_->set_render_mode(GeometrySubpass::RenderMode::MANUAL);
     subpass_->add_render_element(elements_[0]);

@@ -26,6 +26,9 @@ scene_(scene) {
     std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
     scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(render_context_, scene, main_camera_));
     render_pipeline_ = std::make_unique<RenderPipeline>(std::move(scene_subpasses));
+    auto clear_value = render_pipeline_->get_clear_value();
+    clear_value[0].color = {0.2f, 0.4f, 0.6f, 1.f};
+    render_pipeline_->set_clear_value(clear_value);
 }
 
 void GameView::render(CommandBuffer &command_buffer) {
