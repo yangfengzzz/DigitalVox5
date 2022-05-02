@@ -6,9 +6,10 @@
 
 #include "editor_actions.h"
 #include "scene_manager.h"
+#include "lua/script_interpreter.h"
 #include "view/scene_view.h"
 #include "ui/inspector.h"
-#include "lua/script_interpreter.h"
+#include "ui/ui_manager.h"
 
 namespace vox {
 editor::EditorActions *editor::EditorActions::get_singleton_ptr() {
@@ -81,6 +82,40 @@ void EditorActions::refresh_scripts() {
     }
 }
 
+//MARK: - BUILDING
+std::optional<std::string> EditorActions::select_build_folder() {
+    // todo
+    return std::nullopt;
+}
+
+void EditorActions::build(bool auto_run, bool temp_folder) {
+    // todo
+}
+
+void EditorActions::build_at_location(const std::string &configuration, const std::string &build_path, bool auto_run) {
+    // todo
+}
+
+//MARK: - ACTION_SYSTEM
+void EditorActions::delay_action(const std::function<void()> &action, uint32_t frames) {
+    delayed_actions_.emplace_back(frames + 1, action);
+}
+
+void EditorActions::execute_delayed_actions() {
+    std::for_each(delayed_actions_.begin(), delayed_actions_.end(),
+                  [](std::pair<uint32_t, std::function<void()>> & element) {
+        --element.first;
+        
+        if (element.first == 0)
+            element.second();
+    });
+    
+    delayed_actions_.erase(std::remove_if(delayed_actions_.begin(), delayed_actions_.end(),
+                                          [](std::pair<uint32_t, std::function<void()>> & element) {
+        return element.first == 0;
+    }), delayed_actions_.end());
+}
+
 //MARK: - TOOLS
 ui::PanelsManager &EditorActions::panels_manager() {
     return panels_manager_;
@@ -88,15 +123,20 @@ ui::PanelsManager &EditorActions::panels_manager() {
 
 //MARK: - SETTINGS
 void EditorActions::set_entity_spawn_at_origin(bool value) {
-    
+    if (value)
+        entity_spawn_mode_ = EntitySpawnMode::ORIGIN;
+    else
+        entity_spawn_mode_ = EntitySpawnMode::FRONT;
 }
 
 void EditorActions::set_entity_spawn_mode(EntitySpawnMode value) {
-    
+    entity_spawn_mode_ = value;
 }
 
 void EditorActions::reset_layout() {
-    
+    delay_action([this]() {
+        UiManager::get_singleton().reset_layout("Config\\layout.ini");
+    });
 }
 
 void EditorActions::set_scene_view_camera_speed(int speed) {
@@ -238,28 +278,6 @@ void EditorActions::propagate_file_rename(const std::string &previous_name, cons
 
 void EditorActions::propagate_file_rename_through_saved_files_of_type(const std::string &previous_name, const std::string &new_name,
                                                                       fs::FileType file_type) {
-    
-}
-
-//MARK: - BUILDING
-std::optional<std::string> EditorActions::select_build_folder() {
-    return std::nullopt;
-}
-
-void EditorActions::build(bool auto_run, bool temp_folder) {
-    
-}
-
-void EditorActions::build_at_location(const std::string &configuration, const std::string &build_path, bool auto_run) {
-    
-}
-
-//MARK: - ACTION_SYSTEM
-void EditorActions::delay_action(const std::function<void()> &action, uint32_t frames) {
-    
-}
-
-void EditorActions::execute_delayed_actions() {
     
 }
 

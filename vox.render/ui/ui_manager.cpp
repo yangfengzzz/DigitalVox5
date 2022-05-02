@@ -12,7 +12,17 @@
 #include "platform/filesystem.h"
 #include "vk_initializers.h"
 
-namespace vox::ui {
+namespace vox {
+ui::UiManager *ui::UiManager::get_singleton_ptr() {
+    return ms_singleton_;
+}
+
+ui::UiManager &ui::UiManager::get_singleton() {
+    assert(ms_singleton_);
+    return (*ms_singleton_);
+}
+
+namespace ui {
 static ImGui_ImplVulkan_InitInfo info;
 
 UiManager::UiManager(GLFWwindow *glfw_window,
@@ -418,4 +428,5 @@ void UiManager::update_font_texture() {
     ImGui_ImplVulkan_DestroyFontUploadObjects();
 }
 
+}
 }

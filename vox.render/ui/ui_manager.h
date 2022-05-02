@@ -10,10 +10,12 @@
 #include <unordered_map>
 #include "ui/canvas.h"
 #include "rendering/render_context.h"
+#include "singleton.h"
 
 struct GLFWwindow;
 
-namespace vox::ui {
+namespace vox {
+namespace ui {
 /**
  * Some styles that you can use to modify the UI looks
  */
@@ -29,8 +31,12 @@ enum class Style {
 /**
  * Handle the creation and drawing of the UI
  */
-class UiManager {
+class UiManager : public Singleton<UiManager> {
 public:
+    static UiManager &get_singleton();
+    
+    static UiManager *get_singleton_ptr();
+    
     /**
      * Create the UI manager. Will setup ImGui internally\
      */
@@ -160,4 +166,6 @@ private:
     void setup_descriptor_pool();
 };
 
+}
+template<> inline ui::UiManager *Singleton<ui::UiManager>::ms_singleton_{nullptr};
 }
