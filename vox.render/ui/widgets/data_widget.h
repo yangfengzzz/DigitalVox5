@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_DATA_WIDGET_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_DATA_WIDGET_H_
+#pragma once
 
 #include "buttons/button.h"
 #include "../plugins/data_dispatcher.h"
@@ -20,9 +19,8 @@ class DataWidget : public Widget {
 public:
     /**
      * Create a DataWidget with the data specification
-     * @param p_data_holder p_dataHolder
      */
-    explicit DataWidget(T &p_data_holder) : data_(p_data_holder) {
+    explicit DataWidget(T &data_holder) : data_(data_holder) {
     };
     
     /**
@@ -54,4 +52,3 @@ inline void DataWidget<T>::notify_change() {
 }
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_DATA_WIDGET_H_ */

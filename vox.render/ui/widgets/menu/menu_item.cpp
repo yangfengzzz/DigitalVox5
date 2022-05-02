@@ -9,10 +9,10 @@
 #include <utility>
 
 namespace vox::ui {
-MenuItem::MenuItem(std::string p_name, std::string p_shortcut,
-                   bool p_checkable, bool p_checked) :
-DataWidget(selected_), name_(std::move(p_name)), shortcut_(std::move(p_shortcut)),
-checkable_(p_checkable), checked_(p_checked) {
+MenuItem::MenuItem(std::string name, std::string shortcut,
+                   bool checkable, bool checked) :
+DataWidget(selected_), name_(std::move(name)), shortcut_(std::move(shortcut)),
+checkable_(checkable), checked_(checked) {
 }
 
 void MenuItem::draw_impl() {

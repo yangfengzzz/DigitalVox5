@@ -9,9 +9,9 @@
 #include <utility>
 
 namespace vox::ui {
-RadioButton::RadioButton(bool p_selected, std::string p_label) :
-DataWidget<bool>(selected_), label_(std::move(p_label)) {
-    if (p_selected)
+RadioButton::RadioButton(bool selected, std::string label) :
+DataWidget<bool>(selected_), label_(std::move(label)) {
+    if (selected)
         select();
 }
 

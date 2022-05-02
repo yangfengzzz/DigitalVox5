@@ -8,9 +8,9 @@
 #include "ui/widgets/converter.h"
 
 namespace vox::ui {
-TextColored::TextColored(const std::string &p_content,
-                         const Color &p_color) :
-Text(p_content), color_(p_color) {
+TextColored::TextColored(const std::string &content,
+                         const Color &color) :
+Text(content), color_(color) {
 }
 
 void TextColored::draw_impl() {

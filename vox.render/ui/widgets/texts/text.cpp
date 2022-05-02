@@ -9,9 +9,9 @@
 #include <utility>
 
 namespace vox::ui {
-Text::Text(std::string p_content) :
+Text::Text(std::string content) :
 DataWidget(content_),
-content_(std::move(p_content)) {
+content_(std::move(content)) {
 }
 
 void Text::draw_impl() {

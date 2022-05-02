@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_WIDGET_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_WIDGET_H_
+#pragma once
 
 #include <string>
 
@@ -36,9 +35,8 @@ public:
     
     /**
      * Link the widget to another one by making its id identical to the given widget
-     * @param p_widget p_widget
      */
-    void link_to(const Widget &p_widget);
+    void link_to(const Widget &widget);
     
     /**
      * Mark the widget as destroyed. It will be removed from the owner panel
@@ -53,9 +51,8 @@ public:
     
     /**
      * Defines the parent of this widget
-     * @param p_parent p_parent
      */
-    void set_parent(WidgetContainer *p_parent);
+    void set_parent(WidgetContainer *parent);
     
     /**
      * Returns true if the widget has a parent
@@ -85,4 +82,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_WIDGET_H_ */

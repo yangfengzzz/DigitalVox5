@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_LABELLED_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_LABELLED_H_
+#pragma once
 
 #include "text.h"
 
@@ -15,12 +14,7 @@ namespace vox::ui {
  */
 class TextLabelled : public Text {
 public:
-    /**
-     * Constructor
-     * @param p_content p_content
-     * @param p_label p_label
-     */
-    explicit TextLabelled(const std::string &p_content = "", std::string p_label = "");
+    explicit TextLabelled(const std::string &content = "", std::string label = "");
     
 protected:
     void draw_impl() override;
@@ -30,4 +24,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_LABELLED_H_ */

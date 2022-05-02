@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_RADIO_BUTTON_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_RADIO_BUTTON_H_
+#pragma once
 
 #include "ui/widgets/data_widget.h"
 #include "event.h"
@@ -19,12 +18,7 @@ class RadioButton : public DataWidget<bool> {
     friend class RadioButtonLinker;
     
 public:
-    /**
-     * Constructor
-     * @param p_selected p_selected
-     * @param p_label p_label
-     */
-    explicit RadioButton(bool p_selected = false, std::string p_label = "");
+    explicit RadioButton(bool selected = false, std::string label = "");
     
     /**
      * Make the radio button selected
@@ -54,4 +48,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_RADIO_BUTTON_H_ */

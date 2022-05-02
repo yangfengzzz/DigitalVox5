@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_PLUGINS_DRAG_DROP_SOURCE_H_
-#define DIGITALVOX_VOX_RENDER_UI_PLUGINS_DRAG_DROP_SOURCE_H_
+#pragma once
 
 #include "event.h"
 #include "plugin.h"
@@ -23,10 +22,10 @@ public:
     /**
      * Create the drag and drop source
      */
-    DDSource(std::string p_identifier,
-             std::string p_tooltip,
-             T p_data) :
-    identifier_(std::move(p_identifier)), tooltip_(std::move(p_tooltip)), data_(p_data) {
+    DDSource(std::string identifier,
+             std::string tooltip,
+             T data) :
+    identifier_(std::move(identifier)), tooltip_(std::move(tooltip)), data_(data) {
     }
     
     /**
@@ -81,4 +80,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_PLUGINS_DRAG_DROP_SOURCE_H_ */

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_PLUGINS_PLUGINABLE_H_
-#define DIGITALVOX_VOX_RENDER_UI_PLUGINS_PLUGINABLE_H_
+#pragma once
 
 #include "plugin.h"
 #include <vector>
@@ -25,13 +24,12 @@ public:
     
     /**
      * Add a plugin
-     * @param p_args p_args
      */
     template<typename T, typename... Args>
-    T &add_plugin(Args &&... p_args) {
+    T &add_plugin(Args &&... args) {
         static_assert(std::is_base_of<Plugin, T>::value, "T should derive from IPlugin");
         
-        T *new_plugin = new T(std::forward<Args>(p_args)...);
+        T *new_plugin = new T(std::forward<Args>(args)...);
         plugins_.push_back(new_plugin);
         return *new_plugin;
     }
@@ -75,4 +73,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_PLUGINS_PLUGINABLE_H_ */

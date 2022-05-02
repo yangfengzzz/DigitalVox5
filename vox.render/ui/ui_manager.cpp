@@ -15,8 +15,8 @@
 namespace vox::ui {
 static ImGui_ImplVulkan_InitInfo info;
 
-UiManager::UiManager(GLFWwindow *p_glfw_window,
-                     RenderContext *render_context, Style p_style) :
+UiManager::UiManager(GLFWwindow *glfw_window,
+                     RenderContext *render_context, Style style) :
 render_context_(render_context) {
     ImGui::CreateContext();
     
@@ -24,7 +24,7 @@ render_context_(render_context) {
     ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
     enable_docking(false);
     
-    apply_style(p_style);
+    apply_style(style);
     
     setup_render_pass();
     setup_descriptor_pool();
@@ -42,7 +42,7 @@ render_context_(render_context) {
     info.Allocator = nullptr;
     info.CheckVkResultFn = nullptr;
     
-    ImGui_ImplGlfw_InitForOpenGL(p_glfw_window, true);
+    ImGui_ImplGlfw_InitForOpenGL(glfw_window, true);
     ImGui_ImplVulkan_LoadFunctions([](const char *function_name, void *user_data) {
         auto app = static_cast<UiManager *>(user_data);
         return vkGetInstanceProcAddr(app->render_context_->get_device().get_gpu().get_instance().get_handle(), function_name);
@@ -56,10 +56,10 @@ UiManager::~UiManager() {
     ImGui::DestroyContext();
 }
 
-void UiManager::apply_style(Style p_style) {
-    ImGuiStyle *style = &ImGui::GetStyle();
+void UiManager::apply_style(Style style) {
+    ImGuiStyle *imgui_style = &ImGui::GetStyle();
     
-    switch (p_style) {
+    switch (style) {
         case Style::IM_CLASSIC_STYLE:ImGui::StyleColorsClassic();
             break;
         case Style::IM_DARK_STYLE:ImGui::StyleColorsDark();
@@ -69,79 +69,79 @@ void UiManager::apply_style(Style p_style) {
         default:break;
     }
     
-    if (p_style == Style::DUNE_DARK) {
-        style->WindowPadding = ImVec2(15, 15);
-        style->WindowRounding = 5.0f;
-        style->FramePadding = ImVec2(5, 5);
-        style->FrameRounding = 4.0f;
-        style->ItemSpacing = ImVec2(12, 8);
-        style->ItemInnerSpacing = ImVec2(8, 6);
-        style->IndentSpacing = 25.0f;
-        style->ScrollbarSize = 15.0f;
-        style->ScrollbarRounding = 9.0f;
-        style->GrabMinSize = 5.0f;
-        style->GrabRounding = 3.0f;
+    if (style == Style::DUNE_DARK) {
+        imgui_style->WindowPadding = ImVec2(15, 15);
+        imgui_style->WindowRounding = 5.0f;
+        imgui_style->FramePadding = ImVec2(5, 5);
+        imgui_style->FrameRounding = 4.0f;
+        imgui_style->ItemSpacing = ImVec2(12, 8);
+        imgui_style->ItemInnerSpacing = ImVec2(8, 6);
+        imgui_style->IndentSpacing = 25.0f;
+        imgui_style->ScrollbarSize = 15.0f;
+        imgui_style->ScrollbarRounding = 9.0f;
+        imgui_style->GrabMinSize = 5.0f;
+        imgui_style->GrabRounding = 3.0f;
         
-        style->Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
-        style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
-        style->Colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-        style->Colors[ImGuiCol_ChildBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
-        style->Colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
-        style->Colors[ImGuiCol_Border] = ImVec4(0.2f, 0.2f, 0.2f, 0.88f);
-        style->Colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
-        style->Colors[ImGuiCol_FrameBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-        style->Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
-        style->Colors[ImGuiCol_FrameBgActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-        style->Colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-        style->Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.3f, 0.3f, 0.3f, 0.75f);
-        style->Colors[ImGuiCol_TitleBgActive] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
-        style->Colors[ImGuiCol_MenuBarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-        style->Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-        style->Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
-        style->Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-        style->Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-        style->Colors[ImGuiCol_CheckMark] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
-        style->Colors[ImGuiCol_SliderGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
-        style->Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-        style->Colors[ImGuiCol_Button] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-        style->Colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
-        style->Colors[ImGuiCol_ButtonActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-        style->Colors[ImGuiCol_Header] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-        style->Colors[ImGuiCol_HeaderHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-        style->Colors[ImGuiCol_HeaderActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-        style->Colors[ImGuiCol_Separator] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-        style->Colors[ImGuiCol_SeparatorHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
-        style->Colors[ImGuiCol_SeparatorActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-        style->Colors[ImGuiCol_ResizeGrip] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
-        style->Colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-        style->Colors[ImGuiCol_ResizeGripActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-        style->Colors[ImGuiCol_PlotLines] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
-        style->Colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
-        style->Colors[ImGuiCol_PlotHistogram] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
-        style->Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
-        style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.25f, 1.00f, 0.00f, 0.43f);
-        style->Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
+        imgui_style->Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
+        imgui_style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+        imgui_style->Colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+        imgui_style->Colors[ImGuiCol_ChildBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+        imgui_style->Colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+        imgui_style->Colors[ImGuiCol_Border] = ImVec4(0.2f, 0.2f, 0.2f, 0.88f);
+        imgui_style->Colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
+        imgui_style->Colors[ImGuiCol_FrameBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+        imgui_style->Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+        imgui_style->Colors[ImGuiCol_FrameBgActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+        imgui_style->Colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+        imgui_style->Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.3f, 0.3f, 0.3f, 0.75f);
+        imgui_style->Colors[ImGuiCol_TitleBgActive] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+        imgui_style->Colors[ImGuiCol_MenuBarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+        imgui_style->Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+        imgui_style->Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+        imgui_style->Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+        imgui_style->Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+        imgui_style->Colors[ImGuiCol_CheckMark] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+        imgui_style->Colors[ImGuiCol_SliderGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+        imgui_style->Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+        imgui_style->Colors[ImGuiCol_Button] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+        imgui_style->Colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+        imgui_style->Colors[ImGuiCol_ButtonActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+        imgui_style->Colors[ImGuiCol_Header] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+        imgui_style->Colors[ImGuiCol_HeaderHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+        imgui_style->Colors[ImGuiCol_HeaderActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+        imgui_style->Colors[ImGuiCol_Separator] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+        imgui_style->Colors[ImGuiCol_SeparatorHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+        imgui_style->Colors[ImGuiCol_SeparatorActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+        imgui_style->Colors[ImGuiCol_ResizeGrip] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+        imgui_style->Colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+        imgui_style->Colors[ImGuiCol_ResizeGripActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+        imgui_style->Colors[ImGuiCol_PlotLines] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
+        imgui_style->Colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
+        imgui_style->Colors[ImGuiCol_PlotHistogram] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
+        imgui_style->Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
+        imgui_style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.25f, 1.00f, 0.00f, 0.43f);
+        imgui_style->Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
         
-        style->Colors[ImGuiCol_Tab] = style->Colors[ImGuiCol_TabUnfocused];
-    } else if (p_style == Style::ALTERNATIVE_DARK) {
-        style->WindowPadding = ImVec2(15, 15);
-        style->WindowRounding = 0.0f;
-        style->FramePadding = ImVec2(5, 5);
-        style->FrameRounding = 0.0f;
-        style->ItemSpacing = ImVec2(12, 8);
-        style->ItemInnerSpacing = ImVec2(8, 6);
-        style->IndentSpacing = 25.0f;
-        style->ScrollbarSize = 15.0f;
-        style->ScrollbarRounding = 0.0f;
-        style->GrabMinSize = 5.0f;
-        style->GrabRounding = 0.0f;
-        style->TabRounding = 0.0f;
-        style->ChildRounding = 0.0f;
-        style->PopupRounding = 0.0f;
+        imgui_style->Colors[ImGuiCol_Tab] = imgui_style->Colors[ImGuiCol_TabUnfocused];
+    } else if (style == Style::ALTERNATIVE_DARK) {
+        imgui_style->WindowPadding = ImVec2(15, 15);
+        imgui_style->WindowRounding = 0.0f;
+        imgui_style->FramePadding = ImVec2(5, 5);
+        imgui_style->FrameRounding = 0.0f;
+        imgui_style->ItemSpacing = ImVec2(12, 8);
+        imgui_style->ItemInnerSpacing = ImVec2(8, 6);
+        imgui_style->IndentSpacing = 25.0f;
+        imgui_style->ScrollbarSize = 15.0f;
+        imgui_style->ScrollbarRounding = 0.0f;
+        imgui_style->GrabMinSize = 5.0f;
+        imgui_style->GrabRounding = 0.0f;
+        imgui_style->TabRounding = 0.0f;
+        imgui_style->ChildRounding = 0.0f;
+        imgui_style->PopupRounding = 0.0f;
         
-        style->WindowBorderSize = 1.0f;
-        style->FrameBorderSize = 0.0f;
-        style->PopupBorderSize = 1.0f;
+        imgui_style->WindowBorderSize = 1.0f;
+        imgui_style->FrameBorderSize = 0.0f;
+        imgui_style->PopupBorderSize = 1.0f;
         
         ImVec4 *colors = ImGui::GetStyle().Colors;
         colors[ImGuiCol_Text] = ImVec4(0.96f, 0.96f, 0.99f, 1.00f);
@@ -197,13 +197,13 @@ void UiManager::apply_style(Style p_style) {
     }
 }
 
-bool UiManager::load_font(const std::string &p_id, const std::string &p_path, float p_font_size) {
-    if (fonts_.find(p_id) == fonts_.end()) {
+bool UiManager::load_font(const std::string &id, const std::string &path, float font_size) {
+    if (fonts_.find(id) == fonts_.end()) {
         auto &io = ImGui::GetIO();
-        ImFont *font_instance = io.Fonts->AddFontFromFileTTF((fs::path::get(fs::path::Type::ASSETS) + p_path).c_str(), p_font_size);
+        ImFont *font_instance = io.Fonts->AddFontFromFileTTF((fs::path::get(fs::path::Type::ASSETS) + path).c_str(), font_size);
         
         if (font_instance) {
-            fonts_[p_id] = font_instance;
+            fonts_[id] = font_instance;
             return true;
         }
     }
@@ -211,17 +211,17 @@ bool UiManager::load_font(const std::string &p_id, const std::string &p_path, fl
     return false;
 }
 
-bool UiManager::unload_font(const std::string &p_id) {
-    if (fonts_.find(p_id) != fonts_.end()) {
-        fonts_.erase(p_id);
+bool UiManager::unload_font(const std::string &id) {
+    if (fonts_.find(id) != fonts_.end()) {
+        fonts_.erase(id);
         return true;
     }
     
     return false;
 }
 
-bool UiManager::use_font(const std::string &p_id) {
-    auto found_font = fonts_.find(p_id);
+bool UiManager::use_font(const std::string &id) {
+    auto found_font = fonts_.find(id);
     
     if (found_font != fonts_.end()) {
         ImGui::GetIO().FontDefault = found_font->second;
@@ -237,8 +237,8 @@ void UiManager::use_default_font() {
     update_font_texture();
 }
 
-void UiManager::enable_editor_layout_save(bool p_value) {
-    if (p_value)
+void UiManager::enable_editor_layout_save(bool value) {
+    if (value)
         ImGui::GetIO().IniFilename = layout_save_filename_.c_str();
     else
         ImGui::GetIO().IniFilename = nullptr;
@@ -248,41 +248,41 @@ bool UiManager::is_editor_layout_save_enabled() {
     return ImGui::GetIO().IniFilename != nullptr;
 }
 
-void UiManager::set_editor_layout_save_filename(const std::string &p_filename) {
-    layout_save_filename_ = p_filename;
+void UiManager::set_editor_layout_save_filename(const std::string &filename) {
+    layout_save_filename_ = filename;
     if (is_editor_layout_save_enabled())
         ImGui::GetIO().IniFilename = layout_save_filename_.c_str();
 }
 
-void UiManager::set_editor_layout_autosave_frequency(float p_frequency) {
-    ImGui::GetIO().IniSavingRate = p_frequency;
+void UiManager::set_editor_layout_autosave_frequency(float frequency) {
+    ImGui::GetIO().IniSavingRate = frequency;
 }
 
-float UiManager::editor_layout_autosave_frequency(float p_frequency) {
+float UiManager::editor_layout_autosave_frequency(float frequency) {
     return ImGui::GetIO().IniSavingRate;
 }
 
-void UiManager::enable_docking(bool p_value) {
-    docking_state_ = p_value;
+void UiManager::enable_docking(bool value) {
+    docking_state_ = value;
     
-    if (p_value)
+    if (value)
         ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     else
         ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_DockingEnable;
 }
 
-void UiManager::reset_layout(const std::string &p_config) {
-    ImGui::LoadIniSettingsFromDisk(p_config.c_str());
+void UiManager::reset_layout(const std::string &config) {
+    ImGui::LoadIniSettingsFromDisk(config.c_str());
 }
 
 bool UiManager::is_docking_enabled() const {
     return docking_state_;
 }
 
-void UiManager::set_canvas(Canvas &p_canvas) {
+void UiManager::set_canvas(Canvas &canvas) {
     remove_canvas();
     
-    current_canvas_ = &p_canvas;
+    current_canvas_ = &canvas;
 }
 
 void UiManager::remove_canvas() {

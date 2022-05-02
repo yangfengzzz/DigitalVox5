@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_TRANSFORMABLE_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_TRANSFORMABLE_H_
+#pragma once
 
 #include <vector>
 #include <memory>
@@ -22,39 +21,27 @@ namespace vox::ui {
  */
 class PanelTransformable : public Panel {
 public:
-    /**
-     * Create a APanelTransformable
-     * @param p_default_position p_defaultPosition
-     * @param p_default_size p_defaultSize
-     * @param p_default_horizontal_alignment p_defaultHorizontalAlignment
-     * @param p_default_vertical_alignment p_defaultVerticalAlignment
-     * @param p_ignore_config_file p_ignoreConfigFile
-     */
-    explicit PanelTransformable(const Vector2F &p_default_position = Vector2F(-1.f, -1.f),
-                                const Vector2F &p_default_size = Vector2F(-1.f, -1.f),
-                                HorizontalAlignment p_default_horizontal_alignment = HorizontalAlignment::LEFT,
-                                VerticalAlignment p_default_vertical_alignment = VerticalAlignment::TOP,
-                                bool p_ignore_config_file = false);
+    explicit PanelTransformable(const Vector2F &default_position = Vector2F(-1.f, -1.f),
+                                const Vector2F &default_size = Vector2F(-1.f, -1.f),
+                                HorizontalAlignment default_horizontal_alignment = HorizontalAlignment::LEFT,
+                                VerticalAlignment default_vertical_alignment = VerticalAlignment::TOP,
+                                bool ignore_config_file = false);
     
     /**
      * Defines the position of the panel
-     * @param p_position p_position
      */
-    void set_position(const Vector2F &p_position);
+    void set_position(const Vector2F &position);
     
     /**
      * Defines the size of the panel
-     * @param p_size p_size
      */
-    void set_size(const Vector2F &p_size);
+    void set_size(const Vector2F &size);
     
     /**
      * Defines the alignment of the panel
-     * @param p_horizontal_alignment p_horizontalAlignment
-     * @param p_vertical_aligment p_verticalAligment
      */
-    void set_alignment(HorizontalAlignment p_horizontal_alignment,
-                       VerticalAlignment p_vertical_aligment);
+    void set_alignment(HorizontalAlignment horizontal_alignment,
+                       VerticalAlignment vertical_alignment);
     
     /**
      * Returns the current position of the panel
@@ -82,7 +69,7 @@ protected:
     void draw_impl() override = 0;
     
 private:
-    Vector2F calculate_position_alignment_offset(bool p_default = false);
+    Vector2F calculate_position_alignment_offset(bool is_default = false);
     
     void update_position();
     
@@ -116,4 +103,3 @@ protected:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_TRANSFORMABLE_H_ */

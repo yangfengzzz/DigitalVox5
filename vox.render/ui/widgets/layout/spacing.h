@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_SPACING_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_SPACING_H_
+#pragma once
 
 #include "ui/widgets/widget.h"
 
@@ -15,11 +14,7 @@ namespace vox::ui {
  */
 class Spacing : public Widget {
 public:
-    /**
-     * Constructor
-     * @param p_spaces p_spaces
-     */
-    explicit Spacing(uint16_t p_spaces = 1);
+    explicit Spacing(uint16_t spaces = 1);
     
 protected:
     void draw_impl() override;
@@ -29,4 +24,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_SPACING_H_ */

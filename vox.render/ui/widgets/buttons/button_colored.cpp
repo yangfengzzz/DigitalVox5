@@ -10,9 +10,9 @@
 #include "ui/widgets/converter.h"
 
 namespace vox::ui {
-ButtonColored::ButtonColored(std::string p_label, const Color &p_color,
-                             const Vector2F &p_size, bool p_enable_alpha) :
-label_(std::move(p_label)), color_(p_color), size_(p_size), enableAlpha_(p_enable_alpha) {
+ButtonColored::ButtonColored(std::string label, const Color &color,
+                             const Vector2F &size, bool enable_alpha) :
+label_(std::move(label)), color_(color), size_(size), enableAlpha_(enable_alpha) {
 }
 
 void ButtonColored::draw_impl() {

@@ -7,8 +7,8 @@
 #include "color_picker.h"
 
 namespace vox::ui {
-ColorPicker::ColorPicker(bool p_enable_alpha, const Color &p_default_color) :
-DataWidget<Color>(color_), enable_alpha_(p_enable_alpha), color_(p_default_color) {
+ColorPicker::ColorPicker(bool enable_alpha, const Color &default_color) :
+DataWidget<Color>(color_), enable_alpha_(enable_alpha), color_(default_color) {
 }
 
 void ColorPicker::draw_impl() {

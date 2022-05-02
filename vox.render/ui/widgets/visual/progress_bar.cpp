@@ -10,8 +10,8 @@
 #include "ui/widgets/converter.h"
 
 namespace vox::ui {
-ProgressBar::ProgressBar(float p_fraction, const Vector2F &p_size, std::string p_overlay) :
-fraction_(p_fraction), size_(p_size), overlay_(std::move(p_overlay)) {
+ProgressBar::ProgressBar(float fraction, const Vector2F &size, std::string overlay) :
+fraction_(fraction), size_(size), overlay_(std::move(overlay)) {
 }
 
 void ProgressBar::draw_impl() {

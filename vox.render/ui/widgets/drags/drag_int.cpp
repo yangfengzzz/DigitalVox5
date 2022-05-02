@@ -7,14 +7,14 @@
 #include "drag_int.h"
 
 namespace vox::ui {
-DragInt::DragInt(int p_min,
-                 int p_max,
-                 int p_value,
-                 float p_speed,
-                 const std::string &p_label,
-                 const std::string &p_format) :
-DragSingleScalar<int>(ImGuiDataType_::ImGuiDataType_S32, p_min, p_max,
-                      p_value, p_speed, p_label, p_format) {
+DragInt::DragInt(int min,
+                 int max,
+                 int value,
+                 float speed,
+                 const std::string &label,
+                 const std::string &format) :
+DragSingleScalar<int>(ImGuiDataType_::ImGuiDataType_S32, min, max,
+                      value, speed, label, format) {
 }
 
 }

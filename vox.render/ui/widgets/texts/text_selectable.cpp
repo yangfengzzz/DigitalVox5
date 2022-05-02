@@ -7,8 +7,8 @@
 #include "text_selectable.h"
 
 namespace vox::ui {
-TextSelectable::TextSelectable(const std::string &p_content, bool p_selected, bool p_disabled) :
-Text(p_content), selected_(p_selected), disabled_(p_disabled) {
+TextSelectable::TextSelectable(const std::string &content, bool selected, bool disabled) :
+Text(content), selected_(selected), disabled_(disabled) {
 }
 
 void TextSelectable::draw_impl() {

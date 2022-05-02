@@ -7,8 +7,8 @@
 #include "text_clickable.h"
 
 namespace vox::ui {
-TextClickable::TextClickable(const std::string &p_content) :
-Text(p_content) {
+TextClickable::TextClickable(const std::string &content) :
+Text(content) {
 }
 
 void TextClickable::draw_impl() {

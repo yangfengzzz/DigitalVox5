@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_COLORED_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_COLORED_H_
+#pragma once
 
 #include "text.h"
 #include "color.h"
@@ -16,13 +15,8 @@ namespace vox::ui {
  */
 class TextColored : public Text {
 public:
-    /**
-     * Constructor
-     * @param p_content p_content
-     * @param p_color p_color
-     */
-    explicit TextColored(const std::string &p_content = "",
-                         const Color &p_color = Color(1.0f, 1.0f, 1.0f, 1.0f));
+    explicit TextColored(const std::string &content = "",
+                         const Color &color = Color(1.0f, 1.0f, 1.0f, 1.0f));
     
 public:
     Color color_;
@@ -32,4 +26,3 @@ protected:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_COLORED_H_ */

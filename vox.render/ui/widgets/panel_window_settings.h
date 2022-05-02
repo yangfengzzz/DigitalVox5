@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_WINDOW_SETTINGS_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_WINDOW_SETTINGS_H_
+#pragma once
 
 namespace vox::ui {
 /**
@@ -29,4 +28,3 @@ struct PanelWindowSettings {
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_WINDOW_SETTINGS_H_ */

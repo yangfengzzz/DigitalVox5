@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_PLOT_PLOT_HISTOGRAM_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_PLOT_PLOT_HISTOGRAM_H_
+#pragma once
 
 #include "plot.h"
 
@@ -15,25 +14,15 @@ namespace vox::ui {
  */
 class PlotHistogram : public Plot {
 public:
-    /**
-     * Constructor
-     * @param p_data p_data
-     * @param p_min_scale p_minScale
-     * @param p_max_scale p_maxScale
-     * @param p_size p_size
-     * @param p_overlay p_overlay
-     * @param p_label p_label
-     */
-    explicit PlotHistogram(const std::vector<float> &p_data = std::vector<float>(),
-                           float p_min_scale = std::numeric_limits<float>::min(),
-                           float p_max_scale = std::numeric_limits<float>::max(),
-                           const Vector2F &p_size = {0.0f, 0.0f},
-                           const std::string &p_overlay = "",
-                           const std::string &p_label = "");
+    explicit PlotHistogram(const std::vector<float> &data = std::vector<float>(),
+                           float min_scale = std::numeric_limits<float>::min(),
+                           float max_scale = std::numeric_limits<float>::max(),
+                           const Vector2F &size = {0.0f, 0.0f},
+                           const std::string &overlay = "",
+                           const std::string &label = "");
     
 protected:
     void draw_impl() override;
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_PLOT_PLOT_HISTOGRAM_H_ */

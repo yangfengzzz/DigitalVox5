@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_INPUT_FIELDS_INPUT_MULTIPLE_SCALARS_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_INPUT_FIELDS_INPUT_MULTIPLE_SCALARS_H_
+#pragma once
 
 #include <utility>
 
@@ -24,31 +23,21 @@ class InputMultipleScalars : public DataWidget<std::array<T, Size>> {
     static_assert(std::is_scalar<T>::value, "Invalid InputMultipleScalars T (Scalar expected)");
     
 public:
-    /**
-     * Constructor
-     * @param p_data_type
-     * @param p_default_value
-     * @param p_step
-     * @param p_fast_step
-     * @param p_label
-     * @param p_format
-     * @param p_select_all_on_click
-     */
-    InputMultipleScalars(ImGuiDataType p_data_type,
-                         T p_default_value,
-                         T p_step,
-                         T p_fast_step,
-                         std::string p_label,
-                         std::string p_format,
-                         bool p_select_all_on_click) :
+    InputMultipleScalars(ImGuiDataType data_type,
+                         T default_value,
+                         T step,
+                         T fast_step,
+                         std::string label,
+                         std::string format,
+                         bool select_all_on_click) :
     DataWidget<std::array<T, Size>>(values_),
-    data_type_(p_data_type),
-    step_(p_step),
-    fast_step_(p_fast_step),
-    label_(std::move(p_label)),
-    format_(std::move(p_format)),
-    select_all_on_click_(p_select_all_on_click) {
-        values_.fill(p_default_value);
+    data_type_(data_type),
+    step_(step),
+    fast_step_(fast_step),
+    label_(std::move(label)),
+    format_(std::move(format)),
+    select_all_on_click_(select_all_on_click) {
+        values_.fill(default_value);
     }
     
 protected:
@@ -93,4 +82,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_INPUT_FIELDS_INPUT_MULTIPLE_SCALARS_H_ */

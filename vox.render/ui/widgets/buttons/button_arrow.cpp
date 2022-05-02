@@ -7,8 +7,8 @@
 #include "button_arrow.h"
 
 namespace vox::ui {
-ButtonArrow::ButtonArrow(ImGuiDir p_direction) :
-direction_(p_direction) {
+ButtonArrow::ButtonArrow(ImGuiDir direction) :
+direction_(direction) {
 }
 
 void ButtonArrow::draw_impl() {

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_COMBO_BOX_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_COMBO_BOX_H_
+#pragma once
 
 #include "ui/widgets/data_widget.h"
 #include "event.h"
@@ -17,11 +16,7 @@ namespace vox::ui {
  */
 class ComboBox : public DataWidget<int> {
 public:
-    /**
-     * Constructor
-     * @param p_current_choice p_currentChoice
-     */
-    explicit ComboBox(int p_current_choice = 0);
+    explicit ComboBox(int current_choice = 0);
     
 protected:
     void draw_impl() override;
@@ -35,4 +30,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_COMBO_BOX_H_ */

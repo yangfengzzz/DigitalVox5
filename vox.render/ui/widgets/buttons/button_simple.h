@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_SIMPLE_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_SIMPLE_H_
+#pragma once
 
 #include "button.h"
 #include "vector2.h"
@@ -17,15 +16,9 @@ namespace vox::ui {
  */
 class ButtonSimple : public Button {
 public:
-    /**
-     * Constructor
-     * @param p_label p_label
-     * @param p_size p_size
-     * @param p_disabled p_disabled
-     */
-    explicit ButtonSimple(std::string p_label = "",
-                          const Vector2F &p_size = Vector2F(0.f, 0.f),
-                          bool p_disabled = false);
+    explicit ButtonSimple(std::string label = "",
+                          const Vector2F &size = Vector2F(0.f, 0.f),
+                          bool disabled = false);
     
 protected:
     void draw_impl() override;
@@ -43,4 +36,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_SIMPLE_H_ */

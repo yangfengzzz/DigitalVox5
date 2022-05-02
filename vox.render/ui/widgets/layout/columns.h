@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_COLUMNS_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_COLUMNS_H_
+#pragma once
 
 #include <array>
 
@@ -59,4 +58,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_COLUMNS_H_ */

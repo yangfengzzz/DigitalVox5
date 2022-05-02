@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_TREE_NODE_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_TREE_NODE_H_
+#pragma once
 
 #include "ui/widgets/widget_container.h"
 #include "ui/widgets/data_widget.h"
@@ -17,12 +16,7 @@ namespace vox::ui {
  */
 class TreeNode : public DataWidget<std::string>, public WidgetContainer {
 public:
-    /**
-     * Constructor
-     * @param p_name p_name
-     * @param p_arrow_click_to_open p_arrowClickToOpen
-     */
-    explicit TreeNode(std::string p_name = "", bool p_arrow_click_to_open = false);
+    explicit TreeNode(std::string name = "", bool arrow_click_to_open = false);
     
     /**
      * Open the tree node
@@ -60,4 +54,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_TREE_NODE_H_ */

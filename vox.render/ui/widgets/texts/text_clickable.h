@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_CLICKABLE_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_CLICKABLE_H_
+#pragma once
 
 #include "text.h"
 #include "event.h"
@@ -16,11 +15,7 @@ namespace vox::ui {
  */
 class TextClickable : public Text {
 public:
-    /**
-     * Constructor
-     * @param p_content p_content
-     */
-    explicit TextClickable(const std::string &p_content = "");
+    explicit TextClickable(const std::string &content = "");
     
 protected:
     void draw_impl() override;
@@ -31,4 +26,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_CLICKABLE_H_ */

@@ -9,8 +9,8 @@
 #include <utility>
 
 namespace vox::ui {
-CheckBox::CheckBox(bool p_value, std::string p_label) :
-DataWidget<bool>(value_), value_(p_value), label_(std::move(p_label)) {
+CheckBox::CheckBox(bool value, std::string label) :
+DataWidget<bool>(value_), value_(value), label_(std::move(label)) {
 }
 
 void CheckBox::draw_impl() {

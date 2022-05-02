@@ -10,8 +10,8 @@
 #include "ui/widgets/converter.h"
 
 namespace vox::ui {
-ButtonSmall::ButtonSmall(std::string p_label) :
-label_(std::move(p_label)) {
+ButtonSmall::ButtonSmall(std::string label) :
+label_(std::move(label)) {
     auto &style = ImGui::GetStyle();
     
     idle_background_color_ = Converter::to_color(style.Colors[ImGuiCol_Button]);

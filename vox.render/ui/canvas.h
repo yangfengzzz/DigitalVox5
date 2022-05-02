@@ -22,12 +22,12 @@ public:
     /**
      * Adds a panel to the canvas
      */
-    void add_panel(Panel &p_panel);
+    void add_panel(Panel &panel);
     
     /**
      * Removes a panel from the canvas
      */
-    void remove_panel(Panel &p_panel);
+    void remove_panel(Panel &panel);
     
     /**
      * Removes every panels from the canvas
@@ -37,7 +37,7 @@ public:
     /**
      * Makes the canvas a dockspace (Dockable panels will be able to attach themselves to the canvas)
      */
-    void make_dock_space(bool p_state);
+    void make_dock_space(bool state);
     
     /**
      * Returns true if the canvas is a dockspace

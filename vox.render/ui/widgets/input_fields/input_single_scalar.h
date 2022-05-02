@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_INPUT_FIELDS_INPUT_SINGLE_SCALAR_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_INPUT_FIELDS_INPUT_SINGLE_SCALAR_H_
+#pragma once
 
 #include <utility>
 
@@ -21,31 +20,21 @@ class InputSingleScalar : public DataWidget<T> {
     static_assert(std::is_scalar<T>::value, "Invalid InputSingleScalar T (Scalar expected)");
     
 public:
-    /**
-     * Constructor
-     * @param p_data_type p_dataType
-     * @param p_default_value p_defaultValue
-     * @param p_step p_step
-     * @param p_fast_step p_fastStep
-     * @param p_label p_label
-     * @param p_format p_format
-     * @param p_select_all_on_click p_selectAllOnClick
-     */
-    InputSingleScalar(ImGuiDataType p_data_type,
-                      T p_default_value,
-                      T p_step,
-                      T p_fast_step,
-                      std::string p_label,
-                      std::string p_format,
-                      bool p_select_all_on_click) :
+    InputSingleScalar(ImGuiDataType data_type,
+                      T default_value,
+                      T step,
+                      T fast_step,
+                      std::string label,
+                      std::string format,
+                      bool select_all_on_click) :
     DataWidget<T>(value_),
-    data_type_(p_data_type),
-    value_(p_default_value),
-    step_(p_step),
-    fast_step_(p_fast_step),
-    label_(std::move(p_label)),
-    format_(std::move(p_format)),
-    select_all_on_click_(p_select_all_on_click) {
+    data_type_(data_type),
+    value_(default_value),
+    step_(step),
+    fast_step_(fast_step),
+    label_(std::move(label)),
+    format_(std::move(format)),
+    select_all_on_click_(select_all_on_click) {
     }
     
 protected:
@@ -85,4 +74,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_INPUT_FIELDS_INPUT_SINGLE_SCALAR_H_ */

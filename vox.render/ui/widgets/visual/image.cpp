@@ -8,13 +8,13 @@
 #include "ui/widgets/converter.h"
 
 namespace vox::ui {
-Image::Image(VkDescriptorSet p_texture_id, const Vector2F &p_size) :
-texture_id_{p_texture_id}, size_(p_size) {
+Image::Image(VkDescriptorSet texture_id, const Vector2F &size) :
+texture_id_{texture_id}, size_(size) {
     
 }
 
-void Image::set_texture_view(VkDescriptorSet p_texture_id) {
-    texture_id_ = p_texture_id;
+void Image::set_texture_view(VkDescriptorSet texture_id) {
+    texture_id_ = texture_id;
 }
 
 void Image::draw_impl() {

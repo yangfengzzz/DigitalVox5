@@ -7,8 +7,8 @@
 #include "spacing.h"
 
 namespace vox::ui {
-Spacing::Spacing(uint16_t p_spaces) :
-spaces_(p_spaces) {
+Spacing::Spacing(uint16_t spaces) :
+spaces_(spaces) {
 }
 
 void Spacing::draw_impl() {

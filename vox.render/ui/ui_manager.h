@@ -33,11 +33,9 @@ class UiManager {
 public:
     /**
      * Create the UI manager. Will setup ImGui internally\
-     * @param p_glfw_window p_glfw_window
-     * @param p_style p_style
      */
-    UiManager(GLFWwindow *p_glfw_window,
-              RenderContext *context, Style p_style = Style::IM_DARK_STYLE);
+    UiManager(GLFWwindow *glfw_window,
+              RenderContext *context, Style style = Style::IM_DARK_STYLE);
     
     /**
      * Destroy the UI manager. Will handle_ ImGui destruction internally
@@ -46,28 +44,23 @@ public:
     
     /**
      * Apply a new style to the UI elements
-     * @param p_style p_style
      */
-    static void apply_style(Style p_style);
+    static void apply_style(Style style);
     
     /**
      * Load a font (Returns true on success)
-     * @param p_id p_id
-     * @param p_path p_path
-     * @param p_font_size p_font_size
      */
-    bool load_font(const std::string &p_id, const std::string &p_path, float p_font_size);
+    bool load_font(const std::string &id, const std::string &path, float font_size);
     
     /**
      * Unload a font (Returns true on success)
-     * @param p_id p_id
      */
-    bool unload_font(const std::string &p_id);
+    bool unload_font(const std::string &id);
     
     /**
      * Set the given font as the current one (Returns true on success)
      */
-    bool use_font(const std::string &p_id);
+    bool use_font(const std::string &id);
     
     /**
      * Use the default font (ImGui default font)
@@ -76,9 +69,8 @@ public:
     
     /**
      * Allow the user to enable/disable .ini generation to save his editor layout
-     * @param p_value p_value
      */
-    void enable_editor_layout_save(bool p_value);
+    void enable_editor_layout_save(bool value);
     
     /**
      *  Return true if the editor layout save system is on
@@ -88,30 +80,30 @@ public:
     /**
      * Defines a filename for the editor layout save file
      */
-    void set_editor_layout_save_filename(const std::string &p_filename);
+    void set_editor_layout_save_filename(const std::string &filename);
     
     /**
      * Defines a frequency (in seconds) for the auto saving system of the editor layout
-     * @param p_frequency p_frequency
+     * @param frequency frequency
      */
-    static void set_editor_layout_autosave_frequency(float p_frequency);
+    static void set_editor_layout_autosave_frequency(float frequency);
     
     /**
      * Returns the current frequency (in seconds) for the auto saving system of the editor layout
      */
-    static float editor_layout_autosave_frequency(float p_frequency);
+    static float editor_layout_autosave_frequency(float frequency);
     
     /**
      * Enable the docking system
-     * @param p_value p_value
+     * @param value value
      */
-    void enable_docking(bool p_value);
+    void enable_docking(bool value);
     
     /**
      * Reset the UI layout to the given configuration file
-     * @param p_config p_config
+     * @param config config
      */
-    static void reset_layout(const std::string &p_config);
+    static void reset_layout(const std::string &config);
     
     /**
      * Return true if the docking system is enabled
@@ -120,9 +112,8 @@ public:
     
     /**
      * Defines the canvas to use
-     * @param p_canvas p_canvas
      */
-    void set_canvas(Canvas &p_canvas);
+    void set_canvas(Canvas &canvas);
     
     /**
      * Stop considering the current canvas (if any)

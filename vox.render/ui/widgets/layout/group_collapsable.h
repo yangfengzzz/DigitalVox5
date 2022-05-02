@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_GROUP_COLLAPSABLE_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_GROUP_COLLAPSABLE_H_
+#pragma once
 
 #include "group.h"
 #include "event.h"
@@ -16,10 +15,7 @@ namespace vox::ui {
  */
 class GroupCollapsable : public Group {
 public:
-    /**
-     * Constructor
-     */
-    explicit GroupCollapsable(std::string p_name = "");
+    explicit GroupCollapsable(std::string name = "");
     
 protected:
     void draw_impl() override;
@@ -33,4 +29,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_GROUP_COLLAPSABLE_H_ */

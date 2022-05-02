@@ -8,8 +8,8 @@
 #include "ui/widgets/converter.h"
 
 namespace vox::ui {
-ButtonImage::ButtonImage(VkDescriptorSet p_texture_id, const Vector2F &p_size) :
-texture_id_{p_texture_id}, size_(p_size) {
+ButtonImage::ButtonImage(VkDescriptorSet texture_id, const Vector2F &size) :
+texture_id_{texture_id}, size_(size) {
 }
 
 void ButtonImage::draw_impl() {

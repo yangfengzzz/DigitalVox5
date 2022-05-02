@@ -8,7 +8,7 @@
 #include "ui/widgets/converter.h"
 
 namespace vox::ui {
-Dummy::Dummy(const Vector2F &p_size) : size_(p_size) {
+Dummy::Dummy(const Vector2F &size) : size_(size) {
 }
 
 void Dummy::draw_impl() {

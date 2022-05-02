@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_SELECTABLE_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_SELECTABLE_H_
+#pragma once
 
 #include "text.h"
 
@@ -15,14 +14,8 @@ namespace vox::ui {
  */
 class TextSelectable : public Text {
 public:
-    /**
-     * Constructor
-     * @param p_content p_content
-     * @param p_selected p_selected
-     * @param p_disabled p_disabled
-     */
-    explicit TextSelectable(const std::string &p_content = "",
-                            bool p_selected = false, bool p_disabled = false);
+    explicit TextSelectable(const std::string &content = "",
+                            bool selected = false, bool disabled = false);
     
 protected:
     void draw_impl() override;
@@ -37,4 +30,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_SELECTABLE_H_ */

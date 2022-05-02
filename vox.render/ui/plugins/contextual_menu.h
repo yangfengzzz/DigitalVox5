@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_PLUGINS_CONTEXTUAL_MENU_H_
-#define DIGITALVOX_VOX_RENDER_UI_PLUGINS_CONTEXTUAL_MENU_H_
+#pragma once
 
 #include "ui/plugins/plugin.h"
 #include "ui/widgets/widget_container.h"
@@ -31,4 +30,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_PLUGINS_CONTEXTUAL_MENU_H_ */

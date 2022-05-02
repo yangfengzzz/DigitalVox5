@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_RADIO_BUTTON_LINKER_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_RADIO_BUTTON_LINKER_H_
+#pragma once
 
 #include "radio_button.h"
 
@@ -24,12 +23,12 @@ public:
     /**
      * Link the given radio button
      */
-    void link(RadioButton &p_radio_button);
+    void link(RadioButton &radio_button);
     
     /**
      * Unlink the given radio button
      */
-    void unlink(RadioButton &p_radio_button);
+    void unlink(RadioButton &radio_button);
     
     /**
      * Returns the id of the selected radio button
@@ -40,7 +39,7 @@ protected:
     void draw_impl() override;
     
 private:
-    void on_radio_button_clicked(int p_radio_id);
+    void on_radio_button_clicked(int radio_id);
     
 public:
     Event<int> value_changed_event_;
@@ -52,4 +51,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_RADIO_BUTTON_LINKER_H_ */

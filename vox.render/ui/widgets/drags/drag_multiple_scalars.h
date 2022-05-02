@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_DRAGS_DRAG_MULTIPLE_SCALARS_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_DRAGS_DRAG_MULTIPLE_SCALARS_H_
+#pragma once
 
 #include <utility>
 
@@ -21,26 +20,16 @@ class DragMultipleScalars : public DataWidget<std::array<T, Size>> {
     static_assert(Size > 1, "Invalid DragMultipleScalars _Size (2 or more required)");
     
 public:
-    /**
-     * Constructor
-     * @param p_data_type p_dataType
-     * @param p_min p_min
-     * @param p_max p_max
-     * @param p_value p_value
-     * @param p_speed p_speed
-     * @param p_label p_label
-     * @param p_format p_format
-     */
-    DragMultipleScalars(ImGuiDataType_ p_data_type,
-                        T p_min,
-                        T p_max,
-                        T p_value,
-                        float p_speed,
-                        std::string p_label,
-                        std::string p_format) :
-    DataWidget<std::array<T, Size>>(values_), data_type_(p_data_type),
-    min_(p_min), max_(p_max), speed_(p_speed), label_(std::move(p_label)), format_(std::move(p_format)) {
-        values_.fill(p_value);
+    DragMultipleScalars(ImGuiDataType_ data_type,
+                        T min,
+                        T max,
+                        T value,
+                        float speed,
+                        std::string label,
+                        std::string format) :
+    DataWidget<std::array<T, Size>>(values_), data_type_(data_type),
+    min_(min), max_(max), speed_(speed), label_(std::move(label)), format_(std::move(format)) {
+        values_.fill(value);
     }
     
 protected:
@@ -76,4 +65,3 @@ protected:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_DRAGS_DRAG_MULTIPLE_SCALARS_H_ */

@@ -7,10 +7,10 @@
 #include "input_int.h"
 
 namespace vox::ui {
-InputInt::InputInt(int p_default_value, int p_step, int p_fast_step,
-                   const std::string &p_label, const std::string &p_format, bool p_select_all_on_click)
-: InputSingleScalar<int>(ImGuiDataType_::ImGuiDataType_S32, p_default_value,
-                         p_step, p_fast_step, p_label, p_format, p_select_all_on_click) {
+InputInt::InputInt(int default_value, int step, int fast_step,
+                   const std::string &label, const std::string &format, bool select_all_on_click)
+: InputSingleScalar<int>(ImGuiDataType_::ImGuiDataType_S32, default_value,
+                         step, fast_step, label, format, select_all_on_click) {
 }
 
 }

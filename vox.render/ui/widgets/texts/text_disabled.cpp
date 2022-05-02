@@ -7,8 +7,8 @@
 #include "text_disabled.h"
 
 namespace vox::ui {
-TextDisabled::TextDisabled(const std::string &p_content) :
-Text(p_content) {
+TextDisabled::TextDisabled(const std::string &content) :
+Text(content) {
 }
 
 void TextDisabled::draw_impl() {

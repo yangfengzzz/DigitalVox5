@@ -9,8 +9,8 @@
 #include <utility>
 
 namespace vox::ui {
-TextLabelled::TextLabelled(const std::string &p_content, std::string p_label) :
-Text(p_content), label_(std::move(p_label)) {
+TextLabelled::TextLabelled(const std::string &content, std::string label) :
+Text(content), label_(std::move(label)) {
 }
 
 void TextLabelled::draw_impl() {

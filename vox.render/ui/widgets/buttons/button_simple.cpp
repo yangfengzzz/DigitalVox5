@@ -11,8 +11,8 @@
 #include <utility>
 
 namespace vox::ui {
-ButtonSimple::ButtonSimple(std::string p_label, const Vector2F &p_size, bool p_disabled) :
-label_(std::move(p_label)), size_(p_size), disabled_(p_disabled) {
+ButtonSimple::ButtonSimple(std::string label, const Vector2F &size, bool disabled) :
+label_(std::move(label)), size_(size), disabled_(disabled) {
     auto &style = ImGui::GetStyle();
     
     idle_background_color_ = Converter::to_color(style.Colors[ImGuiCol_Button]);

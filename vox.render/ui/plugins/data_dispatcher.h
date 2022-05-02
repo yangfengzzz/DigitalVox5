@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_PLUGINS_DATA_DISPATCHER_H_
-#define DIGITALVOX_VOX_RENDER_UI_PLUGINS_DATA_DISPATCHER_H_
+#pragma once
 
 #include <functional>
 
@@ -24,38 +23,34 @@ class DataDispatcher : public Plugin {
 public:
     /**
      * Register a reference
-     * @param p_reference p_reference
      */
-    void register_reference(T &p_reference) {
-        data_pointer_ = &p_reference;
+    void register_reference(T &reference) {
+        data_pointer_ = &reference;
     }
     
     /**
      * Register a provider (Which function should be called when the widget data is modified)
-     * @param p_provider p_provider
      */
-    void register_provider(std::function<void(T)> p_provider) {
-        provider_ = p_provider;
+    void register_provider(std::function<void(T)> provider) {
+        provider_ = provider;
     }
     
     /**
      * Register a gather (Which function should be called when the widget data needs to be updated)
-     * @param p_gatherer p_gatherer
      */
-    void register_gatherer(std::function<T(void)> p_gatherer) {
-        gatherer_ = p_gatherer;
+    void register_gatherer(std::function<T(void)> gatherer) {
+        gatherer_ = gatherer;
     }
     
     /**
      * Provide data to the dispatcher
-     * @param p_data p_data
      */
-    void provide(T p_data) {
+    void provide(T data) {
         if (value_changed_) {
             if (data_pointer_)
-                *data_pointer_ = p_data;
+                *data_pointer_ = data;
             else
-                provider_(p_data);
+                provider_(data);
             
             value_changed_ = false;
         }
@@ -89,4 +84,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_PLUGINS_DATA_DISPATCHER_H_ */

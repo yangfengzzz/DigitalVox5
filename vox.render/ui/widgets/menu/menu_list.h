@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_MENU_MENU_LIST_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_MENU_MENU_LIST_H_
+#pragma once
 
 #include "ui/widgets/layout/group.h"
 #include "event.h"
@@ -16,12 +15,7 @@ namespace vox::ui {
  */
 class MenuList : public Group {
 public:
-    /**
-     * Constructor
-     * @param p_name p_name
-     * @param p_locked p_locked
-     */
-    explicit MenuList(std::string p_name, bool p_locked = false);
+    explicit MenuList(std::string name, bool locked = false);
     
 protected:
     void draw_impl() override;
@@ -36,4 +30,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_MENU_MENU_LIST_H_ */

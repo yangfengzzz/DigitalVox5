@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_IMAGE_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_IMAGE_H_
+#pragma once
 
 #include "button.h"
 #include "vector2.h"
@@ -18,12 +17,7 @@ namespace vox::ui {
  */
 class ButtonImage : public Button {
 public:
-    /**
-     * Constructor
-     * @param p_texture_id p_textureID
-     * @param p_size p_size
-     */
-    ButtonImage(VkDescriptorSet p_texture_id, const Vector2F &p_size);
+    ButtonImage(VkDescriptorSet texture_id, const Vector2F &size);
     
 protected:
     void draw_impl() override;
@@ -39,4 +33,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_IMAGE_H_ */

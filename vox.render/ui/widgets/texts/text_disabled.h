@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_DISABLED_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_DISABLED_H_
+#pragma once
 
 #include "text.h"
 
@@ -15,15 +14,10 @@ namespace vox::ui {
  */
 class TextDisabled : public Text {
 public:
-    /**
-     * Constructor
-     * @param p_content p_content
-     */
-    explicit TextDisabled(const std::string &p_content = "");
+    explicit TextDisabled(const std::string &content = "");
     
 protected:
     void draw_impl() override;
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_DISABLED_H_ */

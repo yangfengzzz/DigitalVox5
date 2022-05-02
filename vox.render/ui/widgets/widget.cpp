@@ -13,8 +13,8 @@ Widget::Widget() {
     widget_id_ = "##" + std::to_string(widget_id_increment_++);
 }
 
-void Widget::link_to(const Widget &p_widget) {
-    widget_id_ = p_widget.widget_id_;
+void Widget::link_to(const Widget &widget) {
+    widget_id_ = widget.widget_id_;
 }
 
 void Widget::destroy() {
@@ -25,8 +25,8 @@ bool Widget::is_destroyed() const {
     return destroyed_;
 }
 
-void Widget::set_parent(WidgetContainer *p_parent) {
-    parent_ = p_parent;
+void Widget::set_parent(WidgetContainer *parent) {
+    parent_ = parent;
 }
 
 bool Widget::has_parent() const {

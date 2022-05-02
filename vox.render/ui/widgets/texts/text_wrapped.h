@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_WRAPPED_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_WRAPPED_H_
+#pragma once
 
 #include "text.h"
 
@@ -15,15 +14,10 @@ namespace vox::ui {
  */
 class TextWrapped : public Text {
 public:
-    /**
-     * Constructor
-     * @param p_content p_content
-     */
-    explicit TextWrapped(const std::string &p_content = "");
+    explicit TextWrapped(const std::string &content = "");
     
 protected:
     void draw_impl() override;
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_WRAPPED_H_ */

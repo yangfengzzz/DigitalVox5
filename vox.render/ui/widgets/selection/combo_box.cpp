@@ -7,8 +7,8 @@
 #include "combo_box.h"
 
 namespace vox::ui {
-ComboBox::ComboBox(int p_current_choice) :
-DataWidget<int>(current_choice_), current_choice_(p_current_choice) {
+ComboBox::ComboBox(int current_choice) :
+DataWidget<int>(current_choice_), current_choice_(current_choice) {
     
 }
 
@@ -17,7 +17,7 @@ void ComboBox::draw_impl() {
         current_choice_ = choices_.begin()->first;
     
     if (ImGui::BeginCombo(widget_id_.c_str(), choices_[current_choice_].c_str())) {
-        for (const auto&[kEy, kValue] : choices_) {
+        for (const auto &[kEy, kValue] : choices_) {
             bool selected = kEy == current_choice_;
             
             if (ImGui::Selectable(kValue.c_str(), selected)) {

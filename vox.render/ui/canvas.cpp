@@ -45,14 +45,14 @@ void Canvas::draw() {
     }
 }
 
-void Canvas::add_panel(Panel &p_panel) {
-    panels_.push_back(std::ref(p_panel));
+void Canvas::add_panel(Panel &panel) {
+    panels_.push_back(std::ref(panel));
 }
 
-void Canvas::remove_panel(Panel &p_panel) {
+void Canvas::remove_panel(Panel &panel) {
     panels_.erase(std::remove_if(panels_.begin(), panels_.end(),
-                                 [&p_panel](std::reference_wrapper<Panel> &p_item) {
-        return &p_panel == &p_item.get();
+                                 [&panel](std::reference_wrapper<Panel> &item) {
+        return &panel == &item.get();
     }), panels_.end());
 }
 
@@ -60,8 +60,8 @@ void Canvas::remove_all_panels() {
     panels_.clear();
 }
 
-void Canvas::make_dock_space(bool p_state) {
-    is_dockspace_ = p_state;
+void Canvas::make_dock_space(bool state) {
+    is_dockspace_ = state;
 }
 
 bool Canvas::is_dock_space() const {

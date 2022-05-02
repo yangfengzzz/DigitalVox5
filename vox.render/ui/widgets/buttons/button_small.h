@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_SMALL_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_SMALL_H_
+#pragma once
 
 #include "button.h"
 #include "vector2.h"
@@ -20,7 +19,7 @@ public:
     /**
      * Constructor
      */
-    explicit ButtonSmall(std::string p_label = "");
+    explicit ButtonSmall(std::string label = "");
     
 protected:
     void draw_impl() override;
@@ -36,4 +35,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_SMALL_H_ */

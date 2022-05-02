@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_DRAGS_DRAG_INT_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_DRAGS_DRAG_INT_H_
+#pragma once
 
 #include "drag_single_scalar.h"
 
@@ -15,22 +14,12 @@ namespace vox::ui {
  */
 class DragInt : public DragSingleScalar<int> {
 public:
-    /**
-     * Constructor
-     * @param p_min p_min
-     * @param p_max p_max
-     * @param p_value p_value
-     * @param p_speed p_speed
-     * @param p_label p_label
-     * @param p_format p_format
-     */
-    explicit DragInt(int p_min = 0,
-                     int p_max = 100,
-                     int p_value = 50,
-                     float p_speed = 0.1f,
-                     const std::string &p_label = "",
-                     const std::string &p_format = "%d");
+    explicit DragInt(int min = 0,
+                     int max = 100,
+                     int value = 50,
+                     float speed = 0.1f,
+                     const std::string &label = "",
+                     const std::string &format = "%d");
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_DRAGS_DRAG_INT_H_ */

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANELS_PANEL_MENU_BAR_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANELS_PANEL_MENU_BAR_H_
+#pragma once
 
 #include "ui/widgets/panel.h"
 
@@ -19,4 +18,3 @@ protected:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANELS_PANEL_MENU_BAR_H_ */

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_COLOR_PICKER_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_COLOR_PICKER_H_
+#pragma once
 
 #include "ui/widgets/data_widget.h"
 #include "event.h"
@@ -17,12 +16,7 @@ namespace vox::ui {
  */
 class ColorPicker : public DataWidget<Color> {
 public:
-    /**
-     * Constructor
-     * @param p_enable_alpha p_enableAlpha
-     * @param p_default_color p_defaultColor
-     */
-    explicit ColorPicker(bool p_enable_alpha = false, const Color &p_default_color = {});
+    explicit ColorPicker(bool enable_alpha = false, const Color &default_color = {});
     
 protected:
     void draw_impl() override;
@@ -34,4 +28,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SELECTION_COLOR_PICKER_H_ */

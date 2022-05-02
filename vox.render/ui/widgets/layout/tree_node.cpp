@@ -9,10 +9,10 @@
 #include <utility>
 
 namespace vox::ui {
-TreeNode::TreeNode(std::string p_name, bool p_arrow_click_to_open) :
+TreeNode::TreeNode(std::string name, bool arrow_click_to_open) :
 DataWidget(name_),
-name_(std::move(p_name)),
-arrow_click_to_open_(p_arrow_click_to_open) {
+name_(std::move(name)),
+arrow_click_to_open_(arrow_click_to_open) {
     auto_execute_plugins_ = false;
 }
 

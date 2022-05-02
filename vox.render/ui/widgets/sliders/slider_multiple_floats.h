@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_MULTIPLE_FLOATS_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_MULTIPLE_FLOATS_H_
+#pragma once
 
 #include "ui/widgets/sliders/slider_multiple_scalars.h"
 
@@ -16,24 +15,14 @@ namespace vox::ui {
 template<size_t Size>
 class SliderMultipleFloats : public SliderMultipleScalars<float, Size> {
 public:
-    /**
-     * Constructor
-     * @param p_min
-     * @param p_max
-     * @param p_value
-     * @param p_label
-     * @param p_format
-     */
-    explicit SliderMultipleFloats(float p_min = 0.0f,
-                                  float p_max = 1.0f,
-                                  float p_value = 0.5f,
-                                  const std::string &p_label = "",
-                                  const std::string &p_format = "%.3f") :
+    explicit SliderMultipleFloats(float min = 0.0f,
+                                  float max = 1.0f,
+                                  float value = 0.5f,
+                                  const std::string &label = "",
+                                  const std::string &format = "%.3f") :
     SliderMultipleScalars<float, Size>(ImGuiDataType_::ImGuiDataType_Float,
-                                       p_min, p_max, p_value, p_label, p_format) {
+                                       min, max, value, label, format) {
     }
 };
 
 }
-
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_MULTIPLE_FLOATS_H_ */

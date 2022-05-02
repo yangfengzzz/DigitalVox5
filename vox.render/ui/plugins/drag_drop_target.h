@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_PLUGINS_DRAG_DROP_TARGET_H_
-#define DIGITALVOX_VOX_RENDER_UI_PLUGINS_DRAG_DROP_TARGET_H_
+#pragma once
 
 #include "event.h"
 #include "plugin.h"
@@ -22,9 +21,8 @@ class DDTarget : public Plugin {
 public:
     /**
      * Create the drag and drop target
-     * @param p_identifier p_identifier
      */
-    explicit DDTarget(std::string p_identifier) : identifier_(std::move(p_identifier)) {
+    explicit DDTarget(std::string identifier) : identifier_(std::move(identifier)) {
     }
     
     /**
@@ -77,4 +75,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_PLUGINS_DRAG_DROP_TARGET_H_ */

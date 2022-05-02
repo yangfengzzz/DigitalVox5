@@ -9,8 +9,8 @@
 #include <utility>
 
 namespace vox::ui {
-InputText::InputText(std::string p_content, std::string p_label) :
-DataWidget<std::string>(content_), content_(std::move(p_content)), label_(std::move(p_label)) {
+InputText::InputText(std::string content, std::string label) :
+DataWidget<std::string>(content_), content_(std::move(content)), label_(std::move(label)) {
 }
 
 void InputText::draw_impl() {

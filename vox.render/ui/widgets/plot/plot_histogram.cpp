@@ -8,13 +8,13 @@
 #include "ui/widgets/converter.h"
 
 namespace vox::ui {
-PlotHistogram::PlotHistogram(const std::vector<float> &p_data,
-                             float p_min_scale,
-                             float p_max_scale,
-                             const Vector2F &p_size,
-                             const std::string &p_overlay,
-                             const std::string &p_label) :
-Plot(p_data, p_min_scale, p_max_scale, p_size, p_overlay, p_label) {
+PlotHistogram::PlotHistogram(const std::vector<float> &data,
+                             float min_scale,
+                             float max_scale,
+                             const Vector2F &size,
+                             const std::string &overlay,
+                             const std::string &label) :
+Plot(data, min_scale, max_scale, size, overlay, label) {
 }
 
 void PlotHistogram::draw_impl() {

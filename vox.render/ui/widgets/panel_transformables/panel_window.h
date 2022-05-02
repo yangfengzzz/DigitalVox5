@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_TRANSFORMABLES_PANEL_WINDOW_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_TRANSFORMABLES_PANEL_WINDOW_H_
+#pragma once
 
 #include "ui/widgets/panel_transformable.h"
 #include "ui/widgets/panel_window_settings.h"
@@ -17,15 +16,9 @@ namespace vox::ui {
  */
 class PanelWindow : public PanelTransformable {
 public:
-    /**
-     * Creates the PanelWindow
-     * @param p_name p_name
-     * @param p_opened p_opened
-     * @param p_panel_settings p_panelSettings
-     */
-    explicit PanelWindow(std::string p_name = "",
-                         bool p_opened = true,
-                         const PanelWindowSettings &p_panel_settings = PanelWindowSettings{});
+    explicit PanelWindow(std::string name = "",
+                         bool opened = true,
+                         const PanelWindowSettings &panel_settings = PanelWindowSettings{});
     
     /**
      * Open (show) the panel
@@ -44,9 +37,8 @@ public:
     
     /**
      * Defines the opened state of the window
-     * @param p_value p_value
      */
-    void set_opened(bool p_value);
+    void set_opened(bool value);
     
     /**
      * Returns true if the panel is opened
@@ -125,4 +117,3 @@ private:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_PANEL_TRANSFORMABLES_PANEL_WINDOW_H_ */

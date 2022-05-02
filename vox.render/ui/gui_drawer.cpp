@@ -24,94 +24,94 @@ const float GuiDrawer::min_float_ = -999999999.f;
 const float GuiDrawer::max_float_ = +999999999.f;
 //OvRendering::Resources::Texture* GuiDrawer::__EMPTY_TEXTURE = nullptr;
 
-//void GuiDrawer::ProvideEmptyTexture(OvRendering::Resources::Texture& p_emptyTexture) {
-//    __EMPTY_TEXTURE = &p_emptyTexture;
+//void GuiDrawer::ProvideEmptyTexture(OvRendering::Resources::Texture& emptyTexture) {
+//    __EMPTY_TEXTURE = &emptyTexture;
 //}
 
-void GuiDrawer::create_title(WidgetContainer &p_root, const std::string &p_name) {
-    p_root.create_widget<TextColored>(p_name, title_color_);
+void GuiDrawer::create_title(WidgetContainer &root, const std::string &name) {
+    root.create_widget<TextColored>(name, title_color_);
 }
 
-void GuiDrawer::draw_boolean(WidgetContainer &p_root, const std::string &p_name, bool &p_data) {
-    create_title(p_root, p_name);
-    auto &widget = p_root.create_widget<CheckBox>();
+void GuiDrawer::draw_boolean(WidgetContainer &root, const std::string &name, bool &data) {
+    create_title(root, name);
+    auto &widget = root.create_widget<CheckBox>();
     auto &dispatcher = widget.add_plugin<DataDispatcher<bool>>();
-    dispatcher.register_reference(reinterpret_cast<bool &>(p_data));
+    dispatcher.register_reference(reinterpret_cast<bool &>(data));
 }
 
-void GuiDrawer::draw_vec_2(WidgetContainer &p_root, const std::string &p_name,
-                           Vector2F &p_data, float p_step, float p_min, float p_max) {
-    create_title(p_root, p_name);
+void GuiDrawer::draw_vec_2(WidgetContainer &root, const std::string &name,
+                           Vector2F &data, float step, float min, float max) {
+    create_title(root, name);
     auto &widget =
-    p_root.create_widget<DragMultipleScalars<float, 2>>(get_data_type<float>(), p_min, p_max, 0.f, p_step, "",
-                                                        get_format<float>());
+    root.create_widget<DragMultipleScalars<float, 2>>(get_data_type<float>(), min, max, 0.f, step, "",
+                                                      get_format<float>());
     auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 2>>>();
-    dispatcher.register_reference(reinterpret_cast<std::array<float, 2> &>(p_data));
+    dispatcher.register_reference(reinterpret_cast<std::array<float, 2> &>(data));
 }
 
-void GuiDrawer::draw_vec_3(WidgetContainer &p_root, const std::string &p_name,
-                           Vector3F &p_data, float p_step, float p_min, float p_max) {
-    create_title(p_root, p_name);
+void GuiDrawer::draw_vec_3(WidgetContainer &root, const std::string &name,
+                           Vector3F &data, float step, float min, float max) {
+    create_title(root, name);
     auto &widget =
-    p_root.create_widget<DragMultipleScalars<float, 3>>(get_data_type<float>(), p_min, p_max, 0.f, p_step, "",
-                                                        get_format<float>());
+    root.create_widget<DragMultipleScalars<float, 3>>(get_data_type<float>(), min, max, 0.f, step, "",
+                                                      get_format<float>());
     auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 3>>>();
-    dispatcher.register_reference(reinterpret_cast<std::array<float, 3> &>(p_data));
+    dispatcher.register_reference(reinterpret_cast<std::array<float, 3> &>(data));
 }
 
-void GuiDrawer::draw_vec_4(WidgetContainer &p_root, const std::string &p_name,
-                           Vector4F &p_data, float p_step, float p_min, float p_max) {
-    create_title(p_root, p_name);
+void GuiDrawer::draw_vec_4(WidgetContainer &root, const std::string &name,
+                           Vector4F &data, float step, float min, float max) {
+    create_title(root, name);
     auto &widget =
-    p_root.create_widget<DragMultipleScalars<float, 4>>(get_data_type<float>(), p_min, p_max, 0.f, p_step, "",
-                                                        get_format<float>());
+    root.create_widget<DragMultipleScalars<float, 4>>(get_data_type<float>(), min, max, 0.f, step, "",
+                                                      get_format<float>());
     auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 4>>>();
-    dispatcher.register_reference(reinterpret_cast<std::array<float, 4> &>(p_data));
+    dispatcher.register_reference(reinterpret_cast<std::array<float, 4> &>(data));
 }
 
-void GuiDrawer::draw_quat(WidgetContainer &p_root, const std::string &p_name,
-                          QuaternionF &p_data, float p_step, float p_min, float p_max) {
-    create_title(p_root, p_name);
+void GuiDrawer::draw_quat(WidgetContainer &root, const std::string &name,
+                          QuaternionF &data, float step, float min, float max) {
+    create_title(root, name);
     auto &widget =
-    p_root.create_widget<DragMultipleScalars<float, 4>>(get_data_type<float>(), p_min, p_max, 0.f, p_step, "",
-                                                        get_format<float>());
+    root.create_widget<DragMultipleScalars<float, 4>>(get_data_type<float>(), min, max, 0.f, step, "",
+                                                      get_format<float>());
     auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 4>>>();
-    dispatcher.register_reference(reinterpret_cast<std::array<float, 4> &>(p_data));
+    dispatcher.register_reference(reinterpret_cast<std::array<float, 4> &>(data));
 }
 
-void GuiDrawer::draw_string(WidgetContainer &p_root, const std::string &p_name, std::string &p_data) {
-    create_title(p_root, p_name);
-    auto &widget = p_root.create_widget<InputText>("");
+void GuiDrawer::draw_string(WidgetContainer &root, const std::string &name, std::string &data) {
+    create_title(root, name);
+    auto &widget = root.create_widget<InputText>("");
     auto &dispatcher = widget.add_plugin<DataDispatcher<std::string>>();
-    dispatcher.register_reference(p_data);
+    dispatcher.register_reference(data);
 }
 
-void GuiDrawer::draw_color(WidgetContainer &p_root, const std::string &p_name, Color &p_color, bool p_has_alpha) {
-    create_title(p_root, p_name);
-    auto &widget = p_root.create_widget<ColorEdit>(p_has_alpha);
+void GuiDrawer::draw_color(WidgetContainer &root, const std::string &name, Color &color, bool has_alpha) {
+    create_title(root, name);
+    auto &widget = root.create_widget<ColorEdit>(has_alpha);
     auto &dispatcher = widget.add_plugin<DataDispatcher<Color>>();
-    dispatcher.register_reference(p_color);
+    dispatcher.register_reference(color);
 }
 
-//Text& GuiDrawer::drawMesh(WidgetContainer & p_root, const std::string & p_name, OvRendering::Resources::Model *& p_data, Event<>* p_updateNotifier)
+//Text& GuiDrawer::drawMesh(WidgetContainer & root, const std::string & name, OvRendering::Resources::Model *& data, Event<>* updateNotifier)
 //{
-//    create_title(p_root, p_name);
+//    create_title(root, name);
 //
-//    std::string displayedText = (p_data ? p_data->path : std::string("Empty"));
-//    auto& rightSide = p_root.create_widget<Group>();
+//    std::string displayedText = (data ? data->path : std::string("Empty"));
+//    auto& rightSide = root.create_widget<Group>();
 //
 //    auto& widget = rightSide.create_widget<Text>(displayedText);
 //
-//    widget.add_plugin<DDTarget<std::pair<std::string, Group*>>>("File").DataReceivedEvent += [&widget, &p_data, p_updateNotifier](auto p_receivedData)
+//    widget.add_plugin<DDTarget<std::pair<std::string, Group*>>>("File").DataReceivedEvent += [&widget, &data, updateNotifier](auto receivedData)
 //    {
-//        if (OvTools::Utils::PathParser::GetFileType(p_receivedData.first) == OvTools::Utils::PathParser::EFileType::MODEL)
+//        if (OvTools::Utils::PathParser::GetFileType(receivedData.first) == OvTools::Utils::PathParser::EFileType::MODEL)
 //        {
-//            if (auto resource = OVSERVICE(OvCore::ResourceManagement::ModelManager).GetResource(p_receivedData.first); resource)
+//            if (auto resource = OVSERVICE(OvCore::ResourceManagement::ModelManager).GetResource(receivedData.first); resource)
 //            {
-//                p_data = resource;
-//                widget.content = p_receivedData.first;
-//                if (p_updateNotifier)
-//                    p_updateNotifier->Invoke();
+//                data = resource;
+//                widget.content = receivedData.first;
+//                if (updateNotifier)
+//                    updateNotifier->Invoke();
 //            }
 //        }
 //    };
@@ -120,36 +120,36 @@ void GuiDrawer::draw_color(WidgetContainer &p_root, const std::string &p_name, C
 //
 //    auto& resetButton = rightSide.create_widget<OvUI::Widgets::Buttons::ButtonSmall>("Clear");
 //    resetButton.idleBackgroundColor = clear_button_color_;
-//    resetButton.ClickedEvent += [&widget, &p_data, p_updateNotifier]
+//    resetButton.ClickedEvent += [&widget, &data, updateNotifier]
 //    {
-//        p_data = nullptr;
+//        data = nullptr;
 //        widget.content = "Empty";
-//        if (p_updateNotifier)
-//            p_updateNotifier->Invoke();
+//        if (updateNotifier)
+//            updateNotifier->Invoke();
 //    };
 //
 //    return widget;
 //}
 //
-//OvUI::Widgets::Visual::Image& GuiDrawer::drawTexture(WidgetContainer & p_root, const std::string & p_name, OvRendering::Resources::Texture *& p_data, Event<>* p_updateNotifier)
+//OvUI::Widgets::Visual::Image& GuiDrawer::drawTexture(WidgetContainer & root, const std::string & name, OvRendering::Resources::Texture *& data, Event<>* updateNotifier)
 //{
-//    create_title(p_root, p_name);
+//    create_title(root, name);
 //
-//    std::string displayedText = (p_data ? p_data->path : std::string("Empty"));
-//    auto& rightSide = p_root.create_widget<Group>();
+//    std::string displayedText = (data ? data->path : std::string("Empty"));
+//    auto& rightSide = root.create_widget<Group>();
 //
-//    auto& widget = rightSide.create_widget<OvUI::Widgets::Visual::Image>(p_data ? p_data->id : (__EMPTY_TEXTURE ? __EMPTY_TEXTURE->id : 0), Vector2F{ 75, 75 });
+//    auto& widget = rightSide.create_widget<OvUI::Widgets::Visual::Image>(data ? data->id : (__EMPTY_TEXTURE ? __EMPTY_TEXTURE->id : 0), Vector2F{ 75, 75 });
 //
-//    widget.add_plugin<DDTarget<std::pair<std::string, Group*>>>("File").DataReceivedEvent += [&widget, &p_data, p_updateNotifier](auto p_receivedData)
+//    widget.add_plugin<DDTarget<std::pair<std::string, Group*>>>("File").DataReceivedEvent += [&widget, &data, updateNotifier](auto receivedData)
 //    {
-//        if (OvTools::Utils::PathParser::GetFileType(p_receivedData.first) == OvTools::Utils::PathParser::EFileType::TEXTURE)
+//        if (OvTools::Utils::PathParser::GetFileType(receivedData.first) == OvTools::Utils::PathParser::EFileType::TEXTURE)
 //        {
-//            if (auto resource = OVSERVICE(OvCore::ResourceManagement::TextureManager).GetResource(p_receivedData.first); resource)
+//            if (auto resource = OVSERVICE(OvCore::ResourceManagement::TextureManager).GetResource(receivedData.first); resource)
 //            {
-//                p_data = resource;
+//                data = resource;
 //                widget.textureID.id = resource->id;
-//                if (p_updateNotifier)
-//                    p_updateNotifier->Invoke();
+//                if (updateNotifier)
+//                    updateNotifier->Invoke();
 //            }
 //        }
 //    };
@@ -158,36 +158,36 @@ void GuiDrawer::draw_color(WidgetContainer &p_root, const std::string &p_name, C
 //
 //    auto& resetButton = rightSide.create_widget<OvUI::Widgets::Buttons::Button>("Clear");
 //    resetButton.idleBackgroundColor = clear_button_color_;
-//    resetButton.ClickedEvent += [&widget, &p_data, p_updateNotifier]
+//    resetButton.ClickedEvent += [&widget, &data, updateNotifier]
 //    {
-//        p_data = nullptr;
+//        data = nullptr;
 //        widget.textureID.id = (__EMPTY_TEXTURE ? __EMPTY_TEXTURE->id : 0);
-//        if (p_updateNotifier)
-//            p_updateNotifier->Invoke();
+//        if (updateNotifier)
+//            updateNotifier->Invoke();
 //    };
 //
 //    return widget;
 //}
 //
-//Text& GuiDrawer::drawShader(WidgetContainer & p_root, const std::string & p_name, OvRendering::Resources::Shader *& p_data, Event<>* p_updateNotifier)
+//Text& GuiDrawer::drawShader(WidgetContainer & root, const std::string & name, OvRendering::Resources::Shader *& data, Event<>* updateNotifier)
 //{
-//    create_title(p_root, p_name);
+//    create_title(root, name);
 //
-//    std::string displayedText = (p_data ? p_data->path : std::string("Empty"));
-//    auto& rightSide = p_root.create_widget<Group>();
+//    std::string displayedText = (data ? data->path : std::string("Empty"));
+//    auto& rightSide = root.create_widget<Group>();
 //
 //    auto& widget = rightSide.create_widget<Text>(displayedText);
 //
-//    widget.add_plugin<DDTarget<std::pair<std::string, Group*>>>("File").DataReceivedEvent += [&widget, &p_data, p_updateNotifier](auto p_receivedData)
+//    widget.add_plugin<DDTarget<std::pair<std::string, Group*>>>("File").DataReceivedEvent += [&widget, &data, updateNotifier](auto receivedData)
 //    {
-//        if (OvTools::Utils::PathParser::GetFileType(p_receivedData.first) == OvTools::Utils::PathParser::EFileType::SHADER)
+//        if (OvTools::Utils::PathParser::GetFileType(receivedData.first) == OvTools::Utils::PathParser::EFileType::SHADER)
 //        {
-//            if (auto resource = OVSERVICE(OvCore::ResourceManagement::ShaderManager).GetResource(p_receivedData.first); resource)
+//            if (auto resource = OVSERVICE(OvCore::ResourceManagement::ShaderManager).GetResource(receivedData.first); resource)
 //            {
-//                p_data = resource;
-//                widget.content = p_receivedData.first;
-//                if (p_updateNotifier)
-//                    p_updateNotifier->Invoke();
+//                data = resource;
+//                widget.content = receivedData.first;
+//                if (updateNotifier)
+//                    updateNotifier->Invoke();
 //            }
 //        }
 //    };
@@ -196,36 +196,36 @@ void GuiDrawer::draw_color(WidgetContainer &p_root, const std::string &p_name, C
 //
 //    auto& resetButton = rightSide.create_widget<OvUI::Widgets::Buttons::ButtonSmall>("Clear");
 //    resetButton.idleBackgroundColor = clear_button_color_;
-//    resetButton.ClickedEvent += [&widget, &p_data, p_updateNotifier]
+//    resetButton.ClickedEvent += [&widget, &data, updateNotifier]
 //    {
-//        p_data = nullptr;
+//        data = nullptr;
 //        widget.content = "Empty";
-//        if (p_updateNotifier)
-//            p_updateNotifier->Invoke();
+//        if (updateNotifier)
+//            updateNotifier->Invoke();
 //    };
 //
 //    return widget;
 //}
 //
-//Text& GuiDrawer::drawMaterial(WidgetContainer & p_root, const std::string & p_name, OvCore::Resources::Material *& p_data, Event<>* p_updateNotifier)
+//Text& GuiDrawer::drawMaterial(WidgetContainer & root, const std::string & name, OvCore::Resources::Material *& data, Event<>* updateNotifier)
 //{
-//    create_title(p_root, p_name);
+//    create_title(root, name);
 //
-//    std::string displayedText = (p_data ? p_data->path : std::string("Empty"));
-//    auto& rightSide = p_root.create_widget<Group>();
+//    std::string displayedText = (data ? data->path : std::string("Empty"));
+//    auto& rightSide = root.create_widget<Group>();
 //
 //    auto& widget = rightSide.create_widget<Text>(displayedText);
 //
-//    widget.add_plugin<DDTarget<std::pair<std::string, Group*>>>("File").DataReceivedEvent += [&widget, &p_data, p_updateNotifier](auto p_receivedData)
+//    widget.add_plugin<DDTarget<std::pair<std::string, Group*>>>("File").DataReceivedEvent += [&widget, &data, updateNotifier](auto receivedData)
 //    {
-//        if (OvTools::Utils::PathParser::GetFileType(p_receivedData.first) == OvTools::Utils::PathParser::EFileType::MATERIAL)
+//        if (OvTools::Utils::PathParser::GetFileType(receivedData.first) == OvTools::Utils::PathParser::EFileType::MATERIAL)
 //        {
-//            if (auto resource = OVSERVICE(OvCore::ResourceManagement::MaterialManager).GetResource(p_receivedData.first); resource)
+//            if (auto resource = OVSERVICE(OvCore::ResourceManagement::MaterialManager).GetResource(receivedData.first); resource)
 //            {
-//                p_data = resource;
-//                widget.content = p_receivedData.first;
-//                if (p_updateNotifier)
-//                    p_updateNotifier->Invoke();
+//                data = resource;
+//                widget.content = receivedData.first;
+//                if (updateNotifier)
+//                    updateNotifier->Invoke();
 //            }
 //        }
 //    };
@@ -234,36 +234,36 @@ void GuiDrawer::draw_color(WidgetContainer &p_root, const std::string &p_name, C
 //
 //    auto& resetButton = rightSide.create_widget<OvUI::Widgets::Buttons::ButtonSmall>("Clear");
 //    resetButton.idleBackgroundColor = clear_button_color_;
-//    resetButton.ClickedEvent += [&widget, &p_data, p_updateNotifier]
+//    resetButton.ClickedEvent += [&widget, &data, updateNotifier]
 //    {
-//        p_data = nullptr;
+//        data = nullptr;
 //        widget.content = "Empty";
-//        if (p_updateNotifier)
-//            p_updateNotifier->Invoke();
+//        if (updateNotifier)
+//            updateNotifier->Invoke();
 //    };
 //
 //    return widget;
 //}
 //
-//Text& GuiDrawer::drawSound(WidgetContainer& p_root, const std::string& p_name, OvAudio::Resources::Sound*& p_data, Event<>* p_updateNotifier)
+//Text& GuiDrawer::drawSound(WidgetContainer& root, const std::string& name, OvAudio::Resources::Sound*& data, Event<>* updateNotifier)
 //{
-//    create_title(p_root, p_name);
+//    create_title(root, name);
 //
-//    std::string displayedText = (p_data ? p_data->path : std::string("Empty"));
-//    auto & rightSide = p_root.create_widget<Group>();
+//    std::string displayedText = (data ? data->path : std::string("Empty"));
+//    auto & rightSide = root.create_widget<Group>();
 //
 //    auto & widget = rightSide.create_widget<Text>(displayedText);
 //
-//    widget.add_plugin<DDTarget<std::pair<std::string, Group*>>>("File").DataReceivedEvent += [&widget, &p_data, p_updateNotifier](auto p_receivedData)
+//    widget.add_plugin<DDTarget<std::pair<std::string, Group*>>>("File").DataReceivedEvent += [&widget, &data, updateNotifier](auto receivedData)
 //    {
-//        if (OvTools::Utils::PathParser::GetFileType(p_receivedData.first) == OvTools::Utils::PathParser::EFileType::SOUND)
+//        if (OvTools::Utils::PathParser::GetFileType(receivedData.first) == OvTools::Utils::PathParser::EFileType::SOUND)
 //        {
-//            if (auto resource = OVSERVICE(OvCore::ResourceManagement::SoundManager).GetResource(p_receivedData.first); resource)
+//            if (auto resource = OVSERVICE(OvCore::ResourceManagement::SoundManager).GetResource(receivedData.first); resource)
 //            {
-//                p_data = resource;
-//                widget.content = p_receivedData.first;
-//                if (p_updateNotifier)
-//                    p_updateNotifier->Invoke();
+//                data = resource;
+//                widget.content = receivedData.first;
+//                if (updateNotifier)
+//                    updateNotifier->Invoke();
 //            }
 //        }
 //    };
@@ -272,181 +272,181 @@ void GuiDrawer::draw_color(WidgetContainer &p_root, const std::string &p_name, C
 //
 //    auto & resetButton = rightSide.create_widget<OvUI::Widgets::Buttons::ButtonSmall>("Clear");
 //    resetButton.idleBackgroundColor = clear_button_color_;
-//    resetButton.ClickedEvent += [&widget, &p_data, p_updateNotifier]
+//    resetButton.ClickedEvent += [&widget, &data, updateNotifier]
 //    {
-//        p_data = nullptr;
+//        data = nullptr;
 //        widget.content = "Empty";
-//        if (p_updateNotifier)
-//            p_updateNotifier->Invoke();
+//        if (updateNotifier)
+//            updateNotifier->Invoke();
 //    };
 //
 //    return widget;
 //}
 //
-//Text& GuiDrawer::draw_asset(WidgetContainer& p_root, const std::string& p_name, std::string& p_data, Event<>* p_updateNotifier)
+//Text& GuiDrawer::draw_asset(WidgetContainer& root, const std::string& name, std::string& data, Event<>* updateNotifier)
 //{
-//    create_title(p_root, p_name);
+//    create_title(root, name);
 //
-//    const std::string displayedText = (p_data.empty() ? std::string("Empty") : p_data);
-//    auto& rightSide = p_root.create_widget<Group>();
+//    const std::string displayedText = (data.empty() ? std::string("Empty") : data);
+//    auto& rightSide = root.create_widget<Group>();
 //
 //    auto& widget = rightSide.create_widget<Text>(displayedText);
 //
-//    widget.add_plugin<DDTarget<std::pair<std::string, Group*>>>("File").DataReceivedEvent += [&widget, &p_data, p_updateNotifier](auto p_receivedData)
+//    widget.add_plugin<DDTarget<std::pair<std::string, Group*>>>("File").DataReceivedEvent += [&widget, &data, updateNotifier](auto receivedData)
 //    {
-//        p_data = p_receivedData.first;
-//        widget.content = p_receivedData.first;
-//        if (p_updateNotifier)
-//            p_updateNotifier->Invoke();
+//        data = receivedData.first;
+//        widget.content = receivedData.first;
+//        if (updateNotifier)
+//            updateNotifier->Invoke();
 //    };
 //
 //    widget.lineBreak = false;
 //
 //    auto& resetButton = rightSide.create_widget<OvUI::Widgets::Buttons::ButtonSmall>("Clear");
 //    resetButton.idleBackgroundColor = clear_button_color_;
-//    resetButton.ClickedEvent += [&widget, &p_data, p_updateNotifier]
+//    resetButton.ClickedEvent += [&widget, &data, updateNotifier]
 //    {
-//        p_data = "";
+//        data = "";
 //        widget.content = "Empty";
-//        if (p_updateNotifier)
-//            p_updateNotifier->Invoke();
+//        if (updateNotifier)
+//            updateNotifier->Invoke();
 //    };
 //
 //    return widget;
 //}
 
-void GuiDrawer::draw_boolean(WidgetContainer &p_root, const std::string &p_name,
-                             const std::function<bool(void)> &p_gatherer,
-                             const std::function<void(bool)> &p_provider) {
-    create_title(p_root, p_name);
-    auto &widget = p_root.create_widget<CheckBox>();
+void GuiDrawer::draw_boolean(WidgetContainer &root, const std::string &name,
+                             const std::function<bool(void)> &gatherer,
+                             const std::function<void(bool)> &provider) {
+    create_title(root, name);
+    auto &widget = root.create_widget<CheckBox>();
     auto &dispatcher = widget.add_plugin<DataDispatcher<bool>>();
     
-    dispatcher.register_gatherer([p_gatherer]() {
-        bool value = p_gatherer();
+    dispatcher.register_gatherer([gatherer]() {
+        bool value = gatherer();
         return reinterpret_cast<bool &>(value);
     });
     
-    dispatcher.register_provider([p_provider](bool p_value) {
-        p_provider(reinterpret_cast<bool &>(p_value));
+    dispatcher.register_provider([provider](bool value) {
+        provider(reinterpret_cast<bool &>(value));
     });
 }
 
-void GuiDrawer::draw_vec_2(WidgetContainer &p_root, const std::string &p_name,
-                           const std::function<Vector2F(void)> &p_gatherer,
-                           const std::function<void(Vector2F)> &p_provider,
-                           float p_step, float p_min, float p_max) {
-    create_title(p_root, p_name);
+void GuiDrawer::draw_vec_2(WidgetContainer &root, const std::string &name,
+                           const std::function<Vector2F(void)> &gatherer,
+                           const std::function<void(Vector2F)> &provider,
+                           float step, float min, float max) {
+    create_title(root, name);
     auto &widget =
-    p_root.create_widget<DragMultipleScalars<float, 2>>(get_data_type<float>(), p_min, p_max, 0.f, p_step, "",
-                                                        get_format<float>());
+    root.create_widget<DragMultipleScalars<float, 2>>(get_data_type<float>(), min, max, 0.f, step, "",
+                                                      get_format<float>());
     auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 2>>>();
     
-    dispatcher.register_gatherer([p_gatherer]() {
-        Vector2F value = p_gatherer();
+    dispatcher.register_gatherer([gatherer]() {
+        Vector2F value = gatherer();
         return reinterpret_cast<const std::array<float, 2> &>(value);
     });
     
-    dispatcher.register_provider([p_provider](std::array<float, 2> p_value) {
-        p_provider(reinterpret_cast<Vector2F &>(p_value));
+    dispatcher.register_provider([provider](std::array<float, 2> value) {
+        provider(reinterpret_cast<Vector2F &>(value));
     });
 }
 
-void GuiDrawer::draw_vec_3(WidgetContainer &p_root, const std::string &p_name,
-                           const std::function<Vector3F(void)> &p_gatherer,
-                           const std::function<void(Vector3F)> &p_provider,
-                           float p_step, float p_min, float p_max) {
-    create_title(p_root, p_name);
+void GuiDrawer::draw_vec_3(WidgetContainer &root, const std::string &name,
+                           const std::function<Vector3F(void)> &gatherer,
+                           const std::function<void(Vector3F)> &provider,
+                           float step, float min, float max) {
+    create_title(root, name);
     auto &widget =
-    p_root.create_widget<DragMultipleScalars<float, 3>>(get_data_type<float>(), p_min, p_max, 0.f, p_step, "",
-                                                        get_format<float>());
+    root.create_widget<DragMultipleScalars<float, 3>>(get_data_type<float>(), min, max, 0.f, step, "",
+                                                      get_format<float>());
     auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 3>>>();
     
-    dispatcher.register_gatherer([p_gatherer]() {
-        Vector3F value = p_gatherer();
+    dispatcher.register_gatherer([gatherer]() {
+        Vector3F value = gatherer();
         return reinterpret_cast<const std::array<float, 3> &>(value);
     });
     
-    dispatcher.register_provider([p_provider](std::array<float, 3> p_value) {
-        p_provider(reinterpret_cast<Vector3F &>(p_value));
+    dispatcher.register_provider([provider](std::array<float, 3> value) {
+        provider(reinterpret_cast<Vector3F &>(value));
     });
 }
 
-void GuiDrawer::draw_vec_4(WidgetContainer &p_root, const std::string &p_name,
-                           const std::function<Vector4F(void)> &p_gatherer,
-                           const std::function<void(Vector4F)> &p_provider,
-                           float p_step, float p_min, float p_max) {
-    create_title(p_root, p_name);
+void GuiDrawer::draw_vec_4(WidgetContainer &root, const std::string &name,
+                           const std::function<Vector4F(void)> &gatherer,
+                           const std::function<void(Vector4F)> &provider,
+                           float step, float min, float max) {
+    create_title(root, name);
     auto &widget =
-    p_root.create_widget<DragMultipleScalars<float, 4>>(get_data_type<float>(), p_min, p_max, 0.f, p_step, "",
-                                                        get_format<float>());
+    root.create_widget<DragMultipleScalars<float, 4>>(get_data_type<float>(), min, max, 0.f, step, "",
+                                                      get_format<float>());
     auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 4>>>();
     
-    dispatcher.register_gatherer([p_gatherer]() {
-        Vector4F value = p_gatherer();
+    dispatcher.register_gatherer([gatherer]() {
+        Vector4F value = gatherer();
         return reinterpret_cast<const std::array<float, 4> &>(value);
     });
     
-    dispatcher.register_provider([p_provider](std::array<float, 4> p_value) {
-        p_provider(reinterpret_cast<Vector4F &>(p_value));
+    dispatcher.register_provider([provider](std::array<float, 4> value) {
+        provider(reinterpret_cast<Vector4F &>(value));
     });
 }
 
-void GuiDrawer::draw_quat(WidgetContainer &p_root, const std::string &p_name,
-                          const std::function<QuaternionF(void)> &p_gatherer,
-                          const std::function<void(QuaternionF)> &p_provider,
-                          float p_step, float p_min, float p_max) {
-    create_title(p_root, p_name);
+void GuiDrawer::draw_quat(WidgetContainer &root, const std::string &name,
+                          const std::function<QuaternionF(void)> &gatherer,
+                          const std::function<void(QuaternionF)> &provider,
+                          float step, float min, float max) {
+    create_title(root, name);
     auto &widget =
-    p_root.create_widget<DragMultipleScalars<float, 4>>(get_data_type<float>(), p_min, p_max, 0.f, p_step, "",
-                                                        get_format<float>());
+    root.create_widget<DragMultipleScalars<float, 4>>(get_data_type<float>(), min, max, 0.f, step, "",
+                                                      get_format<float>());
     auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 4>>>();
     
-    dispatcher.register_gatherer([p_gatherer]() {
-        QuaternionF value = p_gatherer();
+    dispatcher.register_gatherer([gatherer]() {
+        QuaternionF value = gatherer();
         return reinterpret_cast<const std::array<float, 4> &>(value);
     });
     
-    dispatcher.register_provider([p_provider](std::array<float, 4> p_value) {
-        p_provider(reinterpret_cast<QuaternionF &>(p_value).normalized());
+    dispatcher.register_provider([provider](std::array<float, 4> value) {
+        provider(reinterpret_cast<QuaternionF &>(value).normalized());
     });
 }
 
-void GuiDrawer::draw_ddstring(WidgetContainer &p_root, const std::string &p_name,
-                              std::function<std::string()> p_gatherer, std::function<void(std::string)> p_provider,
-                              const std::string &p_identifier) {
-    create_title(p_root, p_name);
-    auto &widget = p_root.create_widget<InputText>("");
+void GuiDrawer::draw_ddstring(WidgetContainer &root, const std::string &name,
+                              std::function<std::string()> gatherer, std::function<void(std::string)> provider,
+                              const std::string &identifier) {
+    create_title(root, name);
+    auto &widget = root.create_widget<InputText>("");
     auto &dispatcher = widget.add_plugin<DataDispatcher<std::string>>();
-    dispatcher.register_gatherer(std::move(p_gatherer));
-    dispatcher.register_provider(std::move(p_provider));
+    dispatcher.register_gatherer(std::move(gatherer));
+    dispatcher.register_provider(std::move(provider));
     
-    auto &dd_target = widget.add_plugin<DDTarget<std::pair<std::string, Group *>>>(p_identifier);
-    dd_target.data_received_event_ += [&widget, &dispatcher](const std::pair<std::string, Group *> &p_data) {
-        widget.content_ = p_data.first;
+    auto &dd_target = widget.add_plugin<DDTarget<std::pair<std::string, Group *>>>(identifier);
+    dd_target.data_received_event_ += [&widget, &dispatcher](const std::pair<std::string, Group *> &data) {
+        widget.content_ = data.first;
         dispatcher.notify_change();
     };
 }
 
-void GuiDrawer::draw_string(WidgetContainer &p_root, const std::string &p_name,
-                            std::function<std::string(void)> p_gatherer, std::function<void(std::string)> p_provider) {
-    create_title(p_root, p_name);
-    auto &widget = p_root.create_widget<InputText>("");
+void GuiDrawer::draw_string(WidgetContainer &root, const std::string &name,
+                            std::function<std::string(void)> gatherer, std::function<void(std::string)> provider) {
+    create_title(root, name);
+    auto &widget = root.create_widget<InputText>("");
     auto &dispatcher = widget.add_plugin<DataDispatcher<std::string>>();
-    dispatcher.register_gatherer(std::move(p_gatherer));
-    dispatcher.register_provider(std::move(p_provider));
+    dispatcher.register_gatherer(std::move(gatherer));
+    dispatcher.register_provider(std::move(provider));
 }
 
-void GuiDrawer::draw_color(WidgetContainer &p_root,
-                           const std::string &p_name,
-                           std::function<Color(void)> p_gatherer,
-                           std::function<void(Color)> p_provider,
-                           bool p_has_alpha) {
-    create_title(p_root, p_name);
-    auto &widget = p_root.create_widget<ColorEdit>(p_has_alpha);
+void GuiDrawer::draw_color(WidgetContainer &root,
+                           const std::string &name,
+                           std::function<Color(void)> gatherer,
+                           std::function<void(Color)> provider,
+                           bool has_alpha) {
+    create_title(root, name);
+    auto &widget = root.create_widget<ColorEdit>(has_alpha);
     auto &dispatcher = widget.add_plugin<DataDispatcher<Color>>();
-    dispatcher.register_gatherer(std::move(p_gatherer));
-    dispatcher.register_provider(std::move(p_provider));
+    dispatcher.register_gatherer(std::move(gatherer));
+    dispatcher.register_provider(std::move(provider));
 }
 
 }

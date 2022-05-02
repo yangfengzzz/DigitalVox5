@@ -8,32 +8,32 @@
 #include "ui/widgets/converter.h"
 
 namespace vox::ui {
-PanelTransformable::PanelTransformable(const Vector2F &p_default_position,
-                                       const Vector2F &p_default_size,
-                                       HorizontalAlignment p_default_horizontal_alignment,
-                                       VerticalAlignment p_default_vertical_alignment,
-                                       bool p_ignore_config_file) :
-default_position_(p_default_position),
-default_size_(p_default_size),
-default_horizontal_alignment_(p_default_horizontal_alignment),
-default_vertical_alignment_(p_default_vertical_alignment),
-ignore_config_file_(p_ignore_config_file) {
+PanelTransformable::PanelTransformable(const Vector2F &default_position,
+                                       const Vector2F &default_size,
+                                       HorizontalAlignment default_horizontal_alignment,
+                                       VerticalAlignment default_vertical_alignment,
+                                       bool ignore_config_file) :
+default_position_(default_position),
+default_size_(default_size),
+default_horizontal_alignment_(default_horizontal_alignment),
+default_vertical_alignment_(default_vertical_alignment),
+ignore_config_file_(ignore_config_file) {
 }
 
-void PanelTransformable::set_position(const Vector2F &p_position) {
-    position_ = p_position;
+void PanelTransformable::set_position(const Vector2F &position) {
+    position_ = position;
     position_changed_ = true;
 }
 
-void PanelTransformable::set_size(const Vector2F &p_size) {
-    size_ = p_size;
+void PanelTransformable::set_size(const Vector2F &size) {
+    size_ = size;
     size_changed_ = true;
 }
 
-void PanelTransformable::set_alignment(HorizontalAlignment p_horizontal_alignment,
-                                       VerticalAlignment p_vertical_aligment) {
-    horizontal_alignment_ = p_horizontal_alignment;
-    vertical_alignment_ = p_vertical_aligment;
+void PanelTransformable::set_alignment(HorizontalAlignment horizontal_alignment,
+                                       VerticalAlignment vertical_alignment) {
+    horizontal_alignment_ = horizontal_alignment;
+    vertical_alignment_ = vertical_alignment;
     alignment_changed_ = true;
 }
 
@@ -101,10 +101,10 @@ void PanelTransformable::update() {
     first_frame_ = false;
 }
 
-Vector2F PanelTransformable::calculate_position_alignment_offset(bool p_default) {
+Vector2F PanelTransformable::calculate_position_alignment_offset(bool is_default) {
     Vector2F result(0.0f, 0.0f);
     
-    switch (p_default ? default_horizontal_alignment_ : horizontal_alignment_) {
+    switch (is_default ? default_horizontal_alignment_ : horizontal_alignment_) {
         case HorizontalAlignment::CENTER:result.x -= size_.x / 2.0f;
             break;
         case HorizontalAlignment::RIGHT:result.x -= size_.x;
@@ -112,7 +112,7 @@ Vector2F PanelTransformable::calculate_position_alignment_offset(bool p_default)
         default:break;
     }
     
-    switch (p_default ? default_vertical_alignment_ : vertical_alignment_) {
+    switch (is_default ? default_vertical_alignment_ : vertical_alignment_) {
         case VerticalAlignment::MIDDLE:result.y -= size_.y / 2.0f;
             break;
         case VerticalAlignment::BOTTOM:result.y -= size_.y;

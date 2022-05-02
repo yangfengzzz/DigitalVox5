@@ -2028,8 +2028,8 @@
 			children = (
 				0444EB1128084B8700C6F279 /* panel_undecorated.h */,
 				0444EB1028084B8700C6F279 /* panel_undecorated.cpp */,
-				0444EB1228084B8700C6F279 /* panel_window.cpp */,
 				0444EB1328084B8700C6F279 /* panel_window.h */,
+				0444EB1228084B8700C6F279 /* panel_window.cpp */,
 			);
 			path = panel_transformables;
 			sourceTree = "<group>";

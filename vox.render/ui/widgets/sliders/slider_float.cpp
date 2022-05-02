@@ -7,14 +7,14 @@
 #include "slider_float.h"
 
 namespace vox::ui {
-SliderFloat::SliderFloat(float p_min,
-                         float p_max,
-                         float p_value,
-                         SliderOrientation p_orientation,
-                         const std::string &p_label,
-                         const std::string &p_format) :
-SliderSingleScalar<float>(ImGuiDataType_::ImGuiDataType_Float, p_min, p_max,
-                          p_value, p_orientation, p_label, p_format) {
+SliderFloat::SliderFloat(float min,
+                         float max,
+                         float value,
+                         SliderOrientation orientation,
+                         const std::string &label,
+                         const std::string &format) :
+SliderSingleScalar<float>(ImGuiDataType_::ImGuiDataType_Float, min, max,
+                          value, orientation, label, format) {
 }
 
 }

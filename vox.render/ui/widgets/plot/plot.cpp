@@ -9,14 +9,14 @@
 #include <utility>
 
 namespace vox::ui {
-Plot::Plot(std::vector<float> p_data,
-           float p_min_scale,
-           float p_max_scale,
-           const Vector2F &p_size,
-           std::string p_overlay,
-           std::string p_label) :
-DataWidget(data_), data_(std::move(p_data)), min_scale_(p_min_scale), max_scale_(p_max_scale),
-size_(p_size), overlay_(std::move(p_overlay)), label_(std::move(p_label)) {
+Plot::Plot(std::vector<float> data,
+           float min_scale,
+           float max_scale,
+           const Vector2F &size,
+           std::string overlay,
+           std::string label) :
+DataWidget(data_), data_(std::move(data)), min_scale_(min_scale), max_scale_(max_scale),
+size_(size), overlay_(std::move(overlay)), label_(std::move(label)) {
 }
 
 }

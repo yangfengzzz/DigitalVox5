@@ -9,8 +9,8 @@
 #include <utility>
 
 namespace vox::ui {
-MenuList::MenuList(std::string p_name, bool p_locked) :
-name_(std::move(p_name)), locked_(p_locked) {
+MenuList::MenuList(std::string name, bool locked) :
+name_(std::move(name)), locked_(locked) {
 }
 
 void MenuList::draw_impl() {

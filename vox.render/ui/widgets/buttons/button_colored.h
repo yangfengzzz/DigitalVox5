@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_COLORED_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_COLORED_H_
+#pragma once
 
 #include "button.h"
 #include "vector2.h"
@@ -17,15 +16,8 @@ namespace vox::ui {
  */
 class ButtonColored : public Button {
 public:
-    /**
-     * Constructor
-     * @param p_label p_label
-     * @param p_color p_color
-     * @param p_size p_size
-     * @param p_enable_alpha p_enableAlpha
-     */
-    explicit ButtonColored(std::string p_label = "", const Color &p_color = {},
-                           const Vector2F &p_size = Vector2F(0.f, 0.f), bool p_enable_alpha = true);
+    explicit ButtonColored(std::string label = "", const Color &color = {},
+                           const Vector2F &size = Vector2F(0.f, 0.f), bool enable_alpha = true);
     
 protected:
     void draw_impl() override;
@@ -38,4 +30,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_COLORED_H_ */

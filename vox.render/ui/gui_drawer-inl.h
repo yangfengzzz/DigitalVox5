@@ -31,31 +31,31 @@ inline std::string GuiDrawer::get_format() {
 }
 
 template<typename T>
-inline void GuiDrawer::draw_scalar(WidgetContainer &p_root, const std::string &p_name,
-                                   T &p_data, float p_step, T p_min, T p_max) {
+inline void GuiDrawer::draw_scalar(WidgetContainer &root, const std::string &name,
+                                   T &data, float step, T min, T max) {
     static_assert(std::is_scalar<T>::value, "T must be a scalar");
     
-    create_title(p_root, p_name);
-    auto &widget = p_root.create_widget<DragSingleScalar<T >>(get_data_type<T>(), p_min, p_max,
-                                                              p_data, p_step, "", get_format<T>());
+    create_title(root, name);
+    auto &widget = root.create_widget<DragSingleScalar<T >>(get_data_type<T>(), min, max,
+                                                            data, step, "", get_format<T>());
     auto &dispatcher = widget.template add_plugin<DataDispatcher<T>>
     ();
-    dispatcher.register_reference(p_data);
+    dispatcher.register_reference(data);
 }
 
 template<typename T>
-inline void GuiDrawer::draw_scalar(WidgetContainer &p_root, const std::string &p_name,
-                                   std::function<T(void)> p_gatherer, std::function<void(T)> p_provider,
-                                   float p_step, T p_min, T p_max) {
+inline void GuiDrawer::draw_scalar(WidgetContainer &root, const std::string &name,
+                                   std::function<T(void)> gatherer, std::function<void(T)> provider,
+                                   float step, T min, T max) {
     static_assert(std::is_scalar<T>::value, "T must be a scalar");
     
-    create_title(p_root, p_name);
-    auto &widget = p_root.create_widget<DragSingleScalar<T >>(get_data_type<T>(), p_min, p_max,
-                                                              static_cast<T>(0), p_step, "", get_format<T>());
+    create_title(root, name);
+    auto &widget = root.create_widget<DragSingleScalar<T >>(get_data_type<T>(), min, max,
+                                                            static_cast<T>(0), step, "", get_format<T>());
     auto &dispatcher = widget.template add_plugin<DataDispatcher<T>>
     ();
-    dispatcher.register_gatherer(p_gatherer);
-    dispatcher.register_provider(p_provider);
+    dispatcher.register_gatherer(gatherer);
+    dispatcher.register_provider(provider);
 }
 
 }

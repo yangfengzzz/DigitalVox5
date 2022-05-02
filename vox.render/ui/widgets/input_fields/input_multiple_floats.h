@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_INPUT_FIELDS_INPUT_MULTIPLE_FLOATS_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_INPUT_FIELDS_INPUT_MULTIPLE_FLOATS_H_
+#pragma once
 
 #include "input_multiple_scalars.h"
 
@@ -16,30 +15,20 @@ namespace vox::ui {
 template<size_t Size>
 class InputMultipleFloats : public InputMultipleScalars<float, Size> {
 public:
-    /**
-     * Constructor
-     * @param p_default_value
-     * @param p_step
-     * @param p_fast_step
-     * @param p_label
-     * @param p_format
-     * @param p_select_all_on_click
-     */
-    explicit InputMultipleFloats(float p_default_value = 0.0f,
-                                 float p_step = 0.1f,
-                                 float p_fast_step = 0.0f,
-                                 const std::string &p_label = "",
-                                 const std::string &p_format = "%.3f",
-                                 bool p_select_all_on_click = true) :
+    explicit InputMultipleFloats(float default_value = 0.0f,
+                                 float step = 0.1f,
+                                 float fast_step = 0.0f,
+                                 const std::string &label = "",
+                                 const std::string &format = "%.3f",
+                                 bool select_all_on_click = true) :
     InputMultipleScalars<float, Size>(ImGuiDataType_::ImGuiDataType_Float,
-                                      p_default_value,
-                                      p_step,
-                                      p_fast_step,
-                                      p_label,
-                                      p_format,
-                                      p_select_all_on_click) {
+                                      default_value,
+                                      step,
+                                      fast_step,
+                                      label,
+                                      format,
+                                      select_all_on_click) {
     }
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_INPUT_FIELDS_INPUT_MULTIPLE_FLOATS_H_ */

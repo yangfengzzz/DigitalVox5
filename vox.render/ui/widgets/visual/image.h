@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_VISUAL_IMAGE_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_VISUAL_IMAGE_H_
+#pragma once
 
 #include "ui/widgets/widget.h"
 #include "vector2.h"
@@ -17,14 +16,9 @@ namespace vox::ui {
  */
 class Image : public Widget {
 public:
-    /**
-     * Constructor
-     * @param p_texture_id p_textureID
-     * @parma p_size p_size
-     */
-    Image(VkDescriptorSet p_texture_id, const Vector2F &p_size);
+    Image(VkDescriptorSet texture_id, const Vector2F &size);
     
-    void set_texture_view(VkDescriptorSet p_texture_id);
+    void set_texture_view(VkDescriptorSet texture_id);
     
 protected:
     void draw_impl() override;
@@ -35,4 +29,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_VISUAL_IMAGE_H_ */

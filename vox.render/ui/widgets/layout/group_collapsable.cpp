@@ -9,8 +9,8 @@
 #include <utility>
 
 namespace vox::ui {
-GroupCollapsable::GroupCollapsable(std::string p_name) :
-name_(std::move(p_name)) {
+GroupCollapsable::GroupCollapsable(std::string name) :
+name_(std::move(name)) {
 }
 
 void GroupCollapsable::draw_impl() {

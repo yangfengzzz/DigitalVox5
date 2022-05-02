@@ -8,9 +8,9 @@
 #include <algorithm>
 
 namespace vox::ui {
-void WidgetContainer::remove_widget(Widget &p_widget) {
-    auto found = std::find_if(widgets_.begin(), widgets_.end(), [&p_widget](std::pair<Widget *, MemoryMode> &p_pair) {
-        return p_pair.first == &p_widget;
+void WidgetContainer::remove_widget(Widget &widget) {
+    auto found = std::find_if(widgets_.begin(), widgets_.end(), [&widget](std::pair<Widget *, MemoryMode> &pair) {
+        return pair.first == &widget;
     });
     
     if (found != widgets_.end()) {
@@ -30,30 +30,30 @@ void WidgetContainer::remove_all_widgets() {
     widgets_.clear();
 }
 
-void WidgetContainer::consider_widget(Widget &p_widget, bool p_manage_memory) {
-    widgets_.emplace_back(std::make_pair(&p_widget,
-                                         p_manage_memory ? MemoryMode::INTERNAL_MANAGEMENT :
+void WidgetContainer::consider_widget(Widget &widget, bool manage_memory) {
+    widgets_.emplace_back(std::make_pair(&widget,
+                                         manage_memory ? MemoryMode::INTERNAL_MANAGEMENT :
                                          MemoryMode::EXTERNAL_MANAGEMENT));
-    p_widget.set_parent(this);
+    widget.set_parent(this);
 }
 
-void WidgetContainer::unconsider_widget(Widget &p_widget) {
-    auto found = std::find_if(widgets_.begin(), widgets_.end(), [&p_widget](std::pair<Widget *, MemoryMode> &p_pair) {
-        return p_pair.first == &p_widget;
+void WidgetContainer::unconsider_widget(Widget &widget) {
+    auto found = std::find_if(widgets_.begin(), widgets_.end(), [&widget](std::pair<Widget *, MemoryMode> &pair) {
+        return pair.first == &widget;
     });
     
     if (found != widgets_.end()) {
-        p_widget.set_parent(nullptr);
+        widget.set_parent(nullptr);
         widgets_.erase(found);
     }
 }
 
 void WidgetContainer::collect_garbage() {
-    widgets_.erase(std::remove_if(widgets_.begin(), widgets_.end(), [](std::pair<Widget *, MemoryMode> &p_item) {
-        bool to_destroy = p_item.first && p_item.first->is_destroyed();
+    widgets_.erase(std::remove_if(widgets_.begin(), widgets_.end(), [](std::pair<Widget *, MemoryMode> &item) {
+        bool to_destroy = item.first && item.first->is_destroyed();
         
-        if (to_destroy && p_item.second == MemoryMode::INTERNAL_MANAGEMENT)
-            delete p_item.first;
+        if (to_destroy && item.second == MemoryMode::INTERNAL_MANAGEMENT)
+            delete item.first;
         
         return to_destroy;
     }), widgets_.end());

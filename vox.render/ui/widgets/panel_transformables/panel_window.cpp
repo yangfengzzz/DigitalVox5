@@ -11,23 +11,23 @@
 #include <utility>
 
 namespace vox::ui {
-PanelWindow::PanelWindow(std::string p_name, bool p_opened,
-                         const PanelWindowSettings &p_panel_settings) :
-name_(std::move(p_name)),
-resizable_(p_panel_settings.resizable),
-closable_(p_panel_settings.closable),
-movable_(p_panel_settings.movable),
-scrollable_(p_panel_settings.scrollable),
-dockable_(p_panel_settings.dockable),
-hide_background_(p_panel_settings.hide_background),
-force_horizontal_scrollbar_(p_panel_settings.force_horizontal_scrollbar),
-force_vertical_scrollbar_(p_panel_settings.force_vertical_scrollbar),
-allow_horizontal_scrollbar_(p_panel_settings.allow_horizontal_scrollbar),
-bring_to_front_on_focus_(p_panel_settings.bring_to_front_on_focus),
-collapsable_(p_panel_settings.collapsable),
-allow_inputs_(p_panel_settings.allow_inputs),
-opened_(p_opened) {
-    auto_size_ = p_panel_settings.auto_size;
+PanelWindow::PanelWindow(std::string name, bool opened,
+                         const PanelWindowSettings &panel_settings) :
+name_(std::move(name)),
+resizable_(panel_settings.resizable),
+closable_(panel_settings.closable),
+movable_(panel_settings.movable),
+scrollable_(panel_settings.scrollable),
+dockable_(panel_settings.dockable),
+hide_background_(panel_settings.hide_background),
+force_horizontal_scrollbar_(panel_settings.force_horizontal_scrollbar),
+force_vertical_scrollbar_(panel_settings.force_vertical_scrollbar),
+allow_horizontal_scrollbar_(panel_settings.allow_horizontal_scrollbar),
+bring_to_front_on_focus_(panel_settings.bring_to_front_on_focus),
+collapsable_(panel_settings.collapsable),
+allow_inputs_(panel_settings.allow_inputs),
+opened_(opened) {
+    auto_size_ = panel_settings.auto_size;
 }
 
 void PanelWindow::open() {
@@ -48,9 +48,9 @@ void PanelWindow::focus() {
     ImGui::SetWindowFocus((name_ + panel_id_).c_str());
 }
 
-void PanelWindow::set_opened(bool p_value) {
-    if (p_value != opened_) {
-        opened_ = p_value;
+void PanelWindow::set_opened(bool value) {
+    if (value != opened_) {
+        opened_ = value;
         
         if (opened_)
             open_event_.invoke();

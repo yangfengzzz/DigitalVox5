@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_ARROW_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_ARROW_H_
+#pragma once
 
 #include "button.h"
 
@@ -18,7 +17,7 @@ public:
     /**
      * Create the button
      */
-    explicit ButtonArrow(ImGuiDir p_direction = ImGuiDir_None);
+    explicit ButtonArrow(ImGuiDir direction = ImGuiDir_None);
     
 protected:
     void draw_impl() override;
@@ -28,4 +27,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_BUTTONS_BUTTON_ARROW_H_ */

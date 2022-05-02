@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_MULTIPLE_SCALARS_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_MULTIPLE_SCALARS_H_
+#pragma once
 
 #include "event.h"
 #include "ui/widgets/data_widget.h"
@@ -24,31 +23,18 @@ class SliderMultipleScalars : public DataWidget<std::array<T, Size>> {
     static_assert(Size > 1, "Invalid SliderMultipleScalars _Size (2 or more required)");
     
 public:
-    /**
-     * Constructor
-     * @param p_data_type
-     * @param p_min
-     * @param p_max
-     * @param p_value
-     * @param p_label
-     * @param p_format
-     */
-    SliderMultipleScalars
-    (
-     ImGuiDataType_ p_data_type,
-     T p_min,
-     T p_max,
-     T p_value,
-     std::string p_label,
-     std::string p_format
-     )
-    : DataWidget<std::array<T, Size>>(values_),
-    data_type_(p_data_type),
-    min_(p_min),
-    max_(p_max),
-    label_(std::move(p_label)),
-    format_(std::move(p_format)) {
-        values_.fill(p_value);
+    SliderMultipleScalars(ImGuiDataType_ data_type,
+                          T min,
+                          T max,
+                          T value,
+                          std::string label,
+                          std::string format) : DataWidget<std::array<T, Size>>(values_),
+    data_type_(data_type),
+    min_(min),
+    max_(max),
+    label_(std::move(label)),
+    format_(std::move(format)) {
+        values_.fill(value);
     }
     
 protected:
@@ -90,4 +76,3 @@ protected:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_MULTIPLE_SCALARS_H_ */

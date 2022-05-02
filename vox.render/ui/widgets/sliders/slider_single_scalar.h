@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_SINGLE_SCALAR_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_SINGLE_SCALAR_H_
+#pragma once
 
 #include <utility>
 
@@ -32,25 +31,15 @@ class SliderSingleScalar : public DataWidget<T> {
     static_assert(std::is_scalar<T>::value, "Invalid SliderSingleScalar T (Scalar expected)");
     
 public:
-    /**
-     * Constructor
-     * @param p_data_type p_dataType
-     * @param p_min p_min
-     * @param p_max p_max
-     * @param p_value p_value
-     * @param p_orientation p_orientation
-     * @param p_label p_label
-     * @param p_format p_format
-     */
-    SliderSingleScalar(ImGuiDataType p_data_type,
-                       T p_min,
-                       T p_max,
-                       T p_value,
-                       SliderOrientation p_orientation,
-                       std::string p_label,
-                       std::string p_format) :
-    DataWidget<T>(value_), data_type_(p_data_type), min_(p_min), max_(p_max),
-    value_(p_value), orientation_(p_orientation), label_(std::move(p_label)), format_(std::move(p_format)) {
+    SliderSingleScalar(ImGuiDataType data_type,
+                       T min,
+                       T max,
+                       T value,
+                       SliderOrientation orientation,
+                       std::string label,
+                       std::string format) :
+    DataWidget<T>(value_), data_type_(data_type), min_(min), max_(max),
+    value_(value), orientation_(orientation), label_(std::move(label)), format_(std::move(format)) {
     }
     
 protected:
@@ -98,5 +87,3 @@ private:
 };
 
 }
-
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_SLIDERS_SLIDER_SINGLE_SCALAR_H_ */

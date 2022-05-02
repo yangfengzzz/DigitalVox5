@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_H_
+#pragma once
 
 #include "ui/widgets/data_widget.h"
 
@@ -15,11 +14,7 @@ namespace vox::ui {
  */
 class Text : public DataWidget<std::string> {
 public:
-    /**
-     * Constructor
-     * @param p_content p_content
-     */
-    explicit Text(std::string p_content = "");
+    explicit Text(std::string content = "");
     
 protected:
     void draw_impl() override;
@@ -29,4 +24,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_TEXTS_TEXT_H_ */

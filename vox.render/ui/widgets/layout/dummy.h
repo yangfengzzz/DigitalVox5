@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_DUMMY_H_
-#define DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_DUMMY_H_
+#pragma once
 
 #include "vector2.h"
 
@@ -17,11 +16,7 @@ namespace vox::ui {
  */
 class Dummy : public Widget {
 public:
-    /**
-     * Constructor
-     * @param p_size p_size
-     */
-    explicit Dummy(const Vector2F &p_size = {0.0f, 0.0f});
+    explicit Dummy(const Vector2F &size = {0.0f, 0.0f});
     
 protected:
     void draw_impl() override;
@@ -31,4 +26,3 @@ public:
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_UI_WIDGETS_LAYOUT_DUMMY_H_ */
