@@ -22,6 +22,8 @@
 #include "editor_actions.h"
 #include "editor_resources.h"
 
+#include "lua/script_interpreter.h"
+
 namespace vox::editor {
 class EditorApplication : public GraphicsApplication {
 public:
@@ -87,7 +89,8 @@ private:
     std::unique_ptr<ImageManager> image_manager_{nullptr};
     std::unique_ptr<ShaderManager> shader_manager_{nullptr};
     std::unique_ptr<MeshManager> mesh_manager_{nullptr};
-    
+    std::unique_ptr<ScriptInterpreter> script_interpreter_{nullptr};
+
     std::unique_ptr<ComponentsManager> components_manager_{nullptr};
     std::unique_ptr<physics::PhysicsManager> physics_manager_{nullptr};
     std::unique_ptr<SceneManager> scene_manager_{nullptr};

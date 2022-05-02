@@ -9,6 +9,9 @@
 #include "ui/widgets/texts/text_colored.h"
 
 namespace vox {
+Event<Behaviour *> Behaviour::created_event_;
+Event<Behaviour *> Behaviour::destroyed_event_;
+
 std::string Behaviour::name() {
     return "Behaviour";
 }

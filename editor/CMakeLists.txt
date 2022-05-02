@@ -38,11 +38,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE vox.render vox.math vox.editor spd
 if (CMAKE_BUILD_TYPE MATCHES "Release")
     target_compile_definitions(${PROJECT_NAME} PUBLIC DISABLE_CUDA_PHYSX PX_PHYSX_CORE_EXPORTS NDEBUG PX_SUPPORT_PVD=0)
     target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/physX/physx/bin/linux.clang/release
-            ${CMAKE_SOURCE_DIR}/third_party/assimp/build_release/bin)
+            ${CMAKE_SOURCE_DIR}/third_party/assimp/build_release/bin /usr/local/lib)
 ELSEIF (CMAKE_BUILD_TYPE MATCHES "Debug")
     target_compile_definitions(${PROJECT_NAME} PUBLIC DISABLE_CUDA_PHYSX PX_PHYSX_CORE_EXPORTS _DEBUG PX_DEBUG=1 PX_CHECKED=1 PX_NVTX=0 PX_SUPPORT_PVD=1)
     target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/physX/physx/bin/linux.clang/debug
-            ${CMAKE_SOURCE_DIR}/third_party/assimp/build_release/bin)
+            ${CMAKE_SOURCE_DIR}/third_party/assimp/build_release/bin /usr/local/lib)
 endif ()
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
@@ -56,7 +56,9 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         libPhysXPvdSDK_static_64.a
         libPhysXVehicle_static_64.a
         # Assimp
-        assimp)
+        assimp
+        # LUA
+        lua)
 
 # Create android project
 if (ANDROID)

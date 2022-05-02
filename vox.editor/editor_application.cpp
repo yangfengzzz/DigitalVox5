@@ -68,6 +68,7 @@ bool EditorApplication::prepare(Platform &platform) {
     image_manager_ = std::make_unique<ImageManager>(*device_);
     shader_manager_ = std::make_unique<ShaderManager>();
     mesh_manager_ = std::make_unique<MeshManager>(*device_);
+    script_interpreter_ = std::make_unique<ScriptInterpreter>("");
     
     // logic system
     components_manager_ = std::make_unique<ComponentsManager>();

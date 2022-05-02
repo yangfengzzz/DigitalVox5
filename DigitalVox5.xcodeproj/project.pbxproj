@@ -3764,6 +3764,7 @@
 					"-lPhysXExtensions_static_64",
 					"-lPhysXCharacterKinematic_static_64",
 					"-lassimpd",
+					"-llua",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = (
@@ -3881,6 +3882,7 @@
 					"-lPhysXExtensions_static_64",
 					"-lPhysXCharacterKinematic_static_64",
 					"-lassimp",
+					"-llua",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = (

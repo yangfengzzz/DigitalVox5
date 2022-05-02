@@ -7,6 +7,8 @@
 #include "editor_actions.h"
 #include "scene_manager.h"
 #include "view/scene_view.h"
+#include "ui/inspector.h"
+#include "lua/script_interpreter.h"
 
 namespace vox {
 editor::EditorActions *editor::EditorActions::get_singleton_ptr() {
@@ -28,7 +30,7 @@ panels_manager_(panels_manager) {
 void EditorActions::load_empty_scene() {
     if (current_editor_mode() != EditorMode::EDIT)
         stop_playing();
-
+    
     SceneManager::get_singleton().load_empty_lighted_scene();
     LOGI("New scene created")
 }
@@ -47,7 +49,7 @@ void EditorActions::save_current_scene_to(const std::string &path) {
 void EditorActions::load_scene_from_disk(const std::string &path, bool absolute) {
     if (current_editor_mode() != EditorMode::EDIT)
         stop_playing();
-
+    
     SceneManager::get_singleton().load_scene(path, absolute);
     LOGI("Scene loaded from disk: {}", SceneManager::get_singleton().current_scene_source_path());
     panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
@@ -72,7 +74,11 @@ void EditorActions::save_as() {
 
 //MARK: - SCRIPTING
 void EditorActions::refresh_scripts() {
-    
+    ScriptInterpreter::get_singleton().refresh_all();
+    panels_manager_.get_panel_as<ui::Inspector>("Inspector").refresh();
+    if (ScriptInterpreter::get_singleton().is_ok()) {
+        LOGI("Scripts interpretation succeeded!")
+    }
 }
 
 //MARK: - TOOLS

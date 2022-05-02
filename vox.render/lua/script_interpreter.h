@@ -8,15 +8,19 @@
 
 #include <vector>
 #include <sol/sol.hpp>
-
+#include "singleton.h"
 #include "behaviour.h"
 
 namespace vox {
 /**
  * Handles script interpretation
  */
-class ScriptInterpreter {
+class ScriptInterpreter : public Singleton<ScriptInterpreter> {
 public:
+    static ScriptInterpreter &get_singleton();
+    
+    static ScriptInterpreter *get_singleton_ptr();
+    
     /**
      * Constructor
      */
@@ -63,5 +67,7 @@ private:
     std::vector<Behaviour *> behaviours_;
     bool is_ok_{};
 };
+
+template<> inline ScriptInterpreter *Singleton<ScriptInterpreter>::ms_singleton_{nullptr};
 
 }
