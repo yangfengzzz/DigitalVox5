@@ -5,10 +5,21 @@
 //  property of any third parties.
 
 #include "scene_manager.h"
-
+#include "entity.h"
+#include "camera.h"
+#include "lighting/direct_light.h"
 #include <utility>
 
 namespace vox {
+SceneManager *SceneManager::get_singleton_ptr() {
+    return ms_singleton_;
+}
+
+SceneManager &SceneManager::get_singleton() {
+    assert(ms_singleton_);
+    return (*ms_singleton_);
+}
+
 SceneManager::SceneManager(Device &device, std::string p_scene_root_folder) :
 device_(device),
 scene_root_folder_(std::move(p_scene_root_folder)) {
@@ -42,6 +53,21 @@ void SceneManager::load_empty_scene() {
     current_scene_->process_active(false);
     
     scene_load_event_.invoke();
+}
+
+void SceneManager::load_empty_lighted_scene() {
+    load_empty_scene();
+    
+    auto root_entity = current_scene_->create_root_entity();
+    auto camera_entity = root_entity->create_child("MainCamera");
+    camera_entity->transform_->set_position(10, 10, 10);
+    camera_entity->transform_->look_at(Point3F(0, 0, 0));
+    camera_entity->add_component<Camera>();
+    
+    // init directional light
+    auto light = root_entity->create_child("light");
+    light->transform_->set_position(0, 3, 0);
+    light->add_component<DirectLight>();
 }
 
 bool SceneManager::load_scene(const std::string &p_path, bool p_absolute) {

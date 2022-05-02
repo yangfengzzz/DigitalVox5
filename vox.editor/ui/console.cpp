@@ -129,9 +129,14 @@ void Console::filter_logs() {
 
 bool Console::is_allowed_by_filter(spdlog::level::level_enum log_level) const {
     switch (log_level) {
-        case spdlog::level::info:return show_info_log_;
-        case spdlog::level::warn:return show_warning_log_;
-        case spdlog::level::err:return show_error_log_;
+        case spdlog::level::info:
+            return show_info_log_;
+        case spdlog::level::warn:
+            return show_warning_log_;
+        case spdlog::level::err:
+            return show_error_log_;
+        default:
+            return false;
     }
     
     return false;

@@ -48,7 +48,7 @@ public:
             is_dragged_ = true;
             
             if (!(src_flags & ImGuiDragDropFlags_SourceNoPreviewTooltip))
-                ImGui::Text(tooltip_.c_str());
+                ImGui::Text("%s", tooltip_.c_str());
             ImGui::SetDragDropPayload(identifier_.c_str(), &data_, sizeof(data_));
             ImGui::EndDragDropSource();
         } else {

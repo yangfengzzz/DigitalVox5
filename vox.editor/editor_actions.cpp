@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "editor_actions.h"
+#include "scene_manager.h"
 
 namespace vox {
 editor::EditorActions *editor::EditorActions::get_singleton_ptr() {
@@ -19,6 +20,35 @@ editor::EditorActions &editor::EditorActions::get_singleton() {
 namespace editor {
 EditorActions::EditorActions(ui::PanelsManager &panels_manager) :
 panels_manager_(panels_manager) {
+    
+}
+
+//MARK: - SCENE
+void EditorActions::load_empty_scene() {
+    if (current_editor_mode() != EditorMode::EDIT)
+        stop_playing();
+
+    SceneManager::get_singleton().load_empty_lighted_scene();
+    LOGI("New scene created")
+}
+
+void EditorActions::save_current_scene_to(const std::string &path) {
+    
+}
+
+void EditorActions::load_scene_from_disk(const std::string &path, bool absolute) {
+    
+}
+
+bool EditorActions::is_current_scene_loaded_from_disk() const {
+    return false;
+}
+
+void EditorActions::save_scene_changes() {
+    
+}
+
+void EditorActions::save_as() {
     
 }
 
@@ -179,31 +209,6 @@ void EditorActions::propagate_file_rename(const std::string &previous_name, cons
 
 void EditorActions::propagate_file_rename_through_saved_files_of_type(const std::string &previous_name, const std::string &new_name,
                                                                       fs::FileType file_type) {
-    
-}
-
-//MARK: - SCENE
-void EditorActions::load_empty_scene() {
-    
-}
-
-void EditorActions::save_current_scene_to(const std::string &path) {
-    
-}
-
-void EditorActions::load_scene_from_disk(const std::string &path, bool absolute) {
-    
-}
-
-bool EditorActions::is_current_scene_loaded_from_disk() const {
-    return false;
-}
-
-void EditorActions::save_scene_changes() {
-    
-}
-
-void EditorActions::save_as() {
     
 }
 

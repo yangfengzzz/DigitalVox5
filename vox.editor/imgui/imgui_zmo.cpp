@@ -1423,18 +1423,6 @@ static void DrawScaleUniveralGizmo(OPERATION op, int type) {
                 ImVec2 baseSSpace = worldToPos(dirAxis * 0.1f * gContext.mScreenFactor, gContext.mMVPLocal);
                 //ImVec2 worldDirSSpaceNoScale = worldToPos(dirAxis * markerScale * gContext.mScreenFactor, gContext.mMVP);
                 ImVec2 worldDirSSpace = worldToPos((dirAxis * markerScale * scaleDisplay[i]) * gContext.mScreenFactor, gContext.mMVPLocal);
-                
-                /*if (gContext.mbUsing && (gContext.mActualID == -1 || gContext.mActualID == gContext.mEditingID))
-                 {
-                 drawList->AddLine(baseSSpace, worldDirSSpaceNoScale, IM_COL32(0x40, 0x40, 0x40, 0xFF), 3.f);
-                 drawList->AddCircleFilled(worldDirSSpaceNoScale, 6.f, IM_COL32(0x40, 0x40, 0x40, 0xFF));
-                 }
-                 /*
-                 if (!hasTranslateOnAxis || gContext.mbUsing)
-                 {
-                 drawList->AddLine(baseSSpace, worldDirSSpace, colors[i + 1], 3.f);
-                 }
-                 */
                 drawList->AddCircleFilled(worldDirSSpace, 12.f, colors[i + 1]);
             }
         }
