@@ -269,4 +269,8 @@ void SceneView::edit_transform(float *camera_view, float *camera_projection, flo
                              0x10101010);
 }
 
+control::OrbitControl *SceneView::camera_control() {
+    return camera_control_;
+}
+
 }

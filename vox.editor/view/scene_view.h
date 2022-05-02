@@ -48,6 +48,9 @@ public:
     
     void load_scene(Entity *root_entity);
     
+public:
+    control::OrbitControl *camera_control();
+    
 private:
     float cam_distance_ = 8.f;
     ImGuizmo::OPERATION current_gizmo_operation_ = ImGuizmo::TRANSLATE;

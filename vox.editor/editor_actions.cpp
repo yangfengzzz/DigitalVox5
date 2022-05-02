@@ -8,6 +8,8 @@
 #include "scene_manager.h"
 #include "lua/script_interpreter.h"
 #include "view/scene_view.h"
+#include "view/asset_view.h"
+#include "view/game_view.h"
 #include "ui/inspector.h"
 #include "ui/ui_manager.h"
 
@@ -52,7 +54,7 @@ void EditorActions::load_scene_from_disk(const std::string &path, bool absolute)
         stop_playing();
     
     SceneManager::get_singleton().load_scene(path, absolute);
-    LOGI("Scene loaded from disk: {}", SceneManager::get_singleton().current_scene_source_path());
+    LOGI("Scene loaded from disk: {}", SceneManager::get_singleton().current_scene_source_path())
     panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
 }
 
@@ -63,7 +65,7 @@ bool EditorActions::is_current_scene_loaded_from_disk() const {
 void EditorActions::save_scene_changes() {
     if (is_current_scene_loaded_from_disk()) {
         save_current_scene_to(SceneManager::get_singleton().current_scene_source_path());
-        LOGI("Current scene saved to: {}" + SceneManager::get_singleton().current_scene_source_path());
+        LOGI("Current scene saved to: {}" + SceneManager::get_singleton().current_scene_source_path())
     } else {
         save_as();
     }
@@ -103,7 +105,7 @@ void EditorActions::delay_action(const std::function<void()> &action, uint32_t f
 
 void EditorActions::execute_delayed_actions() {
     std::for_each(delayed_actions_.begin(), delayed_actions_.end(),
-                  [](std::pair<uint32_t, std::function<void()>> & element) {
+                  [](std::pair<uint32_t, std::function<void()>> &element) {
         --element.first;
         
         if (element.first == 0)
@@ -111,7 +113,7 @@ void EditorActions::execute_delayed_actions() {
     });
     
     delayed_actions_.erase(std::remove_if(delayed_actions_.begin(), delayed_actions_.end(),
-                                          [](std::pair<uint32_t, std::function<void()>> & element) {
+                                          [](std::pair<uint32_t, std::function<void()>> &element) {
         return element.first == 0;
     }), delayed_actions_.end());
 }
@@ -134,33 +136,39 @@ void EditorActions::set_entity_spawn_mode(EntitySpawnMode value) {
 }
 
 void EditorActions::reset_layout() {
-    delay_action([this]() {
+    delay_action([]() {
         UiManager::get_singleton().reset_layout("Config\\layout.ini");
     });
 }
 
 void EditorActions::set_scene_view_camera_speed(int speed) {
-    
+    auto orbit_control = panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control();
+    orbit_control->rotate_speed_ = speed;
+    orbit_control->zoom_speed_ = speed;
 }
 
 int EditorActions::scene_view_camera_speed() {
-    return 0;
+    return panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control()->rotate_speed_;
 }
 
 void EditorActions::set_asset_view_camera_speed(int speed) {
-    
+    auto orbit_control = panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control();
+    orbit_control->rotate_speed_ = speed;
+    orbit_control->zoom_speed_ = speed;
 }
 
 int EditorActions::asset_view_camera_speed() {
-    return 0;
+    return panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control()->rotate_speed_;
 }
 
 void EditorActions::reset_scene_view_camera_position() {
-    
+    auto orbit_control = panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control();
+    orbit_control->entity()->transform_->set_position({-10.0f, 4.0f, 10.0f});
 }
 
 void EditorActions::reset_asset_view_camera_position() {
-    
+    auto orbit_control = panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control();
+    orbit_control->entity()->transform_->set_position({-10.0f, 4.0f, 10.0f});
 }
 
 //MARK: - GAME
@@ -169,23 +177,66 @@ EditorActions::EditorMode EditorActions::current_editor_mode() const {
 }
 
 void EditorActions::set_editor_mode(EditorMode new_editor_mode) {
-    
+    editor_mode_ = new_editor_mode;
+    editor_mode_changed_event_.invoke(editor_mode_);
 }
 
 void EditorActions::start_playing() {
-    
+    if (editor_mode_ == EditorMode::EDIT) {
+        ScriptInterpreter::get_singleton().refresh_all();
+        panels_manager_.get_panel_as<ui::Inspector>("Inspector").refresh();
+        
+        if (ScriptInterpreter::get_singleton().is_ok()) {
+            play_event_.invoke();
+            scene_backup_.clear();
+            
+            nlohmann::json root;
+            SceneManager::get_singleton().current_scene()->on_serialize(root);
+            scene_backup_.insert(scene_backup_.begin(), {"root", root});
+            
+            panels_manager_.get_panel_as<ui::GameView>("Game View").focus();
+            SceneManager::get_singleton().current_scene()->play();
+            set_editor_mode(EditorMode::PLAY);
+        }
+    } else {
+        // m_context.audioEngine->Unsuspend();
+        set_editor_mode(EditorMode::PLAY);
+    }
 }
 
 void EditorActions::pause_game() {
-    
+    set_editor_mode(EditorMode::PAUSE);
 }
 
 void EditorActions::stop_playing() {
-    
+    if (editor_mode_ != EditorMode::EDIT) {
+        // ImGui::GetIO().DisableMouseUpdate = false;
+        // m_context.window->SetCursorMode(OvWindowing::Cursor::ECursorMode::NORMAL);
+        set_editor_mode(EditorMode::EDIT);
+        bool loaded_from_disk = SceneManager::get_singleton().is_current_scene_loaded_from_disk();
+        std::string scene_source_path = SceneManager::get_singleton().current_scene_source_path();
+        
+        std::string focused_actor_id;
+        
+        if (auto target_actor = panels_manager_.get_panel_as<ui::Inspector>("Inspector").target_entity())
+            focused_actor_id = target_actor->name_;
+        
+        SceneManager::get_singleton().load_scene_from_memory(scene_backup_);
+        if (loaded_from_disk) {
+            // To bo able to save or reload the scene whereas the scene is loaded from memory (Supposed to have no path)
+            SceneManager::get_singleton().store_current_scene_source_path(scene_source_path);
+        }
+        scene_backup_.clear();
+        panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
+        if (auto actor_instance = SceneManager::get_singleton().current_scene()->find_entity_by_name(focused_actor_id)) {
+            panels_manager_.get_panel_as<ui::Inspector>("Inspector").focus_entity(actor_instance);
+        }
+    }
 }
 
 void EditorActions::next_frame() {
-    
+    if (editor_mode_ == EditorMode::PLAY || editor_mode_ == EditorMode::PAUSE)
+        set_editor_mode(EditorMode::FRAME_BY_FRAME);
 }
 
 //MARK: - Entity_CREATION_DESTRUCTION

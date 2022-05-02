@@ -36,6 +36,9 @@ public:
     
     void load_scene(Entity *root_entity);
     
+public:
+    control::OrbitControl *camera_control();
+    
 private:
     Camera *main_camera_{nullptr};
     Scene *scene_{nullptr};

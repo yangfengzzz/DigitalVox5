@@ -90,4 +90,9 @@ void AssetView::render(CommandBuffer &command_buffer) {
     }
 }
 
+control::OrbitControl *AssetView::camera_control() {
+    return camera_control_;
+}
+
+
 }
