@@ -6,6 +6,7 @@
 
 #include "editor_actions.h"
 #include "scene_manager.h"
+#include "view/scene_view.h"
 
 namespace vox {
 editor::EditorActions *editor::EditorActions::get_singleton_ptr() {
@@ -33,22 +34,44 @@ void EditorActions::load_empty_scene() {
 }
 
 void EditorActions::save_current_scene_to(const std::string &path) {
+    SceneManager::get_singleton().store_current_scene_source_path(path);
+    nlohmann::json root;
+    SceneManager::get_singleton().current_scene()->on_serialize(root);
     
+    nlohmann::json j = {
+        {"root", root},
+    };
+    fs::write_json(j, path);
 }
 
 void EditorActions::load_scene_from_disk(const std::string &path, bool absolute) {
-    
+    if (current_editor_mode() != EditorMode::EDIT)
+        stop_playing();
+
+    SceneManager::get_singleton().load_scene(path, absolute);
+    LOGI("Scene loaded from disk: {}", SceneManager::get_singleton().current_scene_source_path());
+    panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
 }
 
 bool EditorActions::is_current_scene_loaded_from_disk() const {
-    return false;
+    return SceneManager::get_singleton().is_current_scene_loaded_from_disk();
 }
 
 void EditorActions::save_scene_changes() {
-    
+    if (is_current_scene_loaded_from_disk()) {
+        save_current_scene_to(SceneManager::get_singleton().current_scene_source_path());
+        LOGI("Current scene saved to: {}" + SceneManager::get_singleton().current_scene_source_path());
+    } else {
+        save_as();
+    }
 }
 
 void EditorActions::save_as() {
+    // todo
+}
+
+//MARK: - SCRIPTING
+void EditorActions::refresh_scripts() {
     
 }
 
@@ -209,11 +232,6 @@ void EditorActions::propagate_file_rename(const std::string &previous_name, cons
 
 void EditorActions::propagate_file_rename_through_saved_files_of_type(const std::string &previous_name, const std::string &new_name,
                                                                       fs::FileType file_type) {
-    
-}
-
-//MARK: - SCRIPTING
-void EditorActions::refresh_scripts() {
     
 }
 
