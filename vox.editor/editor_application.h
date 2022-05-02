@@ -75,8 +75,8 @@ private:
     
     ::vox::ui::Canvas canvas_;
     ui::PanelsManager panels_manager_;
-    std::unique_ptr<EditorResources> editor_resources_{nullptr};
     std::unique_ptr<EditorActions> editor_actions_{nullptr};
+    std::unique_ptr<EditorResources> editor_resources_{nullptr};
     
     float delta_time_{};
     Camera *main_camera_{nullptr};

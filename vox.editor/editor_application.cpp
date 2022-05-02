@@ -127,6 +127,63 @@ void EditorApplication::setup_ui() {
     scene_manager_->current_scene()->play();
 }
 
+//MARK: - Update
+void EditorApplication::update(float delta_time) {
+//    if (auto editorMode = editor_actions_->current_editor_mode();
+//        editorMode == EditorActions::EditorMode::PLAY ||
+//        editorMode == EditorActions::EditorMode::FRAME_BY_FRAME) {
+        components_manager_->call_script_on_start();
+        
+        physics_manager_->update(delta_time);
+        
+        components_manager_->call_script_on_update(delta_time);
+        //        _componentsManager->callAnimatorUpdate(deltaTime);
+        components_manager_->call_scene_animator_update(delta_time);
+        components_manager_->call_script_on_late_update(delta_time);
+        
+        components_manager_->call_renderer_on_update(delta_time);
+        scene_manager_->current_scene()->update_shader_data();
+        
+//        if (editorMode == EditorActions::EditorMode::FRAME_BY_FRAME)
+//            editor_actions_->pause_game();
+//    }
+    
+    PROFILER_SPY("Scene garbage collection");
+    image_manager_->collect_garbage();
+    mesh_manager_->collect_garbage();
+    shader_manager_->collect_garbage();
+    
+    delta_time_ = delta_time;
+    GraphicsApplication::update(delta_time);
+    editor_actions_->execute_delayed_actions();
+}
+
+void EditorApplication::render(CommandBuffer &command_buffer, RenderTarget &render_target) {
+    update_gpu_task(command_buffer, render_target);
+    update_editor_panels(delta_time_);
+    render_views(delta_time_, command_buffer);
+    
+    GraphicsApplication::render(command_buffer, render_target);
+}
+
+void EditorApplication::update_gpu_task(CommandBuffer &command_buffer, RenderTarget &render_target) {
+    shadow_manager_->draw(command_buffer);
+    light_manager_->draw(command_buffer, render_target);
+    particle_manager_->draw(command_buffer, render_target);
+}
+
+void EditorApplication::update_editor_panels(float delta_time) {
+    auto &menu_bar = panels_manager_.get_panel_as<ui::MenuBar>("Menu Bar");
+    auto& profiler = panels_manager_.get_panel_as<ui::ProfilerWindow>("Profiler");
+    
+    menu_bar.handle_shortcuts(delta_time);
+    
+    if (profiler.is_opened()) {
+        PROFILER_SPY("Profiler Update");
+        profiler.update(delta_time);
+    }
+}
+
 void EditorApplication::render_views(float delta_time, CommandBuffer &command_buffer) {
     auto &game_view = panels_manager_.get_panel_as<ui::GameView>("Game View");
     auto &scene_view = panels_manager_.get_panel_as<ui::SceneView>("Scene View");
@@ -155,43 +212,6 @@ void EditorApplication::render_views(float delta_time, CommandBuffer &command_bu
     }
 }
 
-void EditorApplication::update_editor_panels(float delta_time) {
-    auto &menu_bar = panels_manager_.get_panel_as<ui::MenuBar>("Menu Bar");
-    menu_bar.handle_shortcuts(delta_time);
-}
-
-void EditorApplication::update(float delta_time) {
-    {
-        components_manager_->call_script_on_start();
-        
-        physics_manager_->update(delta_time);
-        
-        components_manager_->call_script_on_update(delta_time);
-        //        _componentsManager->callAnimatorUpdate(deltaTime);
-        components_manager_->call_scene_animator_update(delta_time);
-        components_manager_->call_script_on_late_update(delta_time);
-        
-        components_manager_->call_renderer_on_update(delta_time);
-        scene_manager_->current_scene()->update_shader_data();
-    }
-    delta_time_ = delta_time;
-    GraphicsApplication::update(delta_time);
-}
-
-void EditorApplication::render(CommandBuffer &command_buffer, RenderTarget &render_target) {
-    update_gpu_task(command_buffer, render_target);
-    update_editor_panels(delta_time_);
-    render_views(delta_time_, command_buffer);
-    
-    GraphicsApplication::render(command_buffer, render_target);
-}
-
-void EditorApplication::update_gpu_task(CommandBuffer &command_buffer, RenderTarget &render_target) {
-    shadow_manager_->draw(command_buffer);
-    light_manager_->draw(command_buffer, render_target);
-    particle_manager_->draw(command_buffer, render_target);
-}
-
 bool EditorApplication::resize(uint32_t win_width, uint32_t win_height,
                                uint32_t fb_width, uint32_t fb_height) {
     GraphicsApplication::resize(win_width, win_height, fb_width, fb_height);
@@ -205,6 +225,16 @@ void EditorApplication::input_event(const InputEvent &input_event) {
     
     auto &scene_view = panels_manager_.get_panel_as<ui::SceneView>("Scene View");
     scene_view.input_event(input_event);
+    
+    if (input_event.get_source() == EventSource::KEYBOARD) {
+        const auto &key_event = static_cast<const KeyInputEvent &>(input_event);
+        if (key_event.get_code() == KeyCode::ESCAPE) {
+            editor_actions_->stop_playing();
+        }
+        if (key_event.get_code() == KeyCode::F5) {
+            editor_actions_->start_playing();
+        }
+    }
 }
 
 }
