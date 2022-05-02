@@ -261,4 +261,21 @@ std::string color_component_to_string(VkColorComponentFlags bitmask);
  */
 std::vector<std::string> split(const std::string &input, char delim);
 
+/**
+ * Replace the first occurence of p_from by p_to in the given string
+ */
+bool replace(std::string &target, const std::string &from, const std::string &to);
+
+/**
+ * Replace every occurence of p_from by p_to in the given string
+ */
+void replace_all(std::string &target, const std::string &from, const std::string &to);
+
+/**
+ * Generate a unique string satisfying the availability predicate
+ * @param source source
+ * @param is_available (A callback that must returning true if the input string is available)
+ */
+std::string generate_unique(const std::string &source, const std::function<bool(std::string)> &is_available);
+
 }        // namespace vox

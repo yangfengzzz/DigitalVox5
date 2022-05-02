@@ -95,7 +95,7 @@ bool EditorApplication::prepare(Platform &platform) {
     scene_subpasses.emplace_back(std::move(subpass));
     set_render_pipeline(RenderPipeline(std::move(scene_subpasses)));
     
-    editor_actions_ = std::make_unique<EditorActions>(panels_manager_);
+    editor_actions_ = std::make_unique<EditorActions>(*this);
     editor_resources_ = std::make_unique<EditorResources>(*device_, editor_assets_path_);
     setup_ui();
     

@@ -898,4 +898,75 @@ std::vector<std::string> split(const std::string &input, char delim) {
     return tokens;
 }
 
+bool replace(std::string &target, const std::string &from, const std::string &to) {
+    size_t start_pos = target.find(from);
+    
+    if (start_pos != std::string::npos) {
+        target.replace(start_pos, from.length(), to);
+        return true;
+    }
+    
+    return false;
+}
+
+void replace_all(std::string &target, const std::string &from, const std::string &to) {
+    if (from.empty()) return;
+    
+    size_t start_pos = 0;
+    while ((start_pos = target.find(from, start_pos)) != std::string::npos) {
+        target.replace(start_pos, from.length(), to);
+        start_pos += to.length();
+    }
+}
+
+std::string generate_unique(const std::string &source, const std::function<bool(std::string)> &is_available) {
+    auto suffixless_source = source;
+    
+    auto suffix_opening_parenthesis_pos = std::string::npos;
+    auto suffix_closing_parenthesis_pos = std::string::npos;
+    
+    // Keep track of the current character position when iterating onto `p_source`
+    auto current_pos = decltype(std::string::npos){source.length() - 1};
+    
+    // Here we search for `(` and `)` positions. (Needed to extract the number between those parenthesis)
+    for (auto it = source.rbegin(); it < source.rend(); ++it, --current_pos) {
+        const auto kC = *it;
+        
+        if (suffix_closing_parenthesis_pos == std::string::npos && kC == ')') suffix_closing_parenthesis_pos = current_pos;
+        if (suffix_closing_parenthesis_pos != std::string::npos && kC == '(') suffix_opening_parenthesis_pos = current_pos;
+    }
+    
+    // We need to declare our `counter` here to store the number between
+    // found parenthesis OR 1 (In the case no parenthesis, AKA, suffix, has been found)
+    auto counter = uint32_t{1};
+    
+    // If the two parenthis have been found AND the closing parenthesis is
+    // the last character AND there is a space before the opening parenthesis
+    if (suffix_opening_parenthesis_pos != std::string::npos && suffix_closing_parenthesis_pos == source.length() - 1
+        && suffix_opening_parenthesis_pos > 0 && source[suffix_opening_parenthesis_pos - 1] == ' ') {
+        // Extract the string between those parenthesis
+        const auto kBetween = source.substr(suffix_opening_parenthesis_pos + 1,
+                                            suffix_closing_parenthesis_pos - suffix_opening_parenthesis_pos - 1);
+        
+        // If the `between` string is composed of digits (AKA, `between` is a number)
+        if (!kBetween.empty() && std::find_if(kBetween.begin(), kBetween.end(),
+                                              [](unsigned char c) {
+            return !std::isdigit(c);
+        }) == kBetween.end()) {
+            counter = static_cast<uint32_t>(std::atoi(kBetween.c_str()));
+            suffixless_source = source.substr(0, suffix_opening_parenthesis_pos - 1);
+        }
+    }
+    
+    auto result = suffixless_source;
+    
+    // While `result` isn't available, we keep generating new strings
+    while (!is_available(result)) {
+        // New strings are composed of the `suffixlessSource` (Ex: "Foo (1)" without suffix is "Foo")
+        result = suffixless_source + " (" + std::to_string(counter++) + ")";
+    }
+    
+    return result;
+}
+
 }        // namespace vox

@@ -67,6 +67,7 @@ public:
     void update_editor_panels(float delta_time);
     
 private:
+    friend class EditorActions;
     const std::string project_path_;
     const std::string project_name_;
     const std::string project_file_path_;

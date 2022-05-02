@@ -7,13 +7,14 @@
 #pragma once
 
 #include "panels_manager.h"
-#include "vector3.h"
+#include "point3.h"
 #include "platform/filesystem.h"
 #include "scene_forward.h"
 #include "singleton.h"
 
 namespace vox {
 namespace editor {
+class EditorApplication;
 /**
  * A set of editor actions
  */
@@ -26,7 +27,7 @@ public:
     /**
      * Constructor
      */
-    explicit EditorActions(ui::PanelsManager &panels_manager);
+    explicit EditorActions(EditorApplication &app);
     
     //MARK: - TOOLS
 public:
@@ -135,7 +136,7 @@ public:
     /**
      * Calculate the position where to spawn the entity using the current camera position and forward
      */
-    Vector3F calculate_entity_spawn_point(float distance_to_camera);
+    Point3F calculate_entity_spawn_point(float distance_to_camera);
     
     /**
      * Create an empty entity
@@ -328,7 +329,7 @@ public:
     Event<> play_event_;
     
 private:
-    ui::PanelsManager &panels_manager_;
+    EditorApplication &app_;
     
     EntitySpawnMode entity_spawn_mode_ = EntitySpawnMode::ORIGIN;
     EditorMode editor_mode_ = EditorMode::EDIT;

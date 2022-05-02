@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "editor_actions.h"
+#include "editor_application.h"
 #include "scene_manager.h"
 #include "lua/script_interpreter.h"
 #include "view/scene_view.h"
@@ -24,9 +25,8 @@ editor::EditorActions &editor::EditorActions::get_singleton() {
 }
 
 namespace editor {
-EditorActions::EditorActions(ui::PanelsManager &panels_manager) :
-panels_manager_(panels_manager) {
-    
+EditorActions::EditorActions(EditorApplication &app) :
+app_(app) {
 }
 
 //MARK: - SCENE
@@ -55,7 +55,7 @@ void EditorActions::load_scene_from_disk(const std::string &path, bool absolute)
     
     SceneManager::get_singleton().load_scene(path, absolute);
     LOGI("Scene loaded from disk: {}", SceneManager::get_singleton().current_scene_source_path())
-    panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
+    app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
 }
 
 bool EditorActions::is_current_scene_loaded_from_disk() const {
@@ -78,7 +78,7 @@ void EditorActions::save_as() {
 //MARK: - SCRIPTING
 void EditorActions::refresh_scripts() {
     ScriptInterpreter::get_singleton().refresh_all();
-    panels_manager_.get_panel_as<ui::Inspector>("Inspector").refresh();
+    app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").refresh();
     if (ScriptInterpreter::get_singleton().is_ok()) {
         LOGI("Scripts interpretation succeeded!")
     }
@@ -120,7 +120,7 @@ void EditorActions::execute_delayed_actions() {
 
 //MARK: - TOOLS
 ui::PanelsManager &EditorActions::panels_manager() {
-    return panels_manager_;
+    return app_.panels_manager_;
 }
 
 //MARK: - SETTINGS
@@ -142,32 +142,32 @@ void EditorActions::reset_layout() {
 }
 
 void EditorActions::set_scene_view_camera_speed(int speed) {
-    auto orbit_control = panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control();
+    auto orbit_control = app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control();
     orbit_control->rotate_speed_ = speed;
     orbit_control->zoom_speed_ = speed;
 }
 
 int EditorActions::scene_view_camera_speed() {
-    return panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control()->rotate_speed_;
+    return app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control()->rotate_speed_;
 }
 
 void EditorActions::set_asset_view_camera_speed(int speed) {
-    auto orbit_control = panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control();
+    auto orbit_control = app_.panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control();
     orbit_control->rotate_speed_ = speed;
     orbit_control->zoom_speed_ = speed;
 }
 
 int EditorActions::asset_view_camera_speed() {
-    return panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control()->rotate_speed_;
+    return app_.panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control()->rotate_speed_;
 }
 
 void EditorActions::reset_scene_view_camera_position() {
-    auto orbit_control = panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control();
+    auto orbit_control = app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control();
     orbit_control->entity()->transform_->set_position({-10.0f, 4.0f, 10.0f});
 }
 
 void EditorActions::reset_asset_view_camera_position() {
-    auto orbit_control = panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control();
+    auto orbit_control = app_.panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control();
     orbit_control->entity()->transform_->set_position({-10.0f, 4.0f, 10.0f});
 }
 
@@ -184,7 +184,7 @@ void EditorActions::set_editor_mode(EditorMode new_editor_mode) {
 void EditorActions::start_playing() {
     if (editor_mode_ == EditorMode::EDIT) {
         ScriptInterpreter::get_singleton().refresh_all();
-        panels_manager_.get_panel_as<ui::Inspector>("Inspector").refresh();
+        app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").refresh();
         
         if (ScriptInterpreter::get_singleton().is_ok()) {
             play_event_.invoke();
@@ -194,7 +194,7 @@ void EditorActions::start_playing() {
             SceneManager::get_singleton().current_scene()->on_serialize(root);
             scene_backup_.insert(scene_backup_.begin(), {"root", root});
             
-            panels_manager_.get_panel_as<ui::GameView>("Game View").focus();
+            app_.panels_manager_.get_panel_as<ui::GameView>("Game View").focus();
             SceneManager::get_singleton().current_scene()->play();
             set_editor_mode(EditorMode::PLAY);
         }
@@ -218,7 +218,7 @@ void EditorActions::stop_playing() {
         
         std::string focused_actor_id;
         
-        if (auto target_actor = panels_manager_.get_panel_as<ui::Inspector>("Inspector").target_entity())
+        if (auto target_actor = app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").target_entity())
             focused_actor_id = target_actor->name_;
         
         SceneManager::get_singleton().load_scene_from_memory(scene_backup_);
@@ -227,9 +227,9 @@ void EditorActions::stop_playing() {
             SceneManager::get_singleton().store_current_scene_source_path(scene_source_path);
         }
         scene_backup_.clear();
-        panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
+        app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
         if (auto actor_instance = SceneManager::get_singleton().current_scene()->find_entity_by_name(focused_actor_id)) {
-            panels_manager_.get_panel_as<ui::Inspector>("Inspector").focus_entity(actor_instance);
+            app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").focus_entity(actor_instance);
         }
     }
 }
@@ -240,12 +240,30 @@ void EditorActions::next_frame() {
 }
 
 //MARK: - Entity_CREATION_DESTRUCTION
-Vector3F EditorActions::calculate_entity_spawn_point(float distance_to_camera) {
-    return Vector3F();
+Point3F EditorActions::calculate_entity_spawn_point(float distance_to_camera) {
+    auto camera_entity = app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control()->entity();
+    return camera_entity->transform_->world_position() + camera_entity->transform_->world_rotation_quaternion()
+    * camera_entity->transform_->world_forward() * distance_to_camera;
 }
 
 Entity *EditorActions::create_empty_entity(bool focus_on_creation, Entity *parent, const std::string &name) {
-    return nullptr;
+    const auto kCurrentScene = SceneManager::get_singleton().current_scene();
+    Entity* entity{nullptr};
+    if (parent) {
+        entity = parent->create_child(name);
+    } else {
+        entity = kCurrentScene->create_root_entity(name);
+    }
+    
+    if (entity_spawn_mode_ == EntitySpawnMode::FRONT)
+        entity->transform_->set_world_position(calculate_entity_spawn_point(10.0f));
+    
+    if (focus_on_creation)
+        select_entity(entity);
+    
+    LOGI("Entity created")
+    
+    return entity;
 }
 
 Entity *EditorActions::create_entity_with_model(const std::string &path, bool focus_on_creation,
@@ -254,7 +272,9 @@ Entity *EditorActions::create_entity_with_model(const std::string &path, bool fo
 }
 
 bool EditorActions::destroy_entity(Entity *entity) {
-    return false;
+    // entity.MarkAsDestroy();
+    LOGI("Entity destroyed")
+    return true;
 }
 
 void EditorActions::duplicate_entity(Entity *to_duplicate, Entity *forced_parent, bool focus) {
@@ -263,19 +283,19 @@ void EditorActions::duplicate_entity(Entity *to_duplicate, Entity *forced_parent
 
 //MARK: - ENTITY_MANIPULATION
 void EditorActions::select_entity(Entity *target) {
-    
+    app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").focus_entity(target);
 }
 
 void EditorActions::unselect_entity() {
-    
+    app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").un_focus();
 }
 
 bool EditorActions::is_any_entity_selected() const {
-    return false;
+    return app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").target_entity();
 }
 
 Entity *EditorActions::get_selected_entity() const {
-    return nullptr;
+    return app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").target_entity();
 }
 
 void EditorActions::move_to_target(Entity *target) {
@@ -300,15 +320,34 @@ bool EditorActions::import_asset_at_location(const std::string &destination) {
 }
 
 std::string EditorActions::get_real_path(const std::string &path) {
-    return "";
+    std::string result;
+
+    // The path is an engine path
+    if (path[0] == ':') {
+        result = app_.engine_assets_path_ + std::string(path.data() + 1, path.data() + path.size());
+    } else {
+        // The path is a project path
+        result = app_.project_assets_path_ + path;
+    }
+
+    return result;
 }
 
 std::string EditorActions::get_resource_path(const std::string &path, bool is_from_engine) {
-    return "";
+    std::string result = path;
+
+    if (replace(result, is_from_engine ? app_.engine_assets_path_ : app_.project_assets_path_, "")) {
+        if (is_from_engine)
+            result = ':' + result;
+    }
+    return result;
 }
 
 std::string EditorActions::get_script_path(const std::string &path) {
-    return "";
+    std::string result = path;
+    replace(result, app_.project_scripts_path_, "");
+    replace(result, ".lua", "");
+    return result;
 }
 
 void EditorActions::propagate_folder_rename(const std::string &previous_name, const std::string &new_name) {
