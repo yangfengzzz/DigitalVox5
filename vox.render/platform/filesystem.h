@@ -155,6 +155,26 @@ enum class FileType {
 };
 
 /**
+ * Returns the windows style version of the given path ('/' replaced by '\')
+ */
+std::string make_windows_style(const std::string &path);
+
+/**
+ * Returns the non-windows style version of the given path ('\' replaced by '/')
+ */
+std::string make_non_windows_style(const std::string &path);
+
+/**
+ * Returns the containing folder of the file or folder identified by the given path
+ */
+std::string extra_containing_folder(const std::string &path);
+
+/**
+ * Returns the name of the file or folder identified by the given path
+ */
+std::string extra_element_name(const std::string &path);
+
+/**
  * @brief Extracts the extension from an uri
  * @param uri An uniform Resource Identifier
  * @return The extension
@@ -169,6 +189,6 @@ std::string file_type_to_string(FileType file_type);
 /**
  * @brief Returns the file type of the file identified by the given path
  */
-FileType extra_file_type(const std::string& path);
+FileType extra_file_type(const std::string &path);
 
 }        // namespace vox

@@ -202,6 +202,62 @@ bool write_json(nlohmann::json &data, const std::string &filename) {
 }
 
 //MARK: - Extension
+std::string make_windows_style(const std::string &path) {
+    std::string result;
+    result.resize(path.size());
+    
+    for (size_t i = 0; i < path.size(); ++i)
+        result[i] = path[i] == '/' ? '\\' : path[i];
+    
+    return result;
+}
+
+std::string make_non_windows_style(const std::string &path) {
+    std::string result;
+    result.resize(path.size());
+    
+    for (size_t i = 0; i < path.size(); ++i)
+        result[i] = path[i] == '\\' ? '/' : path[i];
+    
+    return result;
+}
+
+std::string extra_containing_folder(const std::string &path) {
+    std::string result;
+    
+    bool extraction = false;
+    
+    for (auto it = path.rbegin(); it != path.rend(); ++it) {
+        if (extraction)
+            result += *it;
+        
+        if (!extraction && it != path.rbegin() && (*it == '\\' || *it == '/'))
+            extraction = true;
+    }
+    
+    std::reverse(result.begin(), result.end());
+    
+    if (!result.empty() && result.back() != '\\')
+        result += '\\';
+    
+    return result;
+}
+
+std::string extra_element_name(const std::string &p) {
+    std::string result;
+    
+    std::string path = p;
+    if (!path.empty() && path.back() == '\\')
+        path.pop_back();
+    
+    for (auto it = path.rbegin(); it != path.rend() && *it != '\\' && *it != '/'; ++it)
+        result += *it;
+    
+    std::reverse(result.begin(), result.end());
+    
+    return result;
+}
+
 std::string extra_extension(const std::string &uri) {
     auto dot_pos = uri.find_last_of('.');
     if (dot_pos == std::string::npos) {
@@ -213,31 +269,31 @@ std::string extra_extension(const std::string &uri) {
 
 std::string file_type_to_string(FileType file_type) {
     switch (file_type) {
-        case FileType::MODEL:      return "Model";
-        case FileType::TEXTURE:    return "Texture";
-        case FileType::SHADER:     return "Shader";
-        case FileType::MATERIAL:   return "Material";
-        case FileType::SOUND:      return "Sound";
-        case FileType::SCENE:      return "Scene";
-        case FileType::SCRIPT:     return "Script";
-        case FileType::FONT:       return "Font";
-        default:                   return "Unknown";
+        case FileType::MODEL: return "Model";
+        case FileType::TEXTURE: return "Texture";
+        case FileType::SHADER: return "Shader";
+        case FileType::MATERIAL: return "Material";
+        case FileType::SOUND: return "Sound";
+        case FileType::SCENE: return "Scene";
+        case FileType::SCRIPT: return "Script";
+        case FileType::FONT: return "Font";
+        default: return "Unknown";
     }
 }
 
-FileType extra_file_type(const std::string& path) {
+FileType extra_file_type(const std::string &path) {
     std::string ext = extra_extension(path);
     std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
-
-    if (ext == "fbx" || ext == "obj" || ext == "gltf")                          return FileType::MODEL;
-    else if (ext == "png" || ext == "jpeg" || ext == "jpg" || ext == "ktx")     return FileType::TEXTURE;
-    else if (ext == "glsl" || ext == "comp" || ext == "vert" || ext == "frag")  return FileType::SHADER;
-    else if (ext == "mat")                                                      return FileType::MATERIAL;
-    else if (ext == "wav" || ext == "mp3" || ext == "ogg")                      return FileType::SOUND;
-    else if (ext == "scene")                                                    return FileType::SCENE;
-    else if (ext == "lua")                                                      return FileType::SCRIPT;
-    else if (ext == "ttf")                                                      return FileType::FONT;
-
+    
+    if (ext == "fbx" || ext == "obj" || ext == "gltf") return FileType::MODEL;
+    else if (ext == "png" || ext == "jpeg" || ext == "jpg" || ext == "ktx") return FileType::TEXTURE;
+    else if (ext == "glsl" || ext == "comp" || ext == "vert" || ext == "frag") return FileType::SHADER;
+    else if (ext == "mat") return FileType::MATERIAL;
+    else if (ext == "wav" || ext == "mp3" || ext == "ogg") return FileType::SOUND;
+    else if (ext == "scene") return FileType::SCENE;
+    else if (ext == "lua") return FileType::SCRIPT;
+    else if (ext == "ttf") return FileType::FONT;
+    
     return FileType::UNKNOWN;
 }
 
