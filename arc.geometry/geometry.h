@@ -55,8 +55,7 @@ protected:
     ///
     /// \param type Specifies the type of geometry of the object constructed.
     /// \param dimension Specifies whether the dimension is 2D or 3D.
-    Geometry(GeometryType type, int dimension)
-        : geometry_type_(type), dimension_(dimension) {}
+    Geometry(GeometryType type, int dimension) : geometry_type_(type), dimension_(dimension) {}
 
 public:
     /// Clear all elements in the geometry.
@@ -83,4 +82,4 @@ private:
     std::string name_;
 };
 
-}  // namespace arc
+}  // namespace arc::geometry

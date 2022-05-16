@@ -12,8 +12,8 @@
 #include <utility>
 #include <vector>
 
-#include "mesh_base.h"
 #include "eigen.h"
+#include "mesh_base.h"
 //#include "open3d/utility/Helper.h"
 
 namespace arc::geometry {
@@ -36,8 +36,7 @@ public:
     /// tetra.
     TetraMesh(const std::vector<Eigen::Vector3d> &vertices,
               std::vector<Eigen::Vector4i, utility::Vector4i_allocator> tetras)
-        : MeshBase(Geometry::GeometryType::TETRA_MESH, vertices),
-          tetras_(std::move(tetras)) {}
+        : MeshBase(Geometry::GeometryType::TETRA_MESH, vertices), tetras_(std::move(tetras)) {}
     ~TetraMesh() override = default;
 
 public:
@@ -66,9 +65,7 @@ public:
     TetraMesh &RemoveDegenerateTetras();
 
     /// Returns `true` if the mesh contains tetras.
-    [[nodiscard]] bool HasTetras() const {
-        return !vertices_.empty() && !tetras_.empty();
-    }
+    [[nodiscard]] bool HasTetras() const { return !vertices_.empty() && !tetras_.empty(); }
 
     /// \brief Function to extract a triangle mesh of the specified iso-surface
     /// at a level This method applies primal contouring and generates triangles
@@ -76,16 +73,15 @@ public:
     ///
     /// \param level specifies the level.
     /// \param values specifies values per-vertex.
-    std::shared_ptr<TriangleMesh> ExtractTriangleMesh(
-            const std::vector<double> &values, double level);
+    std::shared_ptr<TriangleMesh> ExtractTriangleMesh(const std::vector<double> &values, double level);
 
     /// \brief Function that creates a tetrahedral mesh (TetraMeshFactory.cpp).
     /// from a point cloud.
     ///
     /// The method creates the Delaunay triangulation
     /// using the implementation from Qhull.
-    static std::tuple<std::shared_ptr<TetraMesh>, std::vector<size_t>>
-    CreateFromPointCloud(const PointCloud &point_cloud);
+    static std::tuple<std::shared_ptr<TetraMesh>, std::vector<size_t>> CreateFromPointCloud(
+            const PointCloud &point_cloud);
 
 protected:
     // Forward child class type to avoid indirect nonvirtual base
@@ -96,4 +92,4 @@ public:
     std::vector<Eigen::Vector4i, utility::Vector4i_allocator> tetras_;
 };
 
-}  // namespace arc
+}  // namespace arc::geometry

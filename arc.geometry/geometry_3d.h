@@ -48,8 +48,7 @@ public:
     [[nodiscard]] virtual Eigen::Vector3d GetCenter() const = 0;
 
     /// Returns an axis-aligned bounding box of the geometry.
-    [[nodiscard]] virtual AxisAlignedBoundingBox GetAxisAlignedBoundingBox()
-            const = 0;
+    [[nodiscard]] virtual AxisAlignedBoundingBox GetAxisAlignedBoundingBox() const = 0;
 
     /// Computes the oriented bounding box based on the PCA of the convex hull.
     /// The returned bounding box is an approximation to the minimal bounding
@@ -57,8 +56,7 @@ public:
     /// \param robust If set to true uses a more robust method which works
     ///               in degenerate cases but introduces noise to the points
     ///               coordinates.
-    [[nodiscard]] virtual OrientedBoundingBox GetOrientedBoundingBox(
-            bool robust = false) const = 0;
+    [[nodiscard]] virtual OrientedBoundingBox GetOrientedBoundingBox(bool robust = false) const = 0;
 
     /// \brief Apply transformation (4x4 matrix) to the geometry coordinates.
     virtual Geometry3D& Transform(const Eigen::Matrix4d& transformation) = 0;
@@ -68,8 +66,7 @@ public:
     /// \param translation A 3D vector to transform the geometry.
     /// \param relative If `true`, the \p translation is directly applied to the
     /// geometry. Otherwise, the geometry center is moved to the \p translation.
-    virtual Geometry3D& Translate(const Eigen::Vector3d& translation,
-                                  bool relative = true) = 0;
+    virtual Geometry3D& Translate(const Eigen::Vector3d& translation, bool relative = true) = 0;
 
     /// \brief Apply scaling to the geometry coordinates.
     /// Given a scaling factor \f$s\f$, and center \f$c\f$, a given point
@@ -86,55 +83,43 @@ public:
     ///
     /// \param R A 3x3 rotation matrix
     /// \param center Rotation center that is used for the rotation.
-    virtual Geometry3D& Rotate(const Eigen::Matrix3d& R,
-                               const Eigen::Vector3d& center) = 0;
+    virtual Geometry3D& Rotate(const Eigen::Matrix3d& R, const Eigen::Vector3d& center) = 0;
 
     virtual Geometry3D& Rotate(const Eigen::Matrix3d& R);
 
     /// Get Rotation Matrix from XYZ RotationType.
-    static Eigen::Matrix3d GetRotationMatrixFromXYZ(
-            const Eigen::Vector3d& rotation);
+    static Eigen::Matrix3d GetRotationMatrixFromXYZ(const Eigen::Vector3d& rotation);
 
     /// Get Rotation Matrix from YZX RotationType.
-    static Eigen::Matrix3d GetRotationMatrixFromYZX(
-            const Eigen::Vector3d& rotation);
+    static Eigen::Matrix3d GetRotationMatrixFromYZX(const Eigen::Vector3d& rotation);
 
     /// Get Rotation Matrix from ZXY RotationType.
-    static Eigen::Matrix3d GetRotationMatrixFromZXY(
-            const Eigen::Vector3d& rotation);
+    static Eigen::Matrix3d GetRotationMatrixFromZXY(const Eigen::Vector3d& rotation);
 
     /// Get Rotation Matrix from XZY RotationType.
-    static Eigen::Matrix3d GetRotationMatrixFromXZY(
-            const Eigen::Vector3d& rotation);
+    static Eigen::Matrix3d GetRotationMatrixFromXZY(const Eigen::Vector3d& rotation);
 
     /// Get Rotation Matrix from ZYX RotationType.
-    static Eigen::Matrix3d GetRotationMatrixFromZYX(
-            const Eigen::Vector3d& rotation);
+    static Eigen::Matrix3d GetRotationMatrixFromZYX(const Eigen::Vector3d& rotation);
 
     /// Get Rotation Matrix from YXZ RotationType.
-    static Eigen::Matrix3d GetRotationMatrixFromYXZ(
-            const Eigen::Vector3d& rotation);
+    static Eigen::Matrix3d GetRotationMatrixFromYXZ(const Eigen::Vector3d& rotation);
 
     /// Get Rotation Matrix from AxisAngle RotationType.
-    static Eigen::Matrix3d GetRotationMatrixFromAxisAngle(
-            const Eigen::Vector3d& rotation);
+    static Eigen::Matrix3d GetRotationMatrixFromAxisAngle(const Eigen::Vector3d& rotation);
 
     /// Get Rotation Matrix from Quaternion.
-    static Eigen::Matrix3d GetRotationMatrixFromQuaternion(
-            const Eigen::Vector4d& rotation);
+    static Eigen::Matrix3d GetRotationMatrixFromQuaternion(const Eigen::Vector4d& rotation);
 
 protected:
     /// Compute min bound of a list points.
-    [[nodiscard]] static Eigen::Vector3d ComputeMinBound(
-            const std::vector<Eigen::Vector3d>& points);
+    [[nodiscard]] static Eigen::Vector3d ComputeMinBound(const std::vector<Eigen::Vector3d>& points);
 
     /// Compute max bound of a list points.
-    [[nodiscard]] static Eigen::Vector3d ComputeMaxBound(
-            const std::vector<Eigen::Vector3d>& points);
+    [[nodiscard]] static Eigen::Vector3d ComputeMaxBound(const std::vector<Eigen::Vector3d>& points);
 
     /// Computer center of a list of points.
-    [[nodiscard]] static Eigen::Vector3d ComputeCenter(
-            const std::vector<Eigen::Vector3d>& points);
+    [[nodiscard]] static Eigen::Vector3d ComputeCenter(const std::vector<Eigen::Vector3d>& points);
 
     /// \brief Resizes the colors vector and paints a uniform color.
     ///
@@ -149,22 +134,19 @@ protected:
     ///
     /// \param transformation 4x4 matrix for transformation.
     /// \param points A list of points to be transformed.
-    static void TransformPoints(const Eigen::Matrix4d& transformation,
-                                std::vector<Eigen::Vector3d>& points);
+    static void TransformPoints(const Eigen::Matrix4d& transformation, std::vector<Eigen::Vector3d>& points);
 
     /// \brief Transforms the normals with the transformation matrix.
     ///
     /// \param transformation 4x4 matrix for transformation.
     /// \param normals A list of normals to be transformed.
-    static void TransformNormals(const Eigen::Matrix4d& transformation,
-                                 std::vector<Eigen::Vector3d>& normals);
+    static void TransformNormals(const Eigen::Matrix4d& transformation, std::vector<Eigen::Vector3d>& normals);
 
     /// \brief Transforms all covariance matrices with the transformation.
     ///
     /// \param transformation 4x4 matrix for transformation.
     /// \param covariances A list of covariance matrices to be transformed.
-    static void TransformCovariances(const Eigen::Matrix4d& transformation,
-                                     std::vector<Eigen::Matrix3d>& covariances);
+    static void TransformCovariances(const Eigen::Matrix4d& transformation, std::vector<Eigen::Matrix3d>& covariances);
 
     /// \brief Apply translation to the geometry coordinates.
     ///
@@ -183,9 +165,7 @@ protected:
     /// \param scale The scale factor that is used to resize the geometry
     /// \param points A list of points to be transformed
     /// \param center Scale center that is used to resize the geometry..
-    static void ScalePoints(double scale,
-                            std::vector<Eigen::Vector3d>& points,
-                            const Eigen::Vector3d& center);
+    static void ScalePoints(double scale, std::vector<Eigen::Vector3d>& points, const Eigen::Vector3d& center);
 
     /// \brief Rotate all points with the rotation matrix \p R.
     ///
@@ -201,15 +181,13 @@ protected:
     ///
     /// \param R A 3x3 rotation matrix
     /// \param normals A list of normals to be transformed.
-    static void RotateNormals(const Eigen::Matrix3d& R,
-                              std::vector<Eigen::Vector3d>& normals);
+    static void RotateNormals(const Eigen::Matrix3d& R, std::vector<Eigen::Vector3d>& normals);
 
     /// \brief Rotate all covariance matrices with the rotation matrix \p R.
     ///
     /// \param R A 3x3 rotation matrix
     /// \param covariances A list of covariance matrices to be transformed.
-    static void RotateCovariances(const Eigen::Matrix3d& R,
-                                  std::vector<Eigen::Matrix3d>& covariances);
+    static void RotateCovariances(const Eigen::Matrix3d& R, std::vector<Eigen::Matrix3d>& covariances);
 };
 
 }  // namespace arc::geometry

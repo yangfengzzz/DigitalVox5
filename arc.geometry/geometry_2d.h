@@ -36,4 +36,4 @@ public:
     [[nodiscard]] virtual Eigen::Vector2d GetMaxBound() const = 0;
 };
 
-}  // namespace arc
+}  // namespace arc::geometry

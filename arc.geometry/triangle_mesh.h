@@ -15,8 +15,8 @@
 #include <utility>
 #include <vector>
 
-#include "image.h"
 #include "helper.h"
+#include "image.h"
 #include "mesh_base.h"
 
 namespace arc::geometry {
