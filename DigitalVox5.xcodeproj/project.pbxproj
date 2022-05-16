@@ -515,6 +515,37 @@
 		04AAD9BA2816A44E00121576 /* shadow_subpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AAD9B82816A44E00121576 /* shadow_subpass.h */; };
 		04AAD9BD2817717E00121576 /* shadowmap_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9BB2817717E00121576 /* shadowmap_app.cpp */; };
 		04AAD9C02817739500121576 /* cascade_shadowmap_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9BE2817739500121576 /* cascade_shadowmap_app.cpp */; };
+		04B762302832285700FE2C5C /* unit_tests_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762102832285500FE2C5C /* unit_tests_utils.cpp */; };
+		04B762312832285700FE2C5C /* quadtree_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762112832285500FE2C5C /* quadtree_tests.cpp */; };
+		04B762322832285700FE2C5C /* vector4_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762122832285500FE2C5C /* vector4_tests.cpp */; };
+		04B762332832285700FE2C5C /* ray2_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762132832285500FE2C5C /* ray2_tests.cpp */; };
+		04B762342832285700FE2C5C /* transform2_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762152832285500FE2C5C /* transform2_tests.cpp */; };
+		04B762352832285700FE2C5C /* point2_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762162832285500FE2C5C /* point2_tests.cpp */; };
+		04B762362832285700FE2C5C /* vector_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762172832285600FE2C5C /* vector_tests.cpp */; };
+		04B762372832285700FE2C5C /* bounding_box_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762182832285600FE2C5C /* bounding_box_tests.cpp */; };
+		04B762382832285700FE2C5C /* color_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762192832285600FE2C5C /* color_tests.cpp */; };
+		04B762392832285700FE2C5C /* ray3_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7621A2832285600FE2C5C /* ray3_tests.cpp */; };
+		04B7623A2832285700FE2C5C /* list_query_engine3_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7621B2832285600FE2C5C /* list_query_engine3_tests.cpp */; };
+		04B7623B2832285700FE2C5C /* matrix2x2_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7621C2832285600FE2C5C /* matrix2x2_tests.cpp */; };
+		04B7623C2832285700FE2C5C /* transform3_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7621D2832285600FE2C5C /* transform3_tests.cpp */; };
+		04B7623D2832285700FE2C5C /* math_utils_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7621E2832285600FE2C5C /* math_utils_tests.cpp */; };
+		04B7623E2832285700FE2C5C /* bvh3_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7621F2832285600FE2C5C /* bvh3_tests.cpp */; };
+		04B7623F2832285700FE2C5C /* vector3_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762202832285600FE2C5C /* vector3_tests.cpp */; };
+		04B762402832285700FE2C5C /* matrix_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762212832285600FE2C5C /* matrix_tests.cpp */; };
+		04B762412832285700FE2C5C /* bvh2_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762222832285600FE2C5C /* bvh2_tests.cpp */; };
+		04B762422832285700FE2C5C /* matrix3x3_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762232832285600FE2C5C /* matrix3x3_tests.cpp */; };
+		04B762432832285700FE2C5C /* quaternion_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762242832285600FE2C5C /* quaternion_tests.cpp */; };
+		04B762442832285700FE2C5C /* octree_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762252832285600FE2C5C /* octree_tests.cpp */; };
+		04B762452832285700FE2C5C /* matrix4x4_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762262832285700FE2C5C /* matrix4x4_tests.cpp */; };
+		04B762462832285700FE2C5C /* list_query_engine2_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762272832285700FE2C5C /* list_query_engine2_tests.cpp */; };
+		04B762472832285700FE2C5C /* point_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762282832285700FE2C5C /* point_tests.cpp */; };
+		04B762482832285700FE2C5C /* bounding_frustum_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B762292832285700FE2C5C /* bounding_frustum_tests.cpp */; };
+		04B762492832285700FE2C5C /* bounding_box2_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7622A2832285700FE2C5C /* bounding_box2_tests.cpp */; };
+		04B7624A2832285700FE2C5C /* vector2_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7622B2832285700FE2C5C /* vector2_tests.cpp */; };
+		04B7624B2832285700FE2C5C /* bounding_box3_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7622C2832285700FE2C5C /* bounding_box3_tests.cpp */; };
+		04B7624C2832285700FE2C5C /* point3_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7622E2832285700FE2C5C /* point3_tests.cpp */; };
+		04B7624D2832285700FE2C5C /* collision_util_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7622F2832285700FE2C5C /* collision_util_tests.cpp */; };
+		04B762502832295700FE2C5C /* libvox.math.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 047BB5DF2803A9B700CD5749 /* libvox.math.a */; };
 		04D95C192808EE0500E54DC2 /* device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C152808EE0500E54DC2 /* device.cpp */; };
 		04D95C1A2808EE0500E54DC2 /* scratch_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */; };
 		04D95C1B2808EE0500E54DC2 /* scratch_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C172808EE0500E54DC2 /* scratch_buffer.h */; };
@@ -746,6 +777,13 @@
 			remoteGlobalIDString = 04523E27281CC4920079CC3C;
 			remoteInfo = vox.editor;
 		};
+		04B7624E2832295400FE2C5C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 047BB5DE2803A9B700CD5749;
+			remoteInfo = vox.math;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -759,6 +797,15 @@
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		047BB5C02803A96500CD5749 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		04B762062832279400FE2C5C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -1301,6 +1348,39 @@
 		04AAD9BC2817717E00121576 /* shadowmap_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shadowmap_app.h; sourceTree = "<group>"; };
 		04AAD9BE2817739500121576 /* cascade_shadowmap_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cascade_shadowmap_app.cpp; sourceTree = "<group>"; };
 		04AAD9BF2817739500121576 /* cascade_shadowmap_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cascade_shadowmap_app.h; sourceTree = "<group>"; };
+		04B762082832279400FE2C5C /* test.math */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test.math; sourceTree = BUILT_PRODUCTS_DIR; };
+		04B7620F2832285500FE2C5C /* unit_tests_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unit_tests_utils.h; sourceTree = "<group>"; };
+		04B762102832285500FE2C5C /* unit_tests_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unit_tests_utils.cpp; sourceTree = "<group>"; };
+		04B762112832285500FE2C5C /* quadtree_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = quadtree_tests.cpp; sourceTree = "<group>"; };
+		04B762122832285500FE2C5C /* vector4_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector4_tests.cpp; sourceTree = "<group>"; };
+		04B762132832285500FE2C5C /* ray2_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ray2_tests.cpp; sourceTree = "<group>"; };
+		04B762152832285500FE2C5C /* transform2_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = transform2_tests.cpp; sourceTree = "<group>"; };
+		04B762162832285500FE2C5C /* point2_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = point2_tests.cpp; sourceTree = "<group>"; };
+		04B762172832285600FE2C5C /* vector_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector_tests.cpp; sourceTree = "<group>"; };
+		04B762182832285600FE2C5C /* bounding_box_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bounding_box_tests.cpp; sourceTree = "<group>"; };
+		04B762192832285600FE2C5C /* color_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = color_tests.cpp; sourceTree = "<group>"; };
+		04B7621A2832285600FE2C5C /* ray3_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ray3_tests.cpp; sourceTree = "<group>"; };
+		04B7621B2832285600FE2C5C /* list_query_engine3_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = list_query_engine3_tests.cpp; sourceTree = "<group>"; };
+		04B7621C2832285600FE2C5C /* matrix2x2_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = matrix2x2_tests.cpp; sourceTree = "<group>"; };
+		04B7621D2832285600FE2C5C /* transform3_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = transform3_tests.cpp; sourceTree = "<group>"; };
+		04B7621E2832285600FE2C5C /* math_utils_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = math_utils_tests.cpp; sourceTree = "<group>"; };
+		04B7621F2832285600FE2C5C /* bvh3_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bvh3_tests.cpp; sourceTree = "<group>"; };
+		04B762202832285600FE2C5C /* vector3_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector3_tests.cpp; sourceTree = "<group>"; };
+		04B762212832285600FE2C5C /* matrix_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = matrix_tests.cpp; sourceTree = "<group>"; };
+		04B762222832285600FE2C5C /* bvh2_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bvh2_tests.cpp; sourceTree = "<group>"; };
+		04B762232832285600FE2C5C /* matrix3x3_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = matrix3x3_tests.cpp; sourceTree = "<group>"; };
+		04B762242832285600FE2C5C /* quaternion_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = quaternion_tests.cpp; sourceTree = "<group>"; };
+		04B762252832285600FE2C5C /* octree_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = octree_tests.cpp; sourceTree = "<group>"; };
+		04B762262832285700FE2C5C /* matrix4x4_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = matrix4x4_tests.cpp; sourceTree = "<group>"; };
+		04B762272832285700FE2C5C /* list_query_engine2_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = list_query_engine2_tests.cpp; sourceTree = "<group>"; };
+		04B762282832285700FE2C5C /* point_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = point_tests.cpp; sourceTree = "<group>"; };
+		04B762292832285700FE2C5C /* bounding_frustum_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bounding_frustum_tests.cpp; sourceTree = "<group>"; };
+		04B7622A2832285700FE2C5C /* bounding_box2_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bounding_box2_tests.cpp; sourceTree = "<group>"; };
+		04B7622B2832285700FE2C5C /* vector2_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector2_tests.cpp; sourceTree = "<group>"; };
+		04B7622C2832285700FE2C5C /* bounding_box3_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bounding_box3_tests.cpp; sourceTree = "<group>"; };
+		04B7622D2832285700FE2C5C /* test.math.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = test.math.entitlements; sourceTree = "<group>"; };
+		04B7622E2832285700FE2C5C /* point3_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = point3_tests.cpp; sourceTree = "<group>"; };
+		04B7622F2832285700FE2C5C /* collision_util_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = collision_util_tests.cpp; sourceTree = "<group>"; };
 		04D95C152808EE0500E54DC2 /* device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device.cpp; sourceTree = "<group>"; };
 		04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scratch_buffer.cpp; sourceTree = "<group>"; };
 		04D95C172808EE0500E54DC2 /* scratch_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch_buffer.h; sourceTree = "<group>"; };
@@ -1538,6 +1618,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04B762052832279400FE2C5C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04B762502832295700FE2C5C /* libvox.math.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2190,6 +2278,7 @@
 			isa = PBXGroup;
 			children = (
 				047BB5E02803A9B700CD5749 /* vox.math */,
+				04B762092832279500FE2C5C /* test.math */,
 				047BB5D12803A99E00CD5749 /* vox.render */,
 				047BB5C42803A96500CD5749 /* apps */,
 				04523E29281CC4920079CC3C /* vox.editor */,
@@ -2207,6 +2296,7 @@
 				047BB5DF2803A9B700CD5749 /* libvox.math.a */,
 				04523DC3281BB0C30079CC3C /* editor */,
 				04523E28281CC4920079CC3C /* libvox.editor.a */,
+				04B762082832279400FE2C5C /* test.math */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2458,6 +2548,45 @@
 				049A9D812818F6EF001937A7 /* cluster_debug_material.cpp */,
 			);
 			path = debug;
+			sourceTree = "<group>";
+		};
+		04B762092832279500FE2C5C /* test.math */ = {
+			isa = PBXGroup;
+			children = (
+				04B7620F2832285500FE2C5C /* unit_tests_utils.h */,
+				04B762102832285500FE2C5C /* unit_tests_utils.cpp */,
+				04B7622D2832285700FE2C5C /* test.math.entitlements */,
+				04B7621E2832285600FE2C5C /* math_utils_tests.cpp */,
+				04B762282832285700FE2C5C /* point_tests.cpp */,
+				04B762162832285500FE2C5C /* point2_tests.cpp */,
+				04B7622E2832285700FE2C5C /* point3_tests.cpp */,
+				04B762172832285600FE2C5C /* vector_tests.cpp */,
+				04B7622B2832285700FE2C5C /* vector2_tests.cpp */,
+				04B762202832285600FE2C5C /* vector3_tests.cpp */,
+				04B762122832285500FE2C5C /* vector4_tests.cpp */,
+				04B762192832285600FE2C5C /* color_tests.cpp */,
+				04B762212832285600FE2C5C /* matrix_tests.cpp */,
+				04B7621C2832285600FE2C5C /* matrix2x2_tests.cpp */,
+				04B762232832285600FE2C5C /* matrix3x3_tests.cpp */,
+				04B762262832285700FE2C5C /* matrix4x4_tests.cpp */,
+				04B762242832285600FE2C5C /* quaternion_tests.cpp */,
+				04B762152832285500FE2C5C /* transform2_tests.cpp */,
+				04B7621D2832285600FE2C5C /* transform3_tests.cpp */,
+				04B762132832285500FE2C5C /* ray2_tests.cpp */,
+				04B7621A2832285600FE2C5C /* ray3_tests.cpp */,
+				04B762182832285600FE2C5C /* bounding_box_tests.cpp */,
+				04B7622A2832285700FE2C5C /* bounding_box2_tests.cpp */,
+				04B7622C2832285700FE2C5C /* bounding_box3_tests.cpp */,
+				04B762292832285700FE2C5C /* bounding_frustum_tests.cpp */,
+				04B7622F2832285700FE2C5C /* collision_util_tests.cpp */,
+				04B762272832285700FE2C5C /* list_query_engine2_tests.cpp */,
+				04B7621B2832285600FE2C5C /* list_query_engine3_tests.cpp */,
+				04B762112832285500FE2C5C /* quadtree_tests.cpp */,
+				04B762252832285600FE2C5C /* octree_tests.cpp */,
+				04B762222832285600FE2C5C /* bvh2_tests.cpp */,
+				04B7621F2832285600FE2C5C /* bvh3_tests.cpp */,
+			);
+			path = test.math;
 			sourceTree = "<group>";
 		};
 		04D95C412809B24700E54DC2 /* controls */ = {
@@ -3278,6 +3407,24 @@
 			productReference = 047BB5DF2803A9B700CD5749 /* libvox.math.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		04B762072832279400FE2C5C /* test.math */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04B7620C2832279500FE2C5C /* Build configuration list for PBXNativeTarget "test.math" */;
+			buildPhases = (
+				04B762042832279400FE2C5C /* Sources */,
+				04B762052832279400FE2C5C /* Frameworks */,
+				04B762062832279400FE2C5C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04B7624F2832295400FE2C5C /* PBXTargetDependency */,
+			);
+			name = test.math;
+			productName = test.math;
+			productReference = 04B762082832279400FE2C5C /* test.math */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -3302,6 +3449,9 @@
 					047BB5DE2803A9B700CD5749 = {
 						CreatedOnToolsVersion = 13.3;
 					};
+					04B762072832279400FE2C5C = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
 				};
 			};
 			buildConfigurationList = 047BB5BD2803A96500CD5749 /* Build configuration list for PBXProject "DigitalVox5" */;
@@ -3318,6 +3468,7 @@
 			projectRoot = "";
 			targets = (
 				047BB5DE2803A9B700CD5749 /* vox.math */,
+				04B762072832279400FE2C5C /* test.math */,
 				047BB5CF2803A99E00CD5749 /* vox.render */,
 				047BB5C12803A96500CD5749 /* apps */,
 				04523E27281CC4920079CC3C /* vox.editor */,
@@ -3645,6 +3796,43 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		04B762042832279400FE2C5C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04B762492832285700FE2C5C /* bounding_box2_tests.cpp in Sources */,
+				04B7623E2832285700FE2C5C /* bvh3_tests.cpp in Sources */,
+				04B762312832285700FE2C5C /* quadtree_tests.cpp in Sources */,
+				04B762362832285700FE2C5C /* vector_tests.cpp in Sources */,
+				04B762352832285700FE2C5C /* point2_tests.cpp in Sources */,
+				04B7623D2832285700FE2C5C /* math_utils_tests.cpp in Sources */,
+				04B7623B2832285700FE2C5C /* matrix2x2_tests.cpp in Sources */,
+				04B762342832285700FE2C5C /* transform2_tests.cpp in Sources */,
+				04B762482832285700FE2C5C /* bounding_frustum_tests.cpp in Sources */,
+				04B762392832285700FE2C5C /* ray3_tests.cpp in Sources */,
+				04B762322832285700FE2C5C /* vector4_tests.cpp in Sources */,
+				04B762462832285700FE2C5C /* list_query_engine2_tests.cpp in Sources */,
+				04B7624D2832285700FE2C5C /* collision_util_tests.cpp in Sources */,
+				04B762302832285700FE2C5C /* unit_tests_utils.cpp in Sources */,
+				04B7624C2832285700FE2C5C /* point3_tests.cpp in Sources */,
+				04B7623F2832285700FE2C5C /* vector3_tests.cpp in Sources */,
+				04B7623C2832285700FE2C5C /* transform3_tests.cpp in Sources */,
+				04B7624B2832285700FE2C5C /* bounding_box3_tests.cpp in Sources */,
+				04B762402832285700FE2C5C /* matrix_tests.cpp in Sources */,
+				04B762422832285700FE2C5C /* matrix3x3_tests.cpp in Sources */,
+				04B762412832285700FE2C5C /* bvh2_tests.cpp in Sources */,
+				04B762452832285700FE2C5C /* matrix4x4_tests.cpp in Sources */,
+				04B7623A2832285700FE2C5C /* list_query_engine3_tests.cpp in Sources */,
+				04B7624A2832285700FE2C5C /* vector2_tests.cpp in Sources */,
+				04B762332832285700FE2C5C /* ray2_tests.cpp in Sources */,
+				04B762432832285700FE2C5C /* quaternion_tests.cpp in Sources */,
+				04B762472832285700FE2C5C /* point_tests.cpp in Sources */,
+				04B762372832285700FE2C5C /* bounding_box_tests.cpp in Sources */,
+				04B762382832285700FE2C5C /* color_tests.cpp in Sources */,
+				04B762442832285700FE2C5C /* octree_tests.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -3687,6 +3875,11 @@
 			isa = PBXTargetDependency;
 			target = 04523E27281CC4920079CC3C /* vox.editor */;
 			targetProxy = 04523EA1281D78C60079CC3C /* PBXContainerItemProxy */;
+		};
+		04B7624F2832295400FE2C5C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 047BB5DE2803A9B700CD5749 /* vox.math */;
+			targetProxy = 04B7624E2832295400FE2C5C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4634,6 +4827,48 @@
 			};
 			name = Release;
 		};
+		04B7620D2832279500FE2C5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4SL5L673UU;
+				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = ./vox.math;
+				LIBRARY_SEARCH_PATHS = ./third_party/googletest/build/lib;
+				OTHER_LDFLAGS = (
+					"-lgtest",
+					"-lgtest_main",
+					"-lgmock",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					./third_party/googletest/googlemock/include,
+					./third_party/googletest/googletest/include,
+				);
+			};
+			name = Debug;
+		};
+		04B7620E2832279500FE2C5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4SL5L673UU;
+				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = ./vox.math;
+				LIBRARY_SEARCH_PATHS = ./third_party/googletest/build/lib;
+				OTHER_LDFLAGS = (
+					"-lgtest",
+					"-lgtest_main",
+					"-lgmock",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					./third_party/googletest/googlemock/include,
+					./third_party/googletest/googletest/include,
+				);
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4687,6 +4922,15 @@
 			buildConfigurations = (
 				047BB5E82803A9B700CD5749 /* Debug */,
 				047BB5E92803A9B700CD5749 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04B7620C2832279500FE2C5C /* Build configuration list for PBXNativeTarget "test.math" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04B7620D2832279500FE2C5C /* Debug */,
+				04B7620E2832279500FE2C5C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

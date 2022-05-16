@@ -7,27 +7,32 @@
 		<key>apps.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>3</integer>
 		</dict>
 		<key>editor.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>5</integer>
 		</dict>
-		<key>vox.editor.xcscheme_^#shared#^_</key>
+		<key>test.math.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>vox.math.xcscheme_^#shared#^_</key>
+		<key>vox.editor.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
+		<key>vox.math.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
 		<key>vox.render.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -38,6 +43,21 @@
 			<true/>
 		</dict>
 		<key>04523E27281CC4920079CC3C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>047BB5CF2803A99E00CD5749</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>047BB5DE2803A9B700CD5749</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>04B762072832279400FE2C5C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -49,11 +49,12 @@ add_subdirectory(third_party)
 
 # Add math library
 add_subdirectory(vox.math)
+add_subdirectory(test.math)
 
 # Add render framework
 add_subdirectory(vox.render)
-add_subdirectory(vox.editor)
-
-# Add apps
 add_subdirectory(apps)
+
+# Add editor
+add_subdirectory(vox.editor)
 add_subdirectory(editor)
