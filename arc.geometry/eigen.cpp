@@ -1,28 +1,8 @@
-// ----------------------------------------------------------------------------
-// -                        Open3D: www.open3d.org                            -
-// ----------------------------------------------------------------------------
-// The MIT License (MIT)
+//  Copyright (c) 2022 Feng Yang
 //
-// Copyright (c) 2018-2021 www.open3d.org
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-// IN THE SOFTWARE.
-// ----------------------------------------------------------------------------
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
 #include "eigen.h"
 
@@ -31,8 +11,7 @@
 
 #include "logging.h"
 
-namespace arc {
-namespace utility {
+namespace arc::utility {
 
 /// Function to solve Ax=b
 std::tuple<bool, Eigen::VectorXd> SolveLinearSystemPSD(
@@ -45,14 +24,14 @@ std::tuple<bool, Eigen::VectorXd> SolveLinearSystemPSD(
     // PSD implies symmetric
     check_symmetric = check_symmetric || check_psd;
     if (check_symmetric && !A.isApprox(A.transpose())) {
-        LOGW("check_symmetric failed, empty vector will be returned");
+        LOGW("check_symmetric failed, empty vector will be returned")
         return std::make_tuple(false, Eigen::VectorXd::Zero(b.rows()));
     }
 
     if (check_det) {
         double det = A.determinant();
         if (fabs(det) < 1e-6 || std::isnan(det) || std::isinf(det)) {
-            LOGW("check_det failed, empty vector will be returned");
+            LOGW("check_det failed, empty vector will be returned")
             return std::make_tuple(false, Eigen::VectorXd::Zero(b.rows()));
         }
     }
@@ -61,7 +40,7 @@ std::tuple<bool, Eigen::VectorXd> SolveLinearSystemPSD(
     if (check_psd) {
         Eigen::LLT<Eigen::MatrixXd> A_llt(A);
         if (A_llt.info() == Eigen::NumericalIssue) {
-            LOGW("check_psd failed, empty vector will be returned");
+            LOGW("check_psd failed, empty vector will be returned")
             return std::make_tuple(false, Eigen::VectorXd::Zero(b.rows()));
         }
     }
@@ -79,10 +58,10 @@ std::tuple<bool, Eigen::VectorXd> SolveLinearSystemPSD(
                 // Both decompose and solve are successful
                 return std::make_tuple(true, std::move(x));
             } else {
-                LOGW("Cholesky solve failed, switched to dense solver");
+                LOGW("Cholesky solve failed, switched to dense solver")
             }
         } else {
-            LOGW("Cholesky decompose failed, switched to dense solver");
+            LOGW("Cholesky decompose failed, switched to dense solver")
         }
     }
 
@@ -106,7 +85,7 @@ Eigen::Vector6d TransformMatrix4dToVector6d(const Eigen::Matrix4d &input) {
     Eigen::Vector6d output;
     Eigen::Matrix3d R = input.block<3, 3>(0, 0);
     double sy = sqrt(R(0, 0) * R(0, 0) + R(1, 0) * R(1, 0));
-    if (!(sy < 1e-6)) {
+    if (sy >= 1e-6) {
         output(0) = atan2(R(2, 1), R(2, 2));
         output(1) = atan2(-R(2, 0), sy);
         output(2) = atan2(R(1, 0), R(0, 0));
@@ -139,7 +118,7 @@ SolveJacobianSystemAndObtainExtrinsicMatrixArray(const Eigen::MatrixXd &JTJ,
     output_matrix_array.clear();
     if (JTJ.rows() != JTr.rows() || JTJ.cols() % 6 != 0) {
         LOGW("[SolveJacobianSystemAndObtainExtrinsicMatrixArray] "
-             "Unsupported matrix format.");
+             "Unsupported matrix format.")
         return std::make_tuple(false, std::move(output_matrix_array));
     }
 
@@ -197,7 +176,7 @@ std::tuple<MatType, VecType, double> ComputeJTJandJTr(
     }
     if (verbose) {
         LOGD("Residual : {:.2e} (# of elements : {:d})",
-             r2_sum / (double)iteration_num, iteration_num);
+             r2_sum / (double)iteration_num, iteration_num)
     }
     return std::make_tuple(std::move(JTJ), std::move(JTr), r2_sum);
 }
@@ -244,7 +223,7 @@ std::tuple<MatType, VecType, double> ComputeJTJandJTr(
     }
     if (verbose) {
         LOGD("Residual : {:.2e} (# of elements : {:d})",
-             r2_sum / (double)iteration_num, iteration_num);
+             r2_sum / (double)iteration_num, iteration_num)
     }
     return std::make_tuple(std::move(JTJ), std::move(JTr), r2_sum);
 }
@@ -393,5 +372,4 @@ Eigen::Matrix3d SkewMatrix(const Eigen::Vector3d &vec) {
     return skew;
 }
 
-}  // namespace utility
 }  // namespace arc
