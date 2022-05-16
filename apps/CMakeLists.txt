@@ -46,6 +46,7 @@ else ()
 endif ()
 
 target_include_directories(${PROJECT_NAME} PUBLIC
+        ../third_party/nlohmann/include
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/../vox.render
         ${CMAKE_CURRENT_SOURCE_DIR}/../vox.math)

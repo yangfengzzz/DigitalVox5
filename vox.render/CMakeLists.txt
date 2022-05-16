@@ -753,7 +753,9 @@ if (${VKB_WARNINGS_AS_ERRORS})
     endif ()
 endif ()
 
-target_include_directories(${PROJECT_NAME} PUBLIC ../vox.math ./vox.render ${CMAKE_CURRENT_SOURCE_DIR} ${PHYSX_SOURCE} ${LOADER_SOURCE} ${LUA_SOURCE})
+target_include_directories(${PROJECT_NAME} PUBLIC ../vox.math ./vox.render
+        ${CMAKE_CURRENT_SOURCE_DIR} ${PHYSX_SOURCE} ${LOADER_SOURCE} ${LUA_SOURCE}
+        ../third_party/nlohmann/include)
 
 # Link third party libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC
@@ -762,7 +764,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         stb
         astc
         imgui
-        tinygltf
         glslang
         SPIRV
         vma

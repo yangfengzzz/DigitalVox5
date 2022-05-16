@@ -96,5 +96,7 @@ foreach(PLUGIN IN LISTS PLUGINS)
 endforeach()
 
 add_library(plugins STATIC ${SRC_FILES} )
-target_link_libraries(plugins PRIVATE spdlog volk tinygltf vma)
-target_include_directories(plugins PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ../../vox.render ../../vox.math)
+target_link_libraries(plugins PRIVATE spdlog volk vma)
+target_include_directories(plugins PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+        ../../third_party/nlohmann/include
+        ../../vox.render ../../vox.math)
