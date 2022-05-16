@@ -7,7 +7,7 @@
 #include "image/stb_img.h"
 
 #define STB_IMAGE_IMPLEMENTATION
-
+#define STBI_NO_PSD
 #include <stb_image.h>
 
 namespace vox {

@@ -58,3 +58,6 @@
 [submodule "third_party/sol2"]
 	path = third_party/sol2
 	url = https://github.com/ThePhD/sol2.git
+[submodule "third_party/nlohmann"]
+	path = third_party/nlohmann
+	url = https://github.com/nlohmann/json.git

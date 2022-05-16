@@ -7,7 +7,7 @@
 #ifndef DIGITALVOX_VOX_RENDER_VOBJECT_H_
 #define DIGITALVOX_VOX_RENDER_VOBJECT_H_
 
-#include <json.hpp>
+#include <nlohmann/json.hpp>
 
 namespace vox {
 class VObject {

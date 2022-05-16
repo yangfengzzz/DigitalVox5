@@ -11,7 +11,7 @@
 #include <iostream>
 #include <vector>
 
-#include <json.hpp>
+#include <nlohmann/json.hpp>
 
 #include "error.h"
 #include "graph_node.h"
