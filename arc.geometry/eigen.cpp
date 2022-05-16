@@ -14,13 +14,12 @@
 namespace arc::utility {
 
 /// Function to solve Ax=b
-std::tuple<bool, Eigen::VectorXd> SolveLinearSystemPSD(
-        const Eigen::MatrixXd &A,
-        const Eigen::VectorXd &b,
-        bool prefer_sparse /* = false */,
-        bool check_symmetric /* = false */,
-        bool check_det /* = false */,
-        bool check_psd /* = false */) {
+std::tuple<bool, Eigen::VectorXd> SolveLinearSystemPSD(const Eigen::MatrixXd &A,
+                                                       const Eigen::VectorXd &b,
+                                                       bool prefer_sparse /* = false */,
+                                                       bool check_symmetric /* = false */,
+                                                       bool check_det /* = false */,
+                                                       bool check_psd /* = false */) {
     // PSD implies symmetric
     check_symmetric = check_symmetric || check_psd;
     if (check_symmetric && !A.isApprox(A.transpose())) {
@@ -72,11 +71,10 @@ std::tuple<bool, Eigen::VectorXd> SolveLinearSystemPSD(
 Eigen::Matrix4d TransformVector6dToMatrix4d(const Eigen::Vector6d &input) {
     Eigen::Matrix4d output;
     output.setIdentity();
-    output.block<3, 3>(0, 0) =
-            (Eigen::AngleAxisd(input(2), Eigen::Vector3d::UnitZ()) *
-             Eigen::AngleAxisd(input(1), Eigen::Vector3d::UnitY()) *
-             Eigen::AngleAxisd(input(0), Eigen::Vector3d::UnitX()))
-                    .matrix();
+    output.block<3, 3>(0, 0) = (Eigen::AngleAxisd(input(2), Eigen::Vector3d::UnitZ()) *
+                                Eigen::AngleAxisd(input(1), Eigen::Vector3d::UnitY()) *
+                                Eigen::AngleAxisd(input(0), Eigen::Vector3d::UnitX()))
+                                       .matrix();
     output.block<3, 1>(0, 3) = input.block<3, 1>(3, 0);
     return output;
 }
@@ -98,8 +96,8 @@ Eigen::Vector6d TransformMatrix4dToVector6d(const Eigen::Matrix4d &input) {
     return output;
 }
 
-std::tuple<bool, Eigen::Matrix4d> SolveJacobianSystemAndObtainExtrinsicMatrix(
-        const Eigen::Matrix6d &JTJ, const Eigen::Vector6d &JTr) {
+std::tuple<bool, Eigen::Matrix4d> SolveJacobianSystemAndObtainExtrinsicMatrix(const Eigen::Matrix6d &JTJ,
+                                                                              const Eigen::Vector6d &JTr) {
     bool solution_exist;
     Eigen::Vector6d x;
     std::tie(solution_exist, x) = SolveLinearSystemPSD(JTJ, -JTr);
@@ -111,9 +109,8 @@ std::tuple<bool, Eigen::Matrix4d> SolveJacobianSystemAndObtainExtrinsicMatrix(
     return std::make_tuple(false, Eigen::Matrix4d::Identity());
 }
 
-std::tuple<bool, std::vector<Eigen::Matrix4d, Matrix4d_allocator>>
-SolveJacobianSystemAndObtainExtrinsicMatrixArray(const Eigen::MatrixXd &JTJ,
-                                                 const Eigen::VectorXd &JTr) {
+std::tuple<bool, std::vector<Eigen::Matrix4d, Matrix4d_allocator>> SolveJacobianSystemAndObtainExtrinsicMatrixArray(
+        const Eigen::MatrixXd &JTJ, const Eigen::VectorXd &JTr) {
     std::vector<Eigen::Matrix4d, Matrix4d_allocator> output_matrix_array;
     output_matrix_array.clear();
     if (JTJ.rows() != JTr.rows() || JTJ.cols() % 6 != 0) {
@@ -129,8 +126,7 @@ SolveJacobianSystemAndObtainExtrinsicMatrixArray(const Eigen::MatrixXd &JTJ,
     if (solution_exist) {
         int nposes = (int)x.rows() / 6;
         for (int i = 0; i < nposes; i++) {
-            Eigen::Matrix4d extrinsic =
-                    TransformVector6dToMatrix4d(x.block<6, 1>(i * 6, 0));
+            Eigen::Matrix4d extrinsic = TransformVector6dToMatrix4d(x.block<6, 1>(i * 6, 0));
             output_matrix_array.push_back(extrinsic);
         }
         return std::make_tuple(solution_exist, std::move(output_matrix_array));
@@ -140,10 +136,9 @@ SolveJacobianSystemAndObtainExtrinsicMatrixArray(const Eigen::MatrixXd &JTJ,
 }
 
 template <typename MatType, typename VecType>
-std::tuple<MatType, VecType, double> ComputeJTJandJTr(
-        std::function<void(int, VecType &, double &, double &)> f,
-        int iteration_num,
-        bool verbose /*=true*/) {
+std::tuple<MatType, VecType, double> ComputeJTJandJTr(std::function<void(int, VecType &, double &, double &)> f,
+                                                      int iteration_num,
+                                                      bool verbose /*=true*/) {
     MatType JTJ;
     VecType JTr;
     double r2_sum = 0.0;
@@ -175,19 +170,17 @@ std::tuple<MatType, VecType, double> ComputeJTJandJTr(
         }
     }
     if (verbose) {
-        LOGD("Residual : {:.2e} (# of elements : {:d})",
-             r2_sum / (double)iteration_num, iteration_num)
+        LOGD("Residual : {:.2e} (# of elements : {:d})", r2_sum / (double)iteration_num, iteration_num)
     }
     return std::make_tuple(std::move(JTJ), std::move(JTr), r2_sum);
 }
 
 template <typename MatType, typename VecType>
 std::tuple<MatType, VecType, double> ComputeJTJandJTr(
-        std::function<
-                void(int,
-                     std::vector<VecType, Eigen::aligned_allocator<VecType>> &,
-                     std::vector<double> &,
-                     std::vector<double> &)> f,
+        std::function<void(int,
+                           std::vector<VecType, Eigen::aligned_allocator<VecType>> &,
+                           std::vector<double> &,
+                           std::vector<double> &)> f,
         int iteration_num,
         bool verbose /*=true*/) {
     MatType JTJ;
@@ -222,8 +215,7 @@ std::tuple<MatType, VecType, double> ComputeJTJandJTr(
         }
     }
     if (verbose) {
-        LOGD("Residual : {:.2e} (# of elements : {:d})",
-             r2_sum / (double)iteration_num, iteration_num)
+        LOGD("Residual : {:.2e} (# of elements : {:d})", r2_sum / (double)iteration_num, iteration_num)
     }
     return std::make_tuple(std::move(JTJ), std::move(JTr), r2_sum);
 }
@@ -243,45 +235,36 @@ template std::tuple<Eigen::Matrix6d, Eigen::Vector6d, double> ComputeJTJandJTr(
 
 Eigen::Matrix3d RotationMatrixX(double radians) {
     Eigen::Matrix3d rot;
-    rot << 1, 0, 0, 0, std::cos(radians), -std::sin(radians), 0,
-            std::sin(radians), std::cos(radians);
+    rot << 1, 0, 0, 0, std::cos(radians), -std::sin(radians), 0, std::sin(radians), std::cos(radians);
     return rot;
 }
 
 Eigen::Matrix3d RotationMatrixY(double radians) {
     Eigen::Matrix3d rot;
-    rot << std::cos(radians), 0, std::sin(radians), 0, 1, 0, -std::sin(radians),
-            0, std::cos(radians);
+    rot << std::cos(radians), 0, std::sin(radians), 0, 1, 0, -std::sin(radians), 0, std::cos(radians);
     return rot;
 }
 
 Eigen::Matrix3d RotationMatrixZ(double radians) {
     Eigen::Matrix3d rot;
-    rot << std::cos(radians), -std::sin(radians), 0, std::sin(radians),
-            std::cos(radians), 0, 0, 0, 1;
+    rot << std::cos(radians), -std::sin(radians), 0, std::sin(radians), std::cos(radians), 0, 0, 0, 1;
     return rot;
 }
 
 Eigen::Vector3uint8 ColorToUint8(const Eigen::Vector3d &color) {
     Eigen::Vector3uint8 rgb;
     for (int i = 0; i < 3; ++i) {
-        rgb[i] = uint8_t(
-                std::round(std::min(1., std::max(0., color(i))) * 255.));
+        rgb[i] = uint8_t(std::round(std::min(1., std::max(0., color(i))) * 255.));
     }
     return rgb;
 }
 
-Eigen::Vector3d ColorToDouble(uint8_t r, uint8_t g, uint8_t b) {
-    return Eigen::Vector3d(r, g, b) / 255.0;
-}
+Eigen::Vector3d ColorToDouble(uint8_t r, uint8_t g, uint8_t b) { return Eigen::Vector3d(r, g, b) / 255.0; }
 
-Eigen::Vector3d ColorToDouble(const Eigen::Vector3uint8 &rgb) {
-    return ColorToDouble(rgb(0), rgb(1), rgb(2));
-}
+Eigen::Vector3d ColorToDouble(const Eigen::Vector3uint8 &rgb) { return ColorToDouble(rgb(0), rgb(1), rgb(2)); }
 
 template <typename IdxType>
-Eigen::Matrix3d ComputeCovariance(const std::vector<Eigen::Vector3d> &points,
-                                  const std::vector<IdxType> &indices) {
+Eigen::Matrix3d ComputeCovariance(const std::vector<Eigen::Vector3d> &points, const std::vector<IdxType> &indices) {
     if (indices.empty()) {
         return Eigen::Matrix3d::Identity();
     }
@@ -314,9 +297,8 @@ Eigen::Matrix3d ComputeCovariance(const std::vector<Eigen::Vector3d> &points,
 }
 
 template <typename IdxType>
-std::tuple<Eigen::Vector3d, Eigen::Matrix3d> ComputeMeanAndCovariance(
-        const std::vector<Eigen::Vector3d> &points,
-        const std::vector<IdxType> &indices) {
+std::tuple<Eigen::Vector3d, Eigen::Matrix3d> ComputeMeanAndCovariance(const std::vector<Eigen::Vector3d> &points,
+                                                                      const std::vector<IdxType> &indices) {
     Eigen::Vector3d mean;
     Eigen::Matrix3d covariance;
     Eigen::Matrix<double, 9, 1> cumulants;
@@ -349,18 +331,13 @@ std::tuple<Eigen::Vector3d, Eigen::Matrix3d> ComputeMeanAndCovariance(
     return std::make_tuple(mean, covariance);
 }
 
-template Eigen::Matrix3d ComputeCovariance(
-        const std::vector<Eigen::Vector3d> &points,
-        const std::vector<size_t> &indices);
+template Eigen::Matrix3d ComputeCovariance(const std::vector<Eigen::Vector3d> &points,
+                                           const std::vector<size_t> &indices);
 template std::tuple<Eigen::Vector3d, Eigen::Matrix3d> ComputeMeanAndCovariance(
-        const std::vector<Eigen::Vector3d> &points,
-        const std::vector<size_t> &indices);
-template Eigen::Matrix3d ComputeCovariance(
-        const std::vector<Eigen::Vector3d> &points,
-        const std::vector<int> &indices);
+        const std::vector<Eigen::Vector3d> &points, const std::vector<size_t> &indices);
+template Eigen::Matrix3d ComputeCovariance(const std::vector<Eigen::Vector3d> &points, const std::vector<int> &indices);
 template std::tuple<Eigen::Vector3d, Eigen::Matrix3d> ComputeMeanAndCovariance(
-        const std::vector<Eigen::Vector3d> &points,
-        const std::vector<int> &indices);
+        const std::vector<Eigen::Vector3d> &points, const std::vector<int> &indices);
 
 Eigen::Matrix3d SkewMatrix(const Eigen::Vector3d &vec) {
     Eigen::Matrix3d skew;
@@ -372,4 +349,4 @@ Eigen::Matrix3d SkewMatrix(const Eigen::Vector3d &vec) {
     return skew;
 }
 
-}  // namespace arc
+}  // namespace arc::utility

@@ -61,3 +61,6 @@
 [submodule "third_party/eigen"]
 	path = third_party/eigen
 	url = https://gitlab.com/libeigen/eigen.git
+[submodule "third_party/qhull"]
+	path = third_party/qhull
+	url = https://github.com/qhull/qhull.git
