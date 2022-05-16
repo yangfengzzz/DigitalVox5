@@ -8,6 +8,7 @@ file(GLOB sources
 add_library(${PROJECT_NAME} STATIC ${sources})
 
 target_include_directories(${PROJECT_NAME} PUBLIC
+        ../third_party
         ../third_party/eigen
         ../third_party/qhull/src)
 

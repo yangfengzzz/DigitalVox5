@@ -64,3 +64,6 @@
 [submodule "third_party/qhull"]
 	path = third_party/qhull
 	url = https://github.com/qhull/qhull.git
+[submodule "third_party/poisson_recon"]
+	path = third_party/poisson_recon
+	url = https://github.com/mkazhdan/PoissonRecon.git
