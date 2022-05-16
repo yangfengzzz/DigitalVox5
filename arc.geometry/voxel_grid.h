@@ -29,6 +29,7 @@
 #include <Eigen/Core>
 #include <memory>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "geometry_3d.h"
@@ -54,17 +55,18 @@ class Image;
 class Voxel {
 public:
     /// \brief Default Constructor.
-    Voxel() {}
+    Voxel() = default;
     /// \brief Parameterized Constructor.
     ///
     /// \param grid_index Grid coordinate index of the voxel.
-    Voxel(const Eigen::Vector3i &grid_index) : grid_index_(grid_index) {}
+    explicit Voxel(Eigen::Vector3i grid_index) : grid_index_(std::move(grid_index)) {}
     /// \brief Parameterized Constructor.
     ///
     /// \param grid_index Grid coordinate index of the voxel.
     /// \param color Color of the voxel.
-    Voxel(const Eigen::Vector3i &grid_index, const Eigen::Vector3d &color) : grid_index_(grid_index), color_(color) {}
-    ~Voxel() {}
+    Voxel(Eigen::Vector3i grid_index, Eigen::Vector3d color)
+        : grid_index_(std::move(grid_index)), color_(std::move(color)) {}
+    ~Voxel() = default;
 
 public:
     /// Grid coordinate index of the voxel.
@@ -82,34 +84,34 @@ public:
     VoxelGrid() : Geometry3D(Geometry::GeometryType::VOXEL_GRID) {}
     /// \brief Copy Constructor.
     VoxelGrid(const VoxelGrid &src_voxel_grid);
-    ~VoxelGrid() override {}
+    ~VoxelGrid() override = default;
 
     VoxelGrid &Clear() override;
-    bool IsEmpty() const override;
-    Eigen::Vector3d GetMinBound() const override;
-    Eigen::Vector3d GetMaxBound() const override;
-    Eigen::Vector3d GetCenter() const override;
-    AxisAlignedBoundingBox GetAxisAlignedBoundingBox() const override;
-    OrientedBoundingBox GetOrientedBoundingBox(bool robust = false) const override;
+    [[nodiscard]] bool IsEmpty() const override;
+    [[nodiscard]] Eigen::Vector3d GetMinBound() const override;
+    [[nodiscard]] Eigen::Vector3d GetMaxBound() const override;
+    [[nodiscard]] Eigen::Vector3d GetCenter() const override;
+    [[nodiscard]] AxisAlignedBoundingBox GetAxisAlignedBoundingBox() const override;
+    [[nodiscard]] OrientedBoundingBox GetOrientedBoundingBox(bool robust = false) const override;
     VoxelGrid &Transform(const Eigen::Matrix4d &transformation) override;
     VoxelGrid &Translate(const Eigen::Vector3d &translation, bool relative = true) override;
-    VoxelGrid &Scale(const double scale, const Eigen::Vector3d &center) override;
+    VoxelGrid &Scale(double scale, const Eigen::Vector3d &center) override;
     VoxelGrid &Rotate(const Eigen::Matrix3d &R, const Eigen::Vector3d &center) override;
 
     VoxelGrid &operator+=(const VoxelGrid &voxelgrid);
     VoxelGrid operator+(const VoxelGrid &voxelgrid) const;
 
     /// Returns `true` if the voxel grid contains voxels.
-    bool HasVoxels() const { return voxels_.size() > 0; }
+    [[nodiscard]] bool HasVoxels() const { return !voxels_.empty(); }
     /// Returns `true` if the voxel grid contains voxel colors.
-    bool HasColors() const {
+    [[nodiscard]] bool HasColors() const {
         return true;  // By default, the colors are (0, 0, 0)
     }
     /// Returns voxel index given query point.
-    Eigen::Vector3i GetVoxel(const Eigen::Vector3d &point) const;
+    [[nodiscard]] Eigen::Vector3i GetVoxel(const Eigen::Vector3d &point) const;
 
     /// Function that returns the 3d coordinates of the queried voxel center.
-    Eigen::Vector3d GetVoxelCenterCoordinate(const Eigen::Vector3i &idx) const {
+    [[nodiscard]] Eigen::Vector3d GetVoxelCenterCoordinate(const Eigen::Vector3i &idx) const {
         auto it = voxels_.find(idx);
         if (it != voxels_.end()) {
             auto voxel = it->second;
@@ -123,11 +125,11 @@ public:
     void AddVoxel(const Voxel &voxel);
 
     /// Return a vector of 3D coordinates that define the indexed voxel cube.
-    std::vector<Eigen::Vector3d> GetVoxelBoundingPoints(const Eigen::Vector3i &index) const;
+    [[nodiscard]] std::vector<Eigen::Vector3d> GetVoxelBoundingPoints(const Eigen::Vector3i &index) const;
 
     /// Element-wise check if a query in the list is included in the VoxelGrid
     /// Queries are double precision and are mapped to the closest voxel.
-    std::vector<bool> CheckIfIncluded(const std::vector<Eigen::Vector3d> &queries) const;
+    [[nodiscard]] std::vector<bool> CheckIfIncluded(const std::vector<Eigen::Vector3d> &queries) const;
 
     /// Remove all voxels from the VoxelGrid where none of the boundary points
     /// of the voxel projects to depth value that is smaller, or equal than the
@@ -163,7 +165,7 @@ public:
     /// Convert to Octree.
     ///
     /// \param max_depth Maximum depth of the octree.
-    std::shared_ptr<geometry::Octree> ToOctree(const size_t &max_depth) const;
+    [[nodiscard]] std::shared_ptr<geometry::Octree> ToOctree(const size_t &max_depth) const;
 
     /// Creates a voxel grid where every voxel is set (hence dense). This is a
     /// useful starting point for voxel carving.
@@ -228,7 +230,7 @@ public:
     /// Returns List of ``Voxel``: Voxels contained in voxel grid.
     /// Changes to the voxels returned from this method are not reflected in
     /// the voxel grid.
-    std::vector<Voxel> GetVoxels() const;
+    [[nodiscard]] std::vector<Voxel> GetVoxels() const;
 
 public:
     /// Size of the voxel.
@@ -262,9 +264,9 @@ public:
         num_of_points_++;
     }
 
-    Eigen::Vector3i GetVoxelIndex() const { return voxel_index_; }
+    [[nodiscard]] Eigen::Vector3i GetVoxelIndex() const { return voxel_index_; }
 
-    Eigen::Vector3d GetAverageColor() const {
+    [[nodiscard]] Eigen::Vector3d GetAverageColor() const {
         if (num_of_points_ > 0) {
             return color_ / double(num_of_points_);
         } else {

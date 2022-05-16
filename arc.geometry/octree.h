@@ -28,13 +28,13 @@
 
 #include <cstddef>
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include "geometry_3d.h"
 #include "ijson_convertible.h"
 
-namespace arc {
-namespace geometry {
+namespace arc::geometry {
 
 class PointCloud;
 class VoxelGrid;
@@ -57,9 +57,9 @@ public:
     /// \param size Size of the node.
     /// \param depth  Depth of the node to the root. The root is of depth 0.
     /// \param child_index Node’s child index of itself.
-    OctreeNodeInfo(const Eigen::Vector3d& origin, const double& size, const size_t& depth, const size_t& child_index)
-        : origin_(origin), size_(size), depth_(depth), child_index_(child_index) {}
-    ~OctreeNodeInfo() {}
+    OctreeNodeInfo(Eigen::Vector3d origin, const double& size, const size_t& depth, const size_t& child_index)
+        : origin_(std::move(origin)), size_(size), depth_(depth), child_index_(child_index) {}
+    ~OctreeNodeInfo() = default;
 
 public:
     /// Origin coordinate of the node.
@@ -84,8 +84,8 @@ class OctreeNode : public utility::IJsonConvertible {
 public:
     /// \brief Default Constructor.
     ///
-    OctreeNode() {}
-    virtual ~OctreeNode() {}
+    OctreeNode() = default;
+    ~OctreeNode() override {}
 
     /// Factory function to construct an OctreeNode by parsing the json value.
     static std::shared_ptr<OctreeNode> ConstructFromJsonValue(const Json::Value& value);
@@ -176,7 +176,7 @@ class OctreeLeafNode : public OctreeNode {
 public:
     virtual bool operator==(const OctreeLeafNode& other) const = 0;
     /// Clone this OctreeLeafNode.
-    virtual std::shared_ptr<OctreeLeafNode> Clone() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<OctreeLeafNode> Clone() const = 0;
 };
 
 /// \class OctreeColorLeafNode
@@ -187,7 +187,7 @@ public:
     bool operator==(const OctreeLeafNode& other) const override;
 
     /// Clone this OctreeLeafNode.
-    std::shared_ptr<OctreeLeafNode> Clone() const override;
+    [[nodiscard]] std::shared_ptr<OctreeLeafNode> Clone() const override;
 
     /// \brief Get lambda function for initializing OctreeLeafNode.
     ///
@@ -219,7 +219,7 @@ class OctreePointColorLeafNode : public OctreeColorLeafNode {
 public:
     bool operator==(const OctreeLeafNode& other) const override;
     /// Clone this OctreeLeafNode.
-    std::shared_ptr<OctreeLeafNode> Clone() const override;
+    [[nodiscard]] std::shared_ptr<OctreeLeafNode> Clone() const override;
 
     /// \brief Get lambda function for initializing OctreeLeafNode.
     ///
@@ -254,29 +254,29 @@ public:
     /// \brief Parameterized Constructor.
     ///
     /// \param max_depth Sets the value of the max depth of the Octree.
-    Octree(const size_t& max_depth)
+    explicit Octree(const size_t& max_depth)
         : Geometry3D(Geometry::GeometryType::OCTREE), origin_(0, 0, 0), size_(0), max_depth_(max_depth) {}
     /// \brief Parameterized Constructor.
     ///
     /// \param max_depth Sets the value of the max depth of the Octree.
     /// \param origin Sets the global min bound of the Octree.
     /// \param size Sets the outer bounding box edge size for the whole octree.
-    Octree(const size_t& max_depth, const Eigen::Vector3d& origin, const double& size)
-        : Geometry3D(Geometry::GeometryType::OCTREE), origin_(origin), size_(size), max_depth_(max_depth) {}
+    Octree(const size_t& max_depth, Eigen::Vector3d origin, const double& size)
+        : Geometry3D(Geometry::GeometryType::OCTREE), origin_(std::move(origin)), size_(size), max_depth_(max_depth) {}
     Octree(const Octree& src_octree);
-    ~Octree() override {}
+    ~Octree() override = default;
 
 public:
     Octree& Clear() override;
-    bool IsEmpty() const override;
-    Eigen::Vector3d GetMinBound() const override;
-    Eigen::Vector3d GetMaxBound() const override;
-    Eigen::Vector3d GetCenter() const override;
-    AxisAlignedBoundingBox GetAxisAlignedBoundingBox() const override;
-    OrientedBoundingBox GetOrientedBoundingBox(bool robust = false) const override;
+    [[nodiscard]] bool IsEmpty() const override;
+    [[nodiscard]] Eigen::Vector3d GetMinBound() const override;
+    [[nodiscard]] Eigen::Vector3d GetMaxBound() const override;
+    [[nodiscard]] Eigen::Vector3d GetCenter() const override;
+    [[nodiscard]] AxisAlignedBoundingBox GetAxisAlignedBoundingBox() const override;
+    [[nodiscard]] OrientedBoundingBox GetOrientedBoundingBox(bool robust = false) const override;
     Octree& Transform(const Eigen::Matrix4d& transformation) override;
     Octree& Translate(const Eigen::Vector3d& translation, bool relative = true) override;
-    Octree& Scale(const double scale, const Eigen::Vector3d& center) override;
+    Octree& Scale(double scale, const Eigen::Vector3d& center) override;
     Octree& Rotate(const Eigen::Matrix3d& R, const Eigen::Vector3d& center) override;
     bool ConvertToJsonValue(Json::Value& value) const override;
     bool ConvertFromJsonValue(const Json::Value& value) override;
@@ -344,7 +344,7 @@ public:
     void Traverse(const std::function<bool(const std::shared_ptr<OctreeNode>&, const std::shared_ptr<OctreeNodeInfo>&)>&
                           f) const;
 
-    std::pair<std::shared_ptr<OctreeLeafNode>, std::shared_ptr<OctreeNodeInfo>>
+    [[nodiscard]] std::pair<std::shared_ptr<OctreeLeafNode>, std::shared_ptr<OctreeNodeInfo>>
 
     /// \brief Returns leaf OctreeNode and OctreeNodeInfo where the querypoint
     /// should reside.
@@ -364,7 +364,7 @@ public:
     bool operator==(const Octree& other) const;
 
     /// Convert to VoxelGrid.
-    std::shared_ptr<geometry::VoxelGrid> ToVoxelGrid() const;
+    [[nodiscard]] std::shared_ptr<geometry::VoxelGrid> ToVoxelGrid() const;
 
     /// Convert from voxel grid.
     void CreateFromVoxelGrid(const geometry::VoxelGrid& voxel_grid);
@@ -384,5 +384,4 @@ private:
                             const std::function<void(std::shared_ptr<OctreeInternalNode>)>& f_i_update);
 };
 
-}  // namespace geometry
-}  // namespace arc
+}  // namespace arc::geometry

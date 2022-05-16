@@ -42,7 +42,7 @@ std::shared_ptr<OctreeNode> OctreeNode::ConstructFromJsonValue(const Json::Value
     // Construct node from class name
     std::string class_name = value.get("class_name", "").asString();
     std::shared_ptr<OctreeNode> node = nullptr;
-    if (value != Json::nullValue && class_name != "") {
+    if (value != Json::nullValue && !class_name.empty()) {
         if (class_name == "OctreeInternalNode") {
             node = std::make_shared<OctreeInternalNode>();
         } else if (class_name == "OctreeInternalPointNode") {
@@ -91,7 +91,7 @@ std::function<std::shared_ptr<OctreeInternalNode>()> OctreeInternalNode::GetInit
 }
 
 std::function<void(std::shared_ptr<OctreeInternalNode>)> OctreeInternalNode::GetUpdateFunction() {
-    return [](std::shared_ptr<geometry::OctreeInternalNode> node) -> void {};
+    return [](const std::shared_ptr<geometry::OctreeInternalNode>& node) -> void {};
 }
 
 bool OctreeInternalNode::ConvertToJsonValue(Json::Value& value) const {
@@ -137,7 +137,7 @@ std::function<std::shared_ptr<OctreeInternalNode>()> OctreeInternalPointNode::Ge
 std::function<void(std::shared_ptr<OctreeInternalNode>)> OctreeInternalPointNode::GetUpdateFunction(size_t idx) {
     // Here the captured "idx" cannot be a reference, must be a copy,
     // otherwise pybind does not have the correct value
-    return [idx](std::shared_ptr<geometry::OctreeInternalNode> node) -> void {
+    return [idx](const std::shared_ptr<geometry::OctreeInternalNode>& node) -> void {
         if (auto internal_point_node = std::dynamic_pointer_cast<geometry::OctreeInternalPointNode>(node)) {
             internal_point_node->indices_.push_back(idx);
         } else {
@@ -201,7 +201,7 @@ std::function<void(std::shared_ptr<OctreeLeafNode>)> OctreeColorLeafNode::GetUpd
         const Eigen::Vector3d& color) {
     // Here the captured "color" cannot be a reference, must be a copy,
     // otherwise pybind does not have the correct value
-    return [color](std::shared_ptr<geometry::OctreeLeafNode> node) -> void {
+    return [color](const std::shared_ptr<geometry::OctreeLeafNode>& node) -> void {
         if (auto color_leaf_node = std::dynamic_pointer_cast<geometry::OctreeColorLeafNode>(node)) {
             color_leaf_node->color_ = color;
         } else {
@@ -218,7 +218,7 @@ std::shared_ptr<OctreeLeafNode> OctreeColorLeafNode::Clone() const {
 
 bool OctreeColorLeafNode::operator==(const OctreeLeafNode& that) const {
     try {
-        const OctreeColorLeafNode& that_color_node = dynamic_cast<const OctreeColorLeafNode&>(that);
+        const auto& that_color_node = dynamic_cast<const OctreeColorLeafNode&>(that);
         return this->color_.isApprox(that_color_node.color_);
     } catch (const std::exception&) {
         return false;
@@ -252,7 +252,7 @@ std::function<void(std::shared_ptr<OctreeLeafNode>)> OctreePointColorLeafNode::G
         size_t idx, const Eigen::Vector3d& color) {
     // Here the captured "idx" cannot be a reference, must be a copy,
     // otherwise pybind does not have the correct value
-    return [idx, color](std::shared_ptr<geometry::OctreeLeafNode> node) -> void {
+    return [idx, color](const std::shared_ptr<geometry::OctreeLeafNode>& node) -> void {
         if (auto point_color_leaf_node = std::dynamic_pointer_cast<geometry::OctreePointColorLeafNode>(node)) {
             OctreeColorLeafNode::GetUpdateFunction(color)(point_color_leaf_node);
             point_color_leaf_node->indices_.push_back(idx);
@@ -272,7 +272,7 @@ std::shared_ptr<OctreeLeafNode> OctreePointColorLeafNode::Clone() const {
 
 bool OctreePointColorLeafNode::operator==(const OctreeLeafNode& that) const {
     try {
-        const OctreePointColorLeafNode& that_point_color_node = dynamic_cast<const OctreePointColorLeafNode&>(that);
+        const auto& that_point_color_node = dynamic_cast<const OctreePointColorLeafNode&>(that);
 
         return this->color_.isApprox(that_point_color_node.color_) &&
                this->indices_.size() == that_point_color_node.indices_.size() &&
@@ -689,7 +689,7 @@ bool Octree::ConvertToJsonValue(Json::Value& value) const {
 
 bool Octree::ConvertFromJsonValue(const Json::Value& value) {
     if (!value.isObject()) {
-        LOGW("Octree read JSON failed: unsupported json format.");
+        LOGW("Octree read JSON failed: unsupported json format.")
         return false;
     }
     if (value.get("class_name", "") != "Octree") {
