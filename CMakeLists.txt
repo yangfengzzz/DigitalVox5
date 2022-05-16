@@ -58,3 +58,6 @@ add_subdirectory(apps)
 # Add editor
 add_subdirectory(vox.editor)
 add_subdirectory(editor)
+
+################## Arche source #################
+add_subdirectory(arc.geometry)
