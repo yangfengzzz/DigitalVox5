@@ -67,3 +67,6 @@
 [submodule "third_party/poisson_recon"]
 	path = third_party/poisson_recon
 	url = https://github.com/mkazhdan/PoissonRecon.git
+[submodule "third_party/json_cpp"]
+	path = third_party/json_cpp
+	url = https://github.com/open-source-parsers/jsoncpp.git

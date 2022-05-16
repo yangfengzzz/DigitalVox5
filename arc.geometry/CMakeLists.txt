@@ -10,6 +10,7 @@ add_library(${PROJECT_NAME} STATIC ${sources})
 target_include_directories(${PROJECT_NAME} PUBLIC
         ../third_party
         ../third_party/eigen
+        ../third_party/json_cpp/include
         ../third_party/qhull/src)
 
 # Link third party libraries
