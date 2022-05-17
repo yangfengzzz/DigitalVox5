@@ -24,4 +24,4 @@ target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/g
         ${CMAKE_SOURCE_DIR}/third_party/json_cpp/build/lib)
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog arc.geometry
         libgmock.a libgmock_main.a libgtest.a libgtest_main.a
-        libqhullcpp.a libqhullstatic.a jsoncpp)
+        qhullstatic_r qhullcpp jsoncpp)
