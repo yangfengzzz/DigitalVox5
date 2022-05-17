@@ -72,7 +72,7 @@ public:
     /// \brief Default Constructor.
     ///
     /// Creates an empty instance with GeometryType of HalfEdgeTriangleMesh.
-    HalfEdgeTriangleMesh() : MeshBase(Geometry::GeometryType::HalfEdgeTriangleMesh) {}
+    HalfEdgeTriangleMesh() : MeshBase(Geometry::GeometryType::HALF_EDGE_TRIANGLE_MESH) {}
 
     virtual HalfEdgeTriangleMesh &Clear() override;
 

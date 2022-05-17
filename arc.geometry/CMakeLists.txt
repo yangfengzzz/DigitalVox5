@@ -11,7 +11,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ../third_party
         ../third_party/eigen
         ../third_party/json_cpp/include
-        ../third_party/qhull/src)
+        ../third_party/qhull/src
+        ../third_party/nanoflann/include)
 
 # Link third party libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
