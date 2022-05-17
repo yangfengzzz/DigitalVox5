@@ -26,12 +26,9 @@
 
 #include "tests.h"
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 TEST(EstimateNormals, DISABLED_FastEigen3x3) { NotImplemented(); }
 
 TEST(EstimateNormals, DISABLED_ComputeNormal) { NotImplemented(); }
-
-}  // namespace tests
-}  // namespace arc

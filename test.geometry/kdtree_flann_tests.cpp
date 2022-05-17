@@ -29,8 +29,8 @@
 #include "tests.h"
 #include "triangle_mesh.h"
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 TEST(KDTreeFlann, DISABLED_Search) { NotImplemented(); }
 
@@ -133,6 +133,3 @@ TEST(KDTreeFlann, SearchHybrid) {
     ExpectEQ(ref_indices, indices);
     ExpectEQ(ref_distance2, distance2);
 }
-
-}  // namespace tests
-}  // namespace arc

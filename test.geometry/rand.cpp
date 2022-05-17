@@ -30,8 +30,7 @@
 
 #include "raw.h"
 
-namespace arc {
-namespace tests {
+namespace arc::tests {
 
 // ----------------------------------------------------------------------------
 // Initialize an Eigen::Vector3d.
@@ -76,9 +75,9 @@ void Rand(std::vector<Eigen::Vector2i> &v, const Eigen::Vector2i &vmin, const Ei
     factor(0, 0) = (double)(vmax(0, 0) - vmin(0, 0)) / Raw::VMAX;
     factor(1, 0) = (double)(vmax(1, 0) - vmin(1, 0)) / Raw::VMAX;
 
-    for (size_t i = 0; i < v.size(); i++) {
-        v[i](0, 0) = vmin(0, 0) + (int)(raw.Next<int>() * factor(0, 0));
-        v[i](1, 0) = vmin(1, 0) + (int)(raw.Next<int>() * factor(1, 0));
+    for (auto &i : v) {
+        i(0, 0) = vmin(0, 0) + (int)(raw.Next<int>() * factor(0, 0));
+        i(1, 0) = vmin(1, 0) + (int)(raw.Next<int>() * factor(1, 0));
     }
 }
 
@@ -94,10 +93,10 @@ void Rand(std::vector<Eigen::Vector3i> &v, const Eigen::Vector3i &vmin, const Ei
     factor(1, 0) = (double)(vmax(1, 0) - vmin(1, 0)) / Raw::VMAX;
     factor(2, 0) = (double)(vmax(2, 0) - vmin(2, 0)) / Raw::VMAX;
 
-    for (size_t i = 0; i < v.size(); i++) {
-        v[i](0, 0) = vmin(0, 0) + (int)(raw.Next<int>() * factor(0, 0));
-        v[i](1, 0) = vmin(1, 0) + (int)(raw.Next<int>() * factor(1, 0));
-        v[i](2, 0) = vmin(2, 0) + (int)(raw.Next<int>() * factor(2, 0));
+    for (auto &i : v) {
+        i(0, 0) = vmin(0, 0) + (int)(raw.Next<int>() * factor(0, 0));
+        i(1, 0) = vmin(1, 0) + (int)(raw.Next<int>() * factor(1, 0));
+        i(2, 0) = vmin(2, 0) + (int)(raw.Next<int>() * factor(2, 0));
     }
 }
 
@@ -115,9 +114,9 @@ void Rand(std::vector<Eigen::Vector2d, arc::utility::Vector2d_allocator> &v,
     factor(0, 0) = vmax(0, 0) - vmin(0, 0);
     factor(1, 0) = vmax(1, 0) - vmin(1, 0);
 
-    for (size_t i = 0; i < v.size(); i++) {
-        v[i](0, 0) = vmin(0, 0) + raw.Next<double>() * factor(0, 0);
-        v[i](1, 0) = vmin(1, 0) + raw.Next<double>() * factor(1, 0);
+    for (auto &i : v) {
+        i(0, 0) = vmin(0, 0) + raw.Next<double>() * factor(0, 0);
+        i(1, 0) = vmin(1, 0) + raw.Next<double>() * factor(1, 0);
     }
 }
 
@@ -133,10 +132,10 @@ void Rand(std::vector<Eigen::Vector3d> &v, const Eigen::Vector3d &vmin, const Ei
     factor(1, 0) = vmax(1, 0) - vmin(1, 0);
     factor(2, 0) = vmax(2, 0) - vmin(2, 0);
 
-    for (size_t i = 0; i < v.size(); i++) {
-        v[i](0, 0) = vmin(0, 0) + raw.Next<double>() * factor(0, 0);
-        v[i](1, 0) = vmin(1, 0) + raw.Next<double>() * factor(1, 0);
-        v[i](2, 0) = vmin(2, 0) + raw.Next<double>() * factor(2, 0);
+    for (auto &i : v) {
+        i(0, 0) = vmin(0, 0) + raw.Next<double>() * factor(0, 0);
+        i(1, 0) = vmin(1, 0) + raw.Next<double>() * factor(1, 0);
+        i(2, 0) = vmin(2, 0) + raw.Next<double>() * factor(2, 0);
     }
 }
 
@@ -152,11 +151,11 @@ void Rand(std::vector<Eigen::Vector4i, arc::utility::Vector4i_allocator> &v,
 
     double factor = (double)(vmax - vmin) / Raw::VMAX;
 
-    for (size_t i = 0; i < v.size(); i++) {
-        v[i](0, 0) = vmin + (int)(raw.Next<int>() * factor);
-        v[i](1, 0) = vmin + (int)(raw.Next<int>() * factor);
-        v[i](2, 0) = vmin + (int)(raw.Next<int>() * factor);
-        v[i](3, 0) = vmin + (int)(raw.Next<int>() * factor);
+    for (auto &i : v) {
+        i(0, 0) = vmin + (int)(raw.Next<int>() * factor);
+        i(1, 0) = vmin + (int)(raw.Next<int>() * factor);
+        i(2, 0) = vmin + (int)(raw.Next<int>() * factor);
+        i(3, 0) = vmin + (int)(raw.Next<int>() * factor);
     }
 }
 
@@ -176,11 +175,11 @@ void Rand(std::vector<Eigen::Vector4i, arc::utility::Vector4i_allocator> &v,
     factor(2, 0) = (double)(vmax(2, 0) - vmin(2, 0)) / Raw::VMAX;
     factor(3, 0) = (double)(vmax(3, 0) - vmin(3, 0)) / Raw::VMAX;
 
-    for (size_t i = 0; i < v.size(); i++) {
-        v[i](0, 0) = vmin(0, 0) + (int)(raw.Next<int>() * factor(0, 0));
-        v[i](1, 0) = vmin(1, 0) + (int)(raw.Next<int>() * factor(1, 0));
-        v[i](2, 0) = vmin(2, 0) + (int)(raw.Next<int>() * factor(2, 0));
-        v[i](3, 0) = vmin(3, 0) + (int)(raw.Next<int>() * factor(2, 0));
+    for (auto &i : v) {
+        i(0, 0) = vmin(0, 0) + (int)(raw.Next<int>() * factor(0, 0));
+        i(1, 0) = vmin(1, 0) + (int)(raw.Next<int>() * factor(1, 0));
+        i(2, 0) = vmin(2, 0) + (int)(raw.Next<int>() * factor(2, 0));
+        i(3, 0) = vmin(3, 0) + (int)(raw.Next<int>() * factor(2, 0));
     }
 }
 
@@ -193,7 +192,7 @@ void Rand(std::vector<uint8_t> &v, const uint8_t &vmin, const uint8_t &vmax, con
 
     double factor = (double)(vmax - vmin) / Raw::VMAX;
 
-    for (size_t i = 0; i < v.size(); i++) v[i] = vmin + (uint8_t)(raw.Next<uint8_t>() * factor);
+    for (unsigned char &i : v) i = vmin + (uint8_t)(raw.Next<uint8_t>() * factor);
 }
 
 // ----------------------------------------------------------------------------
@@ -225,7 +224,7 @@ void Rand(std::vector<size_t> &v, const size_t &vmin, const size_t &vmax, const 
 
     double factor = (double)(vmax - vmin) / Raw::VMAX;
 
-    for (size_t i = 0; i < v.size(); i++) v[i] = vmin + (size_t)(raw.Next<size_t>() * factor);
+    for (unsigned long &i : v) i = vmin + (size_t)(raw.Next<size_t>() * factor);
 }
 
 // ----------------------------------------------------------------------------
@@ -268,5 +267,4 @@ void Rand(std::vector<double> &v, const double &vmin, const double &vmax, const 
     Rand(&v[0], v.size(), vmin, vmax, seed);
 }
 
-}  // namespace tests
-}  // namespace arc
+}  // namespace arc::tests

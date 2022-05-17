@@ -29,10 +29,8 @@
 #include <algorithm>
 
 #include "logging.h"
-#include "tests.h"
 
-namespace arc {
-namespace tests {
+namespace arc::tests {
 
 TEST(Sort, Sort) {
     std::vector<Eigen::Vector3d> points{
@@ -107,5 +105,4 @@ TEST(Sort, GetIndicesAToBClose) {
     ExpectEQ(ApplyIndices(b, GetIndicesAToB(b, a, threshold)), a, threshold);
 }
 
-}  // namespace tests
-}  // namespace arc
+}  // namespace arc::tests

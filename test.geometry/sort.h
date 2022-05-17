@@ -34,15 +34,14 @@
 #include "compare.h"
 #include "logging.h"
 
-namespace arc {
-namespace tests {
+namespace arc::tests {
 
 /// \brief Functor class for comparing Eigen matrices of the same size.
 template <class EigenMatrix>
 struct EigenLess {
     bool operator()(const EigenMatrix& lhs, const EigenMatrix& rhs) {
         if (lhs.size() != rhs.size()) {
-            LOGE("Eigen matrices have different sizes {} != {}", lhs.size(), rhs.size());
+            LOGE("Eigen matrices have different sizes {} != {}", lhs.size(), rhs.size())
         }
         for (int i = 0; i < lhs.size(); i++) {
             if (lhs(i) == rhs(i)) {
@@ -67,7 +66,7 @@ std::vector<T> ApplyIndices(const std::vector<T>& vals, const std::vector<size_t
         vals_sorted.push_back(vals[i]);
     }
     return vals_sorted;
-};
+}
 
 /// \brief Returns ascending sorted Eigen matrices and the sorting indices.
 ///
@@ -83,7 +82,7 @@ std::pair<std::vector<EigenMatrix>, std::vector<size_t>> SortWithIndices(const s
         return EigenLess<EigenMatrix>()(vals[lhs], vals[rhs]);
     });
     return std::make_pair(ApplyIndices(vals, indices), indices);
-};
+}
 
 /// \brief Returns ascending sorted Eigen matrices.
 ///
@@ -91,7 +90,7 @@ std::pair<std::vector<EigenMatrix>, std::vector<size_t>> SortWithIndices(const s
 template <class T, int M, int N, int A>
 std::vector<Eigen::Matrix<T, M, N, A>> Sort(const std::vector<Eigen::Matrix<T, M, N, A>>& vals) {
     return SortWithIndices(vals).first;
-};
+}
 
 /// \brief Returns indices that can transform array A to B, s.t. B[i] ~=
 /// A[indices[i]].
@@ -107,7 +106,7 @@ std::vector<size_t> GetIndicesAToB(const std::vector<Eigen::Matrix<T, M, N, A>>&
                                    const std::vector<Eigen::Matrix<T, M, N, A>>& b,
                                    double threshold = 1e-6) {
     if (a.size() != b.size()) {
-        LOGE("a.size() != b.size(): {} != {}", a.size(), b.size());
+        LOGE("a.size() != b.size(): {} != {}", a.size(), b.size())
     }
     size_t size = a.size();
 
@@ -128,7 +127,6 @@ std::vector<size_t> GetIndicesAToB(const std::vector<Eigen::Matrix<T, M, N, A>>&
         indices_a_to_b[i] = indices_a_to_sorted[indices_sorted_to_b[i]];
     }
     return indices_a_to_b;
-};
+}
 
-}  // namespace tests
-}  // namespace arc
+}  // namespace arc::tests

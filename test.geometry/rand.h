@@ -31,8 +31,7 @@
 
 #include "eigen.h"
 
-namespace arc {
-namespace tests {
+namespace arc::tests {
 
 // Initialize an Eigen::Vector3d.
 // Output range: [vmin:vmax].
@@ -81,7 +80,7 @@ void Rand(std::vector<uint8_t>& v, const uint8_t& vmin, const uint8_t& vmax, con
 
 // Initialize an array of int.
 // Output range: [vmin:vmax].
-void Rand(int* const v, const size_t& size, const int& vmin, const int& vmax, const int& seed);
+void Rand(int* v, const size_t& size, const int& vmin, const int& vmax, const int& seed);
 
 // Initialize an int vector.
 // Output range: [vmin:vmax].
@@ -93,7 +92,7 @@ void Rand(std::vector<size_t>& v, const size_t& vmin, const size_t& vmax, const 
 
 // Initialize an array of float.
 // Output range: [vmin:vmax].
-void Rand(float* const v, const size_t& size, const float& vmin, const float& vmax, const int& seed);
+void Rand(float* v, const size_t& size, const float& vmin, const float& vmax, const int& seed);
 
 // Initialize a float vector.
 // Output range: [vmin:vmax].
@@ -101,11 +100,10 @@ void Rand(std::vector<float>& v, const float& vmin, const float& vmax, const int
 
 // Initialize an array of double.
 // Output range: [vmin:vmax].
-void Rand(double* const v, const size_t& size, const double& vmin, const double& vmax, const int& seed);
+void Rand(double* v, const size_t& size, const double& vmin, const double& vmax, const int& seed);
 
 // Initialize a double vector.
 // Output range: [vmin:vmax].
 void Rand(std::vector<double>& v, const double& vmin, const double& vmax, const int& seed);
 
-}  // namespace tests
-}  // namespace arc
+}  // namespace arc::tests

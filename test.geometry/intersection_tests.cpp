@@ -27,8 +27,8 @@
 #include "intersection_test.h"
 #include "tests.h"
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 TEST(IntersectionTest, PointsCoplanar) {
     Eigen::Vector3d p0(0, 0, 0);
@@ -74,6 +74,3 @@ TEST(IntersectionTest, LineSegmentsMinimumDistance) {
     q1 = Eigen::Vector3d(1, 4, 0);
     EXPECT_EQ(geometry::IntersectionTest::LineSegmentsMinimumDistance(p0, p1, q0, q1), 1.);
 }
-
-}  // namespace tests
-}  // namespace arc

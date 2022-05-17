@@ -26,12 +26,9 @@
 
 #include "raw.h"
 
-#include <fstream>
 #include <iostream>
-#include <sstream>
 
-namespace arc {
-namespace tests {
+namespace arc::tests {
 // ----------------------------------------------------------------------------
 // Raw data with SIZE = 1021 elements.
 // ----------------------------------------------------------------------------
@@ -114,7 +111,7 @@ int Raw::Next() {
 // ----------------------------------------------------------------------------
 template <>
 size_t Raw::Next() {
-    size_t output = (size_t)data_[index];
+    auto output = (size_t)data_[index];
     index = (index + step) % SIZE;
 
     return output;
@@ -144,5 +141,4 @@ double Raw::Next() {
     return output;
 }
 
-}  // namespace tests
-}  // namespace arc
+}  // namespace arc::tests

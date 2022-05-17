@@ -28,8 +28,8 @@
 #include "point_cloud.h"
 #include "tests.h"
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 TEST(LineSet, Constructor) {
     geometry::LineSet ls;
@@ -199,7 +199,7 @@ TEST(LineSet, PaintUniformColor) {
 
     EXPECT_TRUE(ls.HasColors());
 
-    for (size_t i = 0; i < ls.colors_.size(); i++) ExpectEQ(color, ls.colors_[i]);
+    for (auto& i : ls.colors_) ExpectEQ(color, i);
 }
 
 TEST(LineSet, OperatorAppend) {
@@ -444,6 +444,3 @@ TEST(LineSet, CreateLineSetFromPointCloudCorrespondences) {
     ExpectEQ(ref_points, ls->points_);
     ExpectEQ(ref_lines, ls->lines_);
 }
-
-}  // namespace tests
-}  // namespace arc

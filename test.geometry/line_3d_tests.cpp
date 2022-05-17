@@ -71,8 +71,8 @@ std::shared_ptr<Line3D> LineFactory(lt_t type, const v_t& v0, const v_t& v1) {
     }
 }
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 // Line Transformation Tests
 // ============================================================================
@@ -494,5 +494,3 @@ INSTANTIATE_TEST_SUITE_P(
                 cp_t(lt_t::SEGMENT, {1.5, 1, 0}, {3, 1, 0}, lt_t::SEGMENT, {3, 3, 0}, {2, 2, 0}, 0.5, root2),
                 cp_t(lt_t::SEGMENT, {2, 2, 0}, {3, 3, 0}, lt_t::SEGMENT, {1.5, 1, 0}, {3, 1, 0}, 0, 0.5),
                 cp_t(lt_t::SEGMENT, {3, 3, 0}, {2, 2, 0}, lt_t::SEGMENT, {1.5, 1, 0}, {3, 1, 0}, root2, 0.5)));
-}  // namespace tests
-}  // namespace arc

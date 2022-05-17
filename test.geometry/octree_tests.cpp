@@ -26,7 +26,6 @@
 
 #include <json/json.h>
 
-#include <iostream>
 #include <memory>
 
 #include "octree.h"
@@ -38,8 +37,8 @@
 //#include "open3d/visualization/utility/DrawGeometry.h"
 #include "tests.h"
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 TEST(Octree, ConstructorWithoutSize) {
     geometry::Octree octree(10);
@@ -141,7 +140,7 @@ TEST(Octree, EightCubes) {
                 ExpectEQ(leaf_node->color_, colors[i]);
             } else {
                 throw std::runtime_error("Leaf node must be OctreeColorLeafNode");
-            };
+            }
         }
     } else {
         throw std::runtime_error("Root node must be OctreeInternalNode");
@@ -180,7 +179,7 @@ TEST(Octree, EightCubesLeafPointIndices) {
                 EXPECT_EQ(leaf_node->indices_[0], i);
             } else {
                 throw std::runtime_error("Leaf node must be OctreePointColorLeafNode");
-            };
+            }
         }
     } else {
         throw std::runtime_error("Root node must be OctreeInternalNode");
@@ -225,7 +224,7 @@ TEST(Octree, EightCubesLeafAndInternalPointIndices) {
                 EXPECT_EQ(leaf_node->indices_[0], i);
             } else {
                 throw std::runtime_error("Leaf node must be OctreePointColorLeafNode");
-            };
+            }
         }
     } else {
         throw std::runtime_error("Root node must be OctreeInternalPointNode");
@@ -333,8 +332,8 @@ TEST(Octree, EightCubesTraverse) {
 TEST(Octree, ConvertFromPointCloudBoundSinglePoint) {
     geometry::Octree octree(10);
     geometry::PointCloud pcd;
-    pcd.points_.push_back(Eigen::Vector3d(0, 0, 0));
-    pcd.colors_.push_back(Eigen::Vector3d(0, 0.1, 0.2));
+    pcd.points_.emplace_back(0, 0, 0);
+    pcd.colors_.emplace_back(0, 0.1, 0.2);
     octree.ConvertFromPointCloud(pcd, 0.01);
     ExpectEQ(octree.origin_, Eigen::Vector3d(0, 0, 0));
     EXPECT_EQ(octree.size_, 0.01);
@@ -343,10 +342,10 @@ TEST(Octree, ConvertFromPointCloudBoundSinglePoint) {
 TEST(Octree, ConvertFromPointCloudBoundTwoPoints) {
     geometry::Octree octree(10);
     geometry::PointCloud pcd;
-    pcd.points_.push_back(Eigen::Vector3d(0, 0, 0));
-    pcd.points_.push_back(Eigen::Vector3d(0, 2, 4));
-    pcd.colors_.push_back(Eigen::Vector3d(0, 0.1, 0.2));
-    pcd.colors_.push_back(Eigen::Vector3d(0.3, 0.4, 0.5));
+    pcd.points_.emplace_back(0, 0, 0);
+    pcd.points_.emplace_back(0, 2, 4);
+    pcd.colors_.emplace_back(0, 0.1, 0.2);
+    pcd.colors_.emplace_back(0.3, 0.4, 0.5);
     octree.ConvertFromPointCloud(pcd, 0.01);
     ExpectEQ(octree.origin_, Eigen::Vector3d(-2, -1, 0));  // Auto-centered
     EXPECT_EQ(octree.size_, 4.04);                         // 4.04 = 4 * (1 + 0.01)
@@ -378,6 +377,3 @@ TEST(Octree, ConvertFromPointCloudBoundTwoPoints) {
 //
 //     EXPECT_TRUE(src_octree == dst_octree);
 // }
-
-}  // namespace tests
-}  // namespace arc

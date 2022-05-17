@@ -31,8 +31,8 @@
 #include "tetra_mesh.h"
 #include "triangle_mesh.h"
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 TEST(TetraMesh, Constructor) {
     geometry::TetraMesh tm;
@@ -460,6 +460,3 @@ TEST(TetraMesh, ExtractTriangleMesh) {
         EXPECT_EQ(triangle_mesh->triangles_.size(), size_t(246));
     }
 }
-
-}  // namespace tests
-}  // namespace arc

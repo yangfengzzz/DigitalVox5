@@ -27,9 +27,7 @@
 #include "point_cloud.h"
 #include "tests.h"
 
-namespace arc {
-namespace tests {
-TEST(AccumulatedPoint, DISABLED_Default) { NotImplemented(); }
+using namespace arc;
+using namespace tests;
 
-}  // namespace tests
-}  // namespace arc
+TEST(AccumulatedPoint, DISABLED_Default) { NotImplemented(); }

@@ -33,8 +33,8 @@
 //#include "open3d/io/ImageIO.h"
 #include "tests.h"
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 TEST(RGBDImage, Constructor) {
     geometry::Image image;
@@ -72,12 +72,12 @@ TEST(RGBDImage, DISABLED_MemberData) { NotImplemented(); }
 
 std::pair<float, float> FloatImageMinMax(const geometry::Image& im) {
     if (im.bytes_per_channel_ != 4) {
-        LOGE("im must be a float image.");
+        LOGE("im must be a float image.")
     }
     if (im.width_ * im.height_ == 0) {
         return std::make_pair(0.0, 0.0);
     }
-    const float* float_data = reinterpret_cast<const float*>(im.data_.data());
+    const auto* float_data = reinterpret_cast<const float*>(im.data_.data());
     float min_val = float_data[0];
     float max_val = float_data[0];
     for (int i = 0; i < im.width_ * im.height_ * im.num_of_channels_; i++) {
@@ -240,7 +240,7 @@ TEST(RGBDImage, FilterPyramid) {
 
     geometry::Image im_color;
     im_color.Prepare(width, height, 3, 4);
-    float* im_color_data = reinterpret_cast<float*>(im_color.data_.data());
+    auto* im_color_data = reinterpret_cast<float*>(im_color.data_.data());
     std::vector<float> im_color_val{0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.2, 0.2, 0.2, 0.3, 0.3, 0.3, 0.4, 0.4, 0.4, 0.5,
                                     0.5, 0.5, 0.6, 0.6, 0.6, 0.7, 0.7, 0.7, 0.8, 0.8, 0.8, 0.9, 0.9, 0.9, 1.0, 1.0,
                                     1.0, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.3, 1.3, 1.3, 1.4, 1.4, 1.4, 1.5, 1.5, 1.5};
@@ -248,7 +248,7 @@ TEST(RGBDImage, FilterPyramid) {
 
     geometry::Image im_depth;
     im_depth.Prepare(width, height, 1, 2);
-    uint16_t* im_depth_data = reinterpret_cast<uint16_t*>(im_depth.data_.data());
+    auto* im_depth_data = reinterpret_cast<uint16_t*>(im_depth.data_.data());
     std::vector<uint16_t> im_depth_val{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
     std::copy(im_depth_val.begin(), im_depth_val.end(), im_depth_data);
 
@@ -272,7 +272,7 @@ TEST(RGBDImage, CreatePyramid) {
 
     geometry::Image im_color;
     im_color.Prepare(width, height, 3, 4);
-    float* im_color_data = reinterpret_cast<float*>(im_color.data_.data());
+    auto* im_color_data = reinterpret_cast<float*>(im_color.data_.data());
     std::vector<float> im_color_val{0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.2, 0.2, 0.2, 0.3, 0.3, 0.3, 0.4, 0.4, 0.4, 0.5,
                                     0.5, 0.5, 0.6, 0.6, 0.6, 0.7, 0.7, 0.7, 0.8, 0.8, 0.8, 0.9, 0.9, 0.9, 1.0, 1.0,
                                     1.0, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.3, 1.3, 1.3, 1.4, 1.4, 1.4, 1.5, 1.5, 1.5};
@@ -280,7 +280,7 @@ TEST(RGBDImage, CreatePyramid) {
 
     geometry::Image im_depth;
     im_depth.Prepare(width, height, 1, 2);
-    uint16_t* im_depth_data = reinterpret_cast<uint16_t*>(im_depth.data_.data());
+    auto* im_depth_data = reinterpret_cast<uint16_t*>(im_depth.data_.data());
     std::vector<uint16_t> im_depth_val{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
     std::copy(im_depth_val.begin(), im_depth_val.end(), im_depth_data);
 
@@ -295,6 +295,3 @@ TEST(RGBDImage, CreatePyramid) {
     ExpectEQ(ImageAsVector<float>(pyramid[1]->color_), std::vector<float>({0.25, 0.45, 1.05, 1.25}));
     ExpectEQ(ImageAsVector<float>(pyramid[1]->depth_), std::vector<float>({2.5, 4.5, 10.5, 12.5}));
 }
-
-}  // namespace tests
-}  // namespace arc

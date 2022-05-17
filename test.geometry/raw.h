@@ -30,14 +30,13 @@
 #include <string>
 #include <vector>
 
-namespace arc {
-namespace tests {
+namespace arc::tests {
 
 // Class for "generating" data.
 class Raw {
 public:
     Raw() : step(1), index(0) {}
-    Raw(const int &seed) : step((seed <= 0) ? 1 : seed), index(abs(seed) % SIZE) {}
+    explicit Raw(const int &seed) : step((seed <= 0) ? 1 : seed), index(abs(seed) % SIZE) {}
 
 private:
     // size of the raw data
@@ -91,5 +90,4 @@ float Raw::Next();
 template <>
 double Raw::Next();
 
-}  // namespace tests
-}  // namespace arc
+}  // namespace arc::tests

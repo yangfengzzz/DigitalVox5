@@ -40,8 +40,8 @@
 //#include "open3d/visualization/utility/DrawGeometry.h"
 #include "tests.h"
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 TEST(PointCloud, ConstructorDefault) {
     geometry::PointCloud pcd;
@@ -1270,6 +1270,3 @@ TEST(PointCloud, SegmentPlaneSpecialCase) {
 //     EXPECT_EQ(pcd->colors_.size(), pcd->points_.size());
 //     // visualization::DrawGeometries({pcd}); // Uncomment for manual check
 // }
-
-}  // namespace tests
-}  // namespace arc

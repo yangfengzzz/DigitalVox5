@@ -29,8 +29,8 @@
 #include "tests.h"
 #include "triangle_mesh.h"
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 void ExpectMeshEQ(const arc::geometry::TriangleMesh& mesh0,
                   const arc::geometry::TriangleMesh& mesh1,
@@ -377,7 +377,7 @@ TEST(TriangleMesh, ComputeTriangleNormals) {
     tm.vertices_.resize(size);
     Rand(tm.vertices_, dmin, dmax, 0);
 
-    for (size_t i = 0; i < size; i++) tm.triangles_.push_back(Eigen::Vector3i(i, (i + 1) % size, (i + 2) % size));
+    for (size_t i = 0; i < size; i++) tm.triangles_.emplace_back(i, (i + 1) % size, (i + 2) % size);
 
     tm.ComputeTriangleNormals();
 
@@ -409,7 +409,7 @@ TEST(TriangleMesh, ComputeVertexNormals) {
     tm.vertices_.resize(size);
     Rand(tm.vertices_, dmin, dmax, 0);
 
-    for (size_t i = 0; i < size; i++) tm.triangles_.push_back(Eigen::Vector3i(i, (i + 1) % size, (i + 2) % size));
+    for (size_t i = 0; i < size; i++) tm.triangles_.emplace_back(i, (i + 1) % size, (i + 2) % size);
 
     tm.ComputeVertexNormals();
 
@@ -620,8 +620,8 @@ TEST(TriangleMesh, SamplePointsUniformly) {
     size_t n_points = 100;
     auto pcd_simple = mesh_simple.SamplePointsUniformly(n_points);
     EXPECT_TRUE(pcd_simple->points_.size() == n_points);
-    EXPECT_TRUE(pcd_simple->colors_.size() == 0);
-    EXPECT_TRUE(pcd_simple->normals_.size() == 0);
+    EXPECT_TRUE(pcd_simple->colors_.empty());
+    EXPECT_TRUE(pcd_simple->normals_.empty());
 
     std::vector<Eigen::Vector3d> colors = {{1, 0, 0}, {1, 0, 0}, {1, 0, 0}};
     std::vector<Eigen::Vector3d> normals = {{0, 1, 0}, {0, 1, 0}, {0, 1, 0}};
@@ -844,7 +844,7 @@ TEST(TriangleMesh, PaintUniformColor) {
     Eigen::Vector3d color(233. / 255., 171. / 255., 53.0 / 255.);
     tm.PaintUniformColor(color);
 
-    for (size_t i = 0; i < tm.vertex_colors_.size(); i++) ExpectEQ(color, tm.vertex_colors_[i]);
+    for (auto& vertex_color : tm.vertex_colors_) ExpectEQ(color, vertex_color);
 }
 
 TEST(TriangleMesh, EulerPoincareCharacteristic) {
@@ -1713,6 +1713,3 @@ TEST(TriangleMesh, CreateMeshCoordinateFrame) {
     Eigen::Vector3d z_center = z_frame->GetCenter() - z;
     ExpectEQ(center_frame->GetCenter(), z_center);
 }
-
-}  // namespace tests
-}  // namespace arc

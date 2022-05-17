@@ -35,8 +35,8 @@ using Eigen::Vector3d;
 using emp_t = std::tuple<Vector3d, Vector3d, bool>;
 using dbl_t = std::tuple<Vector3d, Vector3d, double>;
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 TEST(AxisAlignedBoundingBox, EmptyConstructor) {
     AxisAlignedBoundingBox box;
@@ -283,6 +283,3 @@ INSTANTIATE_TEST_SUITE_P(AABBTests,
                                 dbl_t{{0, 0, 0}, {3, 1, 1}, 3},
                                 dbl_t{{0, 0, 0}, {1, 4, 1}, 4},
                                 dbl_t{{0, 0, 0}, {1, 1, 5}, 5}));
-
-}  // namespace tests
-}  // namespace arc

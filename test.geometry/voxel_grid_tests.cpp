@@ -30,8 +30,8 @@
 //#include "open3d/visualization/utility/DrawGeometry.h"
 #include "tests.h"
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 TEST(VoxelGrid, Bounds) {
     auto voxel_grid = std::make_shared<geometry::VoxelGrid>();
@@ -66,6 +66,3 @@ TEST(VoxelGrid, Visualization) {
     // Uncomment the line below for visualization test
     // visualization::DrawGeometries({voxel_grid});
 }
-
-}  // namespace tests
-}  // namespace arc

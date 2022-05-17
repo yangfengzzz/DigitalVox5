@@ -41,8 +41,7 @@
 #include "raw.h"
 #include "sort.h"
 
-namespace arc {
-namespace tests {
+namespace arc::tests {
 
 // Eigen Zero()
 const Eigen::Vector2d Zero2d = Eigen::Vector2d::Zero();
@@ -53,5 +52,4 @@ const Eigen::Vector2i Zero2i = Eigen::Vector2i::Zero();
 // Mechanism for reporting unit tests for which there is no implementation yet.
 void NotImplemented();
 
-}  // namespace tests
-}  // namespace arc
+}  // namespace arc::tests

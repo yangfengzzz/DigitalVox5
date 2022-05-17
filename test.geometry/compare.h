@@ -37,11 +37,10 @@
 
 #define ExpectEQ(arg, ...) ExpectEQInternal(::arc::tests::LineInfo(__FILE__, __LINE__), arg, __VA_ARGS__)
 
-namespace arc {
-namespace tests {
+namespace arc::tests {
 
 // Thresholds for comparing floating point values
-const double THRESHOLD_1E_6 = 1e-6;
+const float THRESHOLD_1E_6 = 1e-6f;
 
 const Eigen::IOFormat matrix_fmt(Eigen::StreamPrecision, 0, ", ", ",\n", "[", "]", "[", "]");
 
@@ -117,16 +116,13 @@ void ExpectGE(const std::vector<Eigen::Matrix<T, M, N, A>>& v0, const std::vecto
 }
 
 // Test equality of two arrays of uint8_t.
-void ExpectEQInternal(const std::string& line_info,
-                      const uint8_t* const v0,
-                      const uint8_t* const v1,
-                      const size_t& size);
+void ExpectEQInternal(const std::string& line_info, const uint8_t* v0, const uint8_t* v1, const size_t& size);
 
 // Test equality of two vectors of uint8_t.
 void ExpectEQInternal(const std::string& line_info, const std::vector<uint8_t>& v0, const std::vector<uint8_t>& v1);
 
 // Test equality of two arrays of int.
-void ExpectEQInternal(const std::string& line_info, const int* const v0, const int* const v1, const size_t& size);
+void ExpectEQInternal(const std::string& line_info, const int* v0, const int* v1, const size_t& size);
 
 // Test equality of two vectors of int.
 void ExpectEQInternal(const std::string& line_info, const std::vector<int>& v0, const std::vector<int>& v1);
@@ -136,8 +132,8 @@ void ExpectEQInternal(const std::string& line_info, const std::vector<int64_t>& 
 
 // Test equality of two arrays of float.
 void ExpectEQInternal(const std::string& line_info,
-                      const float* const v0,
-                      const float* const v1,
+                      const float* v0,
+                      const float* v1,
                       const size_t& size,
                       float threshold = THRESHOLD_1E_6);
 
@@ -149,8 +145,8 @@ void ExpectEQInternal(const std::string& line_info,
 
 // Test equality of two arrays of double.
 void ExpectEQInternal(const std::string& line_info,
-                      const double* const v0,
-                      const double* const v1,
+                      const double* v0,
+                      const double* v1,
                       const size_t& size,
                       double threshold = THRESHOLD_1E_6);
 
@@ -160,5 +156,4 @@ void ExpectEQInternal(const std::string& line_info,
                       const std::vector<double>& v1,
                       double threshold = THRESHOLD_1E_6);
 
-}  // namespace tests
-}  // namespace arc
+}  // namespace arc::tests

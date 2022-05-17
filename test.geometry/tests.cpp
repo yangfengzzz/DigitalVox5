@@ -26,8 +26,7 @@
 
 #include "tests.h"
 
-namespace arc {
-namespace tests {
+namespace arc::tests {
 
 void NotImplemented() {
     std::cout << "\033[0;32m"
@@ -40,5 +39,4 @@ void NotImplemented() {
     GTEST_NONFATAL_FAILURE_("Not implemented");
 }
 
-}  // namespace tests
-}  // namespace arc
+}  // namespace arc::tests

@@ -29,8 +29,8 @@
 //#include "open3d/camera/PinholeCameraIntrinsic.h"
 #include "tests.h"
 
-namespace arc {
-namespace tests {
+using namespace arc;
+using namespace tests;
 
 using ConversionType = geometry::Image::ColorToIntensityConversionType;
 using FilterType = geometry::Image::FilterType;
@@ -128,7 +128,7 @@ TEST(Image, FloatValueAt) {
 
     image.Prepare(width, height, num_of_channels, bytes_per_channel);
 
-    float* const im = image.PointerAs<float>();
+    auto* const im = image.PointerAs<float>();
 
     im[0 * width + 0] = 4.0f;
     im[0 * width + 1] = 4.0f;
@@ -224,7 +224,7 @@ void TEST_CreateFloatImage(const int& num_of_channels,
 
     auto Bytes2Floats = [](const std::vector<uint8_t>& bytes) {
         if (bytes.size() % 4) {
-            LOGE("{} % 4 != 0.", bytes.size());
+            LOGE("{} % 4 != 0.", bytes.size())
         }
         size_t num_elments = bytes.size() / 4;
         std::vector<float> floats(reinterpret_cast<const float*>(bytes.data()),
@@ -242,7 +242,7 @@ TEST(Image, CreateFloatImage_1_1) {
 
     geometry::Image image;
     image.Prepare(width, height, num_of_channels, bytes_per_channel);
-    uint8_t* data_ptr = static_cast<uint8_t*>(image.data_.data());
+    auto* data_ptr = static_cast<uint8_t*>(image.data_.data());
     data_ptr[0] = 0;
     data_ptr[1] = 51;
     data_ptr[2] = 102;
@@ -252,7 +252,7 @@ TEST(Image, CreateFloatImage_1_1) {
     EXPECT_EQ(float_image->width_, width);
     EXPECT_EQ(float_image->height_, height);
     EXPECT_EQ(float_image->num_of_channels_, 1);
-    float* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
+    auto* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
     std::vector<float> float_values(float_data_ptr, float_data_ptr + width * height);
     ExpectEQ(float_values, std::vector<float>({0, 0.2, 0.4, 1}));
 }
@@ -266,7 +266,7 @@ TEST(Image, CreateFloatImage_1_2) {
     // unit16_t to float just uses the direct value.
     geometry::Image image;
     image.Prepare(width, height, num_of_channels, bytes_per_channel);
-    uint16_t* data_ptr = reinterpret_cast<uint16_t*>(image.data_.data());
+    auto* data_ptr = reinterpret_cast<uint16_t*>(image.data_.data());
     data_ptr[0] = 0;
     data_ptr[1] = 1;
     data_ptr[2] = 2;
@@ -276,7 +276,7 @@ TEST(Image, CreateFloatImage_1_2) {
     EXPECT_EQ(float_image->width_, width);
     EXPECT_EQ(float_image->height_, height);
     EXPECT_EQ(float_image->num_of_channels_, 1);
-    float* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
+    auto* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
     std::vector<float> float_values(float_data_ptr, float_data_ptr + width * height);
     ExpectEQ(float_values, std::vector<float>({0, 1, 2, 3}));
 }
@@ -290,7 +290,7 @@ TEST(Image, CreateFloatImage_1_4) {
     // float to float just uses the direct value.
     geometry::Image image;
     image.Prepare(width, height, num_of_channels, bytes_per_channel);
-    float* data_ptr = reinterpret_cast<float*>(image.data_.data());
+    auto* data_ptr = reinterpret_cast<float*>(image.data_.data());
     data_ptr[0] = 0.00;
     data_ptr[1] = 0.25;
     data_ptr[2] = 0.50;
@@ -300,7 +300,7 @@ TEST(Image, CreateFloatImage_1_4) {
     EXPECT_EQ(float_image->width_, width);
     EXPECT_EQ(float_image->height_, height);
     EXPECT_EQ(float_image->num_of_channels_, 1);
-    float* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
+    auto* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
     std::vector<float> float_values(float_data_ptr, float_data_ptr + width * height);
     ExpectEQ(float_values, std::vector<float>({0.00, 0.25, 0.50, 1.00}));
 }
@@ -314,7 +314,7 @@ TEST(Image, CreateFloatImage_3_1_Weighted) {
 
     geometry::Image image;
     image.Prepare(width, height, num_of_channels, bytes_per_channel);
-    uint8_t* data_ptr = static_cast<uint8_t*>(image.data_.data());
+    auto* data_ptr = static_cast<uint8_t*>(image.data_.data());
     // Pixel 0
     data_ptr[0] = 255;
     data_ptr[1] = 0;
@@ -336,7 +336,7 @@ TEST(Image, CreateFloatImage_3_1_Weighted) {
     EXPECT_EQ(float_image->width_, width);
     EXPECT_EQ(float_image->height_, height);
     EXPECT_EQ(float_image->num_of_channels_, 1);
-    float* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
+    auto* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
     std::vector<float> float_values(float_data_ptr, float_data_ptr + width * height);
     ExpectEQ(float_values, std::vector<float>({0.2990, 0.5870, 0.1140, 1}));
 }
@@ -350,7 +350,7 @@ TEST(Image, CreateFloatImage_3_1_Equal) {
 
     geometry::Image image;
     image.Prepare(width, height, num_of_channels, bytes_per_channel);
-    uint8_t* data_ptr = static_cast<uint8_t*>(image.data_.data());
+    auto* data_ptr = static_cast<uint8_t*>(image.data_.data());
     // Pixel 0
     data_ptr[0] = 255;
     data_ptr[1] = 0;
@@ -372,7 +372,7 @@ TEST(Image, CreateFloatImage_3_1_Equal) {
     EXPECT_EQ(float_image->width_, width);
     EXPECT_EQ(float_image->height_, height);
     EXPECT_EQ(float_image->num_of_channels_, 1);
-    float* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
+    auto* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
     std::vector<float> float_values(float_data_ptr, float_data_ptr + width * height);
     ExpectEQ(float_values, std::vector<float>({1.0 / 3, 1.0 / 3, 1.0 / 3, 1.0}));
 }
@@ -386,7 +386,7 @@ TEST(Image, CreateFloatImage_3_2_Weighted) {
 
     geometry::Image image;
     image.Prepare(width, height, num_of_channels, bytes_per_channel);
-    uint16_t* data_ptr = reinterpret_cast<uint16_t*>(image.data_.data());
+    auto* data_ptr = reinterpret_cast<uint16_t*>(image.data_.data());
     // Pixel 0
     data_ptr[0] = 255;
     data_ptr[1] = 0;
@@ -408,7 +408,7 @@ TEST(Image, CreateFloatImage_3_2_Weighted) {
     EXPECT_EQ(float_image->width_, width);
     EXPECT_EQ(float_image->height_, height);
     EXPECT_EQ(float_image->num_of_channels_, 1);
-    float* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
+    auto* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
     std::vector<float> float_values(float_data_ptr, float_data_ptr + width * height);
     ExpectEQ(float_values, std::vector<float>({0.2990 * 255, 0.5870 * 255, 0.1140 * 255, 1 * 255}), 1e-5);
 }
@@ -422,7 +422,7 @@ TEST(Image, CreateFloatImage_3_2_Equal) {
 
     geometry::Image image;
     image.Prepare(width, height, num_of_channels, bytes_per_channel);
-    uint16_t* data_ptr = reinterpret_cast<uint16_t*>(image.data_.data());
+    auto* data_ptr = reinterpret_cast<uint16_t*>(image.data_.data());
     // Pixel 0
     data_ptr[0] = 255;
     data_ptr[1] = 0;
@@ -444,7 +444,7 @@ TEST(Image, CreateFloatImage_3_2_Equal) {
     EXPECT_EQ(float_image->width_, width);
     EXPECT_EQ(float_image->height_, height);
     EXPECT_EQ(float_image->num_of_channels_, 1);
-    float* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
+    auto* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
     std::vector<float> float_values(float_data_ptr, float_data_ptr + width * height);
     ExpectEQ(float_values, std::vector<float>({255.0 / 3, 255.0 / 3, 255.0 / 3, 255}), 1e-5);
 }
@@ -458,7 +458,7 @@ TEST(Image, CreateFloatImage_3_4_Weighted) {
 
     geometry::Image image;
     image.Prepare(width, height, num_of_channels, bytes_per_channel);
-    float* data_ptr = reinterpret_cast<float*>(image.data_.data());
+    auto* data_ptr = reinterpret_cast<float*>(image.data_.data());
     // Pixel 0
     data_ptr[0] = 1;
     data_ptr[1] = 0;
@@ -480,7 +480,7 @@ TEST(Image, CreateFloatImage_3_4_Weighted) {
     EXPECT_EQ(float_image->width_, width);
     EXPECT_EQ(float_image->height_, height);
     EXPECT_EQ(float_image->num_of_channels_, 1);
-    float* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
+    auto* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
     std::vector<float> float_values(float_data_ptr, float_data_ptr + width * height);
     ExpectEQ(float_values, std::vector<float>({0.2990, 0.5870, 0.1140, 1}));
 }
@@ -494,7 +494,7 @@ TEST(Image, CreateFloatImage_3_4_Equal) {
 
     geometry::Image image;
     image.Prepare(width, height, num_of_channels, bytes_per_channel);
-    float* data_ptr = reinterpret_cast<float*>(image.data_.data());
+    auto* data_ptr = reinterpret_cast<float*>(image.data_.data());
     // Pixel 0
     data_ptr[0] = 1;
     data_ptr[1] = 0;
@@ -516,7 +516,7 @@ TEST(Image, CreateFloatImage_3_4_Equal) {
     EXPECT_EQ(float_image->width_, width);
     EXPECT_EQ(float_image->height_, height);
     EXPECT_EQ(float_image->num_of_channels_, 1);
-    float* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
+    auto* float_data_ptr = reinterpret_cast<float*>(float_image->data_.data());
     std::vector<float> float_values(float_data_ptr, float_data_ptr + width * height);
     ExpectEQ(float_values, std::vector<float>({1.0 / 3, 1.0 / 3, 1.0 / 3, 1.0}));
 }
@@ -531,7 +531,7 @@ TEST(Image, PointerAt) {
 
     image.Prepare(width, height, num_of_channels, bytes_per_channel);
 
-    float* const im = image.PointerAs<float>();
+    auto* const im = image.PointerAs<float>();
 
     im[0 * width + 0] = 0.0f;
     im[0 * width + 1] = 1.0f;
@@ -1094,6 +1094,3 @@ TEST(Image, CreatePyramid) {
         expected_height /= 2;
     }
 }
-
-}  // namespace tests
-}  // namespace arc
