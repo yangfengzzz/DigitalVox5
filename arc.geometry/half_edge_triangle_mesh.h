@@ -106,7 +106,7 @@ protected:
     explicit HalfEdgeTriangleMesh(Geometry::GeometryType type) : MeshBase(type) {}
 
     /// Returns the next half edge from starting vertex of the input half edge,
-    /// in a counterclock wise manner. Returns -1 if when hitting a boundary.
+    /// in a counter-clock wise manner. Returns -1 if when hitting a boundary.
     /// This is done by traversing to the next, next and twin half edge.
     [[nodiscard]] int NextHalfEdgeFromVertex(int init_half_edge_index) const;
     [[nodiscard]] int NextHalfEdgeOnBoundary(int curr_half_edge_index) const;
@@ -124,4 +124,4 @@ public:
     std::vector<std::vector<int>> ordered_half_edge_from_vertex_;
 };
 
-}  // namespace arc
+}  // namespace arc::geometry

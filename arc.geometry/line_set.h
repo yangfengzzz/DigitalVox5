@@ -55,8 +55,8 @@ public:
     ///
     /// \param points Point coordinates.
     /// \param lines Lines denoted by the index of points forming the line.
-    LineSet(std::vector<Eigen::Vector3d> points, const std::vector<Eigen::Vector2i> &lines)
-        : Geometry3D(Geometry::GeometryType::LINE_SET), points_(std::move(points)), lines_(lines) {}
+    LineSet(std::vector<Eigen::Vector3d> points, std::vector<Eigen::Vector2i> lines)
+        : Geometry3D(Geometry::GeometryType::LINE_SET), points_(std::move(points)), lines_(std::move(lines)) {}
     ~LineSet() override = default;
 
 public:
@@ -76,10 +76,10 @@ public:
     LineSet operator+(const LineSet &lineset) const;
 
     /// Returns `true` if the object contains points.
-    [[nodiscard]] bool HasPoints() const { return points_.size() > 0; }
+    [[nodiscard]] bool HasPoints() const { return !points_.empty(); }
 
     /// Returns `true` if the object contains lines.
-    [[nodiscard]] bool HasLines() const { return HasPoints() && lines_.size() > 0; }
+    [[nodiscard]] bool HasLines() const { return HasPoints() && !lines_.empty(); }
 
     /// Returns `true` if the objects lines contains colors.
     [[nodiscard]] bool HasColors() const { return HasLines() && colors_.size() == lines_.size(); }

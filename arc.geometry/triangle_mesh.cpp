@@ -26,7 +26,6 @@
 
 #include "triangle_mesh.h"
 
-#include <Eigen/Dense>
 #include <numeric>
 #include <queue>
 #include <random>
@@ -40,8 +39,7 @@
 #include "qhull.h"
 //#include "open3d/utility/Parallel.h"
 
-namespace arc {
-namespace geometry {
+namespace arc::geometry {
 
 TriangleMesh &TriangleMesh::Clear() {
     MeshBase::Clear();
@@ -287,7 +285,7 @@ void TriangleMesh::FilterSmoothLaplacianHelper(std::shared_ptr<TriangleMesh> &me
                                                double lambda_filter,
                                                bool filter_vertex,
                                                bool filter_normal,
-                                               bool filter_color) const {
+                                               bool filter_color) {
     for (size_t vidx = 0; vidx < mesh->vertices_.size(); ++vidx) {
         Eigen::Vector3d vertex_sum(0, 0, 0);
         Eigen::Vector3d normal_sum(0, 0, 0);
@@ -402,7 +400,7 @@ std::shared_ptr<PointCloud> TriangleMesh::SamplePointsUniformlyImpl(size_t numbe
                                                                     bool use_triangle_normal,
                                                                     int seed) {
     if (surface_area <= 0) {
-        LOGE("Invalid surface area {}, it must be > 0.", surface_area);
+        LOGE("Invalid surface area {}, it must be > 0.", surface_area)
     }
 
     // triangle areas to cdf
@@ -433,7 +431,7 @@ std::shared_ptr<PointCloud> TriangleMesh::SamplePointsUniformlyImpl(size_t numbe
     }
     size_t point_idx = 0;
     for (size_t tidx = 0; tidx < triangles_.size(); ++tidx) {
-        size_t n = size_t(std::round(triangle_areas[tidx] * number_of_points));
+        auto n = size_t(std::round(triangle_areas[tidx] * number_of_points));
         while (point_idx < n) {
             double r1 = dist(mt);
             double r2 = dist(mt);
@@ -467,10 +465,10 @@ std::shared_ptr<PointCloud> TriangleMesh::SamplePointsUniformly(size_t number_of
                                                                 bool use_triangle_normal /* = false */,
                                                                 int seed /* = -1 */) {
     if (number_of_points <= 0) {
-        LOGE("number_of_points <= 0");
+        LOGE("number_of_points <= 0")
     }
-    if (triangles_.size() == 0) {
-        LOGE("Input mesh has no triangles.");
+    if (triangles_.empty()) {
+        LOGE("Input mesh has no triangles.")
     }
 
     // Compute area of each triangle and sum surface area
@@ -483,22 +481,22 @@ std::shared_ptr<PointCloud> TriangleMesh::SamplePointsUniformly(size_t number_of
 std::shared_ptr<PointCloud> TriangleMesh::SamplePointsPoissonDisk(
         size_t number_of_points,
         double init_factor /* = 5 */,
-        const std::shared_ptr<PointCloud> pcl_init /* = nullptr */,
+        const std::shared_ptr<PointCloud> &pcl_init /* = nullptr */,
         bool use_triangle_normal /* = false */,
         int seed /* = -1 */) {
     if (number_of_points <= 0) {
-        LOGE("number_of_points <= 0");
+        LOGE("number_of_points <= 0")
     }
-    if (triangles_.size() == 0) {
-        LOGE("Input mesh has no triangles.");
+    if (triangles_.empty()) {
+        LOGE("Input mesh has no triangles.")
     }
     if (pcl_init == nullptr && init_factor < 1) {
         LOGE("Either pass pcl_init with #points > number_of_points or "
-             "init_factor > 1");
+             "init_factor > 1")
     }
     if (pcl_init != nullptr && pcl_init->points_.size() < number_of_points) {
         LOGE("Either pass pcl_init with #points > number_of_points, or "
-             "init_factor > 1");
+             "init_factor > 1")
     }
 
     // Compute area of each triangle and sum surface area
@@ -561,7 +559,7 @@ std::shared_ptr<PointCloud> TriangleMesh::SamplePointsPoissonDisk(
     for (size_t pidx0 = 0; pidx0 < pcl->points_.size(); ++pidx0) {
         ComputePointWeight(int(pidx0));
         queue.push(QueueEntry(int(pidx0), weights[pidx0]));
-    };
+    }
 
     // sample elimination
     size_t current_number_of_points = pcl->points_.size();
@@ -651,7 +649,7 @@ TriangleMesh &TriangleMesh::RemoveDuplicatedVertices() {
             ComputeAdjacencyList();
         }
     }
-    LOGD("[RemoveDuplicatedVertices] {:d} vertices have been removed.", (int)(old_vertex_num - k));
+    LOGD("[RemoveDuplicatedVertices] {:d} vertices have been removed.", (int)(old_vertex_num - k))
 
     return *this;
 }
@@ -659,7 +657,7 @@ TriangleMesh &TriangleMesh::RemoveDuplicatedVertices() {
 TriangleMesh &TriangleMesh::RemoveDuplicatedTriangles() {
     if (HasTriangleUvs()) {
         LOGW("[RemoveDuplicatedTriangles] This mesh contains triangle uvs "
-             "that are not handled in this function");
+             "that are not handled in this function")
     }
     typedef std::tuple<int, int, int> Index3;
     std::unordered_map<Index3, size_t, utility::hash_tuple<Index3>> triangle_to_old_index;
@@ -695,7 +693,7 @@ TriangleMesh &TriangleMesh::RemoveDuplicatedTriangles() {
     if (k < old_triangle_num && HasAdjacencyList()) {
         ComputeAdjacencyList();
     }
-    LOGD("[RemoveDuplicatedTriangles] {:d} triangles have been removed.", (int)(old_triangle_num - k));
+    LOGD("[RemoveDuplicatedTriangles] {:d} triangles have been removed.", (int)(old_triangle_num - k))
 
     return *this;
 }
@@ -736,7 +734,7 @@ TriangleMesh &TriangleMesh::RemoveUnreferencedVertices() {
             ComputeAdjacencyList();
         }
     }
-    LOGD("[RemoveUnreferencedVertices] {:d} vertices have been removed.", (int)(old_vertex_num - k));
+    LOGD("[RemoveUnreferencedVertices] {:d} vertices have been removed.", (int)(old_vertex_num - k))
 
     return *this;
 }
@@ -744,7 +742,7 @@ TriangleMesh &TriangleMesh::RemoveUnreferencedVertices() {
 TriangleMesh &TriangleMesh::RemoveDegenerateTriangles() {
     if (HasTriangleUvs()) {
         LOGW("[RemoveDegenerateTriangles] This mesh contains triangle uvs "
-             "that are not handled in this function");
+             "that are not handled in this function")
     }
     bool has_tri_normal = HasTriangleNormals();
     size_t old_triangle_num = triangles_.size();
@@ -764,14 +762,14 @@ TriangleMesh &TriangleMesh::RemoveDegenerateTriangles() {
     }
     LOGD("[RemoveDegenerateTriangles] {:d} triangles have been "
          "removed.",
-         (int)(old_triangle_num - k));
+         (int)(old_triangle_num - k))
     return *this;
 }
 
 TriangleMesh &TriangleMesh::RemoveNonManifoldEdges() {
     if (HasTriangleUvs()) {
         LOGW("[RemoveNonManifoldEdges] This mesh contains triangle uvs that "
-             "are not handled in this function");
+             "are not handled in this function")
     }
     std::vector<double> triangle_areas;
     GetSurfaceArea(triangle_areas);
@@ -850,14 +848,14 @@ TriangleMesh &TriangleMesh::RemoveNonManifoldEdges() {
 TriangleMesh &TriangleMesh::MergeCloseVertices(double eps) {
     KDTreeFlann kdtree(*this);
     // precompute all neighbours
-    LOGD("Precompute Neighbours");
+    LOGD("Precompute Neighbours")
     std::vector<std::vector<int>> nbs(vertices_.size());
 #pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
     for (int idx = 0; idx < int(vertices_.size()); ++idx) {
         std::vector<double> dists2;
         kdtree.SearchRadius(vertices_[idx], eps, nbs[idx], dists2);
     }
-    LOGD("Done Precompute Neighbours");
+    LOGD("Done Precompute Neighbours")
 
     bool has_vertex_normals = HasVertexNormals();
     bool has_vertex_colors = HasVertexColors();
@@ -897,15 +895,15 @@ TriangleMesh &TriangleMesh::MergeCloseVertices(double eps) {
             new_vert_mapping[nb] = new_vidx;
             n += 1;
         }
-        new_vertices.push_back(vertex / n);
+        new_vertices.emplace_back(vertex / n);
         if (has_vertex_normals) {
-            new_vertex_normals.push_back(normal / n);
+            new_vertex_normals.emplace_back(normal / n);
         }
         if (has_vertex_colors) {
-            new_vertex_colors.push_back(color / n);
+            new_vertex_colors.emplace_back(color / n);
         }
     }
-    LOGD("Merged {} vertices", vertices_.size() - new_vertices.size());
+    LOGD("Merged {} vertices", vertices_.size() - new_vertices.size())
 
     std::swap(vertices_, new_vertices);
     std::swap(vertex_normals_, new_vertex_normals);
@@ -1057,8 +1055,7 @@ TriangleMesh::GetEdgeToVerticesMap() const {
     auto AddEdge = [&](int vidx0, int vidx1, int vidx2) {
         trias_per_edge[GetOrderedEdge(vidx0, vidx1)].push_back(vidx2);
     };
-    for (size_t tidx = 0; tidx < triangles_.size(); ++tidx) {
-        const auto &triangle = triangles_[tidx];
+    for (const auto &triangle : triangles_) {
         AddEdge(triangle(0), triangle(1), triangle(2));
         AddEdge(triangle(1), triangle(2), triangle(0));
         AddEdge(triangle(2), triangle(0), triangle(1));
@@ -1118,11 +1115,11 @@ double TriangleMesh::GetVolume() const {
 
     if (!IsWatertight()) {
         LOGE("The mesh is not watertight, and the volume cannot be "
-             "computed.");
+             "computed.")
     }
     if (!IsOrientable()) {
         LOGE("The mesh is not orientable, and the volume cannot be "
-             "computed.");
+             "computed.")
     }
 
     double volume = 0;
@@ -1176,7 +1173,7 @@ std::vector<Eigen::Vector2i> TriangleMesh::GetNonManifoldEdges(bool allow_bounda
     auto edges = GetEdgeToTrianglesMap();
     std::vector<Eigen::Vector2i> non_manifold_edges;
     for (auto &kv : edges) {
-        if ((allow_boundary_edges && (kv.second.size() < 1 || kv.second.size() > 2)) ||
+        if ((allow_boundary_edges && (kv.second.empty() || kv.second.size() > 2)) ||
             (!allow_boundary_edges && kv.second.size() != 2)) {
             non_manifold_edges.push_back(kv.first);
         }
@@ -1187,7 +1184,7 @@ std::vector<Eigen::Vector2i> TriangleMesh::GetNonManifoldEdges(bool allow_bounda
 bool TriangleMesh::IsEdgeManifold(bool allow_boundary_edges /* = true */) const {
     auto edges = GetEdgeToTrianglesMap();
     for (auto &kv : edges) {
-        if ((allow_boundary_edges && (kv.second.size() < 1 || kv.second.size() > 2)) ||
+        if ((allow_boundary_edges && (kv.second.empty() || kv.second.size() > 2)) ||
             (!allow_boundary_edges && kv.second.size() != 2)) {
             return false;
         }
@@ -1207,7 +1204,7 @@ std::vector<int> TriangleMesh::GetNonManifoldVertices() const {
     std::vector<int> non_manifold_verts;
     for (int vidx = 0; vidx < int(vertices_.size()); ++vidx) {
         const auto &triangles = vert_to_triangles[vidx];
-        if (triangles.size() == 0) {
+        if (triangles.empty()) {
             continue;
         }
 
@@ -1282,7 +1279,7 @@ std::vector<Eigen::Vector2i> TriangleMesh::GetSelfIntersectingTriangles() const 
             const Eigen::Vector3d bb_max2 = q0.array().max(q1.array().max(q2.array()));
             if (IntersectionTest::AABBAABB(bb_min1, bb_max1, bb_min2, bb_max2) &&
                 IntersectionTest::TriangleTriangle3d(p0, p1, p2, q0, q1, q2)) {
-                self_intersecting_triangles.push_back(Eigen::Vector2i(tidx0, tidx1));
+                self_intersecting_triangles.emplace_back(Eigen::Vector2i(tidx0, tidx1));
             }
         }
     }
@@ -1299,8 +1296,7 @@ bool TriangleMesh::IsIntersecting(const TriangleMesh &other) const {
     if (!IsBoundingBoxIntersecting(other)) {
         return false;
     }
-    for (size_t tidx0 = 0; tidx0 < triangles_.size(); ++tidx0) {
-        const Eigen::Vector3i &tria_p = triangles_[tidx0];
+    for (const auto &tria_p : triangles_) {
         const Eigen::Vector3d &p0 = vertices_[tria_p(0)];
         const Eigen::Vector3d &p1 = vertices_[tria_p(1)];
         const Eigen::Vector3d &p2 = vertices_[tria_p(2)];
@@ -1322,7 +1318,7 @@ std::tuple<std::vector<int>, std::vector<size_t>, std::vector<double>> TriangleM
     std::vector<size_t> num_triangles;
     std::vector<double> areas;
 
-    LOGD("[ClusterConnectedTriangles] Compute triangle adjacency");
+    LOGD("[ClusterConnectedTriangles] Compute triangle adjacency")
     auto edges_to_triangles = GetEdgeToTrianglesMap();
     std::vector<std::unordered_set<int>> adjacency_list(triangles_.size());
 #pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
@@ -1338,7 +1334,7 @@ std::tuple<std::vector<int>, std::vector<size_t>, std::vector<double>> TriangleM
             adjacency_list[tidx].insert(tnb);
         }
     }
-    LOGD("[ClusterConnectedTriangles] Done computing triangle adjacency");
+    LOGD("[ClusterConnectedTriangles] Done computing triangle adjacency")
 
     int cluster_idx = 0;
     for (int tidx = 0; tidx < int(triangles_.size()); ++tidx) {
@@ -1372,7 +1368,7 @@ std::tuple<std::vector<int>, std::vector<size_t>, std::vector<double>> TriangleM
         cluster_idx++;
     }
 
-    LOGD("[ClusterConnectedTriangles] Done clustering, #clusters={}", cluster_idx);
+    LOGD("[ClusterConnectedTriangles] Done clustering, #clusters={}", cluster_idx)
     return std::make_tuple(triangle_clusters, num_triangles, areas);
 }
 
@@ -1384,7 +1380,7 @@ void TriangleMesh::RemoveTrianglesByIndex(const std::vector<size_t> &triangle_in
         } else {
             LOGW("[RemoveTriangles] contains triangle index {} that is not "
                  "within the bounds",
-                 tidx);
+                 tidx)
         }
     }
 
@@ -1393,7 +1389,7 @@ void TriangleMesh::RemoveTrianglesByIndex(const std::vector<size_t> &triangle_in
 
 void TriangleMesh::RemoveTrianglesByMask(const std::vector<bool> &triangle_mask) {
     if (triangle_mask.size() != triangles_.size()) {
-        LOGE("triangle_mask has a different size than triangles_");
+        LOGE("triangle_mask has a different size than triangles_")
     }
 
     bool has_tri_normal = HasTriangleNormals();
@@ -1430,7 +1426,7 @@ void TriangleMesh::RemoveVerticesByIndex(const std::vector<size_t> &vertex_indic
         } else {
             LOGW("[RemoveVerticessByIndex] contains vertex index {} that is "
                  "not within the bounds",
-                 vidx);
+                 vidx)
         }
     }
 
@@ -1439,7 +1435,7 @@ void TriangleMesh::RemoveVerticesByIndex(const std::vector<size_t> &vertex_indic
 
 void TriangleMesh::RemoveVerticesByMask(const std::vector<bool> &vertex_mask) {
     if (vertex_mask.size() != vertices_.size()) {
-        LOGE("vertex_mask has a different size than vertices_");
+        LOGE("vertex_mask has a different size than vertices_")
     }
 
     bool has_normal = HasVertexNormals();
@@ -1483,7 +1479,7 @@ void TriangleMesh::RemoveVerticesByMask(const std::vector<bool> &vertex_mask) {
 std::shared_ptr<TriangleMesh> TriangleMesh::SelectByIndex(const std::vector<size_t> &indices, bool cleanup) const {
     if (HasTriangleUvs()) {
         LOGW("[SelectByIndex] This mesh contains triangle uvs that are "
-             "not handled in this function");
+             "not handled in this function")
     }
     auto output = std::make_shared<TriangleMesh>();
     bool has_triangle_normals = HasTriangleNormals();
@@ -1495,7 +1491,7 @@ std::shared_ptr<TriangleMesh> TriangleMesh::SelectByIndex(const std::vector<size
         if (sel_vidx >= vertices_.size()) {
             LOGW("[SelectByIndex] indices contains index {} out of range. "
                  "It is ignored.",
-                 sel_vidx);
+                 sel_vidx)
             continue;
         }
         if (new_vert_ind[sel_vidx] >= 0) {
@@ -1515,7 +1511,7 @@ std::shared_ptr<TriangleMesh> TriangleMesh::SelectByIndex(const std::vector<size
         int nvidx1 = new_vert_ind[triangles_[tidx](1)];
         int nvidx2 = new_vert_ind[triangles_[tidx](2)];
         if (nvidx0 >= 0 && nvidx1 >= 0 && nvidx2 >= 0) {
-            output->triangles_.push_back(Eigen::Vector3i(nvidx0, nvidx1, nvidx2));
+            output->triangles_.emplace_back(Eigen::Vector3i(nvidx0, nvidx1, nvidx2));
             if (has_triangle_normals) {
                 output->triangle_normals_.push_back(triangle_normals_[tidx]);
             }
@@ -1530,14 +1526,14 @@ std::shared_ptr<TriangleMesh> TriangleMesh::SelectByIndex(const std::vector<size
     }
     LOGD("Triangle mesh sampled from {:d} vertices and {:d} triangles to "
          "{:d} vertices and {:d} triangles.",
-         (int)vertices_.size(), (int)triangles_.size(), (int)output->vertices_.size(), (int)output->triangles_.size());
+         (int)vertices_.size(), (int)triangles_.size(), (int)output->vertices_.size(), (int)output->triangles_.size())
     return output;
 }  // namespace geometry
 
 std::shared_ptr<TriangleMesh> TriangleMesh::Crop(const AxisAlignedBoundingBox &bbox) const {
     if (bbox.IsEmpty()) {
         LOGE("AxisAlignedBoundingBox either has zeros "
-             "size, or has wrong bounds.");
+             "size, or has wrong bounds.")
     }
     return SelectByIndex(bbox.GetPointIndicesWithinBoundingBox(vertices_));
 }
@@ -1545,7 +1541,7 @@ std::shared_ptr<TriangleMesh> TriangleMesh::Crop(const AxisAlignedBoundingBox &b
 std::shared_ptr<TriangleMesh> TriangleMesh::Crop(const OrientedBoundingBox &bbox) const {
     if (bbox.IsEmpty()) {
         LOGE("AxisAlignedBoundingBox either has zeros "
-             "size, or has wrong bounds.");
+             "size, or has wrong bounds.")
         return std::make_shared<TriangleMesh>();
     }
     return SelectByIndex(bbox.GetPointIndicesWithinBoundingBox(vertices_));
@@ -1577,5 +1573,4 @@ std::unordered_map<Eigen::Vector2i, double, utility::hash_eigen<Eigen::Vector2i>
     return weights;
 }
 
-}  // namespace geometry
-}  // namespace arc
+}  // namespace arc::geometry

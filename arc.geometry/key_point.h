@@ -32,8 +32,7 @@
 
 #include <memory>
 
-namespace arc {
-namespace geometry {
+namespace arc::geometry {
 
 class PointCloud;
 
@@ -65,5 +64,4 @@ std::shared_ptr<PointCloud> ComputeISSKeypoints(const PointCloud &input,
                                                 int min_neighbors = 5);
 
 }  // namespace keypoint
-}  // namespace geometry
-}  // namespace arc
+}  // namespace arc::geometry

@@ -346,7 +346,7 @@ public:
     /// to use a random seed value with each function call.
     std::shared_ptr<PointCloud> SamplePointsPoissonDisk(size_t number_of_points,
                                                         double init_factor = 5,
-                                                        std::shared_ptr<PointCloud> pcl_init = nullptr,
+                                                        const std::shared_ptr<PointCloud> &pcl_init = nullptr,
                                                         bool use_triangle_normal = false,
                                                         int seed = -1);
 
@@ -688,15 +688,15 @@ protected:
     // Forward child class type to avoid indirect nonvirtual base
     explicit TriangleMesh(Geometry::GeometryType type) : MeshBase(type) {}
 
-    void FilterSmoothLaplacianHelper(std::shared_ptr<TriangleMesh> &mesh,
-                                     const std::vector<Eigen::Vector3d> &prev_vertices,
-                                     const std::vector<Eigen::Vector3d> &prev_vertex_normals,
-                                     const std::vector<Eigen::Vector3d> &prev_vertex_colors,
-                                     const std::vector<std::unordered_set<int>> &adjacency_list,
-                                     double lambda_filter,
-                                     bool filter_vertex,
-                                     bool filter_normal,
-                                     bool filter_color) const;
+    static void FilterSmoothLaplacianHelper(std::shared_ptr<TriangleMesh> &mesh,
+                                            const std::vector<Eigen::Vector3d> &prev_vertices,
+                                            const std::vector<Eigen::Vector3d> &prev_vertex_normals,
+                                            const std::vector<Eigen::Vector3d> &prev_vertex_colors,
+                                            const std::vector<std::unordered_set<int>> &adjacency_list,
+                                            double lambda_filter,
+                                            bool filter_vertex,
+                                            bool filter_normal,
+                                            bool filter_color);
 
     /// \brief Function that computes for each edge in the triangle mesh and
     /// passed as parameter edges_to_vertices the cot weight.

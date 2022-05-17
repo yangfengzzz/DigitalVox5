@@ -6,8 +6,9 @@
 
 #include "bounding_volume.h"
 
-#include <numeric>
 #include <Eigen/Eigenvalues>
+#include <numeric>
+
 #include "logging.h"
 #include "point_cloud.h"
 #include "qhull.h"

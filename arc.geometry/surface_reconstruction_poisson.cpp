@@ -67,7 +67,7 @@ static const int DIMENSION = 3;
 class Open3DData {
 public:
     Open3DData() : normal_(0, 0, 0), color_(0, 0, 0) {}
-    Open3DData(Eigen::Vector3d normal, Eigen::Vector3d  color) : normal_(std::move(normal)), color_(std::move(color)) {}
+    Open3DData(Eigen::Vector3d normal, Eigen::Vector3d color) : normal_(std::move(normal)), color_(std::move(color)) {}
 
     Open3DData operator*(double s) const { return Open3DData(s * normal_, s * color_); }
     Open3DData operator/(double s) const { return Open3DData(normal_ / s, (1 / s) * color_); }

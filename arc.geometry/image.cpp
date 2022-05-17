@@ -38,8 +38,7 @@ const std::vector<double> Sobel31 = {-1.0, 0.0, 1.0};
 const std::vector<double> Sobel32 = {1.0, 2.0, 1.0};
 }  // unnamed namespace
 
-namespace arc {
-namespace geometry {
+namespace arc::geometry {
 
 Image &Image::Clear() {
     width_ = 0;
@@ -102,7 +101,7 @@ std::shared_ptr<Image> Image::ConvertDepthToFloatImage(double depth_scale /* = 1
     auto output = CreateFloatImage();
     for (int y = 0; y < output->height_; y++) {
         for (int x = 0; x < output->width_; x++) {
-            float *p = output->PointerAt<float>(x, y);
+            auto *p = output->PointerAt<float>(x, y);
             *p /= (float)depth_scale;
             if (*p >= depth_trunc) *p = 0.0f;
         }
@@ -116,7 +115,7 @@ Image &Image::ClipIntensity(double min /* = 0.0*/, double max /* = 1.0*/) {
     }
     for (int y = 0; y < height_; y++) {
         for (int x = 0; x < width_; x++) {
-            float *p = PointerAt<float>(x, y);
+            auto *p = PointerAt<float>(x, y);
             if (*p > max) *p = (float)max;
             if (*p < min) *p = (float)min;
         }
@@ -130,7 +129,7 @@ Image &Image::LinearTransform(double scale, double offset /* = 0.0*/) {
     }
     for (int y = 0; y < height_; y++) {
         for (int x = 0; x < width_; x++) {
-            float *p = PointerAt<float>(x, y);
+            auto *p = PointerAt<float>(x, y);
             (*p) = (float)(scale * (*p) + offset);
         }
     }
@@ -153,11 +152,11 @@ std::shared_ptr<Image> Image::Downsample() const {
 #endif
     for (int y = 0; y < output->height_; y++) {
         for (int x = 0; x < output->width_; x++) {
-            float *p1 = PointerAt<float>(x * 2, y * 2);
-            float *p2 = PointerAt<float>(x * 2 + 1, y * 2);
-            float *p3 = PointerAt<float>(x * 2, y * 2 + 1);
-            float *p4 = PointerAt<float>(x * 2 + 1, y * 2 + 1);
-            float *p = output->PointerAt<float>(x, y);
+            auto *p1 = PointerAt<float>(x * 2, y * 2);
+            auto *p2 = PointerAt<float>(x * 2 + 1, y * 2);
+            auto *p3 = PointerAt<float>(x * 2, y * 2 + 1);
+            auto *p4 = PointerAt<float>(x * 2 + 1, y * 2 + 1);
+            auto *p = output->PointerAt<float>(x, y);
             *p = (*p1 + *p2 + *p3 + *p4) / 4.0f;
         }
     }
@@ -181,13 +180,13 @@ std::shared_ptr<Image> Image::FilterHorizontal(const std::vector<double> &kernel
 #endif
     for (int y = 0; y < height_; y++) {
         for (int x = 0; x < width_; x++) {
-            float *po = output->PointerAt<float>(x, y, 0);
+            auto *po = output->PointerAt<float>(x, y, 0);
             double temp = 0;
             for (int i = -half_kernel_size; i <= half_kernel_size; i++) {
                 int x_shift = x + i;
                 if (x_shift < 0) x_shift = 0;
                 if (x_shift > width_ - 1) x_shift = width_ - 1;
-                float *pi = PointerAt<float>(x_shift, y, 0);
+                auto *pi = PointerAt<float>(x_shift, y, 0);
                 temp += (*pi * (float)kernel[i + half_kernel_size]);
             }
             *po = (float)temp;
@@ -227,8 +226,8 @@ std::shared_ptr<Image> Image::Filter(Image::FilterType type) const {
 
 ImagePyramid Image::FilterPyramid(const ImagePyramid &input, Image::FilterType type) {
     std::vector<std::shared_ptr<Image>> output;
-    for (size_t i = 0; i < input.size(); i++) {
-        auto layer_filtered = input[i]->Filter(type);
+    for (const auto &i : input) {
+        auto layer_filtered = i->Filter(type);
         output.push_back(layer_filtered);
     }
     return output;
@@ -373,5 +372,4 @@ std::shared_ptr<Image> Image::CreateDepthBoundaryMask(double depth_threshold_for
     }
 }
 
-}  // namespace geometry
-}  // namespace arc
+}  // namespace arc::geometry

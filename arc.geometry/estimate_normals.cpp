@@ -325,7 +325,7 @@ void PointCloud::EstimateNormals(const KDTreeSearchParam &search_param /* = KDTr
 void PointCloud::OrientNormalsToAlignWithDirection(const Eigen::Vector3d &orientation_reference
                                                    /* = Eigen::Vector3d(0.0, 0.0, 1.0)*/) {
     if (!HasNormals()) {
-        LOGE("No normals in the PointCloud. Call EstimateNormals() first.");
+        LOGE("No normals in the PointCloud. Call EstimateNormals() first.")
     }
 #pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
     for (int i = 0; i < (int)points_.size(); i++) {
@@ -341,7 +341,7 @@ void PointCloud::OrientNormalsToAlignWithDirection(const Eigen::Vector3d &orient
 void PointCloud::OrientNormalsTowardsCameraLocation(
         const Eigen::Vector3d &camera_location /* = Eigen::Vector3d::Zero()*/) {
     if (!HasNormals()) {
-        LOGE("No normals in the PointCloud. Call EstimateNormals() first.");
+        LOGE("No normals in the PointCloud. Call EstimateNormals() first.")
     }
 #pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
     for (int i = 0; i < (int)points_.size(); i++) {
@@ -362,7 +362,7 @@ void PointCloud::OrientNormalsTowardsCameraLocation(
 
 void PointCloud::OrientNormalsConsistentTangentPlane(size_t k) {
     if (!HasNormals()) {
-        LOGE("No normals in the PointCloud. Call EstimateNormals() first.");
+        LOGE("No normals in the PointCloud. Call EstimateNormals() first.")
     }
 
     // Create Riemannian graph (Euclidean MST + kNN)
@@ -408,7 +408,7 @@ void PointCloud::OrientNormalsConsistentTangentPlane(size_t k) {
         std::vector<double> dists2;
         kdtree.SearchKNN(points_[v0], int(k), neighbors, dists2);
         for (int neighbor : neighbors) {
-            size_t v1 = size_t(neighbor);
+            auto v1 = size_t(neighbor);
             if (v0 == v1) {
                 continue;
             }

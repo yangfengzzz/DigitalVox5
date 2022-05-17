@@ -117,7 +117,7 @@ int HalfEdgeTriangleMesh::NextHalfEdgeOnBoundary(int curr_half_edge_index) const
         return -1;
     }
     if (!half_edges_[curr_half_edge_index].IsBoundary()) {
-        LOGW("The currented half-edge index {:d} is on boundary.", curr_half_edge_index)
+        LOGW("The current half-edge index {:d} is on boundary.", curr_half_edge_index)
         return -1;
     }
 
@@ -256,4 +256,4 @@ HalfEdgeTriangleMesh HalfEdgeTriangleMesh::operator+(const HalfEdgeTriangleMesh 
     return (HalfEdgeTriangleMesh(*this) += mesh);
 }
 
-}  // namespace arc
+}  // namespace arc::geometry

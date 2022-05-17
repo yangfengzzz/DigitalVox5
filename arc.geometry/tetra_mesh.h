@@ -13,8 +13,8 @@
 #include <vector>
 
 #include "eigen.h"
+#include "helper.h"
 #include "mesh_base.h"
-//#include "open3d/utility/Helper.h"
 
 namespace arc::geometry {
 

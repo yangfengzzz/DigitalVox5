@@ -59,42 +59,42 @@ public:
     /// \brief Parameterized Constructor.
     ///
     /// \param points Points coordinates.
-    PointCloud(const std::vector<Eigen::Vector3d> &points)
+    explicit PointCloud(const std::vector<Eigen::Vector3d> &points)
         : Geometry3D(Geometry::GeometryType::POINT_CLOUD), points_(points) {}
-    ~PointCloud() override {}
+    ~PointCloud() override = default;
 
 public:
     PointCloud &Clear() override;
-    bool IsEmpty() const override;
-    Eigen::Vector3d GetMinBound() const override;
-    Eigen::Vector3d GetMaxBound() const override;
-    Eigen::Vector3d GetCenter() const override;
-    AxisAlignedBoundingBox GetAxisAlignedBoundingBox() const override;
-    OrientedBoundingBox GetOrientedBoundingBox(bool robust = false) const override;
+    [[nodiscard]] bool IsEmpty() const override;
+    [[nodiscard]] Eigen::Vector3d GetMinBound() const override;
+    [[nodiscard]] Eigen::Vector3d GetMaxBound() const override;
+    [[nodiscard]] Eigen::Vector3d GetCenter() const override;
+    [[nodiscard]] AxisAlignedBoundingBox GetAxisAlignedBoundingBox() const override;
+    [[nodiscard]] OrientedBoundingBox GetOrientedBoundingBox(bool robust = false) const override;
     PointCloud &Transform(const Eigen::Matrix4d &transformation) override;
     PointCloud &Translate(const Eigen::Vector3d &translation, bool relative = true) override;
-    PointCloud &Scale(const double scale, const Eigen::Vector3d &center) override;
+    PointCloud &Scale(double scale, const Eigen::Vector3d &center) override;
     PointCloud &Rotate(const Eigen::Matrix3d &R, const Eigen::Vector3d &center) override;
 
     PointCloud &operator+=(const PointCloud &cloud);
     PointCloud operator+(const PointCloud &cloud) const;
 
     /// Returns 'true' if the point cloud contains points.
-    bool HasPoints() const { return points_.size() > 0; }
+    [[nodiscard]] bool HasPoints() const { return points_.size() > 0; }
 
     /// Returns `true` if the point cloud contains point normals.
-    bool HasNormals() const { return points_.size() > 0 && normals_.size() == points_.size(); }
+    [[nodiscard]] bool HasNormals() const { return points_.size() > 0 && normals_.size() == points_.size(); }
 
     /// Returns `true` if the point cloud contains point colors.
-    bool HasColors() const { return points_.size() > 0 && colors_.size() == points_.size(); }
+    [[nodiscard]] bool HasColors() const { return points_.size() > 0 && colors_.size() == points_.size(); }
 
     /// Returns 'true' if the point cloud contains per-point covariance matrix.
-    bool HasCovariances() const { return !points_.empty() && covariances_.size() == points_.size(); }
+    [[nodiscard]] bool HasCovariances() const { return !points_.empty() && covariances_.size() == points_.size(); }
 
     /// Normalize point normals to length 1.
     PointCloud &NormalizeNormals() {
-        for (size_t i = 0; i < normals_.size(); i++) {
-            normals_[i].normalize();
+        for (auto &normal : normals_) {
+            normal.normalize();
         }
         return *this;
     }
@@ -114,7 +114,7 @@ public:
     ///
     /// \param remove_nan Remove NaN values from the PointCloud.
     /// \param remove_infinite Remove infinite values from the PointCloud.
-    PointCloud &RemoveNonFinitePoints(bool remove_nan = true, bool remove_infinite = true);
+    [[maybe_unused]] PointCloud &RemoveNonFinitePoints(bool remove_nan = true, bool remove_infinite = true);
 
     /// \brief Function to select points from \p input pointcloud into
     /// \p output pointcloud.
@@ -123,7 +123,8 @@ public:
     ///
     /// \param indices Indices of points to be selected.
     /// \param invert Set to `True` to invert the selection of indices.
-    std::shared_ptr<PointCloud> SelectByIndex(const std::vector<size_t> &indices, bool invert = false) const;
+    [[nodiscard]] std::shared_ptr<PointCloud> SelectByIndex(const std::vector<size_t> &indices,
+                                                            bool invert = false) const;
 
     /// \brief Function to downsample input pointcloud into output pointcloud
     /// with a voxel.
@@ -132,7 +133,7 @@ public:
     ///
     /// \param voxel_size Defines the resolution of the voxel grid,
     /// smaller value leads to denser output point cloud.
-    std::shared_ptr<PointCloud> VoxelDownSample(double voxel_size) const;
+    [[nodiscard]] std::shared_ptr<PointCloud> VoxelDownSample(double voxel_size) const;
 
     /// \brief Function to downsample using geometry.PointCloud.VoxelDownSample
     ///
@@ -142,11 +143,11 @@ public:
     /// \param min_bound Minimum coordinate of voxel boundaries
     /// \param max_bound Maximum coordinate of voxel boundaries
     /// \param approximate_class Whether to approximate.
-    std::tuple<std::shared_ptr<PointCloud>, Eigen::MatrixXi, std::vector<std::vector<int>>> VoxelDownSampleAndTrace(
-            double voxel_size,
-            const Eigen::Vector3d &min_bound,
-            const Eigen::Vector3d &max_bound,
-            bool approximate_class = false) const;
+    [[nodiscard]] std::tuple<std::shared_ptr<PointCloud>, Eigen::MatrixXi, std::vector<std::vector<int>>>
+    VoxelDownSampleAndTrace(double voxel_size,
+                            const Eigen::Vector3d &min_bound,
+                            const Eigen::Vector3d &max_bound,
+                            bool approximate_class = false) const;
 
     /// \brief Function to downsample input pointcloud into output pointcloud
     /// uniformly.
@@ -156,7 +157,7 @@ public:
     ///
     /// \param every_k_points Sample rate, the selected point indices are [0, k,
     /// 2k, …].
-    std::shared_ptr<PointCloud> UniformDownSample(size_t every_k_points) const;
+    [[nodiscard]] std::shared_ptr<PointCloud> UniformDownSample(size_t every_k_points) const;
 
     /// \brief Function to downsample input pointcloud into output pointcloud
     /// randomly.
@@ -166,7 +167,7 @@ public:
     ///
     /// \param sampling_ratio Sampling ratio, the ratio of sample to total
     /// number of points in the pointcloud.
-    std::shared_ptr<PointCloud> RandomDownSample(double sampling_ratio) const;
+    [[nodiscard]] std::shared_ptr<PointCloud> RandomDownSample(double sampling_ratio) const;
 
     /// \brief Function to downsample input pointcloud into output pointcloud
     /// with a set of points has farthest distance.
@@ -175,7 +176,7 @@ public:
     /// selected points iteratively.
     ///
     /// \param num_samples Number of points to be sampled.
-    std::shared_ptr<PointCloud> FarthestPointDownSample(size_t num_samples) const;
+    [[nodiscard]] std::shared_ptr<PointCloud> FarthestPointDownSample(size_t num_samples) const;
 
     /// \brief Function to crop pointcloud into output pointcloud
     ///
@@ -183,7 +184,7 @@ public:
     /// clipped.
     ///
     /// \param bbox AxisAlignedBoundingBox to crop points.
-    std::shared_ptr<PointCloud> Crop(const AxisAlignedBoundingBox &bbox) const;
+    [[nodiscard]] std::shared_ptr<PointCloud> Crop(const AxisAlignedBoundingBox &bbox) const;
 
     /// \brief Function to crop pointcloud into output pointcloud
     ///
@@ -191,7 +192,7 @@ public:
     /// clipped.
     ///
     /// \param bbox OrientedBoundingBox to crop points.
-    std::shared_ptr<PointCloud> Crop(const OrientedBoundingBox &bbox) const;
+    [[nodiscard]] std::shared_ptr<PointCloud> Crop(const OrientedBoundingBox &bbox) const;
 
     /// \brief Function to remove points that have less than \p nb_points in a
     /// sphere of a given radius.
@@ -199,7 +200,7 @@ public:
     /// \param nb_points Number of points within the radius.
     /// \param search_radius Radius of the sphere.
     /// \param print_progress Whether to print the progress bar.
-    std::tuple<std::shared_ptr<PointCloud>, std::vector<size_t>> RemoveRadiusOutliers(
+    [[nodiscard]] std::tuple<std::shared_ptr<PointCloud>, std::vector<size_t>> RemoveRadiusOutliers(
             size_t nb_points, double search_radius, bool print_progress = false) const;
 
     /// \brief Function to remove points that are further away from their
@@ -207,7 +208,7 @@ public:
     ///
     /// \param nb_neighbors Number of neighbors around the target point.
     /// \param std_ratio Standard deviation ratio.
-    std::tuple<std::shared_ptr<PointCloud>, std::vector<size_t>> RemoveStatisticalOutliers(
+    [[nodiscard]] std::tuple<std::shared_ptr<PointCloud>, std::vector<size_t>> RemoveStatisticalOutliers(
             size_t nb_neighbors, double std_ratio, bool print_progress = false) const;
 
     /// \brief Function to compute the normals of a point cloud.
@@ -274,17 +275,17 @@ public:
 
     /// Function to compute the mean and covariance matrix
     /// of a point cloud.
-    std::tuple<Eigen::Vector3d, Eigen::Matrix3d> ComputeMeanAndCovariance() const;
+    [[nodiscard]] std::tuple<Eigen::Vector3d, Eigen::Matrix3d> ComputeMeanAndCovariance() const;
 
     /// \brief Function to compute the Mahalanobis distance for points
     /// in an input point cloud.
     ///
     /// See: https://en.wikipedia.org/wiki/Mahalanobis_distance
-    std::vector<double> ComputeMahalanobisDistance() const;
+    [[nodiscard]] std::vector<double> ComputeMahalanobisDistance() const;
 
     /// Function to compute the distance from a point to its nearest neighbor in
     /// the input point cloud
-    std::vector<double> ComputeNearestNeighborDistance() const;
+    [[nodiscard]] std::vector<double> ComputeNearestNeighborDistance() const;
 
     /// Function that computes the convex hull of the point cloud using qhull
     /// \param joggle_inputs If true allows the algorithm to add random noise
@@ -292,7 +293,8 @@ public:
     ///        'QJ' option to the qhull command.
     /// \returns The triangle mesh of the convex hull and the list of point
     ///          indices that are part of the convex hull.
-    std::tuple<std::shared_ptr<TriangleMesh>, std::vector<size_t>> ComputeConvexHull(bool joggle_inputs = false) const;
+    [[nodiscard]] std::tuple<std::shared_ptr<TriangleMesh>, std::vector<size_t>> ComputeConvexHull(
+            bool joggle_inputs = false) const;
 
     /// \brief This is an implementation of the Hidden Point Removal operator
     /// described in Katz et. al. 'Direct Visibility of Point Sets', 2007.
@@ -303,8 +305,8 @@ public:
     ///
     /// \param camera_location All points not visible from that location will be
     /// removed. \param radius The radius of the spherical projection.
-    std::tuple<std::shared_ptr<TriangleMesh>, std::vector<size_t>> HiddenPointRemoval(
-            const Eigen::Vector3d &camera_location, const double radius) const;
+    [[nodiscard]] std::tuple<std::shared_ptr<TriangleMesh>, std::vector<size_t>> HiddenPointRemoval(
+            const Eigen::Vector3d &camera_location, double radius) const;
 
     /// \brief Cluster PointCloud using the DBSCAN algorithm
     /// Ester et al., "A Density-Based Algorithm for Discovering Clusters
@@ -317,7 +319,7 @@ public:
     /// \param min_points Minimum number of points to form a cluster.
     /// \param print_progress If `true` the progress is visualized in the
     /// console.
-    std::vector<int> ClusterDBSCAN(double eps, size_t min_points, bool print_progress = false) const;
+    [[nodiscard]] std::vector<int> ClusterDBSCAN(double eps, size_t min_points, bool print_progress = false) const;
 
     /// \brief Segment PointCloud plane using the RANSAC algorithm.
     ///
@@ -332,11 +334,12 @@ public:
     /// call.
     /// \return Returns the plane model ax + by + cz + d = 0 and the indices of
     /// the plane inliers.
-    std::tuple<Eigen::Vector4d, std::vector<size_t>> SegmentPlane(const double distance_threshold = 0.01,
-                                                                  const int ransac_n = 3,
-                                                                  const int num_iterations = 100,
-                                                                  const double probability = 0.99999999,
-                                                                  std::optional<int> seed = std::nullopt) const;
+    [[nodiscard]] std::tuple<Eigen::Vector4d, std::vector<size_t>> SegmentPlane(
+            const double distance_threshold = 0.01,
+            int ransac_n = 3,
+            int num_iterations = 100,
+            double probability = 0.99999999,
+            std::optional<int> seed = std::nullopt) const;
 
     /// \brief Factory function to create a pointcloud from a depth image and a
     /// camera model.

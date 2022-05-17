@@ -305,17 +305,18 @@ public:
             assert(opp == nullptr);
         }
         LOGD("[FindCandidateVertex] edge=({}, {}), opp={}", src->idx_, tgt->idx_, opp->idx_)
-//        LOGD("[FindCandidateVertex] src={} => {}", src->idx_, src->point_.transpose())
-//        LOGD("[FindCandidateVertex] tgt={} => {}", tgt->idx_, tgt->point_.transpose())
-//        LOGD("[FindCandidateVertex] src={} => {}", opp->idx_, opp->point_.transpose())
+        //        LOGD("[FindCandidateVertex] src={} => {}", src->idx_, src->point_.transpose())
+        //        LOGD("[FindCandidateVertex] tgt={} => {}", tgt->idx_, tgt->point_.transpose())
+        //        LOGD("[FindCandidateVertex] src={} => {}", opp->idx_, opp->point_.transpose())
 
         Eigen::Vector3d mp = 0.5 * (src->point_ + tgt->point_);
-//        LOGD("[FindCandidateVertex] edge=({}, {}), mp={}", edge->source_->idx_, edge->target_->idx_, mp.transpose())
+        //        LOGD("[FindCandidateVertex] edge=({}, {}), mp={}", edge->source_->idx_, edge->target_->idx_,
+        //        mp.transpose())
 
         BallPivotingTrianglePtr triangle = edge->triangle0_;
         const Eigen::Vector3d& center = triangle->ball_center_;
-//        LOGD("[FindCandidateVertex] edge=({}, {}), center={}", edge->source_->idx_, edge->target_->idx_,
-//             center.transpose())
+        //        LOGD("[FindCandidateVertex] edge=({}, {}), center={}", edge->source_->idx_, edge->target_->idx_,
+        //             center.transpose())
 
         Eigen::Vector3d v = tgt->point_ - src->point_;
         v /= v.norm();
@@ -339,7 +340,8 @@ public:
                      candidate->idx_)
                 continue;
             }
-//            LOGD("[FindCandidateVertex] candidate={:d} => {}", candidate->idx_, candidate->point_.transpose())
+            //            LOGD("[FindCandidateVertex] candidate={:d} => {}", candidate->idx_,
+            //            candidate->point_.transpose())
 
             bool coplanar = IntersectionTest::PointsCoplanar(src->point_, tgt->point_, opp->point_, candidate->point_);
             if (coplanar && (IntersectionTest::LineSegmentsMinimumDistance(mp, candidate->point_, src->point_,
@@ -359,12 +361,14 @@ public:
                      candidate->idx_)
                 continue;
             }
-//            LOGD("[FindCandidateVertex] candidate {:d} center={}", candidate->idx_, new_center.transpose())
+            //            LOGD("[FindCandidateVertex] candidate {:d} center={}", candidate->idx_,
+            //            new_center.transpose())
 
             Eigen::Vector3d b = new_center - mp;
             b /= b.norm();
-//            LOGD("[FindCandidateVertex] candidate {:d} v={}, a={}, b={}", candidate->idx_, v.transpose(), a.transpose(),
-//                 b.transpose())
+            //            LOGD("[FindCandidateVertex] candidate {:d} v={}, a={}, b={}", candidate->idx_, v.transpose(),
+            //            a.transpose(),
+            //                 b.transpose())
 
             double cosinus = a.dot(b);
             cosinus = std::min(cosinus, 1.0);

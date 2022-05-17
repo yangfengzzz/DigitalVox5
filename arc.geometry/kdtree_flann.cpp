@@ -31,17 +31,16 @@
 
 #include "kdtree_flann.h"
 
+#include <memory>
 #include <nanoflann.hpp>
 
-#include "half_edge_triangle_mesh.h"
 #include "logging.h"
 #include "point_cloud.h"
 #include "triangle_mesh.h"
 
-namespace arc {
-namespace geometry {
+namespace arc::geometry {
 
-KDTreeFlann::KDTreeFlann() {}
+KDTreeFlann::KDTreeFlann() = default;
 
 KDTreeFlann::KDTreeFlann(const Eigen::MatrixXd &data) { SetMatrixData(data); }
 
@@ -51,7 +50,7 @@ KDTreeFlann::KDTreeFlann(const Geometry &geometry) { SetGeometry(geometry); }
 //     SetFeature(feature);
 // }
 
-KDTreeFlann::~KDTreeFlann() {}
+KDTreeFlann::~KDTreeFlann() = default;
 
 bool KDTreeFlann::SetMatrixData(const Eigen::MatrixXd &data) {
     return SetRawData(Eigen::Map<const Eigen::MatrixXd>(data.data(), data.rows(), data.cols()));
@@ -71,7 +70,7 @@ bool KDTreeFlann::SetGeometry(const Geometry &geometry) {
         case Geometry::GeometryType::IMAGE:
         case Geometry::GeometryType::UNSPECIFIED:
         default:
-            LOGW("[KDTreeFlann::SetGeometry] Unsupported Geometry type.");
+            LOGW("[KDTreeFlann::SetGeometry] Unsupported Geometry type.")
             return false;
     }
 }
@@ -165,13 +164,13 @@ bool KDTreeFlann::SetRawData(const Eigen::Map<const Eigen::MatrixXd> &data) {
     dimension_ = data.rows();
     dataset_size_ = data.cols();
     if (dimension_ == 0 || dataset_size_ == 0) {
-        LOGW("[KDTreeFlann::SetRawData] Failed due to no data.");
+        LOGW("[KDTreeFlann::SetRawData] Failed due to no data.")
         return false;
     }
     data_.resize(dataset_size_ * dimension_);
     memcpy(data_.data(), data.data(), dataset_size_ * dimension_ * sizeof(double));
-    data_interface_.reset(new Eigen::Map<const Eigen::MatrixXd>(data));
-    nanoflann_index_.reset(new KDTree_t(dimension_, std::cref(*data_interface_), 15));
+    data_interface_ = std::make_unique<Eigen::Map<const Eigen::MatrixXd>>(data);
+    nanoflann_index_ = std::make_unique<KDTree_t>(dimension_, std::cref(*data_interface_), 15);
     nanoflann_index_->index->buildIndex();
     return true;
 }
@@ -212,8 +211,7 @@ template int KDTreeFlann::SearchHybrid<Eigen::VectorXd>(const Eigen::VectorXd &q
                                                         std::vector<int> &indices,
                                                         std::vector<double> &distance2) const;
 
-}  // namespace geometry
-}  // namespace arc
+}  // namespace arc::geometry
 
 #ifdef _MSC_VER
 #pragma warning(pop)

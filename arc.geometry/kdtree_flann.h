@@ -42,8 +42,7 @@ struct KDTreeEigenMatrixAdaptor;
 }  // namespace nanoflann
 /// @endcond
 
-namespace arc {
-namespace geometry {
+namespace arc::geometry {
 
 /// \class KDTreeFlann
 ///
@@ -52,21 +51,27 @@ class KDTreeFlann {
 public:
     /// \brief Default Constructor.
     KDTreeFlann();
+
     /// \brief Parameterized Constructor.
     ///
     /// \param data Provides set of data points for KDTree construction.
-    KDTreeFlann(const Eigen::MatrixXd &data);
+    explicit KDTreeFlann(const Eigen::MatrixXd &data);
+
     /// \brief Parameterized Constructor.
     ///
     /// \param geometry Provides geometry from which KDTree is constructed.
-    KDTreeFlann(const Geometry &geometry);
+    explicit KDTreeFlann(const Geometry &geometry);
+
     /// \brief Parameterized Constructor.
     ///
     /// \param feature Provides a set of features from which the KDTree is
     /// constructed.
-//    KDTreeFlann(const pipelines::registration::Feature &feature);
+    //    KDTreeFlann(const pipelines::registration::Feature &feature);
+
     ~KDTreeFlann();
+
     KDTreeFlann(const KDTreeFlann &) = delete;
+
     KDTreeFlann &operator=(const KDTreeFlann &) = delete;
 
 public:
@@ -74,14 +79,16 @@ public:
     ///
     /// \param data Data points for KDTree Construction.
     bool SetMatrixData(const Eigen::MatrixXd &data);
+
     /// Sets the data for the KDTree from geometry.
     ///
     /// \param geometry Geometry for KDTree Construction.
     bool SetGeometry(const Geometry &geometry);
+
     /// Sets the data for the KDTree from the feature data.
     ///
     /// \param feature Set of features for KDTree construction.
-//    bool SetFeature(const pipelines::registration::Feature &feature);
+    //    bool SetFeature(const pipelines::registration::Feature &feature);
 
     template <typename T>
     int Search(const T &query,
@@ -117,5 +124,4 @@ protected:
     size_t dataset_size_ = 0;
 };
 
-}  // namespace geometry
-}  // namespace arc
+}  // namespace arc::geometry
