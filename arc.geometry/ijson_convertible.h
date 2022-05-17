@@ -49,7 +49,7 @@ Json::Value StringToJson(const std::string &json_str);
 ///
 /// \param json The Json::Value object to be converted.
 /// \return A string containing the json value.
-std::string JsonToString(Json::Value json);
+std::string JsonToString(const Json::Value& json);
 
 /// Class IJsonConvertible defines the behavior of a class that can convert
 /// itself to/from a json::Value.

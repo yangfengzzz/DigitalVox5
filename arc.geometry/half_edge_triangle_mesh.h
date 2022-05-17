@@ -32,8 +32,7 @@
 #include "geometry_3d.h"
 #include "mesh_base.h"
 
-namespace arc {
-namespace geometry {
+namespace arc::geometry {
 
 /// \class HalfEdgeTriangleMesh
 ///
@@ -52,10 +51,10 @@ public:
         ///
         /// Initializes all members of the instance with invalid values.
         HalfEdge() : next_(-1), twin_(-1), vertex_indices_(-1, -1), triangle_index_(-1) {}
-        HalfEdge(const Eigen::Vector2i &vertex_indices, int triangle_index, int next, int twin);
+        HalfEdge(Eigen::Vector2i vertex_indices, int triangle_index, int next, int twin);
         /// Returns `true` iff the half edge is the boundary (has not twin, i.e.
         /// twin index == -1).
-        bool IsBoundary() const { return twin_ == -1; }
+        [[nodiscard]] bool IsBoundary() const { return twin_ == -1; }
 
     public:
         /// Index of the next HalfEdge in the same triangle.
@@ -74,21 +73,21 @@ public:
     /// Creates an empty instance with GeometryType of HalfEdgeTriangleMesh.
     HalfEdgeTriangleMesh() : MeshBase(Geometry::GeometryType::HALF_EDGE_TRIANGLE_MESH) {}
 
-    virtual HalfEdgeTriangleMesh &Clear() override;
+    HalfEdgeTriangleMesh &Clear() override;
 
     /// Returns `true` if half-edges have already been computed.
-    bool HasHalfEdges() const;
+    [[nodiscard]] bool HasHalfEdges() const;
 
     /// Query manifold boundary half edges from a starting vertex
     /// If query vertex is not on boundary, empty vector will be returned.
-    std::vector<int> BoundaryHalfEdgesFromVertex(int vertex_index) const;
+    [[nodiscard]] std::vector<int> BoundaryHalfEdgesFromVertex(int vertex_index) const;
 
     /// Query manifold boundary vertices from a starting vertex
     /// If query vertex is not on boundary, empty vector will be returned.
-    std::vector<int> BoundaryVerticesFromVertex(int vertex_index) const;
+    [[nodiscard]] std::vector<int> BoundaryVerticesFromVertex(int vertex_index) const;
 
     /// Returns a vector of boundaries. A boundary is a vector of vertices.
-    std::vector<std::vector<int>> GetBoundaries() const;
+    [[nodiscard]] std::vector<std::vector<int>> GetBoundaries() const;
 
     HalfEdgeTriangleMesh &operator+=(const HalfEdgeTriangleMesh &mesh);
 
@@ -104,13 +103,13 @@ protected:
     /// Creates an empty instance with GeometryType of specified type.
     ///
     /// \param type Specifies GeometryType for the HalfEdgeTriangleMesh.
-    HalfEdgeTriangleMesh(Geometry::GeometryType type) : MeshBase(type) {}
+    explicit HalfEdgeTriangleMesh(Geometry::GeometryType type) : MeshBase(type) {}
 
     /// Returns the next half edge from starting vertex of the input half edge,
     /// in a counterclock wise manner. Returns -1 if when hitting a boundary.
     /// This is done by traversing to the next, next and twin half edge.
-    int NextHalfEdgeFromVertex(int init_half_edge_index) const;
-    int NextHalfEdgeOnBoundary(int curr_half_edge_index) const;
+    [[nodiscard]] int NextHalfEdgeFromVertex(int init_half_edge_index) const;
+    [[nodiscard]] int NextHalfEdgeOnBoundary(int curr_half_edge_index) const;
 
 public:
     /// List of triangles in the mesh.
@@ -125,5 +124,4 @@ public:
     std::vector<std::vector<int>> ordered_half_edge_from_vertex_;
 };
 
-}  // namespace geometry
 }  // namespace arc

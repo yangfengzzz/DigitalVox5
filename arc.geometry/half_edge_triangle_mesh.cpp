@@ -27,16 +27,16 @@
 #include "half_edge_triangle_mesh.h"
 
 #include <numeric>
+#include <utility>
 
 #include "helper.h"
 #include "logging.h"
 #include "triangle_mesh.h"
 
-namespace arc {
-namespace geometry {
+namespace arc::geometry {
 
-HalfEdgeTriangleMesh::HalfEdge::HalfEdge(const Eigen::Vector2i &vertex_indices, int triangle_index, int next, int twin)
-    : next_(next), twin_(twin), vertex_indices_(vertex_indices), triangle_index_(triangle_index) {}
+HalfEdgeTriangleMesh::HalfEdge::HalfEdge(Eigen::Vector2i vertex_indices, int triangle_index, int next, int twin)
+    : next_(next), twin_(twin), vertex_indices_(std::move(vertex_indices)), triangle_index_(triangle_index) {}
 
 HalfEdgeTriangleMesh &HalfEdgeTriangleMesh::Clear() {
     MeshBase::Clear();
@@ -46,7 +46,7 @@ HalfEdgeTriangleMesh &HalfEdgeTriangleMesh::Clear() {
 }
 
 bool HalfEdgeTriangleMesh::HasHalfEdges() const {
-    return half_edges_.size() > 0 && vertices_.size() == ordered_half_edge_from_vertex_.size();
+    return !half_edges_.empty() && vertices_.size() == ordered_half_edge_from_vertex_.size();
 }
 
 int HalfEdgeTriangleMesh::NextHalfEdgeFromVertex(int half_edge_index) const {
@@ -64,7 +64,7 @@ std::vector<int> HalfEdgeTriangleMesh::BoundaryHalfEdgesFromVertex(int vertex_in
     const HalfEdge &init_he = half_edges_[init_he_index];
 
     if (!init_he.IsBoundary()) {
-        LOGE("The vertex {:d} is not on boundary.", vertex_index);
+        LOGE("The vertex {:d} is not on boundary.", vertex_index)
     }
 
     std::vector<int> boundary_half_edge_indices;
@@ -113,11 +113,11 @@ std::vector<std::vector<int>> HalfEdgeTriangleMesh::GetBoundaries() const {
 
 int HalfEdgeTriangleMesh::NextHalfEdgeOnBoundary(int curr_half_edge_index) const {
     if (!HasHalfEdges() || curr_half_edge_index >= int(half_edges_.size()) || curr_half_edge_index == -1) {
-        LOGW("edge index {:d} out of range or half-edges not available.", curr_half_edge_index);
+        LOGW("edge index {:d} out of range or half-edges not available.", curr_half_edge_index)
         return -1;
     }
     if (!half_edges_[curr_half_edge_index].IsBoundary()) {
-        LOGW("The currented half-edge index {:d} is on boundary.", curr_half_edge_index);
+        LOGW("The currented half-edge index {:d} is on boundary.", curr_half_edge_index)
         return -1;
     }
 
@@ -128,7 +128,7 @@ int HalfEdgeTriangleMesh::NextHalfEdgeOnBoundary(int curr_half_edge_index) const
     int next_half_edge_index = ordered_half_edge_from_vertex_[vertex_index][0];
     if (!half_edges_[next_half_edge_index].IsBoundary()) {
         LOGW("[NextHalfEdgeOnBoundary] The next half-edge along the "
-             "boundary is not a boundary edge.");
+             "boundary is not a boundary edge.")
         return -1;
     }
     return next_half_edge_index;
@@ -170,7 +170,7 @@ std::shared_ptr<HalfEdgeTriangleMesh> HalfEdgeTriangleMesh::CreateFromTriangleMe
         if (vertex_indices_to_half_edge_index.find(he_0.vertex_indices_) != vertex_indices_to_half_edge_index.end() ||
             vertex_indices_to_half_edge_index.find(he_1.vertex_indices_) != vertex_indices_to_half_edge_index.end() ||
             vertex_indices_to_half_edge_index.find(he_2.vertex_indices_) != vertex_indices_to_half_edge_index.end()) {
-            LOGE("ComputeHalfEdges failed. Duplicated half-edges.");
+            LOGE("ComputeHalfEdges failed. Duplicated half-edges.")
         }
 
         het_mesh->half_edges_.push_back(he_0);
@@ -216,7 +216,7 @@ std::shared_ptr<HalfEdgeTriangleMesh> HalfEdgeTriangleMesh::CreateFromTriangleMe
             }
         }
         if (num_boundaries > 1) {
-            LOGE("ComputeHalfEdges failed. Invalid vertex.");
+            LOGE("ComputeHalfEdges failed. Invalid vertex.")
         }
         // If there is a boundary edge, start from that; otherwise start
         // with any half-edge (default 0) started from this vertex.
@@ -256,5 +256,4 @@ HalfEdgeTriangleMesh HalfEdgeTriangleMesh::operator+(const HalfEdgeTriangleMesh 
     return (HalfEdgeTriangleMesh(*this) += mesh);
 }
 
-}  // namespace geometry
 }  // namespace arc

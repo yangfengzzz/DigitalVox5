@@ -7,11 +7,11 @@
 #include "bounding_volume.h"
 
 #include <numeric>
-
-//#include "open3d/geometry/PointCloud.h"
-//#include "open3d/geometry/Qhull.h"
-//#include "open3d/geometry/TriangleMesh.h"
+#include <Eigen/Eigenvalues>
 #include "logging.h"
+#include "point_cloud.h"
+#include "qhull.h"
+#include "triangle_mesh.h"
 
 namespace arc::geometry {
 
@@ -112,61 +112,58 @@ OrientedBoundingBox OrientedBoundingBox::CreateFromAxisAlignedBoundingBox(const 
     return obox;
 }
 
-// OrientedBoundingBox OrientedBoundingBox::CreateFromPoints(
-//         const std::vector<Eigen::Vector3d>& points, bool robust) {
-//     PointCloud hull_pcd;
-//     std::vector<size_t> hull_point_indices;
-//     {
-//         std::shared_ptr<TriangleMesh> mesh;
-//         std::tie(mesh, hull_point_indices) =
-//                 Qhull::ComputeConvexHull(points, robust);
-//         hull_pcd.points_ = mesh->vertices_;
-//     }
-//
-//     Eigen::Vector3d mean;
-//     Eigen::Matrix3d cov;
-//     std::tie(mean, cov) = hull_pcd.ComputeMeanAndCovariance();
-//
-//     Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> es(cov);
-//     Eigen::Vector3d evals = es.eigenvalues();
-//     Eigen::Matrix3d R = es.eigenvectors();
-//
-//     if (evals(1) > evals(0)) {
-//         std::swap(evals(1), evals(0));
-//         Eigen::Vector3d tmp = R.col(1);
-//         R.col(1) = R.col(0);
-//         R.col(0) = tmp;
-//     }
-//     if (evals(2) > evals(0)) {
-//         std::swap(evals(2), evals(0));
-//         Eigen::Vector3d tmp = R.col(2);
-//         R.col(2) = R.col(0);
-//         R.col(0) = tmp;
-//     }
-//     if (evals(2) > evals(1)) {
-//         std::swap(evals(2), evals(1));
-//         Eigen::Vector3d tmp = R.col(2);
-//         R.col(2) = R.col(1);
-//         R.col(1) = tmp;
-//     }
-//     R.col(0) /= R.col(0).norm();
-//     R.col(1) /= R.col(1).norm();
-//     R.col(2) = R.col(0).cross(R.col(1));
-//
-//     for (size_t i = 0; i < hull_point_indices.size(); ++i) {
-//         hull_pcd.points_[i] =
-//                 R.transpose() * (points[hull_point_indices[i]] - mean);
-//     }
-//
-//     const auto aabox = hull_pcd.GetAxisAlignedBoundingBox();
-//
-//     OrientedBoundingBox obox;
-//     obox.center_ = R * aabox.GetCenter() + mean;
-//     obox.R_ = R;
-//     obox.extent_ = aabox.GetExtent();
-//
-//     return obox;
-// }
+OrientedBoundingBox OrientedBoundingBox::CreateFromPoints(const std::vector<Eigen::Vector3d>& points, bool robust) {
+    PointCloud hull_pcd;
+    std::vector<size_t> hull_point_indices;
+    {
+        std::shared_ptr<TriangleMesh> mesh;
+        std::tie(mesh, hull_point_indices) = Qhull::ComputeConvexHull(points, robust);
+        hull_pcd.points_ = mesh->vertices_;
+    }
+
+    Eigen::Vector3d mean;
+    Eigen::Matrix3d cov;
+    std::tie(mean, cov) = hull_pcd.ComputeMeanAndCovariance();
+
+    Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> es(cov);
+    Eigen::Vector3d evals = es.eigenvalues();
+    Eigen::Matrix3d R = es.eigenvectors();
+
+    if (evals(1) > evals(0)) {
+        std::swap(evals(1), evals(0));
+        Eigen::Vector3d tmp = R.col(1);
+        R.col(1) = R.col(0);
+        R.col(0) = tmp;
+    }
+    if (evals(2) > evals(0)) {
+        std::swap(evals(2), evals(0));
+        Eigen::Vector3d tmp = R.col(2);
+        R.col(2) = R.col(0);
+        R.col(0) = tmp;
+    }
+    if (evals(2) > evals(1)) {
+        std::swap(evals(2), evals(1));
+        Eigen::Vector3d tmp = R.col(2);
+        R.col(2) = R.col(1);
+        R.col(1) = tmp;
+    }
+    R.col(0) /= R.col(0).norm();
+    R.col(1) /= R.col(1).norm();
+    R.col(2) = R.col(0).cross(R.col(1));
+
+    for (size_t i = 0; i < hull_point_indices.size(); ++i) {
+        hull_pcd.points_[i] = R.transpose() * (points[hull_point_indices[i]] - mean);
+    }
+
+    const auto aabox = hull_pcd.GetAxisAlignedBoundingBox();
+
+    OrientedBoundingBox obox;
+    obox.center_ = R * aabox.GetCenter() + mean;
+    obox.R_ = R;
+    obox.extent_ = aabox.GetExtent();
+
+    return obox;
+}
 
 AxisAlignedBoundingBox& AxisAlignedBoundingBox::Clear() {
     min_bound_.setZero();
@@ -190,7 +187,7 @@ OrientedBoundingBox AxisAlignedBoundingBox::GetOrientedBoundingBox(bool robust) 
 
 AxisAlignedBoundingBox& AxisAlignedBoundingBox::Transform(const Eigen::Matrix4d& transformation) {
     LOGE("A general transform of a AxisAlignedBoundingBox would not be axis "
-         "aligned anymore, convert it to a OrientedBoundingBox first");
+         "aligned anymore, convert it to a OrientedBoundingBox first")
     return *this;
 }
 
@@ -214,7 +211,7 @@ AxisAlignedBoundingBox& AxisAlignedBoundingBox::Scale(const double scale, const 
 
 AxisAlignedBoundingBox& AxisAlignedBoundingBox::Rotate(const Eigen::Matrix3d& rotation, const Eigen::Vector3d& center) {
     LOGE("A rotation of a AxisAlignedBoundingBox would not be axis aligned "
-         "anymore, convert it to an OrientedBoundingBox first");
+         "anymore, convert it to an OrientedBoundingBox first")
     return *this;
 }
 

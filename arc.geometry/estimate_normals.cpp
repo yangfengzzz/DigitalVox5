@@ -230,7 +230,7 @@ Eigen::Vector3d ComputeNormal(const Eigen::Matrix3d &covariance, bool fast_norma
 // Disjoint set data structure to find cycles in graphs
 class DisjointSet {
 public:
-    DisjointSet(size_t size) : parent_(size), size_(size) {
+    explicit DisjointSet(size_t size) : parent_(size), size_(size) {
         for (size_t idx = 0; idx < size; idx++) {
             parent_[idx] = idx;
             size_[idx] = 0;
@@ -278,11 +278,11 @@ std::vector<WeightedEdge> Kruskal(std::vector<WeightedEdge> &edges, size_t n_ver
     std::sort(edges.begin(), edges.end(), [](WeightedEdge &e0, WeightedEdge &e1) { return e0.weight_ < e1.weight_; });
     DisjointSet disjoint_set(n_vertices);
     std::vector<WeightedEdge> mst;
-    for (size_t eidx = 0; eidx < edges.size(); ++eidx) {
-        size_t set0 = disjoint_set.Find(edges[eidx].v0_);
-        size_t set1 = disjoint_set.Find(edges[eidx].v1_);
+    for (auto &edge : edges) {
+        size_t set0 = disjoint_set.Find(edge.v0_);
+        size_t set1 = disjoint_set.Find(edge.v1_);
         if (set0 != set1) {
-            mst.push_back(edges[eidx]);
+            mst.push_back(edge);
             disjoint_set.Union(set0, set1);
         }
     }
@@ -381,7 +381,7 @@ void PointCloud::OrientNormalsConsistentTangentPlane(size_t k) {
         size_t edge = EdgeIndex(v0, v1);
         if (graph_edges.count(edge) == 0) {
             double dist = (points_[v0] - points_[v1]).squaredNorm();
-            delaunay_graph.push_back(WeightedEdge(v0, v1, dist));
+            delaunay_graph.emplace_back(v0, v1, dist);
             graph_edges.insert(edge);
         }
     };
@@ -407,15 +407,15 @@ void PointCloud::OrientNormalsConsistentTangentPlane(size_t k) {
         std::vector<int> neighbors;
         std::vector<double> dists2;
         kdtree.SearchKNN(points_[v0], int(k), neighbors, dists2);
-        for (size_t vidx1 = 0; vidx1 < neighbors.size(); ++vidx1) {
-            size_t v1 = size_t(neighbors[vidx1]);
+        for (int neighbor : neighbors) {
+            size_t v1 = size_t(neighbor);
             if (v0 == v1) {
                 continue;
             }
             size_t edge = EdgeIndex(v0, v1);
             if (graph_edges.count(edge) == 0) {
                 double weight = NormalWeight(v0, v1);
-                mst.push_back(WeightedEdge(v0, v1, weight));
+                mst.emplace_back(v0, v1, weight);
                 graph_edges.insert(edge);
             }
         }
