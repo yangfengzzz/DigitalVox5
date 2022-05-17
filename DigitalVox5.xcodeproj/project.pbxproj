@@ -5775,15 +5775,12 @@
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = ./arc.base;
-				LD_RUNPATH_SEARCH_PATHS = (
-					./third_party/json_cpp/build/lib,
-					./third_party/openssl,
-				);
+				LD_RUNPATH_SEARCH_PATHS = ./third_party/json_cpp/build/lib;
 				LIBRARY_SEARCH_PATHS = (
 					./third_party/googletest/build/lib,
 					./third_party/json_cpp/build/lib,
 					./third_party/zlib,
-					./third_party/openssl,
+					"/usr/local/Cellar/openssl@3/3.0.2/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-lgtest",
@@ -5796,11 +5793,11 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = (
+					"/usr/local/Cellar/openssl@3/3.0.2/include",
 					./third_party/eigen,
 					./third_party/json_cpp/include,
 					./third_party/zlib/contrib/,
 					./third_party/zlib/contrib/minizip,
-					./third_party/openssl/include,
 					./third_party/spdlog/include,
 					./third_party/googletest/googlemock/include,
 					./third_party/googletest/googletest/include,
@@ -5817,15 +5814,12 @@
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = ./arc.base;
-				LD_RUNPATH_SEARCH_PATHS = (
-					./third_party/json_cpp/build/lib,
-					./third_party/openssl,
-				);
+				LD_RUNPATH_SEARCH_PATHS = ./third_party/json_cpp/build/lib;
 				LIBRARY_SEARCH_PATHS = (
 					./third_party/googletest/build/lib,
 					./third_party/json_cpp/build/lib,
 					./third_party/zlib,
-					./third_party/openssl,
+					"/usr/local/Cellar/openssl@3/3.0.2/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-lgtest",
@@ -5838,11 +5832,11 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = (
+					"/usr/local/Cellar/openssl@3/3.0.2/include",
 					./third_party/eigen,
 					./third_party/json_cpp/include,
 					./third_party/zlib/contrib/,
 					./third_party/zlib/contrib/minizip,
-					./third_party/openssl/include,
 					./third_party/spdlog/include,
 					./third_party/googletest/googlemock/include,
 					./third_party/googletest/googletest/include,
