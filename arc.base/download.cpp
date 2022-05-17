@@ -177,8 +177,7 @@ std::string DownloadFromURL(const std::vector<std::string>& mirror_urls,
             LOGW("Failed to download from {}. Exception {}.", mirror_url, ex.what())
         }
     }
-
-    LOGE("Downloading failed from available mirrors.")
+    throw std::runtime_error("Downloading failed from available mirrors.");
 }
 
 }  // namespace arc::utility

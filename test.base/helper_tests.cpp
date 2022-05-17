@@ -109,4 +109,4 @@ TEST(Helper, ENSURE_EXPORTED) {
 #endif
 }
 
-}  // namespace arc
+}  // namespace arc::tests

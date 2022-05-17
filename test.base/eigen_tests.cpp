@@ -267,4 +267,4 @@ TEST(Eigen, ColorToUint8ToDouble) {
     }
 }
 
-}  // namespace arc
+}  // namespace arc::tests

@@ -63,4 +63,4 @@ TEST(Extract, ExtractFromZIP) {
     EXPECT_TRUE(utility::filesystem::DeleteDirectory(extract_dir));
 }
 
-}  // namespace arc
+}  // namespace arc::tests

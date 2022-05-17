@@ -59,4 +59,4 @@ TEST(Downloader, DownloadAndVerify) {
     EXPECT_TRUE(utility::filesystem::DeleteDirectory(file_dir));
 }
 
-}  // namespace arc
+}  // namespace arc::tests
