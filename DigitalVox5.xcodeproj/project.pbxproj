@@ -505,11 +505,9 @@
 		046988492819EC9600EF1EE1 /* buffer_mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 046988472819EC9600EF1EE1 /* buffer_mesh.h */; };
 		0469884C2819F1C400EF1EE1 /* particle_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469884A2819F1C400EF1EE1 /* particle_app.cpp */; };
 		046ADDF528331B0300F48A84 /* point_cloud_segmentation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 046ADDEE28331B0300F48A84 /* point_cloud_segmentation.cpp */; };
-		046ADDF628331B0300F48A84 /* progress_bar.h in Headers */ = {isa = PBXBuildFile; fileRef = 046ADDEF28331B0300F48A84 /* progress_bar.h */; };
 		046ADDF728331B0300F48A84 /* mesh_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 046ADDF028331B0300F48A84 /* mesh_base.cpp */; };
 		046ADDF828331B0300F48A84 /* point_cloud_factory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 046ADDF128331B0300F48A84 /* point_cloud_factory.cpp */; };
 		046ADDF928331B0300F48A84 /* point_cloud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 046ADDF228331B0300F48A84 /* point_cloud.cpp */; };
-		046ADDFA28331B0300F48A84 /* progress_bar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 046ADDF328331B0300F48A84 /* progress_bar.cpp */; };
 		046ADDFB28331B0300F48A84 /* point_cloud_cluster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 046ADDF428331B0300F48A84 /* point_cloud_cluster.cpp */; };
 		049A9D7B2818E10E001937A7 /* atomic_compute_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049A9D792818E10E001937A7 /* atomic_compute_app.cpp */; };
 		049A9D7F2818F356001937A7 /* sprite_debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049A9D7D2818F356001937A7 /* sprite_debug.cpp */; };
@@ -758,22 +756,18 @@
 		04DBB3B42833134A00D94795 /* line_3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3852833134700D94795 /* line_3d.cpp */; };
 		04DBB3B52833134A00D94795 /* surface_reconstruction_alpha_shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3862833134700D94795 /* surface_reconstruction_alpha_shape.cpp */; };
 		04DBB3B62833134A00D94795 /* half_edge_triangle_mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3872833134700D94795 /* half_edge_triangle_mesh.h */; };
-		04DBB3B72833134A00D94795 /* helper.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3882833134700D94795 /* helper.h */; };
 		04DBB3B82833134A00D94795 /* image.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3892833134800D94795 /* image.h */; };
 		04DBB3B92833134A00D94795 /* triangle_mesh_subdivide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB38A2833134800D94795 /* triangle_mesh_subdivide.cpp */; };
 		04DBB3BA2833134A00D94795 /* bounding_volume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB38B2833134800D94795 /* bounding_volume.cpp */; };
-		04DBB3BB2833134A00D94795 /* logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB38C2833134800D94795 /* logging.h */; };
 		04DBB3BC2833134A00D94795 /* mesh_base.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB38D2833134800D94795 /* mesh_base.h */; };
 		04DBB3BD2833134A00D94795 /* geometry_3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB38E2833134800D94795 /* geometry_3d.h */; };
 		04DBB3BE2833134A00D94795 /* surface_reconstruction_ball_pivoting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB38F2833134800D94795 /* surface_reconstruction_ball_pivoting.cpp */; };
 		04DBB3BF2833134A00D94795 /* tetra_mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3902833134800D94795 /* tetra_mesh.cpp */; };
 		04DBB3C02833134A00D94795 /* tetra_mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3912833134800D94795 /* tetra_mesh.h */; };
 		04DBB3C12833134A00D94795 /* triangle_mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3922833134800D94795 /* triangle_mesh.cpp */; };
-		04DBB3C22833134A00D94795 /* helper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3932833134800D94795 /* helper.cpp */; };
 		04DBB3C32833134A00D94795 /* kdtree_search_param.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3942833134800D94795 /* kdtree_search_param.h */; };
 		04DBB3C42833134A00D94795 /* geometry_2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3952833134800D94795 /* geometry_2d.h */; };
 		04DBB3C52833134A00D94795 /* opttritri.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3962833134800D94795 /* opttritri.h */; };
-		04DBB3C62833134A00D94795 /* eigen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3972833134800D94795 /* eigen.cpp */; };
 		04DBB3C72833134A00D94795 /* triangle_mesh_deformation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3982833134800D94795 /* triangle_mesh_deformation.cpp */; };
 		04DBB3C82833134A00D94795 /* triangle_mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3992833134800D94795 /* triangle_mesh.h */; };
 		04DBB3C92833134A00D94795 /* tribox3.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB39A2833134800D94795 /* tribox3.h */; };
@@ -785,15 +779,12 @@
 		04DBB3CF2833134A00D94795 /* intersection_test.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3A02833134900D94795 /* intersection_test.h */; };
 		04DBB3D02833134A00D94795 /* line_set.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3A12833134900D94795 /* line_set.cpp */; };
 		04DBB3D12833134A00D94795 /* tetra_mesh_factory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3A22833134900D94795 /* tetra_mesh_factory.cpp */; };
-		04DBB3D22833134A00D94795 /* ijson_convertible.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3A32833134900D94795 /* ijson_convertible.cpp */; };
 		04DBB3D32833134A00D94795 /* triangle_mesh_factory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3A42833134900D94795 /* triangle_mesh_factory.cpp */; };
 		04DBB3D42833134A00D94795 /* line_3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3A52833134900D94795 /* line_3d.h */; };
-		04DBB3D52833134A00D94795 /* ijson_convertible.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3A62833134900D94795 /* ijson_convertible.h */; };
 		04DBB3D62833134A00D94795 /* qhull.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3A72833134900D94795 /* qhull.h */; };
 		04DBB3D72833134A00D94795 /* kdtree_flann.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3A82833134900D94795 /* kdtree_flann.h */; };
 		04DBB3D82833134A00D94795 /* surface_reconstruction_poisson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3A92833134900D94795 /* surface_reconstruction_poisson.cpp */; };
 		04DBB3D92833134A00D94795 /* qhull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04DBB3AA2833134900D94795 /* qhull.cpp */; };
-		04DBB3DA2833134A00D94795 /* eigen.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3AB2833134900D94795 /* eigen.h */; };
 		04DBB3DB2833134A00D94795 /* point_cloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3AC2833134900D94795 /* point_cloud.h */; };
 		04DBB3DC2833134A00D94795 /* octree.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DBB3AD2833134A00D94795 /* octree.h */; };
 		04EE702D283321E900353830 /* estimate_normals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04EE7027283321E800353830 /* estimate_normals.cpp */; };
@@ -1430,11 +1421,9 @@
 		0469884A2819F1C400EF1EE1 /* particle_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_app.cpp; sourceTree = "<group>"; };
 		0469884B2819F1C400EF1EE1 /* particle_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_app.h; sourceTree = "<group>"; };
 		046ADDEE28331B0300F48A84 /* point_cloud_segmentation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = point_cloud_segmentation.cpp; sourceTree = "<group>"; };
-		046ADDEF28331B0300F48A84 /* progress_bar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = progress_bar.h; sourceTree = "<group>"; };
 		046ADDF028331B0300F48A84 /* mesh_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mesh_base.cpp; sourceTree = "<group>"; };
 		046ADDF128331B0300F48A84 /* point_cloud_factory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = point_cloud_factory.cpp; sourceTree = "<group>"; };
 		046ADDF228331B0300F48A84 /* point_cloud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = point_cloud.cpp; sourceTree = "<group>"; };
-		046ADDF328331B0300F48A84 /* progress_bar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = progress_bar.cpp; sourceTree = "<group>"; };
 		046ADDF428331B0300F48A84 /* point_cloud_cluster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = point_cloud_cluster.cpp; sourceTree = "<group>"; };
 		047BB5C22803A96500CD5749 /* apps */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = apps; sourceTree = BUILT_PRODUCTS_DIR; };
 		047BB5C52803A96500CD5749 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -1723,22 +1712,18 @@
 		04DBB3852833134700D94795 /* line_3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = line_3d.cpp; sourceTree = "<group>"; };
 		04DBB3862833134700D94795 /* surface_reconstruction_alpha_shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = surface_reconstruction_alpha_shape.cpp; sourceTree = "<group>"; };
 		04DBB3872833134700D94795 /* half_edge_triangle_mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = half_edge_triangle_mesh.h; sourceTree = "<group>"; };
-		04DBB3882833134700D94795 /* helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helper.h; sourceTree = "<group>"; };
 		04DBB3892833134800D94795 /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
 		04DBB38A2833134800D94795 /* triangle_mesh_subdivide.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = triangle_mesh_subdivide.cpp; sourceTree = "<group>"; };
 		04DBB38B2833134800D94795 /* bounding_volume.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bounding_volume.cpp; sourceTree = "<group>"; };
-		04DBB38C2833134800D94795 /* logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
 		04DBB38D2833134800D94795 /* mesh_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mesh_base.h; sourceTree = "<group>"; };
 		04DBB38E2833134800D94795 /* geometry_3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = geometry_3d.h; sourceTree = "<group>"; };
 		04DBB38F2833134800D94795 /* surface_reconstruction_ball_pivoting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = surface_reconstruction_ball_pivoting.cpp; sourceTree = "<group>"; };
 		04DBB3902833134800D94795 /* tetra_mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tetra_mesh.cpp; sourceTree = "<group>"; };
 		04DBB3912833134800D94795 /* tetra_mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tetra_mesh.h; sourceTree = "<group>"; };
 		04DBB3922833134800D94795 /* triangle_mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = triangle_mesh.cpp; sourceTree = "<group>"; };
-		04DBB3932833134800D94795 /* helper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = helper.cpp; sourceTree = "<group>"; };
 		04DBB3942833134800D94795 /* kdtree_search_param.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kdtree_search_param.h; sourceTree = "<group>"; };
 		04DBB3952833134800D94795 /* geometry_2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = geometry_2d.h; sourceTree = "<group>"; };
 		04DBB3962833134800D94795 /* opttritri.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opttritri.h; sourceTree = "<group>"; };
-		04DBB3972833134800D94795 /* eigen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eigen.cpp; sourceTree = "<group>"; };
 		04DBB3982833134800D94795 /* triangle_mesh_deformation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = triangle_mesh_deformation.cpp; sourceTree = "<group>"; };
 		04DBB3992833134800D94795 /* triangle_mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = triangle_mesh.h; sourceTree = "<group>"; };
 		04DBB39A2833134800D94795 /* tribox3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tribox3.h; sourceTree = "<group>"; };
@@ -1750,15 +1735,12 @@
 		04DBB3A02833134900D94795 /* intersection_test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = intersection_test.h; sourceTree = "<group>"; };
 		04DBB3A12833134900D94795 /* line_set.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = line_set.cpp; sourceTree = "<group>"; };
 		04DBB3A22833134900D94795 /* tetra_mesh_factory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tetra_mesh_factory.cpp; sourceTree = "<group>"; };
-		04DBB3A32833134900D94795 /* ijson_convertible.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ijson_convertible.cpp; sourceTree = "<group>"; };
 		04DBB3A42833134900D94795 /* triangle_mesh_factory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = triangle_mesh_factory.cpp; sourceTree = "<group>"; };
 		04DBB3A52833134900D94795 /* line_3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = line_3d.h; sourceTree = "<group>"; };
-		04DBB3A62833134900D94795 /* ijson_convertible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ijson_convertible.h; sourceTree = "<group>"; };
 		04DBB3A72833134900D94795 /* qhull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qhull.h; sourceTree = "<group>"; };
 		04DBB3A82833134900D94795 /* kdtree_flann.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kdtree_flann.h; sourceTree = "<group>"; };
 		04DBB3A92833134900D94795 /* surface_reconstruction_poisson.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = surface_reconstruction_poisson.cpp; sourceTree = "<group>"; };
 		04DBB3AA2833134900D94795 /* qhull.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qhull.cpp; sourceTree = "<group>"; };
-		04DBB3AB2833134900D94795 /* eigen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eigen.h; sourceTree = "<group>"; };
 		04DBB3AC2833134900D94795 /* point_cloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = point_cloud.h; sourceTree = "<group>"; };
 		04DBB3AD2833134A00D94795 /* octree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = octree.h; sourceTree = "<group>"; };
 		04EE7027283321E800353830 /* estimate_normals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = estimate_normals.cpp; sourceTree = "<group>"; };
@@ -3170,15 +3152,6 @@
 		04DBB3752833132E00D94795 /* arc.geometry */ = {
 			isa = PBXGroup;
 			children = (
-				04DBB38C2833134800D94795 /* logging.h */,
-				04DBB3AB2833134900D94795 /* eigen.h */,
-				04DBB3972833134800D94795 /* eigen.cpp */,
-				04DBB3882833134700D94795 /* helper.h */,
-				04DBB3932833134800D94795 /* helper.cpp */,
-				046ADDEF28331B0300F48A84 /* progress_bar.h */,
-				046ADDF328331B0300F48A84 /* progress_bar.cpp */,
-				04DBB3A62833134900D94795 /* ijson_convertible.h */,
-				04DBB3A32833134900D94795 /* ijson_convertible.cpp */,
 				04DBB3802833134700D94795 /* geometry.h */,
 				04DBB3952833134800D94795 /* geometry_2d.h */,
 				04DBB38E2833134800D94795 /* geometry_3d.h */,
@@ -3666,12 +3639,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				04DBB3B62833134A00D94795 /* half_edge_triangle_mesh.h in Headers */,
-				046ADDF628331B0300F48A84 /* progress_bar.h in Headers */,
 				04DBB3D72833134A00D94795 /* kdtree_flann.h in Headers */,
 				04DBB3D62833134A00D94795 /* qhull.h in Headers */,
-				04DBB3DA2833134A00D94795 /* eigen.h in Headers */,
 				04DBB3D42833134A00D94795 /* line_3d.h in Headers */,
-				04DBB3B72833134A00D94795 /* helper.h in Headers */,
 				04DBB3CB2833134A00D94795 /* bounding_volume.h in Headers */,
 				04DBB3C02833134A00D94795 /* tetra_mesh.h in Headers */,
 				04C3C3292833A01B00B0BE1F /* rgbd_image.h in Headers */,
@@ -3683,9 +3653,7 @@
 				04DBB3C82833134A00D94795 /* triangle_mesh.h in Headers */,
 				04DBB3C52833134A00D94795 /* opttritri.h in Headers */,
 				04DBB3DB2833134A00D94795 /* point_cloud.h in Headers */,
-				04DBB3D52833134A00D94795 /* ijson_convertible.h in Headers */,
 				04DBB3C92833134A00D94795 /* tribox3.h in Headers */,
-				04DBB3BB2833134A00D94795 /* logging.h in Headers */,
 				04DBB3BC2833134A00D94795 /* mesh_base.h in Headers */,
 				04DBB3B02833134A00D94795 /* line_set.h in Headers */,
 				04DBB3C42833134A00D94795 /* geometry_2d.h in Headers */,
@@ -4292,7 +4260,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				04DBB3C72833134A00D94795 /* triangle_mesh_deformation.cpp in Sources */,
-				04DBB3C62833134A00D94795 /* eigen.cpp in Sources */,
 				04C3C3282833A01B00B0BE1F /* rgbd_image.cpp in Sources */,
 				046ADDF928331B0300F48A84 /* point_cloud.cpp in Sources */,
 				04DBB3D12833134A00D94795 /* tetra_mesh_factory.cpp in Sources */,
@@ -4302,7 +4269,6 @@
 				046ADDF728331B0300F48A84 /* mesh_base.cpp in Sources */,
 				04DBB3BF2833134A00D94795 /* tetra_mesh.cpp in Sources */,
 				046ADDF828331B0300F48A84 /* point_cloud_factory.cpp in Sources */,
-				04DBB3D22833134A00D94795 /* ijson_convertible.cpp in Sources */,
 				04DBB3B42833134A00D94795 /* line_3d.cpp in Sources */,
 				04DBB3AE2833134A00D94795 /* triangle_mesh_simplification.cpp in Sources */,
 				04EE702F283321E900353830 /* iss_key_points.cpp in Sources */,
@@ -4318,12 +4284,10 @@
 				04EE702D283321E900353830 /* estimate_normals.cpp in Sources */,
 				046ADDFB28331B0300F48A84 /* point_cloud_cluster.cpp in Sources */,
 				04DBB3B92833134A00D94795 /* triangle_mesh_subdivide.cpp in Sources */,
-				04DBB3C22833134A00D94795 /* helper.cpp in Sources */,
 				04DBB3D32833134A00D94795 /* triangle_mesh_factory.cpp in Sources */,
 				046ADDF528331B0300F48A84 /* point_cloud_segmentation.cpp in Sources */,
 				04DBB3BA2833134A00D94795 /* bounding_volume.cpp in Sources */,
 				04DBB3CC2833134A00D94795 /* line_set_factory.cpp in Sources */,
-				046ADDFA28331B0300F48A84 /* progress_bar.cpp in Sources */,
 				04DBB3B32833134A00D94795 /* intersection_test.cpp in Sources */,
 				04DBB3B12833134A00D94795 /* geometry_3d.cpp in Sources */,
 				04EE7031283321E900353830 /* image_factory.cpp in Sources */,
