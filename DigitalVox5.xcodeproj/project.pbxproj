@@ -5386,6 +5386,7 @@
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = ./arc.geometry;
+				LD_RUNPATH_SEARCH_PATHS = ./third_party/json_cpp/build/lib;
 				LIBRARY_SEARCH_PATHS = (
 					./third_party/googletest/build/lib,
 					./third_party/json_cpp/build/lib,
@@ -5395,10 +5396,11 @@
 					"-lgtest",
 					"-lgtest_main",
 					"-lgmock",
-					"-ljsoncpp",
 					"-lqhullstatic_r",
 					"-lqhullcpp",
+					"-ljsoncpp",
 				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					./third_party,
@@ -5422,6 +5424,7 @@
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = ./arc.geometry;
+				LD_RUNPATH_SEARCH_PATHS = ./third_party/json_cpp/build/lib;
 				LIBRARY_SEARCH_PATHS = (
 					./third_party/googletest/build/lib,
 					./third_party/json_cpp/build/lib,
@@ -5431,10 +5434,11 @@
 					"-lgtest",
 					"-lgtest_main",
 					"-lgmock",
-					"-ljsoncpp",
 					"-lqhullstatic_r",
 					"-lqhullcpp",
+					"-ljsoncpp",
 				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					./third_party,

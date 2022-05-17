@@ -25,8 +25,8 @@
 // ----------------------------------------------------------------------------
 
 #include "progress_bar.h"
-
-#include <spdlog/fmt/bundled/printf.h>
+#include <iostream>
+#include <spdlog/fmt/fmt.h>
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -58,15 +58,14 @@ void ProgressBar::SetCurrentCount(size_t n) {
         return;
     }
     if (current_count_ >= expected_count_) {
-        fmt::print("{}[{}] 100%\n", progress_info_, std::string(resolution_, '='));
+        std::cout << fmt::format("{}[{}] 100%\n", progress_info_, std::string(resolution_, '='));
     } else {
         size_t new_progress_pixel = int(current_count_ * resolution_ / expected_count_);
         if (new_progress_pixel > progress_pixel_) {
             progress_pixel_ = new_progress_pixel;
             int percent = int(current_count_ * 100 / expected_count_);
-            fmt::print("{}[{}>{}] {:d}%\r", progress_info_, std::string(progress_pixel_, '='),
-                       std::string(resolution_ - 1 - progress_pixel_, ' '), percent);
-            fflush(stdout);
+            std::cout << fmt::format("{}[{}>{}] {:d}%\r", progress_info_, std::string(progress_pixel_, '='),
+                                    std::string(resolution_ - 1 - progress_pixel_, ' '), percent) << std::endl;
         }
     }
 }
