@@ -17,7 +17,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ../arc.base
         ../third_party/eigen
         ../third_party/json_cpp/include
-        ../third_party/zlib/contrib/)
+        ../third_party/zlib/contrib/
+        ../third_party/openssl/include)
 
 # Link third party libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
