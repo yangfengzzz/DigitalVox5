@@ -12,22 +12,27 @@
 		<key>arc.base.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>8</integer>
+			<integer>6</integer>
 		</dict>
 		<key>arc.geometry.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>7</integer>
+			<integer>8</integer>
 		</dict>
 		<key>editor.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>5</integer>
 		</dict>
+		<key>test.base.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
 		<key>test.geometry.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>6</integer>
+			<integer>9</integer>
 		</dict>
 		<key>test.math.xcscheme_^#shared#^_</key>
 		<dict>
@@ -78,6 +83,11 @@
 			<true/>
 		</dict>
 		<key>04C3C2EA28339D9D00B0BE1F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>04C3C3762833E4A300B0BE1F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
