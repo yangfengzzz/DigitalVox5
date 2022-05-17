@@ -778,6 +778,7 @@
 		04EE7030283321E900353830 /* kdtree_flann.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04EE702A283321E800353830 /* kdtree_flann.cpp */; };
 		04EE7031283321E900353830 /* image_factory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04EE702B283321E800353830 /* image_factory.cpp */; };
 		04EE7032283321E900353830 /* half_edge_triangle_mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04EE702C283321E900353830 /* half_edge_triangle_mesh.cpp */; };
+		04EE7034283323A400353830 /* voxel_grid_factory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04EE7033283323A300353830 /* voxel_grid_factory.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1695,6 +1696,7 @@
 		04EE702A283321E800353830 /* kdtree_flann.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kdtree_flann.cpp; sourceTree = "<group>"; };
 		04EE702B283321E800353830 /* image_factory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image_factory.cpp; sourceTree = "<group>"; };
 		04EE702C283321E900353830 /* half_edge_triangle_mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = half_edge_triangle_mesh.cpp; sourceTree = "<group>"; };
+		04EE7033283323A300353830 /* voxel_grid_factory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = voxel_grid_factory.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3100,6 +3102,7 @@
 				04DBB3AA2833134900D94795 /* qhull.cpp */,
 				04DBB39F2833134900D94795 /* voxel_grid.h */,
 				04DBB39B2833134900D94795 /* voxel_grid.cpp */,
+				04EE7033283323A300353830 /* voxel_grid_factory.cpp */,
 			);
 			path = arc.geometry;
 			sourceTree = "<group>";
@@ -4135,6 +4138,7 @@
 				04DBB3AE2833134A00D94795 /* triangle_mesh_simplification.cpp in Sources */,
 				04EE702F283321E900353830 /* iss_key_points.cpp in Sources */,
 				04DBB3BE2833134A00D94795 /* surface_reconstruction_ball_pivoting.cpp in Sources */,
+				04EE7034283323A400353830 /* voxel_grid_factory.cpp in Sources */,
 				04EE7030283321E900353830 /* kdtree_flann.cpp in Sources */,
 				04DBB3C12833134A00D94795 /* triangle_mesh.cpp in Sources */,
 				04DBB3B22833134A00D94795 /* octree.cpp in Sources */,
