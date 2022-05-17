@@ -61,3 +61,4 @@ add_subdirectory(editor)
 
 ################## Arche source #################
 add_subdirectory(arc.geometry)
+add_subdirectory(test.geometry)
