@@ -27,10 +27,9 @@ target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/g
         ${CMAKE_SOURCE_DIR}/third_party/libjpeg/build
         ${CMAKE_SOURCE_DIR}/third_party/libpng/build
         ${CMAKE_SOURCE_DIR}/third_party/assimp/build_release/bin
-        ${CMAKE_SOURCE_DIR}/third_party/librply/bin
         )
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog arc.geometry arc.base arc.io
         libgmock.a libgmock_main.a libgtest.a libgtest_main.a
         jsoncpp libcrypto.a curl libz.a # base
         qhullstatic_r qhullcpp # geometry
-        assimp rply turbojpeg png16)
+        assimp turbojpeg png16)

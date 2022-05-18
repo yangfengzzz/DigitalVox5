@@ -5,8 +5,7 @@ project(arc.io LANGUAGES C CXX)
 file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/file_format/*.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/file_format/lzf_c.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/file_format/lzf_d.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/file_format/*.c)
 
 add_library(${PROJECT_NAME} STATIC ${sources})
 
@@ -30,7 +29,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ../third_party/tinyobj
         ../third_party/libjpeg
         ../third_party/libjpeg/build
-        ../third_party/librply/src/lib
         ../third_party/libpng
         ../third_party/libpng/build)
 

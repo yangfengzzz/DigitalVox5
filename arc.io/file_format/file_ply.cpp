@@ -24,7 +24,7 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include <rply.h>
+#include "rply.h"
 
 #include "../file_format_io.h"
 #include "../line_set_io.h"
