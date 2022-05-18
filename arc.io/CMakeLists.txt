@@ -27,7 +27,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ../third_party/tinygltf
         ../third_party/tinyobj
         ../third_party/libjpeg
-        ../third_party/libjpeg/build)
+        ../third_party/libjpeg/build
+        ../third_party/liblzf
+        ../third_party/librply/src/lib)
 
 # Link third party libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)

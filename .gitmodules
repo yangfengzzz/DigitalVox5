@@ -85,3 +85,12 @@
 [submodule "third_party/libjpeg"]
 	path = third_party/libjpeg
 	url = https://github.com/libjpeg-turbo/libjpeg-turbo.git
+[submodule "liblzf"]
+	path = liblzf
+	url = https://github.com/nemequ/liblzf.git
+[submodule "third_party/liblzf"]
+	path = third_party/liblzf
+	url = https://github.com/nemequ/liblzf.git
+[submodule "third_party/librply"]
+	path = third_party/librply
+	url = https://github.com/lkiesow/librply.git
