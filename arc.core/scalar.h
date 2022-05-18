@@ -148,7 +148,7 @@ public:
         } else if (scalar_type_ == ScalarType::Bool) {
             return static_cast<T>(value_.b);
         } else {
-            LOGE("To: ScalarType not supported.");
+            throw std::runtime_error("To: ScalarType not supported.");
         }
     }
 
