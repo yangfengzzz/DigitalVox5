@@ -67,3 +67,4 @@ add_subdirectory(arc.geometry)
 add_subdirectory(test.geometry)
 
 add_subdirectory(arc.io)
+add_subdirectory(test.io)

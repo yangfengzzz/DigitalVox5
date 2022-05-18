@@ -24,7 +24,7 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include <lzf.h>
+#include "lzf.h"
 
 #include <cstdio>
 #include <sstream>
