@@ -39,6 +39,11 @@
 			<key>orderHint</key>
 			<integer>9</integer>
 		</dict>
+		<key>test.io.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
 		<key>test.math.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
@@ -92,7 +97,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>04C3C32D2833E39100B0BE1F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>04C3C3762833E4A300B0BE1F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>04C3C40B2834922900B0BE1F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>04DBB3732833132E00D94795</key>
 		<dict>
 			<key>primary</key>
 			<true/>
