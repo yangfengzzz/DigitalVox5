@@ -24,7 +24,7 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "image_io.h"
+#include "ijson_convertible_io.h"
 
 #include <unordered_map>
 
@@ -36,58 +36,50 @@ namespace arc {
 namespace {
 using namespace io;
 
-const std::unordered_map<std::string, std::function<bool(const std::string &, geometry::Image &)>>
-        file_extension_to_image_read_function{
-                {"png", ReadImageFromPNG},
-                {"jpg", ReadImageFromJPG},
-                {"jpeg", ReadImageFromJPG},
+const std::unordered_map<std::string, std::function<bool(const std::string &, utility::IJsonConvertible &)>>
+        file_extension_to_ijsonconvertible_read_function{
+                {"json", ReadIJsonConvertibleFromJSON},
         };
 
-const std::unordered_map<std::string, std::function<bool(const std::string &, const geometry::Image &, int)>>
-        file_extension_to_image_write_function{
-                {"png", WriteImageToPNG},
-                {"jpg", WriteImageToJPG},
-                {"jpeg", WriteImageToJPG},
+const std::unordered_map<std::string, std::function<bool(const std::string &, const utility::IJsonConvertible &)>>
+        file_extension_to_ijsonconvertible_write_function{
+                {"json", WriteIJsonConvertibleToJSON},
         };
 
 }  // unnamed namespace
 
 namespace io {
 
-std::shared_ptr<geometry::Image> CreateImageFromFile(const std::string &filename) {
-    auto image = std::make_shared<geometry::Image>();
-    ReadImage(filename, *image);
-    return image;
-}
-
-bool ReadImage(const std::string &filename, geometry::Image &image) {
+bool ReadIJsonConvertible(const std::string &filename, utility::IJsonConvertible &object) {
     std::string filename_ext = utility::filesystem::GetFileExtensionInLowerCase(filename);
     if (filename_ext.empty()) {
-        LOGW("Read geometry::Image failed: missing file extension.")
+        LOGW("Read utility::IJsonConvertible failed: unknown file "
+             "extension.")
         return false;
     }
-    auto map_itr = file_extension_to_image_read_function.find(filename_ext);
-    if (map_itr == file_extension_to_image_read_function.end()) {
-        LOGW("Read geometry::Image failed: file extension {} unknown", filename_ext)
+    auto map_itr = file_extension_to_ijsonconvertible_read_function.find(filename_ext);
+    if (map_itr == file_extension_to_ijsonconvertible_read_function.end()) {
+        LOGW("Read utility::IJsonConvertible failed: unknown file "
+             "extension.")
         return false;
     }
-    return map_itr->second(filename, image);
+    return map_itr->second(filename, object);
 }
 
-bool WriteImage(const std::string &filename,
-                const geometry::Image &image,
-                int quality /* = kOpen3DImageIODefaultQuality*/) {
+bool WriteIJsonConvertible(const std::string &filename, const utility::IJsonConvertible &object) {
     std::string filename_ext = utility::filesystem::GetFileExtensionInLowerCase(filename);
     if (filename_ext.empty()) {
-        LOGW("Write geometry::Image failed: unknown file extension.")
+        LOGW("Write utility::IJsonConvertible failed: unknown file "
+             "extension.")
         return false;
     }
-    auto map_itr = file_extension_to_image_write_function.find(filename_ext);
-    if (map_itr == file_extension_to_image_write_function.end()) {
-        LOGW("Write geometry::Image failed: unknown file extension.")
+    auto map_itr = file_extension_to_ijsonconvertible_write_function.find(filename_ext);
+    if (map_itr == file_extension_to_ijsonconvertible_write_function.end()) {
+        LOGW("Write utility::IJsonConvertible failed: unknown file "
+             "extension.")
         return false;
     }
-    return map_itr->second(filename, image, quality);
+    return map_itr->second(filename, object);
 }
 
 }  // namespace io
