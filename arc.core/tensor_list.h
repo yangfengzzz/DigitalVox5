@@ -119,7 +119,7 @@ public:
         element_shape_ = begin->GetShape();
         std::for_each(begin, end, [&](const Tensor& tensor) -> void {
             if (tensor.GetShape() != element_shape_) {
-                LOGE("Tensors must have the same shape {}, but got {}.", element_shape_, tensor.GetShape());
+                LOGE("Tensors must have the same shape {}, but got {}.", element_shape_.ToString(), tensor.GetShape().ToString());
             }
         });
 
@@ -243,7 +243,7 @@ public:
         if (expected_element_shape != element_shape_) {
             LOGE("TensorList has element shape {}, but is expected to have "
                  "element shape {}.",
-                 element_shape_, expected_element_shape);
+                 element_shape_.ToString(), expected_element_shape.ToString());
         }
     }
 

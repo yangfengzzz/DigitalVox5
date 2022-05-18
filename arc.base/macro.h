@@ -63,5 +63,5 @@
 // Usage:
 //     OPEN3D_ASSERT(condition);
 //     OPEN3D_ASSERT(condition && "Error message");
-// For host-only code, consider using utility::LogError();
+// For host-only code, consider using LOGE();
 #define OPEN3D_ASSERT(...) assert((__VA_ARGS__))
