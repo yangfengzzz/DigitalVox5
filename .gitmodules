@@ -94,3 +94,6 @@
 [submodule "third_party/librply"]
 	path = third_party/librply
 	url = https://github.com/lkiesow/librply.git
+[submodule "third_party/libpng"]
+	path = third_party/libpng
+	url = https://github.com/glennrp/libpng.git
