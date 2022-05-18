@@ -26,32 +26,32 @@
 
 #pragma once
 
+#include <utility>
 #include <vector>
 
 #include "indexer.h"
 #include "size_vector.h"
 #include "tensor.h"
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 /// This class is based on PyTorch's aten/src/ATen/native/Indexing.cpp.
 class AdvancedIndexPreprocessor {
 public:
-    AdvancedIndexPreprocessor(const Tensor& tensor, const std::vector<Tensor>& index_tensors)
-        : tensor_(tensor), index_tensors_(ExpandBoolTensors(index_tensors)) {
+    AdvancedIndexPreprocessor(Tensor tensor, const std::vector<Tensor>& index_tensors)
+        : tensor_(std::move(tensor)), index_tensors_(ExpandBoolTensors(index_tensors)) {
         RunPreprocess();
     }
 
-    inline Tensor GetTensor() const { return tensor_; }
+    [[nodiscard]] inline Tensor GetTensor() const { return tensor_; }
 
-    inline std::vector<Tensor> GetIndexTensors() const { return index_tensors_; }
+    [[nodiscard]] inline std::vector<Tensor> GetIndexTensors() const { return index_tensors_; }
 
-    inline SizeVector GetOutputShape() const { return output_shape_; }
+    [[nodiscard]] inline SizeVector GetOutputShape() const { return output_shape_; }
 
-    inline SizeVector GetIndexedShape() const { return indexed_shape_; }
+    [[nodiscard]] inline SizeVector GetIndexedShape() const { return indexed_shape_; }
 
-    inline SizeVector GetIndexedStrides() const { return indexed_strides_; }
+    [[nodiscard]] inline SizeVector GetIndexedStrides() const { return indexed_strides_; }
 
     /// Returns true if the indexed dimension is splitted by (full) slice.
     /// E.g. A[[1, 2], :, [1, 2]] returns true
@@ -139,7 +139,7 @@ public:
         if (indexed_shape.size() != indexed_strides.size()) {
             LOGE("Internal error: indexed_shape's ndim {} does not equal to "
                  "indexd_strides' ndim {}",
-                 indexed_shape.size(), indexed_strides.size());
+                 indexed_shape.size(), indexed_strides.size())
         }
         num_indices_ = indexed_shape.size();
 
@@ -157,7 +157,7 @@ public:
         if (num_indices_ != static_cast<int64_t>(indexed_strides.size())) {
             LOGE("Internal error: indexed_shape's ndim {} does not equal to "
                  "indexd_strides' ndim {}",
-                 num_indices_, indexed_strides.size());
+                 num_indices_, indexed_strides.size())
         }
         for (int64_t i = 0; i < num_indices_; ++i) {
             indexed_shape_[i] = indexed_shape[i];
@@ -167,24 +167,24 @@ public:
         // Check dtypes
         if (src.GetDtype() != dst.GetDtype()) {
             LOGE("src's dtype {} is not the same as dst's dtype {}.", src.GetDtype().ToString(),
-                 dst.GetDtype().ToString());
+                 dst.GetDtype().ToString())
         }
         element_byte_size_ = src.GetDtype().ByteSize();
     }
 
-    inline OPEN3D_HOST_DEVICE char* GetInputPtr(int64_t workload_idx) const {
+    [[nodiscard]] inline OPEN3D_HOST_DEVICE char* GetInputPtr(int64_t workload_idx) const {
         char* ptr = indexer_.GetInputPtr(0, workload_idx);
         ptr += GetIndexedOffset(workload_idx) * element_byte_size_ * (mode_ == AdvancedIndexerMode::GET);
         return ptr;
     }
 
-    inline OPEN3D_HOST_DEVICE char* GetOutputPtr(int64_t workload_idx) const {
+    [[nodiscard]] inline OPEN3D_HOST_DEVICE char* GetOutputPtr(int64_t workload_idx) const {
         char* ptr = indexer_.GetOutputPtr(workload_idx);
         ptr += GetIndexedOffset(workload_idx) * element_byte_size_ * (mode_ == AdvancedIndexerMode::SET);
         return ptr;
     }
 
-    inline OPEN3D_HOST_DEVICE int64_t GetIndexedOffset(int64_t workload_idx) const {
+    [[nodiscard]] inline OPEN3D_HOST_DEVICE int64_t GetIndexedOffset(int64_t workload_idx) const {
         int64_t offset = 0;
         for (int64_t i = 0; i < num_indices_; ++i) {
             int64_t index = *(reinterpret_cast<int64_t*>(indexer_.GetInputPtr(i + 1, workload_idx)));
@@ -195,16 +195,15 @@ public:
         return offset;
     }
 
-    int64_t NumWorkloads() const { return indexer_.NumWorkloads(); }
+    [[nodiscard]] int64_t NumWorkloads() const { return indexer_.NumWorkloads(); }
 
 protected:
     Indexer indexer_;
     AdvancedIndexerMode mode_;
     int64_t num_indices_;
     int64_t element_byte_size_;
-    int64_t indexed_shape_[MAX_DIMS];
-    int64_t indexed_strides_[MAX_DIMS];
+    int64_t indexed_shape_[MAX_DIMS]{};
+    int64_t indexed_strides_[MAX_DIMS]{};
 };
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core

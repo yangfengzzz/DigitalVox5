@@ -33,8 +33,7 @@
 #include "dtype.h"
 #include "logging.h"
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 /// Scalar is a stores one of {double, int64, bool}. Typically Scalar is used to
 /// accept C++ scalar arguments of different types via implicit conversion
@@ -109,31 +108,31 @@ public:
         value_.b = static_cast<bool>(v);
     }
 
-    bool IsDouble() const { return scalar_type_ == ScalarType::Double; }
-    bool IsInt64() const { return scalar_type_ == ScalarType::Int64; }
-    bool IsBool() const { return scalar_type_ == ScalarType::Bool; }
+    [[nodiscard]] bool IsDouble() const { return scalar_type_ == ScalarType::Double; }
+    [[nodiscard]] bool IsInt64() const { return scalar_type_ == ScalarType::Int64; }
+    [[nodiscard]] bool IsBool() const { return scalar_type_ == ScalarType::Bool; }
 
     /// Returns double value from Scalar. Only works when scalar_type_ is
     /// ScalarType::Double.
-    double GetDouble() const {
+    [[nodiscard]] double GetDouble() const {
         if (!IsDouble()) {
-            LOGE("Scalar is not a ScalarType:Double type.");
+            LOGE("Scalar is not a ScalarType:Double type.")
         }
         return value_.d;
     }
     /// Returns int64 value from Scalar. Only works when scalar_type_ is
     /// ScalarType::Int64.
-    int64_t GetInt64() const {
+    [[nodiscard]] int64_t GetInt64() const {
         if (!IsInt64()) {
-            LOGE("Scalar is not a ScalarType:Int64 type.");
+            LOGE("Scalar is not a ScalarType:Int64 type.")
         }
         return value_.i;
     }
     /// Returns bool value from Scalar. Only works when scalar_type_ is
     /// ScalarType::Bool.
-    bool GetBool() const {
+    [[nodiscard]] bool GetBool() const {
         if (!IsBool()) {
-            LOGE("Scalar is not a ScalarType:Bool type.");
+            LOGE("Scalar is not a ScalarType:Bool type.")
         }
         return value_.b;
     }
@@ -155,14 +154,14 @@ public:
     void AssertSameScalarType(Scalar other, const std::string& error_msg) const {
         if (scalar_type_ != other.scalar_type_) {
             if (error_msg.empty()) {
-                LOGE("Scalar mode {} are not the same as {}.", ToString(), other.ToString());
+                LOGE("Scalar mode {} are not the same as {}.", ToString(), other.ToString())
             } else {
-                LOGE("Scalar mode {} are not the same as {}: {}", ToString(), other.ToString(), error_msg);
+                LOGE("Scalar mode {} are not the same as {}: {}", ToString(), other.ToString(), error_msg)
             }
         }
     }
 
-    std::string ToString() const {
+    [[nodiscard]] std::string ToString() const {
         std::string scalar_type_str;
         std::string value_str;
         if (scalar_type_ == ScalarType::Double) {
@@ -175,13 +174,13 @@ public:
             scalar_type_str = "Bool";
             value_str = value_.b ? "true" : "false";
         } else {
-            LOGE("ScalarTypeToString: ScalarType not supported.");
+            LOGE("ScalarTypeToString: ScalarType not supported.")
         }
         return scalar_type_str + ":" + value_str;
     }
 
     template <typename T>
-    bool Equal(T value) const {
+    [[nodiscard]] bool Equal(T value) const {
         if (scalar_type_ == ScalarType::Double) {
             return value_.d == value;
         } else if (scalar_type_ == ScalarType::Int64) {
@@ -193,9 +192,9 @@ public:
         }
     }
 
-    bool Equal(bool value) const { return scalar_type_ == ScalarType::Bool && value_.b == value; }
+    [[nodiscard]] bool Equal(bool value) const { return scalar_type_ == ScalarType::Bool && value_.b == value; }
 
-    bool Equal(Scalar other) const {
+    [[nodiscard]] bool Equal(Scalar other) const {
         if (other.scalar_type_ == ScalarType::Double) {
             return Equal(other.GetDouble());
         } else if (other.scalar_type_ == ScalarType::Int64) {
@@ -213,8 +212,7 @@ private:
         double d;
         int64_t i;
         bool b;
-    } value_;
+    } value_{};
 };
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core

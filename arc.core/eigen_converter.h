@@ -33,9 +33,7 @@
 #include "dtype.h"
 #include "tensor.h"
 
-namespace arc {
-namespace core {
-namespace eigen_converter {
+namespace arc::core::eigen_converter {
 
 /// \brief Converts a eigen matrix of shape (M, N) with alignment A and type T
 /// to a tensor.
@@ -156,6 +154,4 @@ core::Tensor EigenVector3iVectorToTensor(const std::vector<Eigen::Vector3i> &val
                                          core::Dtype dtype,
                                          const core::Device &device);
 
-}  // namespace eigen_converter
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core::eigen_converter

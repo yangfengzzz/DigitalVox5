@@ -29,12 +29,12 @@
 #include <cstddef>
 #include <iostream>
 #include <string>
+#include <utility>
 
 #include "device.h"
 #include "memory_manager.h"
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 /// Blob class refers to a blob of memory in device or host.
 ///
@@ -69,8 +69,8 @@ public:
     /// \param deleter The deleter function is called at Blob's destruction to
     /// notify the external memory manager that the memory is no longer needed.
     /// It's up to the external manager to free the memory.
-    Blob(const Device& device, void* data_ptr, const std::function<void(void*)>& deleter)
-        : deleter_(deleter), data_ptr_(data_ptr), device_(device) {}
+    Blob(const Device& device, void* data_ptr, std::function<void(void*)> deleter)
+        : deleter_(std::move(deleter)), data_ptr_(data_ptr), device_(device) {}
 
     ~Blob() {
         if (deleter_) {
@@ -84,11 +84,11 @@ public:
         }
     };
 
-    Device GetDevice() const { return device_; }
+    [[nodiscard]] Device GetDevice() const { return device_; }
 
     void* GetDataPtr() { return data_ptr_; }
 
-    const void* GetDataPtr() const { return data_ptr_; }
+    [[nodiscard]] const void* GetDataPtr() const { return data_ptr_; }
 
 protected:
     /// For externally managed memory, deleter != nullptr.
@@ -101,5 +101,4 @@ protected:
     Device device_;
 };
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core

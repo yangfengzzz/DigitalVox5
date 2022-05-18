@@ -97,7 +97,7 @@ void TensorList::PushBack(const Tensor& tensor) {
 
     AssertTensorDevice(tensor, GetDevice());
     AssertTensorDtype(tensor, GetDtype());
-    AssertTensorShape(tensor, element_shape_);
+    AssertTensorShape(tensor, DynamicSizeVector(element_shape_));
 
     ResizeWithExpand(size_ + 1);
     internal_tensor_[size_ - 1] = tensor;  // same as operator[](-1) = tensor;

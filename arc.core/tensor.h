@@ -264,7 +264,7 @@ public:
     /// Create a 1D tensor with evenly spaced values in the given interval.
     static Tensor Arange(const Scalar start,
                          const Scalar stop,
-                         const Scalar step = 1,
+                         const Scalar step = Scalar(1),
                          const Dtype dtype = core::Int64,
                          const Device& device = core::Device("CPU:0"));
 

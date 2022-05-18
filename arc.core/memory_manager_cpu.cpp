@@ -28,14 +28,13 @@
 
 #include "memory_manager.h"
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 void* CPUMemoryManager::Malloc(size_t byte_size, const Device& device) {
     void* ptr;
     ptr = std::malloc(byte_size);
     if (byte_size != 0 && !ptr) {
-        LOGE("CPU malloc failed");
+        LOGE("CPU malloc failed")
     }
     return ptr;
 }
@@ -51,5 +50,4 @@ void CPUMemoryManager::Memcpy(
     std::memcpy(dst_ptr, src_ptr, num_bytes);
 }
 
-}  // namespace core
 }  // namespace arc

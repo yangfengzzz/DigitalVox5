@@ -33,8 +33,7 @@
 #include "logging.h"
 #include "macro.h"
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 class OPEN3D_API Dtype {
 public:
@@ -68,17 +67,17 @@ public:
     /// Convert from C++ types to Dtype. Known types are explicitly specialized,
     /// e.g. FromType<float>(). Unsupported type results in an exception.
     template <typename T>
-    static inline const Dtype FromType() {
-        LOGE("Unsupported data for Dtype::FromType.");
+    static inline Dtype FromType() {
+        LOGE("Unsupported data for Dtype::FromType.")
     }
 
-    int64_t ByteSize() const { return byte_size_; }
+    [[nodiscard]] int64_t ByteSize() const { return byte_size_; }
 
-    DtypeCode GetDtypeCode() const { return dtype_code_; }
+    [[nodiscard]] DtypeCode GetDtypeCode() const { return dtype_code_; }
 
-    bool IsObject() const { return dtype_code_ == DtypeCode::Object; }
+    [[nodiscard]] bool IsObject() const { return dtype_code_ == DtypeCode::Object; }
 
-    std::string ToString() const { return name_; }
+    [[nodiscard]] std::string ToString() const { return name_; }
 
     bool operator==(const Dtype &other) const;
 
@@ -88,7 +87,7 @@ private:
     static constexpr size_t max_name_len_ = 16;
     DtypeCode dtype_code_;
     int64_t byte_size_;
-    char name_[max_name_len_];  // MSVC warns if std::string is exported to DLL.
+    char name_[max_name_len_]{};  // MSVC warns if std::string is exported to DLL.
 };
 
 OPEN3D_API extern const Dtype Undefined;
@@ -105,59 +104,58 @@ OPEN3D_API extern const Dtype UInt64;
 OPEN3D_API extern const Dtype Bool;
 
 template <>
-inline const Dtype Dtype::FromType<float>() {
+inline Dtype Dtype::FromType<float>() {
     return Dtype::Float32;
 }
 
 template <>
-inline const Dtype Dtype::FromType<double>() {
+inline Dtype Dtype::FromType<double>() {
     return Dtype::Float64;
 }
 
 template <>
-inline const Dtype Dtype::FromType<int8_t>() {
+inline Dtype Dtype::FromType<int8_t>() {
     return Dtype::Int8;
 }
 
 template <>
-inline const Dtype Dtype::FromType<int16_t>() {
+inline Dtype Dtype::FromType<int16_t>() {
     return Dtype::Int16;
 }
 
 template <>
-inline const Dtype Dtype::FromType<int32_t>() {
+inline Dtype Dtype::FromType<int32_t>() {
     return Dtype::Int32;
 }
 
 template <>
-inline const Dtype Dtype::FromType<int64_t>() {
+inline Dtype Dtype::FromType<int64_t>() {
     return Dtype::Int64;
 }
 
 template <>
-inline const Dtype Dtype::FromType<uint8_t>() {
+inline Dtype Dtype::FromType<uint8_t>() {
     return Dtype::UInt8;
 }
 
 template <>
-inline const Dtype Dtype::FromType<uint16_t>() {
+inline Dtype Dtype::FromType<uint16_t>() {
     return Dtype::UInt16;
 }
 
 template <>
-inline const Dtype Dtype::FromType<uint32_t>() {
+inline Dtype Dtype::FromType<uint32_t>() {
     return Dtype::UInt32;
 }
 
 template <>
-inline const Dtype Dtype::FromType<uint64_t>() {
+inline Dtype Dtype::FromType<uint64_t>() {
     return Dtype::UInt64;
 }
 
 template <>
-inline const Dtype Dtype::FromType<bool>() {
+inline Dtype Dtype::FromType<bool>() {
     return Dtype::Bool;
 }
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core

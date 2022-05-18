@@ -32,9 +32,7 @@
 #include "parallel_for.h"
 #include "tensor_check.h"
 
-namespace arc {
-namespace core {
-namespace eigen_converter {
+namespace arc::core::eigen_converter {
 
 /// Fills tensor[:][i] with func(i).
 ///
@@ -61,7 +59,7 @@ static Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> TensorT
     if (dim.size() != 2) {
         LOGE(" [TensorToEigenMatrix]: Number of dimensions supported = 2, "
              "but got {}.",
-             dim.size());
+             dim.size())
     }
 
     core::Tensor tensor_cpu_contiguous = tensor.Contiguous().To(core::Device("CPU:0"), dtype);
@@ -101,7 +99,7 @@ static std::vector<Eigen::Matrix<T, N, 1>> TensorToEigenVectorNxVector(const cor
         dtype = core::Int32;
     }
     if (dtype.ByteSize() * N != sizeof(Eigen::Matrix<T, N, 1>)) {
-        LOGE("Internal error: dtype size mismatch {} != {}.", dtype.ByteSize() * N, sizeof(Eigen::Matrix<T, N, 1>));
+        LOGE("Internal error: dtype size mismatch {} != {}.", dtype.ByteSize() * N, sizeof(Eigen::Matrix<T, N, 1>))
     }
 
     // Eigen::VectorNx is not a "fixed-size vectorizable Eigen type" thus it is
@@ -123,7 +121,7 @@ static core::Tensor EigenVectorNxVectorToTensor(const std::vector<Eigen::Matrix<
     static_assert((std::is_same<T, double>::value || std::is_same<T, int>::value) && N > 0,
                   "Only supports double and int (VectorNd and VectorNi) with N>0.");
     // Init CPU Tensor.
-    int64_t num_values = static_cast<int64_t>(values.size());
+    auto num_values = static_cast<int64_t>(values.size());
     core::Tensor tensor_cpu = core::Tensor::Empty({num_values, N}, dtype, Device("CPU:0"));
 
     // Fill Tensor. This takes care of dtype conversion at the same time.
@@ -180,6 +178,4 @@ core::Tensor EigenVector2iVectorToTensor(const std::vector<Eigen::Vector2i> &val
     return EigenVectorNxVectorToTensor(values, dtype, device);
 }
 
-}  // namespace eigen_converter
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core::eigen_converter

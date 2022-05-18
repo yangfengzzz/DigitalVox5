@@ -29,17 +29,14 @@
 #include <numeric>
 
 #include "size_vector.h"
-#include "tensor.h"
 
-namespace arc {
-namespace core {
-namespace shape_util {
+namespace arc::core::shape_util {
 
 /// Expand a shape with ones in front. Returning a shape with size of ndims.
 /// E.g. ExpandFrontDims({2, 3}, 5) == {1, 1, 1, 2, 3}
 static SizeVector ExpandFrontDims(const SizeVector& shape, int64_t ndims) {
     if (ndims < static_cast<int64_t>(shape.size())) {
-        LOGE("Cannot expand a shape with ndims {} to ndims {}.", shape.size(), ndims);
+        LOGE("Cannot expand a shape with ndims {} to ndims {}.", shape.size(), ndims)
     }
     SizeVector expanded_shape(ndims, 1);
     std::copy(shape.begin(), shape.end(), expanded_shape.begin() + ndims - shape.size());
@@ -71,7 +68,7 @@ bool IsCompatibleBroadcastShape(const SizeVector& l_shape, const SizeVector& r_s
 
 SizeVector BroadcastedShape(const SizeVector& l_shape, const SizeVector& r_shape) {
     if (!IsCompatibleBroadcastShape(l_shape, r_shape)) {
-        LOGE("Shape {} and {} are not broadcast-compatible", l_shape.ToString(), r_shape.ToString());
+        LOGE("Shape {} and {} are not broadcast-compatible", l_shape.ToString(), r_shape.ToString())
     }
 
     int64_t l_ndims = l_shape.size();
@@ -94,7 +91,7 @@ SizeVector BroadcastedShape(const SizeVector& l_shape, const SizeVector& r_shape
             LOGE("Internal error: dimension size {} is not compatible with "
                  "{}, however, this error shall have been captured by "
                  "IsCompatibleBroadcastShape already.",
-                 l_shape_filled[i], r_shape_filled[i]);
+                 l_shape_filled[i], r_shape_filled[i])
         }
     }
     return broadcasted_shape;
@@ -122,7 +119,7 @@ SizeVector ReductionShape(const SizeVector& src_shape, const SizeVector& dims, b
         std::vector<bool> dims_mask(src_ndims, false);
         for (const int64_t& dim : dims) {
             if (dims_mask[WrapDim(dim, src_ndims)]) {
-                LOGE("Repeated reduction dimension {}", dim);
+                LOGE("Repeated reduction dimension {}", dim)
             }
             dims_mask[WrapDim(dim, src_ndims)] = true;
         }
@@ -140,7 +137,7 @@ SizeVector ReductionShape(const SizeVector& src_shape, const SizeVector& dims, b
 
 int64_t WrapDim(int64_t dim, int64_t max_dim, bool inclusive) {
     if (max_dim <= 0) {
-        LOGE("max_dim {} must be > 0.", max_dim);
+        LOGE("max_dim {} must be > 0.", max_dim)
     }
     int64_t min = -max_dim;
     int64_t max = inclusive ? max_dim : max_dim - 1;
@@ -148,7 +145,7 @@ int64_t WrapDim(int64_t dim, int64_t max_dim, bool inclusive) {
     if (dim < min || dim > max) {
         LOGE("Index out-of-range: dim == {}, but it must satisfy {} <= dim "
              "<= {}.",
-             dim, min, max);
+             dim, min, max)
     }
     if (dim < 0) {
         dim += max_dim;
@@ -166,14 +163,14 @@ SizeVector InferShape(SizeVector shape, int64_t num_elements) {
             if (has_inferred_dim) {
                 LOGE("Proposed shape {}, but at most one dimension can be "
                      "-1 (inferred).",
-                     shape.ToString());
+                     shape.ToString())
             }
             inferred_dim = dim;
             has_inferred_dim = true;
         } else if (shape[dim] >= 0) {
             new_size *= shape[dim];
         } else {
-            LOGE("Invalid shape dimension {}", shape[dim]);
+            LOGE("Invalid shape dimension {}", shape[dim])
         }
     }
 
@@ -191,14 +188,14 @@ SizeVector InferShape(SizeVector shape, int64_t num_elements) {
                 LOGE("Cannot reshape tensor of 0 elements into shape {}, "
                      "because the unspecified dimension size -1 can be any "
                      "value and is ambiguous.",
-                     shape.ToString());
+                     shape.ToString())
             }
             inferred_shape[inferred_dim] = num_elements / new_size;
         }
         return inferred_shape;
     }
 
-    LOGE("Shape {} is invalid for {} number of elements.", shape.ToString(), num_elements);
+    throw std::runtime_error(fmt::format("Shape {} is invalid for {} number of elements.", shape.ToString(), num_elements));
 }
 
 SizeVector Concat(const SizeVector& l_shape, const SizeVector& r_shape) {
@@ -209,7 +206,7 @@ SizeVector Concat(const SizeVector& l_shape, const SizeVector& r_shape) {
 
 SizeVector Iota(int64_t n) {
     if (n < 0) {
-        LOGE("Iota(n) requires n >= 0, but n == {}.", n);
+        LOGE("Iota(n) requires n >= 0, but n == {}.", n)
     }
     SizeVector sv(n);
     std::iota(sv.begin(), sv.end(), 0);
@@ -287,6 +284,4 @@ std::pair<bool, SizeVector> Restride(const SizeVector& old_shape,
     return std::make_pair(true, new_strides);
 }
 
-}  // namespace shape_util
-}  // namespace core
 }  // namespace arc

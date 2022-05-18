@@ -31,8 +31,7 @@
 #include <string>
 #include <vector>
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 class SizeVector;
 
@@ -45,11 +44,11 @@ class SizeVector;
 /// ```
 class DynamicSizeVector : public std::vector<std::optional<int64_t>> {
 public:
-    DynamicSizeVector() {}
+    DynamicSizeVector() = default;
 
     DynamicSizeVector(const std::initializer_list<std::optional<int64_t>>& dim_sizes);
 
-    DynamicSizeVector(const std::vector<std::optional<int64_t>>& dim_sizes);
+    explicit DynamicSizeVector(const std::vector<std::optional<int64_t>>& dim_sizes);
 
     DynamicSizeVector(const DynamicSizeVector& other);
 
@@ -58,24 +57,24 @@ public:
     template <class InputIterator>
     DynamicSizeVector(InputIterator first, InputIterator last) : std::vector<std::optional<int64_t>>(first, last) {}
 
-    DynamicSizeVector(const SizeVector& dim_sizes);
+    explicit DynamicSizeVector(const SizeVector& dim_sizes);
 
-    SizeVector ToSizeVector() const;
+    [[nodiscard]] SizeVector ToSizeVector() const;
 
     DynamicSizeVector& operator=(const DynamicSizeVector& v);
 
-    DynamicSizeVector& operator=(DynamicSizeVector&& v);
+    DynamicSizeVector& operator=(DynamicSizeVector&& v) noexcept;
 
-    std::string ToString() const;
+    [[nodiscard]] std::string ToString() const;
 
-    bool IsDynamic() const;
+    [[nodiscard]] bool IsDynamic() const;
 };
 
 /// SizeVector is a vector of int64_t, typically used in Tensor shape and
 /// strides. A signed int64_t type is chosen to allow negative strides.
 class SizeVector : public std::vector<int64_t> {
 public:
-    SizeVector() {}
+    SizeVector() = default;
 
     SizeVector(const std::initializer_list<int64_t>& dim_sizes);
 
@@ -90,18 +89,17 @@ public:
 
     SizeVector& operator=(const SizeVector& v);
 
-    SizeVector& operator=(SizeVector&& v);
+    SizeVector& operator=(SizeVector&& v) noexcept;
 
-    int64_t NumElements() const;
+    [[nodiscard]] int64_t NumElements() const;
 
-    int64_t GetLength() const;
+    [[nodiscard]] int64_t GetLength() const;
 
-    std::string ToString() const;
+    [[nodiscard]] std::string ToString() const;
 
-    void AssertCompatible(const DynamicSizeVector& dsv, const std::string msg = "") const;
+    void AssertCompatible(const DynamicSizeVector& dsv, const std::string& msg = "") const;
 
-    bool IsCompatible(const DynamicSizeVector& dsv) const;
+    [[nodiscard]] bool IsCompatible(const DynamicSizeVector& dsv) const;
 };
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core

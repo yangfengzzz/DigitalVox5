@@ -37,8 +37,7 @@
 
 #include "logging.h"
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 DynamicSizeVector::DynamicSizeVector(const std::initializer_list<std::optional<int64_t>>& dim_sizes)
     : std::vector<std::optional<int64_t>>(dim_sizes) {}
@@ -46,7 +45,7 @@ DynamicSizeVector::DynamicSizeVector(const std::initializer_list<std::optional<i
 DynamicSizeVector::DynamicSizeVector(const std::vector<std::optional<int64_t>>& dim_sizes)
     : std::vector<std::optional<int64_t>>(dim_sizes) {}
 
-DynamicSizeVector::DynamicSizeVector(const DynamicSizeVector& other) : std::vector<std::optional<int64_t>>(other) {}
+DynamicSizeVector::DynamicSizeVector(const DynamicSizeVector& other) = default;
 
 DynamicSizeVector::DynamicSizeVector(int64_t n, int64_t initial_value)
     : std::vector<std::optional<int64_t>>(n, initial_value) {}
@@ -58,7 +57,7 @@ SizeVector DynamicSizeVector::ToSizeVector() const {
     SizeVector sv(size());
     std::transform(begin(), end(), sv.begin(), [](const auto& v) {
         if (!v.has_value()) {
-            LOGE("Cannot convert dynamic shape to SizeVector.");
+            LOGE("Cannot convert dynamic shape to SizeVector.")
         }
         return v.value();
     });
@@ -70,7 +69,7 @@ DynamicSizeVector& DynamicSizeVector::operator=(const DynamicSizeVector& v) {
     return *this;
 }
 
-DynamicSizeVector& DynamicSizeVector::operator=(DynamicSizeVector&& v) {
+DynamicSizeVector& DynamicSizeVector::operator=(DynamicSizeVector&& v) noexcept {
     static_cast<std::vector<std::optional<int64_t>>*>(this)->operator=(v);
     return *this;
 }
@@ -103,7 +102,7 @@ SizeVector::SizeVector(const std::initializer_list<int64_t>& dim_sizes) : std::v
 
 SizeVector::SizeVector(const std::vector<int64_t>& dim_sizes) : std::vector<int64_t>(dim_sizes) {}
 
-SizeVector::SizeVector(const SizeVector& other) : std::vector<int64_t>(other) {}
+SizeVector::SizeVector(const SizeVector& other) = default;
 
 SizeVector::SizeVector(int64_t n, int64_t initial_value) : std::vector<int64_t>(n, initial_value) {}
 
@@ -112,25 +111,25 @@ SizeVector& SizeVector::operator=(const SizeVector& v) {
     return *this;
 }
 
-SizeVector& SizeVector::operator=(SizeVector&& v) {
+SizeVector& SizeVector::operator=(SizeVector&& v) noexcept {
     static_cast<std::vector<int64_t>*>(this)->operator=(v);
     return *this;
 }
 
 int64_t SizeVector::NumElements() const {
-    if (this->size() == 0) {
+    if (this->empty()) {
         return 1;
     }
     return std::accumulate(this->begin(), this->end(), 1LL, [this](const int64_t& lhs, const int64_t& rhs) -> int64_t {
         if (lhs < 0 || rhs < 0) {
-            LOGE("Shape {} cannot contain negative dimensions.", this->ToString());
+            LOGE("Shape {} cannot contain negative dimensions.", this->ToString())
         }
         return std::multiplies<int64_t>()(lhs, rhs);
     });
 }
 
 int64_t SizeVector::GetLength() const {
-    if (size() == 0) {
+    if (empty()) {
         throw std::runtime_error("Cannot get length of a 0-dimensional shape.");
     } else {
         return operator[](0);
@@ -139,12 +138,12 @@ int64_t SizeVector::GetLength() const {
 
 std::string SizeVector::ToString() const { return fmt::format("{}", this->ToString()); }
 
-void SizeVector::AssertCompatible(const DynamicSizeVector& dsv, const std::string msg) const {
+void SizeVector::AssertCompatible(const DynamicSizeVector& dsv, const std::string& msg) const {
     if (!IsCompatible(dsv)) {
         if (msg.empty()) {
-            LOGE("Shape {} is not compatible with {}.", ToString(), dsv.ToString());
+            LOGE("Shape {} is not compatible with {}.", ToString(), dsv.ToString())
         } else {
-            LOGE("Shape {} is not compatible with {}: {}", ToString(), dsv.ToString(), msg);
+            LOGE("Shape {} is not compatible with {}: {}", ToString(), dsv.ToString(), msg)
         }
     }
 }
@@ -161,5 +160,4 @@ bool SizeVector::IsCompatible(const DynamicSizeVector& dsv) const {
     return true;
 }
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core

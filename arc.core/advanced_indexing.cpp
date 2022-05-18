@@ -30,8 +30,7 @@
 #include "size_vector.h"
 #include "tensor.h"
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 bool AdvancedIndexPreprocessor::IsIndexSplittedBySlice(const std::vector<Tensor>& index_tensors) {
     bool index_dim_started = false;
@@ -125,7 +124,7 @@ void AdvancedIndexPreprocessor::RunPreprocess() {
     if (static_cast<int64_t>(index_tensors_.size()) > tensor_.NumDims()) {
         LOGE("Number of index_tensors {} exceeds tensor dimension "
              "{}.",
-             index_tensors_.size(), tensor_.NumDims());
+             index_tensors_.size(), tensor_.NumDims())
     }
 
     // Index tensors must be using int64.
@@ -133,7 +132,7 @@ void AdvancedIndexPreprocessor::RunPreprocess() {
     // converting to int64_t tensors.
     for (const Tensor& index_tensor : index_tensors_) {
         if (index_tensor.GetDtype() != core::Int64) {
-            LOGE("Index tensor must have Int64 dtype, but {} was used.", index_tensor.GetDtype().ToString());
+            LOGE("Index tensor must have Int64 dtype, but {} was used.", index_tensor.GetDtype().ToString())
         }
     }
 
@@ -174,9 +173,9 @@ void AdvancedIndexPreprocessor::RunPreprocess() {
     }
 
     // Put index tensors_ on the same device as tensor_.
-    for (size_t i = 0; i < index_tensors_.size(); ++i) {
-        if (index_tensors_[i].GetDevice() != tensor_.GetDevice()) {
-            index_tensors_[i] = index_tensors_[i].To(tensor_.GetDevice());
+    for (auto& index_tensor : index_tensors_) {
+        if (index_tensor.GetDevice() != tensor_.GetDevice()) {
+            index_tensor = index_tensor.To(tensor_.GetDevice());
         }
     }
 
@@ -217,14 +216,14 @@ void AdvancedIndexPreprocessor::RunPreprocess() {
         return std::any_of(vals.begin(), vals.end(), [](int64_t val) { return val == 0; });
     };
     if (contains_zero(indexed_shape_) && !contains_zero(replacement_shape)) {
-        LOGE("Index is out of bounds for dimension with size 0");
+        LOGE("Index is out of bounds for dimension with size 0")
     }
 
     // Restride tensor_ and index tensors_.
     tensor_ = RestrideTensor(tensor_, dims_before, dims_indexed, replacement_shape);
-    for (size_t dim = 0; dim < index_tensors_.size(); dim++) {
-        if (index_tensors_[dim].NumDims() != 0) {
-            index_tensors_[dim] = RestrideIndexTensor(index_tensors_[dim], dims_before, dims_after);
+    for (auto& index_tensor : index_tensors_) {
+        if (index_tensor.NumDims() != 0) {
+            index_tensor = RestrideIndexTensor(index_tensor, dims_before, dims_after);
         }
     }
 }
@@ -242,5 +241,4 @@ std::vector<Tensor> AdvancedIndexPreprocessor::ExpandBoolTensors(const std::vect
     return res_index_tensors;
 }
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core

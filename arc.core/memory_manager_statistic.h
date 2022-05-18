@@ -33,8 +33,7 @@
 
 #include "device.h"
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 class MemoryManagerStatistic {
 public:
@@ -71,7 +70,7 @@ public:
 
     /// Returns true if any recorded device has unbalanced counts, false
     /// otherwise.
-    bool HasLeaks() const;
+    [[nodiscard]] bool HasLeaks() const;
 
     /// Adds the given allocation to the statistics.
     void CountMalloc(void* ptr, size_t byte_size, const Device& device);
@@ -88,7 +87,7 @@ private:
     MemoryManagerStatistic() = default;
 
     struct MemoryStatistics {
-        bool IsBalanced() const;
+        [[nodiscard]] bool IsBalanced() const;
 
         int64_t count_malloc_ = 0;
         int64_t count_free_ = 0;
@@ -109,5 +108,4 @@ private:
     std::map<Device, MemoryStatistics> statistics_;
 };
 
-}  // namespace core
 }  // namespace arc

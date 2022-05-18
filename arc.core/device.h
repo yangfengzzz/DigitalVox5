@@ -31,8 +31,7 @@
 #include "helper.h"
 #include "logging.h"
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 /// Device context specifying device type and device id.
 /// For CPU, there is only one device with id 0
@@ -67,8 +66,8 @@ public:
 
     bool operator<(const Device& other) const { return ToString() < other.ToString(); }
 
-    std::string ToString() const {
-        std::string str = "";
+    [[nodiscard]] std::string ToString() const {
+        std::string str;
         switch (device_type_) {
             case DeviceType::CPU:
                 str += "CPU";
@@ -77,20 +76,20 @@ public:
                 str += "CUDA";
                 break;
             default:
-                LOGE("Unsupported device type");
+                LOGE("Unsupported device type")
         }
         str += ":" + std::to_string(device_id_);
         return str;
     }
 
-    DeviceType GetType() const { return device_type_; }
+    [[nodiscard]] DeviceType GetType() const { return device_type_; }
 
-    int GetID() const { return device_id_; }
+    [[nodiscard]] int GetID() const { return device_id_; }
 
 protected:
     void AssertCPUDeviceIDIsZero() {
         if (device_type_ == DeviceType::CPU && device_id_ != 0) {
-            LOGE("CPU has device_id {}, but it must be 0.", device_id_);
+            LOGE("CPU has device_id {}, but it must be 0.", device_id_)
         }
     }
 
@@ -124,8 +123,7 @@ protected:
     int device_id_ = 0;
 };
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core
 
 namespace std {
 template <>

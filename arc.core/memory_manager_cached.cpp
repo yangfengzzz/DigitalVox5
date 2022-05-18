@@ -25,12 +25,12 @@
 // ----------------------------------------------------------------------------
 
 #include <algorithm>
-#include <cstdlib>
 #include <limits>
 #include <memory>
 #include <mutex>
 #include <set>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "logging.h"
@@ -40,8 +40,7 @@
 #include "CUDAUtils.h"
 #endif
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 // This implementation is insipred by PyTorch's CUDA memory manager.
 // Reference: https://git.io/JUqUA
@@ -69,8 +68,8 @@ struct PointerOrder {
 struct RealBlock;
 
 struct VirtualBlock {
-    VirtualBlock(void* ptr, size_t byte_size, const std::weak_ptr<RealBlock>& r_block)
-        : ptr_(ptr), byte_size_(byte_size), r_block_(r_block) {}
+    VirtualBlock(void* ptr, size_t byte_size, std::weak_ptr<RealBlock> r_block)
+        : ptr_(ptr), byte_size_(byte_size), r_block_(std::move(r_block)) {}
 
     void* ptr_ = nullptr;
     size_t byte_size_ = 0;
@@ -147,7 +146,7 @@ public:
 
         if (ptr_it == allocated_virtual_blocks_.end()) {
             // Should never reach here
-            LOGE("Block of {} should have been recorded.", fmt::ptr(ptr));
+            LOGE("Block of {} should have been recorded.", fmt::ptr(ptr))
         }
 
         auto v_block = ptr_it->second;
@@ -160,7 +159,7 @@ public:
         if (v_block_it == v_block_set.end()) {
             LOGE("Virtual block ({} @ {} bytes) not recorded in real block "
                  "{} @ {} bytes.",
-                 fmt::ptr(v_block->ptr_), v_block->byte_size_, fmt::ptr(r_block->ptr_), r_block->byte_size_);
+                 fmt::ptr(v_block->ptr_), v_block->byte_size_, fmt::ptr(r_block->ptr_), r_block->byte_size_)
         }
 
         auto merged_v_block = v_block;
@@ -171,7 +170,7 @@ public:
             auto v_block_it_copy = v_block_it;
             auto v_block_it_prev = --v_block_it_copy;
 
-            auto v_block_prev = *v_block_it_prev;
+            const auto& v_block_prev = *v_block_it_prev;
 
             if (free_virtual_blocks_.find(v_block_prev) != free_virtual_blocks_.end()) {
                 // Update merged block.
@@ -191,7 +190,7 @@ public:
         auto v_block_it_next = ++v_block_it_copy;
 
         if (v_block_it_next != v_block_set.end()) {
-            auto v_block_next = *v_block_it_next;
+            const auto& v_block_next = *v_block_it_next;
 
             if (free_virtual_blocks_.find(v_block_next) != free_virtual_blocks_.end()) {
                 // Update merged block.
@@ -267,10 +266,10 @@ public:
     }
 
     /// Returns the number of allocated real blocks.
-    size_t Size() const { return real_blocks_.size(); }
+    [[nodiscard]] size_t Size() const { return real_blocks_.size(); }
 
     /// True if the set of allocated real blocks is empty, false otherwise
-    bool Empty() const { return Size() == 0; }
+    [[nodiscard]] bool Empty() const { return Size() == 0; }
 
 private:
     /// Finds and extracts a suitable free block from the cache.
@@ -280,7 +279,7 @@ private:
     std::shared_ptr<VirtualBlock> ExtractFreeBlock(size_t byte_size) {
         std::lock_guard<std::recursive_mutex> lock(mutex_);
 
-        size_t max_byte_size = static_cast<size_t>(kMaxFragmentation * static_cast<double>(byte_size));
+        auto max_byte_size = static_cast<size_t>(kMaxFragmentation * static_cast<double>(byte_size));
 
         // Consider blocks with size in range
         // [byte_size, max_byte_size].
@@ -309,7 +308,7 @@ private:
         if (r_block->ptr_ != v_block->ptr_ || r_block->byte_size_ != v_block->byte_size_) {
             LOGE("Real block {} @ {} bytes has single "
                  "virtual block {} @ {} bytes",
-                 fmt::ptr(r_block->ptr_), r_block->byte_size_, fmt::ptr(v_block->ptr_), v_block->byte_size_);
+                 fmt::ptr(r_block->ptr_), r_block->byte_size_, fmt::ptr(v_block->ptr_), v_block->byte_size_)
         }
 
         return free_virtual_blocks_.find(v_block) != free_virtual_blocks_.end();
@@ -347,7 +346,7 @@ public:
             Clear(device);
 
             if (!cache.Empty()) {
-                LOGE("{} leaking memory blocks on {}", cache.Size(), device.ToString());
+                LOGE("{} leaking memory blocks on {}", cache.Size(), device.ToString())
             }
         }
     }
@@ -444,11 +443,11 @@ private:
     std::recursive_mutex init_mutex_;
 };
 
-CachedMemoryManager::CachedMemoryManager(const std::shared_ptr<DeviceMemoryManager>& device_mm)
-    : device_mm_(device_mm) {
+CachedMemoryManager::CachedMemoryManager(std::shared_ptr<DeviceMemoryManager> device_mm)
+    : device_mm_(std::move(device_mm)) {
     if (std::dynamic_pointer_cast<CachedMemoryManager>(device_mm_) != nullptr) {
         LOGE("An instance of type CachedMemoryManager as the underlying "
-             "non-cached manager is forbidden.");
+             "non-cached manager is forbidden.")
     }
 }
 
@@ -477,5 +476,4 @@ void CachedMemoryManager::ReleaseCache(const Device& device) { Cacher::GetInstan
 
 void CachedMemoryManager::ReleaseCache() { Cacher::GetInstance().Clear(); }
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core

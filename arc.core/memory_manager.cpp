@@ -29,14 +29,12 @@
 #include <numeric>
 #include <unordered_map>
 
-#include "blob.h"
 #include "device.h"
 #include "helper.h"
 #include "logging.h"
 #include "memory_manager_statistic.h"
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 void* MemoryManager::Malloc(size_t byte_size, const Device& device) {
     void* ptr = GetDeviceMemoryManager(device)->Malloc(byte_size, device);
@@ -57,12 +55,12 @@ void MemoryManager::Memcpy(
     if (num_bytes == 0) {
         return;
     } else if (src_ptr == nullptr || dst_ptr == nullptr) {
-        LOGE("src_ptr and dst_ptr cannot be nullptr.");
+        LOGE("src_ptr and dst_ptr cannot be nullptr.")
     }
 
     if ((dst_device.GetType() != Device::DeviceType::CPU && dst_device.GetType() != Device::DeviceType::CUDA) ||
         (src_device.GetType() != Device::DeviceType::CPU && src_device.GetType() != Device::DeviceType::CUDA)) {
-        LOGE("MemoryManager::Memcpy: Unimplemented device.");
+        LOGE("MemoryManager::Memcpy: Unimplemented device.")
     }
 
     std::shared_ptr<DeviceMemoryManager> device_mm;
@@ -101,10 +99,9 @@ std::shared_ptr<DeviceMemoryManager> MemoryManager::GetDeviceMemoryManager(const
 #endif  // BUILD_CUDA_MODULE
             };
     if (map_device_type_to_memory_manager.find(device.GetType()) == map_device_type_to_memory_manager.end()) {
-        LOGE("Unimplemented device '{}'.", device.ToString());
+        LOGE("Unimplemented device '{}'.", device.ToString())
     }
     return map_device_type_to_memory_manager.at(device.GetType());
 }
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core

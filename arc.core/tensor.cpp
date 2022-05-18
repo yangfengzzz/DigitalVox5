@@ -1627,7 +1627,7 @@ bool Tensor::AllClose(const Tensor& other, double rtol, double atol) const {
 Tensor Tensor::IsClose(const Tensor& other, double rtol, double atol) const {
     AssertTensorDevice(other, GetDevice());
     AssertTensorDtype(other, GetDtype());
-    AssertTensorShape(other, GetShape());
+    AssertTensorShape(other, DynamicSizeVector(GetShape()));
 
     Tensor lhs = this->To(core::Float64);
     Tensor rhs = other.To(core::Float64);

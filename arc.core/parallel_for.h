@@ -42,8 +42,7 @@
 #include "cuda_utils.h"
 #endif
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 #ifdef __CUDACC__
 
@@ -89,7 +88,7 @@ void ParallelForCUDA_(const Device& device, int64_t n, const func_t& func) {
 template <typename func_t>
 void ParallelForCPU_(const Device& device, int64_t n, const func_t& func) {
     if (device.GetType() != Device::DeviceType::CPU) {
-        LOGE("ParallelFor for CPU cannot run on device {}.", device.ToString());
+        LOGE("ParallelFor for CPU cannot run on device {}.", device.ToString())
     }
     if (n == 0) {
         return;
@@ -263,5 +262,4 @@ void ParallelFor(const Device& device, int64_t n, const func_t& func, const vec_
                           })(T{}, start, end);                                              \
     }
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core

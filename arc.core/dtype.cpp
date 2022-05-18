@@ -26,8 +26,7 @@
 
 #include "dtype.h"
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 // clang-format off
 static_assert(sizeof(float   ) == 4, "Unsupported platform: float must be 4 bytes."   );
@@ -73,7 +72,7 @@ const Dtype Bool = Dtype::Bool;
 Dtype::Dtype(DtypeCode dtype_code, int64_t byte_size, const std::string &name)
     : dtype_code_(dtype_code), byte_size_(byte_size) {
     if (name.size() > max_name_len_ - 1) {
-        LOGE("Name {} must be shorter.", name);
+        LOGE("Name {} must be shorter.", name)
     } else {
         std::strncpy(name_, name.c_str(), max_name_len_);
         name_[max_name_len_ - 1] = '\0';
@@ -86,5 +85,4 @@ bool Dtype::operator==(const Dtype &other) const {
 
 bool Dtype::operator!=(const Dtype &other) const { return !(*this == other); }
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core

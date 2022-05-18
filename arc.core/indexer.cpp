@@ -32,8 +32,7 @@
 #include "Indexer_ispc.h"
 #endif
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 #ifdef BUILD_ISPC_MODULE
 ispc::TensorRef TensorRef::ToISPC() const {
@@ -65,16 +64,16 @@ Indexer::Indexer(const std::vector<Tensor>& input_tensors,
     num_inputs_ = static_cast<int64_t>(input_tensors.size());
     num_outputs_ = static_cast<int64_t>(output_tensors.size());
     if (num_inputs_ < 1) {
-        LOGE("Indexer must have at least one input.");
+        LOGE("Indexer must have at least one input.")
     }
     if (num_inputs_ > MAX_INPUTS) {
-        LOGE("Indexer cannot have more than {} inputs, but got {}.", MAX_INPUTS, num_inputs_);
+        LOGE("Indexer cannot have more than {} inputs, but got {}.", MAX_INPUTS, num_inputs_)
     }
     if (num_outputs_ < 1) {
-        LOGE("Indexer must have at least one input.");
+        LOGE("Indexer must have at least one input.")
     }
     if (num_outputs_ > MAX_OUTPUTS) {
-        LOGE("Indexer cannot have more than {} outputs, but got {}.", MAX_OUTPUTS, num_outputs_);
+        LOGE("Indexer cannot have more than {} outputs, but got {}.", MAX_OUTPUTS, num_outputs_)
     }
 
     // Check DtypePolicy.
@@ -82,37 +81,37 @@ Indexer::Indexer(const std::vector<Tensor>& input_tensors,
         const Dtype ref_dtype = input_tensors[0].GetDtype();
         for (const auto& input_tensor : input_tensors) {
             if (input_tensor.GetDtype() != ref_dtype) {
-                LOGE("Dype mismatch {} != {}.", input_tensor.GetDtype().ToString(), ref_dtype.ToString());
+                LOGE("Dype mismatch {} != {}.", input_tensor.GetDtype().ToString(), ref_dtype.ToString())
             }
         }
         for (const auto& output_tensor : output_tensors) {
             if (output_tensor.GetDtype() != ref_dtype) {
-                LOGE("Dype mismatch {} != {}.", output_tensor.GetDtype().ToString(), ref_dtype.ToString());
+                LOGE("Dype mismatch {} != {}.", output_tensor.GetDtype().ToString(), ref_dtype.ToString())
             }
         }
     } else if (dtype_policy == DtypePolicy::INPUT_SAME) {
         const Dtype ref_dtype = input_tensors[0].GetDtype();
         for (const auto& input_tensor : input_tensors) {
             if (input_tensor.GetDtype() != ref_dtype) {
-                LOGE("Dype mismatch {} != {}.", input_tensor.GetDtype().ToString(), ref_dtype.ToString());
+                LOGE("Dype mismatch {} != {}.", input_tensor.GetDtype().ToString(), ref_dtype.ToString())
             }
         }
     } else if (dtype_policy == DtypePolicy::INPUT_SAME_OUTPUT_BOOL) {
         const Dtype ref_dtype = input_tensors[0].GetDtype();
         for (const auto& input_tensor : input_tensors) {
             if (input_tensor.GetDtype() != ref_dtype) {
-                LOGE("Dype mismatch {} != {}.", input_tensor.GetDtype().ToString(), ref_dtype.ToString());
+                LOGE("Dype mismatch {} != {}.", input_tensor.GetDtype().ToString(), ref_dtype.ToString())
             }
         }
         for (const auto& output_tensor : output_tensors) {
             if (output_tensor.GetDtype() != core::Bool) {
-                LOGE("Dype mismatch {} != {}.", output_tensor.GetDtype().ToString(), core::Bool.ToString());
+                LOGE("Dype mismatch {} != {}.", output_tensor.GetDtype().ToString(), core::Bool.ToString())
             }
         }
     } else if (dtype_policy == DtypePolicy::NONE) {
         // Do nothing.
     } else {
-        LOGE("Unimplemented dtype policy");
+        LOGE("Unimplemented dtype policy")
     }
 
     // Convert to TensorRef.
@@ -135,9 +134,9 @@ Indexer::Indexer(const std::vector<Tensor>& input_tensors,
 
     // Theoretically, reduction can be mixed with broadcasting. For
     // simplicity, we require explicit broadcasting after reduction.
-    if (reduction_dims.size() > 0) {
+    if (!reduction_dims.empty()) {
         if (num_inputs_ != 1) {
-            LOGE("Internal error: reduction op can only have 1 inputs.");
+            LOGE("Internal error: reduction op can only have 1 inputs.")
         }
 
         for (int64_t i = 0; i < num_outputs_; ++i) {
@@ -229,11 +228,11 @@ IndexerIterator Indexer::SplitTo32BitIndexing() const { return IndexerIterator(*
 std::unique_ptr<Indexer> Indexer::SplitLargestDim() {
     // Get the dimension to split.
     if (ndims_ == 0) {
-        LOGE("Cannot split when ndims_ == 0");
+        LOGE("Cannot split when ndims_ == 0")
         return nullptr;
     }
     if (master_shape_[ndims_ - 1] < 2) {
-        LOGE("master_shape_[ndims_ - 1] = {} < 2, cannot split.", master_shape_[ndims_ - 1]);
+        LOGE("master_shape_[ndims_ - 1] = {} < 2, cannot split.", master_shape_[ndims_ - 1])
         return nullptr;
     }
     int64_t max_extent = -1;
@@ -260,15 +259,15 @@ std::unique_ptr<Indexer> Indexer::SplitLargestDim() {
         }
     }
     if (max_extent < 0) {
-        LOGE("Internal error: max_extent must be >= 0, but got {}.", max_extent);
+        LOGE("Internal error: max_extent must be >= 0, but got {}.", max_extent)
         return nullptr;
     }
     if (!(dim_to_split >= 0 && dim_to_split < ndims_)) {
-        LOGE("Internal error: 0 <= dim_to_split < {} required, but got {}.", ndims_, dim_to_split);
+        LOGE("Internal error: 0 <= dim_to_split < {} required, but got {}.", ndims_, dim_to_split)
         return nullptr;
     }
     if (master_shape_[dim_to_split] < 2) {
-        LOGE("Internal error: cannot split dimension size {}, must be >= 2.", master_shape_[dim_to_split]);
+        LOGE("Internal error: cannot split dimension size {}, must be >= 2.", master_shape_[dim_to_split])
         return nullptr;
     }
 
@@ -344,11 +343,11 @@ Indexer Indexer::GetPerOutputIndexer(int64_t output_idx) const {
 void Indexer::ShrinkDim(int64_t dim, int64_t start, int64_t size) {
     // inputs_ and output_'s shapes are not important.
     if (!(dim >= 0 && dim < ndims_)) {
-        LOGE("0 <= dim < {} required, but got {}.", ndims_, dim);
+        LOGE("0 <= dim < {} required, but got {}.", ndims_, dim)
         return;
     }
     if (size <= 0) {
-        LOGE("Invalid size {}, must be > 0.", size);
+        LOGE("Invalid size {}, must be > 0.", size)
         return;
     }
     // Inputs
@@ -580,7 +579,7 @@ void Indexer::ReductionRestride(TensorRef& dst,
                                 const int64_t* src_shape,
                                 const SizeVector& reduction_dims) {
     if (dst.ndims_ != src_ndims) {
-        LOGE("Internal error, src ndims {} != dst ndims {}", src_ndims, dst.ndims_);
+        LOGE("Internal error, src ndims {} != dst ndims {}", src_ndims, dst.ndims_)
     }
     for (int64_t i = 0; i < dst.ndims_; ++i) {
         if (dst.shape_[i] == 1 && src_shape[i] != 1) {
@@ -639,7 +638,6 @@ bool IndexerIterator::Iterator::operator!=(const Iterator& other) const { return
 
 IndexerIterator::Iterator IndexerIterator::begin() const { return IndexerIterator::Iterator(indexer_); }
 
-IndexerIterator::Iterator IndexerIterator::end() const { return IndexerIterator::Iterator(); }
+IndexerIterator::Iterator IndexerIterator::end() { return {}; }
 
-}  // namespace core
 }  // namespace arc

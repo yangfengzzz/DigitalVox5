@@ -32,8 +32,7 @@
 
 #include "logging.h"
 
-namespace arc {
-namespace core {
+namespace arc::core {
 
 MemoryManagerStatistic& MemoryManagerStatistic::GetInstance() {
     static MemoryManagerStatistic instance;
@@ -67,8 +66,8 @@ void MemoryManagerStatistic::Print() const {
         return;
     }
 
-    LOGI("Memory Statistics: (Device) (#Malloc) (#Free)");
-    LOGI("---------------------------------------------");
+    LOGI("Memory Statistics: (Device) (#Malloc) (#Free)")
+    LOGI("---------------------------------------------")
     for (const auto& value_pair : statistics_) {
         // Simulate C++17 structured bindings for better readability.
         const auto& device = value_pair.first;
@@ -86,16 +85,16 @@ void MemoryManagerStatistic::Print() const {
                     [](size_t count, auto ptr_byte_size) -> size_t { return count + ptr_byte_size.second; });
 
             LOGW("{}: {} {} --> {} with {} total bytes", device.ToString(), statistics.count_malloc_,
-                 statistics.count_free_, count_leaking, leaking_byte_size);
+                 statistics.count_free_, count_leaking, leaking_byte_size)
 
             for (const auto& leak : statistics.active_allocations_) {
-                LOGW("    {} @ {} bytes", fmt::ptr(leak.first), leak.second);
+                LOGW("    {} @ {} bytes", fmt::ptr(leak.first), leak.second)
             }
         } else {
-            LOGI("{}: {} {}", device.ToString(), statistics.count_malloc_, statistics.count_free_);
+            LOGI("{}: {} {}", device.ToString(), statistics.count_malloc_, statistics.count_free_)
         }
     }
-    LOGI("---------------------------------------------");
+    LOGI("---------------------------------------------")
 }
 
 bool MemoryManagerStatistic::HasLeaks() const {
@@ -115,11 +114,11 @@ void MemoryManagerStatistic::CountMalloc(void* ptr, size_t byte_size, const Devi
     if (it.second) {
         statistics_[device].count_malloc_++;
         if (print_at_malloc_free_) {
-            LOGI("[Malloc] {}: {} @ {} bytes", fmt::format("%6s", device.ToString()), fmt::ptr(ptr), byte_size);
+            LOGI("[Malloc] {}: {} @ {} bytes", fmt::format("%6s", device.ToString()), fmt::ptr(ptr), byte_size)
         }
     } else {
         LOGE("{} @ {} bytes on {} is still active and was not freed before", fmt::ptr(ptr), byte_size,
-             device.ToString());
+             device.ToString())
     }
 }
 
@@ -135,7 +134,7 @@ void MemoryManagerStatistic::CountFree(void* ptr, const Device& device) {
     if (num_to_erase == 1) {
         if (print_at_malloc_free_) {
             LOGI("[ Free ] {}: {} @ {} bytes", fmt::format("%6s", device.ToString()), fmt::ptr(ptr),
-                 statistics_[device].active_allocations_.at(ptr));
+                 statistics_[device].active_allocations_.at(ptr))
         }
         statistics_[device].active_allocations_.erase(ptr);
         statistics_[device].count_free_++;
@@ -144,7 +143,7 @@ void MemoryManagerStatistic::CountFree(void* ptr, const Device& device) {
         // invalid. Do not increase any counts and ignore both cases.
     } else {
         // Should never reach here.
-        LOGE("Invalid number of erased allocations {} for {} on {}", num_to_erase, fmt::ptr(ptr), device.ToString());
+        LOGE("Invalid number of erased allocations {} for {} on {}", num_to_erase, fmt::ptr(ptr), device.ToString())
     }
 }
 
@@ -155,5 +154,4 @@ void MemoryManagerStatistic::Reset() {
 
 bool MemoryManagerStatistic::MemoryStatistics::IsBalanced() const { return count_malloc_ == count_free_; }
 
-}  // namespace core
-}  // namespace arc
+}  // namespace arc::core
