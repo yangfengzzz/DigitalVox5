@@ -223,4 +223,4 @@ bool WriteTriangleMeshToOFF(const std::string &filename,
     return true;
 }
 
-}  // namespace arc
+}  // namespace arc::io
