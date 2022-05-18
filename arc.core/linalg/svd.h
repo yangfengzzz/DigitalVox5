@@ -24,31 +24,38 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "kernel/non_zero.h"
+#pragma once
 
-#include "device.h"
-#include "logging.h"
 #include "tensor.h"
 
 namespace arc {
 namespace core {
-namespace kernel {
 
-Tensor NonZero(const Tensor& src) {
-    Device::DeviceType device_type = src.GetDevice().GetType();
-    if (device_type == Device::DeviceType::CPU) {
-        return NonZeroCPU(src);
-    } else if (device_type == Device::DeviceType::CUDA) {
+/// Computes SVD decomposition A = U S VT, where A is an m x n, U is an m x m, S
+/// is a min(m, n), VT is an n x n tensor.
+void SVD(const Tensor& A, Tensor& U, Tensor& S, Tensor& VT);
+
 #ifdef BUILD_CUDA_MODULE
-        return NonZeroCUDA(src);
-#else
-        throw std::runtime_error("Not compiled with CUDA, but CUDA device is used.");
+void SVDCUDA(const void* A_data,
+             void* U_data,
+             void* S_data,
+             void* VT_data,
+             void* superb_data,
+             int64_t m,
+             int64_t n,
+             Dtype dtype,
+             const Device& device);
 #endif
-    } else {
-        throw std::runtime_error("NonZero: Unimplemented device");
-    }
-}
 
-}  // namespace kernel
+void SVDCPU(const void* A_data,
+            void* U_data,
+            void* S_data,
+            void* VT_data,
+            void* superb_data,
+            int64_t m,
+            int64_t n,
+            Dtype dtype,
+            const Device& device);
+
 }  // namespace core
 }  // namespace arc

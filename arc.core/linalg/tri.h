@@ -24,31 +24,21 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "kernel/non_zero.h"
+#pragma once
 
-#include "device.h"
-#include "logging.h"
 #include "tensor.h"
 
 namespace arc {
 namespace core {
-namespace kernel {
 
-Tensor NonZero(const Tensor& src) {
-    Device::DeviceType device_type = src.GetDevice().GetType();
-    if (device_type == Device::DeviceType::CPU) {
-        return NonZeroCPU(src);
-    } else if (device_type == Device::DeviceType::CUDA) {
-#ifdef BUILD_CUDA_MODULE
-        return NonZeroCUDA(src);
-#else
-        throw std::runtime_error("Not compiled with CUDA, but CUDA device is used.");
-#endif
-    } else {
-        throw std::runtime_error("NonZero: Unimplemented device");
-    }
-}
+// See documentation for `core::Tensor::Triu`.
+void Triu(const Tensor& A, Tensor& output, const int diagonal = 0);
 
-}  // namespace kernel
+// See documentation for `core::Tensor::Tril`.
+void Tril(const Tensor& A, Tensor& output, const int diagonal = 0);
+
+// See documentation for `core::Tensor::Triul`.
+void Triul(const Tensor& A, Tensor& upper, Tensor& lower, const int diagonal = 0);
+
 }  // namespace core
 }  // namespace arc

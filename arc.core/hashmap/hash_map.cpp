@@ -221,9 +221,9 @@ void HashMap::GetActiveIndices(Tensor& output_buf_indices) const {
 
 void HashMap::Clear() { device_hashmap_->Clear(); }
 
-//void HashMap::Save(const std::string& file_name) { t::io::WriteHashMap(file_name, *this); }
+// void HashMap::Save(const std::string& file_name) { t::io::WriteHashMap(file_name, *this); }
 //
-//HashMap HashMap::Load(const std::string& file_name) { return t::io::ReadHashMap(file_name); }
+// HashMap HashMap::Load(const std::string& file_name) { return t::io::ReadHashMap(file_name); }
 
 HashMap HashMap::Clone() const { return To(GetDevice(), /*copy=*/true); }
 

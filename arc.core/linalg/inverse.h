@@ -24,31 +24,21 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "kernel/non_zero.h"
+#pragma once
 
-#include "device.h"
-#include "logging.h"
 #include "tensor.h"
 
 namespace arc {
 namespace core {
-namespace kernel {
 
-Tensor NonZero(const Tensor& src) {
-    Device::DeviceType device_type = src.GetDevice().GetType();
-    if (device_type == Device::DeviceType::CPU) {
-        return NonZeroCPU(src);
-    } else if (device_type == Device::DeviceType::CUDA) {
+/// Computes A^{-1} with LU factorization, where A is a N x N square matrix.
+void Inverse(const Tensor& A, Tensor& output);
+
+void InverseCPU(void* A_data, void* ipiv_data, void* output_data, int64_t n, Dtype dtype, const Device& device);
+
 #ifdef BUILD_CUDA_MODULE
-        return NonZeroCUDA(src);
-#else
-        throw std::runtime_error("Not compiled with CUDA, but CUDA device is used.");
+void InverseCUDA(void* A_data, void* ipiv_data, void* output_data, int64_t n, Dtype dtype, const Device& device);
 #endif
-    } else {
-        throw std::runtime_error("NonZero: Unimplemented device");
-    }
-}
 
-}  // namespace kernel
 }  // namespace core
 }  // namespace arc

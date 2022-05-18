@@ -44,6 +44,10 @@ include(global_options)
 include(sample_helper)
 include(check_atomic)
 
+####################################################
+find_package(MKL CONFIG REQUIRED)
+message(STATUS "${MKL_IMPORTED_TARGETS}") #Provides available list of targets based on input
+
 # Add third party libraries
 add_subdirectory(third_party)
 

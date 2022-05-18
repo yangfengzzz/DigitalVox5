@@ -84,12 +84,12 @@ void HashSet::GetActiveIndices(Tensor& output_buf_indices) const { internal_->Ge
 
 void HashSet::Clear() { internal_->Clear(); }
 
-//void HashSet::Save(const std::string& file_name) { t::io::WriteHashMap(file_name, *internal_); }
+// void HashSet::Save(const std::string& file_name) { t::io::WriteHashMap(file_name, *internal_); }
 //
-//HashSet HashSet::Load(const std::string& file_name) {
-//    HashMap internal = t::io::ReadHashMap(file_name);
-//    return HashSet(internal);
-//}
+// HashSet HashSet::Load(const std::string& file_name) {
+//     HashMap internal = t::io::ReadHashMap(file_name);
+//     return HashSet(internal);
+// }
 
 HashSet HashSet::Clone() const {
     HashMap internal_cloned = internal_->To(GetDevice(), /*copy=*/true);

@@ -24,31 +24,20 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "kernel/non_zero.h"
-
-#include "device.h"
-#include "logging.h"
-#include "tensor.h"
+#include "linalg/lapack_wrapper.h"
+#include "linalg/least_squares.h"
+#include "linalg/linalg_utils.h"
 
 namespace arc {
 namespace core {
-namespace kernel {
 
-Tensor NonZero(const Tensor& src) {
-    Device::DeviceType device_type = src.GetDevice().GetType();
-    if (device_type == Device::DeviceType::CPU) {
-        return NonZeroCPU(src);
-    } else if (device_type == Device::DeviceType::CUDA) {
-#ifdef BUILD_CUDA_MODULE
-        return NonZeroCUDA(src);
-#else
-        throw std::runtime_error("Not compiled with CUDA, but CUDA device is used.");
-#endif
-    } else {
-        throw std::runtime_error("NonZero: Unimplemented device");
-    }
+void LeastSquaresCPU(void* A_data, void* B_data, int64_t m, int64_t n, int64_t k, Dtype dtype, const Device& device) {
+    DISPATCH_LINALG_DTYPE_TO_TEMPLATE(dtype, [&]() {
+        OPEN3D_LAPACK_CHECK(gels_cpu<scalar_t>(LAPACK_COL_MAJOR, 'N', m, n, k, static_cast<scalar_t*>(A_data), m,
+                                               static_cast<scalar_t*>(B_data), std::max(m, n)),
+                            "gels failed in LeastSquaresCPU");
+    });
 }
 
-}  // namespace kernel
 }  // namespace core
 }  // namespace arc

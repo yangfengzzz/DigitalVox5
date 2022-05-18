@@ -24,31 +24,51 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "kernel/non_zero.h"
+#pragma once
 
-#include "device.h"
-#include "logging.h"
 #include "tensor.h"
 
 namespace arc {
 namespace core {
-namespace kernel {
 
-Tensor NonZero(const Tensor& src) {
-    Device::DeviceType device_type = src.GetDevice().GetType();
-    if (device_type == Device::DeviceType::CPU) {
-        return NonZeroCPU(src);
-    } else if (device_type == Device::DeviceType::CUDA) {
+/// Computes matrix multiplication C = alpha * A @ B + beta * C.
+/// If matrix A is a (n x m) tensor, and B is a (m x p) tensor, C should have a
+/// shape (n x p).
+/// alpha and beta are scaling factors on matrix-matrix multiplication and the
+/// added matrix input respectively.
+void AddMM(const Tensor& A, const Tensor& B, Tensor& C, double alpha, double beta);
+
 #ifdef BUILD_CUDA_MODULE
-        return NonZeroCUDA(src);
-#else
-        throw std::runtime_error("Not compiled with CUDA, but CUDA device is used.");
+void AddMMCUDA(void* A_data,
+               void* B_data,
+               void* C_data,
+               int64_t m,
+               int64_t k,
+               int64_t n,
+               double alpha,
+               double beta,
+               bool gemmTrA,
+               bool gemmTrB,
+               int lda,
+               int ldb,
+               int ldc,
+               Dtype dtype);
 #endif
-    } else {
-        throw std::runtime_error("NonZero: Unimplemented device");
-    }
-}
 
-}  // namespace kernel
+void AddMMCPU(void* A_data,
+              void* B_data,
+              void* C_data,
+              int64_t m,
+              int64_t k,
+              int64_t n,
+              double alpha,
+              double beta,
+              bool gemmTrA,
+              bool gemmTrB,
+              int lda,
+              int ldb,
+              int ldc,
+              Dtype dtype);
+
 }  // namespace core
 }  // namespace arc

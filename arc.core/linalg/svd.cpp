@@ -24,31 +24,56 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "kernel/non_zero.h"
+#include "linalg/svd.h"
 
-#include "device.h"
-#include "logging.h"
-#include "tensor.h"
+#include <unordered_map>
 
 namespace arc {
 namespace core {
-namespace kernel {
 
-Tensor NonZero(const Tensor& src) {
-    Device::DeviceType device_type = src.GetDevice().GetType();
-    if (device_type == Device::DeviceType::CPU) {
-        return NonZeroCPU(src);
-    } else if (device_type == Device::DeviceType::CUDA) {
+void SVD(const Tensor &A, Tensor &U, Tensor &S, Tensor &VT) {
+    AssertTensorDtypes(A, {Float32, Float64});
+
+    const Device device = A.GetDevice();
+    const Dtype dtype = A.GetDtype();
+
+    // Check dimensions
+    SizeVector A_shape = A.GetShape();
+    if (A_shape.size() != 2) {
+        LOGE("Tensor must be 2D, but got {}D", A_shape.size());
+    }
+
+    int64_t m = A_shape[0], n = A_shape[1];
+    if (m == 0 || n == 0) {
+        LOGE("Tensor shapes should not contain dimensions with zero.");
+    }
+    if (m < n) {
+        LOGE("Only support m >= n, but got {} and {} matrix", m, n);
+    }
+
+    Tensor A_T = A.T().Contiguous();
+    U = Tensor::Empty({m, m}, dtype, device);
+    S = Tensor::Empty({n}, dtype, device);
+    VT = Tensor::Empty({n, n}, dtype, device);
+    Tensor superb = Tensor::Empty({std::min(m, n) - 1}, dtype, device);
+
+    void *A_data = A_T.GetDataPtr();
+    void *U_data = U.GetDataPtr();
+    void *S_data = S.GetDataPtr();
+    void *VT_data = VT.GetDataPtr();
+    void *superb_data = superb.GetDataPtr();
+
+    if (device.GetType() == Device::DeviceType::CUDA) {
 #ifdef BUILD_CUDA_MODULE
-        return NonZeroCUDA(src);
+        SVDCUDA(A_data, U_data, S_data, VT_data, superb_data, m, n, dtype, device);
 #else
-        throw std::runtime_error("Not compiled with CUDA, but CUDA device is used.");
+        LOGE("Unimplemented device.");
 #endif
     } else {
-        throw std::runtime_error("NonZero: Unimplemented device");
+        SVDCPU(A_data, U_data, S_data, VT_data, superb_data, m, n, dtype, device);
     }
+    U = U.T();
+    VT = VT.T();
 }
-
-}  // namespace kernel
 }  // namespace core
 }  // namespace arc

@@ -24,31 +24,15 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "kernel/non_zero.h"
+// This file contains headers for BLAS/LAPACK implementations for CUDA.
+//
+// For developers, please make sure that this file is not ultimately included in
+// Open3D.h.
 
-#include "device.h"
-#include "logging.h"
-#include "tensor.h"
+#pragma once
 
-namespace arc {
-namespace core {
-namespace kernel {
-
-Tensor NonZero(const Tensor& src) {
-    Device::DeviceType device_type = src.GetDevice().GetType();
-    if (device_type == Device::DeviceType::CPU) {
-        return NonZeroCPU(src);
-    } else if (device_type == Device::DeviceType::CUDA) {
 #ifdef BUILD_CUDA_MODULE
-        return NonZeroCUDA(src);
-#else
-        throw std::runtime_error("Not compiled with CUDA, but CUDA device is used.");
+#include <cublas_v2.h>
+#include <cusolverDn.h>
+#include <cusolver_common.h>
 #endif
-    } else {
-        throw std::runtime_error("NonZero: Unimplemented device");
-    }
-}
-
-}  // namespace kernel
-}  // namespace core
-}  // namespace arc

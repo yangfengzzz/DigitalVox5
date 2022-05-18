@@ -24,31 +24,35 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "kernel/non_zero.h"
-
-#include "device.h"
+#include "linalg/add_mm.h"
+#include "linalg/blas_wrapper.h"
+#include "linalg/linalg_utils.h"
 #include "logging.h"
-#include "tensor.h"
 
 namespace arc {
 namespace core {
-namespace kernel {
 
-Tensor NonZero(const Tensor& src) {
-    Device::DeviceType device_type = src.GetDevice().GetType();
-    if (device_type == Device::DeviceType::CPU) {
-        return NonZeroCPU(src);
-    } else if (device_type == Device::DeviceType::CUDA) {
-#ifdef BUILD_CUDA_MODULE
-        return NonZeroCUDA(src);
-#else
-        throw std::runtime_error("Not compiled with CUDA, but CUDA device is used.");
-#endif
-    } else {
-        throw std::runtime_error("NonZero: Unimplemented device");
-    }
+void AddMMCPU(void* A_data,
+              void* B_data,
+              void* C_data,
+              int64_t m,
+              int64_t k,
+              int64_t n,
+              double alpha,
+              double beta,
+              bool gemmTrA,
+              bool gemmTrB,
+              int lda,
+              int ldb,
+              int ldc,
+              Dtype dtype) {
+    DISPATCH_DTYPE_TO_TEMPLATE(dtype, [&]() {
+        gemm_cpu(CblasColMajor, gemmTrA ? CblasTrans : CblasNoTrans, gemmTrB ? CblasTrans : CblasNoTrans, m, n, k,
+                 static_cast<scalar_t>(alpha), static_cast<const scalar_t*>(A_data), lda,
+                 static_cast<const scalar_t*>(B_data), ldb, static_cast<scalar_t>(beta), static_cast<scalar_t*>(C_data),
+                 ldc);
+    });
 }
 
-}  // namespace kernel
 }  // namespace core
 }  // namespace arc

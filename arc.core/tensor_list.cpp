@@ -108,7 +108,8 @@ void TensorList::Extend(const TensorList& other) {
 
     // Check consistency
     if (element_shape_ != other.GetElementShape()) {
-        LOGE("TensorList shapes {} and {} are inconsistent.", element_shape_.ToString(), other.GetElementShape().ToString());
+        LOGE("TensorList shapes {} and {} are inconsistent.", element_shape_.ToString(),
+             other.GetElementShape().ToString());
     }
     if (GetDevice() != other.GetDevice()) {
         LOGE("TensorList device {} and {} are inconsistent.", GetDevice().ToString(), other.GetDevice().ToString());

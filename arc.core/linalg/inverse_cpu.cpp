@@ -24,31 +24,23 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "kernel/non_zero.h"
-
-#include "device.h"
-#include "logging.h"
-#include "tensor.h"
+#include "linalg/inverse.h"
+#include "linalg/lapack_wrapper.h"
+#include "linalg/linalg_utils.h"
 
 namespace arc {
 namespace core {
-namespace kernel {
 
-Tensor NonZero(const Tensor& src) {
-    Device::DeviceType device_type = src.GetDevice().GetType();
-    if (device_type == Device::DeviceType::CPU) {
-        return NonZeroCPU(src);
-    } else if (device_type == Device::DeviceType::CUDA) {
-#ifdef BUILD_CUDA_MODULE
-        return NonZeroCUDA(src);
-#else
-        throw std::runtime_error("Not compiled with CUDA, but CUDA device is used.");
-#endif
-    } else {
-        throw std::runtime_error("NonZero: Unimplemented device");
-    }
+void InverseCPU(void* A_data, void* ipiv_data, void* output_data, int64_t n, Dtype dtype, const Device& device) {
+    DISPATCH_LINALG_DTYPE_TO_TEMPLATE(dtype, [&]() {
+        OPEN3D_LAPACK_CHECK(getrf_cpu<scalar_t>(LAPACK_COL_MAJOR, n, n, static_cast<scalar_t*>(A_data), n,
+                                                static_cast<OPEN3D_CPU_LINALG_INT*>(ipiv_data)),
+                            "getrf failed in InverseCPU");
+        OPEN3D_LAPACK_CHECK(getri_cpu<scalar_t>(LAPACK_COL_MAJOR, n, static_cast<scalar_t*>(A_data), n,
+                                                static_cast<OPEN3D_CPU_LINALG_INT*>(ipiv_data)),
+                            "getri failed in InverseCPU");
+    });
 }
 
-}  // namespace kernel
 }  // namespace core
 }  // namespace arc

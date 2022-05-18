@@ -24,31 +24,19 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "kernel/non_zero.h"
+// Private header. Do not include in Open3d.h.
 
-#include "device.h"
-#include "logging.h"
-#include "tensor.h"
+#pragma once
+
+#include "linalg/lu.h"
 
 namespace arc {
 namespace core {
-namespace kernel {
 
-Tensor NonZero(const Tensor& src) {
-    Device::DeviceType device_type = src.GetDevice().GetType();
-    if (device_type == Device::DeviceType::CPU) {
-        return NonZeroCPU(src);
-    } else if (device_type == Device::DeviceType::CUDA) {
+void LUCPU(void* A_data, void* ipiv_data, int64_t rows, int64_t cols, Dtype dtype, const Device& device);
+
 #ifdef BUILD_CUDA_MODULE
-        return NonZeroCUDA(src);
-#else
-        throw std::runtime_error("Not compiled with CUDA, but CUDA device is used.");
+void LUCUDA(void* A_data, void* ipiv_data, int64_t rows, int64_t cols, Dtype dtype, const Device& device);
 #endif
-    } else {
-        throw std::runtime_error("NonZero: Unimplemented device");
-    }
-}
-
-}  // namespace kernel
 }  // namespace core
 }  // namespace arc

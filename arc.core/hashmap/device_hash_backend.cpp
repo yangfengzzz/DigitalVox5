@@ -51,7 +51,7 @@ std::shared_ptr<DeviceHashBackend> CreateDeviceHashBackend(int64_t init_capacity
     }
 #endif
     else {
-        LOGE("Unimplemented device");
+        throw std::runtime_error("Unimplemented device");
     }
 }
 

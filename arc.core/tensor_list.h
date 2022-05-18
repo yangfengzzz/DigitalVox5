@@ -119,7 +119,8 @@ public:
         element_shape_ = begin->GetShape();
         std::for_each(begin, end, [&](const Tensor& tensor) -> void {
             if (tensor.GetShape() != element_shape_) {
-                LOGE("Tensors must have the same shape {}, but got {}.", element_shape_.ToString(), tensor.GetShape().ToString());
+                LOGE("Tensors must have the same shape {}, but got {}.", element_shape_.ToString(),
+                     tensor.GetShape().ToString());
             }
         });
 

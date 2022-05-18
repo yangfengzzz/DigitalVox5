@@ -24,31 +24,31 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "kernel/non_zero.h"
-
-#include "device.h"
-#include "logging.h"
-#include "tensor.h"
+#include "linalg/lapack_wrapper.h"
+#include "linalg/linalg_utils.h"
+#include "linalg/svd.h"
 
 namespace arc {
 namespace core {
-namespace kernel {
 
-Tensor NonZero(const Tensor& src) {
-    Device::DeviceType device_type = src.GetDevice().GetType();
-    if (device_type == Device::DeviceType::CPU) {
-        return NonZeroCPU(src);
-    } else if (device_type == Device::DeviceType::CUDA) {
-#ifdef BUILD_CUDA_MODULE
-        return NonZeroCUDA(src);
-#else
-        throw std::runtime_error("Not compiled with CUDA, but CUDA device is used.");
-#endif
-    } else {
-        throw std::runtime_error("NonZero: Unimplemented device");
-    }
+void SVDCPU(const void* A_data,
+            void* U_data,
+            void* S_data,
+            void* VT_data,
+            void* superb_data,
+            int64_t m,
+            int64_t n,
+            Dtype dtype,
+            const Device& device) {
+    DISPATCH_LINALG_DTYPE_TO_TEMPLATE(dtype, [&]() {
+        OPEN3D_LAPACK_CHECK(
+                gesvd_cpu<scalar_t>(LAPACK_COL_MAJOR, 'A', 'A', m, n,
+                                    const_cast<scalar_t*>(static_cast<const scalar_t*>(A_data)), m,
+                                    static_cast<scalar_t*>(S_data), static_cast<scalar_t*>(U_data), m,
+                                    static_cast<scalar_t*>(VT_data), n, static_cast<scalar_t*>(superb_data)),
+                "gesvd failed in SVDCPU");
+    });
 }
 
-}  // namespace kernel
 }  // namespace core
 }  // namespace arc

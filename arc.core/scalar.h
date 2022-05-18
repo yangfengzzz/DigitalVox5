@@ -189,7 +189,7 @@ public:
         } else if (scalar_type_ == ScalarType::Bool) {
             return false;  // Boolean does not equal to non-boolean values.
         } else {
-            LOGE("Equals: ScalarType not supported.");
+            throw std::runtime_error("Equals: ScalarType not supported.");
         }
     }
 
@@ -203,7 +203,7 @@ public:
         } else if (other.scalar_type_ == ScalarType::Bool) {
             return scalar_type_ == ScalarType::Bool && value_.b == other.value_.b;
         } else {
-            LOGE("Equals: ScalarType not supported.");
+            throw std::runtime_error("Equals: ScalarType not supported.");
         }
     }
 

@@ -131,7 +131,7 @@ int64_t SizeVector::NumElements() const {
 
 int64_t SizeVector::GetLength() const {
     if (size() == 0) {
-        LOGE("Cannot get length of a 0-dimensional shape.");
+        throw std::runtime_error("Cannot get length of a 0-dimensional shape.");
     } else {
         return operator[](0);
     }

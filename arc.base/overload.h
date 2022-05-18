@@ -64,8 +64,8 @@ struct Overloaded<T1> : T1 {
 ///
 /// \code
 /// auto Func = utility::Overload(
-///         [&](int i) { utility::LogInfo("Got int {}", i); },
-///         [&](float f) { utility::LogInfo("Got float {}", f); });
+///         [&](int i) { LOGI("Got int {}", i); },
+///         [&](float f) { LOGI("Got float {}", f); });
 ///
 /// Func(1);     // Prints: Got int 1
 /// Func(2.4f);  // Prints: Got float 2.4

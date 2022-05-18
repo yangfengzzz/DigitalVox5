@@ -103,10 +103,10 @@ protected:
             } else if (device_name_lower == "cuda") {
                 return DeviceType::CUDA;
             } else {
-                LOGE("Invalid device string {}.", type_colon_id);
+                throw std::runtime_error(fmt::format("Invalid device string {}.", type_colon_id));
             }
         } else {
-            LOGE("Invalid device string {}.", type_colon_id);
+            throw std::runtime_error(fmt::format("Invalid device string {}.", type_colon_id));
         }
     }
 
@@ -115,7 +115,7 @@ protected:
         if (tokens.size() == 2) {
             return std::stoi(tokens[1]);
         } else {
-            LOGE("Invalid device string {}.", type_colon_id);
+            throw std::runtime_error(fmt::format("Invalid device string {}.", type_colon_id));
         }
     }
 
