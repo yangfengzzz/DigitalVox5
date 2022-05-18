@@ -157,7 +157,7 @@ void ParallelFor(const Device& device, int64_t n, const func_t& func) {
 ///         OPEN3D_VECTORIZED(MyFillKernel, v.data(), fill_value));
 ///
 /// /* MyFile.ispc */
-/// #include "open3d/core/ParallelFor.isph"
+/// #include "ParallelFor.isph"
 ///
 /// static inline void MyFillFunction(int64_t idx,
 ///                                   float* uniform v,

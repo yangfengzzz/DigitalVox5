@@ -4,6 +4,7 @@ project(arc.core LANGUAGES C CXX)
 
 file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/kernel/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/hashmap/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/hashmap/cpu/*.cpp)
 

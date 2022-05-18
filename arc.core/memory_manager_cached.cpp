@@ -37,7 +37,7 @@
 #include "memory_manager.h"
 
 #ifdef BUILD_CUDA_MODULE
-#include "open3d/core/CUDAUtils.h"
+#include "CUDAUtils.h"
 #endif
 
 namespace arc {
