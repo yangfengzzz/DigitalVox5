@@ -24,37 +24,49 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include <chrono>
-#include <thread>
-
-#include "progress_bar.h"
-
 #include "parallel.h"
-#include "tests.h"
 
-namespace arc::tests {
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
-TEST(ProgressBar, ProgressBar) {
-    int iterations = 1000;
-    utility::ProgressBar progress_bar(iterations, "ProgressBar test: ", true);
+#include <string>
 
-    for (int i = 0; i < iterations; ++i) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(2));
-        ++progress_bar;
+#include "cpu_info.h"
+
+namespace arc::utility {
+
+static std::string GetEnvVar(const std::string& name) {
+    if (const char* value = std::getenv(name.c_str())) {
+        return {value};
+    } else {
+        return "";
     }
-    EXPECT_EQ(iterations, static_cast<int>(progress_bar.GetCurrentCount()));
 }
 
-TEST(ProgressBar, OMPProgressBar) {
-    int iterations = 1000;
-    utility::OMPProgressBar progress_bar(iterations, "OMPProgressBar test: ", true);
-
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
-    for (int i = 0; i < iterations; ++i) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        ++progress_bar;
+int EstimateMaxThreads() {
+#ifdef _OPENMP
+    if (!GetEnvVar("OMP_NUM_THREADS").empty() || !GetEnvVar("OMP_DYNAMIC").empty()) {
+        // See the full list of OpenMP environment variables at:
+        // https://www.openmp.org/spec-html/5.0/openmpch6.html
+        return omp_get_max_threads();
+    } else {
+        // Returns the number of physical cores.
+        return utility::CPUInfo::GetInstance().NumCores();
     }
-    EXPECT_TRUE(static_cast<int>(progress_bar.GetCurrentCount()) >= iterations);
+#else
+    (void)&GetEnvVar;  // Avoids compiler warning.
+    return 1;
+#endif
 }
 
-}  // namespace arc::tests
+bool InParallel() {
+    // TODO: when we add TBB/Parallel STL support to ParallelFor, update this.
+#ifdef _OPENMP
+    return omp_in_parallel();
+#else
+    return false;
+#endif
+}
+
+}  // namespace arc::utility

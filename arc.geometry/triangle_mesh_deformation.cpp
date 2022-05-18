@@ -30,7 +30,7 @@
 
 #include "logging.h"
 #include "triangle_mesh.h"
-//#include "open3d/utility/Parallel.h"
+#include "parallel.h"
 
 namespace arc::geometry {
 

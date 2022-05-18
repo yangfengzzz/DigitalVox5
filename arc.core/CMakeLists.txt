@@ -13,5 +13,11 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ../third_party/eigen
         ../third_party/json_cpp/include)
 
+# OpenMP
+find_package(OpenMP)
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(${PROJECT_NAME} PUBLIC OpenMP::OpenMP_CXX ${OpenCV_LIBS})
+endif()
+
 # Link third party libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)

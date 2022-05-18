@@ -26,7 +26,7 @@
 
 #include "image.h"
 
-//#include "open3d/utility/Parallel.h"
+#include "parallel.h"
 
 namespace {
 /// Isotropic 2D kernels are separable:

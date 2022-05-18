@@ -36,7 +36,7 @@
 #include "logging.h"
 #include "qhull.h"
 #include "triangle_mesh.h"
-//#include "parallel.h"
+#include "parallel.h"
 #include "progress_bar.h"
 
 namespace arc {

@@ -33,7 +33,7 @@
 #include "logging.h"
 #include "point_cloud.h"
 #include "tetra_mesh.h"
-//#include "parallel.h"
+#include "parallel.h"
 
 namespace arc {
 

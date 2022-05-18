@@ -37,7 +37,7 @@
 #include "logging.h"
 #include "point_cloud.h"
 #include "qhull.h"
-//#include "open3d/utility/Parallel.h"
+#include "parallel.h"
 
 namespace arc::geometry {
 

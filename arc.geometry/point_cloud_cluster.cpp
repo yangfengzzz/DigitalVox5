@@ -29,7 +29,7 @@
 #include "kdtree_flann.h"
 #include "logging.h"
 #include "point_cloud.h"
-//#include "parallel.h"
+#include "parallel.h"
 #include "progress_bar.h"
 
 namespace arc::geometry {

@@ -24,37 +24,14 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include <chrono>
-#include <thread>
+#pragma once
 
-#include "progress_bar.h"
+namespace arc::utility {
 
-#include "parallel.h"
-#include "tests.h"
+/// Estimate the maximum number of threads to be used in a parallel region.
+int EstimateMaxThreads();
 
-namespace arc::tests {
+/// Returns true if in an parallel section.
+bool InParallel();
 
-TEST(ProgressBar, ProgressBar) {
-    int iterations = 1000;
-    utility::ProgressBar progress_bar(iterations, "ProgressBar test: ", true);
-
-    for (int i = 0; i < iterations; ++i) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(2));
-        ++progress_bar;
-    }
-    EXPECT_EQ(iterations, static_cast<int>(progress_bar.GetCurrentCount()));
-}
-
-TEST(ProgressBar, OMPProgressBar) {
-    int iterations = 1000;
-    utility::OMPProgressBar progress_bar(iterations, "OMPProgressBar test: ", true);
-
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
-    for (int i = 0; i < iterations; ++i) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        ++progress_bar;
-    }
-    EXPECT_TRUE(static_cast<int>(progress_bar.GetCurrentCount()) >= iterations);
-}
-
-}  // namespace arc::tests
+}  // namespace arc

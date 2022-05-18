@@ -7,6 +7,12 @@ file(GLOB sources
 
 add_library(${PROJECT_NAME} STATIC ${sources})
 
+# OpenMP
+find_package(OpenMP)
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(${PROJECT_NAME} PUBLIC OpenMP::OpenMP_CXX ${OpenCV_LIBS})
+endif()
+
 target_include_directories(${PROJECT_NAME} PUBLIC
         ../arc.base
         ../third_party

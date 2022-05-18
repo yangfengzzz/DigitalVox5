@@ -17,6 +17,13 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ../third_party/zlib/contrib/
         /usr/local/Cellar/openssl@3/3.0.2/include)
 
+# OpenMP
+find_package(OpenMP)
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(${PROJECT_NAME} PUBLIC OpenMP::OpenMP_CXX ${OpenCV_LIBS})
+endif()
+
+
 # Link third party libraries
 target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/googletest/build/lib
         ${CMAKE_SOURCE_DIR}/third_party/json_cpp/build/lib
