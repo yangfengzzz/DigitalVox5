@@ -25,7 +25,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ../third_party/assimp/include
         ../third_party/assimp/build_release/include
         ../third_party/tinygltf
-        ../third_party/tinyobj)
+        ../third_party/tinyobj
+        ../third_party/libjpeg
+        ../third_party/libjpeg/build)
 
 # Link third party libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
