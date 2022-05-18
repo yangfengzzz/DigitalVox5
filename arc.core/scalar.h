@@ -117,7 +117,7 @@ public:
     /// ScalarType::Double.
     double GetDouble() const {
         if (!IsDouble()) {
-            utility::LogError("Scalar is not a ScalarType:Double type.");
+            LOGE("Scalar is not a ScalarType:Double type.");
         }
         return value_.d;
     }
@@ -125,7 +125,7 @@ public:
     /// ScalarType::Int64.
     int64_t GetInt64() const {
         if (!IsInt64()) {
-            utility::LogError("Scalar is not a ScalarType:Int64 type.");
+            LOGE("Scalar is not a ScalarType:Int64 type.");
         }
         return value_.i;
     }
@@ -133,7 +133,7 @@ public:
     /// ScalarType::Bool.
     bool GetBool() const {
         if (!IsBool()) {
-            utility::LogError("Scalar is not a ScalarType:Bool type.");
+            LOGE("Scalar is not a ScalarType:Bool type.");
         }
         return value_.b;
     }
@@ -148,16 +148,16 @@ public:
         } else if (scalar_type_ == ScalarType::Bool) {
             return static_cast<T>(value_.b);
         } else {
-            utility::LogError("To: ScalarType not supported.");
+            LOGE("To: ScalarType not supported.");
         }
     }
 
     void AssertSameScalarType(Scalar other, const std::string& error_msg) const {
         if (scalar_type_ != other.scalar_type_) {
             if (error_msg.empty()) {
-                utility::LogError("Scalar mode {} are not the same as {}.", ToString(), other.ToString());
+                LOGE("Scalar mode {} are not the same as {}.", ToString(), other.ToString());
             } else {
-                utility::LogError("Scalar mode {} are not the same as {}: {}", ToString(), other.ToString(), error_msg);
+                LOGE("Scalar mode {} are not the same as {}: {}", ToString(), other.ToString(), error_msg);
             }
         }
     }
@@ -175,7 +175,7 @@ public:
             scalar_type_str = "Bool";
             value_str = value_.b ? "true" : "false";
         } else {
-            utility::LogError("ScalarTypeToString: ScalarType not supported.");
+            LOGE("ScalarTypeToString: ScalarType not supported.");
         }
         return scalar_type_str + ":" + value_str;
     }
@@ -189,7 +189,7 @@ public:
         } else if (scalar_type_ == ScalarType::Bool) {
             return false;  // Boolean does not equal to non-boolean values.
         } else {
-            utility::LogError("Equals: ScalarType not supported.");
+            LOGE("Equals: ScalarType not supported.");
         }
     }
 
@@ -203,7 +203,7 @@ public:
         } else if (other.scalar_type_ == ScalarType::Bool) {
             return scalar_type_ == ScalarType::Bool && value_.b == other.value_.b;
         } else {
-            utility::LogError("Equals: ScalarType not supported.");
+            LOGE("Equals: ScalarType not supported.");
         }
     }
 

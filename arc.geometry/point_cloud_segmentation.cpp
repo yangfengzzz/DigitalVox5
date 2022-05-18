@@ -174,7 +174,7 @@ std::tuple<Eigen::Vector4d, std::vector<size_t>> PointCloud::SegmentPlane(
         const int ransac_n /* = 3 */,
         const int num_iterations /* = 100 */,
         const double probability /* = 0.99999999 */,
-        std::optional<int> seed /* = utility::nullopt */) const {
+        std::optional<int> seed /* = std::nullopt */) const {
     if (probability <= 0 || probability > 1) {
         LOGE("Probability must be > 0 or <= 1.0")
     }

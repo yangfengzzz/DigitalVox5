@@ -108,7 +108,7 @@ public:
     TensorList(InputIterator begin, InputIterator end) {
         int64_t size = std::distance(begin, end);
         if (size == 0) {
-            utility::LogError("Empty input tensors cannot initialize a tensorlist.");
+            LOGE("Empty input tensors cannot initialize a tensorlist.");
         }
 
         // Set size_ and reserved_size_.
@@ -119,8 +119,7 @@ public:
         element_shape_ = begin->GetShape();
         std::for_each(begin, end, [&](const Tensor& tensor) -> void {
             if (tensor.GetShape() != element_shape_) {
-                utility::LogError("Tensors must have the same shape {}, but got {}.", element_shape_,
-                                  tensor.GetShape());
+                LOGE("Tensors must have the same shape {}, but got {}.", element_shape_, tensor.GetShape());
             }
         });
 
@@ -128,8 +127,8 @@ public:
         Dtype dtype = begin->GetDtype();
         std::for_each(begin, end, [&](const Tensor& tensor) -> void {
             if (tensor.GetDtype() != dtype) {
-                utility::LogError("Tensors must have the same dtype {}, but got {}.", dtype.ToString(),
-                                  tensor.GetDtype().ToString());
+                LOGE("Tensors must have the same dtype {}, but got {}.", dtype.ToString(),
+                     tensor.GetDtype().ToString());
             }
         });
 
@@ -137,8 +136,8 @@ public:
         Device device = begin->GetDevice();
         std::for_each(begin, end, [&](const Tensor& tensor) -> void {
             if (tensor.GetDevice() != device) {
-                utility::LogError("Tensors must have the same device {}, but got {}.", device.ToString(),
-                                  tensor.GetDevice().ToString());
+                LOGE("Tensors must have the same device {}, but got {}.", device.ToString(),
+                     tensor.GetDevice().ToString());
             }
         });
 
@@ -242,17 +241,16 @@ public:
 
     void AssertElementShape(const SizeVector& expected_element_shape) const {
         if (expected_element_shape != element_shape_) {
-            utility::LogError(
-                    "TensorList has element shape {}, but is expected to have "
-                    "element shape {}.",
-                    element_shape_, expected_element_shape);
+            LOGE("TensorList has element shape {}, but is expected to have "
+                 "element shape {}.",
+                 element_shape_, expected_element_shape);
         }
     }
 
     void AssertDevice(const Device& expected_device) const {
         if (GetDevice() != expected_device) {
-            utility::LogError("TensorList has device {}, but is expected to be {}.", GetDevice().ToString(),
-                              expected_device.ToString());
+            LOGE("TensorList has device {}, but is expected to be {}.", GetDevice().ToString(),
+                 expected_device.ToString());
         }
     }
 

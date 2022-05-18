@@ -41,22 +41,22 @@ class SizeVector;
 ///
 /// Example: create a shape of (None, 3)
 /// ```
-/// core::DynamicSizeVector shape{utility::nullopt, 3};
+/// core::DynamicSizeVector shape{std::nullopt, 3};
 /// ```
-class DynamicSizeVector : public std::vector<utility::optional<int64_t>> {
+class DynamicSizeVector : public std::vector<std::optional<int64_t>> {
 public:
     DynamicSizeVector() {}
 
-    DynamicSizeVector(const std::initializer_list<utility::optional<int64_t>>& dim_sizes);
+    DynamicSizeVector(const std::initializer_list<std::optional<int64_t>>& dim_sizes);
 
-    DynamicSizeVector(const std::vector<utility::optional<int64_t>>& dim_sizes);
+    DynamicSizeVector(const std::vector<std::optional<int64_t>>& dim_sizes);
 
     DynamicSizeVector(const DynamicSizeVector& other);
 
     explicit DynamicSizeVector(int64_t n, int64_t initial_value = 0);
 
     template <class InputIterator>
-    DynamicSizeVector(InputIterator first, InputIterator last) : std::vector<utility::optional<int64_t>>(first, last) {}
+    DynamicSizeVector(InputIterator first, InputIterator last) : std::vector<std::optional<int64_t>>(first, last) {}
 
     DynamicSizeVector(const SizeVector& dim_sizes);
 

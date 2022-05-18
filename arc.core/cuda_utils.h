@@ -48,10 +48,11 @@
 #define OPEN3D_FORCE_INLINE __forceinline__
 #define OPEN3D_HOST_DEVICE __host__ __device__
 #define OPEN3D_DEVICE __device__
-#define OPEN3D_ASSERT_HOST_DEVICE_LAMBDA(type)                                                                    \
-    static_assert(__nv_is_extended_host_device_lambda_closure_type(type), #type " must be a __host__ __device__ " \
-                                                                                "lambda")
-#define OPEN3D_CUDA_CHECK(err) open3d::core::__OPEN3D_CUDA_CHECK(err, __FILE__, __LINE__)
+#define OPEN3D_ASSERT_HOST_DEVICE_LAMBDA(type)                                  \
+    static_assert(__nv_is_extended_host_device_lambda_closure_type(type), #type \
+                  " must be a __host__ __device__ "                             \
+                  "lambda")
+#define OPEN3D_CUDA_CHECK(err) arc::core::__OPEN3D_CUDA_CHECK(err, __FILE__, __LINE__)
 #define OPEN3D_GET_LAST_CUDA_ERROR(message) __OPEN3D_GET_LAST_CUDA_ERROR(message, __FILE__, __LINE__)
 #define CUDA_CALL(cuda_function, ...) cuda_function(__VA_ARGS__);
 
@@ -63,7 +64,7 @@
 #define OPEN3D_ASSERT_HOST_DEVICE_LAMBDA(type)
 #define OPEN3D_CUDA_CHECK(err)
 #define OPEN3D_GET_LAST_CUDA_ERROR(message)
-#define CUDA_CALL(cuda_function, ...) utility::LogError("Not built with CUDA, cannot call " #cuda_function);
+#define CUDA_CALL(cuda_function, ...) LOGE("Not built with CUDA, cannot call " #cuda_function);
 
 #endif  // #ifdef BUILD_CUDA_MODULE
 

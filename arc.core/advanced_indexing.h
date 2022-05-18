@@ -137,10 +137,9 @@ public:
                     AdvancedIndexerMode mode)
         : mode_(mode) {
         if (indexed_shape.size() != indexed_strides.size()) {
-            utility::LogError(
-                    "Internal error: indexed_shape's ndim {} does not equal to "
-                    "indexd_strides' ndim {}",
-                    indexed_shape.size(), indexed_strides.size());
+            LOGE("Internal error: indexed_shape's ndim {} does not equal to "
+                 "indexd_strides' ndim {}",
+                 indexed_shape.size(), indexed_strides.size());
         }
         num_indices_ = indexed_shape.size();
 
@@ -156,10 +155,9 @@ public:
 
         // Fill shape and strides
         if (num_indices_ != static_cast<int64_t>(indexed_strides.size())) {
-            utility::LogError(
-                    "Internal error: indexed_shape's ndim {} does not equal to "
-                    "indexd_strides' ndim {}",
-                    num_indices_, indexed_strides.size());
+            LOGE("Internal error: indexed_shape's ndim {} does not equal to "
+                 "indexd_strides' ndim {}",
+                 num_indices_, indexed_strides.size());
         }
         for (int64_t i = 0; i < num_indices_; ++i) {
             indexed_shape_[i] = indexed_shape[i];
@@ -168,8 +166,8 @@ public:
 
         // Check dtypes
         if (src.GetDtype() != dst.GetDtype()) {
-            utility::LogError("src's dtype {} is not the same as dst's dtype {}.", src.GetDtype().ToString(),
-                              dst.GetDtype().ToString());
+            LOGE("src's dtype {} is not the same as dst's dtype {}.", src.GetDtype().ToString(),
+                 dst.GetDtype().ToString());
         }
         element_byte_size_ = src.GetDtype().ByteSize();
     }

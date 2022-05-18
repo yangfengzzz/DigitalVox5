@@ -28,7 +28,7 @@
 
 #include "device.h"
 #include "dtype.h"
-#include "open3d/Macro.h"
+#include "macro.h"
 #include "tensor.h"
 
 /// Assert Tensor's dtype is the same as the expected dtype. When an error
@@ -69,7 +69,7 @@
 /// core::AssertTensorShape(tensor, {100, 3});
 ///
 /// Example: check that the tensor has shape {N, 3}
-/// core::AssertTensorShape(tensor, {utility::nullopt, 3});
+/// core::AssertTensorShape(tensor, {std::nullopt, 3});
 #define AssertTensorShape(tensor, ...) \
     tensor_check::AssertTensorShape_(__FILE__, __LINE__, static_cast<const char*>(OPEN3D_FUNCTION), tensor, __VA_ARGS__)
 

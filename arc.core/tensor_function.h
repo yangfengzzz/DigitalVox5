@@ -72,7 +72,7 @@ namespace core {
 /// [Default axis is 0].
 /// \return A new tensor with the values of list of tensors
 /// concatenated in order, along the given axis.
-Tensor Concatenate(const std::vector<Tensor>& tensors, const utility::optional<int64_t>& axis = 0);
+Tensor Concatenate(const std::vector<Tensor>& tensors, const std::optional<int64_t>& axis = 0);
 
 /// \brief Appends the two tensors, along the given axis into a new tensor.
 /// Both the tensors must have same data-type, device, and number of
@@ -106,7 +106,7 @@ Tensor Concatenate(const std::vector<Tensor>& tensors, const utility::optional<i
 /// \return A copy of `tensor` with `values` appended to axis. Note that
 /// append does not occur in-place: a new array is allocated and filled. If
 /// axis is None, out is a flattened tensor.
-Tensor Append(const Tensor& self, const Tensor& other, const utility::optional<int64_t>& axis = utility::nullopt);
+Tensor Append(const Tensor& self, const Tensor& other, const std::optional<int64_t>& axis = std::nullopt);
 
 }  // namespace core
 }  // namespace arc

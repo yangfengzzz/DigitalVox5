@@ -31,7 +31,7 @@
 
 #include "dispatch.h"
 #include "logging.h"
-#include "open3d/Macro.h"
+#include "macro.h"
 
 namespace arc {
 namespace core {
@@ -69,7 +69,7 @@ public:
     /// e.g. FromType<float>(). Unsupported type results in an exception.
     template <typename T>
     static inline const Dtype FromType() {
-        utility::LogError("Unsupported data for Dtype::FromType.");
+        LOGE("Unsupported data for Dtype::FromType.");
     }
 
     int64_t ByteSize() const { return byte_size_; }

@@ -45,7 +45,7 @@ std::string GetMD5(const std::string& file_path);
 /// empty, the file will be downloaded to `data_root` directly.
 /// \param data_root Open3D data root directory. If empty, the default data root
 /// is used. The default data root is $HOME/open3d_data. For more information,
-/// see open3d::data::Dataset class.
+/// see arc::data::Dataset class.
 /// \returns Path to downloaded file.
 /// \throw std::runtime_error If the download fails.
 std::string DownloadFromURL(const std::string& url,
@@ -64,7 +64,7 @@ std::string DownloadFromURL(const std::string& url,
 /// file will be downloaded to `data_root` directly.
 /// \param data_root Open3D data root directory. If empty, the default data root
 /// is used. The default data root is $HOME/open3d_data. For more information,
-/// see open3d::data::Dataset class.
+/// see arc::data::Dataset class.
 /// \returns Path to downloaded file.
 /// \throw std::runtime_error If the download fails.
 std::string DownloadFromURL(const std::vector<std::string>& urls,

@@ -68,7 +68,7 @@ __global__ void ElementWiseKernel_(int64_t n, func_t f) {
 template <typename func_t>
 void ParallelForCUDA_(const Device& device, int64_t n, const func_t& func) {
     if (device.GetType() != Device::DeviceType::CUDA) {
-        utility::LogError("ParallelFor for CUDA cannot run on device {}.", device.ToString());
+        LOGE("ParallelFor for CUDA cannot run on device {}.", device.ToString());
     }
     if (n == 0) {
         return;
@@ -89,7 +89,7 @@ void ParallelForCUDA_(const Device& device, int64_t n, const func_t& func) {
 template <typename func_t>
 void ParallelForCPU_(const Device& device, int64_t n, const func_t& func) {
     if (device.GetType() != Device::DeviceType::CPU) {
-        utility::LogError("ParallelFor for CPU cannot run on device {}.", device.ToString());
+        LOGE("ParallelFor for CPU cannot run on device {}.", device.ToString());
     }
     if (n == 0) {
         return;
@@ -207,7 +207,7 @@ void ParallelFor(const Device& device, int64_t n, const func_t& func, const vec_
 
 // Internal helper macro.
 #define OPEN3D_CALL_ISPC_KERNEL_(ISPCKernel, start, end, ...) \
-    utility::LogError("ISPC module disabled. Unable to call vectorized kernel {}", OPEN3D_STRINGIFY(ISPCKernel));
+    LOGE("ISPC module disabled. Unable to call vectorized kernel {}", OPEN3D_STRINGIFY(ISPCKernel));
 
 #endif
 
@@ -242,26 +242,25 @@ void ParallelFor(const Device& device, int64_t n, const func_t& func, const vec_
 ///
 /// Note: The arguments to the kernel only have to exist if ISPC support is
 /// enabled via BUILD_ISPC_MODULE=ON.
-#define OPEN3D_TEMPLATE_VECTORIZED(T, ISPCKernel, ...)                                       \
-    [&](int64_t start, int64_t end) {                                                        \
-        static_assert(std::is_arithmetic<T>::value, "Data type is not an arithmetic type");  \
-        utility::Overload(OPEN3D_OVERLOADED_LAMBDA_(bool, ISPCKernel, __VA_ARGS__),          \
-                          OPEN3D_OVERLOADED_LAMBDA_(uint8_t, ISPCKernel, __VA_ARGS__),       \
-                          OPEN3D_OVERLOADED_LAMBDA_(int8_t, ISPCKernel, __VA_ARGS__),        \
-                          OPEN3D_OVERLOADED_LAMBDA_(uint16_t, ISPCKernel, __VA_ARGS__),      \
-                          OPEN3D_OVERLOADED_LAMBDA_(int16_t, ISPCKernel, __VA_ARGS__),       \
-                          OPEN3D_OVERLOADED_LAMBDA_(uint32_t, ISPCKernel, __VA_ARGS__),      \
-                          OPEN3D_OVERLOADED_LAMBDA_(int32_t, ISPCKernel, __VA_ARGS__),       \
-                          OPEN3D_OVERLOADED_LAMBDA_(uint64_t, ISPCKernel, __VA_ARGS__),      \
-                          OPEN3D_OVERLOADED_LAMBDA_(int64_t, ISPCKernel, __VA_ARGS__),       \
-                          OPEN3D_OVERLOADED_LAMBDA_(float, ISPCKernel, __VA_ARGS__),         \
-                          OPEN3D_OVERLOADED_LAMBDA_(double, ISPCKernel, __VA_ARGS__),        \
-                          [&](auto&& generic, int64_t start, int64_t end) {                  \
-                              utility::LogError(                                             \
-                                      "Unsupported data type {} for calling "                \
-                                      "vectorized kernel {}",                                \
-                                      typeid(generic).name(), OPEN3D_STRINGIFY(ISPCKernel)); \
-                          })(T{}, start, end);                                               \
+#define OPEN3D_TEMPLATE_VECTORIZED(T, ISPCKernel, ...)                                      \
+    [&](int64_t start, int64_t end) {                                                       \
+        static_assert(std::is_arithmetic<T>::value, "Data type is not an arithmetic type"); \
+        utility::Overload(OPEN3D_OVERLOADED_LAMBDA_(bool, ISPCKernel, __VA_ARGS__),         \
+                          OPEN3D_OVERLOADED_LAMBDA_(uint8_t, ISPCKernel, __VA_ARGS__),      \
+                          OPEN3D_OVERLOADED_LAMBDA_(int8_t, ISPCKernel, __VA_ARGS__),       \
+                          OPEN3D_OVERLOADED_LAMBDA_(uint16_t, ISPCKernel, __VA_ARGS__),     \
+                          OPEN3D_OVERLOADED_LAMBDA_(int16_t, ISPCKernel, __VA_ARGS__),      \
+                          OPEN3D_OVERLOADED_LAMBDA_(uint32_t, ISPCKernel, __VA_ARGS__),     \
+                          OPEN3D_OVERLOADED_LAMBDA_(int32_t, ISPCKernel, __VA_ARGS__),      \
+                          OPEN3D_OVERLOADED_LAMBDA_(uint64_t, ISPCKernel, __VA_ARGS__),     \
+                          OPEN3D_OVERLOADED_LAMBDA_(int64_t, ISPCKernel, __VA_ARGS__),      \
+                          OPEN3D_OVERLOADED_LAMBDA_(float, ISPCKernel, __VA_ARGS__),        \
+                          OPEN3D_OVERLOADED_LAMBDA_(double, ISPCKernel, __VA_ARGS__),       \
+                          [&](auto&& generic, int64_t start, int64_t end) {                 \
+                              LOGE("Unsupported data type {} for calling "                  \
+                                   "vectorized kernel {}",                                  \
+                                   typeid(generic).name(), OPEN3D_STRINGIFY(ISPCKernel));   \
+                          })(T{}, start, end);                                              \
     }
 
 }  // namespace core

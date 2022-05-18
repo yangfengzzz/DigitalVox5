@@ -71,16 +71,15 @@ public:
         // Check number of elements
 
         if (static_cast<int64_t>(init_vals.size()) != shape_.NumElements()) {
-            utility::LogError(
-                    "Tensor initialization values' size {} does not match the "
-                    "shape {}",
-                    init_vals.size(), shape_.NumElements());
+            LOGE("Tensor initialization values' size {} does not match the "
+                 "shape {}",
+                 init_vals.size(), shape_.NumElements());
         }
 
         // Check data types
         AssertTemplateDtype<T>();
         if (!std::is_pod<T>()) {
-            utility::LogError("Object must be a POD.");
+            LOGE("Object must be a POD.");
         }
 
         // Copy data to blob
@@ -184,9 +183,8 @@ public:
     template <typename Object>
     Tensor& AssignObject(const Object& v) && {
         if (shape_.size() != 0) {
-            utility::LogError(
-                    "Assignment with scalar only works for scalar Tensor of "
-                    "shape ()");
+            LOGE("Assignment with scalar only works for scalar Tensor of "
+                 "shape ()");
         }
         AssertTemplateDtype<Object>();
         MemoryManager::MemcpyFromHost(GetDataPtr(), GetDevice(), &v, sizeof(Object));
@@ -380,7 +378,7 @@ public:
     /// \return A copy of the tensor with `values` appended to axis. Note that
     /// append does not occur in-place: a new array is allocated and filled. If
     /// axis is None, out is a flattened tensor.
-    Tensor Append(const Tensor& other, const utility::optional<int64_t>& axis = utility::nullopt) const;
+    Tensor Append(const Tensor& other, const std::optional<int64_t>& axis = std::nullopt) const;
 
     /// Broadcast Tensor to a new broadcastable shape.
     Tensor Broadcast(const SizeVector& dst_shape) const;
@@ -550,9 +548,8 @@ public:
     template <typename T>
     T Item() const {
         if (shape_.NumElements() != 1) {
-            utility::LogError(
-                    "Tensor::Item() only works for Tensor with exactly one "
-                    "element.");
+            LOGE("Tensor::Item() only works for Tensor with exactly one "
+                 "element.");
         }
         AssertTemplateDtype<T>();
         T value;
@@ -1067,11 +1064,10 @@ public:
     template <typename T>
     inline const T* GetDataPtr() const {
         if (!dtype_.IsObject() && Dtype::FromType<T>() != dtype_) {
-            utility::LogError(
-                    "Requested values have type {} but Tensor has type {}. "
-                    "Please use non templated GetDataPtr() with manual "
-                    "casting.",
-                    Dtype::FromType<T>().ToString(), dtype_.ToString());
+            LOGE("Requested values have type {} but Tensor has type {}. "
+                 "Please use non templated GetDataPtr() with manual "
+                 "casting.",
+                 Dtype::FromType<T>().ToString(), dtype_.ToString());
         }
         return static_cast<T*>(data_ptr_);
     }
@@ -1093,11 +1089,11 @@ public:
     template <typename T>
     void AssertTemplateDtype() const {
         if (!dtype_.IsObject() && Dtype::FromType<T>() != dtype_) {
-            utility::LogError("Requested values have type {} but Tensor has type {}", Dtype::FromType<T>().ToString(),
-                              dtype_.ToString());
+            LOGE("Requested values have type {} but Tensor has type {}", Dtype::FromType<T>().ToString(),
+                 dtype_.ToString());
         }
         if (dtype_.ByteSize() != sizeof(T)) {
-            utility::LogError("Internal error: element size mismatch {} != {}", dtype_.ByteSize(), sizeof(T));
+            LOGE("Internal error: element size mismatch {} != {}", dtype_.ByteSize(), sizeof(T));
         }
     }
 
@@ -1252,10 +1248,9 @@ inline Tensor::Tensor(const std::vector<bool>& init_vals, const SizeVector& shap
     : Tensor(shape, dtype, device) {
     // Check number of elements
     if (static_cast<int64_t>(init_vals.size()) != shape_.NumElements()) {
-        utility::LogError(
-                "Tensor initialization values' size {} does not match the "
-                "shape {}",
-                init_vals.size(), shape_.NumElements());
+        LOGE("Tensor initialization values' size {} does not match the "
+             "shape {}",
+             init_vals.size(), shape_.NumElements());
     }
 
     // Check data types
@@ -1289,7 +1284,7 @@ inline std::vector<bool> Tensor::ToFlatVector() const {
 template <>
 inline bool Tensor::Item() const {
     if (shape_.NumElements() != 1) {
-        utility::LogError("Tensor::Item only works for Tensor with one element.");
+        LOGE("Tensor::Item only works for Tensor with one element.");
     }
     AssertTemplateDtype<bool>();
     uint8_t value;

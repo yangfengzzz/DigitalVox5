@@ -73,9 +73,8 @@ struct InitializerShapeImpl {
         size_t dim = InitializerShapeImpl<D - 1>::value(*list.begin());
         for (const auto& value : list) {
             if (dim != InitializerShapeImpl<D - 1>::value(value)) {
-                utility::LogError(
-                        "Input contains ragged nested sequences"
-                        "(nested lists with unequal sizes or shapes).");
+                LOGE("Input contains ragged nested sequences"
+                     "(nested lists with unequal sizes or shapes).");
             }
         }
         return dim;
