@@ -812,6 +812,8 @@
 		04C3C5802835CCAD00B0BE1F /* libarc.geometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DBB3742833132E00D94795 /* libarc.geometry.a */; };
 		04C3C5942835DF0700B0BE1F /* gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5922835DF0700B0BE1F /* gui.cpp */; };
 		04C3C5952835DF0700B0BE1F /* gui.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5932835DF0700B0BE1F /* gui.h */; };
+		04C3C598283660D500B0BE1F /* widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C596283660D500B0BE1F /* widget.cpp */; };
+		04C3C599283660D500B0BE1F /* widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C597283660D500B0BE1F /* widget.h */; };
 		04D95C192808EE0500E54DC2 /* device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C152808EE0500E54DC2 /* device.cpp */; };
 		04D95C1A2808EE0500E54DC2 /* scratch_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */; };
 		04D95C1B2808EE0500E54DC2 /* scratch_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C172808EE0500E54DC2 /* scratch_buffer.h */; };
@@ -2088,6 +2090,8 @@
 		04C3C5862835DE8700B0BE1F /* libarc.visual.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libarc.visual.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C3C5922835DF0700B0BE1F /* gui.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gui.cpp; sourceTree = "<group>"; };
 		04C3C5932835DF0700B0BE1F /* gui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gui.h; sourceTree = "<group>"; };
+		04C3C596283660D500B0BE1F /* widget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = widget.cpp; sourceTree = "<group>"; };
+		04C3C597283660D500B0BE1F /* widget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = widget.h; sourceTree = "<group>"; };
 		04D95C152808EE0500E54DC2 /* device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device.cpp; sourceTree = "<group>"; };
 		04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scratch_buffer.cpp; sourceTree = "<group>"; };
 		04D95C172808EE0500E54DC2 /* scratch_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch_buffer.h; sourceTree = "<group>"; };
@@ -3858,6 +3862,8 @@
 			children = (
 				04C3C5932835DF0700B0BE1F /* gui.h */,
 				04C3C5922835DF0700B0BE1F /* gui.cpp */,
+				04C3C597283660D500B0BE1F /* widget.h */,
+				04C3C596283660D500B0BE1F /* widget.cpp */,
 			);
 			path = gui;
 			sourceTree = "<group>";
@@ -4771,6 +4777,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C3C599283660D500B0BE1F /* widget.h in Headers */,
 				04C3C5952835DF0700B0BE1F /* gui.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5736,6 +5743,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04C3C5942835DF0700B0BE1F /* gui.cpp in Sources */,
+				04C3C598283660D500B0BE1F /* widget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7499,6 +7507,7 @@
 					./third_party/sol2/single/include,
 					/usr/local/include/lua,
 				);
+				USE_HEADERMAP = NO;
 			};
 			name = Debug;
 		};
@@ -7577,6 +7586,7 @@
 					./third_party/sol2/single/include,
 					/usr/local/include/lua,
 				);
+				USE_HEADERMAP = NO;
 			};
 			name = Release;
 		};

@@ -13,7 +13,7 @@ namespace gui {
 struct Point {
     int x;
     int y;
-
+    
     Point();
     Point(int x_, int y_);
 };
@@ -21,7 +21,7 @@ struct Point {
 struct Size {
     int width;
     int height;
-
+    
     Size();
     Size(int w, int h);
 };
@@ -31,20 +31,20 @@ struct Rect {
     int y;
     int width;
     int height;
-
+    
     Rect();
     Rect(int x_, int y_, int w_, int h_);
-
+    
     int GetTop() const;
     int GetBottom() const;
     int GetLeft() const;
     int GetRight() const;
-
+    
     bool Contains(int x, int y) const;
     bool Contains(const Point& pt) const;
-
+    
     Rect UnionedWith(const Rect& r) const;
-
+    
     bool operator==(const Rect& other) const;
     bool operator!=(const Rect& other) const;
 };
@@ -76,7 +76,7 @@ enum class FontStyle {
 class FontContext {
 public:
     virtual ~FontContext(){};
-
+    
     virtual void* GetFont(FontId font_id) = 0;
 };
 

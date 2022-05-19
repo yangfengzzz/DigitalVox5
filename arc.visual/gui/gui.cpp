@@ -24,7 +24,7 @@ Size::Size(int w, int h) : width(w), height(h) {}
 Rect::Rect() : x(0), y(0), width(0), height(0) {}
 
 Rect::Rect(int x_, int y_, int w_, int h_)
-    : x(x_), y(y_), width(w_), height(h_) {}
+: x(x_), y(y_), width(w_), height(h_) {}
 
 int Rect::GetTop() const { return this->y; }
 
