@@ -29,6 +29,7 @@
 #include "dtype.h"
 #include "logging.h"
 #include "mini_vec.h"
+#include "cuda_utils.h"
 
 #define INSTANTIATE_TYPES(DTYPE, DIM)                \
     using key_t = utility::MiniVec<DTYPE, DIM>;      \

@@ -42,8 +42,7 @@
 
 #include <memory>
 #include <vector>
-
-#include "open3d/utility/Optional.h"
+#include <optional>
 
 #define OPEN3D_FORCE_INLINE __forceinline__
 #define OPEN3D_HOST_DEVICE __host__ __device__
