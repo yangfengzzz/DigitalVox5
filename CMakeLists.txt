@@ -77,3 +77,5 @@ add_subdirectory(test.io)
 
 add_subdirectory(arc.core)
 add_subdirectory(test.core)
+
+add_subdirectory(arc.tensor)

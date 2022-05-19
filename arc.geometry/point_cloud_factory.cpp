@@ -30,7 +30,7 @@
 //#include "open3d/camera/PinholeCameraIntrinsic.h"
 #include "image.h"
 #include "point_cloud.h"
-//#include "open3d/geometry/RGBDImage.h"
+//#include "../../arc.geometry//RGBDImage.h"
 #include "logging.h"
 #include "voxel_grid.h"
 
