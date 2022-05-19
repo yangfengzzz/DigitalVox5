@@ -52,7 +52,7 @@
 #include <cuda.h>
 #endif
 
-#include "linalg/kernel/Matrix.h"
+#include "linalg/kernel/matrix.h"
 #include "math.h"
 
 #define gone 1065353216

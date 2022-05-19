@@ -48,6 +48,8 @@ include(check_atomic)
 find_package(MKL CONFIG REQUIRED)
 message(STATUS "${MKL_IMPORTED_TARGETS}") #Provides available list of targets based on input
 
+find_package(TBB REQUIRED)
+
 # Add third party libraries
 add_subdirectory(third_party)
 
@@ -74,3 +76,4 @@ add_subdirectory(arc.io)
 add_subdirectory(test.io)
 
 add_subdirectory(arc.core)
+add_subdirectory(test.core)
