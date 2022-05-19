@@ -68,7 +68,7 @@ public:
     /// e.g. FromType<float>(). Unsupported type results in an exception.
     template <typename T>
     static inline Dtype FromType() {
-        LOGE("Unsupported data for Dtype::FromType.")
+        throw std::runtime_error("Unsupported data for Dtype::FromType.");
     }
 
     [[nodiscard]] int64_t ByteSize() const { return byte_size_; }

@@ -113,7 +113,7 @@ std::shared_ptr<core::CachedMemoryManager> MakeCachedDeviceMemoryManager(const c
     }
 #endif
 
-    LOGE("Unimplemented device: {}", device.ToString());
+    throw std::runtime_error(fmt::format("Unimplemented device: {}", device.ToString()));
 }
 
 core::Device MakeDummyDevice() { return core::Device("CUDA:9999"); }

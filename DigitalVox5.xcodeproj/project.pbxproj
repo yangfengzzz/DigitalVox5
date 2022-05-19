@@ -785,6 +785,31 @@
 		04C3C5372835CA7C00B0BE1F /* preprocessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5302835CA7C00B0BE1F /* preprocessor.h */; };
 		04C3C5382835CA7C00B0BE1F /* macro.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5312835CA7C00B0BE1F /* macro.h */; };
 		04C3C5392835CA7C00B0BE1F /* overload.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5322835CA7C00B0BE1F /* overload.h */; };
+		04C3C5622835CC3E00B0BE1F /* compare.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5452835CC3A00B0BE1F /* compare.cpp */; };
+		04C3C5632835CC3E00B0BE1F /* scalar_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5472835CC3B00B0BE1F /* scalar_tests.cpp */; };
+		04C3C5642835CC3E00B0BE1F /* eigen_converter_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5482835CC3B00B0BE1F /* eigen_converter_tests.cpp */; };
+		04C3C5652835CC3E00B0BE1F /* parallel_for_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5492835CC3B00B0BE1F /* parallel_for_tests.cpp */; };
+		04C3C5662835CC3E00B0BE1F /* sort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C54A2835CC3B00B0BE1F /* sort.cpp */; };
+		04C3C5672835CC3E00B0BE1F /* rand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C54B2835CC3B00B0BE1F /* rand.cpp */; };
+		04C3C5682835CC3E00B0BE1F /* tensor_object_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C54D2835CC3B00B0BE1F /* tensor_object_tests.cpp */; };
+		04C3C5692835CC3E00B0BE1F /* size_vector_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C54E2835CC3B00B0BE1F /* size_vector_tests.cpp */; };
+		04C3C56A2835CC3E00B0BE1F /* tensor_check_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C54F2835CC3B00B0BE1F /* tensor_check_tests.cpp */; };
+		04C3C56B2835CC3E00B0BE1F /* indexer_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5512835CC3C00B0BE1F /* indexer_tests.cpp */; };
+		04C3C56C2835CC3E00B0BE1F /* tensor_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5522835CC3C00B0BE1F /* tensor_tests.cpp */; };
+		04C3C56D2835CC3E00B0BE1F /* blob_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5552835CC3C00B0BE1F /* blob_tests.cpp */; };
+		04C3C56E2835CC3E00B0BE1F /* hash_map_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5562835CC3C00B0BE1F /* hash_map_tests.cpp */; };
+		04C3C56F2835CC3E00B0BE1F /* raw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5572835CC3C00B0BE1F /* raw.cpp */; };
+		04C3C5702835CC3E00B0BE1F /* tensor_list_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5582835CC3C00B0BE1F /* tensor_list_tests.cpp */; };
+		04C3C5712835CC3E00B0BE1F /* tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5592835CC3C00B0BE1F /* tests.cpp */; };
+		04C3C5722835CC3E00B0BE1F /* tensor_function_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C55A2835CC3D00B0BE1F /* tensor_function_tests.cpp */; };
+		04C3C5732835CC3E00B0BE1F /* memory_manager_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C55B2835CC3D00B0BE1F /* memory_manager_tests.cpp */; };
+		04C3C5742835CC3E00B0BE1F /* cuda_utils_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C55C2835CC3D00B0BE1F /* cuda_utils_tests.cpp */; };
+		04C3C5752835CC3E00B0BE1F /* shape_util_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C55F2835CC3D00B0BE1F /* shape_util_tests.cpp */; };
+		04C3C5762835CC3E00B0BE1F /* device_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5602835CC3E00B0BE1F /* device_tests.cpp */; };
+		04C3C5772835CC3E00B0BE1F /* linalg_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5612835CC3E00B0BE1F /* linalg_tests.cpp */; };
+		04C3C57E2835CCAD00B0BE1F /* libarc.base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C32E2833E39100B0BE1F /* libarc.base.a */; };
+		04C3C57F2835CCAD00B0BE1F /* libarc.core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C4482835C88F00B0BE1F /* libarc.core.a */; };
+		04C3C5802835CCAD00B0BE1F /* libarc.geometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DBB3742833132E00D94795 /* libarc.geometry.a */; };
 		04D95C192808EE0500E54DC2 /* device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C152808EE0500E54DC2 /* device.cpp */; };
 		04D95C1A2808EE0500E54DC2 /* scratch_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */; };
 		04D95C1B2808EE0500E54DC2 /* scratch_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C172808EE0500E54DC2 /* scratch_buffer.h */; };
@@ -1112,6 +1137,27 @@
 			remoteGlobalIDString = 04C3C32D2833E39100B0BE1F;
 			remoteInfo = arc.base;
 		};
+		04C3C5782835CCA200B0BE1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04C3C32D2833E39100B0BE1F;
+			remoteInfo = arc.base;
+		};
+		04C3C57A2835CCA200B0BE1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04DBB3732833132E00D94795;
+			remoteInfo = arc.geometry;
+		};
+		04C3C57C2835CCA400B0BE1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04C3C4472835C88F00B0BE1F;
+			remoteInfo = arc.core;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1161,6 +1207,15 @@
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		04C3C40A2834922900B0BE1F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		04C3C53C2835CC2200B0BE1F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -1997,6 +2052,37 @@
 		04C3C5302835CA7C00B0BE1F /* preprocessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = preprocessor.h; sourceTree = "<group>"; };
 		04C3C5312835CA7C00B0BE1F /* macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macro.h; sourceTree = "<group>"; };
 		04C3C5322835CA7C00B0BE1F /* overload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = overload.h; sourceTree = "<group>"; };
+		04C3C53E2835CC2200B0BE1F /* test.core */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test.core; sourceTree = BUILT_PRODUCTS_DIR; };
+		04C3C5452835CC3A00B0BE1F /* compare.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compare.cpp; sourceTree = "<group>"; };
+		04C3C5462835CC3A00B0BE1F /* core_test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core_test.h; sourceTree = "<group>"; };
+		04C3C5472835CC3B00B0BE1F /* scalar_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scalar_tests.cpp; sourceTree = "<group>"; };
+		04C3C5482835CC3B00B0BE1F /* eigen_converter_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eigen_converter_tests.cpp; sourceTree = "<group>"; };
+		04C3C5492835CC3B00B0BE1F /* parallel_for_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parallel_for_tests.cpp; sourceTree = "<group>"; };
+		04C3C54A2835CC3B00B0BE1F /* sort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sort.cpp; sourceTree = "<group>"; };
+		04C3C54B2835CC3B00B0BE1F /* rand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rand.cpp; sourceTree = "<group>"; };
+		04C3C54C2835CC3B00B0BE1F /* raw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = raw.h; sourceTree = "<group>"; };
+		04C3C54D2835CC3B00B0BE1F /* tensor_object_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tensor_object_tests.cpp; sourceTree = "<group>"; };
+		04C3C54E2835CC3B00B0BE1F /* size_vector_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = size_vector_tests.cpp; sourceTree = "<group>"; };
+		04C3C54F2835CC3B00B0BE1F /* tensor_check_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tensor_check_tests.cpp; sourceTree = "<group>"; };
+		04C3C5502835CC3B00B0BE1F /* sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sort.h; sourceTree = "<group>"; };
+		04C3C5512835CC3C00B0BE1F /* indexer_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = indexer_tests.cpp; sourceTree = "<group>"; };
+		04C3C5522835CC3C00B0BE1F /* tensor_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tensor_tests.cpp; sourceTree = "<group>"; };
+		04C3C5532835CC3C00B0BE1F /* compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compare.h; sourceTree = "<group>"; };
+		04C3C5542835CC3C00B0BE1F /* rand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rand.h; sourceTree = "<group>"; };
+		04C3C5552835CC3C00B0BE1F /* blob_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = blob_tests.cpp; sourceTree = "<group>"; };
+		04C3C5562835CC3C00B0BE1F /* hash_map_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hash_map_tests.cpp; sourceTree = "<group>"; };
+		04C3C5572835CC3C00B0BE1F /* raw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = raw.cpp; sourceTree = "<group>"; };
+		04C3C5582835CC3C00B0BE1F /* tensor_list_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tensor_list_tests.cpp; sourceTree = "<group>"; };
+		04C3C5592835CC3C00B0BE1F /* tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tests.cpp; sourceTree = "<group>"; };
+		04C3C55A2835CC3D00B0BE1F /* tensor_function_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tensor_function_tests.cpp; sourceTree = "<group>"; };
+		04C3C55B2835CC3D00B0BE1F /* memory_manager_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = memory_manager_tests.cpp; sourceTree = "<group>"; };
+		04C3C55C2835CC3D00B0BE1F /* cuda_utils_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cuda_utils_tests.cpp; sourceTree = "<group>"; };
+		04C3C55D2835CC3D00B0BE1F /* tests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tests.h; sourceTree = "<group>"; };
+		04C3C55E2835CC3D00B0BE1F /* print.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = print.h; sourceTree = "<group>"; };
+		04C3C55F2835CC3D00B0BE1F /* shape_util_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shape_util_tests.cpp; sourceTree = "<group>"; };
+		04C3C5602835CC3E00B0BE1F /* device_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device_tests.cpp; sourceTree = "<group>"; };
+		04C3C5612835CC3E00B0BE1F /* linalg_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = linalg_tests.cpp; sourceTree = "<group>"; };
+		04C3C5812835CE7300B0BE1F /* test.core.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = test.core.entitlements; sourceTree = "<group>"; };
 		04D95C152808EE0500E54DC2 /* device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device.cpp; sourceTree = "<group>"; };
 		04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scratch_buffer.cpp; sourceTree = "<group>"; };
 		04D95C172808EE0500E54DC2 /* scratch_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch_buffer.h; sourceTree = "<group>"; };
@@ -2338,6 +2424,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04C3C53B2835CC2200B0BE1F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04C3C57E2835CCAD00B0BE1F /* libarc.base.a in Frameworks */,
+				04C3C57F2835CCAD00B0BE1F /* libarc.core.a in Frameworks */,
+				04C3C5802835CCAD00B0BE1F /* libarc.geometry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3030,6 +3126,7 @@
 				04C3C3A9283490D800B0BE1F /* arc.io */,
 				04C3C40D2834922900B0BE1F /* test.io */,
 				04C3C4492835C88F00B0BE1F /* arc.core */,
+				04C3C53F2835CC2200B0BE1F /* test.core */,
 				047BB5C32803A96500CD5749 /* Products */,
 				0444EA4C2805766F00C6F279 /* Frameworks */,
 			);
@@ -3051,6 +3148,7 @@
 				04C3C3A8283490D800B0BE1F /* libarc.io.a */,
 				04C3C40C2834922900B0BE1F /* test.io */,
 				04C3C4482835C88F00B0BE1F /* libarc.core.a */,
+				04C3C53E2835CC2200B0BE1F /* test.core */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3694,6 +3792,43 @@
 				04C3C4E82835C93F00B0BE1F /* svd3x3.h */,
 			);
 			path = kernel;
+			sourceTree = "<group>";
+		};
+		04C3C53F2835CC2200B0BE1F /* test.core */ = {
+			isa = PBXGroup;
+			children = (
+				04C3C5532835CC3C00B0BE1F /* compare.h */,
+				04C3C5452835CC3A00B0BE1F /* compare.cpp */,
+				04C3C55E2835CC3D00B0BE1F /* print.h */,
+				04C3C5542835CC3C00B0BE1F /* rand.h */,
+				04C3C54B2835CC3B00B0BE1F /* rand.cpp */,
+				04C3C54C2835CC3B00B0BE1F /* raw.h */,
+				04C3C5572835CC3C00B0BE1F /* raw.cpp */,
+				04C3C5502835CC3B00B0BE1F /* sort.h */,
+				04C3C54A2835CC3B00B0BE1F /* sort.cpp */,
+				04C3C55D2835CC3D00B0BE1F /* tests.h */,
+				04C3C5592835CC3C00B0BE1F /* tests.cpp */,
+				04C3C5462835CC3A00B0BE1F /* core_test.h */,
+				04C3C5812835CE7300B0BE1F /* test.core.entitlements */,
+				04C3C5552835CC3C00B0BE1F /* blob_tests.cpp */,
+				04C3C55C2835CC3D00B0BE1F /* cuda_utils_tests.cpp */,
+				04C3C5602835CC3E00B0BE1F /* device_tests.cpp */,
+				04C3C5482835CC3B00B0BE1F /* eigen_converter_tests.cpp */,
+				04C3C5562835CC3C00B0BE1F /* hash_map_tests.cpp */,
+				04C3C5512835CC3C00B0BE1F /* indexer_tests.cpp */,
+				04C3C5612835CC3E00B0BE1F /* linalg_tests.cpp */,
+				04C3C55B2835CC3D00B0BE1F /* memory_manager_tests.cpp */,
+				04C3C5492835CC3B00B0BE1F /* parallel_for_tests.cpp */,
+				04C3C5472835CC3B00B0BE1F /* scalar_tests.cpp */,
+				04C3C55F2835CC3D00B0BE1F /* shape_util_tests.cpp */,
+				04C3C54E2835CC3B00B0BE1F /* size_vector_tests.cpp */,
+				04C3C54F2835CC3B00B0BE1F /* tensor_check_tests.cpp */,
+				04C3C55A2835CC3D00B0BE1F /* tensor_function_tests.cpp */,
+				04C3C5582835CC3C00B0BE1F /* tensor_list_tests.cpp */,
+				04C3C54D2835CC3B00B0BE1F /* tensor_object_tests.cpp */,
+				04C3C5522835CC3C00B0BE1F /* tensor_tests.cpp */,
+			);
+			path = test.core;
 			sourceTree = "<group>";
 		};
 		04D95C412809B24700E54DC2 /* controls */ = {
@@ -4852,6 +4987,26 @@
 			productReference = 04C3C4482835C88F00B0BE1F /* libarc.core.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		04C3C53D2835CC2200B0BE1F /* test.core */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04C3C5422835CC2200B0BE1F /* Build configuration list for PBXNativeTarget "test.core" */;
+			buildPhases = (
+				04C3C53A2835CC2200B0BE1F /* Sources */,
+				04C3C53B2835CC2200B0BE1F /* Frameworks */,
+				04C3C53C2835CC2200B0BE1F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04C3C57D2835CCA400B0BE1F /* PBXTargetDependency */,
+				04C3C5792835CCA200B0BE1F /* PBXTargetDependency */,
+				04C3C57B2835CCA200B0BE1F /* PBXTargetDependency */,
+			);
+			name = test.core;
+			productName = test.core;
+			productReference = 04C3C53E2835CC2200B0BE1F /* test.core */;
+			productType = "com.apple.product-type.tool";
+		};
 		04DBB3732833132E00D94795 /* arc.geometry */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04DBB37E2833132E00D94795 /* Build configuration list for PBXNativeTarget "arc.geometry" */;
@@ -4914,6 +5069,9 @@
 					04C3C4472835C88F00B0BE1F = {
 						CreatedOnToolsVersion = 13.4;
 					};
+					04C3C53D2835CC2200B0BE1F = {
+						CreatedOnToolsVersion = 13.4;
+					};
 					04DBB3732833132E00D94795 = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
@@ -4945,6 +5103,7 @@
 				04C3C3A7283490D800B0BE1F /* arc.io */,
 				04C3C40B2834922900B0BE1F /* test.io */,
 				04C3C4472835C88F00B0BE1F /* arc.core */,
+				04C3C53D2835CC2200B0BE1F /* test.core */,
 			);
 		};
 /* End PBXProject section */
@@ -5483,6 +5642,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		04C3C53A2835CC2200B0BE1F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04C3C56D2835CC3E00B0BE1F /* blob_tests.cpp in Sources */,
+				04C3C5652835CC3E00B0BE1F /* parallel_for_tests.cpp in Sources */,
+				04C3C56E2835CC3E00B0BE1F /* hash_map_tests.cpp in Sources */,
+				04C3C5682835CC3E00B0BE1F /* tensor_object_tests.cpp in Sources */,
+				04C3C5772835CC3E00B0BE1F /* linalg_tests.cpp in Sources */,
+				04C3C56F2835CC3E00B0BE1F /* raw.cpp in Sources */,
+				04C3C5622835CC3E00B0BE1F /* compare.cpp in Sources */,
+				04C3C5672835CC3E00B0BE1F /* rand.cpp in Sources */,
+				04C3C5762835CC3E00B0BE1F /* device_tests.cpp in Sources */,
+				04C3C5742835CC3E00B0BE1F /* cuda_utils_tests.cpp in Sources */,
+				04C3C5632835CC3E00B0BE1F /* scalar_tests.cpp in Sources */,
+				04C3C5752835CC3E00B0BE1F /* shape_util_tests.cpp in Sources */,
+				04C3C5692835CC3E00B0BE1F /* size_vector_tests.cpp in Sources */,
+				04C3C5662835CC3E00B0BE1F /* sort.cpp in Sources */,
+				04C3C56A2835CC3E00B0BE1F /* tensor_check_tests.cpp in Sources */,
+				04C3C5722835CC3E00B0BE1F /* tensor_function_tests.cpp in Sources */,
+				04C3C5642835CC3E00B0BE1F /* eigen_converter_tests.cpp in Sources */,
+				04C3C56C2835CC3E00B0BE1F /* tensor_tests.cpp in Sources */,
+				04C3C5732835CC3E00B0BE1F /* memory_manager_tests.cpp in Sources */,
+				04C3C5712835CC3E00B0BE1F /* tests.cpp in Sources */,
+				04C3C5702835CC3E00B0BE1F /* tensor_list_tests.cpp in Sources */,
+				04C3C56B2835CC3E00B0BE1F /* indexer_tests.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04DBB3712833132E00D94795 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5600,6 +5788,21 @@
 			isa = PBXTargetDependency;
 			target = 04C3C32D2833E39100B0BE1F /* arc.base */;
 			targetProxy = 04C3C43B2834938800B0BE1F /* PBXContainerItemProxy */;
+		};
+		04C3C5792835CCA200B0BE1F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04C3C32D2833E39100B0BE1F /* arc.base */;
+			targetProxy = 04C3C5782835CCA200B0BE1F /* PBXContainerItemProxy */;
+		};
+		04C3C57B2835CCA200B0BE1F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04DBB3732833132E00D94795 /* arc.geometry */;
+			targetProxy = 04C3C57A2835CCA200B0BE1F /* PBXContainerItemProxy */;
+		};
+		04C3C57D2835CCA400B0BE1F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04C3C4472835C88F00B0BE1F /* arc.core */;
+			targetProxy = 04C3C57C2835CCA400B0BE1F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -6694,6 +6897,7 @@
 					./third_party/zlib/contrib/minizip,
 					./third_party/openssl/include,
 					./third_party/spdlog/include,
+					"/usr/local/Cellar/openssl@3/3.0.2/include",
 				);
 				USE_HEADERMAP = NO;
 			};
@@ -6716,6 +6920,7 @@
 					./third_party/zlib/contrib/minizip,
 					./third_party/openssl/include,
 					./third_party/spdlog/include,
+					"/usr/local/Cellar/openssl@3/3.0.2/include",
 				);
 				USE_HEADERMAP = NO;
 			};
@@ -7048,6 +7253,106 @@
 			};
 			name = Release;
 		};
+		04C3C5432835CC2200B0BE1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = test.core/test.core.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4SL5L673UU;
+				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = (
+					./arc.base,
+					./arc.geometry,
+					./arc.core,
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					./third_party/json_cpp/build/lib,
+					/opt/intel/oneapi/mkl/latest/lib,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					./third_party/googletest/build/lib,
+					./third_party/json_cpp/build/lib,
+					./third_party/qhull/build,
+					/usr/local/lib,
+					/opt/intel/oneapi/mkl/latest/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-lgtest",
+					"-lgtest_main",
+					"-lgmock",
+					"-lqhullstatic_r",
+					"-lqhullcpp",
+					"-ljsoncpp",
+					"-ltbb",
+					"-lmkl_intel_ilp64",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					./third_party,
+					./third_party/eigen,
+					./third_party/qhull/src,
+					./third_party/json_cpp/include,
+					./third_party/spdlog/include,
+					./third_party/nanoflann/include,
+					./third_party/googletest/googlemock/include,
+					./third_party/googletest/googletest/include,
+					/usr/local/include,
+					/opt/intel/oneapi/mkl/latest/include,
+				);
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		04C3C5442835CC2200B0BE1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = test.core/test.core.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4SL5L673UU;
+				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = (
+					./arc.base,
+					./arc.geometry,
+					./arc.core,
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					./third_party/json_cpp/build/lib,
+					/opt/intel/oneapi/mkl/latest/lib,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					./third_party/googletest/build/lib,
+					./third_party/json_cpp/build/lib,
+					./third_party/qhull/build,
+					/usr/local/lib,
+					/opt/intel/oneapi/mkl/latest/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-lgtest",
+					"-lgtest_main",
+					"-lgmock",
+					"-lqhullstatic_r",
+					"-lqhullcpp",
+					"-ljsoncpp",
+					"-ltbb",
+					"-lmkl_intel_ilp64",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					./third_party,
+					./third_party/eigen,
+					./third_party/qhull/src,
+					./third_party/json_cpp/include,
+					./third_party/spdlog/include,
+					./third_party/nanoflann/include,
+					./third_party/googletest/googlemock/include,
+					./third_party/googletest/googletest/include,
+					/usr/local/include,
+					/opt/intel/oneapi/mkl/latest/include,
+				);
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
 		04DBB37C2833132E00D94795 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -7216,6 +7521,15 @@
 			buildConfigurations = (
 				04C3C4512835C88F00B0BE1F /* Debug */,
 				04C3C4522835C88F00B0BE1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04C3C5422835CC2200B0BE1F /* Build configuration list for PBXNativeTarget "test.core" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04C3C5432835CC2200B0BE1F /* Debug */,
+				04C3C5442835CC2200B0BE1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
