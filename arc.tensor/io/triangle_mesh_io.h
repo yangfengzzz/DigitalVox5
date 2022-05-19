@@ -28,43 +28,40 @@
 
 #include <string>
 
-#include "../arc.geometry/image.h"
+#include "../../arc.io/triangle_mesh_io.h"
+#include "geometry/triangle_mesh.h"
 
-namespace arc::io {
+namespace arc {
+namespace t {
+namespace io {
 
-/// Factory function to create an image from a file (ImageFactory.cpp)
-/// Return an empty image if fail to read the file.
-std::shared_ptr<geometry::Image> CreateImageFromFile(const std::string &filename);
+/// Factory function to create a mesh from a file (TriangleMeshFactory.cpp)
+/// Return an empty mesh if fail to read the file.
+std::shared_ptr<geometry::TriangleMesh> CreateMeshFromFile(const std::string &filename, bool print_progress = false);
 
-/// The general entrance for reading an Image from a file
+/// The general entrance for reading a TriangleMesh from a file
 /// The function calls read functions based on the extension name of filename.
 /// \return return true if the read function is successful, false otherwise.
-bool ReadImage(const std::string &filename, geometry::Image &image);
+bool ReadTriangleMesh(const std::string &filename,
+                      geometry::TriangleMesh &mesh,
+                      arc::io::ReadTriangleMeshOptions params = {});
 
-constexpr int kOpen3DImageIODefaultQuality = -1;
-
-/// The general entrance for writing an Image to a file
+/// The general entrance for writing a TriangleMesh to a file
 /// The function calls write functions based on the extension name of filename.
-/// If the write function supports quality, the parameter will be used.
-/// Otherwise it will be ignored.
-/// \param quality: PNG: [0-9] <=2 fast write for storing intermediate data
-///                            >=3 (default) normal write for balanced speed and
-///                            file size
-///                 JPEG: [0-100] Typically in [70,95]. 90 is default (good
-///                 quality).
+/// If the write function supports binary encoding and compression, the later
+/// two parameters will be used. Otherwise they will be ignored.
+/// At current only .obj format supports uv coordinates (triangle_uvs) and
+/// textures.
 /// \return return true if the write function is successful, false otherwise.
-bool WriteImage(const std::string &filename, const geometry::Image &image, int quality = kOpen3DImageIODefaultQuality);
+bool WriteTriangleMesh(const std::string &filename,
+                       const geometry::TriangleMesh &mesh,
+                       bool write_ascii = false,
+                       bool compressed = false,
+                       bool write_vertex_normals = true,
+                       bool write_vertex_colors = true,
+                       bool write_triangle_uvs = true,
+                       bool print_progress = false);
 
-bool ReadImageFromPNG(const std::string &filename, geometry::Image &image);
-
-bool WriteImageToPNG(const std::string &filename,
-                     const geometry::Image &image,
-                     int quality = kOpen3DImageIODefaultQuality);
-
-bool ReadImageFromJPG(const std::string &filename, geometry::Image &image);
-
-bool WriteImageToJPG(const std::string &filename,
-                     const geometry::Image &image,
-                     int quality = kOpen3DImageIODefaultQuality);
-
-}  // namespace arc::io
+}  // namespace io
+}  // namespace t
+}  // namespace arc
