@@ -814,6 +814,10 @@
 		04C3C5952835DF0700B0BE1F /* gui.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5932835DF0700B0BE1F /* gui.h */; };
 		04C3C598283660D500B0BE1F /* widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C596283660D500B0BE1F /* widget.cpp */; };
 		04C3C599283660D500B0BE1F /* widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C597283660D500B0BE1F /* widget.h */; };
+		04C3C59C28368BB600B0BE1F /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C59A28368BB600B0BE1F /* util.h */; };
+		04C3C59D28368BB600B0BE1F /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C59B28368BB600B0BE1F /* util.cpp */; };
+		04C3C5A028368CDF00B0BE1F /* theme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C59E28368CDF00B0BE1F /* theme.cpp */; };
+		04C3C5A128368CDF00B0BE1F /* theme.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C59F28368CDF00B0BE1F /* theme.h */; };
 		04D95C192808EE0500E54DC2 /* device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C152808EE0500E54DC2 /* device.cpp */; };
 		04D95C1A2808EE0500E54DC2 /* scratch_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */; };
 		04D95C1B2808EE0500E54DC2 /* scratch_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C172808EE0500E54DC2 /* scratch_buffer.h */; };
@@ -2092,6 +2096,10 @@
 		04C3C5932835DF0700B0BE1F /* gui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gui.h; sourceTree = "<group>"; };
 		04C3C596283660D500B0BE1F /* widget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = widget.cpp; sourceTree = "<group>"; };
 		04C3C597283660D500B0BE1F /* widget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = widget.h; sourceTree = "<group>"; };
+		04C3C59A28368BB600B0BE1F /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
+		04C3C59B28368BB600B0BE1F /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = util.cpp; sourceTree = "<group>"; };
+		04C3C59E28368CDF00B0BE1F /* theme.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = theme.cpp; sourceTree = "<group>"; };
+		04C3C59F28368CDF00B0BE1F /* theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = theme.h; sourceTree = "<group>"; };
 		04D95C152808EE0500E54DC2 /* device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device.cpp; sourceTree = "<group>"; };
 		04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scratch_buffer.cpp; sourceTree = "<group>"; };
 		04D95C172808EE0500E54DC2 /* scratch_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch_buffer.h; sourceTree = "<group>"; };
@@ -3860,6 +3868,10 @@
 		04C3C5912835DED900B0BE1F /* gui */ = {
 			isa = PBXGroup;
 			children = (
+				04C3C59F28368CDF00B0BE1F /* theme.h */,
+				04C3C59E28368CDF00B0BE1F /* theme.cpp */,
+				04C3C59A28368BB600B0BE1F /* util.h */,
+				04C3C59B28368BB600B0BE1F /* util.cpp */,
 				04C3C5932835DF0700B0BE1F /* gui.h */,
 				04C3C5922835DF0700B0BE1F /* gui.cpp */,
 				04C3C597283660D500B0BE1F /* widget.h */,
@@ -4777,7 +4789,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C3C5A128368CDF00B0BE1F /* theme.h in Headers */,
 				04C3C599283660D500B0BE1F /* widget.h in Headers */,
+				04C3C59C28368BB600B0BE1F /* util.h in Headers */,
 				04C3C5952835DF0700B0BE1F /* gui.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5742,6 +5756,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C3C59D28368BB600B0BE1F /* util.cpp in Sources */,
+				04C3C5A028368CDF00B0BE1F /* theme.cpp in Sources */,
 				04C3C5942835DF0700B0BE1F /* gui.cpp in Sources */,
 				04C3C598283660D500B0BE1F /* widget.cpp in Sources */,
 			);
@@ -7460,6 +7476,7 @@
 					./vox.render,
 					./vox.math,
 					./arc.visual,
+					./arc.base,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -7539,6 +7556,7 @@
 					./vox.render,
 					./vox.math,
 					./arc.visual,
+					./arc.base,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
