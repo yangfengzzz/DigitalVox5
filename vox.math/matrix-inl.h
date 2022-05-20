@@ -13,7 +13,7 @@ namespace vox {
 
 template <typename T, size_t M, size_t N>
 Matrix<T, M, N>::Matrix() {
-    for (auto &elem : _elements) {
+    for (auto &elem : elements_) {
         elem = 0;
     }
 }
@@ -44,7 +44,7 @@ Matrix<T, M, N>::Matrix(const Matrix &other) {
 
 template <typename T, size_t M, size_t N>
 void Matrix<T, M, N>::set(const T &s) {
-    _elements.fill(s);
+    elements_.fill(s);
 }
 
 template <typename T, size_t M, size_t N>
@@ -76,8 +76,8 @@ void Matrix<T, M, N>::set(const MatrixExpression<T, E> &other) {
 
 template <typename T, size_t M, size_t N>
 void Matrix<T, M, N>::setDiagonal(const T &s) {
-    const size_t l = std::min(rows(), cols());
-    for (size_t i = 0; i < l; ++i) {
+    const size_t kL = std::min(rows(), cols());
+    for (size_t i = 0; i < kL; ++i) {
         (*this)(i, i) = s;
     }
 }
@@ -173,32 +173,32 @@ constexpr size_t Matrix<T, M, N>::cols() const {
 
 template <typename T, size_t M, size_t N>
 T *Matrix<T, M, N>::data() {
-    return _elements.data();
+    return elements_.data();
 }
 
 template <typename T, size_t M, size_t N>
 const T *Matrix<T, M, N>::data() const {
-    return _elements.data();
+    return elements_.data();
 }
 
 template <typename T, size_t M, size_t N>
 typename Matrix<T, M, N>::Iterator Matrix<T, M, N>::begin() {
-    return _elements.begin();
+    return elements_.begin();
 }
 
 template <typename T, size_t M, size_t N>
 typename Matrix<T, M, N>::ConstIterator Matrix<T, M, N>::begin() const {
-    return _elements.begin();
+    return elements_.begin();
 }
 
 template <typename T, size_t M, size_t N>
 typename Matrix<T, M, N>::Iterator Matrix<T, M, N>::end() {
-    return _elements.end();
+    return elements_.end();
 }
 
 template <typename T, size_t M, size_t N>
 typename Matrix<T, M, N>::ConstIterator Matrix<T, M, N>::end() const {
-    return _elements.end();
+    return elements_.end();
 }
 
 template <typename T, size_t M, size_t N>
@@ -390,7 +390,7 @@ void Matrix<T, M, N>::invert() {
 template <typename T, size_t M, size_t N>
 T Matrix<T, M, N>::sum() const {
     T ret = 0;
-    for (auto v : _elements) {
+    for (auto v : elements_) {
         ret += v;
     }
     return ret;
@@ -403,8 +403,8 @@ T Matrix<T, M, N>::avg() const {
 
 template <typename T, size_t M, size_t N>
 T Matrix<T, M, N>::min() const {
-    T ret = _elements.front();
-    for (auto v : _elements) {
+    T ret = elements_.front();
+    for (auto v : elements_) {
         ret = std::min(ret, v);
     }
     return ret;
@@ -412,8 +412,8 @@ T Matrix<T, M, N>::min() const {
 
 template <typename T, size_t M, size_t N>
 T Matrix<T, M, N>::max() const {
-    T ret = _elements.front();
-    for (auto v : _elements) {
+    T ret = elements_.front();
+    for (auto v : elements_) {
         ret = std::max(ret, v);
     }
     return ret;
@@ -421,8 +421,8 @@ T Matrix<T, M, N>::max() const {
 
 template <typename T, size_t M, size_t N>
 T Matrix<T, M, N>::absmin() const {
-    T ret = _elements.front();
-    for (auto v : _elements) {
+    T ret = elements_.front();
+    for (auto v : elements_) {
         ret = vox::absmin(ret, v);
     }
     return ret;
@@ -430,8 +430,8 @@ T Matrix<T, M, N>::absmin() const {
 
 template <typename T, size_t M, size_t N>
 T Matrix<T, M, N>::absmax() const {
-    T ret = _elements.front();
-    for (auto v : _elements) {
+    T ret = elements_.front();
+    for (auto v : elements_) {
         ret = vox::absmax(ret, v);
     }
     return ret;
@@ -459,19 +459,19 @@ T Matrix<T, M, N>::determinant() const {
     T result = 1;
     for (size_t i = 0; i < n; ++i) {
         // Search for maximum in this column
-        T maxEl = std::fabs(a(i, i));
-        size_t maxRow = i;
+        T max_el = std::fabs(a(i, i));
+        size_t max_row = i;
         for (size_t k = i + 1; k < n; ++k) {
-            if (std::fabs(a(k, i)) > maxEl) {
-                maxEl = std::fabs(a(k, i));
-                maxRow = k;
+            if (std::fabs(a(k, i)) > max_el) {
+                max_el = std::fabs(a(k, i));
+                max_row = k;
             }
         }
 
         // Swap maximum row with current row (column by column)
-        if (maxRow != i) {
+        if (max_row != i) {
             for (size_t k = i; k < n; ++k) {
-                std::swap(a(maxRow, k), a(i, k));
+                std::swap(a(max_row, k), a(i, k));
             }
             result *= -1;
         }
@@ -534,9 +534,9 @@ Matrix<T, N, M> Matrix<T, M, N>::transposed() const {
 
 template <typename T, size_t M, size_t N>
 Matrix<T, M, N> Matrix<T, M, N>::inverse() const {
-    Matrix mInv(*this);
-    mInv.invert();
-    return mInv;
+    Matrix m_inv(*this);
+    m_inv.invert();
+    return m_inv;
 }
 
 template <typename T, size_t M, size_t N>
@@ -605,22 +605,22 @@ Matrix<T, M, N> &Matrix<T, M, N>::operator/=(const T &s) {
 
 template <typename T, size_t M, size_t N>
 T &Matrix<T, M, N>::operator[](size_t i) {
-    return _elements[i];
+    return elements_[i];
 }
 
 template <typename T, size_t M, size_t N>
 const T &Matrix<T, M, N>::operator[](size_t i) const {
-    return _elements[i];
+    return elements_[i];
 }
 
 template <typename T, size_t M, size_t N>
 T &Matrix<T, M, N>::operator()(size_t i, size_t j) {
-    return _elements[i + j * M];
+    return elements_[i + j * M];
 }
 
 template <typename T, size_t M, size_t N>
 const T &Matrix<T, M, N>::operator()(size_t i, size_t j) const {
-    return _elements[i + j * M];
+    return elements_[i + j * M];
 }
 
 template <typename T, size_t M, size_t N>
@@ -669,13 +669,13 @@ MatrixIdentity<T> Matrix<T, M, N>::makeIdentity() {
 template <typename T, size_t M, size_t N>
 template <typename... Params>
 void Matrix<T, M, N>::setColumnAt(size_t i, T v, Params... params) {
-    _elements[i] = v;
+    elements_[i] = v;
     setColumnAt(i + 1, params...);
 }
 
 template <typename T, size_t M, size_t N>
 void Matrix<T, M, N>::setColumnAt(size_t i, T v) {
-    _elements[i] = v;
+    elements_[i] = v;
 }
 
 }  // namespace vox

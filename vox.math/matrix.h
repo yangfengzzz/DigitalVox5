@@ -32,7 +32,7 @@ public:
                   "Number of columns for static-sized matrix should be greater than "
                   "zero.");
     static_assert(!(M == 2 && N == 2) && !(M == 3 && N == 3) && !(M == 4 && N == 4),
-                  "Use specialized matrix for 2z2, 3x3, and 4x4 matricies.");
+                  "Use specialized matrix for 2z2, 3x3, and 4x4 matrices.");
     static_assert(std::is_floating_point<T>::value, "Matrix only can be instantiated with floating point types");
 
     using ContainerType = std::array<T, M * N>;
@@ -429,7 +429,7 @@ public:
     static MatrixIdentity<T> makeIdentity();
 
 private:
-    ContainerType _elements;
+    ContainerType elements_;
 
     template <typename... Params>
     void setColumnAt(size_t i, T v, Params... params);

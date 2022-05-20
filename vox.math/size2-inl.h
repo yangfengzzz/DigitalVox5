@@ -21,18 +21,18 @@ inline Size2::Size2(const std::initializer_list<U> &lst) {
 }
 
 // Basic setters
-inline void Size2::set(size_t newX, size_t newY) {
-    x = newX;
-    y = newY;
+inline void Size2::set(size_t new_x, size_t new_y) {
+    x = new_x;
+    y = new_y;
 }
 
 template <typename U>
 inline void Size2::set(const std::initializer_list<U> &lst) {
     assert(lst.size() >= 2);
 
-    auto inputElem = lst.begin();
-    x = static_cast<size_t>(*inputElem);
-    y = static_cast<size_t>(*(++inputElem));
+    auto input_elem = lst.begin();
+    x = static_cast<size_t>(*input_elem);
+    y = static_cast<size_t>(*(++input_elem));
 }
 
 inline void Size2::set(const Size2 &v) {

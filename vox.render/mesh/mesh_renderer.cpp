@@ -90,8 +90,8 @@ void MeshRenderer::update_bounds(BoundingBox3F &world_bounds) {
         const auto kWorldMatrix = entity_->transform_->world_matrix();
         world_bounds = kLocalBounds.transform(kWorldMatrix);
     } else {
-        world_bounds.lowerCorner = Point3F(0, 0, 0);
-        world_bounds.upperCorner = Point3F(0, 0, 0);
+        world_bounds.lower_corner = Point3F(0, 0, 0);
+        world_bounds.upper_corner = Point3F(0, 0, 0);
     }
 }
 

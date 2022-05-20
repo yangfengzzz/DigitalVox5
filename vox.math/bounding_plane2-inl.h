@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "bounding_plane2.h"
+
 namespace vox {
 template <typename T>
 BoundingPlane<T, 2>::BoundingPlane() : BoundingPlane(Vector2<T>(), 0) {}
@@ -20,7 +22,7 @@ BoundingPlane<T, 2>::BoundingPlane(const Vector2<T> &point0, const Vector2<T> &p
 }
 
 template <typename T>
-BoundingPlane<T, 2>::BoundingPlane(const Plane &other) : normal(other.normal), distance(other.distance) {}
+BoundingPlane<T, 2>::BoundingPlane(const BoundingPlane &other) : normal(other.normal), distance(other.distance) {}
 
 template <typename T>
 BoundingPlane<T, 2> BoundingPlane<T, 2>::normalized() const {

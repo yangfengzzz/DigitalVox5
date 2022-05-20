@@ -55,20 +55,20 @@
     EXPECT_NEAR((expected).a, (actual).a, eps);
 
 #define EXPECT_BOUNDING_BOX2_EQ(expected, actual)                    \
-    EXPECT_VECTOR2_EQ((expected).lowerCorner, (actual).lowerCorner); \
-    EXPECT_VECTOR2_EQ((expected).upperCorner, (actual).upperCorner);
+    EXPECT_VECTOR2_EQ((expected).lower_corner, (actual).lower_corner); \
+    EXPECT_VECTOR2_EQ((expected).upper_corner, (actual).upper_corner);
 
 #define EXPECT_BOUNDING_BOX2_NEAR(expected, actual, eps)                    \
-    EXPECT_VECTOR2_NEAR((expected).lowerCorner, (actual).lowerCorner, eps); \
-    EXPECT_VECTOR2_NEAR((expected).upperCorner, (actual).upperCorner, eps);
+    EXPECT_VECTOR2_NEAR((expected).lower_corner, (actual).lower_corner, eps); \
+    EXPECT_VECTOR2_NEAR((expected).upper_corner, (actual).upper_corner, eps);
 
 #define EXPECT_BOUNDING_BOX3_EQ(expected, actual)                    \
-    EXPECT_VECTOR3_EQ((expected).lowerCorner, (actual).lowerCorner); \
-    EXPECT_VECTOR3_EQ((expected).upperCorner, (actual).upperCorner);
+    EXPECT_VECTOR3_EQ((expected).lower_corner, (actual).lower_corner); \
+    EXPECT_VECTOR3_EQ((expected).upper_corner, (actual).upper_corner);
 
 #define EXPECT_BOUNDING_BOX3_NEAR(expected, actual, eps)                    \
-    EXPECT_VECTOR3_NEAR((expected).lowerCorner, (actual).lowerCorner, eps); \
-    EXPECT_VECTOR3_NEAR((expected).upperCorner, (actual).upperCorner, eps);
+    EXPECT_VECTOR3_NEAR((expected).lower_corner, (actual).lower_corner, eps); \
+    EXPECT_VECTOR3_NEAR((expected).upper_corner, (actual).upper_corner, eps);
 
 namespace vox {
 

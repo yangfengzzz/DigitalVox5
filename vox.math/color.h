@@ -94,15 +94,15 @@ struct Color {
 
     [[nodiscard]] unsigned int toABGR32() const;
 
-    static const Color Red;
-    static const Color Green;
-    static const Color Blue;
-    static const Color White;
-    static const Color Black;
-    static const Color Grey;
-    static const Color Yellow;
-    static const Color Cyan;
-    static const Color Magenta;
+    static const Color red;
+    static const Color green;
+    static const Color blue;
+    static const Color white;
+    static const Color black;
+    static const Color grey;
+    static const Color yellow;
+    static const Color cyan;
+    static const Color magenta;
 };
 
 inline bool operator==(const Color &left, const Color &right) {

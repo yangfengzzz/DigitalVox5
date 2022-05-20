@@ -16,32 +16,32 @@ TEST(BoundingBox, Constructors) {
     {
         BoundingBox<double, 2> box;
 
-        EXPECT_DOUBLE_EQ(kMaxD, box.lowerCorner[0]);
-        EXPECT_DOUBLE_EQ(kMaxD, box.lowerCorner[1]);
+        EXPECT_DOUBLE_EQ(kMaxD, box.lower_corner[0]);
+        EXPECT_DOUBLE_EQ(kMaxD, box.lower_corner[1]);
 
-        EXPECT_DOUBLE_EQ(-kMaxD, box.upperCorner[0]);
-        EXPECT_DOUBLE_EQ(-kMaxD, box.upperCorner[1]);
+        EXPECT_DOUBLE_EQ(-kMaxD, box.upper_corner[0]);
+        EXPECT_DOUBLE_EQ(-kMaxD, box.upper_corner[1]);
     }
 
     {
         BoundingBox<double, 2> box({-2.0, 3.0}, {4.0, -2.0});
 
-        EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner[0]);
-        EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner[1]);
+        EXPECT_DOUBLE_EQ(-2.0, box.lower_corner[0]);
+        EXPECT_DOUBLE_EQ(-2.0, box.lower_corner[1]);
 
-        EXPECT_DOUBLE_EQ(4.0, box.upperCorner[0]);
-        EXPECT_DOUBLE_EQ(3.0, box.upperCorner[1]);
+        EXPECT_DOUBLE_EQ(4.0, box.upper_corner[0]);
+        EXPECT_DOUBLE_EQ(3.0, box.upper_corner[1]);
     }
 
     {
         BoundingBox<double, 2> box({-2.0, 3.0}, {4.0, -2.0});
         BoundingBox<double, 2> box2(box);
 
-        EXPECT_DOUBLE_EQ(-2.0, box2.lowerCorner[0]);
-        EXPECT_DOUBLE_EQ(-2.0, box2.lowerCorner[1]);
+        EXPECT_DOUBLE_EQ(-2.0, box2.lower_corner[0]);
+        EXPECT_DOUBLE_EQ(-2.0, box2.lower_corner[1]);
 
-        EXPECT_DOUBLE_EQ(4.0, box2.upperCorner[0]);
-        EXPECT_DOUBLE_EQ(3.0, box2.upperCorner[1]);
+        EXPECT_DOUBLE_EQ(4.0, box2.upper_corner[0]);
+        EXPECT_DOUBLE_EQ(3.0, box2.upper_corner[1]);
     }
 }
 
@@ -125,11 +125,11 @@ TEST(BoundingBox, Reset) {
 
     static const double maxDouble = std::numeric_limits<double>::max();
 
-    EXPECT_DOUBLE_EQ(maxDouble, box.lowerCorner[0]);
-    EXPECT_DOUBLE_EQ(maxDouble, box.lowerCorner[1]);
+    EXPECT_DOUBLE_EQ(maxDouble, box.lower_corner[0]);
+    EXPECT_DOUBLE_EQ(maxDouble, box.lower_corner[1]);
 
-    EXPECT_DOUBLE_EQ(-maxDouble, box.upperCorner[0]);
-    EXPECT_DOUBLE_EQ(-maxDouble, box.upperCorner[1]);
+    EXPECT_DOUBLE_EQ(-maxDouble, box.upper_corner[0]);
+    EXPECT_DOUBLE_EQ(-maxDouble, box.upper_corner[1]);
 }
 
 TEST(BoundingBox, Merge) {
@@ -140,11 +140,11 @@ TEST(BoundingBox, Merge) {
 
         box.merge(point);
 
-        EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner[0]);
-        EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner[1]);
+        EXPECT_DOUBLE_EQ(-2.0, box.lower_corner[0]);
+        EXPECT_DOUBLE_EQ(-2.0, box.lower_corner[1]);
 
-        EXPECT_DOUBLE_EQ(5.0, box.upperCorner[0]);
-        EXPECT_DOUBLE_EQ(3.0, box.upperCorner[1]);
+        EXPECT_DOUBLE_EQ(5.0, box.upper_corner[0]);
+        EXPECT_DOUBLE_EQ(3.0, box.upper_corner[1]);
     }
 
     // Merge with other box
@@ -154,11 +154,11 @@ TEST(BoundingBox, Merge) {
 
         box1.merge(box2);
 
-        EXPECT_DOUBLE_EQ(-2.0, box1.lowerCorner[0]);
-        EXPECT_DOUBLE_EQ(-2.0, box1.lowerCorner[1]);
+        EXPECT_DOUBLE_EQ(-2.0, box1.lower_corner[0]);
+        EXPECT_DOUBLE_EQ(-2.0, box1.lower_corner[1]);
 
-        EXPECT_DOUBLE_EQ(8.0, box1.upperCorner[0]);
-        EXPECT_DOUBLE_EQ(3.0, box1.upperCorner[1]);
+        EXPECT_DOUBLE_EQ(8.0, box1.upper_corner[0]);
+        EXPECT_DOUBLE_EQ(3.0, box1.upper_corner[1]);
     }
 }
 
@@ -166,9 +166,9 @@ TEST(BoundingBox, Expand) {
     BoundingBox<double, 2> box({-2.0, -2.0}, {4.0, 3.0});
     box.expand(3.0);
 
-    EXPECT_DOUBLE_EQ(-5.0, box.lowerCorner[0]);
-    EXPECT_DOUBLE_EQ(-5.0, box.lowerCorner[1]);
+    EXPECT_DOUBLE_EQ(-5.0, box.lower_corner[0]);
+    EXPECT_DOUBLE_EQ(-5.0, box.lower_corner[1]);
 
-    EXPECT_DOUBLE_EQ(7.0, box.upperCorner[0]);
-    EXPECT_DOUBLE_EQ(6.0, box.upperCorner[1]);
+    EXPECT_DOUBLE_EQ(7.0, box.upper_corner[0]);
+    EXPECT_DOUBLE_EQ(6.0, box.upper_corner[1]);
 }

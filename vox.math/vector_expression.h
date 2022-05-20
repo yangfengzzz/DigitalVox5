@@ -55,8 +55,8 @@ public:
     T operator[](size_t i) const;
 
 private:
-    const E &_u;
-    Op _op;
+    const E &u_;
+    Op op_;
 };
 
 // MARK: - VectorUnaryOp Aliases
@@ -92,9 +92,9 @@ public:
     T operator[](size_t i) const;
 
 private:
-    const E1 &_u;
-    const E2 &_v;
-    Op _op;
+    const E1 &u_;
+    const E2 &v_;
+    Op op_;
 };
 
 //!
@@ -120,9 +120,9 @@ public:
     T operator[](size_t i) const;
 
 private:
-    const E &_u;
-    T _v;
-    Op _op;
+    const E &u_;
+    T v_;
+    Op op_;
 };
 
 // MARK: - VectorBinaryOp Aliases

@@ -14,7 +14,7 @@ namespace vox {
 //!
 //! This class defines simple 2-D size data.
 //!
-class Size2 {
+struct Size2 {
 public:
     //! X (or the first) component of the size.
     size_t x{};
@@ -28,7 +28,7 @@ public:
     constexpr Size2() : x(0), y(0) {}
 
     //! Constructs size with given parameters \p x_ and \p y_.
-    constexpr Size2(size_t x_, size_t y_) : x(x_), y(y_) {}
+    constexpr Size2(size_t x, size_t y) : x(x), y(y) {}
 
     //! Constructs size with initializer list.
     template <typename U>
@@ -43,7 +43,7 @@ public:
     void set(size_t s);
 
     //! Set x and y components with given parameters.
-    void set(size_t x, size_t y);
+    void set(size_t new_x, size_t new_y);
 
     //! Set x and y components with given initializer list.
     template <typename U>

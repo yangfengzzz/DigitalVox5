@@ -129,12 +129,12 @@ void ParticleRenderer::render(std::vector<RenderElement> &opaque_queue,
 }
 
 void ParticleRenderer::update_bounds(BoundingBox3F &world_bounds) {
-    world_bounds.lowerCorner.x = -std::numeric_limits<float>::max();
-    world_bounds.lowerCorner.y = -std::numeric_limits<float>::max();
-    world_bounds.lowerCorner.z = -std::numeric_limits<float>::max();
-    world_bounds.upperCorner.x = std::numeric_limits<float>::max();
-    world_bounds.upperCorner.y = std::numeric_limits<float>::max();
-    world_bounds.upperCorner.z = std::numeric_limits<float>::max();
+    world_bounds.lower_corner.x = -std::numeric_limits<float>::max();
+    world_bounds.lower_corner.y = -std::numeric_limits<float>::max();
+    world_bounds.lower_corner.z = -std::numeric_limits<float>::max();
+    world_bounds.upper_corner.x = std::numeric_limits<float>::max();
+    world_bounds.upper_corner.y = std::numeric_limits<float>::max();
+    world_bounds.upper_corner.z = std::numeric_limits<float>::max();
 }
 
 void ParticleRenderer::update(float delta_time) {

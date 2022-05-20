@@ -106,11 +106,11 @@ void Behaviour::resize(uint32_t win_width, uint32_t win_height,
 
 void Behaviour::on_inspector(ui::WidgetContainer &root) {
     if (object_.valid()) {
-        root.create_widget<ui::TextColored>("Ready", Color::Green);
-        root.create_widget<ui::TextColored>("Your script gets interpreted by the engine with success", Color::White);
+        root.create_widget<ui::TextColored>("Ready", Color::green);
+        root.create_widget<ui::TextColored>("Your script gets interpreted by the engine with success", Color::white);
     } else {
-        root.create_widget<ui::TextColored>("Compilation failed!", Color::Red);
-        root.create_widget<ui::TextColored>("Check the console for more information", Color::White);
+        root.create_widget<ui::TextColored>("Compilation failed!", Color::red);
+        root.create_widget<ui::TextColored>("Check the console for more information", Color::white);
     }
 }
 

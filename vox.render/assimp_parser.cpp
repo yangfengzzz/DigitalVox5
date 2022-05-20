@@ -134,8 +134,8 @@ void AssimpParser::process_mesh(Entity *root, aiMesh *mesh, const aiScene *scene
     
     const auto& min = mesh->mAABB.mMin;
     const auto& max = mesh->mAABB.mMax;
-    model_mesh->bounds_.upperCorner = Point3F(max.x, max.y, max.z);
-    model_mesh->bounds_.lowerCorner = Point3F(min.x, min.y, min.z);
+    model_mesh->bounds_.upper_corner = Point3F(max.x, max.y, max.z);
+    model_mesh->bounds_.lower_corner = Point3F(min.x, min.y, min.z);
 
     // process materials
     renderer->set_material(process_material(scene->mMaterials[mesh->mMaterialIndex]));

@@ -18,7 +18,7 @@ namespace vox {
 //! \tparam     T     The value type.
 //!
 template <typename T>
-class Ray<T, 3> final {
+struct Ray<T, 3> final {
 public:
     static_assert(std::is_floating_point<T>::value, "Ray only can be instantiated with floating point types");
 
@@ -31,8 +31,8 @@ public:
     //! Constructs an empty ray that points (1, 0, 0) from (0, 0, 0).
     Ray();
 
-    //! Constructs a ray with given origin and riection.
-    Ray(const Point3<T> &newOrigin, const Vector3<T> &newDirection);
+    //! Constructs a ray with given origin and direction.
+    Ray(const Point3<T> &new_origin, const Vector3<T> &new_direction);
 
     //! Copy constructor.
     Ray(const Ray &other);

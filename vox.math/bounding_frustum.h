@@ -38,7 +38,7 @@ struct BoundingFrustum {
     explicit BoundingFrustum(const Matrix4x4F &matrix);
 
     //! Copy constructor.
-    BoundingFrustum(const BoundingFrustum &other);
+    BoundingFrustum(const BoundingFrustum &other) = default;
 
     /**
      * Get the plane by the given index.

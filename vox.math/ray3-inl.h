@@ -12,8 +12,8 @@ template <typename T>
 Ray<T, 3>::Ray() : Ray(Point3<T>(), Vector3<T>(1, 0, 0)) {}
 
 template <typename T>
-Ray<T, 3>::Ray(const Point3<T> &newOrigin, const Vector3<T> &newDirection)
-    : origin(newOrigin), direction(newDirection.normalized()) {}
+Ray<T, 3>::Ray(const Point3<T> &new_origin, const Vector3<T> &new_direction)
+    : origin(new_origin), direction(new_direction.normalized()) {}
 
 template <typename T>
 Ray<T, 3>::Ray(const Ray &other) : origin(other.origin), direction(other.direction) {}

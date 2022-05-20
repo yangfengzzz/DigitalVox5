@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <algorithm>  // just make cpplint happy..
+#include <algorithm>
 #include <limits>
 
 #include "vector3.h"
@@ -20,7 +20,7 @@ namespace vox {
 //! \tparam T - Type of the element
 //!
 template <typename T>
-class Vector<T, 4> final {
+struct Vector<T, 4> final {
 public:
     static_assert(std::is_floating_point<T>::value, "Vector only can be instantiated with floating point types");
 
@@ -42,10 +42,10 @@ public:
     constexpr Vector() : x(0), y(0), z(0), w(0) {}
 
     //! Constructs vector with given parameters \p x_, \p y_, \p z_, and \p w_.
-    constexpr Vector(T x_, T y_, T z_, T w_) : x(x_), y(y_), z(z_), w(w_) {}
+    constexpr Vector(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
 
     //! Constructs vector with a 3-D vector (x, y, and z) and a scalar (w).
-    constexpr Vector(const Vector3<T> &v, T w_) : x(v.x), y(v.y), z(v.z), w(w_) {}
+    constexpr Vector(const Vector3<T> &v, T w) : x(v.x), y(v.y), z(v.z), w(w) {}
 
     //! Constructs vector with initializer list.
     template <typename U>
@@ -60,10 +60,10 @@ public:
     void set(T s);
 
     //! Set x, y, z, and w components with given parameters.
-    void set(T x, T y, T z, T w);
+    void set(T new_x, T new_y, T new_z, T new_w);
 
     //! Set x, y, z, and w components with \p pt.x, \p pt.y, \p z, and \p w.
-    void set(const Vector<T, 3> &pt, T newW);
+    void set(const Vector<T, 3> &pt, T new_w);
 
     //! Set x, y, z, and w components with given initializer list.
     template <typename U>
@@ -359,7 +359,7 @@ struct ScalarType<Vector4<T>> {
 //! Computes monotonic Catmull-Rom interpolation.
 template <typename T>
 Vector4<T> monotonicCatmullRom(
-        const Vector4<T> &v0, const Vector4<T> &v1, const Vector4<T> &v2, const Vector4<T> &v3, T f);
+        const Vector4<T> &v_0, const Vector4<T> &v_1, const Vector4<T> &v_2, const Vector4<T> &v_3, T f);
 
 }  // namespace vox
 

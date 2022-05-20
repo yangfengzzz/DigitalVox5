@@ -96,8 +96,8 @@ void SkyboxSubpass::create_cuboid() {
     indices[35] = 21;
     
     auto &bounds = mesh_->bounds_;
-    bounds.lowerCorner = Point3F(-kHalfLength, -kHalfLength, -kHalfLength);
-    bounds.upperCorner = Point3F(kHalfLength, kHalfLength, kHalfLength);
+    bounds.lower_corner = Point3F(-kHalfLength, -kHalfLength, -kHalfLength);
+    bounds.upper_corner = Point3F(kHalfLength, kHalfLength, kHalfLength);
     
     mesh_->set_positions(positions);
     mesh_->set_indices(indices);

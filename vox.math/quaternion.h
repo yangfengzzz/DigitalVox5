@@ -14,7 +14,7 @@ namespace vox {
 //! \brief Quaternion class defined as q = w + xi + yj + zk.
 //!
 template <typename T>
-class Quaternion {
+struct Quaternion {
 public:
     static_assert(std::is_floating_point<T>::value, "Quaternion only can be instantiated with floating point types");
 
@@ -36,7 +36,7 @@ public:
     Quaternion();
 
     //! Constructs a quaternion with given elements.
-    Quaternion(T newX, T newY, T newZ, T newW);
+    Quaternion(T new_x, T new_y, T new_z, T new_w);
 
     //! Constructs a quaternion with given elements.
     Quaternion(const std::initializer_list<T> &lst);
@@ -48,7 +48,7 @@ public:
     Quaternion(const Vector3<T> &from, const Vector3<T> &to);
 
     //! Constructs a quaternion with three basis vectors.
-    Quaternion(const Vector3<T> &rotationBasis0, const Vector3<T> &rotationBasis1, const Vector3<T> &rotationBasis2);
+    Quaternion(const Vector3<T> &rotation_basis_0, const Vector3<T> &rotation_basis_1, const Vector3<T> &rotation_basis_2);
 
     //! Constructs a quaternion with 3x3 rotational matrix.
     explicit Quaternion(const Matrix3x3<T> &matrix);
@@ -62,7 +62,7 @@ public:
     void set(const Quaternion &other);
 
     //! Sets the quaternion with given elements.
-    void set(T newX, T newY, T newZ, T newW);
+    void set(T new_x, T new_y, T new_z, T new_w);
 
     //! Sets the quaternion with given elements.
     void set(const std::initializer_list<T> &lst);
@@ -74,7 +74,7 @@ public:
     void set(const Vector3<T> &from, const Vector3<T> &to);
 
     //! Sets quaternion with three basis vectors.
-    void set(const Vector3<T> &rotationBasis0, const Vector3<T> &rotationBasis1, const Vector3<T> &rotationBasis2);
+    void set(const Vector3<T> &rotation_basis_0, const Vector3<T> &rotation_basis_1, const Vector3<T> &rotation_basis_2);
 
     //! Sets the quaternion with 3x3 rotational matrix.
     void set(const Matrix3x3<T> &matrix);
@@ -131,7 +131,7 @@ public:
     void setIdentity();
 
     //! Rotate this quaternion with given angle in radians.
-    void rotate(T angleInRadians);
+    void rotate(T angle_in_radians);
 
     //! Normalizes the quaternion.
     void normalize();

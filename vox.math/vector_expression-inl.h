@@ -25,46 +25,46 @@ const E &VectorExpression<T, E>::operator()() const {
 // MARK: - VectorUnaryOp
 
 template <typename T, typename E, typename Op>
-VectorUnaryOp<T, E, Op>::VectorUnaryOp(const E &u) : _u(u) {}
+VectorUnaryOp<T, E, Op>::VectorUnaryOp(const E &u) : u_(u) {}
 
 template <typename T, typename E, typename Op>
 size_t VectorUnaryOp<T, E, Op>::size() const {
-    return _u.size();
+    return u_.size();
 }
 
 template <typename T, typename E, typename Op>
 T VectorUnaryOp<T, E, Op>::operator[](size_t i) const {
-    return _op(_u[i]);
+    return op_(u_[i]);
 }
 
 // MARK: - VectorBinaryOp
 
 template <typename T, typename E1, typename E2, typename Op>
-VectorBinaryOp<T, E1, E2, Op>::VectorBinaryOp(const E1 &u, const E2 &v) : _u(u), _v(v) {
+VectorBinaryOp<T, E1, E2, Op>::VectorBinaryOp(const E1 &u, const E2 &v) : u_(u), v_(v) {
     VOX_ASSERT(u.size() == v.size());
 }
 
 template <typename T, typename E1, typename E2, typename Op>
 size_t VectorBinaryOp<T, E1, E2, Op>::size() const {
-    return _v.size();
+    return v_.size();
 }
 
 template <typename T, typename E1, typename E2, typename Op>
 T VectorBinaryOp<T, E1, E2, Op>::operator[](size_t i) const {
-    return _op(_u[i], _v[i]);
+    return op_(u_[i], v_[i]);
 }
 
 template <typename T, typename E, typename Op>
-VectorScalarBinaryOp<T, E, Op>::VectorScalarBinaryOp(const E &u, const T &v) : _u(u), _v(v) {}
+VectorScalarBinaryOp<T, E, Op>::VectorScalarBinaryOp(const E &u, const T &v) : u_(u), v_(v) {}
 
 template <typename T, typename E, typename Op>
 size_t VectorScalarBinaryOp<T, E, Op>::size() const {
-    return _u.size();
+    return u_.size();
 }
 
 template <typename T, typename E, typename Op>
 T VectorScalarBinaryOp<T, E, Op>::operator[](size_t i) const {
-    return _op(_u[i], _v);
+    return op_(u_[i], v_);
 }
 
 // MARK: - Global Functions

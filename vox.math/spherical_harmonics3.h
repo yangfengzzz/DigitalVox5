@@ -32,9 +32,9 @@ public:
      * Add light to SphericalHarmonics3.
      * @param direction - Light direction
      * @param color - Light color
-     * @param deltaSolidAngle - The delta solid angle of the light
+     * @param delta_solid_angle - The delta solid angle of the light
      */
-    void addLight(const Vector3F &direction, const Color &color, float deltaSolidAngle);
+    void addLight(const Vector3F &direction, const Color &color, float delta_solid_angle);
 
     /**
      * Evaluates the color for the specified direction.
@@ -51,7 +51,7 @@ public:
 
 private:
     /** The coefficients of SphericalHarmonics3. */
-    std::array<float, 27> _coefficients{};
+    std::array<float, 27> coefficients_{};
 };
 
 }  // namespace vox

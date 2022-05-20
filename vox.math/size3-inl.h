@@ -10,6 +10,7 @@
 #include <cassert>
 
 #include "math_utils.h"
+#include "size3.h"
 
 namespace vox {
 

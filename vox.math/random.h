@@ -29,20 +29,20 @@ public:
 
     template <typename I>
     I randomElement(I begin, I end) const {
-        const int n = distance(begin, end);
-        next(begin, random(0, n - 1));
+        const int kN = distance(begin, end);
+        next(begin, random(0, kN - 1));
         return begin;
     }
 
     uint32_t seed() const;
 
 private:
-    uint32_t _seed{};
-    mutable std::default_random_engine _engine;
+    uint32_t seed_{};
+    mutable std::default_random_engine engine_;
 };
 
 inline bool Random::fithyFifthy() const { return randomf() >= 0.5f; }
 
-inline uint32_t Random::seed() const { return _seed; }
+inline uint32_t Random::seed() const { return seed_; }
 
 }  // namespace vox

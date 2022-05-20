@@ -17,23 +17,23 @@ namespace vox {
 //! \tparam N - Dimension.
 //!
 template <typename T, size_t N>
-class BoundingBox {
+struct BoundingBox {
 public:
     static_assert(N > 0, "Size of static-sized box should be greater than zero.");
 
     using VectorType = Vector<T, N>;
 
     //! Lower corner of the bounding box.
-    VectorType lowerCorner;
+    VectorType lower_corner;
 
     //! Upper corner of the bounding box.
-    VectorType upperCorner;
+    VectorType upper_corner;
 
     //! Default constructor.
     BoundingBox();
 
     //! Constructs a box that tightly covers two points.
-    BoundingBox(const VectorType &point1, const VectorType &point2);
+    BoundingBox(const VectorType &point_1, const VectorType &point_2);
 
     //! Constructs a box with other box instance.
     BoundingBox(const BoundingBox &other);

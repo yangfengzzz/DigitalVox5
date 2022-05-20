@@ -31,17 +31,17 @@ void Vector<T, 3>::set(T s) {
 }
 
 template <typename T>
-void Vector<T, 3>::set(T newX, T newY, T newZ) {
-    x = newX;
-    y = newY;
-    z = newZ;
+void Vector<T, 3>::set(T new_x, T new_y, T new_z) {
+    x = new_x;
+    y = new_y;
+    z = new_z;
 }
 
 template <typename T>
-void Vector<T, 3>::set(const Vector2<T> &pt, T newZ) {
+void Vector<T, 3>::set(const Vector2<T> &pt, T new_z) {
     x = pt.x;
     y = pt.y;
-    z = newZ;
+    z = new_z;
 }
 
 template <typename T>
@@ -49,10 +49,10 @@ template <typename U>
 void Vector<T, 3>::set(const std::initializer_list<U> &lst) {
     VOX_ASSERT(lst.size() >= 3);
 
-    auto inputElem = lst.begin();
-    x = static_cast<T>(*inputElem);
-    y = static_cast<T>(*(++inputElem));
-    z = static_cast<T>(*(++inputElem));
+    auto input_elem = lst.begin();
+    x = static_cast<T>(*input_elem);
+    y = static_cast<T>(*(++input_elem));
+    z = static_cast<T>(*(++input_elem));
 }
 
 template <typename T>
@@ -500,35 +500,35 @@ Vector<T, 3> floor(const Vector<T, 3> &a) {
 // Extensions
 template <typename T>
 Vector<T, 3> monotonicCatmullRom(
-        const Vector<T, 3> &v0, const Vector<T, 3> &v1, const Vector<T, 3> &v2, const Vector<T, 3> &v3, T f) {
-    static const T two = static_cast<T>(2);
-    static const T three = static_cast<T>(3);
+        const Vector<T, 3> &v_0, const Vector<T, 3> &v_1, const Vector<T, 3> &v_2, const Vector<T, 3> &v_3, T f) {
+    static const T kTwo = static_cast<T>(2);
+    static const T kThree = static_cast<T>(3);
 
-    Vector<T, 3> d1 = (v2 - v0) / two;
-    Vector<T, 3> d2 = (v3 - v1) / two;
-    Vector<T, 3> D1 = v2 - v1;
+    Vector<T, 3> d_1 = (v_2 - v_0) / kTwo;
+    Vector<T, 3> d_2 = (v_3 - v_1) / kTwo;
+    Vector<T, 3> dv_1 = v_2 - v_1;
 
-    if (std::fabs(D1.x) < std::numeric_limits<float>::epsilon() || sign(D1.x) != sign(d1.x) ||
-        sign(D1.x) != sign(d2.x)) {
-        d1.x = d2.x = 0;
+    if (std::fabs(dv_1.x) < std::numeric_limits<float>::epsilon() || sign(dv_1.x) != sign(d_1.x) ||
+        sign(dv_1.x) != sign(d_2.x)) {
+        d_1.x = d_2.x = 0;
     }
 
-    if (std::fabs(D1.y) < std::numeric_limits<float>::epsilon() || sign(D1.y) != sign(d1.y) ||
-        sign(D1.y) != sign(d2.y)) {
-        d1.y = d2.y = 0;
+    if (std::fabs(dv_1.y) < std::numeric_limits<float>::epsilon() || sign(dv_1.y) != sign(d_1.y) ||
+        sign(dv_1.y) != sign(d_2.y)) {
+        d_1.y = d_2.y = 0;
     }
 
-    if (std::fabs(D1.z) < std::numeric_limits<float>::epsilon() || sign(D1.z) != sign(d1.z) ||
-        sign(D1.z) != sign(d2.z)) {
-        d1.z = d2.z = 0;
+    if (std::fabs(dv_1.z) < std::numeric_limits<float>::epsilon() || sign(dv_1.z) != sign(d_1.z) ||
+        sign(dv_1.z) != sign(d_2.z)) {
+        d_1.z = d_2.z = 0;
     }
 
-    Vector<T, 3> a3 = d1 + d2 - two * D1;
-    Vector<T, 3> a2 = three * D1 - two * d1 - d2;
-    Vector<T, 3> a1 = d1;
-    Vector<T, 3> a0 = v1;
+    Vector<T, 3> a_3 = d_1 + d_2 - kTwo * dv_1;
+    Vector<T, 3> a_2 = kThree * dv_1 - kTwo * d_1 - d_2;
+    Vector<T, 3> a_1 = d_1;
+    Vector<T, 3> a_0 = v_1;
 
-    return a3 * cubic(f) + a2 * square(f) + a1 * f + a0;
+    return a_3 * cubic(f) + a_2 * square(f) + a_1 * f + a_0;
 }
 
 }  // namespace vox

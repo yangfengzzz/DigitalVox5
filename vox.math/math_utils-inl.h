@@ -134,32 +134,32 @@ inline T clamp(T val, T low, T high) {
 }
 
 template <typename T>
-inline T degreesToRadians(T angleInDegrees) {
-    return angleInDegrees * pi<T>() / 180;
+inline T degreesToRadians(T angle_in_degrees) {
+    return angle_in_degrees * pi<T>() / 180;
 }
 
 template <typename T>
-inline T radiansToDegrees(T angleInRadians) {
-    return angleInRadians * 180 / pi<T>();
+inline T radiansToDegrees(T angle_in_radians) {
+    return angle_in_radians * 180 / pi<T>();
 }
 
 template <typename T>
-inline void getBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t *i, T *f) {
+inline void getBarycentric(T x, ssize_t i_low, ssize_t i_high, ssize_t *i, T *f) {
     T s = std::floor(x);
     *i = static_cast<ssize_t>(s);
 
-    ssize_t offset = -iLow;
-    iLow += offset;
-    iHigh += offset;
+    ssize_t offset = -i_low;
+    i_low += offset;
+    i_high += offset;
 
-    if (iLow == iHigh) {
-        *i = iLow;
+    if (i_low == i_high) {
+        *i = i_low;
         *f = 0;
-    } else if (*i < iLow) {
-        *i = iLow;
+    } else if (*i < i_low) {
+        *i = i_low;
         *f = 0;
-    } else if (*i > iHigh - 1) {
-        *i = iHigh - 1;
+    } else if (*i > i_high - 1) {
+        *i = i_high - 1;
         *f = 1;
     } else {
         *f = static_cast<T>(x - s);
@@ -169,18 +169,18 @@ inline void getBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t *i, T *f) {
 }
 
 template <typename S, typename T>
-inline S lerp(const S &value0, const S &value1, T f) {
-    return (1 - f) * value0 + f * value1;
+inline S lerp(const S &value_0, const S &value_1, T f) {
+    return (1 - f) * value_0 + f * value_1;
 }
 
 template <typename S, typename T>
-inline S bilerp(const S &f00, const S &f10, const S &f01, const S &f11, T tx, T ty) {
-    return lerp(lerp(f00, f10, tx), lerp(f01, f11, tx), ty);
+inline S bilerp(const S &f_00, const S &f_10, const S &f_01, const S &f_11, T tx, T ty) {
+    return lerp(lerp(f_00, f_10, tx), lerp(f_01, f_11, tx), ty);
 }
 
 template <typename S, typename T>
-inline S trilerp(const S &f000,
-                 const S &f100,
+inline S trilerp(const S &f_000,
+                 const S &f_100,
                  const S &f010,
                  const S &f110,
                  const S &f001,
@@ -190,7 +190,7 @@ inline S trilerp(const S &f000,
                  T tx,
                  T ty,
                  T fz) {
-    return lerp(bilerp(f000, f100, f010, f110, tx, ty), bilerp(f001, f101, f011, f111, tx, ty), fz);
+    return lerp(bilerp(f_000, f_100, f010, f110, tx, ty), bilerp(f001, f101, f011, f111, tx, ty), fz);
 }
 
 template <typename S, typename T>

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <algorithm>  // just make cpplint happy..
+#include <algorithm>
 #include <limits>
 #include <tuple>
 
@@ -22,7 +22,7 @@ namespace vox {
 //! \tparam T - Type of the element
 //!
 template <typename T>
-class Vector<T, 3> final {
+struct Vector<T, 3> final {
 public:
     //! X (or the first) component of the vector.
     T x;
@@ -39,10 +39,10 @@ public:
     constexpr Vector() : x(0), y(0), z(0) {}
 
     //! Constructs vector with given parameters \p x_, \p y_, and \p z_.
-    constexpr Vector(T x_, T y_, T z_) : x(x_), y(y_), z(z_) {}
+    constexpr Vector(T x, T y, T z) : x(x), y(y), z(z) {}
 
     //! Constructs vector with a 2-D vector and a scalar.
-    constexpr Vector(const Vector2<T> &v, T z_) : x(v.x), y(v.y), z(z_) {}
+    constexpr Vector(const Vector2<T> &v, T z) : x(v.x), y(v.y), z(z) {}
 
     //! Constructs vector with initializer list.
     template <typename U>
@@ -57,10 +57,10 @@ public:
     void set(T s);
 
     //! Set x, y, and z components with given parameters.
-    void set(T x, T y, T z);
+    void set(T new_x, T new_y, T new_z);
 
     //! Set x, y, and z components with given \p pt.x, \p pt.y, and \p z.
-    void set(const Vector2<T> &pt, T z);
+    void set(const Vector2<T> &pt, T new_z);
 
     //! Set x, y, and z components with given initializer list.
     template <typename U>
@@ -361,7 +361,7 @@ struct ScalarType<Vector3<T>> {
 //! Computes monotonic Catmull-Rom interpolation.
 template <typename T>
 Vector3<T> monotonicCatmullRom(
-        const Vector3<T> &v0, const Vector3<T> &v1, const Vector3<T> &v2, const Vector3<T> &v3, T f);
+        const Vector3<T> &v_0, const Vector3<T> &v_1, const Vector3<T> &v_2, const Vector3<T> &v_3, T f);
 
 }  // namespace vox
 

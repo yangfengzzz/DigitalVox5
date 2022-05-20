@@ -14,7 +14,7 @@ namespace vox {
 
 template <typename T, size_t N>
 Vector<T, N>::Vector() {
-    for (auto &elem : _elements) {
+    for (auto &elem : elements_) {
         elem = static_cast<T>(0);
     }
 }
@@ -40,11 +40,11 @@ Vector<T, N>::Vector(const VectorExpression<T, E> &other) {
 }
 
 template <typename T, size_t N>
-Vector<T, N>::Vector(const Vector &other) : _elements(other._elements) {}
+Vector<T, N>::Vector(const Vector &other) : elements_(other.elements_) {}
 
 template <typename T, size_t N>
 void Vector<T, N>::set(const T &s) {
-    _elements.fill(s);
+    elements_.fill(s);
 }
 
 template <typename T, size_t N>
@@ -53,8 +53,8 @@ void Vector<T, N>::set(const std::initializer_list<U> &lst) {
     VOX_ASSERT(lst.size() >= N);
 
     size_t i = 0;
-    for (const auto &inputElem : lst) {
-        _elements[i] = static_cast<T>(inputElem);
+    for (const auto &input_elem : lst) {
+        elements_[i] = static_cast<T>(input_elem);
         ++i;
     }
 }
@@ -66,12 +66,12 @@ void Vector<T, N>::set(const VectorExpression<T, E> &other) {
 
     // Parallel evaluation of the expression
     const E &expression = other();
-    forEachIndex([&](size_t i) { _elements[i] = expression[i]; });
+    forEachIndex([&](size_t i) { elements_[i] = expression[i]; });
 }
 
 template <typename T, size_t N>
 void Vector<T, N>::swap(Vector &other) {
-    std::swap(other._elements, _elements);
+    std::swap(other.elements_, elements_);
 }
 
 template <typename T, size_t N>
@@ -91,48 +91,48 @@ constexpr size_t Vector<T, N>::size() const {
 
 template <typename T, size_t N>
 T *Vector<T, N>::data() {
-    return _elements.data();
+    return elements_.data();
 }
 
 template <typename T, size_t N>
 const T *Vector<T, N>::data() const {
-    return _elements.data();
+    return elements_.data();
 }
 
 template <typename T, size_t N>
 typename Vector<T, N>::ContainerType::iterator Vector<T, N>::begin() {
-    return _elements.begin();
+    return elements_.begin();
 }
 
 template <typename T, size_t N>
 typename Vector<T, N>::ContainerType::const_iterator Vector<T, N>::begin() const {
-    return _elements.cbegin();
+    return elements_.cbegin();
 }
 
 template <typename T, size_t N>
 typename Vector<T, N>::ContainerType::iterator Vector<T, N>::end() {
-    return _elements.end();
+    return elements_.end();
 }
 
 template <typename T, size_t N>
 typename Vector<T, N>::ContainerType::const_iterator Vector<T, N>::end() const {
-    return _elements.cend();
+    return elements_.cend();
 }
 
 template <typename T, size_t N>
 T Vector<T, N>::at(size_t i) const {
-    return _elements[i];
+    return elements_[i];
 }
 
 template <typename T, size_t N>
 T &Vector<T, N>::at(size_t i) {
-    return _elements[i];
+    return elements_[i];
 }
 
 template <typename T, size_t N>
 T Vector<T, N>::sum() const {
     T ret = 0;
-    for (T val : _elements) {
+    for (T val : elements_) {
         ret += val;
     }
     return ret;
@@ -145,8 +145,8 @@ T Vector<T, N>::avg() const {
 
 template <typename T, size_t N>
 T Vector<T, N>::min() const {
-    T ret = _elements.front();
-    for (T val : _elements) {
+    T ret = elements_.front();
+    for (T val : elements_) {
         ret = std::min(ret, val);
     }
     return ret;
@@ -154,8 +154,8 @@ T Vector<T, N>::min() const {
 
 template <typename T, size_t N>
 T Vector<T, N>::max() const {
-    T ret = _elements.front();
-    for (T val : _elements) {
+    T ret = elements_.front();
+    for (T val : elements_) {
         ret = std::max(ret, val);
     }
     return ret;
@@ -163,8 +163,8 @@ T Vector<T, N>::max() const {
 
 template <typename T, size_t N>
 T Vector<T, N>::absmin() const {
-    T ret = _elements.front();
-    for (T val : _elements) {
+    T ret = elements_.front();
+    for (T val : elements_) {
         ret = vox::absmin(ret, val);
     }
     return ret;
@@ -172,8 +172,8 @@ T Vector<T, N>::absmin() const {
 
 template <typename T, size_t N>
 T Vector<T, N>::absmax() const {
-    T ret = _elements.front();
-    for (T val : _elements) {
+    T ret = elements_.front();
+    for (T val : elements_) {
         ret = vox::absmax(ret, val);
     }
     return ret;
@@ -220,7 +220,7 @@ T Vector<T, N>::distanceSquaredTo(const E &other) const {
 
     T ret = 0;
     for (size_t i = 0; i < N; ++i) {
-        T diff = (_elements[i] - other[i]);
+        T diff = (elements_[i] - other[i]);
         ret += diff * diff;
     }
 
@@ -314,7 +314,7 @@ T Vector<T, N>::dot(const E &v) const {
 
     T ret = 0;
     for (size_t i = 0; i < N; ++i) {
-        ret += _elements[i] * v[i];
+        ret += elements_[i] * v[i];
     }
 
     return ret;
@@ -404,12 +404,12 @@ void Vector<T, N>::forEachIndex(Callback func) const {
 
 template <typename T, size_t N>
 const T &Vector<T, N>::operator[](size_t i) const {
-    return _elements[i];
+    return elements_[i];
 }
 
 template <typename T, size_t N>
 T &Vector<T, N>::operator[](size_t i) {
-    return _elements[i];
+    return elements_[i];
 }
 
 template <typename T, size_t N>
@@ -493,14 +493,14 @@ bool Vector<T, N>::operator!=(const E &v) const {
 template <typename T, size_t N>
 template <typename... Params>
 void Vector<T, N>::setAt(size_t i, T v, Params... params) {
-    _elements[i] = v;
+    elements_[i] = v;
 
     setAt(i + 1, params...);
 }
 
 template <typename T, size_t N>
 void Vector<T, N>::setAt(size_t i, T v) {
-    _elements[i] = v;
+    elements_[i] = v;
 }
 
 }  // namespace vox

@@ -27,7 +27,7 @@ public:
     //! Returns the translation.
     const Vector2<T> &translation() const;
 
-    //! Sets the traslation.
+    //! Sets the translation.
     void setTranslation(const Vector2<T> &translation);
 
     //! Returns the orientation in radians.
@@ -37,34 +37,34 @@ public:
     void setOrientation(double orientation);
 
     //! Transforms a point in world coordinate to the local frame.
-    Point2<T> toLocal(const Point2<T> &pointInWorld) const;
+    Point2<T> toLocal(const Point2<T> &point_in_world) const;
 
     //! Transforms a direction in world coordinate to the local frame.
-    Vector2<T> toLocalDirection(const Vector2<T> &dirInWorld) const;
+    Vector2<T> toLocalDirection(const Vector2<T> &dir_in_world) const;
 
     //! Transforms a ray in world coordinate to the local frame.
-    Ray2<T> toLocal(const Ray2<T> &rayInWorld) const;
+    Ray2<T> toLocal(const Ray2<T> &ray_in_world) const;
 
     //! Transforms a bounding box in world coordinate to the local frame.
-    BoundingBox2<T> toLocal(const BoundingBox2<T> &bboxInWorld) const;
+    BoundingBox2<T> toLocal(const BoundingBox2<T> &bbox_in_world) const;
 
     //! Transforms a point in local space to the world coordinate.
-    Point2<T> toWorld(const Point2<T> &pointInLocal) const;
+    Point2<T> toWorld(const Point2<T> &point_in_local) const;
 
     //! Transforms a direction in local space to the world coordinate.
-    Vector2<T> toWorldDirection(const Vector2<T> &dirInLocal) const;
+    Vector2<T> toWorldDirection(const Vector2<T> &dir_in_local) const;
 
     //! Transforms a ray in local space to the world coordinate.
-    Ray2<T> toWorld(const Ray2<T> &rayInLocal) const;
+    Ray2<T> toWorld(const Ray2<T> &ray_in_local) const;
 
     //! Transforms a bounding box in local space to the world coordinate.
-    BoundingBox2<T> toWorld(const BoundingBox2<T> &bboxInLocal) const;
+    BoundingBox2<T> toWorld(const BoundingBox2<T> &bbox_in_local) const;
 
 private:
-    Vector2<T> _translation;
-    double _orientation = 0.0;
-    double _cosAngle = 1.0;
-    double _sinAngle = 0.0;
+    Vector2<T> translation_;
+    double orientation_ = 0.0;
+    double cos_angle_ = 1.0;
+    double sin_angle_ = 0.0;
 };
 
 //! Float-type 2-D Transform.

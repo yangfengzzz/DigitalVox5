@@ -14,7 +14,7 @@ namespace vox {
 //!
 //! This class defines simple 3-D size data.
 //!
-class Size3 {
+struct Size3 {
 public:
     //! X (or the first) component of the size.
     size_t x;

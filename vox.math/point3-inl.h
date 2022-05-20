@@ -29,17 +29,17 @@ void Point<T, 3>::set(T s) {
 }
 
 template <typename T>
-void Point<T, 3>::set(T newX, T newY, T newZ) {
-    x = newX;
-    y = newY;
-    z = newZ;
+void Point<T, 3>::set(T new_x, T new_y, T new_z) {
+    x = new_x;
+    y = new_y;
+    z = new_z;
 }
 
 template <typename T>
-void Point<T, 3>::set(const Point2<T> &pt, T newZ) {
+void Point<T, 3>::set(const Point2<T> &pt, T new_z) {
     x = pt.x;
     y = pt.y;
-    z = newZ;
+    z = new_z;
 }
 
 template <typename T>
@@ -47,10 +47,10 @@ template <typename U>
 void Point<T, 3>::set(const std::initializer_list<U> &lst) {
     assert(lst.size() >= 3);
 
-    auto inputElem = lst.begin();
-    x = static_cast<T>(*inputElem);
-    y = static_cast<T>(*(++inputElem));
-    z = static_cast<T>(*(++inputElem));
+    auto input_elem = lst.begin();
+    x = static_cast<T>(*input_elem);
+    y = static_cast<T>(*(++input_elem));
+    z = static_cast<T>(*(++input_elem));
 }
 
 template <typename T>

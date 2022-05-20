@@ -28,9 +28,9 @@ void Point<T, 2>::set(T s) {
 }
 
 template <typename T>
-void Point<T, 2>::set(T newX, T newY) {
-    x = newX;
-    y = newY;
+void Point<T, 2>::set(T new_x, T new_y) {
+    x = new_x;
+    y = new_y;
 }
 
 template <typename T>
@@ -38,9 +38,9 @@ template <typename U>
 void Point<T, 2>::set(const std::initializer_list<U> &lst) {
     VOX_ASSERT(lst.size() >= 2);
 
-    auto inputElem = lst.begin();
-    x = static_cast<T>(*inputElem);
-    y = static_cast<T>(*(++inputElem));
+    auto input_elem = lst.begin();
+    x = static_cast<T>(*input_elem);
+    y = static_cast<T>(*(++input_elem));
 }
 
 template <typename T>

@@ -67,8 +67,8 @@ ModelMeshPtr PrimitiveMesh::create_sphere(float radius,
     }
     
     auto &bounds = mesh->bounds_;
-    bounds.lowerCorner = Point3F(-radius, -radius, -radius);
-    bounds.upperCorner = Point3F(radius, radius, radius);
+    bounds.lower_corner = Point3F(-radius, -radius, -radius);
+    bounds.upper_corner = Point3F(radius, radius, radius);
     
     PrimitiveMesh::initialize(mesh, positions, normals, uvs, indices, no_longer_accessible);
     return mesh;
@@ -212,8 +212,8 @@ ModelMeshPtr PrimitiveMesh::create_cuboid(float width,
     indices[35] = 21;
     
     auto &bounds = mesh->bounds_;
-    bounds.lowerCorner = Point3F(-kHalfWidth, -kHalfHeight, -kHalfDepth);
-    bounds.upperCorner = Point3F(kHalfWidth, kHalfHeight, kHalfDepth);
+    bounds.lower_corner = Point3F(-kHalfWidth, -kHalfHeight, -kHalfDepth);
+    bounds.upper_corner = Point3F(kHalfWidth, kHalfHeight, kHalfDepth);
     
     PrimitiveMesh::initialize(mesh, positions, normals, uvs, indices, no_longer_accessible);
     return mesh;
@@ -280,8 +280,8 @@ ModelMeshPtr PrimitiveMesh::create_plane(float width,
     }
     
     auto &bounds = mesh->bounds_;
-    bounds.lowerCorner = Point3F(-kHalfWidth, 0, -kHalfHeight);
-    bounds.upperCorner = Point3F(kHalfWidth, 0, kHalfHeight);
+    bounds.lower_corner = Point3F(-kHalfWidth, 0, -kHalfHeight);
+    bounds.upper_corner = Point3F(kHalfWidth, 0, kHalfHeight);
     
     PrimitiveMesh::initialize(mesh, positions, normals, uvs, indices, no_longer_accessible);
     return mesh;
@@ -426,8 +426,8 @@ ModelMeshPtr PrimitiveMesh::create_cylinder(float radius_top,
     
     auto &bounds = mesh->bounds_;
     const auto kRadiusMax = std::max(radius_top, radius_bottom);
-    bounds.lowerCorner = Point3F(-kRadiusMax, -kHalfHeight, -kRadiusMax);
-    bounds.upperCorner = Point3F(kRadiusMax, kHalfHeight, kRadiusMax);
+    bounds.lower_corner = Point3F(-kRadiusMax, -kHalfHeight, -kRadiusMax);
+    bounds.upper_corner = Point3F(kRadiusMax, kHalfHeight, kRadiusMax);
     
     PrimitiveMesh::initialize(mesh, positions, normals, uvs, indices, no_longer_accessible);
     return mesh;
@@ -496,8 +496,8 @@ ModelMeshPtr PrimitiveMesh::create_torus(float radius,
     
     auto &bounds = mesh->bounds_;
     const auto kOuterRadius = radius + tube_radius;
-    bounds.lowerCorner = Point3F(-kOuterRadius, -kOuterRadius, -tube_radius);
-    bounds.upperCorner = Point3F(kOuterRadius, kOuterRadius, tube_radius);
+    bounds.lower_corner = Point3F(-kOuterRadius, -kOuterRadius, -tube_radius);
+    bounds.upper_corner = Point3F(kOuterRadius, kOuterRadius, tube_radius);
     
     PrimitiveMesh::initialize(mesh, positions, normals, uvs, indices, no_longer_accessible);
     return mesh;
@@ -608,8 +608,8 @@ ModelMeshPtr PrimitiveMesh::create_cone(float radius,
     }
     
     auto &bounds = mesh->bounds_;
-    bounds.lowerCorner = Point3F(-radius, -kHalfHeight, -radius);
-    bounds.upperCorner = Point3F(radius, kHalfHeight, radius);
+    bounds.lower_corner = Point3F(-radius, -kHalfHeight, -radius);
+    bounds.upper_corner = Point3F(radius, kHalfHeight, radius);
     
     PrimitiveMesh::initialize(mesh, positions, normals, uvs, indices, no_longer_accessible);
     return mesh;
@@ -710,8 +710,8 @@ ModelMeshPtr PrimitiveMesh::create_capsule(float radius,
                                       );
     
     auto &bounds = mesh->bounds_;
-    bounds.lowerCorner = Point3F(-radius, -radius - kHalfHeight, -radius);
-    bounds.upperCorner = Point3F(radius, radius + kHalfHeight, radius);
+    bounds.lower_corner = Point3F(-radius, -radius - kHalfHeight, -radius);
+    bounds.upper_corner = Point3F(radius, radius + kHalfHeight, radius);
     
     PrimitiveMesh::initialize(mesh, positions, normals, uvs, indices, no_longer_accessible);
     return mesh;

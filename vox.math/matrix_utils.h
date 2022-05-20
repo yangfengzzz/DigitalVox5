@@ -54,19 +54,19 @@ inline Matrix<T, 4, 4> makeAffineMatrix(const Vector3<T> &s, const Quaternion<T>
     T z = q.z;
     T w = q.w;
 
-    T x2 = x + x;
-    T y2 = y + y;
-    T z2 = z + z;
+    T x_2 = x + x;
+    T y_2 = y + y;
+    T z_2 = z + z;
 
-    T xx = x * x2;
-    T xy = x * y2;
-    T xz = x * z2;
-    T yy = y * y2;
-    T yz = y * z2;
-    T zz = z * z2;
-    T wx = w * x2;
-    T wy = w * y2;
-    T wz = w * z2;
+    T xx = x * x_2;
+    T xy = x * y_2;
+    T xz = x * z_2;
+    T yy = y * y_2;
+    T yz = y * z_2;
+    T zz = z * z_2;
+    T wx = w * x_2;
+    T wy = w * y_2;
+    T wz = w * z_2;
     T sx = s.x;
     T sy = s.y;
     T sz = s.z;
@@ -88,19 +88,19 @@ inline Matrix<T, 4, 4> makeAffineMatrix(const Vector3<T> &s, const Quaternion<T>
  */
 template <typename T>
 inline Matrix<T, 4, 4> makeLookAtMatrix(const Point3<T> &eye, const Point3<T> &target, const Vector3<T> &up) {
-    Vector3<T> zAxis = eye - target;
-    zAxis.normalize();
-    Vector3<T> xAxis = up.cross(zAxis);
-    xAxis.normalize();
-    Vector3<T> yAxis = zAxis.cross(xAxis);
+    Vector3<T> z_axis = eye - target;
+    z_axis.normalize();
+    Vector3<T> x_axis = up.cross(z_axis);
+    x_axis.normalize();
+    Vector3<T> y_axis = z_axis.cross(x_axis);
 
-    return Matrix<T, 4, 4>(xAxis.x, yAxis.x, zAxis.x, 0,
+    return Matrix<T, 4, 4>(x_axis.x, y_axis.x, z_axis.x, 0,
 
-                           xAxis.y, yAxis.y, zAxis.y, 0,
+                           x_axis.y, y_axis.y, z_axis.y, 0,
 
-                           xAxis.z, yAxis.z, zAxis.z, 0,
+                           x_axis.z, y_axis.z, z_axis.z, 0,
 
-                           -eye.dot(xAxis), -eye.dot(yAxis), -eye.dot(zAxis), 1);
+                           -eye.dot(x_axis), -eye.dot(y_axis), -eye.dot(z_axis), 1);
 }
 
 /**
@@ -159,53 +159,53 @@ inline Matrix<T, 4, 4> makePerspective(T fovy, T aspect, T near, T far) {
 template <typename T>
 bool decompose(const Matrix<T, 4, 4> &matrix, Point3<T> &translation, Quaternion<T> &rotation, Vector3<T> &scale) {
     Matrix<T, 3, 3> rm;
-    const auto &m11 = matrix[0];
-    const auto &m12 = matrix[1];
-    const auto &m13 = matrix[2];
-    const auto &m14 = matrix[3];
-    const auto &m21 = matrix[4];
-    const auto &m22 = matrix[5];
-    const auto &m23 = matrix[6];
-    const auto &m24 = matrix[7];
-    const auto &m31 = matrix[8];
-    const auto &m32 = matrix[9];
-    const auto &m33 = matrix[10];
-    const auto &m34 = matrix[11];
+    const auto &m_11 = matrix[0];
+    const auto &m_12 = matrix[1];
+    const auto &m_13 = matrix[2];
+    const auto &m_14 = matrix[3];
+    const auto &m_21 = matrix[4];
+    const auto &m_22 = matrix[5];
+    const auto &m_23 = matrix[6];
+    const auto &m_24 = matrix[7];
+    const auto &m_31 = matrix[8];
+    const auto &m_32 = matrix[9];
+    const auto &m_33 = matrix[10];
+    const auto &m_34 = matrix[11];
 
     translation.x = matrix[12];
     translation.y = matrix[13];
     translation.z = matrix[14];
 
-    const auto xs = sign(m11 * m12 * m13 * m14);
-    const auto ys = sign(m21 * m22 * m23 * m24);
-    const auto zs = sign(m31 * m32 * m33 * m34);
+    const auto kXs = sign(m_11 * m_12 * m_13 * m_14);
+    const auto kYs = sign(m_21 * m_22 * m_23 * m_24);
+    const auto kZs = sign(m_31 * m_32 * m_33 * m_34);
 
-    const auto sx = xs * std::sqrt(m11 * m11 + m12 * m12 + m13 * m13);
-    const auto sy = ys * std::sqrt(m21 * m21 + m22 * m22 + m23 * m23);
-    const auto sz = zs * std::sqrt(m31 * m31 + m32 * m32 + m33 * m33);
+    const auto kSx = kXs * std::sqrt(m_11 * m_11 + m_12 * m_12 + m_13 * m_13);
+    const auto kSy = kYs * std::sqrt(m_21 * m_21 + m_22 * m_22 + m_23 * m_23);
+    const auto kSz = kZs * std::sqrt(m_31 * m_31 + m_32 * m_32 + m_33 * m_33);
 
-    scale.x = sx;
-    scale.y = sy;
-    scale.z = sz;
+    scale.x = kSx;
+    scale.y = kSy;
+    scale.z = kSz;
 
-    if (std::abs(sx) < std::numeric_limits<T>::epsilon() || std::abs(sy) < std::numeric_limits<T>::epsilon() ||
-        std::abs(sz) < std::numeric_limits<T>::epsilon()) {
+    if (std::abs(kSx) < std::numeric_limits<T>::epsilon() || std::abs(kSy) < std::numeric_limits<T>::epsilon() ||
+        std::abs(kSz) < std::numeric_limits<T>::epsilon()) {
         rotation = Quaternion<T>::makeIdentity();
         return false;
     } else {
-        const auto invSX = 1 / sx;
-        const auto invSY = 1 / sy;
-        const auto invSZ = 1 / sz;
+        const auto kInvSx = 1 / kSx;
+        const auto kInvSy = 1 / kSy;
+        const auto kInvSz = 1 / kSz;
 
-        rm[0] = m11 * invSX;
-        rm[1] = m12 * invSX;
-        rm[2] = m13 * invSX;
-        rm[3] = m21 * invSY;
-        rm[4] = m22 * invSY;
-        rm[5] = m23 * invSY;
-        rm[6] = m31 * invSZ;
-        rm[7] = m32 * invSZ;
-        rm[8] = m33 * invSZ;
+        rm[0] = m_11 * kInvSx;
+        rm[1] = m_12 * kInvSx;
+        rm[2] = m_13 * kInvSx;
+        rm[3] = m_21 * kInvSy;
+        rm[4] = m_22 * kInvSy;
+        rm[5] = m_23 * kInvSy;
+        rm[6] = m_31 * kInvSz;
+        rm[7] = m_32 * kInvSz;
+        rm[8] = m_33 * kInvSz;
         rotation = Quaternion<T>(rm);
         return true;
     }
@@ -221,29 +221,29 @@ Quaternion<T> getRotation(const Matrix<T, 4, 4> &matrix) {
     Quaternion<T> quat;
 
     if (trace > std::numeric_limits<T>::epsilon()) {
-        T S = std::sqrt(trace + 1.0) * 2;
-        quat.w = 0.25 * S;
-        quat.x = (matrix[6] - matrix[9]) / S;
-        quat.y = (matrix[8] - matrix[2]) / S;
-        quat.z = (matrix[1] - matrix[4]) / S;
+        T s = std::sqrt(trace + 1.0) * 2;
+        quat.w = 0.25 * s;
+        quat.x = (matrix[6] - matrix[9]) / s;
+        quat.y = (matrix[8] - matrix[2]) / s;
+        quat.z = (matrix[1] - matrix[4]) / s;
     } else if (matrix[0] > matrix[5] && matrix[0] > matrix[10]) {
-        T S = std::sqrt(1.0 + matrix[0] - matrix[5] - matrix[10]) * 2;
-        quat.w = (matrix[6] - matrix[9]) / S;
-        quat.x = 0.25 * S;
-        quat.y = (matrix[1] + matrix[4]) / S;
-        quat.z = (matrix[8] + matrix[2]) / S;
+        T s = std::sqrt(1.0 + matrix[0] - matrix[5] - matrix[10]) * 2;
+        quat.w = (matrix[6] - matrix[9]) / s;
+        quat.x = 0.25 * s;
+        quat.y = (matrix[1] + matrix[4]) / s;
+        quat.z = (matrix[8] + matrix[2]) / s;
     } else if (matrix[5] > matrix[10]) {
-        T S = std::sqrt(1.0 + matrix[5] - matrix[0] - matrix[10]) * 2;
-        quat.w = (matrix[8] - matrix[2]) / S;
-        quat.x = (matrix[1] + matrix[4]) / S;
-        quat.y = 0.25 * S;
-        quat.z = (matrix[6] + matrix[9]) / S;
+        T s = std::sqrt(1.0 + matrix[5] - matrix[0] - matrix[10]) * 2;
+        quat.w = (matrix[8] - matrix[2]) / s;
+        quat.x = (matrix[1] + matrix[4]) / s;
+        quat.y = 0.25 * s;
+        quat.z = (matrix[6] + matrix[9]) / s;
     } else {
-        T S = std::sqrt(1.0 + matrix[10] - matrix[0] - matrix[5]) * 2;
-        quat.w = (matrix[1] - matrix[4]) / S;
-        quat.x = (matrix[8] + matrix[2]) / S;
-        quat.y = (matrix[6] + matrix[9]) / S;
-        quat.z = 0.25 * S;
+        T s = std::sqrt(1.0 + matrix[10] - matrix[0] - matrix[5]) * 2;
+        quat.w = (matrix[1] - matrix[4]) / s;
+        quat.x = (matrix[8] + matrix[2]) / s;
+        quat.y = (matrix[6] + matrix[9]) / s;
+        quat.z = 0.25 * s;
     }
 
     return quat;
@@ -255,14 +255,14 @@ Quaternion<T> getRotation(const Matrix<T, 4, 4> &matrix) {
  */
 template <typename T>
 Vector3<T> getScaling(const Matrix<T, 4, 4> &matrix) {
-    T m11 = matrix[0], m12 = matrix[1], m13 = matrix[2];
-    T m21 = matrix[4], m22 = matrix[5], m23 = matrix[6];
-    T m31 = matrix[8], m32 = matrix[9], m33 = matrix[10];
+    T m_11 = matrix[0], m_12 = matrix[1], m_13 = matrix[2];
+    T m_21 = matrix[4], m_22 = matrix[5], m_23 = matrix[6];
+    T m_31 = matrix[8], m_32 = matrix[9], m_33 = matrix[10];
 
     Vector3<T> scaling;
-    scaling.x = std::sqrt(m11 * m11 + m12 * m12 + m13 * m13);
-    scaling.y = std::sqrt(m21 * m21 + m22 * m22 + m23 * m23);
-    scaling.z = std::sqrt(m31 * m31 + m32 * m32 + m33 * m33);
+    scaling.x = std::sqrt(m_11 * m_11 + m_12 * m_12 + m_13 * m_13);
+    scaling.y = std::sqrt(m_21 * m_21 + m_22 * m_22 + m_23 * m_23);
+    scaling.z = std::sqrt(m_31 * m_31 + m_32 * m_32 + m_33 * m_33);
 
     return scaling;
 }

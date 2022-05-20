@@ -14,7 +14,7 @@ namespace vox {
 
 template <typename T, size_t N>
 Point<T, N>::Point() {
-    for (auto &elem : _elements) {
+    for (auto &elem : elements_) {
         elem = static_cast<T>(0);
     }
 }
@@ -34,13 +34,13 @@ Point<T, N>::Point(const std::initializer_list<U> &lst) {
 
     size_t i = 0;
     for (const auto &inputElem : lst) {
-        _elements[i] = static_cast<T>(inputElem);
+        elements_[i] = static_cast<T>(inputElem);
         ++i;
     }
 }
 
 template <typename T, size_t N>
-Point<T, N>::Point(const Point &other) : _elements(other._elements) {}
+Point<T, N>::Point(const Point &other) : elements_(other.elements_) {}
 
 template <typename T, size_t N>
 template <typename U>
@@ -49,14 +49,14 @@ void Point<T, N>::set(const std::initializer_list<U> &lst) {
 
     size_t i = 0;
     for (const auto &inputElem : lst) {
-        _elements[i] = static_cast<T>(inputElem);
+        elements_[i] = static_cast<T>(inputElem);
         ++i;
     }
 }
 
 template <typename T, size_t N>
 void Point<T, N>::set(const Point &other) {
-    _elements = other._elements;
+    elements_ = other.elements_;
 }
 
 template <typename T, size_t N>
@@ -74,25 +74,25 @@ Point<T, N> &Point<T, N>::operator=(const Point &other) {
 
 template <typename T, size_t N>
 const T &Point<T, N>::operator[](size_t i) const {
-    return _elements[i];
+    return elements_[i];
 }
 
 template <typename T, size_t N>
 T &Point<T, N>::operator[](size_t i) {
-    return _elements[i];
+    return elements_[i];
 }
 
 template <typename T, size_t N>
 template <typename... Params>
 void Point<T, N>::setAt(size_t i, T v, Params... params) {
-    _elements[i] = v;
+    elements_[i] = v;
 
     setAt(i + 1, params...);
 }
 
 template <typename T, size_t N>
 void Point<T, N>::setAt(size_t i, T v) {
-    _elements[i] = v;
+    elements_[i] = v;
 }
 
 }  // namespace vox

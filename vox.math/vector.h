@@ -25,7 +25,7 @@ namespace vox {
 //!
 
 template <typename T, size_t N>
-class Vector final : public VectorExpression<T, Vector<T, N>> {
+struct Vector final : public VectorExpression<T, Vector<T, N>> {
 public:
     static_assert(N > 0, "Size of static-sized vector should be greater than zero.");
     static_assert(!(N == 2) && !(N == 3) && !(N == 4), "Use specialized vector for 2, 3, and 4 vector.");
@@ -324,7 +324,7 @@ public:
     bool operator!=(const E &v) const;
 
 private:
-    ContainerType _elements;
+    ContainerType elements_;
 
     template <typename... Params>
     void setAt(size_t i, T v, Params... params);

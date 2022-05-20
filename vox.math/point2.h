@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <algorithm>  // just make cpplint happy..
+#include <algorithm>
 
 #include "point.h"
 #include "vector2.h"
@@ -20,7 +20,7 @@ namespace vox {
 //! \tparam T - Type of the element
 //!
 template <typename T>
-class Point<T, 2> {
+struct Point<T, 2> {
 public:
     static_assert(std::is_arithmetic<T>::value, "Point only can be instantiated with arithmetic types");
 
@@ -36,7 +36,7 @@ public:
     constexpr Point() : x(0), y(0) {}
 
     //! Constructs point with given parameters \p x_ and \p y_.
-    constexpr Point(T x_, T y_) : x(x_), y(y_) {}
+    constexpr Point(T x, T y) : x(x), y(y) {}
 
     //! Constructs point with initializer list.
     template <typename U>
@@ -51,7 +51,7 @@ public:
     void set(T s);
 
     //! Set x and y components with given parameters.
-    void set(T x, T y);
+    void set(T new_x, T new_y);
 
     //! Set x and y components with given initializer list.
     template <typename U>

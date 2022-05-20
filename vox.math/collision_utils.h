@@ -82,11 +82,11 @@ float intersectsRayAndBox(const Ray3F &ray, const BoundingBox3F &box);
 
 /**
  * Check whether the boxes intersect.
- * @param boxA - The first box to check
- * @param boxB - The second box to check
+ * @param box_a - The first box to check
+ * @param box_b - The second box to check
  * @returns True if the boxes intersect, false otherwise
  */
-bool intersectsBoxAndBox(const BoundingBox3F &boxA, const BoundingBox3F &boxB);
+bool intersectsBoxAndBox(const BoundingBox3F &box_a, const BoundingBox3F &box_b);
 
 /**
  * Get whether or not a specified bounding box intersects with this frustum (Contains or Intersects).

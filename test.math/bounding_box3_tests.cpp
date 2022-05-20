@@ -13,38 +13,38 @@ TEST(BoundingBox3, Constructors) {
     {
         BoundingBox3D box;
 
-        EXPECT_DOUBLE_EQ(kMaxD, box.lowerCorner.x);
-        EXPECT_DOUBLE_EQ(kMaxD, box.lowerCorner.y);
-        EXPECT_DOUBLE_EQ(kMaxD, box.lowerCorner.z);
+        EXPECT_DOUBLE_EQ(kMaxD, box.lower_corner.x);
+        EXPECT_DOUBLE_EQ(kMaxD, box.lower_corner.y);
+        EXPECT_DOUBLE_EQ(kMaxD, box.lower_corner.z);
 
-        EXPECT_DOUBLE_EQ(-kMaxD, box.upperCorner.x);
-        EXPECT_DOUBLE_EQ(-kMaxD, box.upperCorner.y);
-        EXPECT_DOUBLE_EQ(-kMaxD, box.upperCorner.z);
+        EXPECT_DOUBLE_EQ(-kMaxD, box.upper_corner.x);
+        EXPECT_DOUBLE_EQ(-kMaxD, box.upper_corner.y);
+        EXPECT_DOUBLE_EQ(-kMaxD, box.upper_corner.z);
     }
 
     {
         BoundingBox3D box(Point3D(-2.0, 3.0, 5.0), Point3D(4.0, -2.0, 1.0));
 
-        EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner.x);
-        EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner.y);
-        EXPECT_DOUBLE_EQ(1.0, box.lowerCorner.z);
+        EXPECT_DOUBLE_EQ(-2.0, box.lower_corner.x);
+        EXPECT_DOUBLE_EQ(-2.0, box.lower_corner.y);
+        EXPECT_DOUBLE_EQ(1.0, box.lower_corner.z);
 
-        EXPECT_DOUBLE_EQ(4.0, box.upperCorner.x);
-        EXPECT_DOUBLE_EQ(3.0, box.upperCorner.y);
-        EXPECT_DOUBLE_EQ(5.0, box.upperCorner.z);
+        EXPECT_DOUBLE_EQ(4.0, box.upper_corner.x);
+        EXPECT_DOUBLE_EQ(3.0, box.upper_corner.y);
+        EXPECT_DOUBLE_EQ(5.0, box.upper_corner.z);
     }
 
     {
         BoundingBox3D box(Point3D(-2.0, 3.0, 5.0), Point3D(4.0, -2.0, 1.0));
         BoundingBox3D box2(box);
 
-        EXPECT_DOUBLE_EQ(-2.0, box2.lowerCorner.x);
-        EXPECT_DOUBLE_EQ(-2.0, box2.lowerCorner.y);
-        EXPECT_DOUBLE_EQ(1.0, box2.lowerCorner.z);
+        EXPECT_DOUBLE_EQ(-2.0, box2.lower_corner.x);
+        EXPECT_DOUBLE_EQ(-2.0, box2.lower_corner.y);
+        EXPECT_DOUBLE_EQ(1.0, box2.lower_corner.z);
 
-        EXPECT_DOUBLE_EQ(4.0, box2.upperCorner.x);
-        EXPECT_DOUBLE_EQ(3.0, box2.upperCorner.y);
-        EXPECT_DOUBLE_EQ(5.0, box2.upperCorner.z);
+        EXPECT_DOUBLE_EQ(4.0, box2.upper_corner.x);
+        EXPECT_DOUBLE_EQ(3.0, box2.upper_corner.y);
+        EXPECT_DOUBLE_EQ(5.0, box2.upper_corner.z);
     }
 }
 
@@ -145,14 +145,14 @@ TEST(BoundingBox3, ClosestIntersection) {
 
     Ray3D ray1(Point3D(-4, -3, 0), Vector3D(1, 1, 0).normalized());
     BoundingBoxRayIntersection3D intersection1 = box.closestIntersection(ray1);
-    EXPECT_TRUE(intersection1.isIntersecting);
-    EXPECT_DOUBLE_EQ(Vector3D(2, 2, 0).length(), intersection1.tNear);
-    EXPECT_DOUBLE_EQ(Vector3D(3, 3, 0).length(), intersection1.tFar);
+    EXPECT_TRUE(intersection1.is_intersecting);
+    EXPECT_DOUBLE_EQ(Vector3D(2, 2, 0).length(), intersection1.t_near);
+    EXPECT_DOUBLE_EQ(Vector3D(3, 3, 0).length(), intersection1.t_far);
 
     Ray3D ray2(Point3D(0, -1, 0), Vector3D(-2, 1, 1).normalized());
     BoundingBoxRayIntersection3D intersection2 = box.closestIntersection(ray2);
-    EXPECT_TRUE(intersection2.isIntersecting);
-    EXPECT_DOUBLE_EQ(Vector3D(2, 1, 1).length(), intersection2.tNear);
+    EXPECT_TRUE(intersection2.is_intersecting);
+    EXPECT_DOUBLE_EQ(Vector3D(2, 1, 1).length(), intersection2.t_near);
 }
 
 TEST(BoundingBox3, MidPoint) {
@@ -184,13 +184,13 @@ TEST(BoundingBox3, Reset) {
 
     static const double maxDouble = std::numeric_limits<double>::max();
 
-    EXPECT_DOUBLE_EQ(maxDouble, box.lowerCorner.x);
-    EXPECT_DOUBLE_EQ(maxDouble, box.lowerCorner.y);
-    EXPECT_DOUBLE_EQ(maxDouble, box.lowerCorner.z);
+    EXPECT_DOUBLE_EQ(maxDouble, box.lower_corner.x);
+    EXPECT_DOUBLE_EQ(maxDouble, box.lower_corner.y);
+    EXPECT_DOUBLE_EQ(maxDouble, box.lower_corner.z);
 
-    EXPECT_DOUBLE_EQ(-maxDouble, box.upperCorner.x);
-    EXPECT_DOUBLE_EQ(-maxDouble, box.upperCorner.y);
-    EXPECT_DOUBLE_EQ(-maxDouble, box.upperCorner.z);
+    EXPECT_DOUBLE_EQ(-maxDouble, box.upper_corner.x);
+    EXPECT_DOUBLE_EQ(-maxDouble, box.upper_corner.y);
+    EXPECT_DOUBLE_EQ(-maxDouble, box.upper_corner.z);
 }
 
 TEST(BoundingBox3, Merge) {
@@ -201,13 +201,13 @@ TEST(BoundingBox3, Merge) {
 
         box.merge(point);
 
-        EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner.x);
-        EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner.y);
-        EXPECT_DOUBLE_EQ(-1.0, box.lowerCorner.z);
+        EXPECT_DOUBLE_EQ(-2.0, box.lower_corner.x);
+        EXPECT_DOUBLE_EQ(-2.0, box.lower_corner.y);
+        EXPECT_DOUBLE_EQ(-1.0, box.lower_corner.z);
 
-        EXPECT_DOUBLE_EQ(5.0, box.upperCorner.x);
-        EXPECT_DOUBLE_EQ(3.0, box.upperCorner.y);
-        EXPECT_DOUBLE_EQ(5.0, box.upperCorner.z);
+        EXPECT_DOUBLE_EQ(5.0, box.upper_corner.x);
+        EXPECT_DOUBLE_EQ(3.0, box.upper_corner.y);
+        EXPECT_DOUBLE_EQ(5.0, box.upper_corner.z);
     }
 
     // Merge with other box
@@ -217,13 +217,13 @@ TEST(BoundingBox3, Merge) {
 
         box1.merge(box2);
 
-        EXPECT_DOUBLE_EQ(-2.0, box1.lowerCorner.x);
-        EXPECT_DOUBLE_EQ(-2.0, box1.lowerCorner.y);
-        EXPECT_DOUBLE_EQ(1.0, box1.lowerCorner.z);
+        EXPECT_DOUBLE_EQ(-2.0, box1.lower_corner.x);
+        EXPECT_DOUBLE_EQ(-2.0, box1.lower_corner.y);
+        EXPECT_DOUBLE_EQ(1.0, box1.lower_corner.z);
 
-        EXPECT_DOUBLE_EQ(8.0, box1.upperCorner.x);
-        EXPECT_DOUBLE_EQ(3.0, box1.upperCorner.y);
-        EXPECT_DOUBLE_EQ(7.0, box1.upperCorner.z);
+        EXPECT_DOUBLE_EQ(8.0, box1.upper_corner.x);
+        EXPECT_DOUBLE_EQ(3.0, box1.upper_corner.y);
+        EXPECT_DOUBLE_EQ(7.0, box1.upper_corner.z);
     }
 }
 
@@ -231,13 +231,13 @@ TEST(BoundingBox3, Expand) {
     BoundingBox3D box(Point3D(-2.0, -2.0, 1.0), Point3D(4.0, 3.0, 5.0));
     box.expand(3.0);
 
-    EXPECT_DOUBLE_EQ(-5.0, box.lowerCorner.x);
-    EXPECT_DOUBLE_EQ(-5.0, box.lowerCorner.y);
-    EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner.z);
+    EXPECT_DOUBLE_EQ(-5.0, box.lower_corner.x);
+    EXPECT_DOUBLE_EQ(-5.0, box.lower_corner.y);
+    EXPECT_DOUBLE_EQ(-2.0, box.lower_corner.z);
 
-    EXPECT_DOUBLE_EQ(7.0, box.upperCorner.x);
-    EXPECT_DOUBLE_EQ(6.0, box.upperCorner.y);
-    EXPECT_DOUBLE_EQ(8.0, box.upperCorner.z);
+    EXPECT_DOUBLE_EQ(7.0, box.upper_corner.x);
+    EXPECT_DOUBLE_EQ(6.0, box.upper_corner.y);
+    EXPECT_DOUBLE_EQ(8.0, box.upper_corner.z);
 }
 
 TEST(BoundingBox3, Corner) {
@@ -257,16 +257,16 @@ TEST(BoundingBox3D, IsEmpty) {
     BoundingBox3D box(Point3D(-2.0, -2.0, 1.0), Point3D(4.0, 3.0, 5.0));
     EXPECT_FALSE(box.isEmpty());
 
-    box.lowerCorner = Point3D(5.0, 1.0, 3.0);
+    box.lower_corner = Point3D(5.0, 1.0, 3.0);
     EXPECT_TRUE(box.isEmpty());
 
-    box.lowerCorner = Point3D(2.0, 4.0, 3.0);
+    box.lower_corner = Point3D(2.0, 4.0, 3.0);
     EXPECT_TRUE(box.isEmpty());
 
-    box.lowerCorner = Point3D(2.0, 1.0, 6.0);
+    box.lower_corner = Point3D(2.0, 1.0, 6.0);
     EXPECT_TRUE(box.isEmpty());
 
-    box.lowerCorner = Point3D(4.0, 1.0, 3.0);
+    box.lower_corner = Point3D(4.0, 1.0, 3.0);
     EXPECT_TRUE(box.isEmpty());
 }
 
@@ -278,16 +278,16 @@ TEST(BoundingBox3D, transform) {
 
     const auto newMin = Point3D(-1, -1.5, -3);
     const auto newMax = Point3D(3, 2.5, 1);
-    EXPECT_VECTOR3_EQ(box.lowerCorner, Point3D(newMin.x, newMin.y, newMin.z));
-    EXPECT_VECTOR3_EQ(box.upperCorner, Point3D(newMax.x, newMax.y, newMax.z));
+    EXPECT_VECTOR3_EQ(box.lower_corner, Point3D(newMin.x, newMin.y, newMin.z));
+    EXPECT_VECTOR3_EQ(box.upper_corner, Point3D(newMax.x, newMax.y, newMax.z));
 }
 
 TEST(BoundingBox3D, merge) {
     auto box1 = BoundingBox3D(Point3D(-1, -1, -1), Point3D(2, 2, 2));
     const auto box2 = BoundingBox3D(Point3D(-2, -0.5, -2), Point3D(3, 0, 3));
     box1.merge(box2);
-    EXPECT_VECTOR3_EQ(box1.lowerCorner, Point3D(-2, -1, -2));
-    EXPECT_VECTOR3_EQ(box1.upperCorner, Point3D(3, 2, 3));
+    EXPECT_VECTOR3_EQ(box1.lower_corner, Point3D(-2, -1, -2));
+    EXPECT_VECTOR3_EQ(box1.upper_corner, Point3D(3, 2, 3));
 }
 
 TEST(BoundingBox3D, getCenter) {

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <algorithm>  // just make cpplint happy..
+#include <algorithm>
 
 #include "point2.h"
 #include "vector3.h"
@@ -20,9 +20,9 @@ namespace vox {
 //! \tparam T - Type of the element
 //!
 template <typename T>
-class Point<T, 3> {
+struct Point<T, 3> {
 public:
-    static_assert(std::is_arithmetic<T>::value, "Point only can be instantiated with arithematic types");
+    static_assert(std::is_arithmetic<T>::value, "Point only can be instantiated with arithmetic types");
 
     //! X (or the first) component of the point.
     T x;
@@ -39,10 +39,10 @@ public:
     constexpr Point() : x(0), y(0), z(0) {}
 
     //! Constructs point with given parameters \p x_, \p y_, and \p z_.
-    constexpr Point(T x_, T y_, T z_) : x(x_), y(y_), z(z_) {}
+    constexpr Point(T x, T y, T z) : x(x), y(y), z(z) {}
 
     //! Constructs point with a 2-D point and a scalar.
-    constexpr Point(const Point2<T> &v, T z_) : x(v.x), y(v.y), z(z_) {}
+    constexpr Point(const Point2<T> &v, T z) : x(v.x), y(v.y), z(z) {}
 
     //! Constructs point with initializer list.
     template <typename U>
@@ -57,10 +57,10 @@ public:
     void set(T s);
 
     //! Set x, y, and z components with given parameters.
-    void set(T x, T y, T z);
+    void set(T new_x, T new_y, T new_z);
 
     //! Set x, y, and z components with given \p pt.x, \p pt.y, and \p z.
-    void set(const Point2<T> &pt, T z);
+    void set(const Point2<T> &pt, T new_z);
 
     //! Set x, y, and z components with given initializer list.
     template <typename U>

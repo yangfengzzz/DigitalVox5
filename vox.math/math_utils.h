@@ -162,40 +162,40 @@ inline T clamp(T val, T low, T high);
 //!
 //! \brief      Converts degrees to radians.
 //!
-//! \param[in]  angleInDegrees The angle in degrees.
+//! \param[in]  angle_in_degrees The angle in degrees.
 //!
 //! \tparam     T              Value type.
 //!
 //! \return     Angle in radians.
 //!
 template <typename T>
-inline T degreesToRadians(T angleInDegrees);
+inline T degreesToRadians(T angle_in_degrees);
 
 //!
 //! \brief      Converts radians to degrees.
 //!
-//! \param[in]  angleInRadians The angle in radians.
+//! \param[in]  angle_in_radians The angle in radians.
 //!
 //! \tparam     T              Value type.
 //!
 //! \return     Angle in degrees.
 //!
 template <typename T>
-inline T radiansToDegrees(T angleInRadians);
+inline T radiansToDegrees(T angle_in_radians);
 
 //!
 //! \brief      Gets the barycentric coordinate.
 //!
 //! \param[in]  x     The input value.
-//! \param[in]  iLow  The lowest index.
-//! \param[in]  iHigh The highest index.
+//! \param[in]  i_low  The lowest index.
+//! \param[in]  i_high The highest index.
 //! \param      i     The output index.
 //! \param      t     The offset from \p i.
 //!
 //! \tparam     T     Value type.
 //!
 template <class T>
-inline void getBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t *i, T *f);
+inline void getBarycentric(T x, ssize_t i_low, ssize_t i_high, ssize_t *i, T *f);
 
 //!
 //! \brief      Computes linear interpolation.
@@ -210,16 +210,16 @@ inline void getBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t *i, T *f);
 //! \return     The interpolated value.
 //!
 template <typename S, typename T>
-inline S lerp(const S &value0, const S &value1, T f);
+inline S lerp(const S &value_0, const S &value_1, T f);
 
 //! \brief      Computes bilinear interpolation.
 template <typename S, typename T>
-inline S bilerp(const S &f00, const S &f10, const S &f01, const S &f11, T tx, T ty);
+inline S bilerp(const S &f_00, const S &f_10, const S &f_01, const S &f_11, T tx, T ty);
 
 //! \brief      Computes trilinear interpolation.
 template <typename S, typename T>
-inline S trilerp(const S &f000,
-                 const S &f100,
+inline S trilerp(const S &f_000,
+                 const S &f_100,
                  const S &f010,
                  const S &f110,
                  const S &f001,

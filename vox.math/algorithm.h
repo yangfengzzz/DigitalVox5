@@ -45,7 +45,7 @@ Iter find(Iter first, Iter last, const T &v) {
 }
 
 template <class Iter, class Pred>
-Iter find_if(Iter first, Iter last, Pred predicate) {
+Iter findIf(Iter first, Iter last, Pred predicate) {
     while (first != last) {
         if (predicate(*first)) {
             return first;
@@ -89,8 +89,8 @@ void sort(Iter first, Iter last, Comparator comp) {
     }
 
     Iter split = first;
-    const int size = vox::distance(first, last);
-    for (int n = size / 2; n > 0; --n) {
+    const int kSize = vox::distance(first, last);
+    for (int n = kSize / 2; n > 0; --n) {
         ++split;
     }
     split = vox::sortRange<Iter, Comparator>(first, last, split, comp);
@@ -100,56 +100,66 @@ void sort(Iter first, Iter last, Comparator comp) {
 
 /**
  * @brief Calculates the values from @c buf1 that are not part of @c buf2 and store those values in the @c out buffer.
- * @param[in] buf1 The buffer which values will be put into the @c out buffer if they are not in @c buf2
- * @param[in] buf2 The buffer which values might not be in @c buf1 in order to be added to the @c out buffer
- * @param[in] buf1Length The amount of values in the @c buf1 buffer
- * @param[in] buf2Length The amount of values in the @c buf2 buffer
+ * @param[in] buf_1 The buffer which values will be put into the @c out buffer if they are not in @c buf2
+ * @param[in] buf_2 The buffer which values might not be in @c buf1 in order to be added to the @c out buffer
+ * @param[in] buf_1_length The amount of values in the @c buf1 buffer
+ * @param[in] buf_2_length The amount of values in the @c buf2 buffer
  * @param[out] out The output buffer
- * @param[in] outLength The size of the output buffer
- * @param[out] outIdx The amount of values added to the output buffer
+ * @param[in] out_length The size of the output buffer
+ * @param[out] out_idx The amount of values added to the output buffer
  * @note If the amount of values in the @c out buffer exceed the @c out buffer size, the loop is just aborted but the
  * previous values where added and they are valid results.
  */
 template <typename Type>
-void sortedDifference(
-        const Type *buf1, int buf1Length, const Type *buf2, int buf2Length, Type *out, int outLength, int &outIdx) {
+void sortedDifference(const Type *buf_1,
+                      int buf_1_length,
+                      const Type *buf_2,
+                      int buf_2_length,
+                      Type *out,
+                      int out_length,
+                      int &out_idx) {
     int i = 0;
     int j = 0;
-    outIdx = 0;
-    while (i < buf1Length && j < buf2Length) {
-        if (outLength <= outIdx) {
+    out_idx = 0;
+    while (i < buf_1_length && j < buf_2_length) {
+        if (out_length <= out_idx) {
             return;
         }
-        if (buf1[i] < buf2[j]) {
-            out[outIdx++] = buf1[i++];
-        } else if (buf1[i] == buf2[j]) {
+        if (buf_1[i] < buf_2[j]) {
+            out[out_idx++] = buf_1[i++];
+        } else if (buf_1[i] == buf_2[j]) {
             ++i;
             ++j;
         } else {
             ++j;
         }
     }
-    for (; i < buf1Length;) {
-        out[outIdx++] = buf1[i++];
+    for (; i < buf_1_length;) {
+        out[out_idx++] = buf_1[i++];
     }
 }
 
 template <typename Type>
-void sortedIntersection(
-        const Type *buf1, int buf1Length, const Type *buf2, int buf2Length, Type *out, int outLength, int &outIdx) {
+void sortedIntersection(const Type *buf_1,
+                        int buf_1_length,
+                        const Type *buf_2,
+                        int buf_2_length,
+                        Type *out,
+                        int out_length,
+                        int &out_idx) {
     int i = 0;
     int j = 0;
-    outIdx = 0;
-    while (i < buf1Length && j < buf2Length) {
-        if (outLength <= outIdx) {
+    out_idx = 0;
+    while (i < buf_1_length && j < buf_2_length) {
+        if (out_length <= out_idx) {
             return;
         }
-        if (buf1[i] < buf2[j]) {
+        if (buf_1[i] < buf_2[j]) {
             ++i;
-        } else if (buf2[j] < buf1[i]) {
+        } else if (buf_2[j] < buf_1[i]) {
             ++j;
         } else {
-            out[outIdx++] = buf1[i];
+            out[out_idx++] = buf_1[i];
             ++i;
             ++j;
         }
@@ -157,30 +167,35 @@ void sortedIntersection(
 }
 
 template <typename Type>
-void sortedUnion(
-        const Type *buf1, int buf1Length, const Type *buf2, int buf2Length, Type *out, int out_length, int &outIdx) {
+void sortedUnion(const Type *buf_1,
+                 int buf_1_length,
+                 const Type *buf_2,
+                 int buf_2_length,
+                 Type *out,
+                 int out_length,
+                 int &out_idx) {
     int i = 0;
     int j = 0;
-    outIdx = 0;
-    while (i < buf1Length && j < buf2Length) {
-        if (out_length <= outIdx) {
+    out_idx = 0;
+    while (i < buf_1_length && j < buf_2_length) {
+        if (out_length <= out_idx) {
             return;
         }
-        if (buf1[i] < buf2[j]) {
-            out[outIdx++] = buf1[i++];
-        } else if (buf1[i] == buf2[j]) {
-            out[outIdx++] = buf1[i];
+        if (buf_1[i] < buf_2[j]) {
+            out[out_idx++] = buf_1[i++];
+        } else if (buf_1[i] == buf_2[j]) {
+            out[out_idx++] = buf_1[i];
             ++j;
             ++i;
-        } else if (buf1[i] > buf2[j]) {
-            out[outIdx++] = buf2[j++];
+        } else if (buf_1[i] > buf_2[j]) {
+            out[out_idx++] = buf_2[j++];
         }
     }
-    for (; i < buf1Length;) {
-        out[outIdx++] = buf1[i++];
+    for (; i < buf_1_length;) {
+        out[out_idx++] = buf_1[i++];
     }
-    for (; j < buf2Length;) {
-        out[outIdx++] = buf2[j++];
+    for (; j < buf_2_length;) {
+        out[out_idx++] = buf_2[j++];
     }
 }
 

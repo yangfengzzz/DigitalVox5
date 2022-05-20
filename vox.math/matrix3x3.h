@@ -39,7 +39,7 @@ public:
 
     //! Constructs a matrix with input elements.
     //! \warning Ordering of the input elements is column-major.
-    Matrix(T m00, T m10, T m20, T m01, T m11, T m21, T m02, T m12, T m22);
+    Matrix(T m_00, T m_10, T m_20, T m_01, T m_11, T m_21, T m_02, T m_12, T m_22);
 
     //!
     //! \brief Constructs a matrix with given initializer list \p lst.
@@ -63,7 +63,7 @@ public:
     Matrix(const std::initializer_list<std::initializer_list<U>> &lst);
 
     //! Constructs a matrix with input matrix.
-    Matrix(const Matrix &m);
+    Matrix(const Matrix &m_33);
 
     //! Constructs a matrix with input array.
     //! \warning Ordering of the input elements is column-major.
@@ -76,7 +76,7 @@ public:
 
     //! Sets this matrix with input elements.
     //! \warning Ordering of the input elements is column-major.
-    void set(T m00, T m10, T m20, T m01, T m11, T m21, T m02, T m12, T m22);
+    void set(T m_00, T m_10, T m_20, T m_01, T m_11, T m_21, T m_02, T m_12, T m_22);
 
     //!
     //! \brief Sets a matrix with given initializer list \p lst.
@@ -101,7 +101,7 @@ public:
     void set(const std::initializer_list<std::initializer_list<U>> &lst);
 
     //! Copies from input matrix.
-    void set(const Matrix &m);
+    void set(const Matrix &m_33);
 
     //! Copies from input array.
     //! \warning Ordering of the input elements is column-major.
@@ -349,7 +349,7 @@ public:
     static Matrix makeRotationMatrix(const Vector3<T> &axis, T rad);
 
 private:
-    std::array<T, 9> _elements;
+    std::array<T, 9> elements_;
 };
 
 //! Type alias for 3x3 matrix.

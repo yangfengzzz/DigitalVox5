@@ -17,7 +17,7 @@ namespace vox {
 //! \tparam     T     The value type.
 //!
 template <typename T>
-class BoundingPlane<T, 2> final {
+struct BoundingPlane<T, 2> final {
 public:
     static_assert(std::is_floating_point<T>::value, "Plane only can be instantiated with floating point types");
 
@@ -30,7 +30,7 @@ public:
     //! Constructs an empty plane that points (1, 0) from (0, 0).
     BoundingPlane();
 
-    //! Constructs a plane with given origin and riection.
+    //! Constructs a plane with given origin and direction.
     BoundingPlane(const Vector2<T> &newNormal, const T &newDistance);
 
     /**

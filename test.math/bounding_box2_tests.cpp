@@ -13,32 +13,32 @@ TEST(BoundingBox2, Constructors) {
     {
         BoundingBox2D box;
 
-        EXPECT_DOUBLE_EQ(kMaxD, box.lowerCorner.x);
-        EXPECT_DOUBLE_EQ(kMaxD, box.lowerCorner.y);
+        EXPECT_DOUBLE_EQ(kMaxD, box.lower_corner.x);
+        EXPECT_DOUBLE_EQ(kMaxD, box.lower_corner.y);
 
-        EXPECT_DOUBLE_EQ(-kMaxD, box.upperCorner.x);
-        EXPECT_DOUBLE_EQ(-kMaxD, box.upperCorner.y);
+        EXPECT_DOUBLE_EQ(-kMaxD, box.upper_corner.x);
+        EXPECT_DOUBLE_EQ(-kMaxD, box.upper_corner.y);
     }
 
     {
         BoundingBox2D box(Point2D(-2.0, 3.0), Point2D(4.0, -2.0));
 
-        EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner.x);
-        EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner.y);
+        EXPECT_DOUBLE_EQ(-2.0, box.lower_corner.x);
+        EXPECT_DOUBLE_EQ(-2.0, box.lower_corner.y);
 
-        EXPECT_DOUBLE_EQ(4.0, box.upperCorner.x);
-        EXPECT_DOUBLE_EQ(3.0, box.upperCorner.y);
+        EXPECT_DOUBLE_EQ(4.0, box.upper_corner.x);
+        EXPECT_DOUBLE_EQ(3.0, box.upper_corner.y);
     }
 
     {
         BoundingBox2D box(Point2D(-2.0, 3.0), Point2D(4.0, -2.0));
         BoundingBox2D box2(box);
 
-        EXPECT_DOUBLE_EQ(-2.0, box2.lowerCorner.x);
-        EXPECT_DOUBLE_EQ(-2.0, box2.lowerCorner.y);
+        EXPECT_DOUBLE_EQ(-2.0, box2.lower_corner.x);
+        EXPECT_DOUBLE_EQ(-2.0, box2.lower_corner.y);
 
-        EXPECT_DOUBLE_EQ(4.0, box2.upperCorner.x);
-        EXPECT_DOUBLE_EQ(3.0, box2.upperCorner.y);
+        EXPECT_DOUBLE_EQ(4.0, box2.upper_corner.x);
+        EXPECT_DOUBLE_EQ(3.0, box2.upper_corner.y);
     }
 }
 
@@ -121,14 +121,14 @@ TEST(BoundingBox2, ClosestIntersection) {
 
     Ray2D ray1(Point2D(-4, -3), Vector2D(1, 1).normalized());
     BoundingBoxRayIntersection2D intersection1 = box.closestIntersection(ray1);
-    EXPECT_TRUE(intersection1.isIntersecting);
-    EXPECT_DOUBLE_EQ(Vector2D(2, 2).length(), intersection1.tNear);
-    EXPECT_DOUBLE_EQ(Vector2D(3, 3).length(), intersection1.tFar);
+    EXPECT_TRUE(intersection1.is_intersecting);
+    EXPECT_DOUBLE_EQ(Vector2D(2, 2).length(), intersection1.t_near);
+    EXPECT_DOUBLE_EQ(Vector2D(3, 3).length(), intersection1.t_far);
 
     Ray2D ray2(Point2D(0, -1), Vector2D(-2, 1).normalized());
     BoundingBoxRayIntersection2D intersection2 = box.closestIntersection(ray2);
-    EXPECT_TRUE(intersection2.isIntersecting);
-    EXPECT_DOUBLE_EQ(Vector2D(2, 1).length(), intersection2.tNear);
+    EXPECT_TRUE(intersection2.is_intersecting);
+    EXPECT_DOUBLE_EQ(Vector2D(2, 1).length(), intersection2.t_near);
 }
 
 TEST(BoundingBox2, MidPoint) {
@@ -159,11 +159,11 @@ TEST(BoundingBox2, Reset) {
 
     static const double maxDouble = std::numeric_limits<double>::max();
 
-    EXPECT_DOUBLE_EQ(maxDouble, box.lowerCorner.x);
-    EXPECT_DOUBLE_EQ(maxDouble, box.lowerCorner.y);
+    EXPECT_DOUBLE_EQ(maxDouble, box.lower_corner.x);
+    EXPECT_DOUBLE_EQ(maxDouble, box.lower_corner.y);
 
-    EXPECT_DOUBLE_EQ(-maxDouble, box.upperCorner.x);
-    EXPECT_DOUBLE_EQ(-maxDouble, box.upperCorner.y);
+    EXPECT_DOUBLE_EQ(-maxDouble, box.upper_corner.x);
+    EXPECT_DOUBLE_EQ(-maxDouble, box.upper_corner.y);
 }
 
 TEST(BoundingBox2, Merge) {
@@ -174,11 +174,11 @@ TEST(BoundingBox2, Merge) {
 
         box.merge(point);
 
-        EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner.x);
-        EXPECT_DOUBLE_EQ(-2.0, box.lowerCorner.y);
+        EXPECT_DOUBLE_EQ(-2.0, box.lower_corner.x);
+        EXPECT_DOUBLE_EQ(-2.0, box.lower_corner.y);
 
-        EXPECT_DOUBLE_EQ(5.0, box.upperCorner.x);
-        EXPECT_DOUBLE_EQ(3.0, box.upperCorner.y);
+        EXPECT_DOUBLE_EQ(5.0, box.upper_corner.x);
+        EXPECT_DOUBLE_EQ(3.0, box.upper_corner.y);
     }
 
     // Merge with other box
@@ -188,11 +188,11 @@ TEST(BoundingBox2, Merge) {
 
         box1.merge(box2);
 
-        EXPECT_DOUBLE_EQ(-2.0, box1.lowerCorner.x);
-        EXPECT_DOUBLE_EQ(-2.0, box1.lowerCorner.y);
+        EXPECT_DOUBLE_EQ(-2.0, box1.lower_corner.x);
+        EXPECT_DOUBLE_EQ(-2.0, box1.lower_corner.y);
 
-        EXPECT_DOUBLE_EQ(8.0, box1.upperCorner.x);
-        EXPECT_DOUBLE_EQ(3.0, box1.upperCorner.y);
+        EXPECT_DOUBLE_EQ(8.0, box1.upper_corner.x);
+        EXPECT_DOUBLE_EQ(3.0, box1.upper_corner.y);
     }
 }
 
@@ -200,11 +200,11 @@ TEST(BoundingBox2, Expand) {
     BoundingBox2D box(Point2D(-2.0, -2.0), Point2D(4.0, 3.0));
     box.expand(3.0);
 
-    EXPECT_DOUBLE_EQ(-5.0, box.lowerCorner.x);
-    EXPECT_DOUBLE_EQ(-5.0, box.lowerCorner.y);
+    EXPECT_DOUBLE_EQ(-5.0, box.lower_corner.x);
+    EXPECT_DOUBLE_EQ(-5.0, box.lower_corner.y);
 
-    EXPECT_DOUBLE_EQ(7.0, box.upperCorner.x);
-    EXPECT_DOUBLE_EQ(6.0, box.upperCorner.y);
+    EXPECT_DOUBLE_EQ(7.0, box.upper_corner.x);
+    EXPECT_DOUBLE_EQ(6.0, box.upper_corner.y);
 }
 
 TEST(BoundingBox2, Corner) {
@@ -219,12 +219,12 @@ TEST(BoundingBox2D, IsEmpty) {
     BoundingBox2D box(Point2D(-2.0, -2.0), Point2D(4.0, 3.0));
     EXPECT_FALSE(box.isEmpty());
 
-    box.lowerCorner = Point2D(5.0, 1.0);
+    box.lower_corner = Point2D(5.0, 1.0);
     EXPECT_TRUE(box.isEmpty());
 
-    box.lowerCorner = Point2D(2.0, 4.0);
+    box.lower_corner = Point2D(2.0, 4.0);
     EXPECT_TRUE(box.isEmpty());
 
-    box.lowerCorner = Point2D(4.0, 1.0);
+    box.lower_corner = Point2D(4.0, 1.0);
     EXPECT_TRUE(box.isEmpty());
 }

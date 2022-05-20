@@ -36,7 +36,7 @@ public:
 
     //! Constructs a matrix with input elements.
     //! \warning Ordering of the input elements is column-major.
-    Matrix(T m00, T m10, T m01, T m11);
+    Matrix(T m_00, T m_10, T m_01, T m_11);
 
     //!
     //! \brief Constructs a matrix with given initializer list \p lst.
@@ -72,7 +72,7 @@ public:
 
     //! Sets this matrix with input elements.
     //! \warning Ordering of the input elements is column-major.
-    void set(T m00, T m10, T m01, T m11);
+    void set(T m_00, T m_10, T m_01, T m_11);
 
     //!
     //! \brief Sets this matrix with given initializer list \p lst.
@@ -329,7 +329,7 @@ public:
     static Matrix makeRotationMatrix(const T &rad);
 
 private:
-    std::array<T, 4> _elements;
+    std::array<T, 4> elements_;
 };
 
 //! Type alias for 2x2 matrix.

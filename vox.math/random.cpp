@@ -9,17 +9,17 @@
 namespace vox {
 Random::Random() : Random(0) {}
 
-Random::Random(uint32_t seed) : _engine(std::default_random_engine()) { setSeed(seed); }
+Random::Random(uint32_t seed) : engine_(std::default_random_engine()) { setSeed(seed); }
 
 void Random::setSeed(uint32_t seed) {
-    _engine.seed(seed);
-    _seed = seed;
+    engine_.seed(seed);
+    seed_ = seed;
 }
 
 float Random::randomf(float min, float max) const {
     assert(min <= max);
     std::uniform_real_distribution<float> distribution(min, max);
-    return distribution(_engine);
+    return distribution(engine_);
 }
 
 ssize_t Random::random(ssize_t min, ssize_t max) const {
@@ -28,7 +28,7 @@ ssize_t Random::random(ssize_t min, ssize_t max) const {
         return min;
     }
     std::uniform_int_distribution<ssize_t> distribution(min, max);
-    return distribution(_engine);
+    return distribution(engine_);
 }
 
 float Random::randomBinomial(float max) const { return randomf(0.0f, max) - randomf(0.0f, max); }

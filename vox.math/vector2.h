@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <algorithm>  // just make cpplint happy..
+#include <algorithm>
 #include <limits>
 
 #include "vector.h"
@@ -21,7 +21,7 @@ namespace vox {
 //! \tparam T - Type of the element
 //!
 template <typename T>
-class Vector<T, 2> final {
+struct Vector<T, 2> final {
 public:
     static_assert(std::is_floating_point<T>::value, "Vector only can be instantiated with floating point types");
 
@@ -37,7 +37,7 @@ public:
     constexpr Vector() : x(0), y(0) {}
 
     //! Constructs vector with given parameters \p x_ and \p y_.
-    constexpr Vector(T x_, T y_) : x(x_), y(y_) {}
+    constexpr Vector(T x, T y) : x(x), y(y) {}
 
     //! Constructs vector with initializer list.
     template <typename U>
@@ -52,14 +52,14 @@ public:
     void set(T s);
 
     //! Set x and y components with given parameters.
-    void set(T x, T y);
+    void set(T new_x, T new_y);
 
     //! Set x and y components with given initializer list.
     template <typename U>
     void set(const std::initializer_list<U> &lst);
 
     //! Set x and y with other vector \p pt.
-    void set(const Vector &pt);
+    void set(const Vector &v);
 
     //! Set both x and y to zero.
     void setZero();
@@ -353,7 +353,7 @@ struct ScalarType<Vector2<T>> {
 //! Computes monotonic Catmull-Rom interpolation.
 template <typename T>
 Vector2<T> monotonicCatmullRom(
-        const Vector2<T> &v0, const Vector2<T> &v1, const Vector2<T> &v2, const Vector2<T> &v3, T f);
+        const Vector2<T> &v_0, const Vector2<T> &v_1, const Vector2<T> &v_2, const Vector2<T> &v_3, T f);
 
 }  // namespace vox
 

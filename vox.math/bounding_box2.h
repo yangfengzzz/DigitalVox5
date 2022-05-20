@@ -23,13 +23,13 @@ namespace vox {
 template <typename T>
 struct BoundingBoxRayIntersection2 {
     //! True if the box and ray intersects.
-    bool isIntersecting = false;
+    bool is_intersecting = false;
 
     //! Distance to the first intersection point.
-    T tNear = std::numeric_limits<T>::max();
+    T t_near = std::numeric_limits<T>::max();
 
     //! Distance to the second (and the last) intersection point.
-    T tFar = std::numeric_limits<T>::max();
+    T t_far = std::numeric_limits<T>::max();
 };
 
 //!
@@ -38,19 +38,19 @@ struct BoundingBoxRayIntersection2 {
 //! \tparam T - Real number type.
 //!
 template <typename T>
-class BoundingBox<T, 2> {
+struct BoundingBox<T, 2> {
 public:
     //! Lower corner of the bounding box.
-    Point2<T> lowerCorner;
+    Point2<T> lower_corner;
 
     //! Upper corner of the bounding box.
-    Point2<T> upperCorner;
+    Point2<T> upper_corner;
 
     //! Default constructor.
     BoundingBox();
 
     //! Constructs a box that tightly covers two points.
-    BoundingBox(const Point2<T> &point1, const Point2<T> &point2);
+    BoundingBox(const Point2<T> &point_1, const Point2<T> &point_2);
 
     //! Constructs a box with other box instance.
     BoundingBox(const BoundingBox &other);

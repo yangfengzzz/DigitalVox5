@@ -17,8 +17,8 @@ inline Quaternion<T>::Quaternion() {
 }
 
 template <typename T>
-inline Quaternion<T>::Quaternion(T newX, T newY, T newZ, T newW) {
-    set(newX, newY, newZ, newW);
+inline Quaternion<T>::Quaternion(T new_x, T new_y, T new_z, T new_w) {
+    set(new_x, new_y, new_z, new_w);
 }
 
 template <typename T>
@@ -37,10 +37,10 @@ inline Quaternion<T>::Quaternion(const Vector3<T> &from, const Vector3<T> &to) {
 }
 
 template <typename T>
-inline Quaternion<T>::Quaternion(const Vector3<T> &rotationBasis0,
-                                 const Vector3<T> &rotationBasis1,
-                                 const Vector3<T> &rotationBasis2) {
-    set(rotationBasis0, rotationBasis1, rotationBasis2);
+inline Quaternion<T>::Quaternion(const Vector3<T> &rotation_basis_0,
+                                 const Vector3<T> &rotation_basis_1,
+                                 const Vector3<T> &rotation_basis_2) {
+    set(rotation_basis_0, rotation_basis_1, rotation_basis_2);
 }
 
 template <typename T>
@@ -60,60 +60,60 @@ inline void Quaternion<T>::set(const Quaternion &other) {
 }
 
 template <typename T>
-inline void Quaternion<T>::set(T newX, T newY, T newZ, T newW) {
-    x = newX;
-    y = newY;
-    z = newZ;
-    w = newW;
+inline void Quaternion<T>::set(T new_x, T new_y, T new_z, T new_w) {
+    x = new_x;
+    y = new_y;
+    z = new_z;
+    w = new_w;
 }
 
 template <typename T>
 inline void Quaternion<T>::set(const std::initializer_list<T> &lst) {
     assert(lst.size() == 4);
 
-    auto inputElem = lst.begin();
-    x = *inputElem;
-    y = *(++inputElem);
-    z = *(++inputElem);
-    w = *(++inputElem);
+    auto input_elem = lst.begin();
+    x = *input_elem;
+    y = *(++input_elem);
+    z = *(++input_elem);
+    w = *(++input_elem);
 }
 
 template <typename T>
 inline void Quaternion<T>::set(const Vector3<T> &axis, T angle) {
-    static const T eps = std::numeric_limits<T>::epsilon();
+    static const T kEps = std::numeric_limits<T>::epsilon();
 
-    T axisLengthSquared = axis.lengthSquared();
+    T axis_length_squared = axis.lengthSquared();
 
-    if (axisLengthSquared < eps) {
+    if (axis_length_squared < kEps) {
         setIdentity();
     } else {
-        Vector3<T> normalizedAxis = axis.normalized();
+        Vector3<T> normalized_axis = axis.normalized();
         T s = std::sin(angle / 2);
 
-        x = normalizedAxis.x * s;
-        y = normalizedAxis.y * s;
-        z = normalizedAxis.z * s;
+        x = normalized_axis.x * s;
+        y = normalized_axis.y * s;
+        z = normalized_axis.z * s;
         w = std::cos(angle / 2);
     }
 }
 
 template <typename T>
 inline void Quaternion<T>::set(const Vector3<T> &from, const Vector3<T> &to) {
-    static const T eps = std::numeric_limits<T>::epsilon();
+    static const T kEps = std::numeric_limits<T>::epsilon();
 
     Vector3<T> axis = from.cross(to);
 
-    T fromLengthSquared = from.lengthSquared();
-    T toLengthSquared = to.lengthSquared();
+    T from_length_squared = from.lengthSquared();
+    T to_length_squared = to.lengthSquared();
 
-    if (fromLengthSquared < eps || toLengthSquared < eps) {
+    if (from_length_squared < kEps || to_length_squared < kEps) {
         setIdentity();
     } else {
-        T axisLengthSquared = axis.lengthSquared();
+        T axis_length_squared = axis.lengthSquared();
 
         // In case two vectors are exactly the opposite, pick orthogonal vector
         // for axis.
-        if (axisLengthSquared < eps) {
+        if (axis_length_squared < kEps) {
             axis = std::get<0>(from.tangential());
         }
 
@@ -125,49 +125,49 @@ inline void Quaternion<T>::set(const Vector3<T> &from, const Vector3<T> &to) {
 }
 
 template <typename T>
-inline void Quaternion<T>::set(const Vector3<T> &rotationBasis0,
-                               const Vector3<T> &rotationBasis1,
-                               const Vector3<T> &rotationBasis2) {
-    Matrix3x3<T> matrix3;
+inline void Quaternion<T>::set(const Vector3<T> &rotation_basis_0,
+                               const Vector3<T> &rotation_basis_1,
+                               const Vector3<T> &rotation_basis_2) {
+    Matrix3x3<T> matrix_3;
 
-    matrix3.setColumn(0, rotationBasis0.normalized());
-    matrix3.setColumn(1, rotationBasis1.normalized());
-    matrix3.setColumn(2, rotationBasis2.normalized());
+    matrix_3.setColumn(0, rotation_basis_0.normalized());
+    matrix_3.setColumn(1, rotation_basis_1.normalized());
+    matrix_3.setColumn(2, rotation_basis_2.normalized());
 
-    set(matrix3);
+    set(matrix_3);
 }
 
 template <typename T>
 inline void Quaternion<T>::set(const Matrix3x3<T> &m) {
-    static const T eps = std::numeric_limits<T>::epsilon();
-    static const T quater = static_cast<T>(0.25);
+    static const T kEps = std::numeric_limits<T>::epsilon();
+    static const T kQuater = static_cast<T>(0.25);
 
-    T onePlusTrace = m.trace() + 1;
+    T one_plus_trace = m.trace() + 1;
 
-    if (onePlusTrace > eps) {
-        T S = std::sqrt(onePlusTrace) * 2;
-        w = quater * S;
-        x = (m(2, 1) - m(1, 2)) / S;
-        y = (m(0, 2) - m(2, 0)) / S;
-        z = (m(1, 0) - m(0, 1)) / S;
+    if (one_plus_trace > kEps) {
+        T s = std::sqrt(one_plus_trace) * 2;
+        w = kQuater * s;
+        x = (m(2, 1) - m(1, 2)) / s;
+        y = (m(0, 2) - m(2, 0)) / s;
+        z = (m(1, 0) - m(0, 1)) / s;
     } else if (m(0, 0) > m(1, 1) && m(0, 0) > m(2, 2)) {
-        T S = std::sqrt(1 + m(0, 0) - m(1, 1) - m(2, 2)) * 2;
-        w = (m(2, 1) - m(1, 2)) / S;
-        x = quater * S;
-        y = (m(0, 1) + m(1, 0)) / S;
-        z = (m(0, 2) + m(2, 0)) / S;
+        T s = std::sqrt(1 + m(0, 0) - m(1, 1) - m(2, 2)) * 2;
+        w = (m(2, 1) - m(1, 2)) / s;
+        x = kQuater * s;
+        y = (m(0, 1) + m(1, 0)) / s;
+        z = (m(0, 2) + m(2, 0)) / s;
     } else if (m(1, 1) > m(2, 2)) {
-        T S = std::sqrt(1 + m(1, 1) - m(0, 0) - m(2, 2)) * 2;
-        w = (m(0, 2) - m(2, 0)) / S;
-        x = (m(0, 1) + m(1, 0)) / S;
-        y = quater * S;
-        z = (m(1, 2) + m(2, 1)) / S;
+        T s = std::sqrt(1 + m(1, 1) - m(0, 0) - m(2, 2)) * 2;
+        w = (m(0, 2) - m(2, 0)) / s;
+        x = (m(0, 1) + m(1, 0)) / s;
+        y = kQuater * s;
+        z = (m(1, 2) + m(2, 1)) / s;
     } else {
-        T S = std::sqrt(1 + m(2, 2) - m(0, 0) - m(1, 1)) * 2;
-        w = (m(1, 0) - m(0, 1)) / S;
-        x = (m(0, 2) + m(2, 0)) / S;
-        y = (m(1, 2) + m(2, 1)) / S;
-        z = quater * S;
+        T s = std::sqrt(1 + m(2, 2) - m(0, 0) - m(1, 1)) * 2;
+        w = (m(1, 0) - m(0, 1)) / s;
+        x = (m(0, 2) + m(2, 0)) / s;
+        y = (m(1, 2) + m(2, 1)) / s;
+        z = kQuater * s;
     }
 }
 
@@ -289,13 +289,13 @@ inline void Quaternion<T>::setIdentity() {
 }
 
 template <typename T>
-inline void Quaternion<T>::rotate(T angleInRadians) {
+inline void Quaternion<T>::rotate(T angle_in_radians) {
     Vector3<T> axis;
     T currentAngle;
 
     getAxisAngle(&axis, &currentAngle);
 
-    currentAngle += angleInRadians;
+    currentAngle += angle_in_radians;
 
     set(axis, currentAngle);
 }
@@ -323,19 +323,19 @@ inline Quaternion<T> Quaternion<T>::rotateX(T rad) const {
 
 template <typename T>
 inline void Quaternion<T>::rotateX(T rad) {
-    const T x = this->x;
-    const T y = this->y;
-    const T z = this->z;
-    const T w = this->w;
+    const T kNewX = x;
+    const T kNewY = y;
+    const T kNewZ = z;
+    const T kNewW = w;
 
     rad *= 0.5;
     T bx = std::sin(rad);
     T bw = std::cos(rad);
 
-    this->x = x * bw + w * bx;
-    this->y = y * bw + z * bx;
-    this->z = z * bw - y * bx;
-    this->w = w * bw - x * bx;
+    x = kNewX * bw + kNewW * bx;
+    y = kNewY * bw + kNewZ * bx;
+    z = kNewZ * bw - kNewY * bx;
+    w = kNewW * bw - kNewX * bx;
 }
 
 template <typename T>
@@ -349,19 +349,19 @@ inline Quaternion<T> Quaternion<T>::rotateY(T rad) const {
 
 template <typename T>
 inline void Quaternion<T>::rotateY(T rad) {
-    const T x = this->x;
-    const T y = this->y;
-    const T z = this->z;
-    const T w = this->w;
+    const T kNewX = x;
+    const T kNewY = y;
+    const T kNewZ = z;
+    const T kNewW = w;
 
     rad *= 0.5;
     T by = std::sin(rad);
     T bw = std::cos(rad);
 
-    this->x = x * bw - z * by;
-    this->y = y * bw + w * by;
-    this->z = z * bw + x * by;
-    this->w = w * bw - y * by;
+    x = kNewX * bw - kNewZ * by;
+    y = kNewY * bw + kNewW * by;
+    z = kNewZ * bw + kNewX * by;
+    w = kNewW * bw - kNewY * by;
 }
 
 template <typename T>
@@ -375,25 +375,25 @@ inline Quaternion<T> Quaternion<T>::rotateZ(T rad) const {
 
 template <typename T>
 inline void Quaternion<T>::rotateZ(T rad) {
-    const T x = this->x;
-    const T y = this->y;
-    const T z = this->z;
-    const T w = this->w;
+    const T kNewX = x;
+    const T kNewY = y;
+    const T kNewZ = z;
+    const T kNewW = w;
 
     rad *= 0.5;
     T bz = std::sin(rad);
     T bw = std::cos(rad);
 
-    this->x = x * bw + y * bz;
-    this->y = y * bw - x * bz;
-    this->z = z * bw + w * bz;
-    this->w = w * bw - z * bz;
+    x = kNewX * bw + kNewY * bz;
+    y = kNewY * bw - kNewX * bz;
+    z = kNewZ * bw + kNewW * bz;
+    w = kNewW * bw - kNewZ * bz;
 }
 
 template <typename T>
 void Quaternion<T>::rotateAxisAngle(const Vector3<T> &axis, T rad) {
-    Quaternion _tempQuat1 = Quaternion(axis, rad);
-    *this *= _tempQuat1;
+    Quaternion temp_quat = Quaternion(axis, rad);
+    *this *= temp_quat;
 }
 
 // Complex getters
@@ -588,23 +588,24 @@ Quaternion<T> Quaternion<T>::makeRotationEuler(T pitch, T yaw, T roll) {
 
 template <typename T>
 Quaternion<T> Quaternion<T>::makeRotationYawPitchRoll(T yaw, T pitch, T roll) {
-    T halfRoll = roll * 0.5;
-    T halfPitch = pitch * 0.5;
-    T halfYaw = yaw * 0.5;
+    T half_roll = roll * 0.5;
+    T half_pitch = pitch * 0.5;
+    T half_yaw = yaw * 0.5;
 
-    T sinRoll = std::sin(halfRoll);
-    T cosRoll = std::cos(halfRoll);
-    T sinPitch = std::sin(halfPitch);
-    T cosPitch = std::cos(halfPitch);
-    T sinYaw = std::sin(halfYaw);
-    T cosYaw = std::cos(halfYaw);
+    T sin_roll = std::sin(half_roll);
+    T cos_roll = std::cos(half_roll);
+    T sin_pitch = std::sin(half_pitch);
+    T cos_pitch = std::cos(half_pitch);
+    T sin_yaw = std::sin(half_yaw);
+    T cos_yaw = std::cos(half_yaw);
 
-    T cosYawPitch = cosYaw * cosPitch;
-    T sinYawPitch = sinYaw * sinPitch;
+    T cos_yaw_pitch = cos_yaw * cos_pitch;
+    T sin_yaw_pitch = sin_yaw * sin_pitch;
 
-    return Quaternion<T>(cosYaw * sinPitch * cosRoll + sinYaw * cosPitch * sinRoll,
-                         sinYaw * cosPitch * cosRoll - cosYaw * sinPitch * sinRoll,
-                         cosYawPitch * sinRoll - sinYawPitch * cosRoll, cosYawPitch * cosRoll + sinYawPitch * sinRoll);
+    return Quaternion<T>(cos_yaw * sin_pitch * cos_roll + sin_yaw * cos_pitch * sin_roll,
+                         sin_yaw * cos_pitch * cos_roll - cos_yaw * sin_pitch * sin_roll,
+                         cos_yaw_pitch * sin_roll - sin_yaw_pitch * cos_roll,
+                         cos_yaw_pitch * cos_roll + sin_yaw_pitch * sin_roll);
 }
 
 template <typename T>
@@ -633,33 +634,33 @@ Quaternion<T> Quaternion<T>::makeRotationZ(T rad) {
 
 template <typename T>
 inline Quaternion<T> slerp(const Quaternion<T> &a, const Quaternion<T> &b, T t) {
-    static const double threshold = 0.01;
-    static const T eps = std::numeric_limits<T>::epsilon();
+    static const double kThreshold = 0.01;
+    static const T kEps = std::numeric_limits<T>::epsilon();
 
-    T cosHalfAngle = a.dot(b);
-    T weightA, weightB;
+    T cos_half_angle = a.dot(b);
+    T weight_a, weight_b;
 
     // For better accuracy, return lerp result when a and b are close enough.
-    if (1.0 - std::fabs(cosHalfAngle) < threshold) {
-        weightA = 1.0 - t;
-        weightB = t;
+    if (1.0 - std::fabs(cos_half_angle) < kThreshold) {
+        weight_a = 1.0 - t;
+        weight_b = t;
     } else {
-        T halfAngle = std::acos(cosHalfAngle);
-        T sinHalfAngle = std::sqrt(1 - cosHalfAngle * cosHalfAngle);
+        T half_angle = std::acos(cos_half_angle);
+        T sin_half_angle = std::sqrt(1 - cos_half_angle * cos_half_angle);
 
         // In case of angle ~ 180, pick middle value.
         // If not, perform slerp.
-        if (std::fabs(sinHalfAngle) < eps) {
-            weightA = static_cast<T>(0.5);
-            weightB = static_cast<T>(0.5);
+        if (std::fabs(sin_half_angle) < kEps) {
+            weight_a = static_cast<T>(0.5);
+            weight_b = static_cast<T>(0.5);
         } else {
-            weightA = std::sin((1 - t) * halfAngle) / sinHalfAngle;
-            weightB = std::sin(t * halfAngle) / sinHalfAngle;
+            weight_a = std::sin((1 - t) * half_angle) / sin_half_angle;
+            weight_b = std::sin(t * half_angle) / sin_half_angle;
         }
     }
 
-    return Quaternion<T>(weightA * a.x + weightB * b.x, weightA * a.y + weightB * b.y, weightA * a.z + weightB * b.z,
-                         weightA * a.w + weightB * b.w);
+    return Quaternion<T>(weight_a * a.x + weight_b * b.x, weight_a * a.y + weight_b * b.y,
+                         weight_a * a.z + weight_b * b.z, weight_a * a.w + weight_b * b.w);
 }
 
 // Operator overloadings

@@ -19,7 +19,7 @@ namespace vox {
 //! \tparam N - Dimension.
 //!
 template <typename T, size_t N>
-class Point final {
+struct Point final {
 public:
     static_assert(N > 0, "Size of static-sized point should be greater than zero.");
     static_assert(std::is_arithmetic<T>::value, "Point only can be instantiated with arithmetic types");
@@ -31,7 +31,7 @@ public:
     template <typename... Params>
     explicit Point(Params... params);
 
-    //! Constructs point instance with initiazer list.
+    //! Constructs point instance with initializer list.
     template <typename U>
     Point(const std::initializer_list<U> &lst);
 
@@ -59,7 +59,7 @@ public:
     T &operator[](size_t);
 
 private:
-    std::array<T, N> _elements;
+    std::array<T, N> elements_;
 
     template <typename... Params>
     void setAt(size_t i, T v, Params... params);
