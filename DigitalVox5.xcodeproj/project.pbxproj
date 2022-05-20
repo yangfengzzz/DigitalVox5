@@ -828,6 +828,26 @@
 		04C3C5B12837192800B0BE1F /* combo_box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5AB2837192800B0BE1F /* combo_box.cpp */; };
 		04C3C5B528371A5700B0BE1F /* font.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5B328371A5700B0BE1F /* font.h */; };
 		04C3C5B628371A5700B0BE1F /* font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5B428371A5700B0BE1F /* font.cpp */; };
+		04C3C5CB2837275D00B0BE1F /* label.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5B72837275A00B0BE1F /* label.h */; };
+		04C3C5CC2837275D00B0BE1F /* file_dialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5B82837275A00B0BE1F /* file_dialog.h */; };
+		04C3C5CD2837275D00B0BE1F /* menu_imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5B92837275B00B0BE1F /* menu_imgui.cpp */; };
+		04C3C5CE2837275D00B0BE1F /* menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5BA2837275B00B0BE1F /* menu.cpp */; };
+		04C3C5CF2837275D00B0BE1F /* native_macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5BB2837275B00B0BE1F /* native_macos.mm */; };
+		04C3C5D02837275D00B0BE1F /* label_3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5BC2837275B00B0BE1F /* label_3d.cpp */; };
+		04C3C5D12837275D00B0BE1F /* label_3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5BD2837275B00B0BE1F /* label_3d.h */; };
+		04C3C5D22837275D00B0BE1F /* file_dialog_native.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5BE2837275B00B0BE1F /* file_dialog_native.cpp */; };
+		04C3C5D32837275D00B0BE1F /* native.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5BF2837275B00B0BE1F /* native.h */; };
+		04C3C5D42837275D00B0BE1F /* label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5C02837275B00B0BE1F /* label.cpp */; };
+		04C3C5D52837275D00B0BE1F /* menu_base.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5C12837275C00B0BE1F /* menu_base.h */; };
+		04C3C5D62837275D00B0BE1F /* layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5C22837275C00B0BE1F /* layout.cpp */; };
+		04C3C5D72837275D00B0BE1F /* list_view.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5C32837275C00B0BE1F /* list_view.cpp */; };
+		04C3C5D82837275D00B0BE1F /* list_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5C42837275C00B0BE1F /* list_view.h */; };
+		04C3C5D92837275D00B0BE1F /* file_dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5C52837275C00B0BE1F /* file_dialog.cpp */; };
+		04C3C5DA2837275D00B0BE1F /* menu_macos.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5C62837275C00B0BE1F /* menu_macos.h */; };
+		04C3C5DB2837275D00B0BE1F /* layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5C72837275C00B0BE1F /* layout.h */; };
+		04C3C5DC2837275D00B0BE1F /* menu_macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5C82837275C00B0BE1F /* menu_macos.mm */; };
+		04C3C5DD2837275D00B0BE1F /* menu_imgui.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5C92837275C00B0BE1F /* menu_imgui.h */; };
+		04C3C5DE2837275D00B0BE1F /* menu.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5CA2837275C00B0BE1F /* menu.h */; };
 		04D95C192808EE0500E54DC2 /* device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C152808EE0500E54DC2 /* device.cpp */; };
 		04D95C1A2808EE0500E54DC2 /* scratch_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */; };
 		04D95C1B2808EE0500E54DC2 /* scratch_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C172808EE0500E54DC2 /* scratch_buffer.h */; };
@@ -2120,6 +2140,26 @@
 		04C3C5AB2837192800B0BE1F /* combo_box.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = combo_box.cpp; sourceTree = "<group>"; };
 		04C3C5B328371A5700B0BE1F /* font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = font.h; sourceTree = "<group>"; };
 		04C3C5B428371A5700B0BE1F /* font.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = font.cpp; sourceTree = "<group>"; };
+		04C3C5B72837275A00B0BE1F /* label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = label.h; sourceTree = "<group>"; };
+		04C3C5B82837275A00B0BE1F /* file_dialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_dialog.h; sourceTree = "<group>"; };
+		04C3C5B92837275B00B0BE1F /* menu_imgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = menu_imgui.cpp; sourceTree = "<group>"; };
+		04C3C5BA2837275B00B0BE1F /* menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = menu.cpp; sourceTree = "<group>"; };
+		04C3C5BB2837275B00B0BE1F /* native_macos.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = native_macos.mm; sourceTree = "<group>"; };
+		04C3C5BC2837275B00B0BE1F /* label_3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = label_3d.cpp; sourceTree = "<group>"; };
+		04C3C5BD2837275B00B0BE1F /* label_3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = label_3d.h; sourceTree = "<group>"; };
+		04C3C5BE2837275B00B0BE1F /* file_dialog_native.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = file_dialog_native.cpp; sourceTree = "<group>"; };
+		04C3C5BF2837275B00B0BE1F /* native.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = native.h; sourceTree = "<group>"; };
+		04C3C5C02837275B00B0BE1F /* label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = label.cpp; sourceTree = "<group>"; };
+		04C3C5C12837275C00B0BE1F /* menu_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menu_base.h; sourceTree = "<group>"; };
+		04C3C5C22837275C00B0BE1F /* layout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = layout.cpp; sourceTree = "<group>"; };
+		04C3C5C32837275C00B0BE1F /* list_view.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = list_view.cpp; sourceTree = "<group>"; };
+		04C3C5C42837275C00B0BE1F /* list_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list_view.h; sourceTree = "<group>"; };
+		04C3C5C52837275C00B0BE1F /* file_dialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = file_dialog.cpp; sourceTree = "<group>"; };
+		04C3C5C62837275C00B0BE1F /* menu_macos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menu_macos.h; sourceTree = "<group>"; };
+		04C3C5C72837275C00B0BE1F /* layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = layout.h; sourceTree = "<group>"; };
+		04C3C5C82837275C00B0BE1F /* menu_macos.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = menu_macos.mm; sourceTree = "<group>"; };
+		04C3C5C92837275C00B0BE1F /* menu_imgui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menu_imgui.h; sourceTree = "<group>"; };
+		04C3C5CA2837275C00B0BE1F /* menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menu.h; sourceTree = "<group>"; };
 		04D95C152808EE0500E54DC2 /* device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device.cpp; sourceTree = "<group>"; };
 		04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scratch_buffer.cpp; sourceTree = "<group>"; };
 		04D95C172808EE0500E54DC2 /* scratch_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch_buffer.h; sourceTree = "<group>"; };
@@ -3906,6 +3946,14 @@
 		04C3C5B22837192D00B0BE1F /* widget */ = {
 			isa = PBXGroup;
 			children = (
+				04C3C5B72837275A00B0BE1F /* label.h */,
+				04C3C5C02837275B00B0BE1F /* label.cpp */,
+				04C3C5BD2837275B00B0BE1F /* label_3d.h */,
+				04C3C5BC2837275B00B0BE1F /* label_3d.cpp */,
+				04C3C5C72837275C00B0BE1F /* layout.h */,
+				04C3C5C22837275C00B0BE1F /* layout.cpp */,
+				04C3C5C42837275C00B0BE1F /* list_view.h */,
+				04C3C5C32837275C00B0BE1F /* list_view.cpp */,
 				04C3C5A72837192800B0BE1F /* color_edit.h */,
 				04C3C5AA2837192800B0BE1F /* color_edit.cpp */,
 				04C3C5A82837192800B0BE1F /* combo_box.h */,
@@ -3914,6 +3962,18 @@
 				04C3C5A62837192700B0BE1F /* dialog.cpp */,
 				04C3C5A328368D5C00B0BE1F /* check_box.h */,
 				04C3C5A228368D5C00B0BE1F /* check_box.cpp */,
+				04C3C5CA2837275C00B0BE1F /* menu.h */,
+				04C3C5BA2837275B00B0BE1F /* menu.cpp */,
+				04C3C5C12837275C00B0BE1F /* menu_base.h */,
+				04C3C5C92837275C00B0BE1F /* menu_imgui.h */,
+				04C3C5B92837275B00B0BE1F /* menu_imgui.cpp */,
+				04C3C5C62837275C00B0BE1F /* menu_macos.h */,
+				04C3C5C82837275C00B0BE1F /* menu_macos.mm */,
+				04C3C5B82837275A00B0BE1F /* file_dialog.h */,
+				04C3C5C52837275C00B0BE1F /* file_dialog.cpp */,
+				04C3C5BE2837275B00B0BE1F /* file_dialog_native.cpp */,
+				04C3C5BF2837275B00B0BE1F /* native.h */,
+				04C3C5BB2837275B00B0BE1F /* native_macos.mm */,
 			);
 			name = widget;
 			sourceTree = "<group>";
@@ -4832,9 +4892,19 @@
 				04C3C5B528371A5700B0BE1F /* font.h in Headers */,
 				04C3C5AE2837192800B0BE1F /* combo_box.h in Headers */,
 				04C3C59C28368BB600B0BE1F /* util.h in Headers */,
+				04C3C5D32837275D00B0BE1F /* native.h in Headers */,
+				04C3C5CB2837275D00B0BE1F /* label.h in Headers */,
 				04C3C5A528368D5C00B0BE1F /* check_box.h in Headers */,
+				04C3C5DE2837275D00B0BE1F /* menu.h in Headers */,
 				04C3C5AD2837192800B0BE1F /* color_edit.h in Headers */,
+				04C3C5DA2837275D00B0BE1F /* menu_macos.h in Headers */,
+				04C3C5D82837275D00B0BE1F /* list_view.h in Headers */,
+				04C3C5DD2837275D00B0BE1F /* menu_imgui.h in Headers */,
 				04C3C5AF2837192800B0BE1F /* dialog.h in Headers */,
+				04C3C5D52837275D00B0BE1F /* menu_base.h in Headers */,
+				04C3C5DB2837275D00B0BE1F /* layout.h in Headers */,
+				04C3C5CC2837275D00B0BE1F /* file_dialog.h in Headers */,
+				04C3C5D12837275D00B0BE1F /* label_3d.h in Headers */,
 				04C3C5952835DF0700B0BE1F /* gui.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5800,14 +5870,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				04C3C59D28368BB600B0BE1F /* util.cpp in Sources */,
+				04C3C5DC2837275D00B0BE1F /* menu_macos.mm in Sources */,
 				04C3C5A028368CDF00B0BE1F /* theme.cpp in Sources */,
 				04C3C5B628371A5700B0BE1F /* font.cpp in Sources */,
+				04C3C5CE2837275D00B0BE1F /* menu.cpp in Sources */,
+				04C3C5D22837275D00B0BE1F /* file_dialog_native.cpp in Sources */,
+				04C3C5D72837275D00B0BE1F /* list_view.cpp in Sources */,
 				04C3C5B02837192800B0BE1F /* color_edit.cpp in Sources */,
 				04C3C5A428368D5C00B0BE1F /* check_box.cpp in Sources */,
 				04C3C5AC2837192800B0BE1F /* dialog.cpp in Sources */,
 				04C3C5942835DF0700B0BE1F /* gui.cpp in Sources */,
+				04C3C5D62837275D00B0BE1F /* layout.cpp in Sources */,
+				04C3C5CF2837275D00B0BE1F /* native_macos.mm in Sources */,
 				04C3C5B12837192800B0BE1F /* combo_box.cpp in Sources */,
+				04C3C5CD2837275D00B0BE1F /* menu_imgui.cpp in Sources */,
 				04C3C598283660D500B0BE1F /* widget.cpp in Sources */,
+				04C3C5D02837275D00B0BE1F /* label_3d.cpp in Sources */,
+				04C3C5D42837275D00B0BE1F /* label.cpp in Sources */,
+				04C3C5D92837275D00B0BE1F /* file_dialog.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

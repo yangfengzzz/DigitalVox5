@@ -28,8 +28,8 @@
 
 #if __APPLE__
 
-#import "AppKit/AppKit.h"
 #include <vector>
+#import "AppKit/AppKit.h"
 
 //#include "open3d/visualization/gui/Application.h"
 
@@ -84,7 +84,7 @@ MenuMacOS::MenuMacOS() : impl_(new MenuMacOS::Impl()) {
 
 MenuMacOS::~MenuMacOS() {}  // ARC will automatically release impl_->menu
 
-void *MenuMacOS::GetNativePointer() { return impl_->menu_; }
+void *MenuMacOS::GetNativePointer() { return (__bridge void *)impl_->menu_; }
 
 void MenuMacOS::AddItem(const char *name, ItemId item_id /*= NO_ITEM*/, vox::KeyCode key /*= KEY_NONE*/) {
     InsertItem(impl_->menu_.numberOfItems, name, item_id, key);
@@ -103,10 +103,9 @@ void MenuMacOS::InsertItem(int index, const char *name, ItemId item_id /*= NO_IT
     auto item = [[NSMenuItem alloc] initWithTitle:[NSString stringWithUTF8String:name]
                                            action:@selector(run)
                                     keyEquivalent:objc_shortcut];
-    item.target = [[Open3DRunnable alloc]
-            initWithFunction:[item_id]() {
-                // Application::GetInstance().OnMenuItemSelected(item_id);
-            }];
+    item.target = [[Open3DRunnable alloc] initWithFunction:[item_id]() {
+        // Application::GetInstance().OnMenuItemSelected(item_id);
+    }];
     item.tag = item_id;
     if (index < impl_->menu_.numberOfItems) {
         [impl_->menu_ insertItem:item atIndex:index];
