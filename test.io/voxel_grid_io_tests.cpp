@@ -27,7 +27,7 @@
 #include "file_system.h"
 #include "voxel_grid.h"
 #include "voxel_grid_io.h"
-//#include "open3d/visualization/utility/DrawGeometry.h"
+//#include "utility/DrawGeometry.h"
 #include "tests.h"
 
 namespace arc::tests {

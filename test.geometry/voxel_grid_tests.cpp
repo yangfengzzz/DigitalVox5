@@ -27,7 +27,7 @@
 #include "line_set.h"
 #include "triangle_mesh.h"
 #include "voxel_grid.h"
-//#include "open3d/visualization/utility/DrawGeometry.h"
+//#include "utility/DrawGeometry.h"
 #include "tests.h"
 
 using namespace arc;

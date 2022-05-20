@@ -41,8 +41,8 @@
 #include "file_system.h"
 #include "logging.h"
 #include "progress_reporters.h"
-//#include "open3d/visualization/rendering/MaterialRecord.h"
-//#include "open3d/visualization/rendering/Model.h"
+//#include "rendering/MaterialRecord.h"
+//#include "rendering/Model.h"
 
 #define AI_MATKEY_CLEARCOAT_THICKNESS "$mat.clearcoatthickness", 0, 0
 #define AI_MATKEY_CLEARCOAT_ROUGHNESS "$mat.clearcoatroughness", 0, 0

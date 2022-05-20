@@ -32,9 +32,7 @@
 #include "gui/gui.h"
 #include "gui/widget.h"
 
-namespace arc {
-namespace visualization {
-namespace gui {
+namespace arc::visualization::gui {
 
 struct Theme {
     vox::Color background_color;
@@ -103,6 +101,4 @@ struct Theme {
     int dialog_border_radius;
 };
 
-}  // namespace gui
-}  // namespace visualization
-}  // namespace arc
+}  // namespace arc::visualization::gui
