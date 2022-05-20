@@ -31,7 +31,7 @@
 #include <vector>
 #import "AppKit/AppKit.h"
 
-//#include "open3d/visualization/gui/Application.h"
+//#include "gui/Application.h"
 
 @interface Open3DRunnable : NSObject {
     std::function<void()> action_;

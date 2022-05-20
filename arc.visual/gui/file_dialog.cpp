@@ -38,14 +38,14 @@
 #include "open3d/utility/FileSystem.h"
 #include "open3d/utility/Helper.h"
 #include "open3d/utility/Logging.h"
-#include "open3d/visualization/gui/Button.h"
-#include "open3d/visualization/gui/Combobox.h"
-#include "open3d/visualization/gui/Label.h"
-#include "open3d/visualization/gui/Layout.h"
-#include "open3d/visualization/gui/ListView.h"
-#include "open3d/visualization/gui/TextEdit.h"
-#include "open3d/visualization/gui/Theme.h"
-#include "open3d/visualization/gui/Util.h"
+#include "gui/Button.h"
+#include "gui/Combobox.h"
+#include "gui/Label.h"
+#include "gui/Layout.h"
+#include "gui/ListView.h"
+#include "gui/TextEdit.h"
+#include "gui/Theme.h"
+#include "gui/Util.h"
 
 // macOS sorts directories in with the files
 // Windows and Linux (GTK) sort directories first.
