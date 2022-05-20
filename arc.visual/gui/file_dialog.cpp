@@ -35,9 +35,6 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "open3d/utility/FileSystem.h"
-#include "open3d/utility/Helper.h"
-#include "open3d/utility/Logging.h"
 #include "gui/Button.h"
 #include "gui/Combobox.h"
 #include "gui/Label.h"
@@ -46,6 +43,9 @@
 #include "gui/TextEdit.h"
 #include "gui/Theme.h"
 #include "gui/Util.h"
+#include "open3d/utility/FileSystem.h"
+#include "open3d/utility/Helper.h"
+#include "open3d/utility/Logging.h"
 
 // macOS sorts directories in with the files
 // Windows and Linux (GTK) sort directories first.
