@@ -860,6 +860,18 @@
 		04C3C5F428372B9100B0BE1F /* number_edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5E828372B9100B0BE1F /* number_edit.cpp */; };
 		04C3C5F528372B9100B0BE1F /* slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5E928372B9100B0BE1F /* slider.cpp */; };
 		04C3C5F628372B9100B0BE1F /* slider.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5EA28372B9100B0BE1F /* slider.h */; };
+		04C3C60328372F2C00B0BE1F /* vector_edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5F728372F2B00B0BE1F /* vector_edit.cpp */; };
+		04C3C60428372F2C00B0BE1F /* tree_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5F828372F2B00B0BE1F /* tree_view.h */; };
+		04C3C60528372F2C00B0BE1F /* widget_stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5F928372F2B00B0BE1F /* widget_stack.h */; };
+		04C3C60628372F2C00B0BE1F /* text_edit.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5FA28372F2B00B0BE1F /* text_edit.h */; };
+		04C3C60728372F2C00B0BE1F /* vector_edit.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5FB28372F2B00B0BE1F /* vector_edit.h */; };
+		04C3C60828372F2C00B0BE1F /* toggle_switch.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5FC28372F2B00B0BE1F /* toggle_switch.h */; };
+		04C3C60928372F2C00B0BE1F /* widget_stack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5FD28372F2B00B0BE1F /* widget_stack.cpp */; };
+		04C3C60A28372F2C00B0BE1F /* toggle_switch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5FE28372F2B00B0BE1F /* toggle_switch.cpp */; };
+		04C3C60B28372F2C00B0BE1F /* widget_proxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5FF28372F2C00B0BE1F /* widget_proxy.h */; };
+		04C3C60C28372F2C00B0BE1F /* text_edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C60028372F2C00B0BE1F /* text_edit.cpp */; };
+		04C3C60D28372F2C00B0BE1F /* widget_proxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C60128372F2C00B0BE1F /* widget_proxy.cpp */; };
+		04C3C60E28372F2C00B0BE1F /* tree_view.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C60228372F2C00B0BE1F /* tree_view.cpp */; };
 		04D95C192808EE0500E54DC2 /* device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C152808EE0500E54DC2 /* device.cpp */; };
 		04D95C1A2808EE0500E54DC2 /* scratch_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */; };
 		04D95C1B2808EE0500E54DC2 /* scratch_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C172808EE0500E54DC2 /* scratch_buffer.h */; };
@@ -2184,6 +2196,18 @@
 		04C3C5E828372B9100B0BE1F /* number_edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = number_edit.cpp; sourceTree = "<group>"; };
 		04C3C5E928372B9100B0BE1F /* slider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slider.cpp; sourceTree = "<group>"; };
 		04C3C5EA28372B9100B0BE1F /* slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slider.h; sourceTree = "<group>"; };
+		04C3C5F728372F2B00B0BE1F /* vector_edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector_edit.cpp; sourceTree = "<group>"; };
+		04C3C5F828372F2B00B0BE1F /* tree_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tree_view.h; sourceTree = "<group>"; };
+		04C3C5F928372F2B00B0BE1F /* widget_stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_stack.h; sourceTree = "<group>"; };
+		04C3C5FA28372F2B00B0BE1F /* text_edit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text_edit.h; sourceTree = "<group>"; };
+		04C3C5FB28372F2B00B0BE1F /* vector_edit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector_edit.h; sourceTree = "<group>"; };
+		04C3C5FC28372F2B00B0BE1F /* toggle_switch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = toggle_switch.h; sourceTree = "<group>"; };
+		04C3C5FD28372F2B00B0BE1F /* widget_stack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = widget_stack.cpp; sourceTree = "<group>"; };
+		04C3C5FE28372F2B00B0BE1F /* toggle_switch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = toggle_switch.cpp; sourceTree = "<group>"; };
+		04C3C5FF28372F2C00B0BE1F /* widget_proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_proxy.h; sourceTree = "<group>"; };
+		04C3C60028372F2C00B0BE1F /* text_edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = text_edit.cpp; sourceTree = "<group>"; };
+		04C3C60128372F2C00B0BE1F /* widget_proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = widget_proxy.cpp; sourceTree = "<group>"; };
+		04C3C60228372F2C00B0BE1F /* tree_view.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tree_view.cpp; sourceTree = "<group>"; };
 		04D95C152808EE0500E54DC2 /* device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device.cpp; sourceTree = "<group>"; };
 		04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scratch_buffer.cpp; sourceTree = "<group>"; };
 		04D95C172808EE0500E54DC2 /* scratch_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch_buffer.h; sourceTree = "<group>"; };
@@ -3974,12 +3998,16 @@
 				04C3C5C02837275B00B0BE1F /* label.cpp */,
 				04C3C5BD2837275B00B0BE1F /* label_3d.h */,
 				04C3C5BC2837275B00B0BE1F /* label_3d.cpp */,
-				04C3C5C72837275C00B0BE1F /* layout.h */,
-				04C3C5C22837275C00B0BE1F /* layout.cpp */,
 				04C3C5C42837275C00B0BE1F /* list_view.h */,
 				04C3C5C32837275C00B0BE1F /* list_view.cpp */,
+				04C3C5F828372F2B00B0BE1F /* tree_view.h */,
+				04C3C60228372F2C00B0BE1F /* tree_view.cpp */,
+				04C3C5FA28372F2B00B0BE1F /* text_edit.h */,
+				04C3C60028372F2C00B0BE1F /* text_edit.cpp */,
 				04C3C5A72837192800B0BE1F /* color_edit.h */,
 				04C3C5AA2837192800B0BE1F /* color_edit.cpp */,
+				04C3C5FB28372F2B00B0BE1F /* vector_edit.h */,
+				04C3C5F728372F2B00B0BE1F /* vector_edit.cpp */,
 				04C3C5A82837192800B0BE1F /* combo_box.h */,
 				04C3C5AB2837192800B0BE1F /* combo_box.cpp */,
 				04C3C5A328368D5C00B0BE1F /* check_box.h */,
@@ -4004,12 +4032,20 @@
 				04C3C5E028372B9000B0BE1F /* progress_bar.cpp */,
 				04C3C5E428372B9000B0BE1F /* radio_button.h */,
 				04C3C5E328372B9000B0BE1F /* radio_button.cpp */,
+				04C3C5C72837275C00B0BE1F /* layout.h */,
+				04C3C5C22837275C00B0BE1F /* layout.cpp */,
 				04C3C5EA28372B9100B0BE1F /* slider.h */,
 				04C3C5E928372B9100B0BE1F /* slider.cpp */,
-				04C3C5E728372B9000B0BE1F /* stacked_widget.h */,
-				04C3C5E528372B9000B0BE1F /* stacked_widget.cpp */,
 				04C3C5E228372B9000B0BE1F /* tab_control.h */,
 				04C3C5DF28372B9000B0BE1F /* tab_control.cpp */,
+				04C3C5FE28372F2B00B0BE1F /* toggle_switch.cpp */,
+				04C3C5FC28372F2B00B0BE1F /* toggle_switch.h */,
+				04C3C5E728372B9000B0BE1F /* stacked_widget.h */,
+				04C3C5E528372B9000B0BE1F /* stacked_widget.cpp */,
+				04C3C5FF28372F2C00B0BE1F /* widget_proxy.h */,
+				04C3C60128372F2C00B0BE1F /* widget_proxy.cpp */,
+				04C3C5F928372F2B00B0BE1F /* widget_stack.h */,
+				04C3C5FD28372F2B00B0BE1F /* widget_stack.cpp */,
 			);
 			name = widget;
 			sourceTree = "<group>";
@@ -4926,28 +4962,34 @@
 				04C3C5A128368CDF00B0BE1F /* theme.h in Headers */,
 				04C3C5ED28372B9100B0BE1F /* progress_bar.h in Headers */,
 				04C3C5F028372B9100B0BE1F /* radio_button.h in Headers */,
+				04C3C60528372F2C00B0BE1F /* widget_stack.h in Headers */,
 				04C3C599283660D500B0BE1F /* widget.h in Headers */,
 				04C3C5B528371A5700B0BE1F /* font.h in Headers */,
 				04C3C5AE2837192800B0BE1F /* combo_box.h in Headers */,
 				04C3C59C28368BB600B0BE1F /* util.h in Headers */,
 				04C3C5D32837275D00B0BE1F /* native.h in Headers */,
 				04C3C5F328372B9100B0BE1F /* stacked_widget.h in Headers */,
+				04C3C60428372F2C00B0BE1F /* tree_view.h in Headers */,
 				04C3C5CB2837275D00B0BE1F /* label.h in Headers */,
 				04C3C5A528368D5C00B0BE1F /* check_box.h in Headers */,
 				04C3C5DE2837275D00B0BE1F /* menu.h in Headers */,
+				04C3C60728372F2C00B0BE1F /* vector_edit.h in Headers */,
 				04C3C5AD2837192800B0BE1F /* color_edit.h in Headers */,
 				04C3C5DA2837275D00B0BE1F /* menu_macos.h in Headers */,
 				04C3C5D82837275D00B0BE1F /* list_view.h in Headers */,
+				04C3C60828372F2C00B0BE1F /* toggle_switch.h in Headers */,
 				04C3C5DD2837275D00B0BE1F /* menu_imgui.h in Headers */,
 				04C3C5AF2837192800B0BE1F /* dialog.h in Headers */,
 				04C3C5D52837275D00B0BE1F /* menu_base.h in Headers */,
 				04C3C5EE28372B9100B0BE1F /* tab_control.h in Headers */,
 				04C3C5DB2837275D00B0BE1F /* layout.h in Headers */,
 				04C3C5F228372B9100B0BE1F /* number_edit.h in Headers */,
+				04C3C60B28372F2C00B0BE1F /* widget_proxy.h in Headers */,
 				04C3C5CC2837275D00B0BE1F /* file_dialog.h in Headers */,
 				04C3C5D12837275D00B0BE1F /* label_3d.h in Headers */,
 				04C3C5F628372B9100B0BE1F /* slider.h in Headers */,
 				04C3C5952835DF0700B0BE1F /* gui.h in Headers */,
+				04C3C60628372F2C00B0BE1F /* text_edit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5911,17 +5953,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C3C60D28372F2C00B0BE1F /* widget_proxy.cpp in Sources */,
+				04C3C60928372F2C00B0BE1F /* widget_stack.cpp in Sources */,
 				04C3C59D28368BB600B0BE1F /* util.cpp in Sources */,
 				04C3C5DC2837275D00B0BE1F /* menu_macos.mm in Sources */,
+				04C3C60E28372F2C00B0BE1F /* tree_view.cpp in Sources */,
 				04C3C5A028368CDF00B0BE1F /* theme.cpp in Sources */,
 				04C3C5B628371A5700B0BE1F /* font.cpp in Sources */,
 				04C3C5CE2837275D00B0BE1F /* menu.cpp in Sources */,
 				04C3C5D22837275D00B0BE1F /* file_dialog_native.cpp in Sources */,
 				04C3C5D72837275D00B0BE1F /* list_view.cpp in Sources */,
 				04C3C5B02837192800B0BE1F /* color_edit.cpp in Sources */,
+				04C3C60328372F2C00B0BE1F /* vector_edit.cpp in Sources */,
 				04C3C5EC28372B9100B0BE1F /* progress_bar.cpp in Sources */,
 				04C3C5EF28372B9100B0BE1F /* radio_button.cpp in Sources */,
 				04C3C5A428368D5C00B0BE1F /* check_box.cpp in Sources */,
+				04C3C60A28372F2C00B0BE1F /* toggle_switch.cpp in Sources */,
 				04C3C5AC2837192800B0BE1F /* dialog.cpp in Sources */,
 				04C3C5942835DF0700B0BE1F /* gui.cpp in Sources */,
 				04C3C5D62837275D00B0BE1F /* layout.cpp in Sources */,
@@ -5931,6 +5978,7 @@
 				04C3C5F128372B9100B0BE1F /* stacked_widget.cpp in Sources */,
 				04C3C5B12837192800B0BE1F /* combo_box.cpp in Sources */,
 				04C3C5CD2837275D00B0BE1F /* menu_imgui.cpp in Sources */,
+				04C3C60C28372F2C00B0BE1F /* text_edit.cpp in Sources */,
 				04C3C598283660D500B0BE1F /* widget.cpp in Sources */,
 				04C3C5D02837275D00B0BE1F /* label_3d.cpp in Sources */,
 				04C3C5D42837275D00B0BE1F /* label.cpp in Sources */,
