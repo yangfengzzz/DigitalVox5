@@ -7,7 +7,7 @@
 #pragma once
 
 namespace vox {
-template<class Iter>
+template <class Iter>
 constexpr Iter next(Iter it, int n = 1) {
     for (int i = 0; i < n; ++i) {
         ++it;
@@ -15,7 +15,7 @@ constexpr Iter next(Iter it, int n = 1) {
     return it;
 }
 
-template<class Iter>
+template <class Iter>
 constexpr Iter prev(Iter it, int n = 1) {
     for (int i = n; i > 0; --i) {
         --it;
@@ -23,7 +23,7 @@ constexpr Iter prev(Iter it, int n = 1) {
     return it;
 }
 
-template<typename T>
+template <typename T>
 constexpr int distance(T first, T last) {
     int d = 0;
     while (first != last) {
@@ -33,7 +33,7 @@ constexpr int distance(T first, T last) {
     return d;
 }
 
-template<class Iter, class T>
+template <class Iter, class T>
 Iter find(Iter first, Iter last, const T &v) {
     while (first != last) {
         if (*first == v) {
@@ -44,7 +44,7 @@ Iter find(Iter first, Iter last, const T &v) {
     return last;
 }
 
-template<class Iter, class Pred>
+template <class Iter, class Pred>
 Iter find_if(Iter first, Iter last, Pred predicate) {
     while (first != last) {
         if (predicate(*first)) {
@@ -55,13 +55,13 @@ Iter find_if(Iter first, Iter last, Pred predicate) {
     return last;
 }
 
-template<typename Iter, class Comparator>
+template <typename Iter, class Comparator>
 Iter sortRange(Iter first, Iter last, Iter split, Comparator &comp) {
     --last;
     if (split != last) {
         std::swap(*split, *last);
     }
-    
+
     Iter i = first;
     for (; first != last; ++first) {
         if (comp(*last, *first)) {
@@ -72,7 +72,7 @@ Iter sortRange(Iter first, Iter last, Iter split, Comparator &comp) {
         }
         ++i;
     }
-    
+
     if (last != i) {
         std::swap(*last, *i);
     }
@@ -82,12 +82,12 @@ Iter sortRange(Iter first, Iter last, Iter split, Comparator &comp) {
 /**
  * @note This sort is unstable
  */
-template<typename Iter, class Comparator>
+template <typename Iter, class Comparator>
 void sort(Iter first, Iter last, Comparator comp) {
     if (first == last) {
         return;
     }
-    
+
     Iter split = first;
     const int size = vox::distance(first, last);
     for (int n = size / 2; n > 0; --n) {
@@ -107,12 +107,12 @@ void sort(Iter first, Iter last, Comparator comp) {
  * @param[out] out The output buffer
  * @param[in] outLength The size of the output buffer
  * @param[out] outIdx The amount of values added to the output buffer
- * @note If the amount of values in the @c out buffer exceed the @c out buffer size, the loop is just aborted but the previous values
- * where added and they are valid results.
+ * @note If the amount of values in the @c out buffer exceed the @c out buffer size, the loop is just aborted but the
+ * previous values where added and they are valid results.
  */
 template <typename Type>
-void sortedDifference(const Type *buf1, int buf1Length,
-                      const Type *buf2, int buf2Length, Type *out, int outLength, int& outIdx) {
+void sortedDifference(
+        const Type *buf1, int buf1Length, const Type *buf2, int buf2Length, Type *out, int outLength, int &outIdx) {
     int i = 0;
     int j = 0;
     outIdx = 0;
@@ -129,14 +129,14 @@ void sortedDifference(const Type *buf1, int buf1Length,
             ++j;
         }
     }
-    for (;i < buf1Length;) {
+    for (; i < buf1Length;) {
         out[outIdx++] = buf1[i++];
     }
 }
 
 template <typename Type>
-void sortedIntersection(const Type *buf1, int buf1Length,
-                        const Type *buf2, int buf2Length, Type *out, int outLength, int& outIdx) {
+void sortedIntersection(
+        const Type *buf1, int buf1Length, const Type *buf2, int buf2Length, Type *out, int outLength, int &outIdx) {
     int i = 0;
     int j = 0;
     outIdx = 0;
@@ -157,13 +157,13 @@ void sortedIntersection(const Type *buf1, int buf1Length,
 }
 
 template <typename Type>
-void sortedUnion(const Type *buf1, int buf1Length,
-                 const Type *buf2, int buf2Length, Type *out, int outLength, int& outIdx) {
+void sortedUnion(
+        const Type *buf1, int buf1Length, const Type *buf2, int buf2Length, Type *out, int out_length, int &outIdx) {
     int i = 0;
     int j = 0;
     outIdx = 0;
     while (i < buf1Length && j < buf2Length) {
-        if (outLength <= outIdx) {
+        if (out_length <= outIdx) {
             return;
         }
         if (buf1[i] < buf2[j]) {
@@ -184,4 +184,4 @@ void sortedUnion(const Type *buf1, int buf1Length,
     }
 }
 
-}
+}  // namespace vox

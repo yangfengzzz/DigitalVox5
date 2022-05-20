@@ -8,16 +8,11 @@
 
 namespace vox {
 
-SphericalHarmonics3::SphericalHarmonics3() {
-}
+SphericalHarmonics3::SphericalHarmonics3() = default;
 
-SphericalHarmonics3::SphericalHarmonics3(std::array<float, 27> coefficients) :
-_coefficients(coefficients) {
-}
+SphericalHarmonics3::SphericalHarmonics3(std::array<float, 27> coefficients) : _coefficients(coefficients) {}
 
-const std::array<float, 27> &SphericalHarmonics3::coefficients() const {
-    return _coefficients;
-}
+const std::array<float, 27> &SphericalHarmonics3::coefficients() const { return _coefficients; }
 
 void SphericalHarmonics3::addLight(const Vector3F &direction, const Color &c, float deltaSolidAngle) {
     /**
@@ -36,24 +31,24 @@ void SphericalHarmonics3::addLight(const Vector3F &direction, const Color &c, fl
      * 7: -Math.sqrt(15 / (4 * Math.PI)）
      * 8: Math.sqrt(15 / (16 * Math.PI))
      */
-    
+
     auto color = c * deltaSolidAngle;
     auto &coe = _coefficients;
-    
-    const float bv0 = 0.282095f; // basis0 = 0.886227
-    const float bv1 = -0.488603f * direction.y; // basis1 = -0.488603
-    const float bv2 = 0.488603f * direction.z; // basis2 = 0.488603
-    const float bv3 = -0.488603f * direction.x; // basis3 = -0.488603
-    const float bv4 = 1.092548f * (direction.x * direction.y); // basis4 = 1.092548
-    const float bv5 = -1.092548f * (direction.y * direction.z); // basis5 = -1.092548
-    const float bv6 = 0.315392f * (3 * direction.z * direction.z - 1); // basis6 = 0.315392
-    const float bv7 = -1.092548f * (direction.x * direction.z); // basis7 = -1.092548
-    const float bv8 = 0.546274f * (direction.x * direction.x - direction.y * direction.y); // basis8 = 0.546274
-    
+
+    const float bv0 = 0.282095f;                                                            // basis0 = 0.886227
+    const float bv1 = -0.488603f * direction.y;                                             // basis1 = -0.488603
+    const float bv2 = 0.488603f * direction.z;                                              // basis2 = 0.488603
+    const float bv3 = -0.488603f * direction.x;                                             // basis3 = -0.488603
+    const float bv4 = 1.092548f * (direction.x * direction.y);                              // basis4 = 1.092548
+    const float bv5 = -1.092548f * (direction.y * direction.z);                             // basis5 = -1.092548
+    const float bv6 = 0.315392f * (3 * direction.z * direction.z - 1);                      // basis6 = 0.315392
+    const float bv7 = -1.092548f * (direction.x * direction.z);                             // basis7 = -1.092548
+    const float bv8 = 0.546274f * (direction.x * direction.x - direction.y * direction.y);  // basis8 = 0.546274
+
     coe[0] += color.r * bv0;
     coe[1] += color.g * bv0;
     coe[2] += color.b * bv0;
-    
+
     coe[3] += color.r * bv1;
     coe[4] += color.g * bv1;
     coe[5] += color.b * bv1;
@@ -63,7 +58,7 @@ void SphericalHarmonics3::addLight(const Vector3F &direction, const Color &c, fl
     coe[9] += color.r * bv3;
     coe[10] += color.g * bv3;
     coe[11] += color.b * bv3;
-    
+
     coe[12] += color.r * bv4;
     coe[13] += color.g * bv4;
     coe[14] += color.b * bv4;
@@ -105,40 +100,41 @@ Color SphericalHarmonics3::operator()(const Vector3F &direction) {
      * 1: (2 * Math.PI) / 3
      * 2: Math.PI / 4
      */
-    
+
     const auto &coe = _coefficients;
-    
-    const float bv0 = 0.886227f; // kernel0 * basis0 = 0.886227
-    const float bv1 = -1.023327f * direction.y; // kernel1 * basis1 = -1.023327
-    const float bv2 = 1.023327f * direction.z; // kernel1 * basis2 = 1.023327
-    const float bv3 = -1.023327f * direction.x; // kernel1 * basis3 = -1.023327
-    const float bv4 = 0.858086f * direction.y * direction.x; // kernel2 * basis4 = 0.858086
-    const float bv5 = -0.858086f * direction.y * direction.z; // kernel2 * basis5 = -0.858086
-    const float bv6 = 0.247708f * (3.f * direction.z * direction.z - 1); // kernel2 * basis6 = 0.247708
-    const float bv7 = -0.858086f * direction.z * direction.x; // kernel2 * basis7 = -0.858086
-    const float bv8 = 0.429042f * (direction.x * direction.x - direction.y * direction.y); // kernel2 * basis8 = 0.429042
-    
+
+    const float bv0 = 0.886227f;                                          // kernel0 * basis0 = 0.886227
+    const float bv1 = -1.023327f * direction.y;                           // kernel1 * basis1 = -1.023327
+    const float bv2 = 1.023327f * direction.z;                            // kernel1 * basis2 = 1.023327
+    const float bv3 = -1.023327f * direction.x;                           // kernel1 * basis3 = -1.023327
+    const float bv4 = 0.858086f * direction.y * direction.x;              // kernel2 * basis4 = 0.858086
+    const float bv5 = -0.858086f * direction.y * direction.z;             // kernel2 * basis5 = -0.858086
+    const float bv6 = 0.247708f * (3.f * direction.z * direction.z - 1);  // kernel2 * basis6 = 0.247708
+    const float bv7 = -0.858086f * direction.z * direction.x;             // kernel2 * basis7 = -0.858086
+    const float bv8 =
+            0.429042f * (direction.x * direction.x - direction.y * direction.y);  // kernel2 * basis8 = 0.429042
+
     // l0
     float r = coe[0] * bv0;
     float g = coe[1] * bv0;
     float b = coe[2] * bv0;
-    
+
     // l1
     r += coe[3] * bv1 + coe[6] * bv2 + coe[9] * bv3;
     g += coe[4] * bv1 + coe[7] * bv2 + coe[10] * bv3;
     b += coe[5] * bv1 + coe[8] * bv2 + coe[11] * bv3;
-    
+
     // l2
     r += coe[12] * bv4 + coe[15] * bv5 + coe[18] * bv6 + coe[21] * bv7 + coe[24] * bv8;
     g += coe[13] * bv4 + coe[16] * bv5 + coe[19] * bv6 + coe[22] * bv7 + coe[25] * bv8;
     b += coe[14] * bv4 + coe[17] * bv5 + coe[20] * bv6 + coe[23] * bv7 + coe[26] * bv8;
-    
+
     return {r, g, b, 1.0};
 }
 
 SphericalHarmonics3 SphericalHarmonics3::operator*(float s) {
     auto src = _coefficients;
-    
+
     src[0] *= s;
     src[1] *= s;
     src[2] *= s;
@@ -169,4 +165,4 @@ SphericalHarmonics3 SphericalHarmonics3::operator*(float s) {
     return {src};
 }
 
-}
+}  // namespace vox

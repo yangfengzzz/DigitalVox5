@@ -4,8 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "math_utils.h"
 #include <gtest/gtest.h>
+
+#include "math_utils.h"
 
 using namespace vox;
 

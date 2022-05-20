@@ -7,21 +7,20 @@
 #include "color.h"
 
 namespace vox {
-const Color Color::Red   = { 1.f, 0.f, 0.f };
-const Color Color::Green = { 0.f, 1.f, 0.f };
-const Color Color::Blue  = { 0.f, 0.f, 1.f };
-const Color Color::White = { 1.f, 1.f, 1.f };
-const Color Color::Black = { 0.f, 0.f, 0.f };
-const Color Color::Grey  = { 0.5f, 0.5f, 0.5f };
-const Color Color::Yellow = { 1.f, 1.f, 0.f };
-const Color Color::Cyan   = { 0.f, 1.f, 1.f };
-const Color Color::Magenta = { 1.f, 0.f, 1.f };
+const Color Color::Red = {1.f, 0.f, 0.f};
+const Color Color::Green = {0.f, 1.f, 0.f};
+const Color Color::Blue = {0.f, 0.f, 1.f};
+const Color Color::White = {1.f, 1.f, 1.f};
+const Color Color::Black = {0.f, 0.f, 0.f};
+const Color Color::Grey = {0.5f, 0.5f, 0.5f};
+const Color Color::Yellow = {1.f, 1.f, 0.f};
+const Color Color::Cyan = {0.f, 1.f, 1.f};
+const Color Color::Magenta = {1.f, 0.f, 1.f};
 
 Color Color::lightened(float amount) const {
     amount = std::max(0.0f, std::min(1.0f, amount));
-    return {(1.0f - amount) * r + amount * 1.0f,
-                 (1.0f - amount) * g + amount * 1.0f,
-                 (1.0f - amount) *  + amount * 1.0f, a};
+    return {(1.0f - amount) * r + amount * 1.0f, (1.0f - amount) * g + amount * 1.0f, (1.0f - amount) * +amount * 1.0f,
+            a};
 }
 
 unsigned int Color::toABGR32() const {
@@ -32,4 +31,4 @@ unsigned int Color::toABGR32() const {
     return ((a << 24) | (b << 16) | (g << 8) | r);
 }
 
-}
+}  // namespace vox

@@ -7,14 +7,9 @@
 #include "random.h"
 
 namespace vox {
-Random::Random() :
-Random(0) {
-}
+Random::Random() : Random(0) {}
 
-Random::Random(uint32_t seed) :
-_engine(std::default_random_engine()) {
-    setSeed(seed);
-}
+Random::Random(uint32_t seed) : _engine(std::default_random_engine()) { setSeed(seed); }
 
 void Random::setSeed(uint32_t seed) {
     _engine.seed(seed);
@@ -36,8 +31,6 @@ ssize_t Random::random(ssize_t min, ssize_t max) const {
     return distribution(_engine);
 }
 
-float Random::randomBinomial(float max) const {
-    return randomf(0.0f, max) - randomf(0.0f, max);
-}
+float Random::randomBinomial(float max) const { return randomf(0.0f, max) - randomf(0.0f, max); }
 
-}
+}  // namespace vox

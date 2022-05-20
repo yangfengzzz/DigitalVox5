@@ -6,13 +6,14 @@
 
 #pragma once
 
+#include <array>
 #include <cassert>
 #include <cmath>
-#include <array>
-#include "ray3.h"
-#include "bounding_plane3.h"
+
 #include "bounding_box3.h"
 #include "bounding_frustum.h"
+#include "bounding_plane3.h"
+#include "ray3.h"
 
 namespace vox {
 /**
@@ -103,4 +104,4 @@ bool intersectsFrustumAndBox(const BoundingFrustum &frustum, const BoundingBox3F
  */
 ContainmentType frustumContainsBox(const BoundingFrustum &frustum, const BoundingBox3F &box);
 
-}
+}  // namespace vox

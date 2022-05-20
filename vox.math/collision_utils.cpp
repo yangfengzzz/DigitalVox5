@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "collision_utils.h"
+
 #include "ray.h"
 
 namespace vox {
@@ -30,7 +31,7 @@ PlaneIntersectionType intersectsPlaneAndBox(const BoundingPlane3F &plane, const 
     const auto &normal = plane.normal;
     Point3F front;
     Point3F back;
-    
+
     if (normal.x >= 0) {
         front.x = max.x;
         back.x = min.x;
@@ -52,38 +53,38 @@ PlaneIntersectionType intersectsPlaneAndBox(const BoundingPlane3F &plane, const 
         front.z = min.z;
         back.z = max.z;
     }
-    
+
     if (distancePlaneAndPoint(plane, front) < 0) {
         return PlaneIntersectionType::Back;
     }
-    
+
     if (distancePlaneAndPoint(plane, back) > 0) {
         return PlaneIntersectionType::Front;
     }
-    
+
     return PlaneIntersectionType::Intersecting;
 }
 
 float intersectsRayAndPlane(const Ray3F &ray, const BoundingPlane3F &plane) {
     const auto &normal = plane.normal;
-    
+
     const auto dir = normal.dot(ray.direction);
     // Parallel
     if (std::abs(dir) < kEpsilonF) {
         return -1;
     }
-    
+
     const auto position = ray.origin.dot(normal);
     auto distance = (-plane.distance - position) / dir;
-    
+
     if (distance < 0) {
         if (distance < -kEpsilonF) {
             return -1;
         }
-        
+
         distance = 0;
     }
-    
+
     return distance;
 }
 
@@ -100,7 +101,7 @@ float intersectsRayAndBox(const Ray3F &ray, const BoundingBox3F &box) {
     const auto &oriZ = origin.z;
     float distance = 0;
     float tmax = std::numeric_limits<float>::max();
-    
+
     if (std::abs(dirX) < kEpsilonF) {
         if (oriX < min.x || oriX > max.x) {
             return -1;
@@ -109,21 +110,21 @@ float intersectsRayAndBox(const Ray3F &ray, const BoundingBox3F &box) {
         const float inverse = 1.0 / dirX;
         float t1 = (min.x - oriX) * inverse;
         float t2 = (max.x - oriX) * inverse;
-        
+
         if (t1 > t2) {
             const auto temp = t1;
             t1 = t2;
             t2 = temp;
         }
-        
+
         distance = std::max(t1, distance);
         tmax = std::min(t2, tmax);
-        
+
         if (distance > tmax) {
             return -1;
         }
     }
-    
+
     if (std::abs(dirY) < kEpsilonF) {
         if (oriY < min.y || oriY > max.y) {
             return -1;
@@ -132,21 +133,21 @@ float intersectsRayAndBox(const Ray3F &ray, const BoundingBox3F &box) {
         const float inverse = 1.0 / dirY;
         float t1 = (min.y - oriY) * inverse;
         float t2 = (max.y - oriY) * inverse;
-        
+
         if (t1 > t2) {
             const auto temp = t1;
             t1 = t2;
             t2 = temp;
         }
-        
+
         distance = std::max(t1, distance);
         tmax = std::min(t2, tmax);
-        
+
         if (distance > tmax) {
             return -1;
         }
     }
-    
+
     if (std::abs(dirZ) < kEpsilonF) {
         if (oriZ < min.z || oriZ > max.z) {
             return -1;
@@ -155,21 +156,21 @@ float intersectsRayAndBox(const Ray3F &ray, const BoundingBox3F &box) {
         const float inverse = 1.0 / dirZ;
         float t1 = (min.z - oriZ) * inverse;
         float t2 = (max.z - oriZ) * inverse;
-        
+
         if (t1 > t2) {
             const auto temp = t1;
             t1 = t2;
             t2 = temp;
         }
-        
+
         distance = std::max(t1, distance);
         tmax = std::min(t2, tmax);
-        
+
         if (distance > tmax) {
             return -1;
         }
     }
-    
+
     return distance;
 }
 
@@ -177,11 +178,11 @@ bool intersectsBoxAndBox(const BoundingBox3F &boxA, const BoundingBox3F &boxB) {
     if (boxA.lowerCorner.x > boxB.upperCorner.x || boxB.lowerCorner.x > boxA.upperCorner.x) {
         return false;
     }
-    
+
     if (boxA.lowerCorner.y > boxB.upperCorner.y || boxB.lowerCorner.y > boxA.upperCorner.y) {
         return false;
     }
-    
+
     return !(boxA.lowerCorner.z > boxB.upperCorner.z || boxB.lowerCorner.z > boxA.upperCorner.z);
 }
 
@@ -189,11 +190,11 @@ bool intersectsFrustumAndBox(const BoundingFrustum &frustum, const BoundingBox3F
     const auto &min = box.lowerCorner;
     const auto &max = box.upperCorner;
     Vector3F back;
-    
+
     for (int i = 0; i < 6; ++i) {
         const auto plane = frustum.getPlane(i);
         const auto &normal = plane.normal;
-        
+
         back.x = normal.x >= 0 ? min.x : max.x;
         back.y = normal.y >= 0 ? min.y : max.y;
         back.z = normal.z >= 0 ? min.z : max.z;
@@ -201,7 +202,7 @@ bool intersectsFrustumAndBox(const BoundingFrustum &frustum, const BoundingBox3F
             return false;
         }
     }
-    
+
     return true;
 }
 
@@ -211,11 +212,11 @@ ContainmentType frustumContainsBox(const BoundingFrustum &frustum, const Boundin
     Point3F front;
     Point3F back;
     auto result = ContainmentType::Contains;
-    
+
     for (int i = 0; i < 6; ++i) {
         const auto plane = frustum.getPlane(i);
         const auto &normal = plane.normal;
-        
+
         if (normal.x >= 0) {
             front.x = max.x;
             back.x = min.x;
@@ -237,17 +238,17 @@ ContainmentType frustumContainsBox(const BoundingFrustum &frustum, const Boundin
             front.z = min.z;
             back.z = max.z;
         }
-        
+
         if (intersectsPlaneAndPoint(plane, back) == PlaneIntersectionType::Front) {
             return ContainmentType::Disjoint;
         }
-        
+
         if (intersectsPlaneAndPoint(plane, front) == PlaneIntersectionType::Front) {
             result = ContainmentType::Intersects;
         }
     }
-    
+
     return result;
 }
 
-}
+}  // namespace vox

@@ -5,11 +5,11 @@
 //  property of any third parties.
 
 #include "bounding_frustum.h"
+
 #include "collision_utils.h"
 
 namespace vox {
-BoundingFrustum::BoundingFrustum() {
-}
+BoundingFrustum::BoundingFrustum() = default;
 
 BoundingFrustum::BoundingFrustum(const Matrix4x4F &matrix) {
     near = BoundingPlane3F();
@@ -57,7 +57,7 @@ void BoundingFrustum::calculateFromMatrix(const Matrix4x4F &matrix) {
     const auto &m42 = matrix[13];
     const auto &m43 = matrix[14];
     const auto &m44 = matrix[15];
-    
+
     // near
     auto &nearNormal = near.normal;
     nearNormal.x = -m14 - m13;
@@ -65,7 +65,7 @@ void BoundingFrustum::calculateFromMatrix(const Matrix4x4F &matrix) {
     nearNormal.z = -m34 - m33;
     near.distance = -m44 - m43;
     near.normalize();
-    
+
     // far
     auto &farNormal = far.normal;
     farNormal.x = m13 - m14;
@@ -73,7 +73,7 @@ void BoundingFrustum::calculateFromMatrix(const Matrix4x4F &matrix) {
     farNormal.z = m33 - m34;
     far.distance = m43 - m44;
     far.normalize();
-    
+
     // left
     auto &leftNormal = left.normal;
     leftNormal.x = -m14 - m11;
@@ -81,7 +81,7 @@ void BoundingFrustum::calculateFromMatrix(const Matrix4x4F &matrix) {
     leftNormal.z = -m34 - m31;
     left.distance = -m44 - m41;
     left.normalize();
-    
+
     // right
     auto &rightNormal = right.normal;
     rightNormal.x = m11 - m14;
@@ -89,7 +89,7 @@ void BoundingFrustum::calculateFromMatrix(const Matrix4x4F &matrix) {
     rightNormal.z = m31 - m34;
     right.distance = m41 - m44;
     right.normalize();
-    
+
     // top
     auto &topNormal = top.normal;
     topNormal.x = m12 - m14;
@@ -97,7 +97,7 @@ void BoundingFrustum::calculateFromMatrix(const Matrix4x4F &matrix) {
     topNormal.z = m32 - m34;
     top.distance = m42 - m44;
     top.normalize();
-    
+
     // bottom
     auto &bottomNormal = bottom.normal;
     bottomNormal.x = -m14 - m12;
@@ -107,8 +107,6 @@ void BoundingFrustum::calculateFromMatrix(const Matrix4x4F &matrix) {
     bottom.normalize();
 }
 
-bool BoundingFrustum::intersectsBox(const BoundingBox3F &box) const {
-    return intersectsFrustumAndBox(*this, box);
-}
+bool BoundingFrustum::intersectsBox(const BoundingBox3F &box) const { return intersectsFrustumAndBox(*this, box); }
 
-}
+}  // namespace vox

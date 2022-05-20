@@ -8,8 +8,9 @@
 #define SRC_TESTS_UNIT_TESTS_UNIT_TESTS_UTILS_H_
 
 #include <gtest/gtest.h>
-#include "vector3.h"
+
 #include "point3.h"
+#include "vector3.h"
 
 #define EXPECT_VECTOR2_EQ(expected, actual)     \
     EXPECT_DOUBLE_EQ((expected).x, (actual).x); \
@@ -41,16 +42,16 @@
     EXPECT_NEAR((expected).z, (actual).z, eps);    \
     EXPECT_NEAR((expected).w, (actual).w, eps);
 
-#define EXPECT_COLOR_EQ(expected, actual)     \
+#define EXPECT_COLOR_EQ(expected, actual)       \
     EXPECT_DOUBLE_EQ((expected).r, (actual).r); \
     EXPECT_DOUBLE_EQ((expected).g, (actual).g); \
     EXPECT_DOUBLE_EQ((expected).b, (actual).b); \
     EXPECT_DOUBLE_EQ((expected).a, (actual).a);
 
 #define EXPECT_COLOR_NEAR(expected, actual, eps) \
-    EXPECT_NEAR((expected).r, (actual).r, eps);    \
-    EXPECT_NEAR((expected).g, (actual).g, eps);    \
-    EXPECT_NEAR((expected).b, (actual).b, eps);    \
+    EXPECT_NEAR((expected).r, (actual).r, eps);  \
+    EXPECT_NEAR((expected).g, (actual).g, eps);  \
+    EXPECT_NEAR((expected).b, (actual).b, eps);  \
     EXPECT_NEAR((expected).a, (actual).a, eps);
 
 #define EXPECT_BOUNDING_BOX2_EQ(expected, actual)                    \

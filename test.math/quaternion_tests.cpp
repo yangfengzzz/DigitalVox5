@@ -12,7 +12,7 @@ using namespace vox;
 TEST(Quaternion, Constructors) {
     {
         QuaternionD q;
-        
+
         EXPECT_DOUBLE_EQ(1.0, q.w);
         EXPECT_DOUBLE_EQ(0.0, q.x);
         EXPECT_DOUBLE_EQ(0.0, q.y);
@@ -20,7 +20,7 @@ TEST(Quaternion, Constructors) {
     }
     {
         QuaternionD q(2, 3, 4, 1);
-        
+
         EXPECT_DOUBLE_EQ(1.0, q.w);
         EXPECT_DOUBLE_EQ(2.0, q.x);
         EXPECT_DOUBLE_EQ(3.0, q.y);
@@ -28,7 +28,7 @@ TEST(Quaternion, Constructors) {
     }
     {
         QuaternionD q(QuaternionD(2, 3, 4, 1));
-        
+
         EXPECT_DOUBLE_EQ(1.0, q.w);
         EXPECT_DOUBLE_EQ(2.0, q.x);
         EXPECT_DOUBLE_EQ(3.0, q.y);
@@ -36,7 +36,7 @@ TEST(Quaternion, Constructors) {
     }
     {
         QuaternionD q({2, 3, 4, 1});
-        
+
         EXPECT_DOUBLE_EQ(1.0, q.w);
         EXPECT_DOUBLE_EQ(2.0, q.x);
         EXPECT_DOUBLE_EQ(3.0, q.y);
@@ -46,28 +46,28 @@ TEST(Quaternion, Constructors) {
         // set with axis & angle
         Vector3D originalAxis = Vector3D(1, 3, 2).normalized();
         double originalAngle = 0.4;
-        
+
         QuaternionD q(originalAxis, originalAngle);
-        
+
         Vector3D axis = q.axis();
         double angle = q.angle();
-        
+
         EXPECT_DOUBLE_EQ(originalAxis.x, axis.x);
         EXPECT_DOUBLE_EQ(originalAxis.y, axis.y);
         EXPECT_DOUBLE_EQ(originalAxis.z, axis.z);
         EXPECT_DOUBLE_EQ(originalAngle, angle);
     }
-    
+
     {
         // set with from & to vectors (90 degrees)
         Vector3D from(1, 0, 0);
         Vector3D to(0, 0, 1);
-        
+
         QuaternionD q(from, to);
-        
+
         Vector3D axis = q.axis();
         double angle = q.angle();
-        
+
         EXPECT_DOUBLE_EQ(0.0, axis.x);
         EXPECT_DOUBLE_EQ(-1.0, axis.y);
         EXPECT_DOUBLE_EQ(0.0, axis.z);
@@ -77,9 +77,9 @@ TEST(Quaternion, Constructors) {
         Vector3D rotationBasis0(1, 0, 0);
         Vector3D rotationBasis1(0, 0, 1);
         Vector3D rotationBasis2(0, -1, 0);
-        
+
         QuaternionD q(rotationBasis0, rotationBasis1, rotationBasis2);
-        
+
         EXPECT_DOUBLE_EQ(std::sqrt(2.0) / 2.0, q.w);
         EXPECT_DOUBLE_EQ(std::sqrt(2.0) / 2.0, q.x);
         EXPECT_DOUBLE_EQ(0.0, q.y);
@@ -91,7 +91,7 @@ TEST(Quaternion, BasicSetters) {
     {
         QuaternionD q;
         q.set(QuaternionD(2, 3, 4, 1));
-        
+
         EXPECT_DOUBLE_EQ(1.0, q.w);
         EXPECT_DOUBLE_EQ(2.0, q.x);
         EXPECT_DOUBLE_EQ(3.0, q.y);
@@ -100,7 +100,7 @@ TEST(Quaternion, BasicSetters) {
     {
         QuaternionD q;
         q.set(2, 3, 4, 1);
-        
+
         EXPECT_DOUBLE_EQ(1.0, q.w);
         EXPECT_DOUBLE_EQ(2.0, q.x);
         EXPECT_DOUBLE_EQ(3.0, q.y);
@@ -109,7 +109,7 @@ TEST(Quaternion, BasicSetters) {
     {
         QuaternionD q;
         q.set({2, 3, 4, 1});
-        
+
         EXPECT_DOUBLE_EQ(1.0, q.w);
         EXPECT_DOUBLE_EQ(2.0, q.x);
         EXPECT_DOUBLE_EQ(3.0, q.y);
@@ -119,30 +119,30 @@ TEST(Quaternion, BasicSetters) {
         // set with axis & angle
         Vector3D originalAxis = Vector3D(1, 3, 2).normalized();
         double originalAngle = 0.4;
-        
+
         QuaternionD q;
         q.set(originalAxis, originalAngle);
-        
+
         Vector3D axis = q.axis();
         double angle = q.angle();
-        
+
         EXPECT_DOUBLE_EQ(originalAxis.x, axis.x);
         EXPECT_DOUBLE_EQ(originalAxis.y, axis.y);
         EXPECT_DOUBLE_EQ(originalAxis.z, axis.z);
         EXPECT_DOUBLE_EQ(originalAngle, angle);
     }
-    
+
     {
         // set with from & to vectors (90 degrees)
         Vector3D from(1, 0, 0);
         Vector3D to(0, 0, 1);
-        
+
         QuaternionD q;
         q.set(from, to);
-        
+
         Vector3D axis = q.axis();
         double angle = q.angle();
-        
+
         EXPECT_DOUBLE_EQ(0.0, axis.x);
         EXPECT_DOUBLE_EQ(-1.0, axis.y);
         EXPECT_DOUBLE_EQ(0.0, axis.z);
@@ -152,10 +152,10 @@ TEST(Quaternion, BasicSetters) {
         Vector3D rotationBasis0(1, 0, 0);
         Vector3D rotationBasis1(0, 0, 1);
         Vector3D rotationBasis2(0, -1, 0);
-        
+
         QuaternionD q;
         q.set(rotationBasis0, rotationBasis1, rotationBasis2);
-        
+
         EXPECT_DOUBLE_EQ(std::sqrt(2.0) / 2.0, q.w);
         EXPECT_DOUBLE_EQ(std::sqrt(2.0) / 2.0, q.x);
         EXPECT_DOUBLE_EQ(0.0, q.y);
@@ -166,7 +166,7 @@ TEST(Quaternion, BasicSetters) {
 TEST(Quaternion, CastTo) {
     QuaternionD qd(2, 3, 4, 1);
     QuaternionF qf = qd.castTo<float>();
-    
+
     EXPECT_FLOAT_EQ(2.f, qf.x);
     EXPECT_FLOAT_EQ(3.f, qf.y);
     EXPECT_FLOAT_EQ(4.f, qf.z);
@@ -176,7 +176,7 @@ TEST(Quaternion, CastTo) {
 TEST(Quaternion, Normalized) {
     QuaternionD q(2, 3, 4, 1);
     QuaternionD qn = q.normalized();
-    
+
     double denom = std::sqrt(30.0);
     EXPECT_DOUBLE_EQ(1.0 / denom, qn.w);
     EXPECT_DOUBLE_EQ(2.0 / denom, qn.x);
@@ -187,29 +187,29 @@ TEST(Quaternion, Normalized) {
 TEST(Quaternion, BinaryOperators) {
     QuaternionD q1(2, 3, 4, 1);
     QuaternionD q2(-2, -3, -4, 1);
-    
+
     QuaternionD q3 = q1.mul(q2);
-    
+
     EXPECT_DOUBLE_EQ(30.0, q3.w);
     EXPECT_DOUBLE_EQ(0.0, q3.x);
     EXPECT_DOUBLE_EQ(0.0, q3.y);
     EXPECT_DOUBLE_EQ(0.0, q3.z);
-    
+
     q1.normalize();
     Vector3D v(7, 8, 9);
     Vector3D ans1 = q1.mul(v);
-    
+
     Matrix3x3D m = q1.matrix3();
     Vector3D ans2 = m.mul(v);
-    
+
     EXPECT_DOUBLE_EQ(ans2.x, ans1.x);
     EXPECT_DOUBLE_EQ(ans2.y, ans1.y);
     EXPECT_DOUBLE_EQ(ans2.z, ans1.z);
-    
+
     q1.set(2, 3, 4, 1);
     q2.set(6, 7, 8, 5);
     EXPECT_DOUBLE_EQ(70.0, q1.dot(q2));
-    
+
     q3 = q1.mul(q2);
     EXPECT_EQ(q3, q2.rmul(q1));
     q1.imul(q2);
@@ -219,78 +219,71 @@ TEST(Quaternion, BinaryOperators) {
 TEST(Quaternion, Modifiers) {
     QuaternionD q(3, 2, 1, 4);
     q.setIdentity();
-    
+
     EXPECT_DOUBLE_EQ(1.0, q.w);
     EXPECT_DOUBLE_EQ(0.0, q.x);
     EXPECT_DOUBLE_EQ(0.0, q.y);
     EXPECT_DOUBLE_EQ(0.0, q.z);
-    
+
     q.set(3, 2, 1, 4);
     q.normalize();
-    
+
     double denom = std::sqrt(30.0);
     EXPECT_DOUBLE_EQ(4.0 / denom, q.w);
     EXPECT_DOUBLE_EQ(3.0 / denom, q.x);
     EXPECT_DOUBLE_EQ(2.0 / denom, q.y);
     EXPECT_DOUBLE_EQ(1.0 / denom, q.z);
-    
+
     Vector3D axis;
     double angle;
     q.getAxisAngle(&axis, &angle);
     q.rotate(1.0);
     double newAngle;
     q.getAxisAngle(&axis, &newAngle);
-    
+
     EXPECT_DOUBLE_EQ(angle + 1.0, newAngle);
 }
 
 TEST(Quaternion, ComplexGetters) {
     QuaternionD q(2, 3, 4, 1);
-    
+
     QuaternionD q2 = q.inverse();
     EXPECT_DOUBLE_EQ(1.0 / 30.0, q2.w);
     EXPECT_DOUBLE_EQ(-1.0 / 15.0, q2.x);
     EXPECT_DOUBLE_EQ(-1.0 / 10.0, q2.y);
     EXPECT_DOUBLE_EQ(-2.0 / 15.0, q2.z);
-    
+
     q.set(0, 5, 2, 1);
     q.normalize();
     Matrix3x3D mat3 = q.matrix3();
-    double solution3[9] = {
-        -14.0 / 15.0, 2.0 / 15.0, -1.0 / 3.0,
-        -2.0 / 15.0, 11.0 / 15.0, 2.0 / 3.0,
-        1.0 / 3.0, 2.0 / 3.0, -2.0 / 3.0
-    };
-    
+    double solution3[9] = {-14.0 / 15.0, 2.0 / 15.0, -1.0 / 3.0, -2.0 / 15.0, 11.0 / 15.0,
+                           2.0 / 3.0,    1.0 / 3.0,  2.0 / 3.0,  -2.0 / 3.0};
+
     for (int i = 0; i < 9; ++i) {
         EXPECT_DOUBLE_EQ(solution3[i], mat3[i]);
     }
-    
+
     Matrix4x4D mat4 = q.matrix4();
-    double solution4[16] = {
-        -14.0 / 15.0, 2.0 / 15.0, -1.0 / 3.0, 0.0,
-        -2.0 / 15.0, 11.0 / 15.0, 2.0 / 3.0, 0.0,
-        1.0 / 3.0, 2.0 / 3.0, -2.0 / 3.0, 0.0,
-        0.0, 0.0, 0.0, 1.0
-    };
-    
+    double solution4[16] = {-14.0 / 15.0, 2.0 / 15.0, -1.0 / 3.0, 0.0, -2.0 / 15.0, 11.0 / 15.0, 2.0 / 3.0, 0.0,
+                            1.0 / 3.0,    2.0 / 3.0,  -2.0 / 3.0, 0.0, 0.0,         0.0,         0.0,       1.0};
+
     Vector3D axis;
     double angle;
     q.getAxisAngle(&axis, &angle);
-    
+
     EXPECT_DOUBLE_EQ(0.0, axis.x);
     EXPECT_DOUBLE_EQ(5.0 / std::sqrt(29.0), axis.y);
     EXPECT_DOUBLE_EQ(2.0 / std::sqrt(29.0), axis.z);
-    
+
     EXPECT_EQ(axis, q.axis());
     EXPECT_EQ(angle, q.angle());
-    
+
     EXPECT_DOUBLE_EQ(2.0 * std::acos(1.0 / std::sqrt(30.0)), angle);
-    
+
     for (int i = 0; i < 16; ++i) {
         EXPECT_DOUBLE_EQ(solution4[i], mat4[i]);
     }
-    
+
     q.set(2, 3, 4, 1);
     EXPECT_DOUBLE_EQ(std::sqrt(30.0), q.l2Norm());
 }
@@ -298,17 +291,17 @@ TEST(Quaternion, ComplexGetters) {
 TEST(Quaternion, SetterOperators) {
     QuaternionD q(2, 3, 4, 1);
     QuaternionD q2(6, 7, 8, 1);
-    
+
     q2 = q;
     EXPECT_EQ(1.0, q2.w);
     EXPECT_EQ(2.0, q2.x);
     EXPECT_EQ(3.0, q2.y);
     EXPECT_EQ(4.0, q2.z);
-    
+
     q2.set(6, 7, 8, 5);
-    
+
     q *= q2;
-    
+
     EXPECT_EQ(-60.0, q.w);
     EXPECT_EQ(12.0, q.x);
     EXPECT_EQ(30.0, q.y);
@@ -317,29 +310,29 @@ TEST(Quaternion, SetterOperators) {
 
 TEST(Quaternion, GetterOperators) {
     QuaternionD q(2, 3, 4, 1);
-    
+
     EXPECT_EQ(1.0, q[0]);
     EXPECT_EQ(2.0, q[1]);
     EXPECT_EQ(3.0, q[2]);
     EXPECT_EQ(4.0, q[3]);
-    
+
     QuaternionD q2(2, 3, 4, 1);
     EXPECT_TRUE(q == q2);
-    
+
     q[0] = 5.0;
     q[1] = 6.0;
     q[2] = 7.0;
     q[3] = 8.0;
-    
+
     EXPECT_EQ(5.0, q[0]);
     EXPECT_EQ(6.0, q[1]);
     EXPECT_EQ(7.0, q[2]);
     EXPECT_EQ(8.0, q[3]);
-    
+
     EXPECT_TRUE(q != q2);
 }
 
-//MARK: -
+// MARK: -
 TEST(Quaternion, add) {
     const auto a = QuaternionD(2, 3, 4, 1);
     const auto b = QuaternionD(-3, 5, 0, 2);
@@ -396,7 +389,7 @@ TEST(Quaternion, rotationMatrix3x3) {
     const auto a2 = Matrix3x3D(1, 2, 3, 4, -5, 6, 7, 8, -9);
     const auto a3 = Matrix3x3D(1, 2, 3, 4, 5, 6, 7, 8, -9);
     const auto a4 = Matrix3x3D(-7, 2, 3, 4, -5, 6, 7, 8, 9);
-    
+
     auto out = QuaternionD(a1);
     EXPECT_VECTOR4_EQ(out, QuaternionD(-0.25, 0.5, -0.25, 2));
     out = QuaternionD(a2);
@@ -411,7 +404,8 @@ TEST(Quaternion, invert) {
     const auto a = QuaternionD(1, 1, 1, 0.5);
     const auto out = a.inverse();
 
-    EXPECT_VECTOR4_EQ(out, QuaternionD(-0.3076923076923077, -0.3076923076923077, -0.3076923076923077, 0.15384615384615385));
+    EXPECT_VECTOR4_EQ(out,
+                      QuaternionD(-0.3076923076923077, -0.3076923076923077, -0.3076923076923077, 0.15384615384615385));
 }
 
 TEST(Quaternion, lerp) {
@@ -422,7 +416,6 @@ TEST(Quaternion, lerp) {
 
     EXPECT_VECTOR4_EQ(out, normal);
 }
-
 
 TEST(Quaternion, slerp) {
     const auto a = QuaternionD(1, 1, 1, 0.5);
@@ -453,12 +446,12 @@ TEST(Quaternion, rotation) {
 TEST(Quaternion, rotate) {
     const auto a = QuaternionD();
     auto b = QuaternionD();
-    
+
     auto out = a.rotateX(1.5);
     b.rotateX(1.5);
     EXPECT_VECTOR4_EQ(out, QuaternionD(0.6816387600233341, 0, 0, 0.7316888688738209));
     EXPECT_VECTOR4_EQ(out, b);
-    
+
     out = a.rotateY(1.5);
     b.set(0, 0, 0, 1);
     b.rotateY(1.5);
@@ -479,7 +472,6 @@ TEST(Quaternion, rotatAxisAngle) {
     out.rotateAxisAngle(a, b);
     EXPECT_VECTOR4_EQ(out, QuaternionD(0, 0.7071067811865475, 0, 0.7071067811865476));
 }
-
 
 TEST(Quaternion, scale) {
     const auto a = QuaternionD(3, 4, 5, 0);
