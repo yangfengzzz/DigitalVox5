@@ -17,4 +17,19 @@ const Color Color::Yellow = { 1.f, 1.f, 0.f };
 const Color Color::Cyan   = { 0.f, 1.f, 1.f };
 const Color Color::Magenta = { 1.f, 0.f, 1.f };
 
+Color Color::lightened(float amount) const {
+    amount = std::max(0.0f, std::min(1.0f, amount));
+    return {(1.0f - amount) * r + amount * 1.0f,
+                 (1.0f - amount) * g + amount * 1.0f,
+                 (1.0f - amount) *  + amount * 1.0f, a};
+}
+
+unsigned int Color::toABGR32() const {
+    auto a = (unsigned int)std::round(this->a * 255.0f);
+    auto b = (unsigned int)std::round(this->b * 255.0f);
+    auto g = (unsigned int)std::round(this->g * 255.0f);
+    auto r = (unsigned int)std::round(this->r * 255.0f);
+    return ((a << 24) | (b << 16) | (g << 8) | r);
+}
+
 }
