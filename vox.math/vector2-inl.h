@@ -480,11 +480,13 @@ Vector<T, 2> monotonicCatmullRom(
     Vector<T, 2> d_2 = (v_3 - v_1) / kTwo;
     Vector<T, 2> vd_1 = v_2 - v_1;
 
-    if (std::fabs(vd_1.x) < std::numeric_limits<T>::epsilon() || sign(vd_1.x) != sign(d_1.x) || sign(vd_1.x) != sign(d_2.x)) {
+    if (std::fabs(vd_1.x) < std::numeric_limits<T>::epsilon() || sign(vd_1.x) != sign(d_1.x) ||
+        sign(vd_1.x) != sign(d_2.x)) {
         d_1.x = d_2.x = 0;
     }
 
-    if (std::fabs(vd_1.y) < std::numeric_limits<T>::epsilon() || sign(vd_1.y) != sign(d_1.y) || sign(vd_1.y) != sign(d_2.y)) {
+    if (std::fabs(vd_1.y) < std::numeric_limits<T>::epsilon() || sign(vd_1.y) != sign(d_1.y) ||
+        sign(vd_1.y) != sign(d_2.y)) {
         d_1.y = d_2.y = 0;
     }
 

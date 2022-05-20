@@ -48,7 +48,9 @@ public:
     Quaternion(const Vector3<T> &from, const Vector3<T> &to);
 
     //! Constructs a quaternion with three basis vectors.
-    Quaternion(const Vector3<T> &rotation_basis_0, const Vector3<T> &rotation_basis_1, const Vector3<T> &rotation_basis_2);
+    Quaternion(const Vector3<T> &rotation_basis_0,
+               const Vector3<T> &rotation_basis_1,
+               const Vector3<T> &rotation_basis_2);
 
     //! Constructs a quaternion with 3x3 rotational matrix.
     explicit Quaternion(const Matrix3x3<T> &matrix);
@@ -74,7 +76,9 @@ public:
     void set(const Vector3<T> &from, const Vector3<T> &to);
 
     //! Sets quaternion with three basis vectors.
-    void set(const Vector3<T> &rotation_basis_0, const Vector3<T> &rotation_basis_1, const Vector3<T> &rotation_basis_2);
+    void set(const Vector3<T> &rotation_basis_0,
+             const Vector3<T> &rotation_basis_1,
+             const Vector3<T> &rotation_basis_2);
 
     //! Sets the quaternion with 3x3 rotational matrix.
     void set(const Matrix3x3<T> &matrix);

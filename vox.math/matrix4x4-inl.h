@@ -266,14 +266,15 @@ Matrix<T, 3, 3> Matrix<T, 4, 4>::normalMatrix() const {
     }
     det = 1.0 / det;
 
-    return Matrix<T, 3, 3>((a_22 * b_11 - a_23 * b_10 + a_24 * b_09) * det, (a_23 * b_08 - a_21 * b_11 - a_24 * b_07) * det,
-                           (a_21 * b_10 - a_22 * b_08 + a_24 * b_06) * det,
+    return Matrix<T, 3, 3>(
+            (a_22 * b_11 - a_23 * b_10 + a_24 * b_09) * det, (a_23 * b_08 - a_21 * b_11 - a_24 * b_07) * det,
+            (a_21 * b_10 - a_22 * b_08 + a_24 * b_06) * det,
 
-                           (a_13 * b_10 - a_12 * b_11 - a_14 * b_09) * det, (a_11 * b_11 - a_13 * b_08 + a_14 * b_07) * det,
-                           (a_12 * b_08 - a_11 * b_10 - a_14 * b_06) * det,
+            (a_13 * b_10 - a_12 * b_11 - a_14 * b_09) * det, (a_11 * b_11 - a_13 * b_08 + a_14 * b_07) * det,
+            (a_12 * b_08 - a_11 * b_10 - a_14 * b_06) * det,
 
-                           (a_42 * b_05 - a_43 * b_04 + a_44 * b_03) * det, (a_43 * b_02 - a_41 * b_05 - a_44 * b_01) * det,
-                           (a_41 * b_04 - a_42 * b_02 + a_44 * b_00) * det);
+            (a_42 * b_05 - a_43 * b_04 + a_44 * b_03) * det, (a_43 * b_02 - a_41 * b_05 - a_44 * b_01) * det,
+            (a_41 * b_04 - a_42 * b_02 + a_44 * b_00) * det);
 }
 
 // MARK: - Binary operator methods - new instance = this instance (+) input
@@ -909,14 +910,15 @@ Matrix<T, 4, 4> Matrix<T, 4, 4>::translate(const Vector3<T> &v) const {
     T a_21 = elements_[4], a_22 = elements_[5], a_23 = elements_[6], a_24 = elements_[7];
     T a_31 = elements_[8], a_32 = elements_[9], a_33 = elements_[10], a_34 = elements_[11];
 
-    return Matrix<T, 4, 4>(a_11, a_12, a_13, a_14,
+    return Matrix<T, 4, 4>(
+            a_11, a_12, a_13, a_14,
 
-                           a_21, a_22, a_23, a_24,
+            a_21, a_22, a_23, a_24,
 
             a_31, a_32, a_33, a_34,
 
-                           a_11 * x + a_21 * y + a_31 * z + elements_[12], a_12 * x + a_22 * y + a_32 * z + elements_[13],
-                           a_13 * x + a_23 * y + a_33 * z + elements_[14], a_14 * x + a_24 * y + a_34 * z + elements_[15]);
+            a_11 * x + a_21 * y + a_31 * z + elements_[12], a_12 * x + a_22 * y + a_32 * z + elements_[13],
+            a_13 * x + a_23 * y + a_33 * z + elements_[14], a_14 * x + a_24 * y + a_34 * z + elements_[15]);
 }
 
 template <typename T>
