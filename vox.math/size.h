@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_SIZE_H_
-#define INCLUDE_VOX_SIZE_H_
+#pragma once
 
 #include "point.h"
 
@@ -16,6 +15,3 @@ template<size_t N> using Size = Point<size_t, N>;
 }  // namespace vox
 
 // #include "size-inl.h"
-
-#endif  // INCLUDE_VOX_SIZE_H_
-

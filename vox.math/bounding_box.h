@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_BOUNDING_BOX_H_
-#define INCLUDE_VOX_BOUNDING_BOX_H_
+#pragma once
 
 #include "vector.h"
 
@@ -75,5 +74,3 @@ public:
 }  // namespace vox
 
 #include "bounding_box-inl.h"
-
-#endif  // INCLUDE_VOX_BOUNDING_BOX_H_

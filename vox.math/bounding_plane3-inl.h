@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef plane3_inl_h
-#define plane3_inl_h
+#pragma once
 
 namespace vox {
 template<typename T>
@@ -72,5 +71,3 @@ void BoundingPlane<T, 3>::normalize() {
 }
 
 }
-
-#endif /* plane3_inl_h */

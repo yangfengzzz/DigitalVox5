@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_RAY2_H_
-#define INCLUDE_VOX_RAY2_H_
+#pragma once
 
 #include "point2.h"
 #include "vector2.h"
@@ -55,5 +54,3 @@ using Ray2D = Ray2<double>;
 }  // namespace vox
 
 #include "ray2-inl.h"
-
-#endif  // INCLUDE_VOX_RAY2_H_

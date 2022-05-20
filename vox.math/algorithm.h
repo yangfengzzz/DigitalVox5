@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef algorithm_h
-#define algorithm_h
+#pragma once
 
 namespace vox {
 template<class Iter>
@@ -186,4 +185,3 @@ void sortedUnion(const Type *buf1, int buf1Length,
 }
 
 }
-#endif /* algorithm_h */

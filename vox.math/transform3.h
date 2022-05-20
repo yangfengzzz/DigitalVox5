@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_TRANSFORM3_H_
-#define INCLUDE_VOX_TRANSFORM3_H_
+#pragma once
 
 #include "bounding_box3.h"
 #include "quaternion.h"
@@ -78,5 +77,3 @@ using Transform3D = Transform3<double>;
 }  // namespace vox
 
 #include "transform3-inl.h"
-
-#endif  // INCLUDE_VOX_TRANSFORM3_H_

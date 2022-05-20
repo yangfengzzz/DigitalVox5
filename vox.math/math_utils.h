@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_MATH_UTILS_H_
-#define INCLUDE_VOX_MATH_UTILS_H_
+#pragma once
 
 #include "macros.h"
 #include <cstddef>
@@ -234,5 +233,3 @@ inline T monotonicCatmullRom(const T &f0, const T &f1, const T &f2, const T &f3,
 }  // namespace vox
 
 #include "math_utils-inl.h"
-
-#endif  // INCLUDE_VOX_MATH_UTILS_H_

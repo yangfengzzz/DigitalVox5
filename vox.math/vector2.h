@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_VECTOR2_H_
-#define INCLUDE_VOX_VECTOR2_H_
+#pragma once
 
 #include "vector.h"
 #include <algorithm>  // just make cpplint happy..
@@ -364,5 +363,3 @@ Vector2<T> monotonicCatmullRom(const Vector2<T> &v0, const Vector2<T> &v1,
 }  // namespace vox
 
 #include "vector2-inl.h"
-
-#endif  // INCLUDE_VOX_VECTOR2_H_

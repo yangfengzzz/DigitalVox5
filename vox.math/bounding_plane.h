@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef plane_h
-#define plane_h
+#pragma once
 
 #include "vector.h"
 
@@ -25,5 +24,3 @@ class BoundingPlane {
 };
 
 }  // namespace vox
-
-#endif /* plane_h */

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef color_hpp
-#define color_hpp
+#pragma once
 
 #include <array>
 #include <cassert>
@@ -119,4 +118,3 @@ inline Color operator+(const Color &left, const Color &right) {
 inline Color operator*(const Color &left, const float s) { return {left.r * s, left.g * s, left.b * s, left.a * s}; }
 
 }  // namespace vox
-#endif /* color_hpp */

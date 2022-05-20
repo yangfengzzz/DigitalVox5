@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef bounding_frustum_hpp
-#define bounding_frustum_hpp
+#pragma once
 
 #include <cassert>
 #include <cmath>
@@ -68,4 +67,3 @@ struct BoundingFrustum {
 };
 
 }
-#endif /* bounding_frustum_hpp */

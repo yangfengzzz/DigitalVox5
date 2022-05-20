@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_RAY_H_
-#define INCLUDE_VOX_RAY_H_
+#pragma once
 
 #include "vector.h"
 
@@ -25,5 +24,3 @@ class Ray {
 };
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_RAY_H_

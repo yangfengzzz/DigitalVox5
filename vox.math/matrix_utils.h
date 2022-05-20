@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef matrix_utils_h
-#define matrix_utils_h
+#pragma once
 
 #include "matrix4x4.h"
 #include "quaternion.h"
@@ -346,5 +345,3 @@ Point3 <T> getTranslation(const Matrix<T, 4, 4> &matrix) {
 }
 
 }
-
-#endif /* matrix_utils_h */

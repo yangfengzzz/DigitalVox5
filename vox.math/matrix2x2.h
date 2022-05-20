@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_MATRIX2X2_H_
-#define INCLUDE_VOX_MATRIX2X2_H_
+#pragma once
 
 #include "matrix.h"
 #include "vector2.h"
@@ -401,5 +400,3 @@ using Matrix2x2D = Matrix2x2<double>;
 }  // namespace vox
 
 #include "matrix2x2-inl.h"
-
-#endif  // INCLUDE_VOX_MATRIX2X2_H_

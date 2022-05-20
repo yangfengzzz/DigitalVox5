@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_TRANSFORM2_H_
-#define INCLUDE_VOX_TRANSFORM2_H_
+#pragma once
 
 #include "bounding_box2.h"
 #include "ray2.h"
@@ -77,5 +76,3 @@ using Transform2D = Transform2<double>;
 }  // namespace vox
 
 #include "transform2-inl.h"
-
-#endif  // INCLUDE_VOX_TRANSFORM2_H_

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_DETAIL_VECTOR_EXPRESSION_INL_H
-#define INCLUDE_VOX_DETAIL_VECTOR_EXPRESSION_INL_H
+#pragma once
 
 #include "vector_expression.h"
 
@@ -139,5 +138,3 @@ VectorDiv <T, E1, E2> operator/(const VectorExpression <T, E1> &a,
 }
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_DETAIL_VECTOR_EXPRESSION_INL_H

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_DETAIL_QUATERNION_INL_H_
-#define INCLUDE_VOX_DETAIL_QUATERNION_INL_H_
+#pragma once
 
 #include <limits>
 
@@ -737,5 +736,3 @@ inline Quaternion <T> operator*(const Quaternion <T> &a, const Quaternion <T> &b
 }
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_DETAIL_QUATERNION_INL_H_

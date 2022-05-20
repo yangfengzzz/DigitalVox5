@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_QUATERNION_H_
-#define INCLUDE_VOX_QUATERNION_H_
+#pragma once
 
 #include "matrix4x4.h"
 
@@ -363,5 +362,3 @@ using QuaternionD = Quaternion<double>;
 }  // namespace vox
 
 #include "quaternion-inl.h"
-
-#endif  // INCLUDE_VOX_QUATERNION_H_

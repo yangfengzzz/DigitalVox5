@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_DETAIL_VOX_MATRIX_EXPRESSION_INL_H_
-#define INCLUDE_DETAIL_VOX_MATRIX_EXPRESSION_INL_H_
+#pragma once
 
 #include "matrix_expression.h"
 
@@ -360,5 +359,3 @@ MatrixScalarRDiv <T, E> operator/(T a, const MatrixExpression <T, E> &b) {
 }
 
 }  // namespace vox
-
-#endif  // INCLUDE_DETAIL_VOX_MATRIX_EXPRESSION_INL_H_

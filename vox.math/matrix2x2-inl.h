@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_DETAIL_MATRIX2X2_INL_H_
-#define INCLUDE_VOX_DETAIL_MATRIX2X2_INL_H_
+#pragma once
 
 #include "math_utils.h"
 #include <algorithm>
@@ -596,5 +595,3 @@ Matrix<T, 2, 2> operator/(T a, const Matrix<T, 2, 2> &b) {
 }
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_DETAIL_MATRIX2X2_INL_H_

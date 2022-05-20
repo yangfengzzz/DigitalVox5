@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_DETAIL_RAY3_INL_H_
-#define INCLUDE_VOX_DETAIL_RAY3_INL_H_
+#pragma once
 
 namespace vox {
 
@@ -32,5 +31,3 @@ Point3 <T> Ray<T, 3>::pointAt(T t) const {
 }
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_DETAIL_RAY3_INL_H_

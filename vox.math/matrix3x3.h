@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_MATRIX3X3_H_
-#define INCLUDE_VOX_MATRIX3X3_H_
+#pragma once
 
 #include "matrix.h"
 #include "vector3.h"
@@ -425,5 +424,3 @@ using Matrix3x3D = Matrix3x3<double>;
 }  // namespace vox
 
 #include "matrix3x3-inl.h"
-
-#endif  // INCLUDE_VOX_MATRIX3X3_H_

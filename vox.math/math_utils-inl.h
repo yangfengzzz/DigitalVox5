@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_DETAIL_MATH_UTILS_INL_H_
-#define INCLUDE_VOX_DETAIL_MATH_UTILS_INL_H_
+#pragma once
 
 #include "constants.h"
 #include <algorithm>
@@ -256,5 +255,3 @@ inline T monotonicCatmullRom(const T &f0,
 }
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_DETAIL_MATH_UTILS_INL_H_

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef plane2_h
-#define plane2_h
+#pragma once
 
 #include "vector2.h"
 #include "bounding_plane.h"
@@ -70,5 +69,3 @@ using BoundingPlane2D = BoundingPlane2<double>;
 }  // namespace vox
 
 #include "bounding_plane2-inl.h"
-
-#endif /* plane2_h */

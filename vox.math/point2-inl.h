@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_DETAIL_POINT2_INL_H_
-#define INCLUDE_VOX_DETAIL_POINT2_INL_H_
+#pragma once
 
 #include "macros.h"
 #include "math_utils.h"
@@ -459,5 +458,3 @@ Point<T, 2> floor(const Point<T, 2> &a) {
 }
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_DETAIL_POINT2_INL_H_

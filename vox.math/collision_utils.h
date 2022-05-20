@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef collision_util_hpp
-#define collision_util_hpp
+#pragma once
 
 #include <cassert>
 #include <cmath>
@@ -105,5 +104,3 @@ bool intersectsFrustumAndBox(const BoundingFrustum &frustum, const BoundingBox3F
 ContainmentType frustumContainsBox(const BoundingFrustum &frustum, const BoundingBox3F &box);
 
 }
-
-#endif /* collision_util_hpp */

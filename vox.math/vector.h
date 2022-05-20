@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_VECTOR_H_
-#define INCLUDE_VOX_VECTOR_H_
+#pragma once
 
 #include "constants.h"
 #include "type_helpers.h"
@@ -346,5 +345,3 @@ struct ScalarType<Vector<T, N>> {
 }  // namespace vox
 
 #include "vector-inl.h"
-
-#endif  // INCLUDE_VOX_VECTOR_H_

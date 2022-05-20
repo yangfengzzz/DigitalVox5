@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_POINT2_H_
-#define INCLUDE_VOX_POINT2_H_
+#pragma once
 
 #include "point.h"
 #include "vector2.h"
@@ -339,5 +338,3 @@ using Point2UI = Point2<size_t>;
 }  // namespace vox
 
 #include "point2-inl.h"
-
-#endif  // INCLUDE_VOX_POINT2_H_

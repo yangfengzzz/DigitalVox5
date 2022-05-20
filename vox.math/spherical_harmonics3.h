@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef spherical_harmonics3_hpp
-#define spherical_harmonics3_hpp
+#pragma once
 
 #include "vector3.h"
 #include "color.h"
@@ -54,5 +53,3 @@ private:
 };
 
 }
-
-#endif /* spherical_harmonics3_hpp */

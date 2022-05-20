@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_SIZE3_H_
-#define INCLUDE_VOX_SIZE3_H_
+#pragma once
 
 #include "size2.h"
 
@@ -270,5 +269,3 @@ Size3 floor(const Size3 &a);
 }  // namespace vox
 
 #include "size3-inl.h"
-
-#endif  // INCLUDE_VOX_SIZE3_H_

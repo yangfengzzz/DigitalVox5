@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_DETAIL_SIZE_INL_H_
-#define INCLUDE_VOX_DETAIL_SIZE_INL_H_
+#pragma once
 
 #include <cassert>
 
@@ -66,5 +65,3 @@ void Size<N>::setAt(size_t i, size_t v) {
 }
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_DETAIL_SIZE_INL_H_

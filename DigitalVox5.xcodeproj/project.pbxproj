@@ -35,7 +35,6 @@
 		0444E4A92803C73E00C6F279 /* transform2.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E44B2803C73C00C6F279 /* transform2.h */; };
 		0444E4AA2803C73E00C6F279 /* quaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E44C2803C73C00C6F279 /* quaternion.h */; };
 		0444E4AB2803C73E00C6F279 /* vector4-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E44D2803C73C00C6F279 /* vector4-inl.h */; };
-		0444E4AC2803C73E00C6F279 /* parallel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E44E2803C73C00C6F279 /* parallel.cpp */; };
 		0444E4AD2803C73E00C6F279 /* point-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E44F2803C73C00C6F279 /* point-inl.h */; };
 		0444E4AF2803C73E00C6F279 /* bounding_box-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E4512803C73C00C6F279 /* bounding_box-inl.h */; };
 		0444E4B02803C73E00C6F279 /* math_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E4522803C73C00C6F279 /* math_utils.h */; };
@@ -53,7 +52,6 @@
 		0444E4BC2803C73E00C6F279 /* matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E45E2803C73D00C6F279 /* matrix.h */; };
 		0444E4BD2803C73E00C6F279 /* bounding_plane2-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E45F2803C73D00C6F279 /* bounding_plane2-inl.h */; };
 		0444E4BF2803C73E00C6F279 /* size.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E4612803C73D00C6F279 /* size.h */; };
-		0444E4C02803C73E00C6F279 /* parallel-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E4622803C73D00C6F279 /* parallel-inl.h */; };
 		0444E4C32803C73E00C6F279 /* random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E4652803C73D00C6F279 /* random.cpp */; };
 		0444E4C42803C73E00C6F279 /* vector2.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E4662803C73D00C6F279 /* vector2.h */; };
 		0444E4C62803C73E00C6F279 /* matrix3x3.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E4682803C73D00C6F279 /* matrix3x3.h */; };
@@ -75,7 +73,6 @@
 		0444E4D92803C73E00C6F279 /* matrix-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E47B2803C73D00C6F279 /* matrix-inl.h */; };
 		0444E4DA2803C73E00C6F279 /* ray2.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E47C2803C73D00C6F279 /* ray2.h */; };
 		0444E4DB2803C73E00C6F279 /* vector2-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E47D2803C73D00C6F279 /* vector2-inl.h */; };
-		0444E4DE2803C73E00C6F279 /* parallel.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E4802803C73D00C6F279 /* parallel.h */; };
 		0444E4DF2803C73E00C6F279 /* ray3.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E4812803C73D00C6F279 /* ray3.h */; };
 		0444E4E02803C73E00C6F279 /* color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E4822803C73D00C6F279 /* color.cpp */; };
 		0444E4E12803C73E00C6F279 /* transform3-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E4832803C73D00C6F279 /* transform3-inl.h */; };
@@ -1293,7 +1290,6 @@
 		0444E44B2803C73C00C6F279 /* transform2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transform2.h; sourceTree = "<group>"; };
 		0444E44C2803C73C00C6F279 /* quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = quaternion.h; sourceTree = "<group>"; };
 		0444E44D2803C73C00C6F279 /* vector4-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "vector4-inl.h"; sourceTree = "<group>"; };
-		0444E44E2803C73C00C6F279 /* parallel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parallel.cpp; sourceTree = "<group>"; };
 		0444E44F2803C73C00C6F279 /* point-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "point-inl.h"; sourceTree = "<group>"; };
 		0444E4512803C73C00C6F279 /* bounding_box-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "bounding_box-inl.h"; sourceTree = "<group>"; };
 		0444E4522803C73C00C6F279 /* math_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = math_utils.h; sourceTree = "<group>"; };
@@ -1311,7 +1307,6 @@
 		0444E45E2803C73D00C6F279 /* matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix.h; sourceTree = "<group>"; };
 		0444E45F2803C73D00C6F279 /* bounding_plane2-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "bounding_plane2-inl.h"; sourceTree = "<group>"; };
 		0444E4612803C73D00C6F279 /* size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = size.h; sourceTree = "<group>"; };
-		0444E4622803C73D00C6F279 /* parallel-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "parallel-inl.h"; sourceTree = "<group>"; };
 		0444E4652803C73D00C6F279 /* random.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = random.cpp; sourceTree = "<group>"; };
 		0444E4662803C73D00C6F279 /* vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector2.h; sourceTree = "<group>"; };
 		0444E4682803C73D00C6F279 /* matrix3x3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix3x3.h; sourceTree = "<group>"; };
@@ -1333,7 +1328,6 @@
 		0444E47B2803C73D00C6F279 /* matrix-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "matrix-inl.h"; sourceTree = "<group>"; };
 		0444E47C2803C73D00C6F279 /* ray2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ray2.h; sourceTree = "<group>"; };
 		0444E47D2803C73D00C6F279 /* vector2-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "vector2-inl.h"; sourceTree = "<group>"; };
-		0444E4802803C73D00C6F279 /* parallel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parallel.h; sourceTree = "<group>"; };
 		0444E4812803C73D00C6F279 /* ray3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ray3.h; sourceTree = "<group>"; };
 		0444E4822803C73D00C6F279 /* color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = color.cpp; sourceTree = "<group>"; };
 		0444E4832803C73D00C6F279 /* transform3-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "transform3-inl.h"; sourceTree = "<group>"; };
@@ -3374,9 +3368,6 @@
 			children = (
 				0444E4542803C73C00C6F279 /* macros.h */,
 				0444E42C2803C73C00C6F279 /* constants.h */,
-				0444E4802803C73D00C6F279 /* parallel.h */,
-				0444E4622803C73D00C6F279 /* parallel-inl.h */,
-				0444E44E2803C73C00C6F279 /* parallel.cpp */,
 				0444E4842803C73E00C6F279 /* type_helpers.h */,
 				0444E45C2803C73D00C6F279 /* functors.h */,
 				0444E44A2803C73C00C6F279 /* functors-inl.h */,
@@ -3391,8 +3382,8 @@
 				0444E4472803C73C00C6F279 /* vector-inl.h */,
 				0444E4662803C73D00C6F279 /* vector2.h */,
 				0444E47D2803C73D00C6F279 /* vector2-inl.h */,
-				0444E4712803C73D00C6F279 /* vector3-inl.h */,
 				0444E4792803C73D00C6F279 /* vector3.h */,
+				0444E4712803C73D00C6F279 /* vector3-inl.h */,
 				0444E4552803C73D00C6F279 /* vector4.h */,
 				0444E44D2803C73C00C6F279 /* vector4-inl.h */,
 				0444E4492803C73C00C6F279 /* point.h */,
@@ -3430,16 +3421,16 @@
 				0444E4312803C73C00C6F279 /* bounding_box2-inl.h */,
 				0444E4852803C73E00C6F279 /* bounding_box3.h */,
 				0444E4392803C73C00C6F279 /* bounding_box3-inl.h */,
-				0444E4692803C73D00C6F279 /* bounding_plane.h */,
-				0444E42D2803C73C00C6F279 /* bounding_plane2.h */,
-				0444E45F2803C73D00C6F279 /* bounding_plane2-inl.h */,
-				0444E4772803C73D00C6F279 /* bounding_plane3.h */,
-				0444E4862803C73E00C6F279 /* bounding_plane3-inl.h */,
 				0444E4872803C73E00C6F279 /* ray.h */,
 				0444E47C2803C73D00C6F279 /* ray2.h */,
 				0444E4572803C73D00C6F279 /* ray2-inl.h */,
 				0444E4812803C73D00C6F279 /* ray3.h */,
 				0444E4372803C73C00C6F279 /* ray3-inl.h */,
+				0444E4692803C73D00C6F279 /* bounding_plane.h */,
+				0444E42D2803C73C00C6F279 /* bounding_plane2.h */,
+				0444E45F2803C73D00C6F279 /* bounding_plane2-inl.h */,
+				0444E4772803C73D00C6F279 /* bounding_plane3.h */,
+				0444E4862803C73E00C6F279 /* bounding_plane3-inl.h */,
 				0444E46B2803C73D00C6F279 /* bounding_frustum.h */,
 				0444E43A2803C73C00C6F279 /* bounding_frustum.cpp */,
 				0444E46D2803C73D00C6F279 /* collision_utils.h */,
@@ -4712,7 +4703,6 @@
 				0444E4BC2803C73E00C6F279 /* matrix.h in Headers */,
 				0444E4D72803C73E00C6F279 /* vector3.h in Headers */,
 				0444E4CE2803C73E00C6F279 /* spherical_harmonics3.h in Headers */,
-				0444E4DE2803C73E00C6F279 /* parallel.h in Headers */,
 				0444E4B42803C73E00C6F279 /* point3.h in Headers */,
 				0444E48B2803C73E00C6F279 /* bounding_plane2.h in Headers */,
 				0444E4CF2803C73E00C6F279 /* vector3-inl.h in Headers */,
@@ -4726,7 +4716,6 @@
 				0444E4AD2803C73E00C6F279 /* point-inl.h in Headers */,
 				0444E4892803C73E00C6F279 /* matrix_utils.h in Headers */,
 				0444E4C62803C73E00C6F279 /* matrix3x3.h in Headers */,
-				0444E4C02803C73E00C6F279 /* parallel-inl.h in Headers */,
 				0444E4B72803C73E00C6F279 /* matrix4x4-inl.h in Headers */,
 				0444E4992803C73E00C6F279 /* quaternion-inl.h in Headers */,
 				0444E4AA2803C73E00C6F279 /* quaternion.h in Headers */,
@@ -5611,7 +5600,6 @@
 				0444E4982803C73E00C6F279 /* bounding_frustum.cpp in Sources */,
 				0444E4E02803C73E00C6F279 /* color.cpp in Sources */,
 				0444E4902803C73E00C6F279 /* collision_utils.cpp in Sources */,
-				0444E4AC2803C73E00C6F279 /* parallel.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

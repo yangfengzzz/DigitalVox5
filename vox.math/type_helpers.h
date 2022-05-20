@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_TYPE_HELPERS_H_
-#define INCLUDE_VOX_TYPE_HELPERS_H_
+#pragma once
 
 namespace vox {
 
@@ -16,5 +15,3 @@ struct ScalarType {
 };
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_TYPE_HELPERS_H_

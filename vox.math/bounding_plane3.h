@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef plane3_h
-#define plane3_h
+#pragma once
 
 #include "vector3.h"
 #include "point3.h"
@@ -71,5 +70,3 @@ using BoundingPlane3D = BoundingPlane3<double>;
 }  // namespace vox
 
 #include "bounding_plane3-inl.h"
-
-#endif /* plane3_h */

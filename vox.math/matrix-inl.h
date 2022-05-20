@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_DETAIL_MATRIX_INL_H_
-#define INCLUDE_VOX_DETAIL_MATRIX_INL_H_
+#pragma once
 
 #include "macros.h"
 #include "math_utils.h"
@@ -685,5 +684,3 @@ void Matrix<T, M, N>::setColumnAt(size_t i, T v) {
 }
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_DETAIL_MATRIX_INL_H_

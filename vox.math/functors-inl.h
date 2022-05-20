@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_DETAIL_FUNCTORS_INL_H_
-#define INCLUDE_VOX_DETAIL_FUNCTORS_INL_H_
+#pragma once
 
 #include "functors.h"
 
@@ -25,6 +24,5 @@ template<typename T>
 constexpr T RDivides<T>::operator()(const T &a, const T &b) const {
     return b / a;
 }
-}
 
-#endif  // INCLUDE_VOX_DETAIL_FUNCTORS_INL_H_
+}

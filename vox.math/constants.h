@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_CONSTANTS_H_
-#define INCLUDE_VOX_CONSTANTS_H_
+#pragma once
 
 #include "macros.h"
 #include <cmath>
@@ -339,5 +338,3 @@ constexpr float kDegreeToRadian = kPiF / 180.f;
 constexpr float kRadianToDegree = 180.f / kPiF;
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_CONSTANTS_H_

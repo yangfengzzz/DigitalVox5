@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_MACROS_H_
-#define INCLUDE_VOX_MACROS_H_
+#pragma once
 
 #if defined(_WIN32) || defined(_WIN64)
 #   define VOX_WINDOWS
@@ -97,6 +96,3 @@ typedef SSIZE_T ssize_t;
     VOX_DIAG_PRAGMA(GCC, warning VOX_DIAG_JOINSTR(-W, gcc_option))
 #endif
 #endif
-
-
-#endif  // INCLUDE_VOX_MACROS_H_

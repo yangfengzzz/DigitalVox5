@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_DETAIL_TRANSFORM2_INL_H_
-#define INCLUDE_VOX_DETAIL_TRANSFORM2_INL_H_
+#pragma once
 
 #include "transform2.h"
 
@@ -118,5 +117,3 @@ inline BoundingBox2 <T> Transform2<T>::toWorld(const BoundingBox2 <T> &bboxInLoc
 }
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_DETAIL_TRANSFORM2_INL_H_

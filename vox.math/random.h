@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef random_hpp
-#define random_hpp
+#pragma once
 
 #include <random>
 #include "algorithm.h"
@@ -50,4 +49,3 @@ inline uint32_t Random::seed() const {
 }
 
 }
-#endif /* random_hpp */

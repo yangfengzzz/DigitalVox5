@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_VECTOR4_H_
-#define INCLUDE_VOX_VECTOR4_H_
+#pragma once
 
 #include "vector3.h"
 
@@ -373,5 +372,3 @@ Vector4<T> monotonicCatmullRom(const Vector4<T> &v0, const Vector4<T> &v1,
 }  // namespace vox
 
 #include "vector4-inl.h"
-
-#endif  // INCLUDE_VOX_VECTOR4_H_

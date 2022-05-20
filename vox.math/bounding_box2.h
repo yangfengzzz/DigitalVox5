@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_BOUNDING_BOX2_H_
-#define INCLUDE_VOX_BOUNDING_BOX2_H_
+#pragma once
 
 #include "bounding_box.h"
 #include "ray2.h"
@@ -131,5 +130,3 @@ using BoundingBoxRayIntersection2D = BoundingBoxRayIntersection2<double>;
 }  // namespace vox
 
 #include "bounding_box2-inl.h"
-
-#endif  // INCLUDE_VOX_BOUNDING_BOX2_H_

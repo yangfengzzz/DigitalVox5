@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_DETAIL_TRANSFORM3_INL_H_
-#define INCLUDE_VOX_DETAIL_TRANSFORM3_INL_H_
+#pragma once
 
 #include "transform3.h"
 
@@ -106,5 +105,3 @@ inline BoundingBox3 <T> Transform3<T>::toWorld(const BoundingBox3 <T> &bboxInLoc
 }
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_DETAIL_TRANSFORM3_INL_H_

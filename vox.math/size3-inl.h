@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef INCLUDE_VOX_DETAIL_SIZE3_INL_H_
-#define INCLUDE_VOX_DETAIL_SIZE3_INL_H_
+#pragma once
 
 #include "math_utils.h"
 #include <algorithm>
@@ -316,5 +315,3 @@ inline Size3 clamp(const Size3 &v, const Size3 &low, const Size3 &high) {
 }
 
 }  // namespace vox
-
-#endif  // INCLUDE_VOX_DETAIL_SIZE3_INL_H_
