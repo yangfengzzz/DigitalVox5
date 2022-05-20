@@ -28,9 +28,7 @@
 
 #include "gui/widget.h"
 
-namespace arc {
-namespace visualization {
-namespace gui {
+namespace arc::visualization::gui {
 
 class Window;
 
@@ -40,10 +38,9 @@ class Dialog : public Widget {
 
 public:
     explicit Dialog(const char* title);
-    virtual ~Dialog();
+    ~Dialog() override;
 
-    Size CalcPreferredSize(const LayoutContext& context,
-                           const Constraints& constraints) const override;
+    [[nodiscard]] Size CalcPreferredSize(const LayoutContext& context, const Constraints& constraints) const override;
     void Layout(const LayoutContext& context) override;
     DrawResult Draw(const DrawContext& context) override;
 
@@ -54,6 +51,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace gui
-}  // namespace visualization
-}  // namespace arc
+}  // namespace arc::visualization::gui

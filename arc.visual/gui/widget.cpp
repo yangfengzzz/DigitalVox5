@@ -9,10 +9,7 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 
-
-namespace arc {
-namespace visualization {
-namespace gui {
+namespace arc::visualization::gui {
 
 // This should not be Color(0, 0, 0, 0), since transparent is a valid and
 // common background color to want.
@@ -30,20 +27,15 @@ struct Widget::Impl {
 
 Widget::Widget() : impl_(new Widget::Impl()) {}
 
-Widget::Widget(const std::vector<std::shared_ptr<Widget>>& children)
-: impl_(new Widget::Impl()) {
+Widget::Widget(const std::vector<std::shared_ptr<Widget>>& children) : impl_(new Widget::Impl()) {
     impl_->children_ = children;
 }
 
-Widget::~Widget() {}
+Widget::~Widget() = default;
 
-void Widget::AddChild(std::shared_ptr<Widget> child) {
-    impl_->children_.push_back(child);
-}
+void Widget::AddChild(std::shared_ptr<Widget> child) { impl_->children_.emplace_back(std::move(child)); }
 
-const std::vector<std::shared_ptr<Widget>> Widget::GetChildren() const {
-    return impl_->children_;
-}
+std::vector<std::shared_ptr<Widget>> Widget::GetChildren() const { return impl_->children_; }
 
 const Rect& Widget::GetFrame() const { return impl_->frame_; }
 
@@ -51,13 +43,9 @@ void Widget::SetFrame(const Rect& f) { impl_->frame_ = f; }
 
 const vox::Color& Widget::GetBackgroundColor() const { return impl_->bg_color_; }
 
-bool Widget::IsDefaultBackgroundColor() const {
-    return (impl_->bg_color_ == DEFAULT_BGCOLOR);
-}
+bool Widget::IsDefaultBackgroundColor() const { return (impl_->bg_color_ == DEFAULT_BGCOLOR); }
 
-void Widget::SetBackgroundColor(const vox::Color& color) {
-    impl_->bg_color_ = color;
-}
+void Widget::SetBackgroundColor(const vox::Color& color) { impl_->bg_color_ = color; }
 
 bool Widget::IsVisible() const { return impl_->is_visible_; }
 
@@ -71,14 +59,11 @@ void Widget::SetTooltip(const char* text) { impl_->tooltip_ = text; }
 
 const char* Widget::GetTooltip() const { return impl_->tooltip_.c_str(); }
 
-Size Widget::CalcPreferredSize(const LayoutContext&,
-                               const Constraints& constraints) const {
-    return Size(DIM_GROW, DIM_GROW);
+Size Widget::CalcPreferredSize(const LayoutContext&, const Constraints& constraints) const {
+    return {DIM_GROW, DIM_GROW};
 }
 
-Size Widget::CalcMinimumSize(const LayoutContext& context) const {
-    return Size(0, 0);
-}
+Size Widget::CalcMinimumSize(const LayoutContext& context) const { return {0, 0}; }
 
 void Widget::Layout(const LayoutContext& context) {
     for (auto& child : impl_->children_) {
@@ -90,7 +75,7 @@ Widget::DrawResult Widget::Draw(const DrawContext& context) {
     if (!impl_->is_visible_) {
         return DrawResult::NONE;
     }
-    
+
     DrawResult result = DrawResult::NONE;
     for (auto& child : impl_->children_) {
         if (child->IsVisible()) {
@@ -108,8 +93,7 @@ Widget::DrawResult Widget::Draw(const DrawContext& context) {
 void Widget::DrawImGuiPushEnabledState() {
     if (!IsEnabled()) {
         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-        ImGui::PushStyleVar(ImGuiStyleVar_Alpha,
-                            ImGui::GetStyle().Alpha * 0.5f);
+        ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
     }
     // As an immediate mode GUI, responses to UI events can happen
     // during a draw. Store what the disabled flag was at the
@@ -128,8 +112,7 @@ void Widget::DrawImGuiPopEnabledState() {
 }
 
 void Widget::DrawImGuiTooltip() {
-    if (!impl_->tooltip_.empty() && IsEnabled() &&
-        (ImGui::IsItemActive() || ImGui::IsItemHovered())) {
+    if (!impl_->tooltip_.empty() && IsEnabled() && (ImGui::IsItemActive() || ImGui::IsItemHovered())) {
         // The default margins of the tooltips are 0 and rather ugly. It turns
         // out that tooltips are implemented as ImGui Windows, so we need to
         // push WindowPadding, not FramePadding as you might expect.
@@ -144,11 +127,11 @@ void Widget::DrawImGuiTooltip() {
         ImVec2 old_padding = ImGui::GetStyle().WindowPadding;
         ImGui::GetStyle().WindowPadding = ImVec2(2.0f * margin, margin);
         ImGui::GetStyle().WindowRounding = border_radius;
-        
+
         ImGui::BeginTooltip();
         ImGui::Text("%s", impl_->tooltip_.c_str());
         ImGui::EndTooltip();
-        
+
         // Pop
         ImGui::GetStyle().WindowPadding = old_padding;
         ImGui::GetStyle().WindowRounding = old_radius;
@@ -159,10 +142,9 @@ Widget::EventResult Widget::Mouse(const vox::MouseButtonInputEvent& e) {
     if (!impl_->is_visible_) {
         return EventResult::IGNORED;
     }
-    
+
     // Iterate backwards so that we send mouse events from the top down.
-    for (auto it = impl_->children_.rbegin(); it != impl_->children_.rend();
-         ++it) {
+    for (auto it = impl_->children_.rbegin(); it != impl_->children_.rend(); ++it) {
         if ((*it)->GetFrame().Contains(e.get_pos_x(), e.get_pos_y())) {
             auto result = (*it)->Mouse(e);
             if (result != EventResult::IGNORED) {
@@ -170,7 +152,7 @@ Widget::EventResult Widget::Mouse(const vox::MouseButtonInputEvent& e) {
             }
         }
     }
-    
+
     // If we get here then this event is either for an ImGUI widget,
     // in which case we should not process this event further (ImGUI will
     // do it later), or this is an empty widget like a panel or something,
@@ -179,13 +161,11 @@ Widget::EventResult Widget::Mouse(const vox::MouseButtonInputEvent& e) {
     return EventResult::DISCARD;
 }
 
-Widget::EventResult Widget::Key(const vox::KeyInputEvent& e) {
-    return EventResult::DISCARD;
-}
+Widget::EventResult Widget::Key(const vox::KeyInputEvent& e) { return EventResult::DISCARD; }
 
 Widget::DrawResult Widget::Tick(float dt) {
     auto result = DrawResult::NONE;
-    for (auto child : impl_->children_) {
+    for (const auto& child : impl_->children_) {
         if (child->Tick(dt) == DrawResult::REDRAW) {
             result = DrawResult::REDRAW;
         }
@@ -193,6 +173,4 @@ Widget::DrawResult Widget::Tick(float dt) {
     return result;
 }
 
-}  // namespace gui
-}  // namespace visualization
-}  // namespace arc
+}  // namespace arc::visualization::gui

@@ -30,20 +30,17 @@
 
 #include "gui/widget.h"
 
-namespace arc {
-namespace visualization {
-namespace gui {
+namespace arc::visualization::gui {
 
 class Checkbox : public Widget {
 public:
     explicit Checkbox(const char* name);
-    ~Checkbox();
+    ~Checkbox() override;
 
-    bool IsChecked() const;
+    [[nodiscard]] bool IsChecked() const;
     void SetChecked(bool checked);
 
-    Size CalcPreferredSize(const LayoutContext& context,
-                           const Constraints& constraints) const override;
+    Size CalcPreferredSize(const LayoutContext& context, const Constraints& constraints) const override;
 
     DrawResult Draw(const DrawContext& context) override;
 
@@ -56,6 +53,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace gui
-}  // namespace visualization
-}  // namespace arc
+}  // namespace arc::visualization::gui

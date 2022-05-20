@@ -30,9 +30,7 @@
 
 #include "gui/widget.h"
 
-namespace arc {
-namespace visualization {
-namespace gui {
+namespace arc::visualization::gui {
 
 class ColorEdit : public Widget {
 public:
@@ -42,10 +40,9 @@ public:
     void SetValue(const vox::Color& color);
     void SetValue(float r, float g, float b);
 
-    const vox::Color& GetValue() const;
+    [[nodiscard]] const vox::Color& GetValue() const;
 
-    Size CalcPreferredSize(const LayoutContext& context,
-                           const Constraints& constraints) const override;
+    [[nodiscard]] Size CalcPreferredSize(const LayoutContext& context, const Constraints& constraints) const override;
 
     DrawResult Draw(const DrawContext& context) override;
 
@@ -58,6 +55,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace gui
-}  // namespace visualization
-}  // namespace arc
+}  // namespace arc::visualization::gui

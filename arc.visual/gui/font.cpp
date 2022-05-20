@@ -26,9 +26,7 @@
 
 #include "gui/font.h"
 
-namespace arc {
-namespace visualization {
-namespace gui {
+namespace arc::visualization::gui {
 
 // assigned in header in constexpr declaration, but still need to be defined
 constexpr const char *FontDescription::SANS_SERIF;
@@ -42,16 +40,12 @@ FontDescription::FontDescription(const char *typeface,
     point_size_ = point_size;
 }
 
-void FontDescription::AddTypefaceForLanguage(const char *typeface,
-                                             const char *lang) {
+void FontDescription::AddTypefaceForLanguage(const char *typeface, const char *lang) {
     ranges_.push_back({typeface, lang, {}});
 }
 
-void FontDescription::AddTypefaceForCodePoints(
-        const char *typeface, const std::vector<uint32_t> &code_points) {
+void FontDescription::AddTypefaceForCodePoints(const char *typeface, const std::vector<uint32_t> &code_points) {
     ranges_.push_back({typeface, "", code_points});
 }
 
-}  // namespace gui
-}  // namespace visualization
-}  // namespace arc
+}  // namespace arc::visualization::gui

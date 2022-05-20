@@ -30,34 +30,25 @@
 
 #include "file_system.h"
 
-namespace arc {
-namespace visualization {
-namespace gui {
+namespace arc::visualization::gui {
 
-ImVec4 colorToImgui(const vox::Color &color) {
-    return ImVec4(color.r, color.g, color.b, color.a);
-}
+ImVec4 colorToImgui(const vox::Color &color) { return {color.r, color.g, color.b, color.a}; }
 
 uint32_t colorToImguiRGBA(const vox::Color &color) {
-    return IM_COL32(int(std::round(255.0f * color.r)),
-                    int(std::round(255.0f * color.g)),
-                    int(std::round(255.0f * color.b)),
-                    int(std::round(255.0f * color.a)));
+    return IM_COL32(int(std::round(255.0f * color.r)), int(std::round(255.0f * color.g)),
+                    int(std::round(255.0f * color.b)), int(std::round(255.0f * color.a)));
 }
 
 std::string FindFontPath(std::string font, FontStyle style) {
     using namespace arc::utility::filesystem;
 
     std::vector<std::string> kNormalSuffixes = {
-            " Regular.ttf", " Regular.ttc", " Regular.otf", " Normal.ttf",
-            " Normal.ttc",  " Normal.otf",  " Medium.ttf",  " Medium.ttc",
-            " Medium.otf",  " Narrow.ttf",  " Narrow.ttc",  " Narrow.otf",
-            "-Regular.ttf", "-Regular.ttc", "-Regular.otf", "-Normal.ttf",
-            "-Normal.ttc",  "-Normal.otf",  "-Medium.ttf",  "-Medium.ttc",
-            "-Medium.otf",  "-Narrow.ttf",  "-Narrow.ttc",  "-Narrow.otf",
-            "Regular.ttf",  "-Regular.ttc", "-Regular.otf", "Normal.ttf",
-            "Normal.ttc",   "Normal.otf",   "Medium.ttf",   "Medium.ttc",
-            "Medium.otf",   "Narrow.ttf",   "Narrow.ttc",   "Narrow.otf"};
+            " Regular.ttf", " Regular.ttc", " Regular.otf", " Normal.ttf", " Normal.ttc", " Normal.otf",
+            " Medium.ttf",  " Medium.ttc",  " Medium.otf",  " Narrow.ttf", " Narrow.ttc", " Narrow.otf",
+            "-Regular.ttf", "-Regular.ttc", "-Regular.otf", "-Normal.ttf", "-Normal.ttc", "-Normal.otf",
+            "-Medium.ttf",  "-Medium.ttc",  "-Medium.otf",  "-Narrow.ttf", "-Narrow.ttc", "-Narrow.otf",
+            "Regular.ttf",  "-Regular.ttc", "-Regular.otf", "Normal.ttf",  "Normal.ttc",  "Normal.otf",
+            "Medium.ttf",   "Medium.ttc",   "Medium.otf",   "Narrow.ttf",  "Narrow.ttc",  "Narrow.otf"};
 
     std::vector<std::string> suffixes;
     switch (style) {
@@ -212,15 +203,13 @@ std::string FindFontPath(std::string font, FontStyle style) {
     std::string font_ttf = font + ".ttf";
     std::string font_ttc = font + ".ttc";
     std::string font_otf = font + ".otf";
-    auto is_match = [font, &font_ttf, &font_ttc,
-                     &font_otf](const std::string &path) {
+    auto is_match = [font, &font_ttf, &font_ttc, &font_otf](const std::string &path) {
         auto filename = GetFileNameWithoutDirectory(path);
         auto ext = GetFileExtensionInLowerCase(filename);
         if (ext != "ttf" && ext != "ttc" && ext != "otf") {
             return false;
         }
-        if (filename == font_ttf || filename == font_ttc ||
-            filename == font_otf) {
+        if (filename == font_ttf || filename == font_ttc || filename == font_otf) {
             return true;
         }
         if (filename.find(font) == 0) {
@@ -233,8 +222,7 @@ std::string FindFontPath(std::string font, FontStyle style) {
         auto matches = FindFilesRecursively(font_dir, is_match);
         if (style == FontStyle::NORMAL) {
             for (auto &m : matches) {
-                if (GetFileNameWithoutExtension(
-                            GetFileNameWithoutDirectory(m)) == font) {
+                if (GetFileNameWithoutExtension(GetFileNameWithoutDirectory(m)) == font) {
                     return m;
                 }
             }
@@ -253,6 +241,4 @@ std::string FindFontPath(std::string font, FontStyle style) {
 #endif  // __APPLE__
 }
 
-}  // namespace gui
-}  // namespace visualization
-}  // namespace arc
+}  // namespace arc::visualization::gui

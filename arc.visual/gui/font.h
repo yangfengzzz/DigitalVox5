@@ -31,9 +31,7 @@
 
 #include "gui/gui.h"
 
-namespace arc {
-namespace visualization {
-namespace gui {
+namespace arc::visualization::gui {
 
 class FontDescription {
 public:
@@ -54,9 +52,7 @@ public:
     /// \param point_size The point size (NOT pixel size) of the font. Will be
     ///                   applied to any additional language or code point
     ///                   typefaces. A size of 0 indicates the default size.
-    explicit FontDescription(const char *typeface,
-                             FontStyle style = FontStyle::NORMAL,
-                             int point_size = 0);
+    explicit FontDescription(const char *typeface, FontStyle style = FontStyle::NORMAL, int point_size = 0);
 
     /// Adds code points outside Extended Latin from the specified typeface.
     /// Supported languages are:
@@ -78,8 +74,7 @@ public:
 
     /// Adds specific code points from the typeface. This is useful for
     /// selectively adding glyphs, for example, from an icon font.
-    void AddTypefaceForCodePoints(const char *typeface,
-                                  const std::vector<uint32_t> &code_points);
+    void AddTypefaceForCodePoints(const char *typeface, const std::vector<uint32_t> &code_points);
 
 public:  // for internal use, use functions above to set
     struct CPRange {
@@ -92,6 +87,4 @@ public:  // for internal use, use functions above to set
     int point_size_;
 };
 
-}  // namespace gui
-}  // namespace visualization
-}  // namespace arc
+}  // namespace arc::visualization::gui

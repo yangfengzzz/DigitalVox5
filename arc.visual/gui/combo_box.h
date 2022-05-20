@@ -30,9 +30,7 @@
 
 #include "gui/widget.h"
 
-namespace arc {
-namespace visualization {
-namespace gui {
+namespace arc::visualization::gui {
 
 class Combobox : public Widget {
 public:
@@ -58,15 +56,15 @@ public:
     /// Removes the item at \p index.
     void RemoveItem(int index);
 
-    int GetNumberOfItems() const;
+    [[nodiscard]] int GetNumberOfItems() const;
 
     /// Returns the text of the item at \p index. \p index must be
     /// valid.
-    const char* GetItem(int index) const;
+    [[nodiscard]] const char* GetItem(int index) const;
 
-    int GetSelectedIndex() const;
+    [[nodiscard]] int GetSelectedIndex() const;
     /// Returns the text of the selected value, or "" if nothing is selected
-    const char* GetSelectedValue() const;
+    [[nodiscard]] const char* GetSelectedValue() const;
     /// Sets the selected item by index. Does not call the onValueChanged
     /// callback.
     void SetSelectedIndex(int index);
@@ -74,21 +72,17 @@ public:
     /// item, but will return false. Does not call the onValueChanged callback
     bool SetSelectedValue(const char* value);
 
-    Size CalcPreferredSize(const LayoutContext& context,
-                           const Constraints& constraints) const override;
+    [[nodiscard]] Size CalcPreferredSize(const LayoutContext& context, const Constraints& constraints) const override;
 
     DrawResult Draw(const DrawContext& context) override;
 
     /// Specifies a callback function which will be called when the value
     /// changes as a result of user action.
-    void SetOnValueChanged(
-            std::function<void(const char*, int)> on_value_changed);
+    void SetOnValueChanged(std::function<void(const char*, int)> on_value_changed);
 
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace gui
-}  // namespace visualization
-}  // namespace arc
+}  // namespace arc::visualization::gui

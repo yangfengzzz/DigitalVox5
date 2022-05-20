@@ -6,14 +6,12 @@
 
 #pragma once
 
-namespace arc {
-namespace visualization {
-namespace gui {
+namespace arc::visualization::gui {
 
 struct Point {
     int x;
     int y;
-    
+
     Point();
     Point(int x_, int y_);
 };
@@ -21,7 +19,7 @@ struct Point {
 struct Size {
     int width;
     int height;
-    
+
     Size();
     Size(int w, int h);
 };
@@ -31,20 +29,20 @@ struct Rect {
     int y;
     int width;
     int height;
-    
+
     Rect();
     Rect(int x_, int y_, int w_, int h_);
-    
-    int GetTop() const;
-    int GetBottom() const;
-    int GetLeft() const;
-    int GetRight() const;
-    
-    bool Contains(int x, int y) const;
-    bool Contains(const Point& pt) const;
-    
-    Rect UnionedWith(const Rect& r) const;
-    
+
+    [[nodiscard]] int GetTop() const;
+    [[nodiscard]] int GetBottom() const;
+    [[nodiscard]] int GetLeft() const;
+    [[nodiscard]] int GetRight() const;
+
+    [[nodiscard]] bool Contains(int x, int y) const;
+    [[nodiscard]] bool Contains(const Point& pt) const;
+
+    [[nodiscard]] Rect UnionedWith(const Rect& r) const;
+
     bool operator==(const Rect& other) const;
     bool operator!=(const Rect& other) const;
 };
@@ -60,9 +58,7 @@ enum class Alignment : unsigned int {
     BOTTOM = (3 << 4),
     CENTER = (2 | (2 << 4))
 };
-constexpr Alignment operator|(Alignment x, Alignment y) {
-    return Alignment((unsigned int)(x) | (unsigned int)(y));
-}
+constexpr Alignment operator|(Alignment x, Alignment y) { return Alignment((unsigned int)(x) | (unsigned int)(y)); }
 
 using FontId = unsigned int;
 
@@ -75,11 +71,10 @@ enum class FontStyle {
 
 class FontContext {
 public:
-    virtual ~FontContext(){};
-    
+    virtual ~FontContext() = default;
+    ;
+
     virtual void* GetFont(FontId font_id) = 0;
 };
 
-}  // namespace gui
-}  // namespace visualization
-}  // namespace arc
+}  // namespace arc::visualization::gui

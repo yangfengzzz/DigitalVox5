@@ -28,9 +28,7 @@
 
 #include <string>
 
-namespace arc {
-namespace visualization {
-namespace gui {
+namespace arc::visualization::gui {
 
 struct Dialog::Impl {
     std::string title;
@@ -39,10 +37,9 @@ struct Dialog::Impl {
 
 Dialog::Dialog(const char *title) : impl_(new Dialog::Impl()) {}
 
-Dialog::~Dialog() {}
+Dialog::~Dialog() = default;
 
-Size Dialog::CalcPreferredSize(const LayoutContext &context,
-                               const Constraints &constraints) const {
+Size Dialog::CalcPreferredSize(const LayoutContext &context, const Constraints &constraints) const {
     if (GetChildren().size() == 1) {
         auto child = GetChildren()[0];
         return child->CalcPreferredSize(context, constraints);
@@ -63,10 +60,6 @@ void Dialog::Layout(const LayoutContext &context) {
 
 void Dialog::OnWillShow() {}
 
-Widget::DrawResult Dialog::Draw(const DrawContext &context) {
-    return Super::Draw(context);
-}
+Widget::DrawResult Dialog::Draw(const DrawContext &context) { return Super::Draw(context); }
 
-}  // namespace gui
-}  // namespace visualization
-}  // namespace arc
+}  // namespace arc::visualization::gui

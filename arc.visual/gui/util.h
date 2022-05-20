@@ -32,12 +32,10 @@
 #include <string>
 #include <vector>
 
-#include "gui/gui.h"
 #include "color.h"
+#include "gui/gui.h"
 
-namespace arc {
-namespace visualization {
-namespace gui {
+namespace arc::visualization::gui {
 // These functions are here, because ImVec4 requires imgui.h, and can't be
 // forward-declared because we need to know the size, since it is a return
 // value. Since imgui.h is an implementation detail, we can't put this function
@@ -47,6 +45,4 @@ uint32_t colorToImguiRGBA(const vox::Color& color);
 
 std::string FindFontPath(std::string font, FontStyle style);
 
-}  // namespace gui
-}  // namespace visualization
-}  // namespace arc
+}  // namespace arc::visualization::gui
