@@ -101,6 +101,10 @@ inline bool operator==(const Color &left, const Color &right) {
             );
 }
 
+inline bool operator!=(const Color &left, const Color &right) {
+    return !operator==(left, right);
+}
+
 inline Color operator+(const Color &left, const Color &right) {
     return Color(left.r + right.r,
                  left.g + right.g,
