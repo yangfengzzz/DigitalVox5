@@ -10,7 +10,7 @@ namespace vox::ui {
 ColorPicker::ColorPicker(bool enable_alpha, const Color &default_color)
     : DataWidget<Color>(color_), enable_alpha_(enable_alpha), color_(default_color) {}
 
-void ColorPicker::draw_impl() {
+void ColorPicker::DrawImpl() {
     int flags = !enable_alpha_ ? ImGuiColorEditFlags_NoAlpha : 0;
     bool value_changed = false;
 
@@ -21,7 +21,7 @@ void ColorPicker::draw_impl() {
 
     if (value_changed) {
         color_changed_event_.Invoke(color_);
-        notify_change();
+        NotifyChange();
     }
 }
 

@@ -12,11 +12,11 @@
 
 namespace vox::ui {
 #define TRY_GATHER(type, output) \
-    if (auto plugin = get_plugin<DataDispatcher<type>>(); plugin) output = plugin->gather();
+    if (auto plugin = GetPlugin<DataDispatcher<type>>(); plugin) output = plugin->Gather();
 #define TRY_PROVIDE(type, output) \
-    if (auto plugin = get_plugin<DataDispatcher<type>>(); plugin) plugin->provide(output);
+    if (auto plugin = GetPlugin<DataDispatcher<type>>(); plugin) plugin->Provide(output);
 #define TRY_NOTIFY_CHANGE(type) \
-    if (auto plugin = get_plugin<DataDispatcher<type>>(); plugin) plugin->notify_change();
+    if (auto plugin = GetPlugin<DataDispatcher<type>>(); plugin) plugin->NotifyChange();
 
 /**
  * Plugin that allow automatic data update of any DataWidget
@@ -27,22 +27,22 @@ public:
     /**
      * Register a reference
      */
-    void register_reference(T &reference) { data_pointer_ = &reference; }
+    void RegisterReference(T &reference) { data_pointer_ = &reference; }
 
     /**
      * Register a provider (Which function should be called when the widget data is modified)
      */
-    void register_provider(std::function<void(T)> provider) { provider_ = provider; }
+    void RegisterProvider(std::function<void(T)> provider) { provider_ = provider; }
 
     /**
      * Register a gather (Which function should be called when the widget data needs to be updated)
      */
-    void register_gatherer(std::function<T(void)> gatherer) { gatherer_ = gatherer; }
+    void RegisterGatherer(std::function<T(void)> gatherer) { gatherer_ = gatherer; }
 
     /**
      * Provide data to the dispatcher
      */
-    void provide(T data) {
+    void Provide(T data) {
         if (value_changed_) {
             if (data_pointer_)
                 *data_pointer_ = data;
@@ -56,17 +56,17 @@ public:
     /**
      * Notify that a change occurred
      */
-    void notify_change() { value_changed_ = true; }
+    void NotifyChange() { value_changed_ = true; }
 
     /**
      * Returns the data from the dispatcher
      */
-    T gather() { return data_pointer_ ? *data_pointer_ : gatherer_(); }
+    T Gather() { return data_pointer_ ? *data_pointer_ : gatherer_(); }
 
     /**
      * Execute the data dispatcher behaviour (No effect)
      */
-    void execute() override {}
+    void Execute() override {}
 
 private:
     bool value_changed_ = false;

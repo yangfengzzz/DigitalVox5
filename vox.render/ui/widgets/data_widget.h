@@ -25,28 +25,28 @@ public:
     /**
      * Draw the widget
      */
-    void draw() override;
+    void Draw() override;
 
     /**
      * Notify that the widget data has changed to allow the data dispatcher to execute its behaviour
      */
-    void notify_change();
+    void NotifyChange();
 
 private:
     T &data_;
 };
 
 template <typename T>
-inline void DataWidget<T>::draw() {
+inline void DataWidget<T>::Draw() {
     if (enabled_) {
         TRY_GATHER(T, data_)
-        Widget::draw();
+        Widget::Draw();
         TRY_PROVIDE(T, data_)
     }
 }
 
 template <typename T>
-inline void DataWidget<T>::notify_change() {
+inline void DataWidget<T>::NotifyChange() {
     TRY_NOTIFY_CHANGE(T)
 }
 

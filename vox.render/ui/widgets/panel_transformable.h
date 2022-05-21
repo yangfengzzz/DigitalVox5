@@ -29,53 +29,53 @@ public:
     /**
      * Defines the position of the panel
      */
-    void set_position(const Vector2F &position);
+    void SetPosition(const Vector2F &position);
 
     /**
      * Defines the size of the panel
      */
-    void set_size(const Vector2F &size);
+    void SetSize(const Vector2F &size);
 
     /**
      * Defines the alignment of the panel
      */
-    void set_alignment(HorizontalAlignment horizontal_alignment, VerticalAlignment vertical_alignment);
+    void SetAlignment(HorizontalAlignment horizontal_alignment, VerticalAlignment vertical_alignment);
 
     /**
      * Returns the current position of the panel
      */
-    [[nodiscard]] const Vector2F &position() const;
+    [[nodiscard]] const Vector2F &Position() const;
 
     /**
      * Returns the current size of the panel
      */
-    [[nodiscard]] const Vector2F &size() const;
+    [[nodiscard]] const Vector2F &Size() const;
 
     /**
      * Returns the current horizontal alignment of the panel
      */
-    [[nodiscard]] HorizontalAlignment horizontal_alignment() const;
+    [[nodiscard]] HorizontalAlignment GetHorizontalAlignment() const;
 
     /**
      * Returns the current vertical alignment of the panel
      */
-    [[nodiscard]] VerticalAlignment vertical_alignment() const;
+    [[nodiscard]] VerticalAlignment GetVerticalAlignment() const;
 
 protected:
-    void update();
+    void Update();
 
-    void draw_impl() override = 0;
+    void DrawImpl() override = 0;
 
 private:
-    Vector2F calculate_position_alignment_offset(bool is_default = false);
+    Vector2F CalculatePositionAlignmentOffset(bool is_default = false);
 
-    void update_position();
+    void UpdatePosition();
 
-    void update_size();
+    void UpdateSize();
 
-    void copy_imGui_position();
+    void CopyImGuiPosition();
 
-    void copy_imGui_size();
+    void CopyImGuiSize();
 
 public:
     bool auto_size_ = true;

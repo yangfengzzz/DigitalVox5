@@ -18,7 +18,7 @@ public:
     explicit ProgressBar(float fraction = 0.0f, const Vector2F &size = {0.0f, 0.0f}, std::string overlay = "");
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     float fraction_;

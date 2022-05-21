@@ -23,65 +23,65 @@ public:
     /**
      * Open (show) the panel
      */
-    void open();
+    void Open();
 
     /**
      * Close (hide) the panel
      */
-    void close();
+    void Close();
 
     /**
      * Focus the panel
      */
-    void focus();
+    void Focus();
 
     /**
      * Defines the opened state of the window
      */
-    void set_opened(bool value);
+    void SetOpened(bool value);
 
     /**
      * Returns true if the panel is opened
      */
-    [[nodiscard]] bool is_opened() const;
+    [[nodiscard]] bool IsOpened() const;
 
     /**
      * Returns true if the panel is hovered
      */
-    [[nodiscard]] bool is_hovered() const;
+    [[nodiscard]] bool IsHovered() const;
 
     /**
      * Returns true if the panel is focused
      */
-    [[nodiscard]] bool is_focused() const;
+    [[nodiscard]] bool IsFocused() const;
 
     /**
      * Returns true if the panel is appearing
      */
-    [[nodiscard]] bool is_appearing() const;
+    [[nodiscard]] bool IsAppearing() const;
 
     /**
      * Scrolls to the bottom of the window
      */
-    void scroll_to_bottom();
+    void ScrollToBottom();
 
     /**
      * Scrolls to the top of the window
      */
-    void scroll_to_top();
+    void ScrollToTop();
 
     /**
      * Returns true if the window is scrolled to the bottom
      */
-    [[nodiscard]] bool is_scrolled_to_bottom() const;
+    [[nodiscard]] bool IsScrolledToBottom() const;
 
     /**
      * Returns true if the window is scrolled to the bottom
      */
-    [[nodiscard]] bool is_scrolled_to_top() const;
+    [[nodiscard]] bool IsScrolledToTop() const;
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     std::string name_;

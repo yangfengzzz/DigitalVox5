@@ -54,19 +54,19 @@ PanelWindow(title, opened, window_settings) {
     
     allow_horizontal_scrollbar_ = true;
     
-    auto &clear_button = create_widget<ButtonSimple>("Clear");
+    auto &clear_button = CreateWidget<ButtonSimple>("Clear");
     clear_button.size_ = {50.f, 0.f};
     clear_button.idle_background_color_ = {0.5f, 0.f, 0.f};
     clear_button.clicked_event_ += std::bind(&Console::clear, this);
     clear_button.line_break_ = false;
     
-    auto &clear_on_play = create_widget<CheckBox>(clear_on_play_, "Auto clear on play");
+    auto &clear_on_play = CreateWidget<CheckBox>(clear_on_play_, "Auto clear on play");
+
+    CreateWidget<Spacing>(5).line_break_ = false;
     
-    create_widget<Spacing>(5).line_break_ = false;
-    
-    auto &enable_info = create_widget<CheckBox>(true, "Info");
-    auto &enable_warning = create_widget<CheckBox>(true, "Warning");
-    auto &enable_error = create_widget<CheckBox>(true, "Error");
+    auto &enable_info = CreateWidget<CheckBox>(true, "Info");
+    auto &enable_warning = CreateWidget<CheckBox>(true, "Warning");
+    auto &enable_error = CreateWidget<CheckBox>(true, "Error");
     
     clear_on_play.line_break_ = false;
     enable_info.line_break_ = false;
@@ -79,11 +79,11 @@ PanelWindow(title, opened, window_settings) {
     enable_info.value_changed_event_ += std::bind(&Console::set_show_info_logs, this, std::placeholders::_1);
     enable_warning.value_changed_event_ += std::bind(&Console::set_show_warning_logs, this, std::placeholders::_1);
     enable_error.value_changed_event_ += std::bind(&Console::set_show_error_logs, this, std::placeholders::_1);
+
+    CreateWidget<Separator>();
     
-    create_widget<Separator>();
-    
-    log_group_ = &create_widget<Group>();
-    log_group_->reverse_draw_order();
+    log_group_ = &CreateWidget<Group>();
+    log_group_->ReverseDrawOrder();
     
     EditorActions::GetSingleton().play_event_ += std::bind(&Console::clear_on_play, this);
 }
@@ -107,7 +107,7 @@ void Console::on_log_intercepted(spdlog::level::level_enum log_level,
         default:log_color = {1.f, 1.f, 1.f, 1.f};
             break;
     }
-    auto &console_item = log_group_->create_widget<TextColored>(message, log_color);
+    auto &console_item = log_group_->CreateWidget<TextColored>(message, log_color);
     console_item.enabled_ = is_allowed_by_filter(log_level);
     log_text_widgets_[&console_item] = log_level;
 }
@@ -119,7 +119,7 @@ void Console::clear_on_play() {
 
 void Console::clear() {
     log_text_widgets_.clear();
-    log_group_->remove_all_widgets();
+    log_group_->RemoveAllWidgets();
 }
 
 void Console::filter_logs() {

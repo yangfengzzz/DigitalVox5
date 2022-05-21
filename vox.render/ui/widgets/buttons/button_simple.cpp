@@ -17,13 +17,13 @@ ButtonSimple::ButtonSimple(std::string label, const Vector2F &size, bool disable
     : label_(std::move(label)), size_(size), disabled_(disabled) {
     auto &style = ImGui::GetStyle();
 
-    idle_background_color_ = Converter::to_color(style.Colors[ImGuiCol_Button]);
-    hovered_background_color_ = Converter::to_color(style.Colors[ImGuiCol_ButtonHovered]);
-    clicked_background_color_ = Converter::to_color(style.Colors[ImGuiCol_ButtonActive]);
-    text_color_ = Converter::to_color(style.Colors[ImGuiCol_Text]);
+    idle_background_color_ = Converter::ToColor(style.Colors[ImGuiCol_Button]);
+    hovered_background_color_ = Converter::ToColor(style.Colors[ImGuiCol_ButtonHovered]);
+    clicked_background_color_ = Converter::ToColor(style.Colors[ImGuiCol_ButtonActive]);
+    text_color_ = Converter::ToColor(style.Colors[ImGuiCol_Text]);
 }
 
-void ButtonSimple::draw_impl() {
+void ButtonSimple::DrawImpl() {
     auto &style = ImGui::GetStyle();
 
     auto default_idle_color = style.Colors[ImGuiCol_Button];
@@ -31,12 +31,12 @@ void ButtonSimple::draw_impl() {
     auto default_clicked_color = style.Colors[ImGuiCol_ButtonActive];
     auto default_text_color = style.Colors[ImGuiCol_Text];
 
-    style.Colors[ImGuiCol_Button] = Converter::to_imVec4(idle_background_color_);
-    style.Colors[ImGuiCol_ButtonHovered] = Converter::to_imVec4(hovered_background_color_);
-    style.Colors[ImGuiCol_ButtonActive] = Converter::to_imVec4(clicked_background_color_);
-    style.Colors[ImGuiCol_Text] = Converter::to_imVec4(text_color_);
+    style.Colors[ImGuiCol_Button] = Converter::ToImVec4(idle_background_color_);
+    style.Colors[ImGuiCol_ButtonHovered] = Converter::ToImVec4(hovered_background_color_);
+    style.Colors[ImGuiCol_ButtonActive] = Converter::ToImVec4(clicked_background_color_);
+    style.Colors[ImGuiCol_Text] = Converter::ToImVec4(text_color_);
 
-    if (ImGui::ButtonEx((label_ + widget_id_).c_str(), Converter::to_imVec2(size_),
+    if (ImGui::ButtonEx((label_ + widget_id_).c_str(), Converter::ToImVec2(size_),
                         disabled_ ? ImGuiItemFlags_Disabled : 0))
         clicked_event_.Invoke();
 

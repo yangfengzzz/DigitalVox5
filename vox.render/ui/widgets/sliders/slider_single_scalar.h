@@ -44,7 +44,7 @@ public:
           format_(std::move(format)) {}
 
 protected:
-    void draw_impl() override {
+    void DrawImpl() override {
         if (max_ < min_) max_ = min_;
 
         if (value_ < min_)
@@ -61,14 +61,14 @@ protected:
                 break;
             case SliderOrientation::VERTICAL:
                 value_changed = ImGui::VSliderScalar((label_ + DataWidget<T>::widget_id_).c_str(),
-                                                     Converter::to_imVec2(vertical_mode_size_), data_type_, &value_,
+                                                     Converter::ToImVec2(vertical_mode_size_), data_type_, &value_,
                                                      &min_, &max_, format_.c_str());
                 break;
         }
 
         if (value_changed) {
             value_changed_event_.Invoke(value_);
-            DataWidget<T>::notify_change();
+            DataWidget<T>::NotifyChange();
         }
     }
 

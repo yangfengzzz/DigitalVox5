@@ -18,7 +18,7 @@ public:
     explicit MenuItem(std::string name, std::string shortcut = "", bool checkable = false, bool checked = false);
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     std::string name_;

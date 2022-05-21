@@ -19,27 +19,27 @@ namespace vox::editor::ui {
 namespace {
 void draw_hybrid_vec_3(WidgetContainer &p_root, const std::string &p_name, Vector3F &p_data,
                        float p_step, float p_min, float p_max) {
-    GuiDrawer::create_title(p_root, p_name);
+    GuiDrawer::CreateTitle(p_root, p_name);
     
-    auto &right_side = p_root.create_widget<Group>();
+    auto &right_side = p_root.CreateWidget<Group>();
     
-    auto &xyz_widget = right_side.create_widget<DragMultipleScalars<float, 3>>(GuiDrawer::get_data_type<float>(), p_min, p_max,
-                                                                               0.f, p_step, "", GuiDrawer::get_format<float>());
-    auto &xyz_dispatcher = xyz_widget.add_plugin<DataDispatcher<std::array<float, 3>>>();
-    xyz_dispatcher.register_reference(reinterpret_cast<std::array<float, 3> &>(p_data));
+    auto &xyz_widget = right_side.CreateWidget<DragMultipleScalars<float, 3>>(
+            GuiDrawer::GetDataType<float>(), p_min, p_max, 0.f, p_step, "", GuiDrawer::GetFormat<float>());
+    auto &xyz_dispatcher = xyz_widget.AddPlugin<DataDispatcher<std::array<float, 3>>>();
+    xyz_dispatcher.RegisterReference(reinterpret_cast<std::array<float, 3> &>(p_data));
     xyz_widget.line_break_ = false;
     
-    auto &rgb_widget = right_side.create_widget<ColorEdit>(false, Color{p_data.x, p_data.y, p_data.z});
-    auto &rgb_dispatcher = rgb_widget.add_plugin<DataDispatcher<Color>>();
-    rgb_dispatcher.register_reference(reinterpret_cast<Color &>(p_data));
+    auto &rgb_widget = right_side.CreateWidget<ColorEdit>(false, Color{p_data.x, p_data.y, p_data.z});
+    auto &rgb_dispatcher = rgb_widget.AddPlugin<DataDispatcher<Color>>();
+    rgb_dispatcher.RegisterReference(reinterpret_cast<Color &>(p_data));
     rgb_widget.enabled_ = false;
     rgb_widget.line_break_ = false;
     
-    auto &xyz_button = right_side.create_widget<ButtonSimple>("XYZ");
+    auto &xyz_button = right_side.CreateWidget<ButtonSimple>("XYZ");
     xyz_button.idle_background_color_ = {0.7f, 0.5f, 0.0f};
     xyz_button.line_break_ = false;
     
-    auto &rgb_button = right_side.create_widget<ButtonSimple>("RGB");
+    auto &rgb_button = right_side.CreateWidget<ButtonSimple>("RGB");
     rgb_button.idle_background_color_ = {0.7f, 0.5f, 0.0f};
     
     xyz_button.clicked_event_ += [&] {
@@ -55,27 +55,27 @@ void draw_hybrid_vec_3(WidgetContainer &p_root, const std::string &p_name, Vecto
 
 void draw_hybrid_vec_4(WidgetContainer &p_root, const std::string &p_name, Vector4F &p_data,
                        float p_step, float p_min, float p_max) {
-    GuiDrawer::create_title(p_root, p_name);
+    GuiDrawer::CreateTitle(p_root, p_name);
     
-    auto &right_side = p_root.create_widget<Group>();
+    auto &right_side = p_root.CreateWidget<Group>();
     
-    auto &xyz_widget = right_side.create_widget<DragMultipleScalars<float, 4>>(GuiDrawer::get_data_type<float>(), p_min, p_max,
-                                                                               0.f, p_step, "", GuiDrawer::get_format<float>());
-    auto &xyz_dispatcher = xyz_widget.add_plugin<DataDispatcher<std::array<float, 4>>>();
-    xyz_dispatcher.register_reference(reinterpret_cast<std::array<float, 4> &>(p_data));
+    auto &xyz_widget = right_side.CreateWidget<DragMultipleScalars<float, 4>>(
+            GuiDrawer::GetDataType<float>(), p_min, p_max, 0.f, p_step, "", GuiDrawer::GetFormat<float>());
+    auto &xyz_dispatcher = xyz_widget.AddPlugin<DataDispatcher<std::array<float, 4>>>();
+    xyz_dispatcher.RegisterReference(reinterpret_cast<std::array<float, 4> &>(p_data));
     xyz_widget.line_break_ = false;
     
-    auto &rgba_widget = right_side.create_widget<ColorEdit>(true, Color{p_data.x, p_data.y, p_data.z, p_data.w});
-    auto &rgba_dispatcher = rgba_widget.add_plugin<DataDispatcher<Color>>();
-    rgba_dispatcher.register_reference(reinterpret_cast<Color &>(p_data));
+    auto &rgba_widget = right_side.CreateWidget<ColorEdit>(true, Color{p_data.x, p_data.y, p_data.z, p_data.w});
+    auto &rgba_dispatcher = rgba_widget.AddPlugin<DataDispatcher<Color>>();
+    rgba_dispatcher.RegisterReference(reinterpret_cast<Color &>(p_data));
     rgba_widget.enabled_ = false;
     rgba_widget.line_break_ = false;
     
-    auto &xyzw_button = right_side.create_widget<ButtonSimple>("XYZW");
+    auto &xyzw_button = right_side.CreateWidget<ButtonSimple>("XYZW");
     xyzw_button.idle_background_color_ = {0.7f, 0.5f, 0.0f};
     xyzw_button.line_break_ = false;
     
-    auto &rgba_button = right_side.create_widget<ButtonSimple>("RGBA");
+    auto &rgba_button = right_side.CreateWidget<ButtonSimple>("RGBA");
     rgba_button.idle_background_color_ = {0.7f, 0.5f, 0.0f};
     
     xyzw_button.clicked_event_ += [&] {
@@ -96,9 +96,9 @@ MaterialEditor::MaterialEditor(const std::string &p_title,
                                const PanelWindowSettings &window_settings) :
 PanelWindow(p_title, p_opened, window_settings) {
     create_header_buttons();
-    create_widget<Separator>();
+    CreateWidget<Separator>();
     create_material_selector();
-    settings_ = &create_widget<Group>();
+    settings_ = &CreateWidget<Group>();
     create_shader_selector();
     create_material_settings();
     create_shader_settings();

@@ -19,7 +19,7 @@ public:
     explicit ButtonSimple(std::string label = "", const Vector2F &size = Vector2F(0.f, 0.f), bool disabled = false);
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     std::string label_;

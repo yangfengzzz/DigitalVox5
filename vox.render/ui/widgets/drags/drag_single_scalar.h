@@ -31,7 +31,7 @@ public:
           format_(std::move(format)) {}
 
 protected:
-    void draw_impl() override {
+    void DrawImpl() override {
         if (max_ < min_) max_ = min_;
 
         if (value_ < min_)
@@ -42,7 +42,7 @@ protected:
         if (ImGui::DragScalar((label_ + DataWidget<T>::widget_id_).c_str(), data_type_, &value_, speed_, &min_, &max_,
                               format_.c_str())) {
             value_changed_event_.Invoke(value_);
-            DataWidget<T>::notify_change();
+            DataWidget<T>::NotifyChange();
         }
     }
 

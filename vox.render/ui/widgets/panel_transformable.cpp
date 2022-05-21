@@ -20,75 +20,75 @@ PanelTransformable::PanelTransformable(const Vector2F &default_position,
       default_vertical_alignment_(default_vertical_alignment),
       ignore_config_file_(ignore_config_file) {}
 
-void PanelTransformable::set_position(const Vector2F &position) {
+void PanelTransformable::SetPosition(const Vector2F &position) {
     position_ = position;
     position_changed_ = true;
 }
 
-void PanelTransformable::set_size(const Vector2F &size) {
+void PanelTransformable::SetSize(const Vector2F &size) {
     size_ = size;
     size_changed_ = true;
 }
 
-void PanelTransformable::set_alignment(HorizontalAlignment horizontal_alignment, VerticalAlignment vertical_alignment) {
+void PanelTransformable::SetAlignment(HorizontalAlignment horizontal_alignment, VerticalAlignment vertical_alignment) {
     horizontal_alignment_ = horizontal_alignment;
     vertical_alignment_ = vertical_alignment;
     alignment_changed_ = true;
 }
 
-const Vector2F &PanelTransformable::position() const { return position_; }
+const Vector2F &PanelTransformable::Position() const { return position_; }
 
-const Vector2F &PanelTransformable::size() const { return size_; }
+const Vector2F &PanelTransformable::Size() const { return size_; }
 
-HorizontalAlignment PanelTransformable::horizontal_alignment() const { return horizontal_alignment_; }
+HorizontalAlignment PanelTransformable::GetHorizontalAlignment() const { return horizontal_alignment_; }
 
-VerticalAlignment PanelTransformable::vertical_alignment() const { return vertical_alignment_; }
+VerticalAlignment PanelTransformable::GetVerticalAlignment() const { return vertical_alignment_; }
 
-void PanelTransformable::update_position() {
+void PanelTransformable::UpdatePosition() {
     if (default_position_.x != -1.f && default_position_.y != 1.f) {
-        Vector2F offsetted_default_pos = default_position_ + calculate_position_alignment_offset(true);
-        ImGui::SetWindowPos(Converter::to_imVec2(offsetted_default_pos),
+        Vector2F offsetted_default_pos = default_position_ + CalculatePositionAlignmentOffset(true);
+        ImGui::SetWindowPos(Converter::ToImVec2(offsetted_default_pos),
                             ignore_config_file_ ? ImGuiCond_Once : ImGuiCond_FirstUseEver);
     }
 
     if (position_changed_ || alignment_changed_) {
-        Vector2F offset = calculate_position_alignment_offset(false);
+        Vector2F offset = CalculatePositionAlignmentOffset(false);
         Vector2F offsetted_pos(position_.x + offset.x, position_.y + offset.y);
-        ImGui::SetWindowPos(Converter::to_imVec2(offsetted_pos), ImGuiCond_Always);
+        ImGui::SetWindowPos(Converter::ToImVec2(offsetted_pos), ImGuiCond_Always);
         position_changed_ = false;
         alignment_changed_ = false;
     }
 }
 
-void PanelTransformable::update_size() {
+void PanelTransformable::UpdateSize() {
     /*
      if (_defaultSize.x != -1.f && _defaultSize.y != 1.f)
      ImGui::SetWindowSize(Internal::Converter::to_imVec2(_defaultSize), _ignoreConfigFile ? ImGuiCond_Once :
      ImGuiCond_FirstUseEver);
      */
     if (size_changed_) {
-        ImGui::SetWindowSize(Converter::to_imVec2(size_), ImGuiCond_Always);
+        ImGui::SetWindowSize(Converter::ToImVec2(size_), ImGuiCond_Always);
         size_changed_ = false;
     }
 }
 
-void PanelTransformable::copy_imGui_position() { position_ = Converter::to_vector2F(ImGui::GetWindowPos()); }
+void PanelTransformable::CopyImGuiPosition() { position_ = Converter::ToVector2F(ImGui::GetWindowPos()); }
 
-void PanelTransformable::copy_imGui_size() { size_ = Converter::to_vector2F(ImGui::GetWindowSize()); }
+void PanelTransformable::CopyImGuiSize() { size_ = Converter::ToVector2F(ImGui::GetWindowSize()); }
 
-void PanelTransformable::update() {
+void PanelTransformable::Update() {
     if (!first_frame_) {
-        if (!auto_size_) update_size();
-        copy_imGui_size();
+        if (!auto_size_) UpdateSize();
+        CopyImGuiSize();
 
-        update_position();
-        copy_imGui_position();
+        UpdatePosition();
+        CopyImGuiPosition();
     }
 
     first_frame_ = false;
 }
 
-Vector2F PanelTransformable::calculate_position_alignment_offset(bool is_default) {
+Vector2F PanelTransformable::CalculatePositionAlignmentOffset(bool is_default) {
     Vector2F result(0.0f, 0.0f);
 
     switch (is_default ? default_horizontal_alignment_ : horizontal_alignment_) {

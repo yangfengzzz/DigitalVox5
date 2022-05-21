@@ -18,7 +18,7 @@ public:
     explicit MenuList(std::string name, bool locked = false);
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     std::string name_;

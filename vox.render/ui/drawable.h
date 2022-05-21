@@ -12,7 +12,7 @@ namespace vox::ui {
  */
 class Drawable {
 public:
-    virtual void draw() = 0;
+    virtual void Draw() = 0;
 
 protected:
     virtual ~Drawable() = default;

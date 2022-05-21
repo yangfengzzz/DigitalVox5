@@ -37,7 +37,7 @@ public:
           select_all_on_click_(select_all_on_click) {}
 
 protected:
-    void draw_impl() override {
+    void DrawImpl() override {
         T previous_value = value_;
 
         ImGuiInputTextFlags flags = ImGuiInputTextFlags_EnterReturnsTrue;
@@ -49,7 +49,7 @@ protected:
 
         if (previous_value != value_) {
             content_changed_event_.Invoke(value_);
-            DataWidget<T>::notify_change();
+            DataWidget<T>::NotifyChange();
         }
 
         if (enter_pressed) enter_pressed_event_.Invoke(value_);

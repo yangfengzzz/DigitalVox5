@@ -23,20 +23,20 @@ public:
     /**
      * Make the radio button selected
      */
-    void select();
+    void Select();
 
     /**
      * Returns true if the radio button is selected
      */
-    [[nodiscard]] bool is_selected() const;
+    [[nodiscard]] bool IsSelected() const;
 
     /**
      * Returns the radio button ID
      */
-    [[nodiscard]] bool radio_id() const;
+    [[nodiscard]] bool RadioId() const;
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     std::string label_;

@@ -33,7 +33,7 @@ public:
     }
 
 protected:
-    void draw_impl() override {
+    void DrawImpl() override {
         if (max_ < min_) max_ = min_;
 
         for (size_t i = 0; i < Size; ++i) {
@@ -46,7 +46,7 @@ protected:
         if (ImGui::DragScalarN((label_ + DataWidget<std::array<T, Size>>::widget_id_).c_str(), data_type_,
                                values_.data(), Size, speed_, &min_, &max_, format_.c_str())) {
             value_changed_event_.Invoke(values_);
-            DataWidget<std::array<T, Size>>::notify_change();
+            DataWidget<std::array<T, Size>>::NotifyChange();
         }
     }
 

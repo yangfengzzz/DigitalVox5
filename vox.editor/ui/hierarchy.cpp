@@ -24,24 +24,24 @@ public:
     target_(target),
     tree_node_(tree_node) {
         if (target_) {
-            auto &focus_button = create_widget<MenuItem>("Focus");
+            auto &focus_button = CreateWidget<MenuItem>("Focus");
             focus_button.clicked_event_ += [this] {
                 EditorActions::GetSingleton().move_to_target(target_);
             };
             
-            auto &duplicate_button = create_widget<MenuItem>("Duplicate");
+            auto &duplicate_button = CreateWidget<MenuItem>("Duplicate");
             duplicate_button.clicked_event_ += [this] {
                 EditorActions::GetSingleton().delay_action(std::bind(&EditorActions::duplicate_entity,
                                                                       EditorActions::GetSingletonPtr(), target_, nullptr, true), 0);
             };
             
-            auto &delete_button = create_widget<MenuItem>("Delete");
+            auto &delete_button = CreateWidget<MenuItem>("Delete");
             delete_button.clicked_event_ += [this] {
                 EditorActions::GetSingleton().destroy_entity(target_);
             };
         }
         
-        auto &create_entity = create_widget<MenuList>("Create...");
+        auto &create_entity = CreateWidget<MenuList>("Create...");
         EntityCreationMenu::generate_entity_creation_menu(create_entity, target_, std::bind(&TreeNode::open, &tree_node_));
     }
     
@@ -58,7 +58,7 @@ private:
 void expand_tree_node(TreeNode &to_expand, const TreeNode *root) {
     to_expand.open();
     
-    if (&to_expand != root && to_expand.has_parent()) {
+    if (&to_expand != root && to_expand.HasParent()) {
         expand_tree_node(*static_cast<TreeNode *>(to_expand.parent()), root);
     }
 }
@@ -74,7 +74,7 @@ void expand_tree_node_and_enable(TreeNode &to_expand, const TreeNode *root) {
     
     to_expand.enabled_ = true;
     
-    if (&to_expand != root && to_expand.has_parent()) {
+    if (&to_expand != root && to_expand.HasParent()) {
         expand_tree_node_and_enable(*static_cast<TreeNode *>(to_expand.parent()), root);
     }
 }
@@ -86,7 +86,7 @@ Hierarchy::Hierarchy(const std::string &title,
                      bool opened,
                      const PanelWindowSettings &window_settings) :
 PanelWindow(title, opened, window_settings) {
-    auto &search_bar = create_widget<InputText>();
+    auto &search_bar = CreateWidget<InputText>();
     search_bar.content_changed_event_ += [this](const std::string &origin) {
         founds.clear();
         auto content = origin;
@@ -110,7 +110,7 @@ PanelWindow(title, opened, window_settings) {
         for (auto node : founds) {
             node->enabled_ = true;
             
-            if (node->has_parent()) {
+            if (node->HasParent()) {
                 expand_tree_node_and_enable(*static_cast<TreeNode *>(node->parent()), scene_root_);
             }
         }
@@ -124,21 +124,20 @@ PanelWindow(title, opened, window_settings) {
         }
     };
     
-    scene_root_ = &create_widget<TreeNode>("Root", true);
+    scene_root_ = &CreateWidget<TreeNode>("Root", true);
     static_cast<TreeNode *>(scene_root_)->open();
-    scene_root_->add_plugin<DDTarget<std::pair<Entity *, TreeNode *>>>("Entity").data_received_event_ +=
+    scene_root_->AddPlugin<DDTarget<std::pair<Entity *, TreeNode *>>>("Entity").data_received_event_ +=
     [this](std::pair<Entity *, TreeNode *> element) {
-        if (element.second->has_parent())
-            element.second->parent()->unconsider_widget(*element.second);
-        
-        scene_root_->consider_widget(*element.second);
+        if (element.second->HasParent()) element.second->parent()->UnconsiderWidget(*element.second);
+
+        scene_root_->ConsiderWidget(*element.second);
         
         auto parent = element.first->parent();
         if (parent) {
             parent->RemoveChild(element.first);
         }
     };
-    scene_root_->add_plugin<HierarchyContextualMenu>(nullptr, *scene_root_);
+    scene_root_->AddPlugin<HierarchyContextualMenu>(nullptr, *scene_root_);
     
     EditorActions::GetSingleton().entity_unselected_event_ += std::bind(&Hierarchy::unselect_entities_widgets, this);
     //    EDITOR_CONTEXT(sceneManager).SceneUnloadEvent += std::bind(&Hierarchy::clear, this);
@@ -151,8 +150,8 @@ PanelWindow(title, opened, window_settings) {
 
 void Hierarchy::clear() {
     EditorActions::GetSingleton().unselect_entity();
-    
-    scene_root_->remove_all_widgets();
+
+    scene_root_->RemoveAllWidgets();
     widget_entity_link_.clear();
 }
 
@@ -177,7 +176,7 @@ void Hierarchy::select_entity_by_widget(TreeNode &widget) {
     
     widget.selected_ = true;
     
-    if (widget.has_parent()) {
+    if (widget.HasParent()) {
         expand_tree_node(*static_cast<TreeNode *>(widget.parent()), scene_root_);
     }
 }
@@ -188,8 +187,7 @@ void Hierarchy::attach_entity_to_parent(Entity *entity) {
     if (entity_widget != widget_entity_link_.end()) {
         auto widget = entity_widget->second;
         
-        if (widget->parent())
-            widget->parent()->unconsider_widget(*widget);
+        if (widget->parent()) widget->parent()->UnconsiderWidget(*widget);
         
         if (entity->parent()) {
             auto parent_widget =
@@ -197,7 +195,7 @@ void Hierarchy::attach_entity_to_parent(Entity *entity) {
                 return widget.first == entity->parent();
             });
             parent_widget->second->leaf_ = false;
-            parent_widget->second->consider_widget(*widget);
+            parent_widget->second->ConsiderWidget(*widget);
         }
     }
 }
@@ -217,10 +215,9 @@ void Hierarchy::detach_from_parent(Entity *entity) {
         
         auto widget = entity_widget->second;
         
-        if (widget->parent())
-            widget->parent()->unconsider_widget(*widget);
-        
-        scene_root_->consider_widget(*widget);
+        if (widget->parent()) widget->parent()->UnconsiderWidget(*widget);
+
+        scene_root_->ConsiderWidget(*widget);
     }
 }
 
@@ -235,26 +232,23 @@ void Hierarchy::delete_entity_by_instance(Entity *entity) {
 }
 
 void Hierarchy::add_entity_by_instance(Entity *entity) {
-    auto &text_selectable = scene_root_->create_widget<TreeNode>(entity->name_, true);
+    auto &text_selectable = scene_root_->CreateWidget<TreeNode>(entity->name_, true);
     text_selectable.leaf_ = true;
-    text_selectable.add_plugin<HierarchyContextualMenu>(entity, text_selectable);
-    text_selectable
-        .add_plugin<DDSource<std::pair<Entity *, TreeNode *>>>("Entity", "Attach to...", std::make_pair(entity, &text_selectable));
-    text_selectable.add_plugin<DDTarget<std::pair<Entity *, TreeNode *>>>("Entity").data_received_event_ +=
+    text_selectable.AddPlugin<HierarchyContextualMenu>(entity, text_selectable);
+    text_selectable.AddPlugin<DDSource<std::pair<Entity *, TreeNode *>>>("Entity", "Attach to...",
+                                                                         std::make_pair(entity, &text_selectable));
+    text_selectable.AddPlugin<DDTarget<std::pair<Entity *, TreeNode *>>>("Entity").data_received_event_ +=
     [entity, &text_selectable](std::pair<Entity *, TreeNode *> element) {
-        if (element.second->parent())
-            element.second->parent()->unconsider_widget(*element.second);
-        
-        text_selectable.consider_widget(*element.second);
+        if (element.second->parent()) element.second->parent()->UnconsiderWidget(*element.second);
+
+        text_selectable.ConsiderWidget(*element.second);
 
         entity->AddChild(element.first->parent()->RemoveChild(element.first));
     };
-    auto &dispatcher = text_selectable.add_plugin<DataDispatcher<std::string>>();
+    auto &dispatcher = text_selectable.AddPlugin<DataDispatcher<std::string>>();
     
     Entity *target_ptr = entity;
-    dispatcher.register_gatherer([target_ptr] {
-        return target_ptr->name_;
-    });
+    dispatcher.RegisterGatherer([target_ptr] { return target_ptr->name_; });
     
     widget_entity_link_[target_ptr] = &text_selectable;
     

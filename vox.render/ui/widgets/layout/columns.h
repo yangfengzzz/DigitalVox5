@@ -23,12 +23,12 @@ public:
     Columns() { widths_.fill(-1.f); }
 
 protected:
-    void draw_impl() override {
+    void DrawImpl() override {
         ImGui::Columns(static_cast<int>(Size), ("##" + widget_id_).c_str(), false);
 
         int counter = 0;
 
-        collect_garbage();
+        CollectGarbage();
 
         for (auto it = widgets_.begin(); it != widgets_.end();) {
             it->first->draw();

@@ -22,13 +22,13 @@ public:
                            bool enable_alpha = true);
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     std::string label_;
     Color color_;
     Vector2F size_;
-    bool enableAlpha_;
+    bool enable_alpha_;
 };
 
 }  // namespace vox::ui

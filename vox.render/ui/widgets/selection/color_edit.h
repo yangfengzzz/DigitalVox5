@@ -19,7 +19,7 @@ public:
     explicit ColorEdit(bool enable_alpha = false, const Color &default_color = {});
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     bool enable_alpha_;

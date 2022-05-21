@@ -136,8 +136,7 @@ void EditorActions::set_entity_spawn_mode(EntitySpawnMode value) {
 }
 
 void EditorActions::reset_layout() {
-    delay_action([]() {
-        UiManager::GetSingleton().reset_layout("Config\\layout.ini");
+    delay_action([]() { UiManager::GetSingleton().ResetLayout("Config\\layout.ini");
     });
 }
 

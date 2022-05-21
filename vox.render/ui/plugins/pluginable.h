@@ -19,13 +19,13 @@ public:
     /**
      * Destructor (Destroys every plugins)
      */
-    ~Pluginable() { remove_all_plugins(); }
+    ~Pluginable() { RemoveAllPlugins(); }
 
     /**
      * Add a plugin
      */
     template <typename T, typename... Args>
-    T &add_plugin(Args &&...args) {
+    T &AddPlugin(Args &&...args) {
         static_assert(std::is_base_of<Plugin, T>::value, "T should derive from IPlugin");
 
         T *new_plugin = new T(std::forward<Args>(args)...);
@@ -37,7 +37,7 @@ public:
      * Returns the plugin of the given type, or nullptr if not found
      */
     template <typename T>
-    T *get_plugin() {
+    T *GetPlugin() {
         static_assert(std::is_base_of<Plugin, T>::value, "T should derive from IPlugin");
 
         for (auto &plugin : plugins_) {
@@ -51,14 +51,14 @@ public:
     /**
      * Execute every plugins
      */
-    void execute_plugins() {
-        for (auto &plugin : plugins_) plugin->execute();
+    void ExecutePlugins() {
+        for (auto &plugin : plugins_) plugin->Execute();
     }
 
     /**
      * Remove every plugins
      */
-    void remove_all_plugins() {
+    void RemoveAllPlugins() {
         for (auto &plugin : plugins_) delete plugin;
 
         plugins_.clear();

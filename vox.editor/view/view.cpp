@@ -51,7 +51,7 @@ void View::update(float p_delta_time) {
     
     if (win_width > 0) {
         if (!image_) {
-            image_ = &create_widget<::vox::ui::Image>(nullptr, Vector2F{0.f, 0.f});
+            image_ = &CreateWidget<::vox::ui::Image>(nullptr, Vector2F{0.f, 0.f});
         }
         
         image_->size_ = Vector2F(static_cast<float>(win_width), static_cast<float>(win_height));
@@ -59,9 +59,9 @@ void View::update(float p_delta_time) {
             win_width * 2 != render_target_->GetExtent().width ||
             win_height * 2 != render_target_->GetExtent().height) {
             render_target_ = create_render_target(win_width * 2, win_height * 2);
-            image_->set_texture_view(ImGui_ImplVulkan_AddTexture(sampler_->GetHandle(),
-                                                                 render_target_->GetViews().at(0).GetHandle(),
-                                                                 VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL));
+            image_->SetTextureView(ImGui_ImplVulkan_AddTexture(sampler_->GetHandle(),
+                                                               render_target_->GetViews().at(0).GetHandle(),
+                                                               VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL));
         }
     }
 }

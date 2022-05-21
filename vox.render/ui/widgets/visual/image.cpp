@@ -11,8 +11,8 @@
 namespace vox::ui {
 Image::Image(VkDescriptorSet texture_id, const Vector2F &size) : texture_id_{texture_id}, size_(size) {}
 
-void Image::set_texture_view(VkDescriptorSet texture_id) { texture_id_ = texture_id; }
+void Image::SetTextureView(VkDescriptorSet texture_id) { texture_id_ = texture_id; }
 
-void Image::draw_impl() { ImGui::Image(texture_id_, Converter::to_imVec2(size_), ImVec2(0.f, 0.f), ImVec2(1.f, 1.f)); }
+void Image::DrawImpl() { ImGui::Image(texture_id_, Converter::ToImVec2(size_), ImVec2(0.f, 0.f), ImVec2(1.f, 1.f)); }
 
 }  // namespace vox::ui

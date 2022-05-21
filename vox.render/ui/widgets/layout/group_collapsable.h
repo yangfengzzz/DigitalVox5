@@ -18,7 +18,7 @@ public:
     explicit GroupCollapsable(std::string name = "");
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     std::string name_;

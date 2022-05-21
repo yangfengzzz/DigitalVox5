@@ -9,7 +9,7 @@
 namespace vox::ui {
 TextClickable::TextClickable(const std::string &content) : Text(content) {}
 
-void TextClickable::draw_impl() {
+void TextClickable::DrawImpl() {
     bool useless = false;
 
     if (ImGui::Selectable((content_ + widget_id_).c_str(), &useless, ImGuiSelectableFlags_AllowDoubleClick)) {

@@ -21,7 +21,7 @@ public:
     ButtonImage(VkDescriptorSet texture_id, const Vector2F &size);
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     bool disabled_ = false;

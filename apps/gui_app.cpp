@@ -14,18 +14,18 @@
 
 namespace vox {
 void GuiApp::LoadScene() {
-    gui_->load_font("Ruda_Big", "Fonts/Ruda-Bold.ttf", 16);
-    gui_->load_font("Ruda_Medium", "Fonts/Ruda-Bold.ttf", 14);
-    gui_->load_font("Ruda_Small", "Fonts/Ruda-Bold.ttf", 12);
-    gui_->use_font("Ruda_Medium");
-    gui_->set_editor_layout_autosave_frequency(60.0f);
-    gui_->enable_editor_layout_save(true);
-    gui_->enable_docking(true);
-    
-    gui_->set_canvas(canvas_);
-    canvas_.add_panel(panel_);
-    panel_.create_widget<ui::TextLabelled>("hello", "world");
-    panel_.create_widget<ui::SliderFloat>();
+    gui_->LoadFont("Ruda_Big", "Fonts/Ruda-Bold.ttf", 16);
+    gui_->LoadFont("Ruda_Medium", "Fonts/Ruda-Bold.ttf", 14);
+    gui_->LoadFont("Ruda_Small", "Fonts/Ruda-Bold.ttf", 12);
+    gui_->UseFont("Ruda_Medium");
+    gui_->SetEditorLayoutAutosaveFrequency(60.0f);
+    gui_->EnableEditorLayoutSave(true);
+    gui_->EnableDocking(true);
+
+    gui_->SetCanvas(canvas_);
+    canvas_.AddPanel(panel_);
+    panel_.CreateWidget<ui::TextLabelled>("hello", "world");
+    panel_.CreateWidget<ui::SliderFloat>();
 
     auto scene = scene_manager_->CurrentScene();
     auto root_entity = scene->CreateRootEntity();

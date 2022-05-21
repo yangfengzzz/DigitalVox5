@@ -22,7 +22,7 @@ public:
                            const std::string &label = "");
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 };
 
 }  // namespace vox::ui

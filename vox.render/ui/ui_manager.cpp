@@ -31,12 +31,12 @@ UiManager::UiManager(GLFWwindow *glfw_window, RenderContext *render_context, Sty
 
     /* Disable moving windows by dragging another thing than the title bar */
     ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
-    enable_docking(false);
+    EnableDocking(false);
 
-    apply_style(style);
+    ApplyStyle(style);
 
-    setup_render_pass();
-    setup_descriptor_pool();
+    SetupRenderPass();
+    SetupDescriptorPool();
     info.Instance = render_context->GetDevice().GetGpu().GetInstance().GetHandle();
     info.PhysicalDevice = render_context->GetDevice().GetGpu().GetHandle();
     info.Device = render_context->GetDevice().GetHandle();
@@ -68,7 +68,7 @@ UiManager::~UiManager() {
     ImGui::DestroyContext();
 }
 
-void UiManager::apply_style(Style style) {
+void UiManager::ApplyStyle(Style style) {
     ImGuiStyle *imgui_style = &ImGui::GetStyle();
 
     switch (style) {
@@ -213,7 +213,7 @@ void UiManager::apply_style(Style style) {
     }
 }
 
-bool UiManager::load_font(const std::string &id, const std::string &path, float font_size) {
+bool UiManager::LoadFont(const std::string &id, const std::string &path, float font_size) {
     if (fonts_.find(id) == fonts_.end()) {
         auto &io = ImGui::GetIO();
         ImFont *font_instance =
@@ -228,7 +228,7 @@ bool UiManager::load_font(const std::string &id, const std::string &path, float 
     return false;
 }
 
-bool UiManager::unload_font(const std::string &id) {
+bool UiManager::UnloadFont(const std::string &id) {
     if (fonts_.find(id) != fonts_.end()) {
         fonts_.erase(id);
         return true;
@@ -237,42 +237,42 @@ bool UiManager::unload_font(const std::string &id) {
     return false;
 }
 
-bool UiManager::use_font(const std::string &id) {
+bool UiManager::UseFont(const std::string &id) {
     auto found_font = fonts_.find(id);
 
     if (found_font != fonts_.end()) {
         ImGui::GetIO().FontDefault = found_font->second;
-        update_font_texture();
+        UpdateFontTexture();
         return true;
     }
 
     return false;
 }
 
-void UiManager::use_default_font() {
+void UiManager::UseDefaultFont() {
     ImGui::GetIO().FontDefault = nullptr;
-    update_font_texture();
+    UpdateFontTexture();
 }
 
-void UiManager::enable_editor_layout_save(bool value) {
+void UiManager::EnableEditorLayoutSave(bool value) {
     if (value)
         ImGui::GetIO().IniFilename = layout_save_filename_.c_str();
     else
         ImGui::GetIO().IniFilename = nullptr;
 }
 
-bool UiManager::is_editor_layout_save_enabled() { return ImGui::GetIO().IniFilename != nullptr; }
+bool UiManager::IsEditorLayoutSaveEnabled() { return ImGui::GetIO().IniFilename != nullptr; }
 
-void UiManager::set_editor_layout_save_filename(const std::string &filename) {
+void UiManager::SetEditorLayoutSaveFilename(const std::string &filename) {
     layout_save_filename_ = filename;
-    if (is_editor_layout_save_enabled()) ImGui::GetIO().IniFilename = layout_save_filename_.c_str();
+    if (IsEditorLayoutSaveEnabled()) ImGui::GetIO().IniFilename = layout_save_filename_.c_str();
 }
 
-void UiManager::set_editor_layout_autosave_frequency(float frequency) { ImGui::GetIO().IniSavingRate = frequency; }
+void UiManager::SetEditorLayoutAutosaveFrequency(float frequency) { ImGui::GetIO().IniSavingRate = frequency; }
 
-float UiManager::editor_layout_autosave_frequency(float frequency) { return ImGui::GetIO().IniSavingRate; }
+float UiManager::EditorLayoutAutosaveFrequency(float frequency) { return ImGui::GetIO().IniSavingRate; }
 
-void UiManager::enable_docking(bool value) {
+void UiManager::EnableDocking(bool value) {
     docking_state_ = value;
 
     if (value)
@@ -281,24 +281,24 @@ void UiManager::enable_docking(bool value) {
         ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_DockingEnable;
 }
 
-void UiManager::reset_layout(const std::string &config) { ImGui::LoadIniSettingsFromDisk(config.c_str()); }
+void UiManager::ResetLayout(const std::string &config) { ImGui::LoadIniSettingsFromDisk(config.c_str()); }
 
-bool UiManager::is_docking_enabled() const { return docking_state_; }
+bool UiManager::IsDockingEnabled() const { return docking_state_; }
 
-void UiManager::set_canvas(Canvas &canvas) {
-    remove_canvas();
+void UiManager::SetCanvas(Canvas &canvas) {
+    RemoveCanvas();
 
     current_canvas_ = &canvas;
 }
 
-void UiManager::remove_canvas() { current_canvas_ = nullptr; }
+void UiManager::RemoveCanvas() { current_canvas_ = nullptr; }
 
-void UiManager::push_current_font() {}
+void UiManager::PushCurrentFont() {}
 
-void UiManager::pop_current_font() {}
+void UiManager::PopCurrentFont() {}
 
 // MARK: - Vulkan IMGUI Bindings
-void UiManager::setup_render_pass() {
+void UiManager::SetupRenderPass() {
     std::array<VkAttachmentDescription, 2> attachments = {};
     // Color attachment
     attachments[0].format = render_context_->GetFormat();
@@ -378,7 +378,7 @@ void UiManager::setup_render_pass() {
                                 &render_pass_));
 }
 
-void UiManager::setup_descriptor_pool() {
+void UiManager::SetupDescriptorPool() {
     VkDescriptorPoolSize pool_sizes[] = {{VK_DESCRIPTOR_TYPE_SAMPLER, 1000},
                                          {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000},
                                          {VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000},
@@ -399,14 +399,14 @@ void UiManager::setup_descriptor_pool() {
     VK_CHECK(vkCreateDescriptorPool(render_context_->GetDevice().GetHandle(), &pool_info, nullptr, &descriptor_pool_));
 }
 
-void UiManager::draw(CommandBuffer &command_buffer) {
+void UiManager::Draw(CommandBuffer &command_buffer) {
     if (current_canvas_) {
-        current_canvas_->draw();
+        current_canvas_->Draw();
         ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), command_buffer.GetHandle());
     }
 }
 
-void UiManager::update_font_texture() {
+void UiManager::UpdateFontTexture() {
     auto &command_buffer = render_context_->Begin();
     command_buffer.Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 

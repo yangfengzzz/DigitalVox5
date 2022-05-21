@@ -11,10 +11,10 @@
 namespace vox::ui {
 GroupCollapsable::GroupCollapsable(std::string name) : name_(std::move(name)) {}
 
-void GroupCollapsable::draw_impl() {
+void GroupCollapsable::DrawImpl() {
     bool previously_opened = opened_;
 
-    if (ImGui::CollapsingHeader(name_.c_str(), closable_ ? &opened_ : nullptr)) Group::draw_impl();
+    if (ImGui::CollapsingHeader(name_.c_str(), closable_ ? &opened_ : nullptr)) Group::DrawImpl();
 
     if (opened_ != previously_opened) {
         if (opened_)

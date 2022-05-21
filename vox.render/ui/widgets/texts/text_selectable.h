@@ -17,7 +17,7 @@ public:
     explicit TextSelectable(const std::string &content = "", bool selected = false, bool disabled = false);
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     bool selected_;

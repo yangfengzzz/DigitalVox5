@@ -30,7 +30,7 @@ public:
     /**
      * Execute the behaviour of the drag and drop source
      */
-    void execute() override {
+    void Execute() override {
         ImGuiDragDropFlags src_flags = 0;
         // Keep the source displayed as hovered
         src_flags |= ImGuiDragDropFlags_SourceNoDisableHover;
@@ -57,7 +57,7 @@ public:
     /**
      * Returns true if the drag and drop source is dragged
      */
-    [[nodiscard]] bool is_dragged() const { return is_dragged_; }
+    [[nodiscard]] bool IsDragged() const { return is_dragged_; }
 
 public:
     std::string identifier_;

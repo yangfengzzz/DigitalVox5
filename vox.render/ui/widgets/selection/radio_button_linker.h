@@ -23,23 +23,23 @@ public:
     /**
      * Link the given radio button
      */
-    void link(RadioButton &radio_button);
+    void Link(RadioButton &radio_button);
 
     /**
      * Unlink the given radio button
      */
-    void unlink(RadioButton &radio_button);
+    void Unlink(RadioButton &radio_button);
 
     /**
      * Returns the id of the selected radio button
      */
-    [[nodiscard]] int selected() const;
+    [[nodiscard]] int Selected() const;
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 private:
-    void on_radio_button_clicked(int radio_id);
+    void OnRadioButtonClicked(int radio_id);
 
 public:
     Event<int> value_changed_event_;

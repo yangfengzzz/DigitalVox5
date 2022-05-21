@@ -16,7 +16,7 @@ MenuItem::MenuItem(std::string name, std::string shortcut, bool checkable, bool 
       checkable_(checkable),
       checked_(checked) {}
 
-void MenuItem::draw_impl() {
+void MenuItem::DrawImpl() {
     bool previous_value = checked_;
 
     if (ImGui::MenuItem((name_ + widget_id_).c_str(), shortcut_.c_str(), checkable_ ? &checked_ : nullptr, enabled_))
@@ -24,7 +24,7 @@ void MenuItem::draw_impl() {
 
     if (checked_ != previous_value) {
         value_changed_event_.Invoke(checked_);
-        notify_change();
+        NotifyChange();
     }
 }
 

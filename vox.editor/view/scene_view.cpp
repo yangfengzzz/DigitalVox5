@@ -102,7 +102,7 @@ void SceneView::update(float delta_time) {
 }
 
 void SceneView::render(CommandBuffer &command_buffer) {
-    if (is_focused()) {
+    if (IsFocused()) {
         camera_control_->onEnable();
     } else {
         camera_control_->onDisable();
@@ -113,7 +113,7 @@ void SceneView::render(CommandBuffer &command_buffer) {
         focus();
     }
     
-    if (render_target_ && is_focused()) {
+    if (render_target_ && IsFocused()) {
         elapsed_frames_ = false;
         
         if (need_pick_) {
@@ -148,7 +148,7 @@ void SceneView::draw_impl() {
     if (!scrollable_) window_flags |= ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar;
     if (!title_bar_) window_flags |= ImGuiWindowFlags_NoTitleBar;
     
-    if (ImGui::Begin((name_ + panel_id()).c_str(), nullptr, window_flags)) {
+    if (ImGui::Begin((name_ + PanelId()).c_str(), nullptr, window_flags)) {
         if (pick_result_.first != nullptr) {
             if (ImGuizmo::IsOver()) {
                 camera_control_->set_enabled(false);

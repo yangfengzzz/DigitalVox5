@@ -77,7 +77,7 @@ void AssetView::update(float delta_time) {
 }
 
 void AssetView::render(CommandBuffer &command_buffer) {
-    if (is_focused()) {
+    if (IsFocused()) {
         camera_control_->onEnable();
     } else {
         camera_control_->onDisable();

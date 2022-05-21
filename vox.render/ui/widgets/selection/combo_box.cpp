@@ -9,7 +9,7 @@
 namespace vox::ui {
 ComboBox::ComboBox(int current_choice) : DataWidget<int>(current_choice_), current_choice_(current_choice) {}
 
-void ComboBox::draw_impl() {
+void ComboBox::DrawImpl() {
     if (choices_.find(current_choice_) == choices_.end()) current_choice_ = choices_.begin()->first;
 
     if (ImGui::BeginCombo(widget_id_.c_str(), choices_[current_choice_].c_str())) {
@@ -21,7 +21,7 @@ void ComboBox::draw_impl() {
                     ImGui::SetItemDefaultFocus();
                     current_choice_ = kEy;
                     value_changed_event_.Invoke(current_choice_);
-                    notify_change();
+                    NotifyChange();
                 }
             }
         }

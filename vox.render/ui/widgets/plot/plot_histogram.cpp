@@ -17,9 +17,9 @@ PlotHistogram::PlotHistogram(const std::vector<float> &data,
                              const std::string &label)
     : Plot(data, min_scale, max_scale, size, overlay, label) {}
 
-void PlotHistogram::draw_impl() {
+void PlotHistogram::DrawImpl() {
     ImGui::PlotHistogram((label_ + widget_id_).c_str(), data_.data(), static_cast<int>(data_.size()), 0,
-                         overlay_.c_str(), min_scale_, max_scale_, Converter::to_imVec2(size_), sizeof(float));
+                         overlay_.c_str(), min_scale_, max_scale_, Converter::ToImVec2(size_), sizeof(float));
 }
 
 }  // namespace vox::ui

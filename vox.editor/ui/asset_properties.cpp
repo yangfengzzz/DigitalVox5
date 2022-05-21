@@ -29,17 +29,17 @@ asset_view_(view) {
     
     create_header_buttons();
     
-    header_separator_ = &create_widget<::vox::ui::Separator>();
+    header_separator_ = &CreateWidget<::vox::ui::Separator>();
     header_separator_->enabled_ = false;
     
     create_asset_selector();
     
-    settings_ = &create_widget<GroupCollapsable>("Settings");
-    settings_columns_ = &settings_->create_widget<Columns<2>>();
+    settings_ = &CreateWidget<GroupCollapsable>("Settings");
+    settings_columns_ = &settings_->CreateWidget<Columns<2>>();
     settings_columns_->widths_[0] = 150;
     
-    info_ = &create_widget<GroupCollapsable>("Info");
-    info_columns_ = &info_->create_widget<Columns<2>>();
+    info_ = &CreateWidget<GroupCollapsable>("Info");
+    info_columns_ = &info_->CreateWidget<Columns<2>>();
     info_columns_->widths_[0] = 150;
     
     settings_->enabled_ = info_->enabled_ = false;
@@ -97,25 +97,25 @@ void AssetProperties::preview() {
 }
 
 void AssetProperties::create_header_buttons() {
-    apply_button_ = &create_widget<ButtonSimple>("Apply");
+    apply_button_ = &CreateWidget<ButtonSimple>("Apply");
     apply_button_->idle_background_color_ = {0.0f, 0.5f, 0.0f};
     apply_button_->enabled_ = false;
     apply_button_->line_break_ = false;
     apply_button_->clicked_event_ += std::bind(&AssetProperties::apply, this);
     
-    revert_button_ = &create_widget<ButtonSimple>("Revert");
+    revert_button_ = &CreateWidget<ButtonSimple>("Revert");
     revert_button_->idle_background_color_ = {0.7f, 0.5f, 0.0f};
     revert_button_->enabled_ = false;
     revert_button_->line_break_ = false;
     revert_button_->clicked_event_ += std::bind(&AssetProperties::set_target, this, resource_);
     
-    preview_button_ = &create_widget<ButtonSimple>("Preview");
+    preview_button_ = &CreateWidget<ButtonSimple>("Preview");
     preview_button_->idle_background_color_ = {0.7f, 0.5f, 0.0f};
     preview_button_->enabled_ = false;
     preview_button_->line_break_ = false;
     preview_button_->clicked_event_ += std::bind(&AssetProperties::preview, this);
     
-    reset_button_ = &create_widget<ButtonSimple>("Reset to default");
+    reset_button_ = &CreateWidget<ButtonSimple>("Reset to default");
     reset_button_->idle_background_color_ = {0.5f, 0.0f, 0.0f};
     reset_button_->enabled_ = false;
     reset_button_->line_break_ = false;
@@ -124,18 +124,18 @@ void AssetProperties::create_header_buttons() {
         create_settings();
     };
     
-    header_line_break_ = &create_widget<NewLine>();
+    header_line_break_ = &CreateWidget<NewLine>();
     header_line_break_->enabled_ = false;
 }
 
 void AssetProperties::create_asset_selector() {
-    auto &columns = create_widget<Columns<2>>();
+    auto &columns = CreateWidget<Columns<2>>();
     columns.widths_[0] = 150;
     // assetSelector = &OvCore::Helpers::GUIDrawer::DrawAsset(columns, "Target", resource, &targetChanged);
 }
 
 void AssetProperties::create_settings() {
-    settings_columns_->remove_all_widgets();
+    settings_columns_->RemoveAllWidgets();
     
     const auto kFileType = fs::ExtraFileType(resource_);
     
@@ -152,22 +152,22 @@ void AssetProperties::create_settings() {
 
 void AssetProperties::create_info() {
     const auto kRealPath = EditorActions::GetSingleton().get_real_path(resource_);
-    
-    info_columns_->remove_all_widgets();
+
+    info_columns_->RemoveAllWidgets();
     
     if (std::filesystem::exists(kRealPath)) {
         info_->enabled_ = true;
-        
-        GuiDrawer::create_title(*info_columns_, "Path");
-        info_columns_->create_widget<Text>(kRealPath);
-        
-        GuiDrawer::create_title(*info_columns_, "Size");
+
+        GuiDrawer::CreateTitle(*info_columns_, "Path");
+        info_columns_->CreateWidget<Text>(kRealPath);
+
+        GuiDrawer::CreateTitle(*info_columns_, "Size");
         const auto [kSize, kUnit] = SizeConverter::convert_to_optimal_unit(static_cast<float>(std::filesystem::file_size(kRealPath)),
                                                                            SizeConverter::SizeUnit::BYTE);
-        info_columns_->create_widget<Text>(std::to_string(kSize) + " " + SizeConverter::unit_to_string(kUnit));
-        
-        GuiDrawer::create_title(*info_columns_, "Metadata");
-        info_columns_->create_widget<Text>(std::filesystem::exists(kRealPath + ".meta") ? "Yes" : "No");
+        info_columns_->CreateWidget<Text>(std::to_string(kSize) + " " + SizeConverter::unit_to_string(kUnit));
+
+        GuiDrawer::CreateTitle(*info_columns_, "Metadata");
+        info_columns_->CreateWidget<Text>(std::filesystem::exists(kRealPath + ".meta") ? "Yes" : "No");
     } else {
         info_->enabled_ = false;
     }
@@ -256,26 +256,24 @@ void AssetProperties::create_texture_settings() {
         {0x2701, "LINEAR_MIPMAP_NEAREST"},
         {0x2702, "NEAREST_MIPMAP_LINEAR"}
     };
-    
-    GuiDrawer::create_title(*settings_columns_, "MIN_FILTER");
-    auto &min_filter = settings_columns_->create_widget<ComboBox>(metadata_->get<int>("MIN_FILTER"));
+
+    GuiDrawer::CreateTitle(*settings_columns_, "MIN_FILTER");
+    auto &min_filter = settings_columns_->CreateWidget<ComboBox>(metadata_->get<int>("MIN_FILTER"));
     min_filter.choices_ = filtering_modes;
     min_filter.value_changed_event_ += [this](int p_choice) {
         metadata_->set("MIN_FILTER", p_choice);
     };
-    
-    GuiDrawer::create_title(*settings_columns_, "MAG_FILTER");
-    auto &mag_filter = settings_columns_->create_widget<ComboBox>(metadata_->get<int>("MAG_FILTER"));
+
+    GuiDrawer::CreateTitle(*settings_columns_, "MAG_FILTER");
+    auto &mag_filter = settings_columns_->CreateWidget<ComboBox>(metadata_->get<int>("MAG_FILTER"));
     mag_filter.choices_ = filtering_modes;
     mag_filter.value_changed_event_ += [this](int p_choice) {
         metadata_->set("MAG_FILTER", p_choice);
     };
-    
-    GuiDrawer::draw_boolean(*settings_columns_, "ENABLE_MIPMAPPING", [&]() {
-        return metadata_->get<bool>("ENABLE_MIPMAPPING");
-    }, [&](bool value) {
-        metadata_->set<bool>("ENABLE_MIPMAPPING", value);
-    });
+
+    GuiDrawer::DrawBoolean(
+            *settings_columns_, "ENABLE_MIPMAPPING", [&]() { return metadata_->get<bool>("ENABLE_MIPMAPPING"); },
+            [&](bool value) { metadata_->set<bool>("ENABLE_MIPMAPPING", value); });
 }
 
 void AssetProperties::apply() {

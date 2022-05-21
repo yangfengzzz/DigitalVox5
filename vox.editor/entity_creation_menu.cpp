@@ -36,35 +36,35 @@ std::function<void()> entity_with_model_component_creation_handler(Entity *paren
 
 void EntityCreationMenu::generate_entity_creation_menu(::vox::ui::MenuList &menu_list, Entity *p_parent,
                                                        const std::optional<std::function<void()>> &on_item_clicked) {
-    menu_list.create_widget<MenuItem>("Create Empty").clicked_event_
+    menu_list.CreateWidget<MenuItem>("Create Empty").clicked_event_
     += combine(std::bind(&::vox::editor::EditorActions::create_empty_entity,
                          EditorActions::GetSingletonPtr(), true, p_parent, ""), on_item_clicked);
     
-    auto &primitives = menu_list.create_widget<MenuList>("Primitives");
-    auto &physicals = menu_list.create_widget<MenuList>("Physicals");
-    auto &lights = menu_list.create_widget<MenuList>("Lights");
-    auto &audio = menu_list.create_widget<MenuList>("Audio");
-    auto &others = menu_list.create_widget<MenuList>("Others");
-    
-    primitives.create_widget<MenuItem>("Cube").clicked_event_ +=
+    auto &primitives = menu_list.CreateWidget<MenuList>("Primitives");
+    auto &physicals = menu_list.CreateWidget<MenuList>("Physicals");
+    auto &lights = menu_list.CreateWidget<MenuList>("Lights");
+    auto &audio = menu_list.CreateWidget<MenuList>("Audio");
+    auto &others = menu_list.CreateWidget<MenuList>("Others");
+
+    primitives.CreateWidget<MenuItem>("Cube").clicked_event_ +=
     entity_with_model_component_creation_handler(p_parent, "Cube", on_item_clicked);
-    primitives.create_widget<MenuItem>("Sphere").clicked_event_ +=
+    primitives.CreateWidget<MenuItem>("Sphere").clicked_event_ +=
     entity_with_model_component_creation_handler(p_parent, "Sphere", on_item_clicked);
-    primitives.create_widget<MenuItem>("Cone").clicked_event_ +=
+    primitives.CreateWidget<MenuItem>("Cone").clicked_event_ +=
     entity_with_model_component_creation_handler(p_parent, "Cone", on_item_clicked);
-    primitives.create_widget<MenuItem>("Cylinder").clicked_event_ +=
+    primitives.CreateWidget<MenuItem>("Cylinder").clicked_event_ +=
     entity_with_model_component_creation_handler(p_parent, "Cylinder", on_item_clicked);
-    primitives.create_widget<MenuItem>("Plane").clicked_event_ +=
+    primitives.CreateWidget<MenuItem>("Plane").clicked_event_ +=
     entity_with_model_component_creation_handler(p_parent, "Plane", on_item_clicked);
-    primitives.create_widget<MenuItem>("Gear").clicked_event_ +=
+    primitives.CreateWidget<MenuItem>("Gear").clicked_event_ +=
     entity_with_model_component_creation_handler(p_parent, "Gear", on_item_clicked);
-    primitives.create_widget<MenuItem>("Helix").clicked_event_ +=
+    primitives.CreateWidget<MenuItem>("Helix").clicked_event_ +=
     entity_with_model_component_creation_handler(p_parent, "Helix", on_item_clicked);
-    primitives.create_widget<MenuItem>("Pipe").clicked_event_ +=
+    primitives.CreateWidget<MenuItem>("Pipe").clicked_event_ +=
     entity_with_model_component_creation_handler(p_parent, "Pipe", on_item_clicked);
-    primitives.create_widget<MenuItem>("Pyramid").clicked_event_ +=
+    primitives.CreateWidget<MenuItem>("Pyramid").clicked_event_ +=
     entity_with_model_component_creation_handler(p_parent, "Pyramid", on_item_clicked);
-    primitives.create_widget<MenuItem>("Torus").clicked_event_ +=
+    primitives.CreateWidget<MenuItem>("Torus").clicked_event_ +=
     entity_with_model_component_creation_handler(p_parent, "Torus", on_item_clicked);
     
     (void)physicals;

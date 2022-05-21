@@ -9,7 +9,7 @@
 #include <algorithm>
 
 namespace vox::ui {
-void WidgetContainer::remove_widget(Widget &widget) {
+void WidgetContainer::RemoveWidget(Widget &widget) {
     auto found = std::find_if(widgets_.begin(), widgets_.end(),
                               [&widget](std::pair<Widget *, MemoryMode> &pair) { return pair.first == &widget; });
 
@@ -20,7 +20,7 @@ void WidgetContainer::remove_widget(Widget &widget) {
     }
 }
 
-void WidgetContainer::remove_all_widgets() {
+void WidgetContainer::RemoveAllWidgets() {
     std::for_each(widgets_.begin(), widgets_.end(), [](auto &pair) {
         if (pair.second == MemoryMode::INTERNAL_MANAGEMENT) delete pair.first;
     });
@@ -28,26 +28,26 @@ void WidgetContainer::remove_all_widgets() {
     widgets_.clear();
 }
 
-void WidgetContainer::consider_widget(Widget &widget, bool manage_memory) {
+void WidgetContainer::ConsiderWidget(Widget &widget, bool manage_memory) {
     widgets_.emplace_back(
             std::make_pair(&widget, manage_memory ? MemoryMode::INTERNAL_MANAGEMENT : MemoryMode::EXTERNAL_MANAGEMENT));
-    widget.set_parent(this);
+    widget.SetParent(this);
 }
 
-void WidgetContainer::unconsider_widget(Widget &widget) {
+void WidgetContainer::UnconsiderWidget(Widget &widget) {
     auto found = std::find_if(widgets_.begin(), widgets_.end(),
                               [&widget](std::pair<Widget *, MemoryMode> &pair) { return pair.first == &widget; });
 
     if (found != widgets_.end()) {
-        widget.set_parent(nullptr);
+        widget.SetParent(nullptr);
         widgets_.erase(found);
     }
 }
 
-void WidgetContainer::collect_garbage() {
+void WidgetContainer::CollectGarbage() {
     widgets_.erase(std::remove_if(widgets_.begin(), widgets_.end(),
                                   [](std::pair<Widget *, MemoryMode> &item) {
-                                      bool to_destroy = item.first && item.first->is_destroyed();
+                                      bool to_destroy = item.first && item.first->IsDestroyed();
 
                                       if (to_destroy && item.second == MemoryMode::INTERNAL_MANAGEMENT)
                                           delete item.first;
@@ -57,18 +57,18 @@ void WidgetContainer::collect_garbage() {
                    widgets_.end());
 }
 
-void WidgetContainer::draw_widgets() {
-    collect_garbage();
+void WidgetContainer::DrawWidgets() {
+    CollectGarbage();
 
     if (reversed_draw_order_) {
-        for (auto it = widgets_.crbegin(); it != widgets_.crend(); ++it) it->first->draw();
+        for (auto it = widgets_.crbegin(); it != widgets_.crend(); ++it) it->first->Draw();
     } else {
-        for (const auto &widget : widgets_) widget.first->draw();
+        for (const auto &widget : widgets_) widget.first->Draw();
     }
 }
 
-void WidgetContainer::reverse_draw_order(const bool reversed) { reversed_draw_order_ = reversed; }
+void WidgetContainer::ReverseDrawOrder(const bool reversed) { reversed_draw_order_ = reversed; }
 
-std::vector<std::pair<Widget *, MemoryMode>> &WidgetContainer::widgets() { return widgets_; }
+std::vector<std::pair<Widget *, MemoryMode>> &WidgetContainer::Widgets() { return widgets_; }
 
 }  // namespace vox::ui

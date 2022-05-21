@@ -21,20 +21,20 @@ public:
     /**
      * Open the tree node
      */
-    void open();
+    void Open();
 
     /**
      * Close the tree node
      */
-    void close();
+    void Close();
 
     /**
      * Returns true if the TreeNode is currently opened
      */
-    [[nodiscard]] bool is_opened() const;
+    [[nodiscard]] bool IsOpened() const;
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     std::string name_;

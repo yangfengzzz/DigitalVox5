@@ -12,7 +12,7 @@ namespace vox::ui {
 InputText::InputText(std::string content, std::string label)
     : DataWidget<std::string>(content_), content_(std::move(content)), label_(std::move(label)) {}
 
-void InputText::draw_impl() {
+void InputText::DrawImpl() {
     std::string previous_content = content_;
 
     content_.resize(256, '\0');
@@ -22,7 +22,7 @@ void InputText::draw_impl() {
 
     if (content_ != previous_content) {
         content_changed_event_.Invoke(content_);
-        notify_change();
+        NotifyChange();
     }
 
     if (enter_pressed) enter_pressed_event_.Invoke(content_);

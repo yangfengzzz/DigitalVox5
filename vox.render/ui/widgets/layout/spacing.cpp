@@ -9,7 +9,7 @@
 namespace vox::ui {
 Spacing::Spacing(uint16_t spaces) : spaces_(spaces) {}
 
-void Spacing::draw_impl() {
+void Spacing::DrawImpl() {
     for (uint16_t i = 0; i < spaces_; ++i) {
         ImGui::Spacing();
 

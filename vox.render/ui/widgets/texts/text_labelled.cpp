@@ -11,6 +11,6 @@
 namespace vox::ui {
 TextLabelled::TextLabelled(const std::string &content, std::string label) : Text(content), label_(std::move(label)) {}
 
-void TextLabelled::draw_impl() { ImGui::LabelText((label_ + widget_id_).c_str(), "%s", content_.c_str()); }
+void TextLabelled::DrawImpl() { ImGui::LabelText((label_ + widget_id_).c_str(), "%s", content_.c_str()); }
 
 }  // namespace vox::ui

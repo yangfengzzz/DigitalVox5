@@ -31,23 +31,23 @@ PanelWindow::PanelWindow(std::string name, bool opened, const PanelWindowSetting
     auto_size_ = panel_settings.auto_size;
 }
 
-void PanelWindow::open() {
+void PanelWindow::Open() {
     if (!opened_) {
         opened_ = true;
         open_event_.Invoke();
     }
 }
 
-void PanelWindow::close() {
+void PanelWindow::Close() {
     if (opened_) {
         opened_ = false;
         close_event_.Invoke();
     }
 }
 
-void PanelWindow::focus() { ImGui::SetWindowFocus((name_ + panel_id_).c_str()); }
+void PanelWindow::Focus() { ImGui::SetWindowFocus((name_ + panel_id_).c_str()); }
 
-void PanelWindow::set_opened(bool value) {
+void PanelWindow::SetOpened(bool value) {
     if (value != opened_) {
         opened_ = value;
 
@@ -58,28 +58,28 @@ void PanelWindow::set_opened(bool value) {
     }
 }
 
-bool PanelWindow::is_opened() const { return opened_; }
+bool PanelWindow::IsOpened() const { return opened_; }
 
-bool PanelWindow::is_hovered() const { return hovered_; }
+bool PanelWindow::IsHovered() const { return hovered_; }
 
-bool PanelWindow::is_focused() const { return focused_; }
+bool PanelWindow::IsFocused() const { return focused_; }
 
-bool PanelWindow::is_appearing() const {
-    if (auto window = ImGui::FindWindowByName((name_ + panel_id()).c_str()); window)
+bool PanelWindow::IsAppearing() const {
+    if (auto window = ImGui::FindWindowByName((name_ + PanelId()).c_str()); window)
         return window->Appearing;
     else
         return false;
 }
 
-void PanelWindow::scroll_to_bottom() { must_scroll_to_bottom_ = true; }
+void PanelWindow::ScrollToBottom() { must_scroll_to_bottom_ = true; }
 
-void PanelWindow::scroll_to_top() { must_scroll_to_top_ = true; }
+void PanelWindow::ScrollToTop() { must_scroll_to_top_ = true; }
 
-bool PanelWindow::is_scrolled_to_bottom() const { return scrolled_to_bottom_; }
+bool PanelWindow::IsScrolledToBottom() const { return scrolled_to_bottom_; }
 
-bool PanelWindow::is_scrolled_to_top() const { return scrolled_to_top_; }
+bool PanelWindow::IsScrolledToTop() const { return scrolled_to_top_; }
 
-void PanelWindow::draw_impl() {
+void PanelWindow::DrawImpl() {
     if (opened_) {
         int window_flags = ImGuiWindowFlags_None;
 
@@ -96,8 +96,8 @@ void PanelWindow::draw_impl() {
         if (!scrollable_) window_flags |= ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar;
         if (!title_bar_) window_flags |= ImGuiWindowFlags_NoTitleBar;
 
-        ImVec2 min_size_constraint = Converter::to_imVec2(min_size_);
-        ImVec2 max_size_constraint = Converter::to_imVec2(max_size_);
+        ImVec2 min_size_constraint = Converter::ToImVec2(min_size_);
+        ImVec2 max_size_constraint = Converter::ToImVec2(max_size_);
 
         /* Cancel constraint if x or y is <= 0.f */
         if (min_size_constraint.x <= 0.f || min_size_constraint.y <= 0.f) min_size_constraint = {0.0f, 0.0f};
@@ -117,7 +117,7 @@ void PanelWindow::draw_impl() {
 
             if (!opened_) close_event_.Invoke();
 
-            update();
+            Update();
 
             if (must_scroll_to_bottom_) {
                 ImGui::SetScrollY(ImGui::GetScrollMaxY());
@@ -129,7 +129,7 @@ void PanelWindow::draw_impl() {
                 must_scroll_to_top_ = false;
             }
 
-            draw_widgets();
+            DrawWidgets();
         }
 
         ImGui::End();

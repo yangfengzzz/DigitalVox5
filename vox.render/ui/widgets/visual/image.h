@@ -19,10 +19,10 @@ class Image : public Widget {
 public:
     Image(VkDescriptorSet texture_id, const Vector2F &size);
 
-    void set_texture_view(VkDescriptorSet texture_id);
+    void SetTextureView(VkDescriptorSet texture_id);
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     VkDescriptorSet texture_id_;

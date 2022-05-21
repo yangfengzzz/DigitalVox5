@@ -7,13 +7,13 @@
 #include "contextual_menu.h"
 
 namespace vox::ui {
-void ContextualMenu::execute() {
+void ContextualMenu::Execute() {
     if (ImGui::BeginPopupContextItem()) {
-        draw_widgets();
+        DrawWidgets();
         ImGui::EndPopup();
     }
 }
 
-void ContextualMenu::close() { ImGui::CloseCurrentPopup(); }
+void ContextualMenu::Close() { ImGui::CloseCurrentPopup(); }
 
 }  // namespace vox::ui

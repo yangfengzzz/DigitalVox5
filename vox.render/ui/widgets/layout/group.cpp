@@ -7,6 +7,6 @@
 #include "group.h"
 
 namespace vox::ui {
-void Group::draw_impl() { draw_widgets(); }
+void Group::DrawImpl() { DrawWidgets(); }
 
 }  // namespace vox::ui

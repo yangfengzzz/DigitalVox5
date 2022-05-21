@@ -10,7 +10,7 @@
 
 namespace vox::ui {
 template <typename T>
-inline ImGuiDataType_ GuiDrawer::get_data_type() {
+inline ImGuiDataType_ GuiDrawer::GetDataType() {
     if constexpr (std::is_same<T, float>::value)
         return ImGuiDataType_Float;
     else if constexpr (std::is_same<T, double>::value)
@@ -34,7 +34,7 @@ inline ImGuiDataType_ GuiDrawer::get_data_type() {
 }
 
 template <typename T>
-inline std::string GuiDrawer::get_format() {
+inline std::string GuiDrawer::GetFormat() {
     if constexpr (std::is_same<T, double>::value)
         return "%.5f";
     else if constexpr (std::is_same<T, float>::value)
@@ -44,32 +44,31 @@ inline std::string GuiDrawer::get_format() {
 }
 
 template <typename T>
-inline void GuiDrawer::draw_scalar(WidgetContainer &root, const std::string &name, T &data, float step, T min, T max) {
+inline void GuiDrawer::DrawScalar(WidgetContainer &root, const std::string &name, T &data, float step, T min, T max) {
     static_assert(std::is_scalar<T>::value, "T must be a scalar");
 
-    create_title(root, name);
-    auto &widget =
-            root.create_widget<DragSingleScalar<T>>(get_data_type<T>(), min, max, data, step, "", get_format<T>());
-    auto &dispatcher = widget.template add_plugin<DataDispatcher<T>>();
-    dispatcher.register_reference(data);
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<DragSingleScalar<T>>(GetDataType<T>(), min, max, data, step, "", GetFormat<T>());
+    auto &dispatcher = widget.template AddPlugin<DataDispatcher<T>>();
+    dispatcher.RegisterReference(data);
 }
 
 template <typename T>
-inline void GuiDrawer::draw_scalar(WidgetContainer &root,
-                                   const std::string &name,
-                                   std::function<T(void)> gatherer,
-                                   std::function<void(T)> provider,
-                                   float step,
-                                   T min,
-                                   T max) {
+inline void GuiDrawer::DrawScalar(WidgetContainer &root,
+                                  const std::string &name,
+                                  std::function<T(void)> gatherer,
+                                  std::function<void(T)> provider,
+                                  float step,
+                                  T min,
+                                  T max) {
     static_assert(std::is_scalar<T>::value, "T must be a scalar");
 
-    create_title(root, name);
-    auto &widget = root.create_widget<DragSingleScalar<T>>(get_data_type<T>(), min, max, static_cast<T>(0), step, "",
-                                                           get_format<T>());
-    auto &dispatcher = widget.template add_plugin<DataDispatcher<T>>();
-    dispatcher.register_gatherer(gatherer);
-    dispatcher.register_provider(provider);
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<DragSingleScalar<T>>(GetDataType<T>(), min, max, static_cast<T>(0), step, "",
+                                                          GetFormat<T>());
+    auto &dispatcher = widget.template AddPlugin<DataDispatcher<T>>();
+    dispatcher.RegisterGatherer(gatherer);
+    dispatcher.RegisterProvider(provider);
 }
 
 }  // namespace vox::ui

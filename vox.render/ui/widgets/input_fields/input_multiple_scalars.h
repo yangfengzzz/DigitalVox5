@@ -41,7 +41,7 @@ public:
     }
 
 protected:
-    void draw_impl() override {
+    void DrawImpl() override {
         std::array<T, Size> previous_value = values_;
 
         ImGuiInputTextFlags flags = ImGuiInputTextFlags_EnterReturnsTrue;

@@ -276,7 +276,7 @@ void GraphicsApplication::DrawRenderpass(CommandBuffer &command_buffer, RenderTa
     Render(command_buffer, render_target);
 
     if (gui_) {
-        gui_->draw(command_buffer);
+        gui_->Draw(command_buffer);
     }
 
     command_buffer.EndRenderPass();

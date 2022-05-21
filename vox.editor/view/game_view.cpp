@@ -32,7 +32,7 @@ scene_(scene) {
 }
 
 void GameView::render(CommandBuffer &command_buffer) {
-    if (render_target_ && is_focused()) {
+    if (render_target_ && IsFocused()) {
         render_pipeline_->draw(command_buffer, *render_target_);
     }
 }

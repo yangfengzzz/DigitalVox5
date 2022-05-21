@@ -28,65 +28,65 @@ const float GuiDrawer::max_float_ = +999999999.f;
 //     __EMPTY_TEXTURE = &emptyTexture;
 // }
 
-void GuiDrawer::create_title(WidgetContainer &root, const std::string &name) {
-    root.create_widget<TextColored>(name, title_color_);
+void GuiDrawer::CreateTitle(WidgetContainer &root, const std::string &name) {
+    root.CreateWidget<TextColored>(name, title_color_);
 }
 
-void GuiDrawer::draw_boolean(WidgetContainer &root, const std::string &name, bool &data) {
-    create_title(root, name);
-    auto &widget = root.create_widget<CheckBox>();
-    auto &dispatcher = widget.add_plugin<DataDispatcher<bool>>();
-    dispatcher.register_reference(reinterpret_cast<bool &>(data));
+void GuiDrawer::DrawBoolean(WidgetContainer &root, const std::string &name, bool &data) {
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<CheckBox>();
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<bool>>();
+    dispatcher.RegisterReference(reinterpret_cast<bool &>(data));
 }
 
-void GuiDrawer::draw_vec_2(
+void GuiDrawer::DrawVec2(
         WidgetContainer &root, const std::string &name, Vector2F &data, float step, float min, float max) {
-    create_title(root, name);
-    auto &widget = root.create_widget<DragMultipleScalars<float, 2>>(get_data_type<float>(), min, max, 0.f, step, "",
-                                                                     get_format<float>());
-    auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 2>>>();
-    dispatcher.register_reference(reinterpret_cast<std::array<float, 2> &>(data));
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<DragMultipleScalars<float, 2>>(GetDataType<float>(), min, max, 0.f, step, "",
+                                                                    GetFormat<float>());
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<std::array<float, 2>>>();
+    dispatcher.RegisterReference(reinterpret_cast<std::array<float, 2> &>(data));
 }
 
-void GuiDrawer::draw_vec_3(
+void GuiDrawer::DrawVec3(
         WidgetContainer &root, const std::string &name, Vector3F &data, float step, float min, float max) {
-    create_title(root, name);
-    auto &widget = root.create_widget<DragMultipleScalars<float, 3>>(get_data_type<float>(), min, max, 0.f, step, "",
-                                                                     get_format<float>());
-    auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 3>>>();
-    dispatcher.register_reference(reinterpret_cast<std::array<float, 3> &>(data));
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<DragMultipleScalars<float, 3>>(GetDataType<float>(), min, max, 0.f, step, "",
+                                                                    GetFormat<float>());
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<std::array<float, 3>>>();
+    dispatcher.RegisterReference(reinterpret_cast<std::array<float, 3> &>(data));
 }
 
-void GuiDrawer::draw_vec_4(
+void GuiDrawer::DrawVec4(
         WidgetContainer &root, const std::string &name, Vector4F &data, float step, float min, float max) {
-    create_title(root, name);
-    auto &widget = root.create_widget<DragMultipleScalars<float, 4>>(get_data_type<float>(), min, max, 0.f, step, "",
-                                                                     get_format<float>());
-    auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 4>>>();
-    dispatcher.register_reference(reinterpret_cast<std::array<float, 4> &>(data));
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<DragMultipleScalars<float, 4>>(GetDataType<float>(), min, max, 0.f, step, "",
+                                                                    GetFormat<float>());
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<std::array<float, 4>>>();
+    dispatcher.RegisterReference(reinterpret_cast<std::array<float, 4> &>(data));
 }
 
-void GuiDrawer::draw_quat(
+void GuiDrawer::DrawQuat(
         WidgetContainer &root, const std::string &name, QuaternionF &data, float step, float min, float max) {
-    create_title(root, name);
-    auto &widget = root.create_widget<DragMultipleScalars<float, 4>>(get_data_type<float>(), min, max, 0.f, step, "",
-                                                                     get_format<float>());
-    auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 4>>>();
-    dispatcher.register_reference(reinterpret_cast<std::array<float, 4> &>(data));
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<DragMultipleScalars<float, 4>>(GetDataType<float>(), min, max, 0.f, step, "",
+                                                                    GetFormat<float>());
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<std::array<float, 4>>>();
+    dispatcher.RegisterReference(reinterpret_cast<std::array<float, 4> &>(data));
 }
 
-void GuiDrawer::draw_string(WidgetContainer &root, const std::string &name, std::string &data) {
-    create_title(root, name);
-    auto &widget = root.create_widget<InputText>("");
-    auto &dispatcher = widget.add_plugin<DataDispatcher<std::string>>();
-    dispatcher.register_reference(data);
+void GuiDrawer::DrawString(WidgetContainer &root, const std::string &name, std::string &data) {
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<InputText>("");
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<std::string>>();
+    dispatcher.RegisterReference(data);
 }
 
-void GuiDrawer::draw_color(WidgetContainer &root, const std::string &name, Color &color, bool has_alpha) {
-    create_title(root, name);
-    auto &widget = root.create_widget<ColorEdit>(has_alpha);
-    auto &dispatcher = widget.add_plugin<DataDispatcher<Color>>();
-    dispatcher.register_reference(color);
+void GuiDrawer::DrawColor(WidgetContainer &root, const std::string &name, Color &color, bool has_alpha) {
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<ColorEdit>(has_alpha);
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<Color>>();
+    dispatcher.RegisterReference(color);
 }
 
 // Text& GuiDrawer::drawMesh(WidgetContainer & root, const std::string & name, OvRendering::Resources::Model *& data,
@@ -334,145 +334,145 @@ void GuiDrawer::draw_color(WidgetContainer &root, const std::string &name, Color
 //     return widget;
 // }
 
-void GuiDrawer::draw_boolean(WidgetContainer &root,
-                             const std::string &name,
-                             const std::function<bool(void)> &gatherer,
-                             const std::function<void(bool)> &provider) {
-    create_title(root, name);
-    auto &widget = root.create_widget<CheckBox>();
-    auto &dispatcher = widget.add_plugin<DataDispatcher<bool>>();
+void GuiDrawer::DrawBoolean(WidgetContainer &root,
+                            const std::string &name,
+                            const std::function<bool(void)> &gatherer,
+                            const std::function<void(bool)> &provider) {
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<CheckBox>();
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<bool>>();
 
-    dispatcher.register_gatherer([gatherer]() {
+    dispatcher.RegisterGatherer([gatherer]() {
         bool value = gatherer();
         return reinterpret_cast<bool &>(value);
     });
 
-    dispatcher.register_provider([provider](bool value) { provider(reinterpret_cast<bool &>(value)); });
+    dispatcher.RegisterProvider([provider](bool value) { provider(reinterpret_cast<bool &>(value)); });
 }
 
-void GuiDrawer::draw_vec_2(WidgetContainer &root,
-                           const std::string &name,
-                           const std::function<Vector2F(void)> &gatherer,
-                           const std::function<void(Vector2F)> &provider,
-                           float step,
-                           float min,
-                           float max) {
-    create_title(root, name);
-    auto &widget = root.create_widget<DragMultipleScalars<float, 2>>(get_data_type<float>(), min, max, 0.f, step, "",
-                                                                     get_format<float>());
-    auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 2>>>();
+void GuiDrawer::DrawVec2(WidgetContainer &root,
+                         const std::string &name,
+                         const std::function<Vector2F(void)> &gatherer,
+                         const std::function<void(Vector2F)> &provider,
+                         float step,
+                         float min,
+                         float max) {
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<DragMultipleScalars<float, 2>>(GetDataType<float>(), min, max, 0.f, step, "",
+                                                                    GetFormat<float>());
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<std::array<float, 2>>>();
 
-    dispatcher.register_gatherer([gatherer]() {
+    dispatcher.RegisterGatherer([gatherer]() {
         Vector2F value = gatherer();
         return reinterpret_cast<const std::array<float, 2> &>(value);
     });
 
-    dispatcher.register_provider(
+    dispatcher.RegisterProvider(
             [provider](std::array<float, 2> value) { provider(reinterpret_cast<Vector2F &>(value)); });
 }
 
-void GuiDrawer::draw_vec_3(WidgetContainer &root,
-                           const std::string &name,
-                           const std::function<Vector3F(void)> &gatherer,
-                           const std::function<void(Vector3F)> &provider,
-                           float step,
-                           float min,
-                           float max) {
-    create_title(root, name);
-    auto &widget = root.create_widget<DragMultipleScalars<float, 3>>(get_data_type<float>(), min, max, 0.f, step, "",
-                                                                     get_format<float>());
-    auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 3>>>();
+void GuiDrawer::DrawVec3(WidgetContainer &root,
+                         const std::string &name,
+                         const std::function<Vector3F(void)> &gatherer,
+                         const std::function<void(Vector3F)> &provider,
+                         float step,
+                         float min,
+                         float max) {
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<DragMultipleScalars<float, 3>>(GetDataType<float>(), min, max, 0.f, step, "",
+                                                                    GetFormat<float>());
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<std::array<float, 3>>>();
 
-    dispatcher.register_gatherer([gatherer]() {
+    dispatcher.RegisterGatherer([gatherer]() {
         Vector3F value = gatherer();
         return reinterpret_cast<const std::array<float, 3> &>(value);
     });
 
-    dispatcher.register_provider(
+    dispatcher.RegisterProvider(
             [provider](std::array<float, 3> value) { provider(reinterpret_cast<Vector3F &>(value)); });
 }
 
-void GuiDrawer::draw_vec_4(WidgetContainer &root,
-                           const std::string &name,
-                           const std::function<Vector4F(void)> &gatherer,
-                           const std::function<void(Vector4F)> &provider,
-                           float step,
-                           float min,
-                           float max) {
-    create_title(root, name);
-    auto &widget = root.create_widget<DragMultipleScalars<float, 4>>(get_data_type<float>(), min, max, 0.f, step, "",
-                                                                     get_format<float>());
-    auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 4>>>();
+void GuiDrawer::DrawVec4(WidgetContainer &root,
+                         const std::string &name,
+                         const std::function<Vector4F(void)> &gatherer,
+                         const std::function<void(Vector4F)> &provider,
+                         float step,
+                         float min,
+                         float max) {
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<DragMultipleScalars<float, 4>>(GetDataType<float>(), min, max, 0.f, step, "",
+                                                                    GetFormat<float>());
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<std::array<float, 4>>>();
 
-    dispatcher.register_gatherer([gatherer]() {
+    dispatcher.RegisterGatherer([gatherer]() {
         Vector4F value = gatherer();
         return reinterpret_cast<const std::array<float, 4> &>(value);
     });
 
-    dispatcher.register_provider(
+    dispatcher.RegisterProvider(
             [provider](std::array<float, 4> value) { provider(reinterpret_cast<Vector4F &>(value)); });
 }
 
-void GuiDrawer::draw_quat(WidgetContainer &root,
-                          const std::string &name,
-                          const std::function<QuaternionF(void)> &gatherer,
-                          const std::function<void(QuaternionF)> &provider,
-                          float step,
-                          float min,
-                          float max) {
-    create_title(root, name);
-    auto &widget = root.create_widget<DragMultipleScalars<float, 4>>(get_data_type<float>(), min, max, 0.f, step, "",
-                                                                     get_format<float>());
-    auto &dispatcher = widget.add_plugin<DataDispatcher<std::array<float, 4>>>();
+void GuiDrawer::DrawQuat(WidgetContainer &root,
+                         const std::string &name,
+                         const std::function<QuaternionF(void)> &gatherer,
+                         const std::function<void(QuaternionF)> &provider,
+                         float step,
+                         float min,
+                         float max) {
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<DragMultipleScalars<float, 4>>(GetDataType<float>(), min, max, 0.f, step, "",
+                                                                    GetFormat<float>());
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<std::array<float, 4>>>();
 
-    dispatcher.register_gatherer([gatherer]() {
+    dispatcher.RegisterGatherer([gatherer]() {
         QuaternionF value = gatherer();
         return reinterpret_cast<const std::array<float, 4> &>(value);
     });
 
-    dispatcher.register_provider(
+    dispatcher.RegisterProvider(
             [provider](std::array<float, 4> value) { provider(reinterpret_cast<QuaternionF &>(value).normalized()); });
 }
 
-void GuiDrawer::draw_ddstring(WidgetContainer &root,
-                              const std::string &name,
-                              std::function<std::string()> gatherer,
-                              std::function<void(std::string)> provider,
-                              const std::string &identifier) {
-    create_title(root, name);
-    auto &widget = root.create_widget<InputText>("");
-    auto &dispatcher = widget.add_plugin<DataDispatcher<std::string>>();
-    dispatcher.register_gatherer(std::move(gatherer));
-    dispatcher.register_provider(std::move(provider));
+void GuiDrawer::DrawDdstring(WidgetContainer &root,
+                             const std::string &name,
+                             std::function<std::string()> gatherer,
+                             std::function<void(std::string)> provider,
+                             const std::string &identifier) {
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<InputText>("");
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<std::string>>();
+    dispatcher.RegisterGatherer(std::move(gatherer));
+    dispatcher.RegisterProvider(std::move(provider));
 
-    auto &dd_target = widget.add_plugin<DDTarget<std::pair<std::string, Group *>>>(identifier);
+    auto &dd_target = widget.AddPlugin<DDTarget<std::pair<std::string, Group *>>>(identifier);
     dd_target.data_received_event_ += [&widget, &dispatcher](const std::pair<std::string, Group *> &data) {
         widget.content_ = data.first;
-        dispatcher.notify_change();
+        dispatcher.NotifyChange();
     };
 }
 
-void GuiDrawer::draw_string(WidgetContainer &root,
-                            const std::string &name,
-                            std::function<std::string(void)> gatherer,
-                            std::function<void(std::string)> provider) {
-    create_title(root, name);
-    auto &widget = root.create_widget<InputText>("");
-    auto &dispatcher = widget.add_plugin<DataDispatcher<std::string>>();
-    dispatcher.register_gatherer(std::move(gatherer));
-    dispatcher.register_provider(std::move(provider));
+void GuiDrawer::DrawString(WidgetContainer &root,
+                           const std::string &name,
+                           std::function<std::string(void)> gatherer,
+                           std::function<void(std::string)> provider) {
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<InputText>("");
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<std::string>>();
+    dispatcher.RegisterGatherer(std::move(gatherer));
+    dispatcher.RegisterProvider(std::move(provider));
 }
 
-void GuiDrawer::draw_color(WidgetContainer &root,
-                           const std::string &name,
-                           std::function<Color(void)> gatherer,
-                           std::function<void(Color)> provider,
-                           bool has_alpha) {
-    create_title(root, name);
-    auto &widget = root.create_widget<ColorEdit>(has_alpha);
-    auto &dispatcher = widget.add_plugin<DataDispatcher<Color>>();
-    dispatcher.register_gatherer(std::move(gatherer));
-    dispatcher.register_provider(std::move(provider));
+void GuiDrawer::DrawColor(WidgetContainer &root,
+                          const std::string &name,
+                          std::function<Color(void)> gatherer,
+                          std::function<void(Color)> provider,
+                          bool has_alpha) {
+    CreateTitle(root, name);
+    auto &widget = root.CreateWidget<ColorEdit>(has_alpha);
+    auto &dispatcher = widget.AddPlugin<DataDispatcher<Color>>();
+    dispatcher.RegisterGatherer(std::move(gatherer));
+    dispatcher.RegisterProvider(std::move(provider));
 }
 
 }  // namespace vox::ui

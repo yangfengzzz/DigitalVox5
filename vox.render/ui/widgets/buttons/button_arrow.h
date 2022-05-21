@@ -20,7 +20,7 @@ public:
     explicit ButtonArrow(ImGuiDir direction = ImGuiDir_None);
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     ImGuiDir direction_;

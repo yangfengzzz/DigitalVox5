@@ -51,91 +51,91 @@ public:
     /**
      * Apply a new style to the UI elements
      */
-    static void apply_style(Style style);
+    static void ApplyStyle(Style style);
 
     /**
      * Load a font (Returns true on success)
      */
-    bool load_font(const std::string &id, const std::string &path, float font_size);
+    bool LoadFont(const std::string &id, const std::string &path, float font_size);
 
     /**
      * Unload a font (Returns true on success)
      */
-    bool unload_font(const std::string &id);
+    bool UnloadFont(const std::string &id);
 
     /**
      * Set the given font as the current one (Returns true on success)
      */
-    bool use_font(const std::string &id);
+    bool UseFont(const std::string &id);
 
     /**
      * Use the default font (ImGui default font)
      */
-    void use_default_font();
+    void UseDefaultFont();
 
     /**
      * Allow the user to enable/disable .ini generation to save his editor layout
      */
-    void enable_editor_layout_save(bool value);
+    void EnableEditorLayoutSave(bool value);
 
     /**
      *  Return true if the editor layout save system is on
      */
-    [[nodiscard]] static bool is_editor_layout_save_enabled();
+    [[nodiscard]] static bool IsEditorLayoutSaveEnabled();
 
     /**
      * Defines a filename for the editor layout save file
      */
-    void set_editor_layout_save_filename(const std::string &filename);
+    void SetEditorLayoutSaveFilename(const std::string &filename);
 
     /**
      * Defines a frequency (in seconds) for the auto saving system of the editor layout
      * @param frequency frequency
      */
-    static void set_editor_layout_autosave_frequency(float frequency);
+    static void SetEditorLayoutAutosaveFrequency(float frequency);
 
     /**
      * Returns the current frequency (in seconds) for the auto saving system of the editor layout
      */
-    static float editor_layout_autosave_frequency(float frequency);
+    static float EditorLayoutAutosaveFrequency(float frequency);
 
     /**
      * Enable the docking system
      * @param value value
      */
-    void enable_docking(bool value);
+    void EnableDocking(bool value);
 
     /**
      * Reset the UI layout to the given configuration file
      * @param config config
      */
-    static void reset_layout(const std::string &config);
+    static void ResetLayout(const std::string &config);
 
     /**
      * Return true if the docking system is enabled
      */
-    [[nodiscard]] bool is_docking_enabled() const;
+    [[nodiscard]] bool IsDockingEnabled() const;
 
     /**
      * Defines the canvas to use
      */
-    void set_canvas(Canvas &canvas);
+    void SetCanvas(Canvas &canvas);
 
     /**
      * Stop considering the current canvas (if any)
      */
-    void remove_canvas();
+    void RemoveCanvas();
 
     /**
      * @brief Draws the Gui
      * @param command_buffer Command buffer to register draw-commands
      */
-    void draw(CommandBuffer &command_buffer);
+    void Draw(CommandBuffer &command_buffer);
 
 private:
-    void push_current_font();
+    void PushCurrentFont();
 
-    void pop_current_font();
+    void PopCurrentFont();
 
 private:
     bool docking_state_{};
@@ -155,15 +155,15 @@ private:
     /**
      * @brief Updates the Font Texture
      */
-    void update_font_texture();
+    void UpdateFontTexture();
 
     /**
      * @brief Setup a default render pass
-     *        Can be overriden in derived class to setup a custom render pass (e.g. for MSAA)
+     *        Can be override in derived class to setup a custom render pass (e.g. for MSAA)
      */
-    void setup_render_pass();
+    void SetupRenderPass();
 
-    void setup_descriptor_pool();
+    void SetupDescriptorPool();
 };
 
 }  // namespace ui

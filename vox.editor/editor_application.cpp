@@ -55,14 +55,14 @@ EditorApplication::~EditorApplication() {
 
 bool EditorApplication::prepare(Platform &platform) {
     GraphicsApplication::prepare(platform);
-    
-    gui_->load_font("Ruda_Big", "Fonts/Ruda-Bold.ttf", 16);
-    gui_->load_font("Ruda_Small", "Fonts/Ruda-Bold.ttf", 12);
-    gui_->load_font("Ruda_Medium", "Fonts/Ruda-Bold.ttf", 14);
-    gui_->use_font("Ruda_Medium");
-    gui_->set_editor_layout_autosave_frequency(60.0f);
-    gui_->enable_editor_layout_save(true);
-    gui_->enable_docking(true);
+
+    gui_->LoadFont("Ruda_Big", "Fonts/Ruda-Bold.ttf", 16);
+    gui_->LoadFont("Ruda_Small", "Fonts/Ruda-Bold.ttf", 12);
+    gui_->LoadFont("Ruda_Medium", "Fonts/Ruda-Bold.ttf", 14);
+    gui_->UseFont("Ruda_Medium");
+    gui_->SetEditorLayoutAutosaveFrequency(60.0f);
+    gui_->EnableEditorLayoutSave(true);
+    gui_->EnableDocking(true);
     
     // resource loader
     image_manager_ = std::make_unique<ImageManager>(*device_);
@@ -126,9 +126,9 @@ void EditorApplication::setup_ui() {
                                                 scene_manager_->CurrentScene());
     panels_manager_.create_panel<ui::Toolbar>("Toolbar", true, settings, editor_resources_.get());
     panels_manager_.create_panel<ui::ProjectSettings>("Project Settings", false, settings, project_path_, project_name_);
-    
-    canvas_.make_dock_space(true);
-    gui_->set_canvas(canvas_);
+
+    canvas_.MakeDockSpace(true);
+    gui_->SetCanvas(canvas_);
     scene_manager_->CurrentScene()->play();
 }
 
@@ -183,7 +183,7 @@ void EditorApplication::update_editor_panels(float delta_time) {
     
     menu_bar.handle_shortcuts(delta_time);
     
-    if (profiler.is_opened()) {
+    if (profiler.IsOpened()) {
         PROFILER_SPY("Profiler Update");
         profiler.update(delta_time);
     }
@@ -201,17 +201,17 @@ void EditorApplication::render_views(float delta_time, CommandBuffer &command_bu
         scene_view.update(delta_time);
     }
     
-    if (asset_view.is_opened()) {
+    if (asset_view.IsOpened()) {
         PROFILER_SPY("Game View Rendering");
         asset_view.render(command_buffer);
     }
     
-    if (game_view.is_opened()) {
+    if (game_view.IsOpened()) {
         PROFILER_SPY("Game View Rendering");
         game_view.render(command_buffer);
     }
     
-    if (scene_view.is_opened()) {
+    if (scene_view.IsOpened()) {
         PROFILER_SPY("Scene View Rendering");
         scene_view.render(command_buffer);
     }

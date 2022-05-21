@@ -17,7 +17,7 @@ public:
     explicit TextLabelled(const std::string &content = "", std::string label = "");
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     std::string label_;

@@ -14,7 +14,7 @@ namespace vox::ui {
  */
 class Group : public Widget, public WidgetContainer {
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 };
 
 }  // namespace vox::ui

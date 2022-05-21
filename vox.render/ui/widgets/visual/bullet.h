@@ -14,7 +14,7 @@ namespace vox::ui {
  */
 class Bullet : public Widget {
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 };
 
 }  // namespace vox::ui

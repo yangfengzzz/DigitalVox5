@@ -11,14 +11,14 @@
 namespace vox::ui {
 MenuList::MenuList(std::string name, bool locked) : name_(std::move(name)), locked_(locked) {}
 
-void MenuList::draw_impl() {
+void MenuList::DrawImpl() {
     if (ImGui::BeginMenu(name_.c_str(), !locked_)) {
         if (!opened_) {
             clicked_event_.Invoke();
             opened_ = true;
         }
 
-        draw_widgets();
+        DrawWidgets();
         ImGui::EndMenu();
     } else {
         opened_ = false;

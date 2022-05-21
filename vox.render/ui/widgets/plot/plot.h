@@ -27,7 +27,7 @@ public:
                   std::string label = "");
 
 protected:
-    void draw_impl() override = 0;
+    void DrawImpl() override = 0;
 
 public:
     std::vector<float> data_;

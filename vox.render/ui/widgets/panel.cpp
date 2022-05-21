@@ -11,10 +11,10 @@ uint64_t Panel::panel_id_increment_ = 0;
 
 Panel::Panel() { panel_id_ = "##" + std::to_string(panel_id_increment_++); }
 
-void Panel::draw() {
-    if (enabled_) draw_impl();
+void Panel::Draw() {
+    if (enabled_) DrawImpl();
 }
 
-const std::string &Panel::panel_id() const { return panel_id_; }
+const std::string &Panel::PanelId() const { return panel_id_; }
 
 }  // namespace vox::ui

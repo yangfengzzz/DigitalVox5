@@ -32,41 +32,41 @@ public:
     /**
      * Draw the widget on the panel
      */
-    void draw() override;
+    void Draw() override;
 
     /**
      * Link the widget to another one by making its id identical to the given widget
      */
-    void link_to(const Widget &widget);
+    void LinkTo(const Widget &widget);
 
     /**
      * Mark the widget as destroyed. It will be removed from the owner panel
      * by the garbage collector
      */
-    void destroy();
+    void Destroy();
 
     /**
      * Returns true if the widget is marked as destroyed
      */
-    [[nodiscard]] bool is_destroyed() const;
+    [[nodiscard]] bool IsDestroyed() const;
 
     /**
      * Defines the parent of this widget
      */
-    void set_parent(WidgetContainer *parent);
+    void SetParent(WidgetContainer *parent);
 
     /**
      * Returns true if the widget has a parent
      */
-    [[nodiscard]] bool has_parent() const;
+    [[nodiscard]] bool HasParent() const;
 
     /**
      * Returns the parent of the widget or nullptr if there is no parent
      */
-    WidgetContainer *parent();
+    WidgetContainer *Parent();
 
 protected:
-    virtual void draw_impl() = 0;
+    virtual void DrawImpl() = 0;
 
 public:
     bool enabled_ = true;

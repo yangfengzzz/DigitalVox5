@@ -20,7 +20,7 @@ public:
     explicit ComboBox(int current_choice = 0);
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     std::map<int, std::string> choices_;

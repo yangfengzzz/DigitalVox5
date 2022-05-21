@@ -14,7 +14,7 @@ namespace vox::ui {
  */
 class PanelMenuBar : public Panel {
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 };
 
 }  // namespace vox::ui

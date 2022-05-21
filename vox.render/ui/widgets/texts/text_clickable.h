@@ -18,7 +18,7 @@ public:
     explicit TextClickable(const std::string &content = "");
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     Event<> clicked_event_;

@@ -21,12 +21,12 @@ public:
     /**
      * Execute the plugin
      */
-    void execute() override;
+    void Execute() override;
 
     /**
      * Force close the contextual menu
      */
-    static void close();
+    static void Close();
 };
 
 }  // namespace vox::ui

@@ -21,22 +21,22 @@ public:
     /**
      * Convert the given Color to ImVec4
      */
-    static ImVec4 to_imVec4(const Color &value);
+    static ImVec4 ToImVec4(const Color &value);
 
     /**
      * Convert the given ImVec4 to Color
      */
-    static Color to_color(const ImVec4 &value);
+    static Color ToColor(const ImVec4 &value);
 
     /**
      * Convert the given FVector2 to ImVec2
      */
-    static ImVec2 to_imVec2(const Vector2F &value);
+    static ImVec2 ToImVec2(const Vector2F &value);
 
     /**
      * Convert the given ImVec2 to FVector2
      */
-    static Vector2F to_vector2F(const ImVec2 &value);
+    static Vector2F ToVector2F(const ImVec2 &value);
 };
 
 }  // namespace vox::ui

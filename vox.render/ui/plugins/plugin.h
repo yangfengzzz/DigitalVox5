@@ -18,7 +18,7 @@ public:
     /**
      * Execute the plugin behaviour
      */
-    virtual void execute() = 0;
+    virtual void Execute() = 0;
 
     /* Feel free to store any data you want here */
     void *user_data_ = nullptr;

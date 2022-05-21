@@ -14,19 +14,19 @@ TreeNode::TreeNode(std::string name, bool arrow_click_to_open)
     auto_execute_plugins_ = false;
 }
 
-void TreeNode::open() {
+void TreeNode::Open() {
     should_open_ = true;
     should_close_ = false;
 }
 
-void TreeNode::close() {
+void TreeNode::Close() {
     should_close_ = true;
     should_open_ = false;
 }
 
-bool TreeNode::is_opened() const { return opened_; }
+bool TreeNode::IsOpened() const { return opened_; }
 
-void TreeNode::draw_impl() {
+void TreeNode::DrawImpl() {
     bool prev_opened = opened_;
 
     if (should_open_) {
@@ -58,9 +58,9 @@ void TreeNode::draw_impl() {
 
         opened_ = true;
 
-        execute_plugins();  // Manually execute plugins to make plugins considering the TreeNode and no childs
+        ExecutePlugins();  // Manually execute plugins to make plugins considering the TreeNode and no childs
 
-        draw_widgets();
+        DrawWidgets();
 
         ImGui::TreePop();
     } else {
@@ -68,7 +68,7 @@ void TreeNode::draw_impl() {
 
         opened_ = false;
 
-        execute_plugins();  // Manually execute plugins to make plugins considering the TreeNode and no childs
+        ExecutePlugins();  // Manually execute plugins to make plugins considering the TreeNode and no childs
     }
 }
 

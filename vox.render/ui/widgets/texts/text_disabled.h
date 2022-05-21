@@ -17,7 +17,7 @@ public:
     explicit TextDisabled(const std::string &content = "");
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 };
 
 }  // namespace vox::ui

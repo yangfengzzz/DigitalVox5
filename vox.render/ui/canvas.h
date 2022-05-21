@@ -21,32 +21,32 @@ public:
     /**
      * Adds a panel to the canvas
      */
-    void add_panel(Panel &panel);
+    void AddPanel(Panel &panel);
 
     /**
      * Removes a panel from the canvas
      */
-    void remove_panel(Panel &panel);
+    void RemovePanel(Panel &panel);
 
     /**
      * Removes every panels from the canvas
      */
-    void remove_all_panels();
+    void RemoveAllPanels();
 
     /**
      * Makes the canvas a dockspace (Dockable panels will be able to attach themselves to the canvas)
      */
-    void make_dock_space(bool state);
+    void MakeDockSpace(bool state);
 
     /**
      * Returns true if the canvas is a dockspace
      */
-    [[nodiscard]] bool is_dock_space() const;
+    [[nodiscard]] bool IsDockSpace() const;
 
     /**
      * Draw the canvas (Draw every panels)
      */
-    void draw() override;
+    void Draw() override;
 
 private:
     std::vector<std::reference_wrapper<Panel>> panels_;

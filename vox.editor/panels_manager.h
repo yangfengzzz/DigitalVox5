@@ -42,7 +42,7 @@ public:
         } else {
             panels_.emplace(id, std::make_unique<T>(std::forward<Args>(args)...));
         }
-        canvas_.add_panel(*panels_.at(id));
+        canvas_.AddPanel(*panels_.at(id));
     }
     
     /**

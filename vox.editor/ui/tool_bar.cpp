@@ -18,13 +18,13 @@ PanelWindow(title, opened, window_settings),
 resource_(resource) {
     std::string icon_folder = ":Textures/Icons/";
     
-    play_button_ = &create_widget<ButtonImage>(resource_->get_texture("Button_Play"), Vector2F{20, 20});
-    pause_button_ = &create_widget<ButtonImage>(resource_->get_texture("Button_Pause"), Vector2F{20, 20});
-    stop_button_ = &create_widget<ButtonImage>(resource_->get_texture("Button_Stop"), Vector2F{20, 20});
-    next_button_ = &create_widget<ButtonImage>(resource_->get_texture("Button_Next"), Vector2F{20, 20});
-    
-    create_widget<Spacing>(0).line_break_ = false;
-    auto &refresh_button = create_widget<ButtonImage>(resource_->get_texture("Button_Refresh"), Vector2F{20, 20});
+    play_button_ = &CreateWidget<ButtonImage>(resource_->get_texture("Button_Play"), Vector2F{20, 20});
+    pause_button_ = &CreateWidget<ButtonImage>(resource_->get_texture("Button_Pause"), Vector2F{20, 20});
+    stop_button_ = &CreateWidget<ButtonImage>(resource_->get_texture("Button_Stop"), Vector2F{20, 20});
+    next_button_ = &CreateWidget<ButtonImage>(resource_->get_texture("Button_Next"), Vector2F{20, 20});
+
+    CreateWidget<Spacing>(0).line_break_ = false;
+    auto &refresh_button = CreateWidget<ButtonImage>(resource_->get_texture("Button_Refresh"), Vector2F{20, 20});
     
     play_button_->line_break_ = false;
     pause_button_->line_break_ = false;

@@ -29,7 +29,7 @@ public:
     /**
      * Execute the drag and drop target behaviour
      */
-    void execute() override {
+    void Execute() override {
         if (ImGui::BeginDragDropTarget()) {
             if (!is_hovered_) hover_start_event_.Invoke();
 
@@ -57,7 +57,7 @@ public:
     /**
      * Returns true if the drag and drop target is hovered by a drag and drop source
      */
-    [[nodiscard]] bool is_hovered() const { return is_hovered_; }
+    [[nodiscard]] bool IsHovered() const { return is_hovered_; }
 
 public:
     std::string identifier_;

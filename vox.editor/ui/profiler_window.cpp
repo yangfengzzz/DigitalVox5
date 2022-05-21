@@ -16,21 +16,21 @@ ProfilerWindow::ProfilerWindow(const std::string &title,
 PanelWindow(title, opened, window_settings),
 frequency_(frequency) {
     allow_horizontal_scrollbar_ = true;
+
+    CreateWidget<Text>("Profiler state: ").line_break_ = false;
+    CreateWidget<CheckBox>(false, "").value_changed_event_ += std::bind(&ProfilerWindow::enable, this, std::placeholders::_1, false);
     
-    create_widget<Text>("Profiler state: ").line_break_ = false;
-    create_widget<CheckBox>(false, "").value_changed_event_ += std::bind(&ProfilerWindow::enable, this, std::placeholders::_1, false);
-    
-    fps_text_ = &create_widget<TextColored>("");
-    capture_resume_button_ = &create_widget<ButtonSimple>("Capture");
+    fps_text_ = &CreateWidget<TextColored>("");
+    capture_resume_button_ = &CreateWidget<ButtonSimple>("Capture");
     capture_resume_button_->idle_background_color_ = {0.7f, 0.5f, 0.f};
     capture_resume_button_->clicked_event_ += [this] {
         profiling_mode_ = profiling_mode_ == ProfilingMode::CAPTURE ? ProfilingMode::DEFAULT : ProfilingMode::CAPTURE;
         capture_resume_button_->label_ = profiling_mode_ == ProfilingMode::CAPTURE ? "Resume" : "Capture";
     };
-    elapsed_frames_text_ = &create_widget<TextColored>("", Color(1.f, 0.8f, 0.01f, 1));
-    elapsed_time_text_ = &create_widget<TextColored>("", Color(1.f, 0.8f, 0.01f, 1));
-    separator_ = &create_widget<::vox::ui::Separator>();
-    action_list_ = &create_widget<Columns<5>>();
+    elapsed_frames_text_ = &CreateWidget<TextColored>("", Color(1.f, 0.8f, 0.01f, 1));
+    elapsed_time_text_ = &CreateWidget<TextColored>("", Color(1.f, 0.8f, 0.01f, 1));
+    separator_ = &CreateWidget<::vox::ui::Separator>();
+    action_list_ = &CreateWidget<Columns<5>>();
     action_list_->widths_ = {300.f, 100.f, 100.f, 100.f, 200.f};
     
     enable(false, true);
@@ -52,24 +52,25 @@ void ProfilerWindow::update(float delta_time) {
             if (profiling_mode_ == ProfilingMode::DEFAULT) {
                 ProfilerReport report = profiler_.generate_report();
                 profiler_.clear_history();
-                action_list_->remove_all_widgets();
+                action_list_->RemoveAllWidgets();
                 
                 elapsed_frames_text_->content_ = "Elapsed frames: " + std::to_string(report.elapsed_frames);
                 elapsed_time_text_->content_ = "Elapsed time: " + std::to_string(report.elapsed_time);
-                
-                action_list_->create_widget<Text>("Action");
-                action_list_->create_widget<Text>("Total duration");
-                action_list_->create_widget<Text>("Frame duration");
-                action_list_->create_widget<Text>("Frame load");
-                action_list_->create_widget<Text>("Total calls");
+
+                action_list_->CreateWidget<Text>("Action");
+                action_list_->CreateWidget<Text>("Total duration");
+                action_list_->CreateWidget<Text>("Frame duration");
+                action_list_->CreateWidget<Text>("Frame load");
+                action_list_->CreateWidget<Text>("Total calls");
                 
                 for (auto &action : report.actions) {
                     auto color = calculate_action_color(action.percentage);
-                    action_list_->create_widget<TextColored>(action.name, color);
-                    action_list_->create_widget<TextColored>(std::to_string(action.duration) + "s", color);
-                    action_list_->create_widget<TextColored>(std::to_string(action.duration / action.calls) + "s", color);
-                    action_list_->create_widget<TextColored>(std::to_string(action.percentage) + "%%", color);
-                    action_list_->create_widget<TextColored>(std::to_string(action.calls) + " calls", color);
+                    action_list_->CreateWidget<TextColored>(action.name, color);
+                    action_list_->CreateWidget<TextColored>(std::to_string(action.duration) + "s", color);
+                    action_list_->CreateWidget<TextColored>(std::to_string(action.duration / action.calls) + "s",
+                                                            color);
+                    action_list_->CreateWidget<TextColored>(std::to_string(action.percentage) + "%%", color);
+                    action_list_->CreateWidget<TextColored>(std::to_string(action.calls) + " calls", color);
                 }
             }
             
@@ -88,7 +89,7 @@ void ProfilerWindow::enable(bool value, bool disable_log) {
             LOGI("Profiling stop!")
             vox::Profiler::disable();
         profiler_.clear_history();
-        action_list_->remove_all_widgets();
+        action_list_->RemoveAllWidgets();
     }
     
     capture_resume_button_->enabled_ = value;

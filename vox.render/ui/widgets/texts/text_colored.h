@@ -21,7 +21,7 @@ public:
     Color color_;
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 };
 
 }  // namespace vox::ui

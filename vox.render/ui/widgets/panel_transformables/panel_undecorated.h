@@ -14,10 +14,10 @@ namespace vox::ui {
  */
 class PanelUndecorated : public PanelTransformable {
 public:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 private:
-    int collect_flags();
+    int CollectFlags();
 };
 
 }  // namespace vox::ui

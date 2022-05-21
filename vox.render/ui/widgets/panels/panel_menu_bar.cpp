@@ -7,9 +7,9 @@
 #include "panel_menu_bar.h"
 
 namespace vox::ui {
-void PanelMenuBar::draw_impl() {
+void PanelMenuBar::DrawImpl() {
     if (!widgets_.empty() && ImGui::BeginMainMenuBar()) {
-        draw_widgets();
+        DrawWidgets();
         ImGui::EndMainMenuBar();
     }
 }

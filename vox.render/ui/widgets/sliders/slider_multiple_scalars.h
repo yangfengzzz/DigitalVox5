@@ -19,7 +19,7 @@ namespace vox::ui {
 template <typename T, size_t Size>
 class SliderMultipleScalars : public DataWidget<std::array<T, Size>> {
     using DataWidget<std::array<T, Size>>::widget_id_;
-    using DataWidget<std::array<T, Size>>::notify_change;
+    using DataWidget<std::array<T, Size>>::NotifyChange;
 
     static_assert(Size > 1, "Invalid SliderMultipleScalars _Size (2 or more required)");
 
@@ -35,7 +35,7 @@ public:
     }
 
 protected:
-    void draw_impl() override {
+    void DrawImpl() override {
         if (max_ < min_) max_ = min_;
 
         for (size_t i = 0; i < Size; ++i) {
@@ -50,7 +50,7 @@ protected:
 
         if (value_changed) {
             value_changed_event_.Invoke(values_);
-            notify_change();
+            NotifyChange();
         }
     }
 

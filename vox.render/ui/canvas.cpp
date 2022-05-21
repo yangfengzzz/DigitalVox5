@@ -10,7 +10,7 @@
 #include "imgui_impl_vulkan.h"
 
 namespace vox::ui {
-void Canvas::draw() {
+void Canvas::Draw() {
     if (!panels_.empty()) {
         ImGui_ImplVulkan_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -39,24 +39,24 @@ void Canvas::draw() {
             ImGui::PopStyleVar(3);
         }
 
-        for (auto &panel : panels_) panel.get().draw();
+        for (auto &panel : panels_) panel.get().Draw();
 
         ImGui::Render();
     }
 }
 
-void Canvas::add_panel(Panel &panel) { panels_.push_back(std::ref(panel)); }
+void Canvas::AddPanel(Panel &panel) { panels_.push_back(std::ref(panel)); }
 
-void Canvas::remove_panel(Panel &panel) {
+void Canvas::RemovePanel(Panel &panel) {
     panels_.erase(std::remove_if(panels_.begin(), panels_.end(),
                                  [&panel](std::reference_wrapper<Panel> &item) { return &panel == &item.get(); }),
                   panels_.end());
 }
 
-void Canvas::remove_all_panels() { panels_.clear(); }
+void Canvas::RemoveAllPanels() { panels_.clear(); }
 
-void Canvas::make_dock_space(bool state) { is_dockspace_ = state; }
+void Canvas::MakeDockSpace(bool state) { is_dockspace_ = state; }
 
-bool Canvas::is_dock_space() const { return is_dockspace_; }
+bool Canvas::IsDockSpace() const { return is_dockspace_; }
 
 }  // namespace vox::ui

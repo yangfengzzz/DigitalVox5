@@ -25,15 +25,15 @@ public:
     /**
      * Draw the panel
      */
-    void draw() override;
+    void Draw() override;
 
     /**
      * Returns the panel identifier
      */
-    [[nodiscard]] const std::string &panel_id() const;
+    [[nodiscard]] const std::string &PanelId() const;
 
 protected:
-    virtual void draw_impl() = 0;
+    virtual void DrawImpl() = 0;
 
 public:
     bool enabled_ = true;

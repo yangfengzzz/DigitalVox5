@@ -17,7 +17,7 @@ public:
     explicit Spacing(uint16_t spaces = 1);
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     uint16_t spaces_ = 1;

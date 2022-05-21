@@ -18,7 +18,7 @@ public:
     explicit Dummy(const Vector2F &size = {0.0f, 0.0f});
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     Vector2F size_;

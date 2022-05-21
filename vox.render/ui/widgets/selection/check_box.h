@@ -18,7 +18,7 @@ public:
     explicit CheckBox(bool value = false, std::string label = "");
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     bool value_;

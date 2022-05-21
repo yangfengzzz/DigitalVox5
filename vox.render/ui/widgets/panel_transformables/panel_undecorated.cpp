@@ -7,20 +7,20 @@
 #include "panel_undecorated.h"
 
 namespace vox::ui {
-void PanelUndecorated::draw_impl() {
+void PanelUndecorated::DrawImpl() {
     auto &style = ImGui::GetStyle();
     ImVec2 previous_padding = style.WindowPadding;
     ImVec2 previous_min_size = style.WindowMinSize;
     style.WindowPadding = {0, 0};
     style.WindowMinSize = {0, 0};
 
-    if (ImGui::Begin(panel_id_.c_str(), nullptr, collect_flags())) {
+    if (ImGui::Begin(panel_id_.c_str(), nullptr, CollectFlags())) {
         style.WindowPadding = previous_padding;
         style.WindowMinSize = previous_min_size;
 
-        update();
+        Update();
 
-        draw_widgets();
+        DrawWidgets();
 
         ImGui::End();
     } else {
@@ -28,7 +28,7 @@ void PanelUndecorated::draw_impl() {
     }
 }
 
-int PanelUndecorated::collect_flags() {
+int PanelUndecorated::CollectFlags() {
     ImGuiWindowFlags flags = ImGuiWindowFlags_AlwaysUseWindowPadding | ImGuiWindowFlags_NoResize |
                              ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
                              ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoCollapse |

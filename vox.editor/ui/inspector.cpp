@@ -26,11 +26,11 @@ Inspector::Inspector(const std::string &title,
                      bool opened,
                      const PanelWindowSettings &window_settings) :
 PanelWindow(title, opened, window_settings) {
-    inspector_header_ = &create_widget<Group>();
+    inspector_header_ = &CreateWidget<Group>();
     inspector_header_->enabled_ = false;
-    entity_info_ = &create_widget<Group>();
+    entity_info_ = &CreateWidget<Group>();
     
-    auto &header_columns = inspector_header_->create_widget<Columns<2>>();
+    auto &header_columns = inspector_header_->CreateWidget<Columns<2>>();
     
     /* name_ field */
     auto name_gatherer = [this] {
@@ -39,7 +39,7 @@ PanelWindow(title, opened, window_settings) {
     auto name_provider = [this](const std::string &new_name) {
         if (target_entity_) target_entity_->name_ = new_name;
     };
-    GuiDrawer::draw_string(header_columns, "Name", name_gatherer, name_provider);
+    GuiDrawer::DrawString(header_columns, "Name", name_gatherer, name_provider);
     
     /* Active field */
     auto active_gatherer = [this] {
@@ -60,8 +60,8 @@ Inspector::~Inspector() {
 void Inspector::focus_entity(Entity *target) {
     if (target_entity_)
         un_focus();
-    
-    entity_info_->remove_all_widgets();
+
+    entity_info_->RemoveAllWidgets();
     
     target_entity_ = target;
     
@@ -113,7 +113,7 @@ void Inspector::soft_un_focus() {
         EditorActions::GetSingleton().entity_unselected_event_.invoke(target_entity_);
         inspector_header_->enabled_ = false;
         target_entity_ = nullptr;
-        entity_info_->remove_all_widgets();
+        entity_info_->RemoveAllWidgets();
     }
 }
 
@@ -143,13 +143,13 @@ void Inspector::create_entity_inspector(Entity *target) {
 
 void Inspector::draw_component(Component *component) {
     if (auto inspector_item = dynamic_cast<InspectorItem *>(component); inspector_item) {
-        auto &header = entity_info_->create_widget<GroupCollapsable>(component->name());
+        auto &header = entity_info_->CreateWidget<GroupCollapsable>(component->name());
         header.closable_ = !dynamic_cast<Transform *>(component);
         header.close_event_ += [this, &header, &component] {
             //            if (component->entity()->_removeComponent(component))
             //                _componentSelectorWidget->value_changed_event_.invoke(_componentSelectorWidget->currentChoice);
         };
-        auto &columns = header.create_widget<Columns<2>>();
+        auto &columns = header.CreateWidget<Columns<2>>();
         columns.widths_[0] = 200;
         inspector_item->on_inspector(columns);
     }
@@ -157,13 +157,13 @@ void Inspector::draw_component(Component *component) {
 
 void Inspector::draw_behaviour(Behaviour *behaviour) {
     if (auto inspector_item = dynamic_cast<InspectorItem *>(behaviour); inspector_item) {
-        auto &header = entity_info_->create_widget<GroupCollapsable>(behaviour->name());
+        auto &header = entity_info_->CreateWidget<GroupCollapsable>(behaviour->name());
         header.closable_ = true;
         header.close_event_ += [this, &header, &behaviour] {
             //            behaviour->entity()->removeBehaviour(behaviour);
         };
         
-        auto &columns = header.create_widget<Columns<2>>();
+        auto &columns = header.CreateWidget<Columns<2>>();
         columns.widths_[0] = 200;
         inspector_item->on_inspector(columns);
     }
@@ -171,7 +171,7 @@ void Inspector::draw_behaviour(Behaviour *behaviour) {
 
 void Inspector::refresh() {
     if (target_entity_) {
-        entity_info_->remove_all_widgets();
+        entity_info_->RemoveAllWidgets();
         create_entity_inspector(target_entity_);
     }
 }

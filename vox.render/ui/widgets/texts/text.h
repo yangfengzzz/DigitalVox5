@@ -17,7 +17,7 @@ public:
     explicit Text(std::string content = "");
 
 protected:
-    void draw_impl() override;
+    void DrawImpl() override;
 
 public:
     std::string content_;
