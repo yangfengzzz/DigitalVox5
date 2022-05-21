@@ -18,13 +18,14 @@ namespace vox {
 class BakerMaterial : public BaseMaterial {
 public:
     explicit BakerMaterial(Device& device) : BaseMaterial(device, "cubemapDebugger") {
-        vertex_source_ = ShaderManager::get_singleton().load_shader("base/cubemap-debugger.vert");
-        fragment_source_ = ShaderManager::get_singleton().load_shader("base/cubemap-debugger.frag");
+        vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/cubemap-debugger.vert");
+        fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/cubemap-debugger.frag");
     }
     
     void set_base_texture(const core::ImageView &image_view) {
-        shader_data_.set_sampled_texture(base_texture_prop_, image_view,
-                                         &device_.get_resource_cache().request_sampler(BaseMaterial::last_sampler_create_info_));
+        shader_data_.SetSampledTexture(
+                base_texture_prop_, image_view,
+                &device_.GetResourceCache().RequestSampler(BaseMaterial::last_sampler_create_info_));
     }
     
     /// Tiling and offset of main textures.
@@ -34,7 +35,7 @@ public:
     
     void set_face_index(uint32_t new_value) {
         face_index_ = new_value;
-        shader_data_.set_data(face_index_prop_, new_value);
+        shader_data_.SetData(face_index_prop_, new_value);
     }
     
 private:
@@ -86,13 +87,13 @@ void IrradianceApp::load_scene() {
     planes[4]->transform_->set_position(-1, 0, 0); // PZ
     planes[5]->transform_->set_position(3, 0, 0); // NZ
     
-    auto ibl_map = ImageManager::get_singleton().generate_ibl("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
+    auto ibl_map = ImageManager::GetSingleton().generate_ibl("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
     scene->ambient_light()->set_specular_texture(ibl_map);
     
     auto change_mipmap = [&](uint32_t mipLevel) {
         for (uint32_t i = 0; i < 6; i++) {
             auto material = plane_materials[i];
-            material->set_base_texture(ibl_map->get_vk_image_view(VK_IMAGE_VIEW_TYPE_2D, 0, i, 0, 1));
+            material->set_base_texture(ibl_map->GetVkImageView(VK_IMAGE_VIEW_TYPE_2D, 0, i, 0, 1));
             material->set_face_index(i);
         }
     };

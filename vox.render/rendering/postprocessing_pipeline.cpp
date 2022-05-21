@@ -11,7 +11,7 @@ PostProcessingPipeline::PostProcessingPipeline(RenderContext &render_context, Sh
 render_context_{&render_context},
 triangle_vs_{std::move(triangle_vs)} {}
 
-void PostProcessingPipeline::draw(CommandBuffer &command_buffer, RenderTarget &default_render_target) {
+void PostProcessingPipeline::Draw(CommandBuffer &command_buffer, RenderTarget &default_render_target) {
     for (current_pass_index_ = 0; current_pass_index_ < passes_.size(); current_pass_index_++) {
         auto &pass = *passes_[current_pass_index_];
         
@@ -22,8 +22,8 @@ void PostProcessingPipeline::draw(CommandBuffer &command_buffer, RenderTarget &d
         
         if (!pass.prepared_) {
             ScopedDebugLabel marker{command_buffer, "Prepare"};
-            
-            pass.prepare(command_buffer, default_render_target);
+
+            pass.Prepare(command_buffer, default_render_target);
             pass.prepared_ = true;
         }
         
@@ -33,7 +33,7 @@ void PostProcessingPipeline::draw(CommandBuffer &command_buffer, RenderTarget &d
             pass.pre_draw_();
         }
         
-        pass.draw(command_buffer, default_render_target);
+        pass.Draw(command_buffer, default_render_target);
         
         if (pass.post_draw_) {
             ScopedDebugLabel marker{command_buffer, "Post-draw"};

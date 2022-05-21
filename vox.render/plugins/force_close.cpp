@@ -15,11 +15,11 @@ ForceCloseTags("Force Close",
                {}, {&stop_cmd_}) {
 }
 
-bool ForceClose::is_active(const CommandParser &parser) {
-    return parser.contains(&stop_cmd_);
+bool ForceClose::IsActive(const CommandParser &parser) {
+    return parser.Contains(&stop_cmd_);
 }
 
-void ForceClose::init(const CommandParser &parser) {
+void ForceClose::Init(const CommandParser &parser) {
 }
 
 }

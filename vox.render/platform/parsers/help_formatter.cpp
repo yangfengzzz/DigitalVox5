@@ -13,14 +13,14 @@ namespace vox {
 const std::string kSpacer = "  ";
 
 std::string prepend(const std::string &target, const std::string &prepended) {
-    auto lines = split(target, "\n");
+    auto lines = Split(target, "\n");
     
     if (lines.size() == 1) {
         if (!lines[0].empty()) {
             return prepended + lines[0];
         }
     } else if (lines.size() > 1) {
-        return prepended + join(lines, "\n" + prepended);
+        return prepended + Join(lines, "\n" + prepended);
     }
     
     return target;
@@ -60,7 +60,7 @@ std::string HelpFormatter::make_expanded(const CLI::App *sub) const {
         }                                       \
     }
     
-    const auto *meta = get_meta(sub);
+    const auto *meta = GetMeta(sub);
     
     std::stringstream out;
     
@@ -99,11 +99,11 @@ std::string HelpFormatter::make_expanded(const CLI::App *sub) const {
 #undef SPACE
 }
 
-void HelpFormatter::register_meta(const CLI::App *command, const HelpFormatter::Meta &meta) {
+void HelpFormatter::RegisterMeta(const CLI::App *command, const HelpFormatter::Meta &meta) {
     meta_.insert({command, meta});
 }
 
-const HelpFormatter::Meta *HelpFormatter::get_meta(const CLI::App *command) const {
+const HelpFormatter::Meta *HelpFormatter::GetMeta(const CLI::App *command) const {
     auto it = meta_.find(command);
     return it == meta_.end() ? nullptr : &it->second;
 }

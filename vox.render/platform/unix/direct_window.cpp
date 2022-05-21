@@ -14,54 +14,54 @@
 namespace vox {
 namespace {
 static KeyCode key_map[] = {
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Backspace,
-    KeyCode::Tab,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Enter,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Escape,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Unknown,
-    KeyCode::Space,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::BACKSPACE,
+    KeyCode::TAB,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::ENTER,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::ESCAPE,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::UNKNOWN,
+    KeyCode::SPACE,
     KeyCode::_1,
-    KeyCode::Apostrophe,
-    KeyCode::Backslash,
+    KeyCode::APOSTROPHE,
+    KeyCode::BACKSLASH,
     KeyCode::_4,
     KeyCode::_5,
     KeyCode::_7,
-    KeyCode::Apostrophe,
+    KeyCode::APOSTROPHE,
     KeyCode::_9,
     KeyCode::_0,
     KeyCode::_8,
-    KeyCode::Equal,
-    KeyCode::Comma,
-    KeyCode::Minus,
-    KeyCode::Period,
-    KeyCode::Slash,
+    KeyCode::EQUAL,
+    KeyCode::COMMA,
+    KeyCode::MINUS,
+    KeyCode::PERIOD,
+    KeyCode::SLASH,
     KeyCode::_0,
     KeyCode::_1,
     KeyCode::_2,
@@ -72,12 +72,12 @@ static KeyCode key_map[] = {
     KeyCode::_7,
     KeyCode::_8,
     KeyCode::_9,
-    KeyCode::Semicolon,
-    KeyCode::Semicolon,
-    KeyCode::Comma,
-    KeyCode::Equal,
-    KeyCode::Period,
-    KeyCode::Slash,
+    KeyCode::SEMICOLON,
+    KeyCode::SEMICOLON,
+    KeyCode::COMMA,
+    KeyCode::EQUAL,
+    KeyCode::PERIOD,
+    KeyCode::SLASH,
     KeyCode::_2,
     KeyCode::A,
     KeyCode::B,
@@ -105,12 +105,12 @@ static KeyCode key_map[] = {
     KeyCode::X,
     KeyCode::Y,
     KeyCode::Z,
-    KeyCode::LeftBracket,
-    KeyCode::Backslash,
-    KeyCode::RightBracket,
+    KeyCode::LEFT_BRACKET,
+    KeyCode::BACKSLASH,
+    KeyCode::RIGHT_BRACKET,
     KeyCode::_6,
-    KeyCode::Minus,
-    KeyCode::GraveAccent,
+    KeyCode::MINUS,
+    KeyCode::GRAVE_ACCENT,
     KeyCode::A,
     KeyCode::B,
     KeyCode::C,
@@ -137,25 +137,25 @@ static KeyCode key_map[] = {
     KeyCode::X,
     KeyCode::Y,
     KeyCode::Z,
-    KeyCode::LeftBracket,
-    KeyCode::Backslash,
-    KeyCode::RightBracket,
-    KeyCode::GraveAccent,
-    KeyCode::Backspace};
+    KeyCode::LEFT_BRACKET,
+    KeyCode::BACKSLASH,
+    KeyCode::RIGHT_BRACKET,
+    KeyCode::GRAVE_ACCENT,
+    KeyCode::BACKSPACE};
 
 static KeyCode map_multichar_key(int tty_fd, KeyCode initial) {
     static std::map<std::string, KeyCode> mc_map;        // Static for one-time-init
     if (mc_map.size() == 0) {
-        mc_map["[A"] = KeyCode::Up;
-        mc_map["[B"] = KeyCode::Down;
-        mc_map["[C"] = KeyCode::Right;
-        mc_map["[D"] = KeyCode::Left;
-        mc_map["[2~"] = KeyCode::Insert;
-        mc_map["[3~"] = KeyCode::DelKey;
-        mc_map["[5~"] = KeyCode::PageUp;
-        mc_map["[6~"] = KeyCode::PageDown;
-        mc_map["[H"] = KeyCode::Home;
-        mc_map["[F"] = KeyCode::End;
+        mc_map["[A"] = KeyCode::UP;
+        mc_map["[B"] = KeyCode::DOWN;
+        mc_map["[C"] = KeyCode::RIGHT;
+        mc_map["[D"] = KeyCode::LEFT;
+        mc_map["[2~"] = KeyCode::INSERT;
+        mc_map["[3~"] = KeyCode::DEL_KEY;
+        mc_map["[5~"] = KeyCode::PAGE_UP;
+        mc_map["[6~"] = KeyCode::PAGE_DOWN;
+        mc_map["[H"] = KeyCode::HOME;
+        mc_map["[F"] = KeyCode::END;
         mc_map["OP"] = KeyCode::F1;
         mc_map["OQ"] = KeyCode::F2;
         mc_map["OR"] = KeyCode::F3;
@@ -187,7 +187,7 @@ static KeyCode map_multichar_key(int tty_fd, KeyCode initial) {
         return iter->second;
     }
     
-    return KeyCode::Unknown;
+    return KeyCode::UNKNOWN;
 }
 
 }        // namespace
@@ -208,7 +208,7 @@ platform{platform} {
             LOGW("Failed to set attribs for '/dev/tty'");
     }
     
-    platform->set_focus(true);
+    platform->SetFocus(true);
 }
 
 DirectWindow::~DirectWindow() {
@@ -217,11 +217,11 @@ DirectWindow::~DirectWindow() {
     }
 }
 
-VkSurfaceKHR DirectWindow::create_surface(Instance &instance) {
-    return create_surface(instance.get_handle(), instance.get_first_gpu().get_handle());
+VkSurfaceKHR DirectWindow::CreateSurface(Instance &instance) {
+    return CreateSurface(instance.GetHandle(), instance.get_first_gpu().GetHandle());
 }
 
-VkSurfaceKHR DirectWindow::create_surface(VkInstance instance, VkPhysicalDevice phys_dev) {
+VkSurfaceKHR DirectWindow::CreateSurface(VkInstance instance, VkPhysicalDevice phys_dev) {
     if (instance == VK_NULL_HANDLE || phys_dev == VK_NULL_HANDLE) {
         return VK_NULL_HANDLE;
     }
@@ -271,7 +271,7 @@ VkSurfaceKHR DirectWindow::create_surface(VkInstance instance, VkPhysicalDevice 
     VK_CHECK(vkGetPhysicalDeviceDisplayPlanePropertiesKHR(phys_dev, &num_planes, plane_properties.data()));
     
     // Find a compatible plane index
-    uint32_t plane_index = find_compatible_plane(phys_dev, display, plane_properties);
+    uint32_t plane_index = FindCompatiblePlane(phys_dev, display, plane_properties);
     if (plane_index == ~0U) {
         return VK_NULL_HANDLE;
     }
@@ -295,8 +295,7 @@ VkSurfaceKHR DirectWindow::create_surface(VkInstance instance, VkPhysicalDevice 
     return surface;
 }
 
-uint32_t DirectWindow::find_compatible_plane(VkPhysicalDevice phys_dev, VkDisplayKHR display,
-                                             const std::vector<VkDisplayPlanePropertiesKHR> &plane_properties) {
+uint32_t DirectWindow::FindCompatiblePlane(VkPhysicalDevice phys_dev, VkDisplayKHR display, const std::vector<VkDisplayPlanePropertiesKHR> &plane_properties) {
     // Find a plane compatible with the display
     for (uint32_t pi = 0; pi < plane_properties.size(); ++pi) {
         if ((plane_properties[pi].currentDisplay != VK_NULL_HANDLE) &&
@@ -326,13 +325,13 @@ uint32_t DirectWindow::find_compatible_plane(VkPhysicalDevice phys_dev, VkDispla
     return ~0U;
 }
 
-void DirectWindow::process_events() {
+void DirectWindow::ProcessEvents() {
     if (tty_fd > 0) {
-        if (key_down != KeyCode::Unknown) {
+        if (key_down != KeyCode::UNKNOWN) {
             // Signal release for the key we previously reported as down
             // (we don't get separate press & release from the terminal)
-            platform->input_event(KeyInputEvent{key_down, KeyAction::Up});
-            key_down = KeyCode::Unknown;
+            platform->InputEvent(KeyInputEvent{key_down, KeyAction::UP});
+            key_down = KeyCode::UNKNOWN;
         }
         
         // See if there is a new keypress
@@ -344,25 +343,25 @@ void DirectWindow::process_events() {
             key_down = key_map[key];
             
             // Is this potentially a multi-character code?
-            if (key_down == KeyCode::Escape) {
+            if (key_down == KeyCode::ESCAPE) {
                 key_down = map_multichar_key(tty_fd, key_down);
             }
             
             // Signal the press
-            platform->input_event(KeyInputEvent{key_down, KeyAction::Down});
+            platform->InputEvent(KeyInputEvent{key_down, KeyAction::DOWN});
         }
     }
 }
 
-bool DirectWindow::should_close() {
+bool DirectWindow::ShouldClose() {
     return !keep_running;
 }
 
-void DirectWindow::close() {
+void DirectWindow::Close() {
     keep_running = false;
 }
 
-float DirectWindow::get_dpi_factor() const {
+float DirectWindow::GetDpiFactor() const {
     const float win_base_density = 96.0f;
     return dpi / win_base_density;
 }

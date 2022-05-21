@@ -68,7 +68,7 @@ public:
      * @param instance A Vulkan instance
      * @returns A VkSurfaceKHR handle_, for use by the application
      */
-    virtual VkSurfaceKHR create_surface(Instance &instance) = 0;
+    virtual VkSurfaceKHR CreateSurface(Instance &instance) = 0;
     
     /**
      * @brief Gets a handle_ from the platform's Vulkan surface
@@ -76,32 +76,32 @@ public:
      * @param physical_device A Vulkan PhysicalDevice
      * @returns A VkSurfaceKHR handle_, for use by the application
      */
-    virtual VkSurfaceKHR create_surface(VkInstance instance, VkPhysicalDevice physical_device) = 0;
+    virtual VkSurfaceKHR CreateSurface(VkInstance instance, VkPhysicalDevice physical_device) = 0;
     
     /**
      * @brief Checks if the window should be closed
      */
-    virtual bool should_close() = 0;
+    virtual bool ShouldClose() = 0;
     
     /**
      * @brief Handles the processing of all underlying window events
      */
-    virtual void process_events();
+    virtual void ProcessEvents();
     
     /**
      * @brief Requests to close the window
      */
-    virtual void close() = 0;
+    virtual void Close() = 0;
     
     /**
      * @return The dot-per-inch scale factor
      */
-    [[nodiscard]] virtual float get_dpi_factor() const = 0;
+    [[nodiscard]] virtual float GetDpiFactor() const = 0;
     
     /**
      * @return The scale factor for systems with heterogeneous window and pixel coordinates
      */
-    [[nodiscard]] virtual float get_content_scale_factor() const;
+    [[nodiscard]] virtual float GetContentScaleFactor() const;
     
     /**
      * @brief Attempt to resize the window - not guaranteed to change
@@ -109,11 +109,11 @@ public:
      * @param extent The preferred window extent
      * @return Extent The new window extent
      */
-    Extent resize(const Extent &extent);
+    Extent Resize(const Extent &extent);
     
-    [[nodiscard]] const Extent &get_extent() const;
+    [[nodiscard]] const Extent &GetExtent() const;
     
-    [[nodiscard]] Mode get_window_mode() const;
+    [[nodiscard]] Mode GetWindowMode() const;
     
 protected:
     Properties properties_;

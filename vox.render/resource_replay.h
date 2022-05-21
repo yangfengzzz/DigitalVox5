@@ -18,16 +18,16 @@ class ResourceReplay {
 public:
     ResourceReplay();
     
-    void play(ResourceCache &resource_cache, ResourceRecord &recorder);
+    void Play(ResourceCache &resource_cache, ResourceRecord &recorder);
     
 protected:
-    void create_shader_module(ResourceCache &resource_cache, std::istringstream &stream);
+    void CreateShaderModule(ResourceCache &resource_cache, std::istringstream &stream);
     
-    void create_pipeline_layout(ResourceCache &resource_cache, std::istringstream &stream);
+    void CreatePipelineLayout(ResourceCache &resource_cache, std::istringstream &stream);
     
-    void create_render_pass(ResourceCache &resource_cache, std::istringstream &stream);
+    void CreateRenderPass(ResourceCache &resource_cache, std::istringstream &stream);
     
-    void create_graphics_pipeline(ResourceCache &resource_cache, std::istringstream &stream);
+    void CreateGraphicsPipeline(ResourceCache &resource_cache, std::istringstream &stream);
     
 private:
     using ResourceFunc = std::function<void(ResourceCache &, std::istringstream &)>;

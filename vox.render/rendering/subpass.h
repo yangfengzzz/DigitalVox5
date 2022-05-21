@@ -39,54 +39,54 @@ public:
     /**
      * @brief Prepares the shaders and shader variants for a subpass
      */
-    virtual void prepare() = 0;
+    virtual void Prepare() = 0;
     
     /**
      * @brief Updates the render target attachments with the ones stored in this subpass
      *        This function is called by the RenderPipeline before beginning the render
      *        pass and before proceeding with a new subpass.
      */
-    void update_render_target_attachments(RenderTarget &render_target);
+    void UpdateRenderTargetAttachments(RenderTarget &render_target);
     
     /**
      * @brief Draw virtual function
      * @param command_buffer Command buffer to use to record draw commands
      */
-    virtual void draw(CommandBuffer &command_buffer) = 0;
+    virtual void Draw(CommandBuffer &command_buffer) = 0;
     
-    RenderContext &get_render_context();
+    RenderContext &GetRenderContext();
     
-    DepthStencilState &get_depth_stencil_state();
+    DepthStencilState &GetDepthStencilState();
     
-    [[nodiscard]] const std::vector<uint32_t> &get_input_attachments() const;
+    [[nodiscard]] const std::vector<uint32_t> &GetInputAttachments() const;
     
-    void set_input_attachments(std::vector<uint32_t> input);
+    void SetInputAttachments(std::vector<uint32_t> input);
     
-    [[nodiscard]] const std::vector<uint32_t> &get_output_attachments() const;
+    [[nodiscard]] const std::vector<uint32_t> &GetOutputAttachments() const;
     
-    void set_output_attachments(std::vector<uint32_t> output);
+    void SetOutputAttachments(std::vector<uint32_t> output);
     
-    void set_sample_count(VkSampleCountFlagBits sample_count);
+    void SetSampleCount(VkSampleCountFlagBits sample_count);
     
-    [[nodiscard]] const std::vector<uint32_t> &get_color_resolve_attachments() const;
+    [[nodiscard]] const std::vector<uint32_t> &GetColorResolveAttachments() const;
     
-    void set_color_resolve_attachments(std::vector<uint32_t> color_resolve);
+    void SetColorResolveAttachments(std::vector<uint32_t> color_resolve);
     
-    [[nodiscard]] const bool &get_disable_depth_stencil_attachment() const;
+    [[nodiscard]] const bool &GetDisableDepthStencilAttachment() const;
     
-    void set_disable_depth_stencil_attachment(bool disable_depth_stencil);
+    void SetDisableDepthStencilAttachment(bool disable_depth_stencil);
     
-    [[nodiscard]] const uint32_t &get_depth_stencil_resolve_attachment() const;
+    [[nodiscard]] const uint32_t &GetDepthStencilResolveAttachment() const;
     
-    void set_depth_stencil_resolve_attachment(uint32_t depth_stencil_resolve);
+    void SetDepthStencilResolveAttachment(uint32_t depth_stencil_resolve);
     
-    [[nodiscard]] VkResolveModeFlagBits get_depth_stencil_resolve_mode() const;
+    [[nodiscard]] VkResolveModeFlagBits GetDepthStencilResolveMode() const;
     
-    void set_depth_stencil_resolve_mode(VkResolveModeFlagBits mode);
+    void SetDepthStencilResolveMode(VkResolveModeFlagBits mode);
     
-    [[nodiscard]] const std::string &get_debug_name() const;
+    [[nodiscard]] const std::string &GetDebugName() const;
     
-    void set_debug_name(const std::string &name);
+    void SetDebugName(const std::string &name);
     
 protected:
     RenderContext &render_context_;
@@ -98,11 +98,11 @@ protected:
     // A map of shader resource names and the mode of constant data
     std::unordered_map<std::string, ShaderResourceMode> resource_mode_map_;
     
-    static bool _compareFromNearToFar(const RenderElement &a, const RenderElement &b);
+    static bool CompareFromNearToFar(const RenderElement &a, const RenderElement &b);
     
-    static bool _compareFromFarToNear(const RenderElement &a, const RenderElement &b);
+    static bool CompareFromFarToNear(const RenderElement &a, const RenderElement &b);
     
-    virtual PipelineLayout &prepare_pipeline_layout(CommandBuffer &command_buffer,
+    virtual PipelineLayout &PreparePipelineLayout(CommandBuffer &command_buffer,
                                                     const std::vector<ShaderModule *> &shader_modules);
     
 private:

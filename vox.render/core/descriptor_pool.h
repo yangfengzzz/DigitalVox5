@@ -22,56 +22,56 @@ class DescriptorSetLayout;
 class DescriptorPool {
 public:
     static const uint32_t max_sets_per_pool_ = 16;
-    
+
     DescriptorPool(Device &device,
                    const DescriptorSetLayout &descriptor_set_layout,
                    uint32_t pool_size = max_sets_per_pool_);
-    
+
     DescriptorPool(const DescriptorPool &) = delete;
-    
+
     DescriptorPool(DescriptorPool &&) = default;
-    
+
     ~DescriptorPool();
-    
+
     DescriptorPool &operator=(const DescriptorPool &) = delete;
-    
+
     DescriptorPool &operator=(DescriptorPool &&) = delete;
-    
-    void reset();
-    
-    [[nodiscard]] const DescriptorSetLayout &get_descriptor_set_layout() const;
-    
-    void set_descriptor_set_layout(const DescriptorSetLayout &set_layout);
-    
-    VkDescriptorSet allocate();
-    
-    VkResult free(VkDescriptorSet descriptor_set);
-    
+
+    void Reset();
+
+    [[nodiscard]] const DescriptorSetLayout &GetDescriptorSetLayout() const;
+
+    void SetDescriptorSetLayout(const DescriptorSetLayout &set_layout);
+
+    VkDescriptorSet Allocate();
+
+    VkResult Free(VkDescriptorSet descriptor_set);
+
 private:
     Device &device_;
-    
+
     const DescriptorSetLayout *descriptor_set_layout_{nullptr};
-    
+
     // Descriptor pool size
     std::vector<VkDescriptorPoolSize> pool_sizes_;
-    
+
     // Number of sets to allocate for each pool
     uint32_t pool_max_sets_{0};
-    
+
     // Total descriptor pools created
     std::vector<VkDescriptorPool> pools_;
-    
+
     // Count sets for each pool
     std::vector<uint32_t> pool_sets_count_;
-    
+
     // Current pool index to allocate descriptor set
     uint32_t pool_index_{0};
-    
+
     // Map between descriptor set and pool index
     std::unordered_map<VkDescriptorSet, uint32_t> set_pool_mapping_;
-    
+
     // Find next pool index or create new pool
-    uint32_t find_available_pool(uint32_t pool_index);
+    uint32_t FindAvailablePool(uint32_t pool_index);
 };
 
-}        // namespace vox
+}  // namespace vox

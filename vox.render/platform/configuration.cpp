@@ -13,11 +13,11 @@ handle_{handle},
 value_{value} {
 }
 
-void BoolSetting::set() {
+void BoolSetting::Set() {
     handle_ = value_;
 }
 
-std::type_index BoolSetting::get_type() {
+std::type_index BoolSetting::GetType() {
     return typeid(BoolSetting);
 }
 
@@ -26,30 +26,30 @@ handle_{handle},
 value_{value} {
 }
 
-void IntSetting::set() {
+void IntSetting::Set() {
     handle_ = value_;
 }
 
-std::type_index IntSetting::get_type() {
+std::type_index IntSetting::GetType() {
     return typeid(IntSetting);
 }
 
-void EmptySetting::set() {
+void EmptySetting::Set() {
 }
 
-std::type_index EmptySetting::get_type() {
+std::type_index EmptySetting::GetType() {
     return typeid(EmptySetting);
 }
 
-void Configuration::set() {
+void Configuration::Set() {
     for (const auto &pair : current_configuration_->second) {
         for (auto setting : pair.second) {
-            setting->set();
+            setting->Set();
         }
     }
 }
 
-bool Configuration::next() {
+bool Configuration::Next() {
     if (configs_.empty()) {
         return false;
     }
@@ -63,13 +63,13 @@ bool Configuration::next() {
     return true;
 }
 
-void Configuration::reset() {
+void Configuration::Reset() {
     current_configuration_ = configs_.begin();
 }
 
-void Configuration::insert_setting(uint32_t config_index, std::unique_ptr<Setting> setting) {
+void Configuration::InsertSetting(uint32_t config_index, std::unique_ptr<Setting> setting) {
     settings_.push_back(std::move(setting));
-    configs_[config_index][settings_.back()->get_type()].push_back(settings_.back().get());
+    configs_[config_index][settings_.back()->GetType()].push_back(settings_.back().get());
 }
 
 }        // namespace vox

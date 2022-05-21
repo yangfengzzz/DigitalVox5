@@ -61,7 +61,7 @@ void PrimitiveApp::load_scene() {
     auto plane_renderer = plane_entity->add_component<MeshRenderer>();
     plane_renderer->set_mesh(PrimitiveMesh::create_sphere(1));
     auto textured_material = std::make_shared<BlinnPhongMaterial>(*device_);
-    textured_material->set_base_texture(ImageManager::get_singleton().load_texture("Textures/wood.png"));
+    textured_material->set_base_texture(ImageManager::GetSingleton().load_texture("Textures/wood.png"));
     plane_renderer->set_material(textured_material);
     
     scene->play();

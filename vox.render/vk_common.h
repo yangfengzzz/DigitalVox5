@@ -32,14 +32,14 @@ namespace vox {
  * @param format Vulkan format to check.
  * @return True if format is a depth only, false otherwise.
  */
-bool is_depth_only_format(VkFormat format);
+bool IsDepthOnlyFormat(VkFormat format);
 
 /**
  * @brief Helper function to determine if a Vulkan format is depth or stencil.
  * @param format Vulkan format to check.
  * @return True if format is a depth or stencil, false otherwise.
  */
-bool is_depth_stencil_format(VkFormat format);
+bool IsDepthStencilFormat(VkFormat format);
 
 /**
  * @brief Helper function to determine a suitable supported depth format based on a priority list
@@ -49,33 +49,31 @@ bool is_depth_stencil_format(VkFormat format);
  *		  By default we start with the highest precision packed format
  * @return The valid suited depth format
  */
-VkFormat get_suitable_depth_format(VkPhysicalDevice physical_device,
+VkFormat GetSuitableDepthFormat(VkPhysicalDevice physical_device,
                                    bool depth_only = false,
                                    const std::vector<VkFormat> &depth_format_priority_list = {
-    VK_FORMAT_D32_SFLOAT,
-    VK_FORMAT_D24_UNORM_S8_UINT,
-    VK_FORMAT_D16_UNORM});
+                                        VK_FORMAT_D32_SFLOAT, VK_FORMAT_D24_UNORM_S8_UINT, VK_FORMAT_D16_UNORM});
 
 /**
  * @brief Helper function to determine if a Vulkan descriptor type is a dynamic storage buffer or dynamic uniform buffer.
  * @param descriptor_type Vulkan descriptor type to check.
  * @return True if type is dynamic buffer, false otherwise.
  */
-bool is_dynamic_buffer_descriptor_type(VkDescriptorType descriptor_type);
+bool IsDynamicBufferDescriptorType(VkDescriptorType descriptor_type);
 
 /**
  * @brief Helper function to determine if a Vulkan descriptor type is a buffer (either uniform or storage buffer, dynamic or not).
  * @param descriptor_type Vulkan descriptor type to check.
  * @return True if type is buffer, false otherwise.
  */
-bool is_buffer_descriptor_type(VkDescriptorType descriptor_type);
+bool IsBufferDescriptorType(VkDescriptorType descriptor_type);
 
 /**
  * @brief Helper function to get the bits per pixel of a Vulkan format.
  * @param format Vulkan format to check.
  * @return The bits per pixel of the given format, -1 for invalid formats.
  */
-int32_t get_bits_per_pixel(VkFormat format);
+int32_t GetBitsPerPixel(VkFormat format);
 
 /**
  * @brief Helper function to create a VkShaderModule
@@ -84,7 +82,7 @@ int32_t get_bits_per_pixel(VkFormat format);
  * @param stage The shader stage
  * @return The string to return.
  */
-VkShaderModule load_shader(const std::string &filename, VkDevice device, VkShaderStageFlagBits stage);
+VkShaderModule LoadShader(const std::string &filename, VkDevice device, VkShaderStageFlagBits stage);
 
 /**
  * @brief Image memory barrier structure used to define
@@ -125,7 +123,7 @@ struct BufferMemoryBarrier {
 /**
  * @brief Put an image memory barrier for setting an image layout on the sub resource into the given command buffer
  */
-void set_image_layout(
+void SetImageLayout(
                       VkCommandBuffer command_buffer,
                       VkImage image,
                       VkImageLayout old_layout,
@@ -137,7 +135,7 @@ void set_image_layout(
 /**
  * @brief Uses a fixed sub resource layout with first mip level and layer
  */
-void set_image_layout(
+void SetImageLayout(
                       VkCommandBuffer command_buffer,
                       VkImage image,
                       VkImageAspectFlags aspect_mask,
@@ -149,7 +147,7 @@ void set_image_layout(
 /**
  * @brief Insert an image memory barrier into the command buffer
  */
-void insert_image_memory_barrier(
+void InsertImageMemoryBarrier(
                                  VkCommandBuffer command_buffer,
                                  VkImage image,
                                  VkAccessFlags src_access_mask,
@@ -173,22 +171,22 @@ namespace gbuffer {
 /**
  * @return Load store info to load all and store only the swapchain
  */
-std::vector<LoadStoreInfo> get_load_all_store_swapchain();
+std::vector<LoadStoreInfo> GetLoadAllStoreSwapchain();
 
 /**
  * @return Load store info to clear all and store only the swapchain
  */
-std::vector<LoadStoreInfo> get_clear_all_store_swapchain();
+std::vector<LoadStoreInfo> GetClearAllStoreSwapchain();
 
 /**
  * @return Load store info to clear and store all images
  */
-std::vector<LoadStoreInfo> get_clear_store_all();
+std::vector<LoadStoreInfo> GetClearStoreAll();
 
 /**
  * @return Default clear values for the G-buffer
  */
-std::vector<VkClearValue> get_clear_value();
+std::vector<VkClearValue> GetClearValue();
 
 }        // namespace gbuffer
 }        // namespace vox

@@ -30,13 +30,13 @@ scene_(scene) {
     scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(render_context_, scene, main_camera_));
     subpass_ = static_cast<GeometrySubpass*>(scene_subpasses[0].get());
     render_pipeline_ = std::make_unique<RenderPipeline>(std::move(scene_subpasses));
-    auto clear_value = render_pipeline_->get_clear_value();
+    auto clear_value = render_pipeline_->GetClearValue();
     clear_value[0].color = {0.2f, 0.4f, 0.6f, 1.f};
-    render_pipeline_->set_clear_value(clear_value);
-    
-    subpass_->set_render_mode(GeometrySubpass::RenderMode::MANUAL);
-    subpass_->add_render_element(elements_[0]);
-    subpass_->add_render_element(elements_[1]);
+    render_pipeline_->SetClearValue(clear_value);
+
+    subpass_->SetRenderMode(GeometrySubpass::RenderMode::MANUAL);
+    subpass_->AddRenderElement(elements_[0]);
+    subpass_->AddRenderElement(elements_[1]);
 }
 
 void AssetView::load_scene(Entity *root_entity) {
@@ -48,7 +48,7 @@ void AssetView::load_scene(Entity *root_entity) {
     
     auto grid = root_entity->add_component<MeshRenderer>();
     grid->set_mesh(create_plane());
-    grid->set_material(std::make_shared<GridMaterial>(render_context_.get_device()));
+    grid->set_material(std::make_shared<GridMaterial>(render_context_.GetDevice()));
     grid->set_enabled(false);
     elements_.emplace_back(grid, grid->mesh(),
                            grid->mesh()->sub_mesh(), grid->get_material());
@@ -56,13 +56,13 @@ void AssetView::load_scene(Entity *root_entity) {
     // create box test entity
     float radius = 2.0;
     auto sphere_entity = root_entity->create_child("SphereEntity");
-    auto sphere_mtl = std::make_shared<BlinnPhongMaterial>(render_context_.get_device());
+    auto sphere_mtl = std::make_shared<BlinnPhongMaterial>(render_context_.GetDevice());
     sphere_mtl->set_base_color(Color(0.8, 0.3, 0.3, 1.0));
     auto renderer = sphere_entity->add_component<MeshRenderer>();
     renderer->set_mesh(PrimitiveMesh::create_sphere(radius));
     renderer->set_material(sphere_mtl);
-    renderer->shader_data_.add_define(HAS_UV);
-    renderer->shader_data_.add_define(HAS_NORMAL);
+    renderer->shader_data_.AddDefine(HAS_UV);
+    renderer->shader_data_.AddDefine(HAS_NORMAL);
     renderer->set_enabled(false);
     elements_.emplace_back(renderer, renderer->mesh(),
                            renderer->mesh()->sub_mesh(), renderer->get_material());

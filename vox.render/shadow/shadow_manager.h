@@ -80,9 +80,9 @@ public:
     
     static uint32_t cube_shadow_count();
     
-    static ShadowManager &get_singleton();
+    static ShadowManager &GetSingleton();
     
-    static ShadowManager *get_singleton_ptr();
+    static ShadowManager *GetSingletonPtr();
     
 public:
     ShadowManager(Device &device, RenderContext &render_context,

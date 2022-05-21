@@ -57,7 +57,7 @@ struct ResourceCacheState {
  * @brief Cache all sorts of Vulkan objects specific to a Vulkan device.
  * Supports serialization and deserialization of cached resources.
  * There is only one cache for all these objects, with several unordered_map of hash indices
- * and objects. For every object requested, there is a templated version on request_resource.
+ * and objects. For every object requested, there is a templated version on RequestResource.
  * Some objects may need building if they are not found in the cache.
  *
  * The resource cache is also linked with ResourceRecord and ResourceReplay. Replay can warm-up
@@ -77,51 +77,51 @@ public:
     
     ResourceCache &operator=(ResourceCache &&) = delete;
     
-    void warmup(const std::vector<uint8_t> &data);
+    void WarmUp(const std::vector<uint8_t> &data);
     
-    std::vector<uint8_t> serialize();
+    std::vector<uint8_t> Serialize();
     
-    void set_pipeline_cache(VkPipelineCache pipeline_cache);
+    void SetPipelineCache(VkPipelineCache pipeline_cache);
     
-    ShaderModule &request_shader_module(VkShaderStageFlagBits stage, const ShaderSource &glsl_source,
+    ShaderModule &RequestShaderModule(VkShaderStageFlagBits stage, const ShaderSource &glsl_source,
                                         const ShaderVariant &shader_variant = {});
     
-    PipelineLayout &request_pipeline_layout(const std::vector<ShaderModule *> &shader_modules);
+    PipelineLayout &RequestPipelineLayout(const std::vector<ShaderModule *> &shader_modules);
     
-    DescriptorSetLayout &request_descriptor_set_layout(uint32_t set_index,
+    DescriptorSetLayout &RequestDescriptorSetLayout(uint32_t set_index,
                                                        const std::vector<ShaderModule *> &shader_modules,
                                                        const std::vector<ShaderResource> &set_resources);
     
-    GraphicsPipeline &request_graphics_pipeline(PipelineState &pipeline_state);
+    GraphicsPipeline &RequestGraphicsPipeline(PipelineState &pipeline_state);
     
-    ComputePipeline &request_compute_pipeline(PipelineState &pipeline_state);
+    ComputePipeline &RequestComputePipeline(PipelineState &pipeline_state);
     
-    DescriptorSet &request_descriptor_set(DescriptorSetLayout &descriptor_set_layout,
+    DescriptorSet &RequestDescriptorSet(DescriptorSetLayout &descriptor_set_layout,
                                           const BindingMap<VkDescriptorBufferInfo> &buffer_infos,
                                           const BindingMap<VkDescriptorImageInfo> &image_infos);
     
-    RenderPass &request_render_pass(const std::vector<Attachment> &attachments,
+    RenderPass &RequestRenderPass(const std::vector<Attachment> &attachments,
                                     const std::vector<LoadStoreInfo> &load_store_infos,
                                     const std::vector<SubpassInfo> &subpasses);
     
-    Framebuffer &request_framebuffer(const RenderTarget &render_target,
+    Framebuffer &RequestFramebuffer(const RenderTarget &render_target,
                                      const RenderPass &render_pass);
     
-    core::Sampler &request_sampler(const VkSamplerCreateInfo& info);
+    core::Sampler &RequestSampler(const VkSamplerCreateInfo& info);
     
-    void clear_pipelines();
+    void ClearPipelines();
     
     /// @brief Update those descriptor sets referring to old views
     /// @param old_views Old image views referred by descriptor sets
     /// @param new_views New image views to be referred
-    void update_descriptor_sets(const std::vector<core::ImageView> &old_views,
+    void UpdateDescriptorSets(const std::vector<core::ImageView> &old_views,
                                 const std::vector<core::ImageView> &new_views);
     
-    void clear_framebuffers();
+    void ClearFramebuffers();
     
-    void clear();
+    void Clear();
     
-    const ResourceCacheState &get_internal_state() const;
+    const ResourceCacheState &GetInternalState() const;
     
 private:
     Device &device_;

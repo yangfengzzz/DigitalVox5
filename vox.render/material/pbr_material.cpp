@@ -15,7 +15,7 @@ float PbrMaterial::metallic() const {
 
 void PbrMaterial::set_metallic(float new_value) {
     pbr_data_.metallic = new_value;
-    shader_data_.set_data(pbr_prop_, pbr_data_);
+    shader_data_.SetData(pbr_prop_, pbr_data_);
 }
 
 float PbrMaterial::roughness() const {
@@ -24,7 +24,7 @@ float PbrMaterial::roughness() const {
 
 void PbrMaterial::set_roughness(float new_value) {
     pbr_data_.roughness = new_value;
-    shader_data_.set_data(pbr_prop_, pbr_data_);
+    shader_data_.SetData(pbr_prop_, pbr_data_);
 }
 
 std::shared_ptr<Image> PbrMaterial::metallic_roughness_texture() {
@@ -33,7 +33,7 @@ std::shared_ptr<Image> PbrMaterial::metallic_roughness_texture() {
 
 void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
-        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         set_metallic_roughness_texture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
@@ -42,11 +42,11 @@ void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &n
                                                  const VkSamplerCreateInfo &info) {
     metallic_roughness_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(metallic_roughness_texture_prop_, new_value->get_vk_image_view(),
-                                         &device_.get_resource_cache().request_sampler(info));
-        shader_data_.add_define(HAS_METALROUGHNESSMAP);
+        shader_data_.SetSampledTexture(metallic_roughness_texture_prop_, new_value->GetVkImageView(),
+                                       &device_.GetResourceCache().RequestSampler(info));
+        shader_data_.AddDefine(HAS_METALROUGHNESSMAP);
     } else {
-        shader_data_.remove_define(HAS_METALROUGHNESSMAP);
+        shader_data_.RemoveDefine(HAS_METALROUGHNESSMAP);
     }
 }
 
@@ -54,11 +54,11 @@ PbrMaterial::PbrMaterial(Device &device, const std::string &name) :
 PbrBaseMaterial(device, name),
 pbr_prop_("pbrData"),
 metallic_roughness_texture_prop_("metallicRoughnessTexture") {
-    shader_data_.add_define("IS_METALLIC_WORKFLOW");
-    vertex_source_ = ShaderManager::get_singleton().load_shader("base/blinn-phong.vert");
-    fragment_source_ = ShaderManager::get_singleton().load_shader("base/pbr.frag");
-    
-    shader_data_.set_data(pbr_prop_, pbr_data_);
+    shader_data_.AddDefine("IS_METALLIC_WORKFLOW");
+    vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/blinn-phong.vert");
+    fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/pbr.frag");
+
+    shader_data_.SetData(pbr_prop_, pbr_data_);
 }
 
 }

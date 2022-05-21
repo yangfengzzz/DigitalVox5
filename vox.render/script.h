@@ -73,7 +73,7 @@ public:
     }
     
     /**
-     * Called after the on_update finished, called frame by frame.
+     * Called after the OnUpdate finished, called frame by frame.
      * @param delta_time - The deltaTime when the script update.
      */
     virtual void on_late_update(float delta_time) {

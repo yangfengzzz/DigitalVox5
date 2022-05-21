@@ -117,20 +117,20 @@ struct ColorBlendState {
 /// Helper class to create specialization constants for a Vulkan pipeline. The state tracks a pipeline globally, and not per shader. Two shaders using the same constant_id will have the same data.
 class SpecializationConstantState {
 public:
-    void reset();
+    void Reset();
     
-    [[nodiscard]] bool is_dirty() const;
+    [[nodiscard]] bool IsDirty() const;
     
-    void clear_dirty();
+    void ClearDirty();
     
     template<class T>
-    void set_constant(uint32_t constant_id, const T &data);
+    void SetConstant(uint32_t constant_id, const T &data);
     
-    void set_constant(uint32_t constant_id, const std::vector<uint8_t> &data);
+    void SetConstant(uint32_t constant_id, const std::vector<uint8_t> &data);
     
-    void set_specialization_constant_state(const std::map<uint32_t, std::vector<uint8_t>> &state);
+    void SetSpecializationConstantState(const std::map<uint32_t, std::vector<uint8_t>> &state);
     
-    [[nodiscard]] const std::map<uint32_t, std::vector<uint8_t>> &get_specialization_constant_state() const;
+    [[nodiscard]] const std::map<uint32_t, std::vector<uint8_t>> &GetSpecializationConstantState() const;
     
 private:
     bool dirty_{false};
@@ -139,66 +139,66 @@ private:
 };
 
 template<class T>
-inline void SpecializationConstantState::set_constant(std::uint32_t constant_id, const T &data) {
-    set_constant(constant_id, to_bytes(static_cast<std::uint32_t>(data)));
+inline void SpecializationConstantState::SetConstant(std::uint32_t constant_id, const T &data) {
+    SetConstant(constant_id, ToBytes(static_cast<std::uint32_t>(data)));
 }
 
 template<>
-inline void SpecializationConstantState::set_constant<bool>(std::uint32_t constant_id, const bool &data) {
-    set_constant(constant_id, to_bytes(static_cast<std::uint32_t>(data)));
+inline void SpecializationConstantState::SetConstant<bool>(std::uint32_t constant_id, const bool &data) {
+    SetConstant(constant_id, ToBytes(static_cast<std::uint32_t>(data)));
 }
 
 class PipelineState {
 public:
-    void reset();
+    void Reset();
     
-    void set_pipeline_layout(PipelineLayout &pipeline_layout);
+    void SetPipelineLayout(PipelineLayout &pipeline_layout);
     
-    void set_render_pass(const RenderPass &render_pass);
+    void SetRenderPass(const RenderPass &render_pass);
     
-    void set_specialization_constant(uint32_t constant_id, const std::vector<uint8_t> &data);
+    void SetSpecializationConstant(uint32_t constant_id, const std::vector<uint8_t> &data);
     
-    void set_vertex_input_state(const VertexInputState &vertex_input_state);
+    void SetVertexInputState(const VertexInputState &vertex_input_state);
     
-    void set_input_assembly_state(const InputAssemblyState &input_assembly_state);
+    void SetInputAssemblyState(const InputAssemblyState &input_assembly_state);
     
-    void set_rasterization_state(const RasterizationState &rasterization_state);
+    void SetRasterizationState(const RasterizationState &rasterization_state);
     
-    void set_viewport_state(const ViewportState &viewport_state);
+    void SetViewportState(const ViewportState &viewport_state);
     
-    void set_multisample_state(const MultisampleState &multisample_state);
+    void SetMultisampleState(const MultisampleState &multisample_state);
     
-    void set_depth_stencil_state(const DepthStencilState &depth_stencil_state);
+    void SetDepthStencilState(const DepthStencilState &depth_stencil_state);
     
-    void set_color_blend_state(const ColorBlendState &color_blend_state);
+    void SetColorBlendState(const ColorBlendState &color_blend_state);
     
-    void set_subpass_index(uint32_t subpass_index);
+    void SetSubpassIndex(uint32_t subpass_index);
     
-    [[nodiscard]] const PipelineLayout &get_pipeline_layout() const;
+    [[nodiscard]] const PipelineLayout &GetPipelineLayout() const;
     
-    [[nodiscard]] const RenderPass *get_render_pass() const;
+    [[nodiscard]] const RenderPass *GetRenderPass() const;
     
-    [[nodiscard]] const SpecializationConstantState &get_specialization_constant_state() const;
+    [[nodiscard]] const SpecializationConstantState &GetSpecializationConstantState() const;
     
-    [[nodiscard]] const VertexInputState &get_vertex_input_state() const;
+    [[nodiscard]] const VertexInputState &GetVertexInputState() const;
     
-    [[nodiscard]] const InputAssemblyState &get_input_assembly_state() const;
+    [[nodiscard]] const InputAssemblyState &GetInputAssemblyState() const;
     
-    [[nodiscard]] const RasterizationState &get_rasterization_state() const;
+    [[nodiscard]] const RasterizationState &GetRasterizationState() const;
     
-    [[nodiscard]] const ViewportState &get_viewport_state() const;
+    [[nodiscard]] const ViewportState &GetViewportState() const;
     
-    [[nodiscard]] const MultisampleState &get_multisample_state() const;
+    [[nodiscard]] const MultisampleState &GetMultisampleState() const;
     
-    [[nodiscard]] const DepthStencilState &get_depth_stencil_state() const;
+    [[nodiscard]] const DepthStencilState &GetDepthStencilState() const;
     
-    [[nodiscard]] const ColorBlendState &get_color_blend_state() const;
+    [[nodiscard]] const ColorBlendState &GetColorBlendState() const;
     
-    [[nodiscard]] uint32_t get_subpass_index() const;
+    [[nodiscard]] uint32_t GetSubpassIndex() const;
     
-    [[nodiscard]] bool is_dirty() const;
+    [[nodiscard]] bool IsDirty() const;
     
-    void clear_dirty();
+    void ClearDirty();
     
 private:
     bool dirty_{false};

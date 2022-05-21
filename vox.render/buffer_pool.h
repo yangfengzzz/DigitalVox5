@@ -30,20 +30,20 @@ public:
     
     BufferAllocation &operator=(BufferAllocation &&) = default;
     
-    void update(const std::vector<uint8_t> &data, uint32_t offset = 0);
+    void Update(const std::vector<uint8_t> &data, uint32_t offset = 0);
     
     template<class T>
-    void update(const T &value, uint32_t offset = 0) {
-        update(to_bytes(value), offset);
+    void Update(const T &value, uint32_t offset = 0) {
+        Update(ToBytes(value), offset);
     }
     
-    [[nodiscard]] bool empty() const;
+    [[nodiscard]] bool Empty() const;
     
-    [[nodiscard]] VkDeviceSize get_size() const;
+    [[nodiscard]] VkDeviceSize GetSize() const;
     
-    [[nodiscard]] VkDeviceSize get_offset() const;
+    [[nodiscard]] VkDeviceSize GetOffset() const;
     
-    core::Buffer &get_buffer();
+    core::Buffer &GetBuffer();
     
 private:
     core::Buffer *buffer_{nullptr};
@@ -63,11 +63,11 @@ public:
     /**
      * @return An usable view on a portion of the underlying buffer
      */
-    BufferAllocation allocate(uint32_t size);
+    BufferAllocation Allocate(uint32_t size);
     
-    [[nodiscard]] VkDeviceSize get_size() const;
+    [[nodiscard]] VkDeviceSize GetSize() const;
     
-    void reset();
+    void Reset();
     
 private:
     core::Buffer buffer_;
@@ -100,9 +100,9 @@ public:
     BufferPool(Device &device, VkDeviceSize block_size, VkBufferUsageFlags usage,
                VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
     
-    BufferBlock &request_buffer_block(VkDeviceSize minimum_size);
+    BufferBlock &RequestBufferBlock(VkDeviceSize minimum_size);
     
-    void reset();
+    void Reset();
     
 private:
     Device &device_;

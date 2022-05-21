@@ -34,9 +34,9 @@ scene_(scene) {
         std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
         scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(render_context_, scene, main_camera_));
         render_pipeline_ = std::make_unique<RenderPipeline>(std::move(scene_subpasses));
-        auto clear_value = render_pipeline_->get_clear_value();
+        auto clear_value = render_pipeline_->GetClearValue();
         clear_value[0].color = {0.2f, 0.4f, 0.6f, 1.f};
-        render_pipeline_->set_clear_value(clear_value);
+        render_pipeline_->SetClearValue(clear_value);
     }
     
     // color picker render target
@@ -44,16 +44,16 @@ scene_(scene) {
         auto subpass = std::make_unique<ColorPickerSubpass>(render_context, scene, main_camera_);
         color_picker_subpass_ = subpass.get();
         color_picker_render_pipeline_ = std::make_unique<RenderPipeline>();
-        color_picker_render_pipeline_->add_subpass(std::move(subpass));
-        auto clear_value = color_picker_render_pipeline_->get_clear_value();
+        color_picker_render_pipeline_->AddSubpass(std::move(subpass));
+        auto clear_value = color_picker_render_pipeline_->GetClearValue();
         clear_value[0].color = {1.0f, 1.0f, 1.0f, 1.0f};
-        color_picker_render_pipeline_->set_clear_value(clear_value);
+        color_picker_render_pipeline_->SetClearValue(clear_value);
         
         // dont't render grid when pick
-        color_picker_subpass_->add_exclusive_renderer(editor_root->get_component<MeshRenderer>());
+        color_picker_subpass_->AddExclusiveRenderer(editor_root->get_component<MeshRenderer>());
     }
     
-    stage_buffer_ = std::make_unique<core::Buffer>(render_context.get_device(), 4,
+    stage_buffer_ = std::make_unique<core::Buffer>(render_context.GetDevice(), 4,
                                                    VK_BUFFER_USAGE_TRANSFER_DST_BIT, VMA_MEMORY_USAGE_GPU_TO_CPU);
     
     regions_.resize(1);
@@ -72,7 +72,7 @@ void SceneView::load_scene(Entity *root_entity) {
     
     auto grid = root_entity->add_component<MeshRenderer>();
     grid->set_mesh(create_plane());
-    grid->set_material(std::make_shared<GridMaterial>(render_context_.get_device()));
+    grid->set_material(std::make_shared<GridMaterial>(render_context_.GetDevice()));
     
     // init point light
     auto light = root_entity->create_child("light");
@@ -83,7 +83,7 @@ void SceneView::load_scene(Entity *root_entity) {
     // create box test entity
     float cube_size = 2.0;
     auto box_entity = root_entity->create_child("BoxEntity");
-    auto box_mtl = std::make_shared<BlinnPhongMaterial>(render_context_.get_device());
+    auto box_mtl = std::make_shared<BlinnPhongMaterial>(render_context_.GetDevice());
     auto box_renderer = box_entity->add_component<MeshRenderer>();
     box_mtl->set_base_color(Color(0.8, 0.3, 0.3, 1.0));
     box_renderer->set_mesh(PrimitiveMesh::create_cuboid(cube_size, cube_size, cube_size));
@@ -94,7 +94,7 @@ void SceneView::update(float delta_time) {
     View::update(delta_time);
     
     auto [win_width, win_height] = safe_size();
-    if (win_width > 0 && (!color_picker_render_target_ || color_picker_render_target_->get_extent().width != win_width * 2)) {
+    if (win_width > 0 && (!color_picker_render_target_ || color_picker_render_target_->GetExtent().width != win_width * 2)) {
         main_camera_->set_aspect_ratio(float(win_width) / float(win_height));
         main_camera_->resize(win_width, win_height, win_width * 2, win_height * 2);
         color_picker_render_target_ = create_render_target(win_width * 2, win_height * 2, VK_FORMAT_R8G8B8A8_UNORM);
@@ -118,7 +118,7 @@ void SceneView::render(CommandBuffer &command_buffer) {
         
         if (need_pick_) {
             color_picker_render_pipeline_->draw(command_buffer, *color_picker_render_target_);
-            command_buffer.end_render_pass();
+            command_buffer.EndRenderPass();
             copy_render_target_to_buffer(command_buffer);
         }
         
@@ -202,16 +202,15 @@ void SceneView::copy_render_target_to_buffer(CommandBuffer &command_buffer) {
     
     regions_[0].imageOffset.x = static_cast<int32_t>(kLeft);
     regions_[0].imageOffset.y = static_cast<int32_t>(canvas_height - kBottom);
-    command_buffer
-        .copy_image_to_buffer(color_picker_render_target_->get_views().at(0).get_image(), VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
-                              *stage_buffer_, regions_);
+    command_buffer.CopyImageToBuffer(color_picker_render_target_->GetViews().at(0).GetImage(),
+                                     VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, *stage_buffer_, regions_);
 }
 
 void SceneView::read_color_from_render_target() {
     uint8_t *raw = stage_buffer_->map();
     if (raw) {
         memcpy(pixel_.data(), raw, 4);
-        auto result = color_picker_subpass_->get_object_by_color(pixel_);
+        auto result = color_picker_subpass_->GetObjectByColor(pixel_);
         if (result.first) {
             pick_result_ = result;
         }
@@ -220,14 +219,14 @@ void SceneView::read_color_from_render_target() {
 }
 
 void SceneView::input_event(const InputEvent &input_event) {
-    if (input_event.get_source() == EventSource::MOUSE) {
+    if (input_event.GetSource() == EventSource::MOUSE) {
         const auto &mouse_button = static_cast<const MouseButtonInputEvent &>(input_event);
-        if (mouse_button.get_action() == MouseAction::DOWN) {
+        if (mouse_button.GetAction() == MouseAction::DOWN) {
             auto width = main_camera_->width();
             auto height = main_camera_->height();
             
-            auto picker_pos_x = mouse_button.get_pos_x() - position().x;
-            auto picker_pos_y = mouse_button.get_pos_y() - position().y;
+            auto picker_pos_x = mouse_button.GetPosX() - position().x;
+            auto picker_pos_y = mouse_button.GetPosY() - position().y;
             
             if (picker_pos_x <= width && picker_pos_x > 0 && picker_pos_y <= height && picker_pos_y > 0) {
                 pick(picker_pos_x, picker_pos_y);

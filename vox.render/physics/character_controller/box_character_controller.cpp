@@ -19,7 +19,7 @@ CharacterController(entity) {
 }
 
 void BoxCharacterController::set_desc(const PxBoxControllerDesc &desc) {
-    native_controller_ = PhysicsManager::get_singleton().native_character_controller_manager_->createController(desc);
+    native_controller_ = PhysicsManager::GetSingleton().native_character_controller_manager_->createController(desc);
 }
 
 float BoxCharacterController::half_height() const {

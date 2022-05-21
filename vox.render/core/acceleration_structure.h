@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "helpers.h"
-#include "vk_common.h"
 #include "core/buffer.h"
 #include "core/scratch_buffer.h"
+#include "helpers.h"
+#include "vk_common.h"
 
 namespace vox {
 class Device;
@@ -25,11 +25,10 @@ public:
      * @param device A valid Vulkan device
      * @param type The type of the acceleration structure (top- or bottom-level)
      */
-    AccelerationStructure(Device &device,
-                          VkAccelerationStructureTypeKHR type);
-    
+    AccelerationStructure(Device &device, VkAccelerationStructureTypeKHR type);
+
     ~AccelerationStructure();
-    
+
     /**
      * @brief Adds triangle geometry to the acceleration structure (only valid for bottom level)
      * @returns UUID for the geometry instance for the case of multiple geometries to look up in the map
@@ -46,32 +45,33 @@ public:
      * @param index_buffer_data_address set this if don't want the index_buffer data_address
      * @param transform_buffer_data_address set this if don't want the transform_buffer data_address
      */
-    uint64_t add_triangle_geometry(std::unique_ptr<vox::core::Buffer> &vertex_buffer,
-                                   std::unique_ptr<vox::core::Buffer> &index_buffer,
-                                   std::unique_ptr<vox::core::Buffer> &transform_buffer,
-                                   uint32_t triangle_count,
-                                   uint32_t max_vertex,
-                                   VkDeviceSize vertex_stride,
-                                   uint32_t transform_offset = 0,
-                                   VkFormat vertex_format = VK_FORMAT_R32G32B32_SFLOAT,
-                                   VkGeometryFlagsKHR flags = VK_GEOMETRY_OPAQUE_BIT_KHR,
-                                   uint64_t vertex_buffer_data_address = 0,
-                                   uint64_t index_buffer_data_address = 0,
-                                   uint64_t transform_buffer_data_address = 0);
-    
-    void update_triangle_geometry(uint64_t triangle_uuid, std::unique_ptr<vox::core::Buffer> &vertex_buffer,
-                                  std::unique_ptr<vox::core::Buffer> &index_buffer,
-                                  std::unique_ptr<vox::core::Buffer> &transform_buffer,
-                                  uint32_t triangle_count,
-                                  uint32_t max_vertex,
-                                  VkDeviceSize vertex_stride,
-                                  uint32_t transform_offset = 0,
-                                  VkFormat vertex_format = VK_FORMAT_R32G32B32_SFLOAT,
-                                  VkGeometryFlagsKHR flags = VK_GEOMETRY_OPAQUE_BIT_KHR,
-                                  uint64_t vertex_buffer_data_address = 0,
-                                  uint64_t index_buffer_data_address = 0,
-                                  uint64_t transform_buffer_data_address = 0);
-    
+    uint64_t AddTriangleGeometry(std::unique_ptr<vox::core::Buffer> &vertex_buffer,
+                                 std::unique_ptr<vox::core::Buffer> &index_buffer,
+                                 std::unique_ptr<vox::core::Buffer> &transform_buffer,
+                                 uint32_t triangle_count,
+                                 uint32_t max_vertex,
+                                 VkDeviceSize vertex_stride,
+                                 uint32_t transform_offset = 0,
+                                 VkFormat vertex_format = VK_FORMAT_R32G32B32_SFLOAT,
+                                 VkGeometryFlagsKHR flags = VK_GEOMETRY_OPAQUE_BIT_KHR,
+                                 uint64_t vertex_buffer_data_address = 0,
+                                 uint64_t index_buffer_data_address = 0,
+                                 uint64_t transform_buffer_data_address = 0);
+
+    void UpdateTriangleGeometry(uint64_t triangle_uuid,
+                                std::unique_ptr<vox::core::Buffer> &vertex_buffer,
+                                std::unique_ptr<vox::core::Buffer> &index_buffer,
+                                std::unique_ptr<vox::core::Buffer> &transform_buffer,
+                                uint32_t triangle_count,
+                                uint32_t max_vertex,
+                                VkDeviceSize vertex_stride,
+                                uint32_t transform_offset = 0,
+                                VkFormat vertex_format = VK_FORMAT_R32G32B32_SFLOAT,
+                                VkGeometryFlagsKHR flags = VK_GEOMETRY_OPAQUE_BIT_KHR,
+                                uint64_t vertex_buffer_data_address = 0,
+                                uint64_t index_buffer_data_address = 0,
+                                uint64_t transform_buffer_data_address = 0);
+
     /**
      * @brief Adds instance geometry to the acceleration structure (only valid for top level)
      * @returns index of the instance geometry into the structure.
@@ -80,64 +80,61 @@ public:
      * @param transform_offset Offset of this geometry in the transform data buffer
      * @param flags Ray tracing geometry flags
      */
-    uint64_t add_instance_geometry(std::unique_ptr<vox::core::Buffer> &instance_buffer,
-                                   uint32_t instance_count,
-                                   uint32_t transform_offset = 0,
-                                   VkGeometryFlagsKHR flags = VK_GEOMETRY_OPAQUE_BIT_KHR);
-    
-    void update_instance_geometry(uint64_t instance_uid, std::unique_ptr<vox::core::Buffer> &instance_buffer,
-                                  uint32_t instance_count,
-                                  uint32_t transform_offset = 0,
-                                  VkGeometryFlagsKHR flags = VK_GEOMETRY_OPAQUE_BIT_KHR);
-    
+    uint64_t AddInstanceGeometry(std::unique_ptr<vox::core::Buffer> &instance_buffer,
+                                 uint32_t instance_count,
+                                 uint32_t transform_offset = 0,
+                                 VkGeometryFlagsKHR flags = VK_GEOMETRY_OPAQUE_BIT_KHR);
+
+    void UpdateInstanceGeometry(uint64_t instance_uid,
+                                std::unique_ptr<vox::core::Buffer> &instance_buffer,
+                                uint32_t instance_count,
+                                uint32_t transform_offset = 0,
+                                VkGeometryFlagsKHR flags = VK_GEOMETRY_OPAQUE_BIT_KHR);
+
     /**
      * @brief Builds the acceleration structure on the device (requires at least one geometry to be added)
      * @param queue Queue to use for the build process
      * @param flags Build flags
      * @param mode Build mode (build or update)
      */
-    void build(VkQueue queue,
+    void Build(VkQueue queue,
                VkBuildAccelerationStructureFlagsKHR flags = VK_BUILD_ACCELERATION_STRUCTURE_PREFER_FAST_TRACE_BIT_KHR,
                VkBuildAccelerationStructureModeKHR mode = VK_BUILD_ACCELERATION_STRUCTURE_MODE_BUILD_KHR);
-    
-    [[nodiscard]] VkAccelerationStructureKHR get_handle() const;
-    
-    [[nodiscard]] const VkAccelerationStructureKHR *get() const;
-    
-    [[nodiscard]] uint64_t get_device_address() const;
-    
-    [[nodiscard]] vox::core::Buffer *get_buffer() const {
-        return buffer_.get();
-    }
-    
-    void reset_geometries() {
-        geometries_.clear();
-    }
-    
+
+    [[nodiscard]] VkAccelerationStructureKHR GetHandle() const;
+
+    [[nodiscard]] const VkAccelerationStructureKHR *Get() const;
+
+    [[nodiscard]] uint64_t GetDeviceAddress() const;
+
+    [[nodiscard]] vox::core::Buffer *GetBuffer() const { return buffer_.get(); }
+
+    void ResetGeometries() { geometries_.clear(); }
+
 private:
     Device &device_;
-    
+
     VkAccelerationStructureKHR handle_{VK_NULL_HANDLE};
-    
+
     uint64_t device_address_{0};
-    
+
     VkAccelerationStructureTypeKHR type_{};
-    
+
     VkAccelerationStructureBuildSizesInfoKHR build_sizes_info_{};
-    
+
     struct Geometry {
         VkAccelerationStructureGeometryKHR geometry{};
         uint32_t primitive_count{};
         uint32_t transform_offset{};
         bool updated = false;
     };
-    
+
     std::unique_ptr<vox::core::ScratchBuffer> scratch_buffer_;
-    
+
     std::map<uint64_t, Geometry> geometries_{};
-    
+
     std::unique_ptr<vox::core::Buffer> buffer_{nullptr};
 };
 
-}        // namespace core
-}        // namespace vox
+}  // namespace core
+}  // namespace vox

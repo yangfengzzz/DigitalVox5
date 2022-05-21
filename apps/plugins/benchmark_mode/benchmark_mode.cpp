@@ -23,7 +23,7 @@ bool BenchmarkMode::is_active(const vox::CommandParser &parser) {
 void BenchmarkMode::init(const vox::CommandParser &parser) {
     // Whilst in benchmark mode fix the fps so that separate runs are consistently simulated
     // This will effect the graph outputs of framerate
-    platform_->force_simulation_fps(60.0f);
+    platform_->ForceSimulationFps(60.0f);
 }
 
 void BenchmarkMode::on_update(float delta_time) {

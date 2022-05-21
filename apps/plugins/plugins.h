@@ -9,5 +9,5 @@
 #include "platform/plugins/plugin.h"
 
 namespace plugins {
-extern std::vector<vox::Plugin *> get_all();
+extern std::vector<vox::Plugin *> GetAll();
 }        // namespace plugins

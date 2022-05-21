@@ -47,7 +47,7 @@ EditorApplication::~EditorApplication() {
     
     image_manager_->collect_garbage();
     image_manager_.reset();
-    shader_manager_->collect_garbage();
+    shader_manager_->CollectGarbage();
     shader_manager_.reset();
     mesh_manager_->collect_garbage();
     mesh_manager_.reset();
@@ -79,8 +79,8 @@ bool EditorApplication::prepare(Platform &platform) {
     particle_manager_ = std::make_unique<ParticleManager>(*device_, *render_context_);
     light_manager_ = std::make_unique<LightManager>(scene, *render_context_);
     {
-        auto extent = platform.get_window().get_extent();
-        auto factor = static_cast<uint32_t>(platform.get_window().get_content_scale_factor());
+        auto extent = platform.GetWindow().get_extent();
+        auto factor = static_cast<uint32_t>(platform.GetWindow().GetContentScaleFactor());
         components_manager_->call_script_resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
     }
     light_manager_->set_camera(main_camera_);
@@ -90,7 +90,7 @@ bool EditorApplication::prepare(Platform &platform) {
     
     // default render pipeline
     auto subpass = std::make_unique<GeometrySubpass>(get_render_context(), scene, nullptr);
-    subpass->set_render_mode(GeometrySubpass::RenderMode::MANUAL);
+    subpass->SetRenderMode(GeometrySubpass::RenderMode::MANUAL);
     std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
     scene_subpasses.emplace_back(std::move(subpass));
     set_render_pipeline(RenderPipeline(std::move(scene_subpasses)));
@@ -152,7 +152,7 @@ void EditorApplication::update(float delta_time) {
     PROFILER_SPY("Scene garbage collection");
     image_manager_->collect_garbage();
     mesh_manager_->collect_garbage();
-    shader_manager_->collect_garbage();
+    shader_manager_->CollectGarbage();
     
     delta_time_ = delta_time;
     GraphicsApplication::update(delta_time);
@@ -227,12 +227,12 @@ void EditorApplication::input_event(const InputEvent &input_event) {
     auto &scene_view = panels_manager_.get_panel_as<ui::SceneView>("Scene View");
     scene_view.input_event(input_event);
     
-    if (input_event.get_source() == EventSource::KEYBOARD) {
+    if (input_event.GetSource() == EventSource::KEYBOARD) {
         const auto &key_event = static_cast<const KeyInputEvent &>(input_event);
-        if (key_event.get_code() == KeyCode::ESCAPE) {
+        if (key_event.GetCode() == KeyCode::ESCAPE) {
             editor_actions_->stop_playing();
         }
-        if (key_event.get_code() == KeyCode::F5) {
+        if (key_event.GetCode() == KeyCode::F5) {
             editor_actions_->start_playing();
         }
     }

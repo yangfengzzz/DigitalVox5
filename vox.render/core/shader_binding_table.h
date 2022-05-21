@@ -29,28 +29,28 @@ public:
                        uint32_t handle_count,
                        VkDeviceSize handle_size_aligned,
                        VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
-    
+
     ~ShaderBindingTable();
-    
-    [[nodiscard]] const VkStridedDeviceAddressRegionKHR *get_strided_device_address_region() const;
-    
-    [[nodiscard]] uint8_t *get_data() const;
-    
+
+    [[nodiscard]] const VkStridedDeviceAddressRegionKHR *GetStridedDeviceAddressRegion() const;
+
+    [[nodiscard]] uint8_t *GetData() const;
+
 private:
     Device &device_;
-    
+
     VkStridedDeviceAddressRegionKHR strided_device_address_region_{};
-    
+
     uint64_t device_address_{0};
-    
+
     VkBuffer handle_{VK_NULL_HANDLE};
-    
+
     VmaAllocation allocation_{VK_NULL_HANDLE};
-    
+
     VkDeviceMemory memory_{VK_NULL_HANDLE};
-    
+
     uint8_t *mapped_data_{nullptr};
 };
 
-}        // namespace core
-}        // namespace vox
+}  // namespace core
+}  // namespace vox

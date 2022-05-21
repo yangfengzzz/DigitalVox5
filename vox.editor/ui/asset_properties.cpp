@@ -46,7 +46,7 @@ asset_view_(view) {
 }
 
 void AssetProperties::set_target(const std::string &p_path) {
-    resource_ = p_path.empty() ? p_path : EditorActions::get_singleton().get_resource_path(p_path);
+    resource_ = p_path.empty() ? p_path : EditorActions::GetSingleton().get_resource_path(p_path);
     
     if (asset_selector_) {
         asset_selector_->content_ = resource_;
@@ -56,7 +56,7 @@ void AssetProperties::set_target(const std::string &p_path) {
 }
 
 void AssetProperties::refresh() {
-    metadata_ = std::make_unique<::vox::fs::IniFile>(EditorActions::get_singleton().get_real_path(resource_) + ".meta");
+    metadata_ = std::make_unique<::vox::fs::IniFile>(EditorActions::GetSingleton().get_real_path(resource_) + ".meta");
     
     create_settings();
     create_info();
@@ -65,7 +65,7 @@ void AssetProperties::refresh() {
     reset_button_->enabled_ = settings_->enabled_;
     revert_button_->enabled_ = settings_->enabled_;
     
-    switch (fs::extra_file_type(resource_)) {
+    switch (fs::ExtraFileType(resource_)) {
         case fs::FileType::MODEL:
         case fs::FileType::TEXTURE:
         case fs::FileType::MATERIAL:preview_button_->enabled_ = true;
@@ -81,7 +81,7 @@ void AssetProperties::refresh() {
 }
 
 void AssetProperties::preview() {
-    const auto kFileType = fs::extra_file_type(resource_);
+    const auto kFileType = fs::ExtraFileType(resource_);
     
     if (kFileType == fs::FileType::MODEL) {
         // if (auto resource = OVSERVICE(OvCore::ResourceManagement::ModelManager).GetResource(resource)) {
@@ -137,7 +137,7 @@ void AssetProperties::create_asset_selector() {
 void AssetProperties::create_settings() {
     settings_columns_->remove_all_widgets();
     
-    const auto kFileType = fs::extra_file_type(resource_);
+    const auto kFileType = fs::ExtraFileType(resource_);
     
     settings_->enabled_ = true;
     
@@ -151,7 +151,7 @@ void AssetProperties::create_settings() {
 }
 
 void AssetProperties::create_info() {
-    const auto kRealPath = EditorActions::get_singleton().get_real_path(resource_);
+    const auto kRealPath = EditorActions::GetSingleton().get_real_path(resource_);
     
     info_columns_->remove_all_widgets();
     
@@ -281,8 +281,8 @@ void AssetProperties::create_texture_settings() {
 void AssetProperties::apply() {
     metadata_->rewrite();
     
-    const auto kResourcePath = EditorActions::get_singleton().get_resource_path(resource_);
-    const auto kFileType = fs::extra_file_type(resource_);
+    const auto kResourcePath = EditorActions::GetSingleton().get_resource_path(resource_);
+    const auto kFileType = fs::ExtraFileType(resource_);
     
     //    if (fileType == fs::FileType::MODEL) {
     //        auto &modelManager = OVSERVICE(OvCore::ResourceManagement::ModelManager);

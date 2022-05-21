@@ -66,22 +66,22 @@ void Inspector::focus_entity(Entity *target) {
     target_entity_ = target;
     
     component_added_listener_ = target_entity_->component_added_event_ += [this](auto useless) {
-        EditorActions::get_singleton().delay_action([this] {
+        EditorActions::GetSingleton().delay_action([this] {
             refresh();
         });
     };
     behaviour_added_listener_ = target_entity_->behaviour_added_event_ += [this](auto useless) {
-        EditorActions::get_singleton().delay_action([this] {
+        EditorActions::GetSingleton().delay_action([this] {
             refresh();
         });
     };
     component_removed_listener_ = target_entity_->component_removed_event_ += [this](auto useless) {
-        EditorActions::get_singleton().delay_action([this] {
+        EditorActions::GetSingleton().delay_action([this] {
             refresh();
         });
     };
     behaviour_removed_listener_ = target_entity_->behaviour_removed_event_ += [this](auto useless) {
-        EditorActions::get_singleton().delay_action([this] {
+        EditorActions::GetSingleton().delay_action([this] {
             refresh();
         });
     };
@@ -94,7 +94,7 @@ void Inspector::focus_entity(Entity *target) {
     component_selector_widget_->value_changed_event_.invoke(component_selector_widget_->current_choice_);
     script_selector_widget_->content_changed_event_.invoke(script_selector_widget_->content_);
     
-    EditorActions::get_singleton().entity_selected_event_.invoke(target_entity_);
+    EditorActions::GetSingleton().entity_selected_event_.invoke(target_entity_);
 }
 
 void Inspector::un_focus() {
@@ -110,7 +110,7 @@ void Inspector::un_focus() {
 
 void Inspector::soft_un_focus() {
     if (target_entity_) {
-        EditorActions::get_singleton().entity_unselected_event_.invoke(target_entity_);
+        EditorActions::GetSingleton().entity_unselected_event_.invoke(target_entity_);
         inspector_header_->enabled_ = false;
         target_entity_ = nullptr;
         entity_info_->remove_all_widgets();

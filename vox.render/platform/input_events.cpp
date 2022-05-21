@@ -12,7 +12,7 @@ InputEvent::InputEvent(EventSource source) :
 source_{source} {
 }
 
-EventSource InputEvent::get_source() const {
+EventSource InputEvent::GetSource() const {
     return source_;
 }
 
@@ -23,11 +23,11 @@ code_{code},
 action_{action} {
 }
 
-KeyCode KeyInputEvent::get_code() const {
+KeyCode KeyInputEvent::GetCode() const {
     return code_;
 }
 
-KeyAction KeyInputEvent::get_action() const {
+KeyAction KeyInputEvent::GetAction() const {
     return action_;
 }
 
@@ -40,35 +40,33 @@ pos_x_{pos_x},
 pos_y_{pos_y} {
 }
 
-MouseButton MouseButtonInputEvent::get_button() const {
+MouseButton MouseButtonInputEvent::GetButton() const {
     return button_;
 }
 
-MouseAction MouseButtonInputEvent::get_action() const {
+MouseAction MouseButtonInputEvent::GetAction() const {
     return action_;
 }
 
-float MouseButtonInputEvent::get_pos_x() const {
+float MouseButtonInputEvent::GetPosX() const {
     return pos_x_;
 }
 
-float MouseButtonInputEvent::get_pos_y() const {
+float MouseButtonInputEvent::GetPosY() const {
     return pos_y_;
 }
 
 //MARK: - Scroll Event
 ScrollInputEvent::ScrollInputEvent(float offset_x, float offset_y):
-InputEvent{EventSource::SCROLL},
-_offset_x(offset_x),
-_offset_y(offset_y) {
+InputEvent{EventSource::SCROLL}, offset_x_(offset_x), offset_y_(offset_y) {
 }
 
-float ScrollInputEvent::offset_x() const {
-    return _offset_x;
+float ScrollInputEvent::OffsetX() const {
+    return offset_x_;
 }
 
-float ScrollInputEvent::offset_y() const {
-    return _offset_y;
+float ScrollInputEvent::OffsetY() const {
+    return offset_y_;
 }
 
 //MARK: - Touch Event
@@ -82,23 +80,23 @@ pos_x_{pos_x},
 pos_y_{pos_y} {
 }
 
-TouchAction TouchInputEvent::get_action() const {
+TouchAction TouchInputEvent::GetAction() const {
     return action_;
 }
 
-int32_t TouchInputEvent::get_pointer_id() const {
+int32_t TouchInputEvent::GetPointerId() const {
     return pointer_id_;
 }
 
-std::size_t TouchInputEvent::get_touch_points() const {
+std::size_t TouchInputEvent::GetTouchPoints() const {
     return touch_points_;
 }
 
-float TouchInputEvent::get_pos_x() const {
+float TouchInputEvent::GetPosX() const {
     return pos_x_;
 }
 
-float TouchInputEvent::get_pos_y() const {
+float TouchInputEvent::GetPosY() const {
     return pos_y_;
 }
 

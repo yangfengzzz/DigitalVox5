@@ -11,11 +11,11 @@ VkFormat RenderContext::default_vk_format_ = VK_FORMAT_R8G8B8A8_SRGB;
 
 RenderContext::RenderContext(Device &device, VkSurfaceKHR surface, uint32_t window_width, uint32_t window_height) :
 device_{device},
-queue_{device.get_suitable_graphics_queue()},
+queue_{device.GetSuitableGraphicsQueue()},
 surface_extent_{window_width, window_height} {
     if (surface != VK_NULL_HANDLE) {
         VkSurfaceCapabilitiesKHR surface_properties;
-        VK_CHECK(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device.get_gpu().get_handle(),
+        VK_CHECK(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device.GetGpu().GetHandle(),
                                                            surface,
                                                            &surface_properties));
         
@@ -27,38 +27,36 @@ surface_extent_{window_width, window_height} {
     }
 }
 
-void RenderContext::request_present_mode(const VkPresentModeKHR present_mode) {
+void RenderContext::RequestPresentMode(VkPresentModeKHR present_mode) {
     if (swapchain_) {
-        auto &properties = swapchain_->get_properties();
+        auto &properties = swapchain_->GetProperties();
         properties.present_mode = present_mode;
     }
 }
 
-void RenderContext::request_image_format(const VkFormat format) {
+void RenderContext::RequestImageFormat(VkFormat format) {
     if (swapchain_) {
-        auto &properties = swapchain_->get_properties();
+        auto &properties = swapchain_->GetProperties();
         properties.surface_format.format = format;
     }
 }
 
-void RenderContext::prepare(size_t thread_count, const RenderTarget::CreateFunc &create_render_target_func) {
-    device_.wait_idle();
+void RenderContext::Prepare(size_t thread_count, const RenderTarget::CreateFunc &create_render_target_func) {
+    device_.WaitIdle();
     
     if (swapchain_) {
-        swapchain_->set_present_mode_priority(present_mode_priority_list_);
-        swapchain_->set_surface_format_priority(surface_format_priority_list_);
-        swapchain_->create();
+        swapchain_->SetPresentModePriority(present_mode_priority_list_);
+        swapchain_->SetSurfaceFormatPriority(surface_format_priority_list_);
+        swapchain_->Create();
         
-        surface_extent_ = swapchain_->get_extent();
+        surface_extent_ = swapchain_->GetExtent();
         
         VkExtent3D extent{surface_extent_.width, surface_extent_.height, 1};
         
-        for (auto &image_handle : swapchain_->get_images()) {
+        for (auto &image_handle : swapchain_->GetImages()) {
             auto swapchain_image = core::Image{
                 device_, image_handle,
-                extent,
-                swapchain_->get_format(),
-                swapchain_->get_usage()};
+                extent, swapchain_->GetFormat(), swapchain_->GetUsage()};
             auto render_target = create_render_target_func(std::move(swapchain_image));
             frames_.emplace_back(std::make_unique<RenderFrame>(device_, std::move(render_target), thread_count));
         }
@@ -82,75 +80,75 @@ void RenderContext::prepare(size_t thread_count, const RenderTarget::CreateFunc 
 }
 
 void
-RenderContext::set_present_mode_priority(const std::vector<VkPresentModeKHR> &new_present_mode_priority_list) {
-    assert(!new_present_mode_priority_list.empty() && "Priority list must not be empty");
-    present_mode_priority_list_ = new_present_mode_priority_list;
+RenderContext::SetPresentModePriority(const std::vector<VkPresentModeKHR> &present_mode_priority_list) {
+    assert(!present_mode_priority_list.empty() && "Priority list must not be empty");
+    present_mode_priority_list_ = present_mode_priority_list;
 }
 
-void RenderContext::set_surface_format_priority(
-                                                const std::vector<VkSurfaceFormatKHR> &new_surface_format_priority_list) {
-    assert(!new_surface_format_priority_list.empty() && "Priority list must not be empty");
-    surface_format_priority_list_ = new_surface_format_priority_list;
+void RenderContext::SetSurfaceFormatPriority(
+                                                const std::vector<VkSurfaceFormatKHR> &surface_format_priority_list) {
+    assert(!surface_format_priority_list.empty() && "Priority list must not be empty");
+    surface_format_priority_list_ = surface_format_priority_list;
 }
 
-VkFormat RenderContext::get_format() const {
+VkFormat RenderContext::GetFormat() const {
     VkFormat format = default_vk_format_;
     
     if (swapchain_) {
-        format = swapchain_->get_format();
+        format = swapchain_->GetFormat();
     }
     
     return format;
 }
 
-void RenderContext::update_swapchain(const VkExtent2D &extent) {
+void RenderContext::UpdateSwapchain(const VkExtent2D &extent) {
     if (!swapchain_) {
         LOGW("Can't update the swapchains extent in headless mode, skipping.")
         return;
     }
-    
-    device_.get_resource_cache().clear_framebuffers();
+
+    device_.GetResourceCache().ClearFramebuffers();
     
     swapchain_ = std::make_unique<Swapchain>(*swapchain_, extent);
     
-    recreate();
+    Recreate();
 }
 
-void RenderContext::update_swapchain(const uint32_t image_count) {
+void RenderContext::UpdateSwapchain(uint32_t image_count) {
     if (!swapchain_) {
         LOGW("Can't update the swapchains image count in headless mode, skipping.")
         return;
     }
-    
-    device_.get_resource_cache().clear_framebuffers();
-    
-    device_.wait_idle();
+
+    device_.GetResourceCache().ClearFramebuffers();
+
+    device_.WaitIdle();
     
     swapchain_ = std::make_unique<Swapchain>(*swapchain_, image_count);
     
-    recreate();
+    Recreate();
 }
 
-void RenderContext::update_swapchain(const std::set<VkImageUsageFlagBits> &image_usage_flags) {
+void RenderContext::UpdateSwapchain(const std::set<VkImageUsageFlagBits> &image_usage_flags) {
     if (!swapchain_) {
         LOGW("Can't update the swapchains image usage in headless mode, skipping.")
         return;
     }
-    
-    device_.get_resource_cache().clear_framebuffers();
+
+    device_.GetResourceCache().ClearFramebuffers();
     
     swapchain_ = std::make_unique<Swapchain>(*swapchain_, image_usage_flags);
     
-    recreate();
+    Recreate();
 }
 
-void RenderContext::update_swapchain(const VkExtent2D &extent, const VkSurfaceTransformFlagBitsKHR transform) {
+void RenderContext::UpdateSwapchain(const VkExtent2D &extent, VkSurfaceTransformFlagBitsKHR transform) {
     if (!swapchain_) {
         LOGW("Can't update the swapchains extent and surface transform in headless mode, skipping.")
         return;
     }
-    
-    device_.get_resource_cache().clear_framebuffers();
+
+    device_.GetResourceCache().ClearFramebuffers();
     
     auto width = extent.width;
     auto height = extent.height;
@@ -165,27 +163,25 @@ void RenderContext::update_swapchain(const VkExtent2D &extent, const VkSurfaceTr
     // Save the preTransform attribute for future rotations
     pre_transform_ = transform;
     
-    recreate();
+    Recreate();
 }
 
-void RenderContext::recreate() {
+void RenderContext::Recreate() {
     LOGI("Recreated swapchain")
     
-    VkExtent2D swapchain_extent = swapchain_->get_extent();
+    VkExtent2D swapchain_extent = swapchain_->GetExtent();
     VkExtent3D extent{swapchain_extent.width, swapchain_extent.height, 1};
     
     auto frame_it = frames_.begin();
     
-    for (auto &image_handle : swapchain_->get_images()) {
+    for (auto &image_handle : swapchain_->GetImages()) {
         core::Image swapchain_image{device_, image_handle,
-            extent,
-            swapchain_->get_format(),
-            swapchain_->get_usage()};
+            extent, swapchain_->GetFormat(), swapchain_->GetUsage()};
         
         auto render_target = create_render_target_func_(std::move(swapchain_image));
         
         if (frame_it != frames_.end()) {
-            (*frame_it)->update_render_target(std::move(render_target));
+            (*frame_it)->UpdateRenderTarget(std::move(render_target));
         } else {
             // Create a new frame if the new swapchain has more images than current frames
             frames_.emplace_back(std::make_unique<RenderFrame>(device_, std::move(render_target), thread_count_));
@@ -193,19 +189,18 @@ void RenderContext::recreate() {
         
         ++frame_it;
     }
-    
-    device_.get_resource_cache().clear_framebuffers();
+
+    device_.GetResourceCache().ClearFramebuffers();
 }
 
-bool RenderContext::handle_surface_changes(bool force_update) {
+bool RenderContext::HandleSurfaceChanges(bool force_update) {
     if (!swapchain_) {
         LOGW("Can't handle_ surface changes in headless mode, skipping.")
         return false;
     }
     
     VkSurfaceCapabilitiesKHR surface_properties;
-    VK_CHECK(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device_.get_gpu().get_handle(),
-                                                       swapchain_->get_surface(),
+    VK_CHECK(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device_.GetGpu().GetHandle(), swapchain_->GetSurface(),
                                                        &surface_properties));
     
     if (surface_properties.currentExtent.width == 0xFFFFFFFF) {
@@ -219,9 +214,9 @@ bool RenderContext::handle_surface_changes(bool force_update) {
         surface_properties.currentExtent.height != surface_extent_.height ||
         force_update) {
         // Recreate swapchain
-        device_.wait_idle();
-        
-        update_swapchain(surface_properties.currentExtent, pre_transform_);
+        device_.WaitIdle();
+
+        UpdateSwapchain(surface_properties.currentExtent, pre_transform_);
         
         surface_extent_ = surface_properties.currentExtent;
         
@@ -231,68 +226,68 @@ bool RenderContext::handle_surface_changes(bool force_update) {
     return false;
 }
 
-CommandBuffer &RenderContext::begin(CommandBuffer::ResetMode reset_mode) {
+CommandBuffer &RenderContext::Begin(CommandBuffer::ResetMode reset_mode) {
     assert(prepared_ && "RenderContext not prepared for rendering, call prepare()");
     
     if (!frame_active_) {
-        begin_frame();
+        BeginFrame();
     }
     
     if (acquired_semaphore_ == VK_NULL_HANDLE) {
         throw std::runtime_error("Couldn't begin frame");
     }
     
-    const auto &queue = device_.get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
-    return get_active_frame().request_command_buffer(queue, reset_mode);
+    const auto &queue = device_.GetQueueByFlags(VK_QUEUE_GRAPHICS_BIT, 0);
+    return GetActiveFrame().RequestCommandBuffer(queue, reset_mode);
 }
 
-void RenderContext::submit(CommandBuffer &command_buffer) {
-    submit({&command_buffer});
+void RenderContext::Submit(CommandBuffer &command_buffer) {
+    Submit({&command_buffer});
 }
 
-void RenderContext::submit(const std::vector<CommandBuffer *> &command_buffers) {
+void RenderContext::Submit(const std::vector<CommandBuffer *> &command_buffers) {
     assert(frame_active_ && "RenderContext is inactive, cannot submit command buffer. Please call begin()");
     
     VkSemaphore render_semaphore = VK_NULL_HANDLE;
     
     if (swapchain_) {
         assert(acquired_semaphore_ && "We do not have acquired_semaphore, it was probably consumed?\n");
-        render_semaphore = submit(queue_, command_buffers, acquired_semaphore_,
+        render_semaphore = Submit(queue_, command_buffers, acquired_semaphore_,
                                   VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
     } else {
-        submit(queue_, command_buffers);
+        Submit(queue_, command_buffers);
     }
-    
-    end_frame(render_semaphore);
+
+    EndFrame(render_semaphore);
 }
 
-void RenderContext::begin_frame() {
+void RenderContext::BeginFrame() {
     // Only handle_ surface changes if a swapchain exists
     if (swapchain_) {
-        handle_surface_changes();
+        HandleSurfaceChanges();
     }
     
-    assert(!frame_active_ && "Frame is still active, please call end_frame");
+    assert(!frame_active_ && "Frame is still active, please call EndFrame");
     
     auto &prev_frame = *frames_.at(active_frame_index_);
     
     // We will use the acquired semaphore in a different frame context,
     // so we need to hold ownership.
-    acquired_semaphore_ = prev_frame.request_semaphore_with_ownership();
+    acquired_semaphore_ = prev_frame.RequestSemaphoreWithOwnership();
     
     if (swapchain_) {
-        auto result = swapchain_->acquire_next_image(active_frame_index_, acquired_semaphore_, VK_NULL_HANDLE);
+        auto result = swapchain_->AcquireNextImage(active_frame_index_, acquired_semaphore_, VK_NULL_HANDLE);
         
         if (result == VK_SUBOPTIMAL_KHR || result == VK_ERROR_OUT_OF_DATE_KHR) {
-            bool swapchain_updated = handle_surface_changes(result == VK_ERROR_OUT_OF_DATE_KHR);
+            bool swapchain_updated = HandleSurfaceChanges(result == VK_ERROR_OUT_OF_DATE_KHR);
             
             if (swapchain_updated) {
-                result = swapchain_->acquire_next_image(active_frame_index_, acquired_semaphore_, VK_NULL_HANDLE);
+                result = swapchain_->AcquireNextImage(active_frame_index_, acquired_semaphore_, VK_NULL_HANDLE);
             }
         }
         
         if (result != VK_SUCCESS) {
-            prev_frame.reset();
+            prev_frame.Reset();
             return;
         }
     }
@@ -301,22 +296,22 @@ void RenderContext::begin_frame() {
     frame_active_ = true;
     
     // Wait on all resource to be freed from the previous render to this frame
-    wait_frame();
+    WaitFrame();
 }
 
-VkSemaphore RenderContext::submit(const Queue &queue, const std::vector<CommandBuffer *> &command_buffers,
+VkSemaphore RenderContext::Submit(const Queue &queue, const std::vector<CommandBuffer *> &command_buffers,
                                   VkSemaphore wait_semaphore, VkPipelineStageFlags wait_pipeline_stage) {
     std::vector<VkCommandBuffer> cmd_buf_handles(command_buffers.size(), VK_NULL_HANDLE);
     std::transform(command_buffers.begin(), command_buffers.end(), cmd_buf_handles.begin(),
-                   [](const CommandBuffer *cmd_buf) { return cmd_buf->get_handle(); });
+                   [](const CommandBuffer *cmd_buf) { return cmd_buf->GetHandle(); });
     
-    RenderFrame &frame = get_active_frame();
+    RenderFrame &frame = GetActiveFrame();
     
-    VkSemaphore signal_semaphore = frame.request_semaphore();
+    VkSemaphore signal_semaphore = frame.RequestSemaphore();
     
     VkSubmitInfo submit_info{VK_STRUCTURE_TYPE_SUBMIT_INFO};
     
-    submit_info.commandBufferCount = to_u32(cmd_buf_handles.size());
+    submit_info.commandBufferCount = ToU32(cmd_buf_handles.size());
     submit_info.pCommandBuffers = cmd_buf_handles.data();
     
     if (wait_semaphore != VK_NULL_HANDLE) {
@@ -328,40 +323,40 @@ VkSemaphore RenderContext::submit(const Queue &queue, const std::vector<CommandB
     submit_info.signalSemaphoreCount = 1;
     submit_info.pSignalSemaphores = &signal_semaphore;
     
-    VkFence fence = frame.request_fence();
+    VkFence fence = frame.RequestFence();
     
-    queue.submit({submit_info}, fence);
+    queue.Submit({submit_info}, fence);
     
     return signal_semaphore;
 }
 
-void RenderContext::submit(const Queue &queue, const std::vector<CommandBuffer *> &command_buffers) {
+void RenderContext::Submit(const Queue &queue, const std::vector<CommandBuffer *> &command_buffers) {
     std::vector<VkCommandBuffer> cmd_buf_handles(command_buffers.size(), VK_NULL_HANDLE);
     std::transform(command_buffers.begin(), command_buffers.end(), cmd_buf_handles.begin(),
-                   [](const CommandBuffer *cmd_buf) { return cmd_buf->get_handle(); });
+                   [](const CommandBuffer *cmd_buf) { return cmd_buf->GetHandle(); });
     
-    RenderFrame &frame = get_active_frame();
+    RenderFrame &frame = GetActiveFrame();
     
     VkSubmitInfo submit_info{VK_STRUCTURE_TYPE_SUBMIT_INFO};
     
-    submit_info.commandBufferCount = to_u32(cmd_buf_handles.size());
+    submit_info.commandBufferCount = ToU32(cmd_buf_handles.size());
     submit_info.pCommandBuffers = cmd_buf_handles.data();
     
-    VkFence fence = frame.request_fence();
+    VkFence fence = frame.RequestFence();
     
-    queue.submit({submit_info}, fence);
+    queue.Submit({submit_info}, fence);
 }
 
-void RenderContext::wait_frame() {
-    RenderFrame &frame = get_active_frame();
-    frame.reset();
+void RenderContext::WaitFrame() {
+    RenderFrame &frame = GetActiveFrame();
+    frame.Reset();
 }
 
-void RenderContext::end_frame(VkSemaphore semaphore) {
-    assert(frame_active_ && "Frame is not active, please call begin_frame");
+void RenderContext::EndFrame(VkSemaphore semaphore) {
+    assert(frame_active_ && "Frame is not active, please call BeginFrame");
     
     if (swapchain_) {
-        VkSwapchainKHR vk_swapchain = swapchain_->get_handle();
+        VkSwapchainKHR vk_swapchain = swapchain_->GetHandle();
         
         VkPresentInfoKHR present_info{VK_STRUCTURE_TYPE_PRESENT_INFO_KHR};
         
@@ -371,102 +366,100 @@ void RenderContext::end_frame(VkSemaphore semaphore) {
         present_info.pSwapchains = &vk_swapchain;
         present_info.pImageIndices = &active_frame_index_;
         
-        VkResult result = queue_.present(present_info);
+        VkResult result = queue_.Present(present_info);
         
         if (result == VK_SUBOPTIMAL_KHR || result == VK_ERROR_OUT_OF_DATE_KHR) {
-            handle_surface_changes();
+            HandleSurfaceChanges();
         }
     }
     
     // Frame is not active anymore
     if (acquired_semaphore_) {
-        release_owned_semaphore(acquired_semaphore_);
+        ReleaseOwnedSemaphore(acquired_semaphore_);
         acquired_semaphore_ = VK_NULL_HANDLE;
     }
     frame_active_ = false;
 }
 
-VkSemaphore RenderContext::consume_acquired_semaphore() {
-    assert(frame_active_ && "Frame is not active, please call begin_frame");
+VkSemaphore RenderContext::ConsumeAcquiredSemaphore() {
+    assert(frame_active_ && "Frame is not active, please call BeginFrame");
     auto sem = acquired_semaphore_;
     acquired_semaphore_ = VK_NULL_HANDLE;
     return sem;
 }
 
-RenderFrame &RenderContext::get_active_frame() {
-    assert(frame_active_ && "Frame is not active, please call begin_frame");
+RenderFrame &RenderContext::GetActiveFrame() {
+    assert(frame_active_ && "Frame is not active, please call BeginFrame");
     return *frames_.at(active_frame_index_);
 }
 
-uint32_t RenderContext::get_active_frame_index() {
-    assert(frame_active_ && "Frame is not active, please call begin_frame");
+uint32_t RenderContext::GetActiveFrameIndex() {
+    assert(frame_active_ && "Frame is not active, please call BeginFrame");
     return active_frame_index_;
 }
 
-RenderFrame &RenderContext::get_last_rendered_frame() {
-    assert(!frame_active_ && "Frame is still active, please call end_frame");
+RenderFrame &RenderContext::GetLastRenderedFrame() {
+    assert(!frame_active_ && "Frame is still active, please call EndFrame");
     return *frames_.at(active_frame_index_);
 }
 
-VkSemaphore RenderContext::request_semaphore() {
-    RenderFrame &frame = get_active_frame();
-    return frame.request_semaphore();
+VkSemaphore RenderContext::RequestSemaphore() {
+    RenderFrame &frame = GetActiveFrame();
+    return frame.RequestSemaphore();
 }
 
-VkSemaphore RenderContext::request_semaphore_with_ownership() {
-    RenderFrame &frame = get_active_frame();
-    return frame.request_semaphore_with_ownership();
+VkSemaphore RenderContext::RequestSemaphoreWithOwnership() {
+    RenderFrame &frame = GetActiveFrame();
+    return frame.RequestSemaphoreWithOwnership();
 }
 
-void RenderContext::release_owned_semaphore(VkSemaphore semaphore) {
-    RenderFrame &frame = get_active_frame();
-    frame.release_owned_semaphore(semaphore);
+void RenderContext::ReleaseOwnedSemaphore(VkSemaphore semaphore) {
+    RenderFrame &frame = GetActiveFrame();
+    frame.ReleaseOwnedSemaphore(semaphore);
 }
 
-Device &RenderContext::get_device() {
+Device &RenderContext::GetDevice() {
     return device_;
 }
 
-void RenderContext::recreate_swapchain() {
-    device_.wait_idle();
-    device_.get_resource_cache().clear_framebuffers();
+void RenderContext::RecreateSwapchain() {
+    device_.WaitIdle();
+    device_.GetResourceCache().ClearFramebuffers();
     
-    VkExtent2D swapchain_extent = swapchain_->get_extent();
+    VkExtent2D swapchain_extent = swapchain_->GetExtent();
     VkExtent3D extent{swapchain_extent.width, swapchain_extent.height, 1};
     
     auto frame_it = frames_.begin();
     
-    for (auto &image_handle : swapchain_->get_images()) {
+    for (auto &image_handle : swapchain_->GetImages()) {
         core::Image swapchain_image{device_, image_handle,
-            extent,
-            swapchain_->get_format(),
-            swapchain_->get_usage()};
+            extent, swapchain_->GetFormat(), swapchain_->GetUsage()};
         
         auto render_target = create_render_target_func_(std::move(swapchain_image));
-        (*frame_it)->update_render_target(std::move(render_target));
+        (*frame_it)->UpdateRenderTarget(std::move(render_target));
         
         ++frame_it;
     }
 }
 
-bool RenderContext::has_swapchain() {
+bool RenderContext::HasSwapchain() {
     return swapchain_ != nullptr;
 }
 
-Swapchain const &RenderContext::get_swapchain() const {
+Swapchain const &RenderContext::GetSwapchain() const {
     assert(swapchain_ && "Swapchain is not valid");
     return *swapchain_;
 }
 
-VkExtent2D const &RenderContext::get_surface_extent() const {
+VkExtent2D const &RenderContext::GetSurfaceExtent() const {
     return surface_extent_;
 }
 
-uint32_t RenderContext::get_active_frame_index() const {
+uint32_t RenderContext::GetActiveFrameIndex() const {
     return active_frame_index_;
 }
 
-std::vector<std::unique_ptr<RenderFrame>> &RenderContext::get_render_frames() {
+std::vector<std::unique_ptr<RenderFrame>> &RenderContext::GetRenderFrames() {
     return frames_;
 }
 

@@ -6,13 +6,15 @@
 
 #include "render_element.h"
 
+#include <utility>
+
 namespace vox {
 RenderElement::RenderElement(Renderer *renderer, MeshPtr mesh,
                              const SubMesh *sub_mesh, MaterialPtr material):
 renderer(renderer),
-mesh(mesh),
+mesh(std::move(mesh)),
 sub_mesh(sub_mesh),
-material(material) {
+material(std::move(material)) {
 }
 
 }

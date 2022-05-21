@@ -17,8 +17,8 @@ namespace {
 class ShadowDebugMaterial : public BaseMaterial {
 public:
     ShadowDebugMaterial(Device &device):BaseMaterial(device, "") {
-        vertex_source_ = ShaderManager::get_singleton().load_shader("base/blinn-phong.vert");
-        fragment_source_ = ShaderManager::get_singleton().load_shader("base/shadow/cascade-shadow-debugger.frag");
+        vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/blinn-phong.vert");
+        fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/shadow/cascade-shadow-debugger.frag");
     }
 };
 

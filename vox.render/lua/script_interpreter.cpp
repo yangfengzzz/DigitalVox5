@@ -10,11 +10,11 @@
 #include "lua_binder.h"
 
 namespace vox {
-ScriptInterpreter *ScriptInterpreter::get_singleton_ptr() {
+ScriptInterpreter *ScriptInterpreter::GetSingletonPtr() {
     return ms_singleton_;
 }
 
-ScriptInterpreter &ScriptInterpreter::get_singleton() {
+ScriptInterpreter &ScriptInterpreter::GetSingleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }

@@ -32,11 +32,11 @@ renderer_property_("rendererData") {
 }
 
 void Renderer::on_enable() {
-    ComponentsManager::get_singleton().add_renderer(this);
+    ComponentsManager::GetSingleton().add_renderer(this);
 }
 
 void Renderer::on_disable() {
-    ComponentsManager::get_singleton().remove_renderer(this);
+    ComponentsManager::GetSingleton().remove_renderer(this);
 }
 
 MaterialPtr Renderer::get_instance_material(size_t index) {
@@ -159,7 +159,7 @@ void Renderer::update_shader_data() {
     renderer_data_.local_mat = entity()->transform_->local_matrix();
     renderer_data_.model_mat = world_matrix;
     renderer_data_.normal_mat = normal_matrix_;
-    shader_data_.set_data(Renderer::renderer_property_, renderer_data_);
+    shader_data_.SetData(Renderer::renderer_property_, renderer_data_);
 }
 
 MaterialPtr Renderer::create_instance_material(const MaterialPtr &material, size_t index) {

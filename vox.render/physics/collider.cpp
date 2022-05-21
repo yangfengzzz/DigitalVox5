@@ -31,7 +31,7 @@ void Collider::add_shape(const ColliderShapePtr &shape) {
             old_collider->remove_shape(shape);
         }
         shapes_.push_back(shape);
-        PhysicsManager::get_singleton().add_collider_shape(shape);
+        PhysicsManager::GetSingleton().add_collider_shape(shape);
         native_actor_->attachShape(*shape->native_shape_);
         shape->collider_ = this;
     }
@@ -49,7 +49,7 @@ void Collider::remove_shape(const ColliderShapePtr &shape) {
     if (iter != shapes_.end()) {
         shapes_.erase(iter);
         native_actor_->detachShape(*shape->native_shape_);
-        PhysicsManager::get_singleton().remove_collider_shape(shape);
+        PhysicsManager::GetSingleton().remove_collider_shape(shape);
         shape->collider_ = nullptr;
     }
     
@@ -63,7 +63,7 @@ void Collider::remove_shape(const ColliderShapePtr &shape) {
 void Collider::clear_shapes() {
     for (auto &shape : shapes_) {
         native_actor_->detachShape(*shape->native_shape_);
-        PhysicsManager::get_singleton().remove_collider_shape(shape);
+        PhysicsManager::GetSingleton().remove_collider_shape(shape);
     }
     shapes_.clear();
 }
@@ -93,11 +93,11 @@ void Collider::on_update() {
 }
 
 void Collider::on_enable() {
-    PhysicsManager::get_singleton().add_collider(this);
+    PhysicsManager::GetSingleton().add_collider(this);
 }
 
 void Collider::on_disable() {
-    PhysicsManager::get_singleton().remove_collider(this);
+    PhysicsManager::GetSingleton().remove_collider(this);
 }
 
 }

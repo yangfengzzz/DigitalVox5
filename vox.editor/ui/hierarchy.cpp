@@ -26,18 +26,18 @@ public:
         if (target_) {
             auto &focus_button = create_widget<MenuItem>("Focus");
             focus_button.clicked_event_ += [this] {
-                EditorActions::get_singleton().move_to_target(target_);
+                EditorActions::GetSingleton().move_to_target(target_);
             };
             
             auto &duplicate_button = create_widget<MenuItem>("Duplicate");
             duplicate_button.clicked_event_ += [this] {
-                EditorActions::get_singleton().delay_action(std::bind(&EditorActions::duplicate_entity,
-                                                                      EditorActions::get_singleton_ptr(), target_, nullptr, true), 0);
+                EditorActions::GetSingleton().delay_action(std::bind(&EditorActions::duplicate_entity,
+                                                                      EditorActions::GetSingletonPtr(), target_, nullptr, true), 0);
             };
             
             auto &delete_button = create_widget<MenuItem>("Delete");
             delete_button.clicked_event_ += [this] {
-                EditorActions::get_singleton().destroy_entity(target_);
+                EditorActions::GetSingleton().destroy_entity(target_);
             };
         }
         
@@ -140,17 +140,17 @@ PanelWindow(title, opened, window_settings) {
     };
     scene_root_->add_plugin<HierarchyContextualMenu>(nullptr, *scene_root_);
     
-    EditorActions::get_singleton().entity_unselected_event_ += std::bind(&Hierarchy::unselect_entities_widgets, this);
+    EditorActions::GetSingleton().entity_unselected_event_ += std::bind(&Hierarchy::unselect_entities_widgets, this);
     //    EDITOR_CONTEXT(sceneManager).SceneUnloadEvent += std::bind(&Hierarchy::clear, this);
     Entity::created_event_ += std::bind(&Hierarchy::add_entity_by_instance, this, std::placeholders::_1);
     Entity::destroyed_event_ += std::bind(&Hierarchy::delete_entity_by_instance, this, std::placeholders::_1);
-    EditorActions::get_singleton().entity_selected_event_ += std::bind(&Hierarchy::select_entity_by_instance, this, std::placeholders::_1);
+    EditorActions::GetSingleton().entity_selected_event_ += std::bind(&Hierarchy::select_entity_by_instance, this, std::placeholders::_1);
     Entity::attach_event_ += std::bind(&Hierarchy::attach_entity_to_parent, this, std::placeholders::_1);
     Entity::dettach_event_ += std::bind(&Hierarchy::detach_from_parent, this, std::placeholders::_1);
 }
 
 void Hierarchy::clear() {
-    EditorActions::get_singleton().unselect_entity();
+    EditorActions::GetSingleton().unselect_entity();
     
     scene_root_->remove_all_widgets();
     widget_entity_link_.clear();
@@ -258,8 +258,8 @@ void Hierarchy::add_entity_by_instance(Entity *entity) {
     
     widget_entity_link_[target_ptr] = &text_selectable;
     
-    text_selectable.clicked_event_ += std::bind(&EditorActions::select_entity, EditorActions::get_singleton_ptr(), entity);
-    text_selectable.double_clicked_event_ += std::bind(&EditorActions::move_to_target, EditorActions::get_singleton_ptr(), entity);
+    text_selectable.clicked_event_ += std::bind(&EditorActions::select_entity, EditorActions::GetSingletonPtr(), entity);
+    text_selectable.double_clicked_event_ += std::bind(&EditorActions::move_to_target, EditorActions::GetSingletonPtr(), entity);
 }
 
 }

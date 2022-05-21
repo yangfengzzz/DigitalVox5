@@ -12,23 +12,23 @@ HeadlessWindow::HeadlessWindow(const Window::Properties &properties) :
 Window(properties) {
 }
 
-VkSurfaceKHR HeadlessWindow::create_surface(Instance &instance) {
+VkSurfaceKHR HeadlessWindow::CreateSurface(Instance &instance) {
     return VK_NULL_HANDLE;
 }
 
-VkSurfaceKHR HeadlessWindow::create_surface(VkInstance, VkPhysicalDevice) {
+VkSurfaceKHR HeadlessWindow::CreateSurface(VkInstance, VkPhysicalDevice) {
     return VK_NULL_HANDLE;
 }
 
-bool HeadlessWindow::should_close() {
+bool HeadlessWindow::ShouldClose() {
     return closed_;
 }
 
-void HeadlessWindow::close() {
+void HeadlessWindow::Close() {
     closed_ = true;
 }
 
-float HeadlessWindow::get_dpi_factor() const {
+float HeadlessWindow::GetDpiFactor() const {
     // This factor is used for scaling UI elements, so return 1.0f (1 x n = n)
     return 1.0f;
 }

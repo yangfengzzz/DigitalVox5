@@ -23,7 +23,7 @@ class InputEvent {
 public:
     explicit InputEvent(EventSource source);
     
-    [[nodiscard]] EventSource get_source() const;
+    [[nodiscard]] EventSource GetSource() const;
     
 private:
     EventSource source_;
@@ -148,9 +148,9 @@ class KeyInputEvent : public InputEvent {
 public:
     KeyInputEvent(KeyCode code, KeyAction action);
     
-    [[nodiscard]] KeyCode get_code() const;
+    [[nodiscard]] KeyCode GetCode() const;
     
-    [[nodiscard]] KeyAction get_action() const;
+    [[nodiscard]] KeyAction GetAction() const;
     
 private:
     KeyCode code_;
@@ -179,13 +179,13 @@ class MouseButtonInputEvent : public InputEvent {
 public:
     MouseButtonInputEvent(MouseButton button, MouseAction action, float pos_x, float pos_y);
     
-    [[nodiscard]] MouseButton get_button() const;
+    [[nodiscard]] MouseButton GetButton() const;
     
-    [[nodiscard]] MouseAction get_action() const;
+    [[nodiscard]] MouseAction GetAction() const;
     
-    [[nodiscard]] float get_pos_x() const;
+    [[nodiscard]] float GetPosX() const;
     
-    [[nodiscard]] float get_pos_y() const;
+    [[nodiscard]] float GetPosY() const;
     
 private:
     MouseButton button_;
@@ -202,14 +202,14 @@ class ScrollInputEvent : public InputEvent {
 public:
     ScrollInputEvent(float offset_x, float offset_y);
     
-    float offset_x() const;
+    [[nodiscard]] float OffsetX() const;
     
-    float offset_y() const;
+    [[nodiscard]] float OffsetY() const;
     
 private:
-    float _offset_x;
+    float offset_x_;
     
-    float _offset_y;
+    float offset_y_;
 };
 
 //MARK: - Touch Event
@@ -227,15 +227,15 @@ class TouchInputEvent : public InputEvent {
 public:
     TouchInputEvent(int32_t pointer_id, size_t pointer_count, TouchAction action, float pos_x, float pos_y);
     
-    [[nodiscard]] TouchAction get_action() const;
+    [[nodiscard]] TouchAction GetAction() const;
     
-    [[nodiscard]] int32_t get_pointer_id() const;
+    [[nodiscard]] int32_t GetPointerId() const;
     
-    [[nodiscard]] size_t get_touch_points() const;
+    [[nodiscard]] size_t GetTouchPoints() const;
     
-    [[nodiscard]] float get_pos_x() const;
+    [[nodiscard]] float GetPosX() const;
     
-    [[nodiscard]] float get_pos_y() const;
+    [[nodiscard]] float GetPosY() const;
     
 private:
     TouchAction action_;

@@ -17,9 +17,9 @@ namespace vox {
  */
 class ScriptInterpreter : public Singleton<ScriptInterpreter> {
 public:
-    static ScriptInterpreter &get_singleton();
+    static ScriptInterpreter &GetSingleton();
     
-    static ScriptInterpreter *get_singleton_ptr();
+    static ScriptInterpreter *GetSingletonPtr();
     
     /**
      * Constructor

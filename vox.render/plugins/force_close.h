@@ -19,7 +19,7 @@ using ForceCloseTags = PluginBase<ForceClose, tags::Passive>;
  *
  * Force the close of the application if halted before exiting
  *
- * The plugin is used as a boolean with platform->using_plugin<ForceClose>();
+ * The plugin is used as a boolean with platform->UsingPlugin<ForceClose>();
  *
  * Usage: vulkan_sample sample afbc --force-close
  *
@@ -30,9 +30,9 @@ public:
     
     ~ForceClose() override = default;
     
-    bool is_active(const CommandParser &parser) override;
+    bool IsActive(const CommandParser &parser) override;
     
-    void init(const CommandParser &parser) override;
+    void Init(const CommandParser &parser) override;
     
     FlagCommand stop_cmd_ = {FlagType::FLAG_ONLY, "force-close", "",
         "Force the close of the application if halted before exiting"};

@@ -37,7 +37,7 @@ protected:
      * @remarks Passes that that do not explicitly have a vox::RenderTarget set will render
      *          to default_render_target.
      */
-    virtual void prepare(CommandBuffer &command_buffer, RenderTarget &default_render_target) {
+    virtual void Prepare(CommandBuffer &command_buffer, RenderTarget &default_render_target) {
         prepared_ = true;
     }
     
@@ -46,11 +46,11 @@ protected:
      * @remarks Passes that that do not explicitly have a vox::RenderTarget set will render
      *          to default_render_target.
      */
-    virtual void draw(CommandBuffer &command_buffer, RenderTarget &default_render_target) {}
+    virtual void Draw(CommandBuffer &command_buffer, RenderTarget &default_render_target) {}
     
     /**
      * @brief A functor ran in the context of this renderpass.
-     * @see set_pre_draw_func(), set_post_draw_func()
+     * @see SetPreDrawFunc(), SetPostDrawFunc()
      */
     using HookFunc = std::function<void()>;
     
@@ -69,12 +69,12 @@ protected:
     /**
      * @brief Returns the parent's render context.
      */
-    [[nodiscard]] RenderContext &get_render_context() const;
+    [[nodiscard]] RenderContext &GetRenderContext() const;
     
     /**
      * @brief Returns the parent's fullscreen triangle vertex shader source.
      */
-    [[nodiscard]] ShaderSource &get_triangle_vs() const;
+    [[nodiscard]] ShaderSource &GetTriangleVs() const;
     
     struct BarrierInfo {
         VkPipelineStageFlags pipeline_stage;            // Pipeline stage of this pass' inputs/outputs
@@ -86,19 +86,19 @@ protected:
      * @brief Returns information that can be used to setup memory barriers of images
      *        that are produced (e.g. image stores, color attachment output) by this pass.
      */
-    [[nodiscard]] virtual BarrierInfo get_src_barrier_info() const = 0;
+    [[nodiscard]] virtual BarrierInfo GetSrcBarrierInfo() const = 0;
     
     /**
      * @brief Returns information that can be used to setup memory barriers of images
      *        that are consumed (e.g. image loads, texture sampling) by this pass.
      */
-    [[nodiscard]] virtual BarrierInfo get_dst_barrier_info() const = 0;
+    [[nodiscard]] virtual BarrierInfo GetDstBarrierInfo() const = 0;
     
     /**
-     * @brief Convenience function that calls get_src_barrier_info() on the previous pass of the pipeline,
+     * @brief Convenience function that calls GetSrcBarrierInfo() on the previous pass of the pipeline,
      *        if any, or returns the specified default if this is the first pass in the pipeline.
      */
-    [[nodiscard]] BarrierInfo get_predecessor_src_barrier_info(BarrierInfo fallback = {}) const;
+    [[nodiscard]] BarrierInfo GetPredecessorSrcBarrierInfo(BarrierInfo fallback = {}) const;
 };
 
 //MARK: - PostProcessingPass
@@ -122,7 +122,7 @@ public:
      * @brief Sets a functor that, if non-null, will be invoked before draw()ing this pass.
      * @remarks The function is invoked after ending the previous RenderPass, and before beginning this one.
      */
-    inline Self &set_pre_draw_func(HookFunc &&new_func) {
+    inline Self &SetPreDrawFunc(HookFunc &&new_func) {
         pre_draw_ = std::move(new_func);
         
         return static_cast<Self &>(*this);
@@ -132,7 +132,7 @@ public:
      * @brief Sets a functor that, if non-null, will be invoked after draw()ing this pass.
      * @remarks The function after drawing the last subpass, and before ending this RenderPass.
      */
-    inline Self &set_post_draw_func(HookFunc &&new_func) {
+    inline Self &SetPostDrawFunc(HookFunc &&new_func) {
         post_draw_ = std::move(new_func);
         
         return static_cast<Self &>(*this);
@@ -142,14 +142,14 @@ public:
      * @brief Render target to output to.
      *        If set, this pass will output to the given render target instead of the one passed to draw().
      */
-    [[nodiscard]] inline RenderTarget *get_render_target() const {
+    [[nodiscard]] inline RenderTarget *GetRenderTarget() const {
         return render_target_;
     }
     
     /**
-     * @copydoc get_render_target()
+     * @copydoc GetRenderTarget()
      */
-    inline Self &set_render_target(RenderTarget *new_render_target) {
+    inline Self &SetRenderTarget(RenderTarget *new_render_target) {
         render_target_ = new_render_target;
         
         return static_cast<Self &>(*this);
@@ -158,14 +158,14 @@ public:
     /**
      * @brief Returns the the debug name of this pass.
      */
-    [[nodiscard]] inline const std::string &get_debug_name() const {
+    [[nodiscard]] inline const std::string &GetDebugName() const {
         return debug_name_;
     }
     
     /**
      * @brief Sets the debug name of this pass.
      */
-    inline Self &set_debug_name(const std::string &new_debug_name) {
+    inline Self &SetDebugName(const std::string &new_debug_name) {
         debug_name_ = new_debug_name;
         
         return static_cast<Self &>(*this);
@@ -174,7 +174,7 @@ public:
     /**
      * @brief Returns the vox::PostProcessingPipeline that is the parent of this pass.
      */
-    [[nodiscard]] inline PostProcessingPipeline &get_parent() const {
+    [[nodiscard]] inline PostProcessingPipeline &GetParent() const {
         return *parent_;
     }
 };

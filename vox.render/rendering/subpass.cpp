@@ -20,95 +20,95 @@ scene_{scene},
 camera_{camera} {
 }
 
-void Subpass::update_render_target_attachments(RenderTarget &render_target) {
-    render_target.set_input_attachments(input_attachments_);
-    render_target.set_output_attachments(output_attachments_);
+void Subpass::UpdateRenderTargetAttachments(RenderTarget &render_target) {
+    render_target.SetInputAttachments(input_attachments_);
+    render_target.SetOutputAttachments(output_attachments_);
 }
 
-RenderContext &Subpass::get_render_context() {
+RenderContext &Subpass::GetRenderContext() {
     return render_context_;
 }
 
-const std::vector<uint32_t> &Subpass::get_input_attachments() const {
+const std::vector<uint32_t> &Subpass::GetInputAttachments() const {
     return input_attachments_;
 }
 
-void Subpass::set_input_attachments(std::vector<uint32_t> input) {
+void Subpass::SetInputAttachments(std::vector<uint32_t> input) {
     input_attachments_ = std::move(input);
 }
 
-const std::vector<uint32_t> &Subpass::get_output_attachments() const {
+const std::vector<uint32_t> &Subpass::GetOutputAttachments() const {
     return output_attachments_;
 }
 
-void Subpass::set_output_attachments(std::vector<uint32_t> output) {
+void Subpass::SetOutputAttachments(std::vector<uint32_t> output) {
     output_attachments_ = std::move(output);
 }
 
-const std::vector<uint32_t> &Subpass::get_color_resolve_attachments() const {
+const std::vector<uint32_t> &Subpass::GetColorResolveAttachments() const {
     return color_resolve_attachments_;
 }
 
-void Subpass::set_color_resolve_attachments(std::vector<uint32_t> color_resolve) {
+void Subpass::SetColorResolveAttachments(std::vector<uint32_t> color_resolve) {
     color_resolve_attachments_ = std::move(color_resolve);
 }
 
-const bool &Subpass::get_disable_depth_stencil_attachment() const {
+const bool &Subpass::GetDisableDepthStencilAttachment() const {
     return disable_depth_stencil_attachment_;
 }
 
-void Subpass::set_disable_depth_stencil_attachment(bool disable_depth_stencil) {
+void Subpass::SetDisableDepthStencilAttachment(bool disable_depth_stencil) {
     disable_depth_stencil_attachment_ = disable_depth_stencil;
 }
 
-const uint32_t &Subpass::get_depth_stencil_resolve_attachment() const {
+const uint32_t &Subpass::GetDepthStencilResolveAttachment() const {
     return depth_stencil_resolve_attachment_;
 }
 
-void Subpass::set_depth_stencil_resolve_attachment(uint32_t depth_stencil_resolve) {
+void Subpass::SetDepthStencilResolveAttachment(uint32_t depth_stencil_resolve) {
     depth_stencil_resolve_attachment_ = depth_stencil_resolve;
 }
 
-VkResolveModeFlagBits Subpass::get_depth_stencil_resolve_mode() const {
+VkResolveModeFlagBits Subpass::GetDepthStencilResolveMode() const {
     return depth_stencil_resolve_mode_;
 }
 
-void Subpass::set_depth_stencil_resolve_mode(VkResolveModeFlagBits mode) {
+void Subpass::SetDepthStencilResolveMode(VkResolveModeFlagBits mode) {
     depth_stencil_resolve_mode_ = mode;
 }
 
-void Subpass::set_sample_count(VkSampleCountFlagBits sample_count) {
+void Subpass::SetSampleCount(VkSampleCountFlagBits sample_count) {
     sample_count_ = sample_count;
 }
 
-const std::string &Subpass::get_debug_name() const {
+const std::string &Subpass::GetDebugName() const {
     return debug_name_;
 }
 
-void Subpass::set_debug_name(const std::string &name) {
+void Subpass::SetDebugName(const std::string &name) {
     debug_name_ = name;
 }
 
-bool Subpass::_compareFromNearToFar(const RenderElement &a, const RenderElement &b) {
+bool Subpass::CompareFromNearToFar(const RenderElement &a, const RenderElement &b) {
     return (a.material->render_queue_ < b.material->render_queue_) ||
     (a.renderer->distance_for_sort() < b.renderer->distance_for_sort());
 }
 
-bool Subpass::_compareFromFarToNear(const RenderElement &a, const RenderElement &b) {
+bool Subpass::CompareFromFarToNear(const RenderElement &a, const RenderElement &b) {
     return (a.material->render_queue_ < b.material->render_queue_) ||
     (b.renderer->distance_for_sort() < a.renderer->distance_for_sort());
 }
 
-PipelineLayout &Subpass::prepare_pipeline_layout(CommandBuffer &command_buffer,
+PipelineLayout &Subpass::PreparePipelineLayout(CommandBuffer &command_buffer,
                                                  const std::vector<ShaderModule *> &shader_modules) {
     // Sets any specified resource modes
     for (auto &shader_module : shader_modules) {
         for (auto &resource_mode : resource_mode_map_) {
-            shader_module->set_resource_mode(resource_mode.first, resource_mode.second);
+            shader_module->SetResourceMode(resource_mode.first, resource_mode.second);
         }
     }
     
-    return command_buffer.get_device().get_resource_cache().request_pipeline_layout(shader_modules);
+    return command_buffer.GetDevice().GetResourceCache().RequestPipelineLayout(shader_modules);
 }
 
 }        // namespace vox

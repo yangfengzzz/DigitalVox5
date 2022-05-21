@@ -18,10 +18,10 @@ namespace vox {
  * @param source The shader file
  * @returns A byte array of the final shader
  */
-inline std::vector<std::string> precompile_shader(const std::string &source) {
+inline std::vector<std::string> PrecompileShader(const std::string &source) {
     std::vector<std::string> final_file;
     
-    auto lines = split(source, '\n');
+    auto lines = Split(source, '\n');
     
     for (auto &line : lines) {
         if (line.find("#include \"") == 0) {
@@ -32,7 +32,7 @@ inline std::vector<std::string> precompile_shader(const std::string &source) {
                 include_path = include_path.substr(0, last_quote);
             }
             
-            auto include_file = precompile_shader(fs::read_shader(include_path));
+            auto include_file = PrecompileShader(fs::ReadShader(include_path));
             for (auto &include_file_line : include_file) {
                 final_file.push_back(include_file_line);
             }
@@ -44,7 +44,7 @@ inline std::vector<std::string> precompile_shader(const std::string &source) {
     return final_file;
 }
 
-inline std::vector<uint8_t> convert_to_bytes(std::vector<std::string> &lines) {
+inline std::vector<uint8_t> ConvertToBytes(std::vector<std::string> &lines) {
     std::vector<uint8_t> bytes;
     
     for (auto &line : lines) {
@@ -61,15 +61,14 @@ ShaderModule::ShaderModule(Device &device, VkShaderStageFlagBits stage, const Sh
 device_{device},
 stage_{stage},
 entry_point_{entry_point} {
-    debug_name_ = fmt::format("{} [variant {:X}] [entrypoint {}]",
-                              glsl_source.get_filename(), shader_variant.get_id(), entry_point);
+    debug_name_ = fmt::format("{} [variant {:X}] [entrypoint {}]", glsl_source.GetFilename(), shader_variant.GetId(), entry_point);
     
     // Compiling from GLSL source requires the entry point
     if (entry_point.empty()) {
         throw VulkanException{VK_ERROR_INITIALIZATION_FAILED};
     }
     
-    auto &source = glsl_source.get_source();
+    auto &source = glsl_source.GetSource();
     
     // Check if application is passing in GLSL source code to compile to SPIR-V
     if (source.empty()) {
@@ -77,18 +76,18 @@ entry_point_{entry_point} {
     }
     
     // Precompile source into the final spirv bytecode
-    auto glsl_final_source = precompile_shader(source);
+    auto glsl_final_source = PrecompileShader(source);
     
     // Compile the GLSL source
-    if (!GLSLCompiler::compile_to_spirv(stage, convert_to_bytes(glsl_final_source), entry_point, shader_variant,
-                                        spirv_, info_log_)) {
-        LOGE("Shader compilation failed for shader \"{}\"", glsl_source.get_filename())
+    if (!GLSLCompiler::CompileToSpirv(stage, ConvertToBytes(glsl_final_source), entry_point, shader_variant, spirv_,
+                                      info_log_)) {
+        LOGE("Shader compilation failed for shader \"{}\"", glsl_source.GetFilename())
         LOGE("{}", info_log_)
         throw VulkanException{VK_ERROR_INITIALIZATION_FAILED};
     }
     
     // Reflect all shader resources
-    if (!SpirvReflection::reflect_shader_resources(stage, spirv_, resources_, shader_variant)) {
+    if (!SpirvReflection::ReflectShaderResources(stage, spirv_, resources_, shader_variant)) {
         throw VulkanException{VK_ERROR_INITIALIZATION_FAILED};
     }
     
@@ -110,31 +109,31 @@ info_log_{other.info_log_} {
     other.stage_ = {};
 }
 
-size_t ShaderModule::get_id() const {
+size_t ShaderModule::GetId() const {
     return id_;
 }
 
-VkShaderStageFlagBits ShaderModule::get_stage() const {
+VkShaderStageFlagBits ShaderModule::GetStage() const {
     return stage_;
 }
 
-const std::string &ShaderModule::get_entry_point() const {
+const std::string &ShaderModule::GetEntryPoint() const {
     return entry_point_;
 }
 
-const std::vector<ShaderResource> &ShaderModule::get_resources() const {
+const std::vector<ShaderResource> &ShaderModule::GetResources() const {
     return resources_;
 }
 
-const std::string &ShaderModule::get_info_log() const {
+const std::string &ShaderModule::GetInfoLog() const {
     return info_log_;
 }
 
-const std::vector<uint32_t> &ShaderModule::get_binary() const {
+const std::vector<uint32_t> &ShaderModule::GetBinary() const {
     return spirv_;
 }
 
-void ShaderModule::set_resource_mode(const std::string &resource_name, const ShaderResourceMode &resource_mode) {
+void ShaderModule::SetResourceMode(const std::string &resource_name, const ShaderResourceMode &resource_mode) {
     auto it = std::find_if(resources_.begin(), resources_.end(), [&resource_name](const ShaderResource &resource) {
         return resource.name == resource_name;
     });

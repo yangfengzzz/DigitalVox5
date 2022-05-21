@@ -11,11 +11,11 @@
 #include <utility>
 
 namespace vox {
-SceneManager *SceneManager::get_singleton_ptr() {
+SceneManager *SceneManager::GetSingletonPtr() {
     return ms_singleton_;
 }
 
-SceneManager &SceneManager::get_singleton() {
+SceneManager &SceneManager::GetSingleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }

@@ -32,10 +32,10 @@ sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
     // Note that for simplicity, we will always be using max. available anisotropy level for the current device
     // This may have an impact on performance, esp. on lower-specced devices
     // In a real-world scenario the level of anisotropy should be a user setting or e.g. lowered for mobile devices by default
-    sampler_create_info_.maxAnisotropy = device.get_gpu().get_features().samplerAnisotropy
-    ? (device.get_gpu().get_properties().limits.maxSamplerAnisotropy)
+    sampler_create_info_.maxAnisotropy = device.GetGpu().GetFeatures().samplerAnisotropy
+    ? (device.GetGpu().GetProperties().limits.maxSamplerAnisotropy)
     : 1.0f;
-    sampler_create_info_.anisotropyEnable = device.get_gpu().get_features().samplerAnisotropy;
+    sampler_create_info_.anisotropyEnable = device.GetGpu().GetFeatures().samplerAnisotropy;
     sampler_create_info_.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
     
     sampler_ = std::make_unique<core::Sampler>(device, sampler_create_info_);
@@ -72,7 +72,7 @@ sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
 }
 
 VkDescriptorSet EditorResources::get_file_icon(const std::string &filename) {
-    return get_texture("Icon_" + fs::file_type_to_string(fs::extra_file_type(filename)));
+    return get_texture("Icon_" + fs::FileTypeToString(fs::ExtraFileType(filename)));
 }
 
 VkDescriptorSet EditorResources::get_texture(const std::string &id) {
@@ -90,10 +90,10 @@ VkDescriptorSet EditorResources::create_from_pixel_buffer(const std::vector<uint
     mip_map[0].extent.height = width;
     mip_map[0].extent.depth = 1;
     auto image = std::make_unique<Image>("icon", std::move(raw_data), std::move(mip_map));
-    image->create_vk_image(device_);
-    ImageManager::get_singleton().upload_image(image.get());
+    image->CreateVkImage(device_);
+    ImageManager::GetSingleton().upload_image(image.get());
     
-    auto descriptor = ImGui_ImplVulkan_AddTexture(sampler_->get_handle(), image->get_vk_image_view().get_handle(),
+    auto descriptor = ImGui_ImplVulkan_AddTexture(sampler_->GetHandle(), image->GetVkImageView().GetHandle(),
                                                   VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
     images_.emplace_back(std::move(image));
     return descriptor;

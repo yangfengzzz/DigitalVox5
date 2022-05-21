@@ -15,11 +15,11 @@
 #include "ui/ui_manager.h"
 
 namespace vox {
-editor::EditorActions *editor::EditorActions::get_singleton_ptr() {
+editor::EditorActions *editor::EditorActions::GetSingletonPtr() {
     return ms_singleton_;
 }
 
-editor::EditorActions &editor::EditorActions::get_singleton() {
+editor::EditorActions &editor::EditorActions::GetSingleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }
@@ -34,38 +34,38 @@ void EditorActions::load_empty_scene() {
     if (current_editor_mode() != EditorMode::EDIT)
         stop_playing();
     
-    SceneManager::get_singleton().load_empty_lighted_scene();
+    SceneManager::GetSingleton().load_empty_lighted_scene();
     LOGI("New scene created")
 }
 
 void EditorActions::save_current_scene_to(const std::string &path) {
-    SceneManager::get_singleton().store_current_scene_source_path(path);
+    SceneManager::GetSingleton().store_current_scene_source_path(path);
     nlohmann::json root;
-    SceneManager::get_singleton().current_scene()->on_serialize(root);
+    SceneManager::GetSingleton().current_scene()->on_serialize(root);
     
     nlohmann::json j = {
         {"root", root},
     };
-    fs::write_json(j, path);
+    fs::WriteJson(j, path);
 }
 
 void EditorActions::load_scene_from_disk(const std::string &path, bool absolute) {
     if (current_editor_mode() != EditorMode::EDIT)
         stop_playing();
     
-    SceneManager::get_singleton().load_scene(path, absolute);
-    LOGI("Scene loaded from disk: {}", SceneManager::get_singleton().current_scene_source_path())
+    SceneManager::GetSingleton().load_scene(path, absolute);
+    LOGI("Scene loaded from disk: {}", SceneManager::GetSingleton().current_scene_source_path())
     app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
 }
 
 bool EditorActions::is_current_scene_loaded_from_disk() const {
-    return SceneManager::get_singleton().is_current_scene_loaded_from_disk();
+    return SceneManager::GetSingleton().is_current_scene_loaded_from_disk();
 }
 
 void EditorActions::save_scene_changes() {
     if (is_current_scene_loaded_from_disk()) {
-        save_current_scene_to(SceneManager::get_singleton().current_scene_source_path());
-        LOGI("Current scene saved to: {}" + SceneManager::get_singleton().current_scene_source_path())
+        save_current_scene_to(SceneManager::GetSingleton().current_scene_source_path());
+        LOGI("Current scene saved to: {}" + SceneManager::GetSingleton().current_scene_source_path())
     } else {
         save_as();
     }
@@ -77,9 +77,9 @@ void EditorActions::save_as() {
 
 //MARK: - SCRIPTING
 void EditorActions::refresh_scripts() {
-    ScriptInterpreter::get_singleton().refresh_all();
+    ScriptInterpreter::GetSingleton().refresh_all();
     app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").refresh();
-    if (ScriptInterpreter::get_singleton().is_ok()) {
+    if (ScriptInterpreter::GetSingleton().is_ok()) {
         LOGI("Scripts interpretation succeeded!")
     }
 }
@@ -137,7 +137,7 @@ void EditorActions::set_entity_spawn_mode(EntitySpawnMode value) {
 
 void EditorActions::reset_layout() {
     delay_action([]() {
-        UiManager::get_singleton().reset_layout("Config\\layout.ini");
+        UiManager::GetSingleton().reset_layout("Config\\layout.ini");
     });
 }
 
@@ -183,19 +183,19 @@ void EditorActions::set_editor_mode(EditorMode new_editor_mode) {
 
 void EditorActions::start_playing() {
     if (editor_mode_ == EditorMode::EDIT) {
-        ScriptInterpreter::get_singleton().refresh_all();
+        ScriptInterpreter::GetSingleton().refresh_all();
         app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").refresh();
         
-        if (ScriptInterpreter::get_singleton().is_ok()) {
+        if (ScriptInterpreter::GetSingleton().is_ok()) {
             play_event_.invoke();
             scene_backup_.clear();
             
             nlohmann::json root;
-            SceneManager::get_singleton().current_scene()->on_serialize(root);
+            SceneManager::GetSingleton().current_scene()->on_serialize(root);
             scene_backup_.insert(scene_backup_.begin(), {"root", root});
             
             app_.panels_manager_.get_panel_as<ui::GameView>("Game View").focus();
-            SceneManager::get_singleton().current_scene()->play();
+            SceneManager::GetSingleton().current_scene()->play();
             set_editor_mode(EditorMode::PLAY);
         }
     } else {
@@ -213,22 +213,22 @@ void EditorActions::stop_playing() {
         // ImGui::GetIO().DisableMouseUpdate = false;
         // m_context.window->SetCursorMode(OvWindowing::Cursor::ECursorMode::NORMAL);
         set_editor_mode(EditorMode::EDIT);
-        bool loaded_from_disk = SceneManager::get_singleton().is_current_scene_loaded_from_disk();
-        std::string scene_source_path = SceneManager::get_singleton().current_scene_source_path();
+        bool loaded_from_disk = SceneManager::GetSingleton().is_current_scene_loaded_from_disk();
+        std::string scene_source_path = SceneManager::GetSingleton().current_scene_source_path();
         
         std::string focused_actor_id;
         
         if (auto target_actor = app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").target_entity())
             focused_actor_id = target_actor->name_;
         
-        SceneManager::get_singleton().load_scene_from_memory(scene_backup_);
+        SceneManager::GetSingleton().load_scene_from_memory(scene_backup_);
         if (loaded_from_disk) {
             // To bo able to save or reload the scene whereas the scene is loaded from memory (Supposed to have no path)
-            SceneManager::get_singleton().store_current_scene_source_path(scene_source_path);
+            SceneManager::GetSingleton().store_current_scene_source_path(scene_source_path);
         }
         scene_backup_.clear();
         app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
-        if (auto actor_instance = SceneManager::get_singleton().current_scene()->find_entity_by_name(focused_actor_id)) {
+        if (auto actor_instance = SceneManager::GetSingleton().current_scene()->find_entity_by_name(focused_actor_id)) {
             app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").focus_entity(actor_instance);
         }
     }
@@ -247,7 +247,7 @@ Point3F EditorActions::calculate_entity_spawn_point(float distance_to_camera) {
 }
 
 Entity *EditorActions::create_empty_entity(bool focus_on_creation, Entity *parent, const std::string &name) {
-    const auto kCurrentScene = SceneManager::get_singleton().current_scene();
+    const auto kCurrentScene = SceneManager::GetSingleton().current_scene();
     Entity* entity{nullptr};
     if (parent) {
         entity = parent->create_child(name);

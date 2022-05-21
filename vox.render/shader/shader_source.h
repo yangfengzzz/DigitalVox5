@@ -15,13 +15,13 @@ public:
     
     explicit ShaderSource(const std::string &filename);
     
-    [[nodiscard]] size_t get_id() const;
+    [[nodiscard]] size_t GetId() const;
     
-    [[nodiscard]] const std::string &get_filename() const;
+    [[nodiscard]] const std::string &GetFilename() const;
     
-    void set_source(const std::string &source);
+    void SetSource(const std::string &source);
     
-    [[nodiscard]] const std::string &get_source() const;
+    [[nodiscard]] const std::string &GetSource() const;
     
 private:
     size_t id_{};

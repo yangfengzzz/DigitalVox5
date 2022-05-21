@@ -19,10 +19,10 @@ bool SkyboxApp::prepare(Platform &platform) {
     auto scene = scene_manager_->current_scene();
     auto skybox = std::make_unique<SkyboxSubpass>(*render_context_,
                                                   scene, main_camera_);
-    skybox->create_cuboid();
-    skybox->flip_vertically();
-    skybox->set_texture_cube_map(ImageManager::get_singleton().load_texture_cubemap("Textures/uffizi_rgba16f_cube.ktx"));
-    render_pipeline_->add_subpass(std::move(skybox));
+    skybox->CreateCuboid();
+    skybox->FlipVertically();
+    skybox->SetTextureCubeMap(ImageManager::GetSingleton().load_texture_cubemap("Textures/uffizi_rgba16f_cube.ktx"));
+    render_pipeline_->AddSubpass(std::move(skybox));
     
     return true;
 }

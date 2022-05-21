@@ -27,7 +27,7 @@ class Plugin;
  * 	      and which will not without directly specifying an exclusion or inclusion list. Tags are struct types so that they can
  * 		  be used in the tagging system (See plugin implementation).
  *
- * Entrypoint - An entrypoint is a starting point for the application that will load a vox::Application (see start_app)
+ * Entrypoint - An entrypoint is a starting point for the application that will load a vox::Application (see StartApp)
  * FullControl - The plugin wants full control over how the application executes. Stopping plugins will be ignored (see batch_mode)
  * Stopping - The plugin will stop the app through its own mechanism (see stop_after)
  * Passive - These plugins provide non intrusive behaviour (see fps_logger)
@@ -49,7 +49,7 @@ struct Passive {
  * @param plugins A list of plugins which are used together
  * @return std::vector<Plugin *> A list of plugins which are used together
  */
-std::vector<Plugin *> associate_plugins(const std::vector<Plugin *> &plugins);
+std::vector<Plugin *> AssociatePlugins(const std::vector<Plugin *> &plugins);
 
 /**
  * @brief Hooks are points in the project that an plugin can subscribe too. These can be expanded on to implement more behaviour in the future
@@ -88,66 +88,66 @@ public:
      * @return true If the plugin is to be activated
      * @return false If the plugin is not active
      */
-    bool activate_plugin(Platform *platform, const CommandParser &parser, bool force_activation = false);
+    bool ActivatePlugin(Platform *platform, const CommandParser &parser, bool force_activation = false);
     
-    [[nodiscard]] virtual const std::vector<Command *> &get_cli_commands() const = 0;
+    [[nodiscard]] virtual const std::vector<Command *> &GetCliCommands() const = 0;
     
     /**
      * @brief Return a list of hooks that an plugin wants to subscribe to
      *
      * @return Hooks that the plugin wants to use
      */
-    [[nodiscard]] virtual const std::vector<Hook> &get_hooks() const = 0;
+    [[nodiscard]] virtual const std::vector<Hook> &GetHooks() const = 0;
     
     /**
      * @brief Called when an application has been updated
      *
      * @param delta_time The time taken to compute a frame
      */
-    virtual void on_update(float delta_time) = 0;
+    virtual void OnUpdate(float delta_time) = 0;
     
     /**
      * @brief Called when an app has started
      *
      * @param app_id The ID of the app
      */
-    virtual void on_app_start(const std::string &app_id) = 0;
+    virtual void OnAppStart(const std::string &app_id) = 0;
     
     /**
      * @brief Called when an app has been closed
      *
      * @param app_id The ID of the app
      */
-    virtual void on_app_close(const std::string &app_id) = 0;
+    virtual void OnAppClose(const std::string &app_id) = 0;
     
     /**
      * @brief Handle when an application errors
      *
      * @param app_id The ID of the app which errored
      */
-    virtual void on_app_error(const std::string &app_id) = 0;
+    virtual void OnAppError(const std::string &app_id) = 0;
     
     /**
      * @brief Called when the platform has been requested to close
      */
-    virtual void on_platform_close() = 0;
+    virtual void OnPlatformClose() = 0;
     
     /**
      * @brief Post Draw
      */
-    virtual void on_post_draw(RenderContext &context) = 0;
+    virtual void OnPostDraw(RenderContext &context) = 0;
     
-    [[nodiscard]] const std::string &get_name() const;
+    [[nodiscard]] const std::string &GetName() const;
     
-    [[nodiscard]] const std::string &get_description() const;
+    [[nodiscard]] const std::string &GetDescription() const;
     
-    void excludes(Plugin *plugin);
+    void Excludes(Plugin *plugin);
     
-    [[nodiscard]] const std::vector<Plugin *> &get_exclusions() const;
+    [[nodiscard]] const std::vector<Plugin *> &GetExclusions() const;
     
-    void includes(Plugin *plugin);
+    void Includes(Plugin *plugin);
     
-    [[nodiscard]] const std::vector<Plugin *> &get_inclusions() const;
+    [[nodiscard]] const std::vector<Plugin *> &GetInclusions() const;
     
     /**
      * @brief Test whether the plugin contains a given tag
@@ -157,8 +157,8 @@ public:
      * @return false tag not present
      */
     template<typename C>
-    [[nodiscard]] bool has_tag() const {
-        return has_tag(Tag<C>::id_);
+    [[nodiscard]] bool HasTag() const {
+        return HasTag(Tag<C>::id_);
     }
     
     /**
@@ -169,11 +169,11 @@ public:
      * @return false Does not contain all tags
      */
     template<typename... C>
-    [[nodiscard]] bool has_tags() const {
+    [[nodiscard]] bool HasTags() const {
         std::vector<TagId> query = {Tag<C>::id_...};
         bool res = true;
         for (auto id : query) {
-            res &= has_tag(id);
+            res &= HasTag(id);
         }
         return res;
     }
@@ -185,7 +185,7 @@ public:
      * @return true contains tag
      * @return false does not contain tag
      */
-    virtual bool has_tag(TagId id) const = 0;
+    virtual bool HasTag(TagId id) const = 0;
     
 protected:
     /**
@@ -195,14 +195,14 @@ protected:
      * @return true If the plugin should be activated
      * @return false If the plugin should be ignored
      */
-    virtual bool is_active(const CommandParser &parser) = 0;
+    virtual bool IsActive(const CommandParser &parser) = 0;
     
     /**
      * @brief Sets up an plugin by using values from the parser
      *
      * @param parser The parser
      */
-    virtual void init(const CommandParser &parser) = 0;
+    virtual void Init(const CommandParser &parser) = 0;
     
     Platform *platform_ = nullptr;
     
@@ -227,50 +227,50 @@ namespace plugins {
  * @return const std::vector<Plugin *> A list of plugins containing one or more TAGS
  */
 template<typename... TAGS>
-std::vector<Plugin *> with_tags(const std::vector<Plugin *> &domain = {}) {
+std::vector<Plugin *> WithTags(const std::vector<Plugin *> &domain = {}) {
     std::vector<TagId> tags = {Tag<TAGS>::id_...};
-    std::vector<Plugin *> compatable;
+    std::vector<Plugin *> compatible;
     for (auto ext : domain) {
         assert(ext != nullptr);
         
         bool has_one = false;
         for (auto t : tags) {
-            has_one |= ext->has_tag(t);
+            has_one |= ext->HasTag(t);
         }
         
         if (has_one) {
-            compatable.push_back(ext);
+            compatible.push_back(ext);
         }
     }
-    return compatable;
+    return compatible;
 }
 
 /**
  * @brief Get all plugins without the given tags
  * 		  Plugin must not include one or more tags
- * 		  Essentially the opposite of plugins::with_tags<...TAGS>()
+ * 		  Essentially the opposite of plugins::WithTags<...TAGS>()
  *
  * @tparam TAGS Tags that an plugin must not contain
  * @param domain The list of plugins to query
  * @return const std::vector<Plugin *> A list of plugins containing one or more TAGS
  */
 template<typename... TAGS>
-std::vector<Plugin *> without_tags(const std::vector<Plugin *> &domain = {}) {
+std::vector<Plugin *> WithoutTags(const std::vector<Plugin *> &domain = {}) {
     std::vector<TagId> tags = {Tag<TAGS>::id_...};
-    std::vector<Plugin *> compatable;
+    std::vector<Plugin *> compatible;
     for (auto ext : domain) {
         assert(ext != nullptr);
         
         bool has_any = false;
         for (auto t : tags) {
-            has_any |= ext->has_tag(t);
+            has_any |= ext->HasTag(t);
         }
         
         if (!has_any) {
-            compatable.push_back(ext);
+            compatible.push_back(ext);
         }
     }
-    return compatable;
+    return compatible;
 }
 
 }        // namespace plugins

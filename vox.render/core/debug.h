@@ -6,9 +6,10 @@
 
 #pragma once
 
+#include <cassert>
+
 #include "color.h"
 #include "vk_common.h"
-#include <cassert>
 
 namespace vox {
 /**
@@ -17,35 +18,39 @@ namespace vox {
 class DebugUtils {
 public:
     virtual ~DebugUtils() = default;
-    
+
     /**
      * @brief Sets the debug name for a Vulkan object.
      */
-    virtual void set_debug_name(VkDevice device, VkObjectType object_type, uint64_t object_handle,
-                                const char *name) const = 0;
-    
+    virtual void SetDebugName(VkDevice device,
+                              VkObjectType object_type,
+                              uint64_t object_handle,
+                              const char *name) const = 0;
+
     /**
      * @brief Tags the given Vulkan object with some data.
      */
-    virtual void set_debug_tag(VkDevice device, VkObjectType object_type, uint64_t object_handle,
-                               uint64_t tag_name, const void *tag_data, size_t tag_data_size) const = 0;
-    
+    virtual void SetDebugTag(VkDevice device,
+                             VkObjectType object_type,
+                             uint64_t object_handle,
+                             uint64_t tag_name,
+                             const void *tag_data,
+                             size_t tag_data_size) const = 0;
+
     /**
      * @brief Inserts a command to begin a new debug label/marker scope.
      */
-    virtual void cmd_begin_label(VkCommandBuffer command_buffer,
-                                 const char *name, Color color = {}) const = 0;
-    
+    virtual void CmdBeginLabel(VkCommandBuffer command_buffer, const char *name, Color color = {}) const = 0;
+
     /**
      * @brief Inserts a command to end the current debug label/marker scope.
      */
-    virtual void cmd_end_label(VkCommandBuffer command_buffer) const = 0;
-    
+    virtual void CmdEndLabel(VkCommandBuffer command_buffer) const = 0;
+
     /**
      * @brief Inserts a (non-scoped) debug label/marker in the command buffer.
      */
-    virtual void cmd_insert_label(VkCommandBuffer command_buffer,
-                                  const char *name, Color color = {}) const = 0;
+    virtual void CmdInsertLabel(VkCommandBuffer command_buffer, const char *name, Color color = {}) const = 0;
 };
 
 /**
@@ -54,20 +59,24 @@ public:
 class DebugUtilsExtDebugUtils final : public DebugUtils {
 public:
     ~DebugUtilsExtDebugUtils() override = default;
-    
-    void set_debug_name(VkDevice device, VkObjectType object_type, uint64_t object_handle,
-                        const char *name) const override;
-    
-    void set_debug_tag(VkDevice device, VkObjectType object_type, uint64_t object_handle,
-                       uint64_t tag_name, const void *tag_data, size_t tag_data_size) const override;
-    
-    void cmd_begin_label(VkCommandBuffer command_buffer,
-                         const char *name, Color color) const override;
-    
-    void cmd_end_label(VkCommandBuffer command_buffer) const override;
-    
-    void cmd_insert_label(VkCommandBuffer command_buffer,
-                          const char *name, Color color) const override;
+
+    void SetDebugName(VkDevice device,
+                      VkObjectType object_type,
+                      uint64_t object_handle,
+                      const char *name) const override;
+
+    void SetDebugTag(VkDevice device,
+                     VkObjectType object_type,
+                     uint64_t object_handle,
+                     uint64_t tag_name,
+                     const void *tag_data,
+                     size_t tag_data_size) const override;
+
+    void CmdBeginLabel(VkCommandBuffer command_buffer, const char *name, Color color) const override;
+
+    void CmdEndLabel(VkCommandBuffer command_buffer) const override;
+
+    void CmdInsertLabel(VkCommandBuffer command_buffer, const char *name, Color color) const override;
 };
 
 /**
@@ -76,20 +85,24 @@ public:
 class DebugMarkerExtDebugUtils final : public DebugUtils {
 public:
     ~DebugMarkerExtDebugUtils() override = default;
-    
-    void set_debug_name(VkDevice device, VkObjectType object_type, uint64_t object_handle,
-                        const char *name) const override;
-    
-    void set_debug_tag(VkDevice device, VkObjectType object_type, uint64_t object_handle,
-                       uint64_t tag_name, const void *tag_data, size_t tag_data_size) const override;
-    
-    void cmd_begin_label(VkCommandBuffer command_buffer,
-                         const char *name, Color color) const override;
-    
-    void cmd_end_label(VkCommandBuffer command_buffer) const override;
-    
-    void cmd_insert_label(VkCommandBuffer command_buffer,
-                          const char *name, Color color) const override;
+
+    void SetDebugName(VkDevice device,
+                      VkObjectType object_type,
+                      uint64_t object_handle,
+                      const char *name) const override;
+
+    void SetDebugTag(VkDevice device,
+                     VkObjectType object_type,
+                     uint64_t object_handle,
+                     uint64_t tag_name,
+                     const void *tag_data,
+                     size_t tag_data_size) const override;
+
+    void CmdBeginLabel(VkCommandBuffer command_buffer, const char *name, Color color) const override;
+
+    void CmdEndLabel(VkCommandBuffer command_buffer) const override;
+
+    void CmdInsertLabel(VkCommandBuffer command_buffer, const char *name, Color color) const override;
 };
 
 /**
@@ -98,19 +111,16 @@ public:
 class DummyDebugUtils final : public DebugUtils {
 public:
     ~DummyDebugUtils() override = default;
-    
-    inline void set_debug_name(VkDevice, VkObjectType, uint64_t, const char *) const override {}
-    
-    inline void set_debug_tag(VkDevice, VkObjectType, uint64_t,
-                              uint64_t, const void *, size_t) const override {}
-    
-    inline void cmd_begin_label(VkCommandBuffer,
-                                const char *, Color) const override {}
-    
-    inline void cmd_end_label(VkCommandBuffer) const override {}
-    
-    inline void cmd_insert_label(VkCommandBuffer,
-                                 const char *, Color) const override {}
+
+    inline void SetDebugName(VkDevice, VkObjectType, uint64_t, const char *) const override {}
+
+    inline void SetDebugTag(VkDevice, VkObjectType, uint64_t, uint64_t, const void *, size_t) const override {}
+
+    inline void CmdBeginLabel(VkCommandBuffer, const char *, Color) const override {}
+
+    inline void CmdEndLabel(VkCommandBuffer) const override {}
+
+    inline void CmdInsertLabel(VkCommandBuffer, const char *, Color) const override {}
 };
 
 class CommandBuffer;
@@ -123,17 +133,15 @@ class CommandBuffer;
  */
 class ScopedDebugLabel final {
 public:
-    ScopedDebugLabel(const DebugUtils &debug_utils, VkCommandBuffer command_buffer,
-                     const char *name, Color color = {});
-    
-    ScopedDebugLabel(const CommandBuffer &command_buffer,
-                     const char *name, Color color = {});
-    
+    ScopedDebugLabel(const DebugUtils &debug_utils, VkCommandBuffer command_buffer, const char *name, Color color = {});
+
+    ScopedDebugLabel(const CommandBuffer &command_buffer, const char *name, Color color = {});
+
     ~ScopedDebugLabel();
-    
+
 private:
     const DebugUtils *debug_utils_;
     VkCommandBuffer command_buffer_;
 };
 
-}        // namespace vox
+}  // namespace vox

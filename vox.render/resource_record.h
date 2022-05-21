@@ -31,33 +31,33 @@ enum class ResourceType {
  */
 class ResourceRecord {
 public:
-    void set_data(const std::vector<uint8_t> &data);
+    void SetData(const std::vector<uint8_t> &data);
     
-    std::vector<uint8_t> get_data();
+    std::vector<uint8_t> GetData();
     
-    const std::ostringstream &get_stream();
+    const std::ostringstream &GetStream();
     
-    size_t register_shader_module(VkShaderStageFlagBits stage,
+    size_t RegisterShaderModule(VkShaderStageFlagBits stage,
                                   const ShaderSource &glsl_source,
                                   const std::string &entry_point,
                                   const ShaderVariant &shader_variant);
     
-    size_t register_pipeline_layout(const std::vector<ShaderModule *> &shader_modules);
+    size_t RegisterPipelineLayout(const std::vector<ShaderModule *> &shader_modules);
     
-    size_t register_render_pass(const std::vector<Attachment> &attachments,
+    size_t RegisterRenderPass(const std::vector<Attachment> &attachments,
                                 const std::vector<LoadStoreInfo> &load_store_infos,
                                 const std::vector<SubpassInfo> &subpasses);
     
-    size_t register_graphics_pipeline(VkPipelineCache pipeline_cache,
+    size_t RegisterGraphicsPipeline(VkPipelineCache pipeline_cache,
                                       PipelineState &pipeline_state);
     
-    void set_shader_module(size_t index, const ShaderModule &shader_module);
+    void SetShaderModule(size_t index, const ShaderModule &shader_module);
     
-    void set_pipeline_layout(size_t index, const PipelineLayout &pipeline_layout);
+    void SetPipelineLayout(size_t index, const PipelineLayout &pipeline_layout);
     
-    void set_render_pass(size_t index, const RenderPass &render_pass);
+    void SetRenderPass(size_t index, const RenderPass &render_pass);
     
-    void set_graphics_pipeline(size_t index, const GraphicsPipeline &graphics_pipeline);
+    void SetGraphicsPipeline(size_t index, const GraphicsPipeline &graphics_pipeline);
     
 private:
     std::ostringstream stream_;

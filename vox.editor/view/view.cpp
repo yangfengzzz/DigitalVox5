@@ -17,7 +17,7 @@ View::View(const std::string &p_title, bool p_opened,
 PanelWindow(p_title, p_opened, p_window_settings),
 render_context_(render_context),
 sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
-    auto &device = render_context.get_device();
+    auto &device = render_context.GetDevice();
     
     // Create a default sampler
     sampler_create_info_.magFilter = VK_FILTER_LINEAR;
@@ -35,10 +35,10 @@ sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
     // Note that for simplicity, we will always be using max. available anisotropy level for the current device
     // This may have an impact on performance, esp. on lower-specced devices
     // In a real-world scenario the level of anisotropy should be a user setting or e.g. lowered for mobile devices by default
-    sampler_create_info_.maxAnisotropy = device.get_gpu().get_features().samplerAnisotropy
-    ? (device.get_gpu().get_properties().limits.maxSamplerAnisotropy)
+    sampler_create_info_.maxAnisotropy = device.GetGpu().GetFeatures().samplerAnisotropy
+    ? (device.GetGpu().GetProperties().limits.maxSamplerAnisotropy)
     : 1.0f;
-    sampler_create_info_.anisotropyEnable = device.get_gpu().get_features().samplerAnisotropy;
+    sampler_create_info_.anisotropyEnable = device.GetGpu().GetFeatures().samplerAnisotropy;
     sampler_create_info_.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
     
     sampler_ = std::make_unique<core::Sampler>(device, sampler_create_info_);
@@ -56,10 +56,11 @@ void View::update(float p_delta_time) {
         
         image_->size_ = Vector2F(static_cast<float>(win_width), static_cast<float>(win_height));
         if (!render_target_ ||
-            win_width * 2 != render_target_->get_extent().width ||
-            win_height * 2 != render_target_->get_extent().height) {
+            win_width * 2 != render_target_->GetExtent().width ||
+            win_height * 2 != render_target_->GetExtent().height) {
             render_target_ = create_render_target(win_width * 2, win_height * 2);
-            image_->set_texture_view(ImGui_ImplVulkan_AddTexture(sampler_->get_handle(), render_target_->get_views().at(0).get_handle(),
+            image_->set_texture_view(ImGui_ImplVulkan_AddTexture(sampler_->GetHandle(),
+                                                                 render_target_->GetViews().at(0).GetHandle(),
                                                                  VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL));
         }
     }
@@ -81,15 +82,15 @@ std::unique_ptr<RenderTarget> View::create_render_target(uint32_t width, uint32_
     VkExtent3D extent{width, height, 1};
     
     core::Image color_target{
-        render_context_.get_device(), extent,
-        format == VK_FORMAT_UNDEFINED? render_context_.get_swapchain().get_format() : format,
+        render_context_.GetDevice(), extent,
+        format == VK_FORMAT_UNDEFINED? render_context_.GetSwapchain().GetFormat() : format,
         VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
         VMA_MEMORY_USAGE_GPU_ONLY
     };
     
     core::Image depth_image{
-        render_context_.get_device(), extent,
-        get_suitable_depth_format(render_context_.get_device().get_gpu().get_handle()),
+        render_context_.GetDevice(), extent,
+                            GetSuitableDepthFormat(render_context_.GetDevice().GetGpu().GetHandle()),
         VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
         VMA_MEMORY_USAGE_GPU_ONLY
     };
@@ -104,8 +105,8 @@ std::unique_ptr<RenderTarget> View::create_render_target(uint32_t width, uint32_
 GridMaterial::GridMaterial(Device &device) :
 BaseMaterial(device, "editor-grid") {
     set_is_transparent(true);
-    vertex_source_ = ShaderManager::get_singleton().load_shader("base/editor/grid.vert");
-    fragment_source_ = ShaderManager::get_singleton().load_shader("base/editor/grid.frag");
+    vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/editor/grid.vert");
+    fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/editor/grid.frag");
 }
 
 const Vector3F &View::grid_color() const {
@@ -117,7 +118,7 @@ void View::set_grid_color(const Vector3F &p_color) {
 }
 
 ModelMeshPtr View::create_plane() {
-    auto mesh = MeshManager::get_singleton().load_model_mesh();
+    auto mesh = MeshManager::GetSingleton().load_model_mesh();
     mesh->add_sub_mesh(0, 6);
     return mesh;
 }

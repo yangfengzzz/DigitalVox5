@@ -145,7 +145,7 @@ Widget::EventResult Widget::Mouse(const vox::MouseButtonInputEvent& e) {
 
     // Iterate backwards so that we send mouse events from the top down.
     for (auto it = impl_->children_.rbegin(); it != impl_->children_.rend(); ++it) {
-        if ((*it)->GetFrame().Contains(e.get_pos_x(), e.get_pos_y())) {
+        if ((*it)->GetFrame().Contains(e.GetPosX(), e.GetPosY())) {
             auto result = (*it)->Mouse(e);
             if (result != EventResult::IGNORED) {
                 return result;

@@ -23,29 +23,29 @@ public:
      * @param info Creation details
      */
     QueryPool(Device &d, const VkQueryPoolCreateInfo &info);
-    
+
     QueryPool(const QueryPool &) = delete;
-    
+
     QueryPool(QueryPool &&pool) noexcept;
-    
+
     ~QueryPool();
-    
+
     QueryPool &operator=(const QueryPool &) = delete;
-    
+
     QueryPool &operator=(QueryPool &&) = delete;
-    
+
     /**
      * @return The vulkan query pool handle
      */
-    [[nodiscard]] VkQueryPool get_handle() const;
-    
+    [[nodiscard]] VkQueryPool GetHandle() const;
+
     /**
      * @brief Reset a range of queries in the query pool. Only call if VK_EXT_host_query_reset is enabled.
      * @param first_query The first query to reset
      * @param query_count The number of queries to reset
      */
-    void host_reset(uint32_t first_query, uint32_t query_count);
-    
+    void HostReset(uint32_t first_query, uint32_t query_count);
+
     /**
      * @brief Get query pool results
      * @param first_query The initial query index
@@ -55,14 +55,17 @@ public:
      * @param stride The stride in bytes between results for individual queries
      * @param flags A bitmask of VkQueryResultFlagBits
      */
-    VkResult get_results(uint32_t first_query, uint32_t num_queries,
-                         size_t result_bytes, void *results, VkDeviceSize stride,
-                         VkQueryResultFlags flags);
-    
+    VkResult GetResults(uint32_t first_query,
+                        uint32_t num_queries,
+                        size_t result_bytes,
+                        void *results,
+                        VkDeviceSize stride,
+                        VkQueryResultFlags flags);
+
 private:
     Device &device_;
-    
+
     VkQueryPool handle_{VK_NULL_HANDLE};
 };
 
-}        // namespace vox
+}  // namespace vox

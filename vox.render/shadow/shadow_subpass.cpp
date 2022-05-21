@@ -15,18 +15,18 @@
 namespace vox {
 ShadowSubpass::ShadowSubpass(RenderContext &render_context, Scene *scene, Camera *camera) :
 Subpass{render_context, scene, camera} {
-    vertex_source_ = ShaderManager::get_singleton().load_shader("base/shadow/shadow-map.vert");
+    vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/shadow/shadow-map.vert");
 }
 
-void ShadowSubpass::set_thread_index(uint32_t index) {
+void ShadowSubpass::SetThreadIndex(uint32_t index) {
     thread_index_ = index;
 }
 
-void ShadowSubpass::set_view_projection_matrix(const Matrix4x4F &vp) {
+void ShadowSubpass::SetViewProjectionMatrix(const Matrix4x4F &vp) {
     vp_ = vp;
 }
 
-void ShadowSubpass::set_viewport(const std::optional<VkViewport> &viewport) {
+void ShadowSubpass::SetViewport(const std::optional<VkViewport> &viewport) {
     if (viewport) {
         viewports_.resize(1);
         viewports_[0] = viewport.value();
@@ -35,101 +35,101 @@ void ShadowSubpass::set_viewport(const std::optional<VkViewport> &viewport) {
     }
 }
 
-void ShadowSubpass::prepare() {
+void ShadowSubpass::Prepare() {
     rasterization_state_.depth_bias_enable = VK_TRUE;
     depth_stencil_state_.depth_compare_op = VK_COMPARE_OP_LESS_OR_EQUAL;
 }
 
-void ShadowSubpass::draw(CommandBuffer &command_buffer) {
+void ShadowSubpass::Draw(CommandBuffer &command_buffer) {
     // pipeline state
-    command_buffer.set_rasterization_state(rasterization_state_);
+    command_buffer.SetRasterizationState(rasterization_state_);
     multisample_state_.rasterization_samples = sample_count_;
-    command_buffer.set_multisample_state(multisample_state_);
-    command_buffer.set_depth_stencil_state(depth_stencil_state_);
-    command_buffer.set_input_assembly_state(input_assembly_state_);
-    command_buffer.set_depth_bias(0.01, 0.01, 1.0);
+    command_buffer.SetMultisampleState(multisample_state_);
+    command_buffer.SetDepthStencilState(depth_stencil_state_);
+    command_buffer.SetInputAssemblyState(input_assembly_state_);
+    command_buffer.SetDepthBias(0.01, 0.01, 1.0);
     
-    auto &render_frame = render_context_.get_active_frame();
-    auto allocation = render_frame.allocate_buffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(Matrix4x4F), 0);
-    allocation.update(vp_);
-    command_buffer.bind_buffer(allocation.get_buffer(), allocation.get_offset(), allocation.get_size(), 0, 10, 0);
+    auto &render_frame = render_context_.GetActiveFrame();
+    auto allocation = render_frame.AllocateBuffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(Matrix4x4F), 0);
+    allocation.Update(vp_);
+    command_buffer.BindBuffer(allocation.GetBuffer(), allocation.GetOffset(), allocation.GetSize(), 0, 10, 0);
     
     if (!viewports_.empty()) {
-        command_buffer.set_viewport(0, viewports_);
+        command_buffer.SetViewport(0, viewports_);
     } else {
         VkViewport viewport{};
         viewport.width = static_cast<float>(ShadowManager::shadow_map_resolution_);
         viewport.height = static_cast<float>(ShadowManager::shadow_map_resolution_);
         viewport.minDepth = 0.0f;
         viewport.maxDepth = 1.0f;
-        command_buffer.set_viewport(0, {viewport});
+        command_buffer.SetViewport(0, {viewport});
     }
 
     
     auto compile_macros = ShaderVariant();
-    scene_->shader_data_.merge_variants(compile_macros, compile_macros);
-    camera_->shader_data_.merge_variants(compile_macros, compile_macros);
+    scene_->shader_data_.MergeVariants(compile_macros, compile_macros);
+    camera_->shader_data_.MergeVariants(compile_macros, compile_macros);
     
     std::vector<RenderElement> opaque_queue;
     std::vector<RenderElement> alpha_test_queue;
     std::vector<RenderElement> transparent_queue;
-    ComponentsManager::get_singleton().call_render(BoundingFrustum(vp_), opaque_queue, alpha_test_queue, transparent_queue);
-    std::sort(opaque_queue.begin(), opaque_queue.end(), _compareFromNearToFar);
-    std::sort(alpha_test_queue.begin(), alpha_test_queue.end(), _compareFromNearToFar);
-    std::sort(transparent_queue.begin(), transparent_queue.end(), _compareFromFarToNear);
-    
-    draw_element(command_buffer, opaque_queue, compile_macros);
-    draw_element(command_buffer, alpha_test_queue, compile_macros);
-    draw_element(command_buffer, transparent_queue, compile_macros);
+    ComponentsManager::GetSingleton().call_render(BoundingFrustum(vp_), opaque_queue, alpha_test_queue, transparent_queue);
+    std::sort(opaque_queue.begin(), opaque_queue.end(), CompareFromNearToFar);
+    std::sort(alpha_test_queue.begin(), alpha_test_queue.end(), CompareFromNearToFar);
+    std::sort(transparent_queue.begin(), transparent_queue.end(), CompareFromFarToNear);
+
+    DrawElement(command_buffer, opaque_queue, compile_macros);
+    DrawElement(command_buffer, alpha_test_queue, compile_macros);
+    DrawElement(command_buffer, transparent_queue, compile_macros);
 }
 
-void ShadowSubpass::draw_element(CommandBuffer &command_buffer,
+void ShadowSubpass::DrawElement(CommandBuffer &command_buffer,
                                  const std::vector<RenderElement> &items,
                                  const ShaderVariant &variant) {
-    auto &device = command_buffer.get_device();
+    auto &device = command_buffer.GetDevice();
     for (auto &element : items) {
         auto macros = variant;
         auto &renderer = element.renderer;
         if (renderer->cast_shadow_) {
             renderer->update_shader_data();
-            renderer->shader_data_.merge_variants(macros, macros);
+            renderer->shader_data_.MergeVariants(macros, macros);
             
             // shader
             auto &vert_shader_module =
-            device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, *vertex_source_, macros);
+                    device.GetResourceCache().RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, *vertex_source_, macros);
             std::vector<ShaderModule *> shader_modules{&vert_shader_module};
-            auto &pipeline_layout = prepare_pipeline_layout(command_buffer, shader_modules);
-            command_buffer.bind_pipeline_layout(pipeline_layout);
+            auto &pipeline_layout = PreparePipelineLayout(command_buffer, shader_modules);
+            command_buffer.BindPipelineLayout(pipeline_layout);
             
             // uniform & texture
-            DescriptorSetLayout &descriptor_set_layout = pipeline_layout.get_descriptor_set_layout(0);
-            renderer->shader_data_.bind_data(command_buffer, descriptor_set_layout);
+            DescriptorSetLayout &descriptor_set_layout = pipeline_layout.GetDescriptorSetLayout(0);
+            renderer->shader_data_.BindData(command_buffer, descriptor_set_layout);
             
             auto &sub_mesh = element.sub_mesh;
             auto &mesh = element.mesh;
             ScopedDebugLabel submesh_debug_label{command_buffer, mesh->name_.c_str()};
             
             // vertex buffer
-            command_buffer.set_vertex_input_state(mesh->vertex_input_state());
+            command_buffer.SetVertexInputState(mesh->vertex_input_state());
             for (uint32_t j = 0; j < mesh->vertex_buffer_count(); j++) {
                 const auto vertex_buffer_binding = mesh->vertex_buffer(j);
                 if (vertex_buffer_binding) {
                     std::vector<std::reference_wrapper<const core::Buffer>> buffers;
                     buffers.emplace_back(std::ref(*vertex_buffer_binding));
-                    command_buffer.bind_vertex_buffers(j, buffers, {0});
+                    command_buffer.BindVertexBuffers(j, buffers, {0});
                 }
             }
             // Draw submesh indexed if indices exists
             const auto &index_buffer_binding = mesh->index_buffer_binding();
             if (index_buffer_binding) {
                 // Bind index buffer of submesh
-                command_buffer.bind_index_buffer(index_buffer_binding->buffer(), 0, index_buffer_binding->index_type());
+                command_buffer.BindIndexBuffer(index_buffer_binding->buffer(), 0, index_buffer_binding->index_type());
                 
                 // Draw submesh using indexed data
-                command_buffer.draw_indexed(sub_mesh->count(), mesh->instance_count(), sub_mesh->start(), 0, 0);
+                command_buffer.DrawIndexed(sub_mesh->count(), mesh->instance_count(), sub_mesh->start(), 0, 0);
             } else {
                 // Draw submesh using vertices only
-                command_buffer.draw(sub_mesh->count(), mesh->instance_count(), 0, 0);
+                command_buffer.Draw(sub_mesh->count(), mesh->instance_count(), 0, 0);
             }
         }
     }

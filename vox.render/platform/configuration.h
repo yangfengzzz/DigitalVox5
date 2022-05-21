@@ -24,18 +24,18 @@ public:
     
     virtual ~Setting() = default;
     
-    virtual void set() = 0;
+    virtual void Set() = 0;
     
-    virtual std::type_index get_type() = 0;
+    virtual std::type_index GetType() = 0;
 };
 
 class BoolSetting : public Setting {
 public:
     BoolSetting(bool &handle, bool value);
     
-    void set() override;
+    void Set() override;
     
-    std::type_index get_type() override;
+    std::type_index GetType() override;
     
 private:
     bool &handle_;
@@ -47,9 +47,9 @@ class IntSetting : public Setting {
 public:
     IntSetting(int &handle, int value);
     
-    void set() override;
+    void Set() override;
     
-    std::type_index get_type() override;
+    std::type_index GetType() override;
     
 private:
     int &handle_;
@@ -61,9 +61,9 @@ class EmptySetting : public Setting {
 public:
     EmptySetting() = default;
     
-    void set() override;
+    void Set() override;
     
-    std::type_index get_type() override;
+    std::type_index GetType() override;
 };
 
 using ConfigMap = std::map<uint32_t, std::unordered_map<std::type_index, std::vector<Setting *>>>;
@@ -81,25 +81,25 @@ public:
     /**
      * @brief Configures the settings in the current config
      */
-    void set();
+    void Set();
     
     /**
      * @brief Increments the configuration count
      * @returns True if the current configuration iterator was incremented
      */
-    bool next();
+    bool Next();
     
     /**
      * @brief Resets the configuration to beginning
      */
-    void reset();
+    void Reset();
     
     /**
      * @brief Inserts a setting into the current configuration
      * @param config_index The configuration to insert the setting into
      * @param setting A setting to be inserted into the configuration
      */
-    void insert_setting(uint32_t config_index, std::unique_ptr<Setting> setting);
+    void InsertSetting(uint32_t config_index, std::unique_ptr<Setting> setting);
     
     /**
      * @brief Inserts a setting into the current configuration
@@ -107,11 +107,11 @@ public:
      * @param args A parameter pack containing the parameters to initialize a setting object
      */
     template<class T, class... A>
-    void insert(uint32_t config_index, A &&... args) {
+    void Insert(uint32_t config_index, A &&... args) {
         static_assert(std::is_base_of<Setting, T>::value,
                       "T is not a type of setting.");
         
-        insert_setting(config_index, std::make_unique<T>(args...));
+        InsertSetting(config_index, std::make_unique<T>(args...));
     }
     
 protected:

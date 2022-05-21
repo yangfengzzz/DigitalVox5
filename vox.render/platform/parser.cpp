@@ -16,28 +16,28 @@ help_line_(std::move(help_line)) {
     
 }
 
-const std::string &Command::get_name() const {
+const std::string &Command::GetName() const {
     assert(!name_.empty() && "Command name unset");
     return name_;
 }
 
-void Command::set_name(const std::string &name) {
+void Command::SetName(const std::string &name) {
     name_ = name;
 }
 
-const std::string &Command::get_help_line() const {
+const std::string &Command::GetHelpLine() const {
     assert(!help_line_.empty() && "Command help line unset");
     return help_line_;
 }
 
-void Command::set_help_line(const std::string &help_line) {
+void Command::SetHelpLine(const std::string &help_line) {
     help_line_ = help_line;
 }
 
 MultipleCommands::MultipleCommands(std::vector<Command *> commands) :
 commands_(std::move(commands)) {}
 
-const std::vector<Command *> &MultipleCommands::get_commands() const {
+const std::vector<Command *> &MultipleCommands::GetCommands() const {
     return commands_;
 }
 
@@ -69,22 +69,22 @@ TypedCommand<FlagCommand>("", help_line), type_{type} {
         name += "--" + long_name;
     }
     
-    Command::set_name(name);
+    Command::SetName(name);
 }
 
-FlagType FlagCommand::get_flag_type() const {
+FlagType FlagCommand::GetFlagType() const {
     return type_;
 }
 
-bool CommandParser::parse(const std::vector<Command *> &commands) {
-    return parse(nullptr, commands);
+bool CommandParser::Parse(const std::vector<Command *> &commands) {
+    return Parse(nullptr, commands);
 }
 
-bool CommandParser::parse(CommandParserContext *context, const std::vector<Command *> &commands) {
+bool CommandParser::Parse(CommandParserContext *context, const std::vector<Command *> &commands) {
 #define PARSE(type)                           \
-    if (command->is<type>())                  \
+    if (command->Is<type>())                  \
     {                                         \
-        parse(context, command->get<type>()); \
+        Parse(context, command->Get<type>()); \
     }
     
     for (auto *command : commands) {

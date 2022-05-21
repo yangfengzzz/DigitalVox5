@@ -16,9 +16,9 @@ namespace vox {
  */
 class SceneManager : public Singleton<SceneManager> {
 public:
-    static SceneManager &get_singleton();
+    static SceneManager &GetSingleton();
     
-    static SceneManager *get_singleton_ptr();
+    static SceneManager *GetSingletonPtr();
     
     /**
      * Default constructor

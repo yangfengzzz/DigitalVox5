@@ -31,37 +31,37 @@ public:
     
     ~ColorPickerSubpass() override = default;
     
-    void prepare() override;
+    void Prepare() override;
     
     /**
      * @brief Record draw commands
      */
-    void draw(CommandBuffer &command_buffer) override;
+    void Draw(CommandBuffer &command_buffer) override;
     
 public:
-    void add_exclusive_renderer(Renderer* renderer);
+    void AddExclusiveRenderer(Renderer* renderer);
     
-    void clear_exclusive_list();
+    void ClearExclusiveList();
     
 public:
     /**
      * Convert id to RGB color value, 0 and 0xffffff are illegal values.
      */
-    static Color id_to_color(uint32_t id);
+    static Color IdToColor(uint32_t id);
     
     /**
      * Convert RGB color to id.
      * @param color - Color
      */
-    static uint32_t color_to_id(const std::array<uint8_t, 4> &color);
+    static uint32_t ColorToId(const std::array<uint8_t, 4> &color);
     
     /**
      * Get renderer element by color.
      */
-    std::pair<Renderer *, MeshPtr> get_object_by_color(const std::array<uint8_t, 4> &color);
+    std::pair<Renderer *, MeshPtr> GetObjectByColor(const std::array<uint8_t, 4> &color);
     
 private:
-    void draw_element(CommandBuffer &command_buffer,
+    void DrawElement(CommandBuffer &command_buffer,
                       const std::vector<RenderElement> &items,
                       const ShaderVariant &variant);
     

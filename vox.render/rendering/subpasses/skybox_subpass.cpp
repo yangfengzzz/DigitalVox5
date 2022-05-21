@@ -15,8 +15,8 @@ vert_shader_("base/skybox.vert"),
 frag_shader_("base/skybox.frag") {
 }
 
-void SkyboxSubpass::create_cuboid() {
-    mesh_ = MeshManager::get_singleton().load_model_mesh();
+void SkyboxSubpass::CreateCuboid() {
+    mesh_ = MeshManager::GetSingleton().load_model_mesh();
     
     const float kHalfLength = 0.5f;
     auto positions = std::vector<Vector3F>(24);
@@ -105,30 +105,28 @@ void SkyboxSubpass::create_cuboid() {
     mesh_->add_sub_mesh(0, static_cast<uint32_t>(indices.size()));
 }
 
-const std::shared_ptr<Image> &SkyboxSubpass::texture_cube_map() const {
+const std::shared_ptr<Image> &SkyboxSubpass::TextureCubeMap() const {
     return cube_map_;
 }
 
-void SkyboxSubpass::set_texture_cube_map(const std::shared_ptr<Image> &v) {
+void SkyboxSubpass::SetTextureCubeMap(const std::shared_ptr<Image> &v) {
     cube_map_ = v;
 }
 
-void SkyboxSubpass::flip_vertically() {
+void SkyboxSubpass::FlipVertically() {
     is_flip_vertically_ = true;
 }
 
-void SkyboxSubpass::prepare() {
-    auto &device = render_context_.get_device();
+void SkyboxSubpass::Prepare() {
+    auto &device = render_context_.GetDevice();
     vp_matrix_ = std::make_unique<core::Buffer>(device, sizeof(Matrix4x4F),
                                                 VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                                                 VMA_MEMORY_USAGE_CPU_TO_GPU);
     if (is_flip_vertically_) {
-        variant_.add_define("NEED_FLIP_Y");
+        variant_.AddDefine("NEED_FLIP_Y");
     }
-    device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT,
-                                                      vert_shader_, variant_);
-    device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT,
-                                                      frag_shader_, variant_);
+    device.GetResourceCache().RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, vert_shader_, variant_);
+    device.GetResourceCache().RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, frag_shader_, variant_);
     
     depth_stencil_state_.depth_write_enable = false;
     depth_stencil_state_.depth_compare_op = VK_COMPARE_OP_LESS_OR_EQUAL;
@@ -151,10 +149,10 @@ void SkyboxSubpass::prepare() {
     sampler_create_info.maxLod = 1.0f;
     sampler_create_info.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
     sampler_create_info.unnormalizedCoordinates = false;
-    cube_sampler_ = std::make_unique<core::Sampler>(render_context_.get_device(), sampler_create_info);
+    cube_sampler_ = std::make_unique<core::Sampler>(render_context_.GetDevice(), sampler_create_info);
 }
 
-void SkyboxSubpass::draw(CommandBuffer &command_buffer) {
+void SkyboxSubpass::Draw(CommandBuffer &command_buffer) {
     const auto kProjectionMatrix = camera_->projection_matrix();
     auto view_matrix = camera_->view_matrix();
     view_matrix[12] = 0;
@@ -162,47 +160,47 @@ void SkyboxSubpass::draw(CommandBuffer &command_buffer) {
     view_matrix[14] = 0;
     view_matrix[15] = 1;
     auto matrix = kProjectionMatrix * view_matrix;
-    std::vector<uint8_t> bytes = to_bytes(matrix);
-    vp_matrix_->update(bytes);
+    std::vector<uint8_t> bytes = ToBytes(matrix);
+    vp_matrix_->Update(bytes);
     
     // pipeline state
-    command_buffer.set_rasterization_state(rasterization_state_);
-    command_buffer.set_multisample_state(multisample_state_);
-    command_buffer.set_depth_stencil_state(depth_stencil_state_);
-    command_buffer.set_color_blend_state(color_blend_state_);
-    command_buffer.set_input_assembly_state(input_assembly_state_);
+    command_buffer.SetRasterizationState(rasterization_state_);
+    command_buffer.SetMultisampleState(multisample_state_);
+    command_buffer.SetDepthStencilState(depth_stencil_state_);
+    command_buffer.SetColorBlendState(color_blend_state_);
+    command_buffer.SetInputAssemblyState(input_assembly_state_);
     
     // shader
-    auto &device = render_context_.get_device();
-    auto &vert_shader_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT,
-                                                                                 vert_shader_, variant_);
-    auto &frag_shader_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT,
-                                                                                 frag_shader_, variant_);
+    auto &device = render_context_.GetDevice();
+    auto &vert_shader_module =
+            device.GetResourceCache().RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, vert_shader_, variant_);
+    auto &frag_shader_module =
+            device.GetResourceCache().RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, frag_shader_, variant_);
     std::vector<ShaderModule *> shader_modules{&vert_shader_module, &frag_shader_module};
-    auto &pipeline_layout = prepare_pipeline_layout(command_buffer, shader_modules);
-    command_buffer.bind_pipeline_layout(pipeline_layout);
+    auto &pipeline_layout = PreparePipelineLayout(command_buffer, shader_modules);
+    command_buffer.BindPipelineLayout(pipeline_layout);
     
     // uniform & texture
-    command_buffer.bind_buffer(*vp_matrix_, 0, vp_matrix_->get_size(), 0, 10, 0);
-    command_buffer.bind_image(cube_map_->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE), *cube_sampler_, 0, 11, 0);
+    command_buffer.BindBuffer(*vp_matrix_, 0, vp_matrix_->GetSize(), 0, 10, 0);
+    command_buffer.BindImage(cube_map_->GetVkImageView(VK_IMAGE_VIEW_TYPE_CUBE), *cube_sampler_, 0, 11, 0);
     
     // vertex buffer
-    command_buffer.set_vertex_input_state(mesh_->vertex_input_state());
+    command_buffer.SetVertexInputState(mesh_->vertex_input_state());
     for (uint32_t j = 0; j < mesh_->vertex_buffer_bindings().size(); j++) {
         const auto &vertex_buffer_binding = mesh_->vertex_buffer_bindings()[j];
         if (vertex_buffer_binding) {
             std::vector<std::reference_wrapper<const core::Buffer>> buffers;
             buffers.emplace_back(std::ref(*vertex_buffer_binding));
-            command_buffer.bind_vertex_buffers(j, buffers, {0});
+            command_buffer.BindVertexBuffers(j, buffers, {0});
         }
     }
     // Draw submesh indexed if indices exists
     const auto &index_buffer_binding = mesh_->index_buffer_binding();
     // Bind index buffer of submesh
-    command_buffer.bind_index_buffer(index_buffer_binding->buffer(), 0, index_buffer_binding->index_type());
+    command_buffer.BindIndexBuffer(index_buffer_binding->buffer(), 0, index_buffer_binding->index_type());
     
     // Draw submesh using indexed data
-    command_buffer.draw_indexed(mesh_->sub_mesh()->count(), mesh_->instance_count(), mesh_->sub_mesh()->start(), 0, 0);
+    command_buffer.DrawIndexed(mesh_->sub_mesh()->count(), mesh_->instance_count(), mesh_->sub_mesh()->start(), 0, 0);
 }
 
 }

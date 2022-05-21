@@ -36,12 +36,12 @@ public:
      * @remarks vox::PostProcessingRenderpass that do not explicitly have a vox::RenderTarget set will render
      *          to default_render_target.
      */
-    void draw(CommandBuffer &command_buffer, RenderTarget &default_render_target);
+    void Draw(CommandBuffer &command_buffer, RenderTarget &default_render_target);
     
     /**
      * @brief Gets all of the passes in the pipeline.
      */
-    inline std::vector<std::unique_ptr<PostProcessingPassBase>> &get_passes() {
+    inline std::vector<std::unique_ptr<PostProcessingPassBase>> &GetPasses() {
         return passes_;
     }
     
@@ -49,7 +49,7 @@ public:
      * @brief Get the pass at a certain index as a `TPass`.
      */
     template<typename TPass = vox::PostProcessingRenderPass>
-    inline TPass &get_pass(size_t index) {
+    inline TPass &GetPass(size_t index) {
         return *dynamic_cast<TPass *>(passes_[index].get());
     }
     
@@ -57,7 +57,7 @@ public:
      * @brief Adds a pass of the given type to the end of the pipeline by constructing it in-place.
      */
     template<typename TPass = vox::PostProcessingRenderPass, typename... ConstructorArgs>
-    TPass &add_pass(ConstructorArgs &&... args) {
+    TPass &AddPass(ConstructorArgs &&... args) {
         passes_.emplace_back(std::make_unique<TPass>(this, std::forward<ConstructorArgs>(args)...));
         auto &added_pass = *dynamic_cast<TPass *>(passes_.back().get());
         return added_pass;
@@ -66,14 +66,14 @@ public:
     /**
      * @brief Returns the current render context.
      */
-    [[nodiscard]] inline RenderContext &get_render_context() const {
+    [[nodiscard]] inline RenderContext &GetRenderContext() const {
         return *render_context_;
     }
     
     /**
      * @brief Returns the index of the currently-being-drawn pass.
      */
-    [[nodiscard]] inline size_t get_current_pass_index() const {
+    [[nodiscard]] inline size_t GetCurrentPassIndex() const {
         return current_pass_index_;
     }
     

@@ -28,7 +28,7 @@ namespace vox {
 /**
  * @brief RenderContext acts as a frame manager for the sample, with a lifetime that is the
  * same as that of the Application itself. It acts as a container for RenderFrame objects,
- * swapping between them (begin_frame, end_frame) and forwarding requests for Vulkan resources
+ * swapping between them (BeginFrame, EndFrame) and forwarding requests for Vulkan resources
  * to the active frame. Note that it's guaranteed that there is always an active frame.
  * More than one frame can be in-flight in the GPU, thus the need for per-frame resources.
  *
@@ -67,70 +67,70 @@ public:
     /**
      * @brief Requests to set the present mode of the swapchain, must be called before prepare
      */
-    void request_present_mode(VkPresentModeKHR present_mode);
+    void RequestPresentMode(VkPresentModeKHR present_mode);
     
     /**
      * @brief Requests to set a specific image format for the swapchain
      */
-    void request_image_format(VkFormat format);
+    void RequestImageFormat(VkFormat format);
     
     /**
      * @brief Sets the order in which the swapchain prioritizes selecting its present mode
      */
-    void set_present_mode_priority(const std::vector<VkPresentModeKHR> &present_mode_priority_list);
+    void SetPresentModePriority(const std::vector<VkPresentModeKHR> &present_mode_priority_list);
     
     /**
      * @brief Sets the order in which the swapchain prioritizes selecting its surface format
      */
-    void set_surface_format_priority(const std::vector<VkSurfaceFormatKHR> &surface_format_priority_list);
+    void SetSurfaceFormatPriority(const std::vector<VkSurfaceFormatKHR> &surface_format_priority_list);
     
     /**
      * @brief Prepares the RenderFrames for rendering
      * @param thread_count The number of threads in the application, necessary to allocate this many resource pools for each RenderFrame
      * @param create_render_target_func A function delegate, used to create a RenderTarget
      */
-    void prepare(size_t thread_count = 1,
+    void Prepare(size_t thread_count = 1,
                  const RenderTarget::CreateFunc &create_render_target_func = RenderTarget::default_create_func_);
     
     /**
      * @brief Updates the swapchains extent, if a swapchain exists
      * @param extent The width and height of the new swapchain images
      */
-    void update_swapchain(const VkExtent2D &extent);
+    void UpdateSwapchain(const VkExtent2D &extent);
     
     /**
      * @brief Updates the swapchains image count, if a swapchain exists
      * @param image_count The amount of images in the new swapchain
      */
-    void update_swapchain(uint32_t image_count);
+    void UpdateSwapchain(uint32_t image_count);
     
     /**
      * @brief Updates the swapchains image usage, if a swapchain exists
      * @param image_usage_flags The usage flags the new swapchain images will have
      */
-    void update_swapchain(const std::set<VkImageUsageFlagBits> &image_usage_flags);
+    void UpdateSwapchain(const std::set<VkImageUsageFlagBits> &image_usage_flags);
     
     /**
      * @brief Updates the swapchains extent and surface transform, if a swapchain exists
      * @param extent The width and height of the new swapchain images
      * @param transform The surface transform flags
      */
-    void update_swapchain(const VkExtent2D &extent, VkSurfaceTransformFlagBitsKHR transform);
+    void UpdateSwapchain(const VkExtent2D &extent, VkSurfaceTransformFlagBitsKHR transform);
     
     /**
      * @returns True if a valid swapchain exists in the RenderContext
      */
-    bool has_swapchain();
+    bool HasSwapchain();
     
     /**
      * @brief Recreates the RenderFrames, called after every update
      */
-    void recreate();
+    void Recreate();
     
     /**
      * @brief Recreates the swapchain
      */
-    void recreate_swapchain();
+    void RecreateSwapchain();
     
     /**
      * @brief Prepares the next available frame for rendering
@@ -138,93 +138,93 @@ public:
      * @returns A valid command buffer to record commands to be submitted
      * Also ensures that there is an active frame if there is no existing active frame already
      */
-    CommandBuffer &begin(CommandBuffer::ResetMode reset_mode = CommandBuffer::ResetMode::RESET_POOL);
+    CommandBuffer &Begin(CommandBuffer::ResetMode reset_mode = CommandBuffer::ResetMode::RESET_POOL);
     
     /**
      * @brief Submits the command buffer to the right queue
      * @param command_buffer A command buffer containing recorded commands
      */
-    void submit(CommandBuffer &command_buffer);
+    void Submit(CommandBuffer &command_buffer);
     
     /**
      * @brief Submits multiple command buffers to the right queue
      * @param command_buffers Command buffers containing recorded commands
      */
-    void submit(const std::vector<CommandBuffer *> &command_buffers);
+    void Submit(const std::vector<CommandBuffer *> &command_buffers);
     
     /**
-     * @brief begin_frame
+     * @brief BeginFrame
      */
-    void begin_frame();
+    void BeginFrame();
     
     VkSemaphore
-    submit(const Queue &queue, const std::vector<CommandBuffer *> &command_buffers, VkSemaphore wait_semaphore,
+    Submit(const Queue &queue, const std::vector<CommandBuffer *> &command_buffers, VkSemaphore wait_semaphore,
            VkPipelineStageFlags wait_pipeline_stage);
     
     /**
      * @brief Submits a command buffer related to a frame to a queue
      */
-    void submit(const Queue &queue, const std::vector<CommandBuffer *> &command_buffers);
+    void Submit(const Queue &queue, const std::vector<CommandBuffer *> &command_buffers);
     
     /**
      * @brief Waits a frame to finish its rendering
      */
-    virtual void wait_frame();
+    virtual void WaitFrame();
     
-    void end_frame(VkSemaphore semaphore);
+    void EndFrame(VkSemaphore semaphore);
     
     /**
      * @brief An error should be raised if the frame is not active.
-     *        A frame is active after @ref begin_frame has been called.
+     *        A frame is active after @ref BeginFrame has been called.
      * @return The current active frame
      */
-    RenderFrame &get_active_frame();
+    RenderFrame &GetActiveFrame();
     
     /**
      * @brief An error should be raised if the frame is not active.
-     *        A frame is active after @ref begin_frame has been called.
+     *        A frame is active after @ref BeginFrame has been called.
      * @return The current active frame index
      */
-    [[nodiscard]] uint32_t get_active_frame_index();
+    [[nodiscard]] uint32_t GetActiveFrameIndex();
     
     /**
      * @brief An error should be raised if a frame is active.
-     *        A frame is active after @ref begin_frame has been called.
+     *        A frame is active after @ref BeginFrame has been called.
      * @return The previous frame
      */
-    RenderFrame &get_last_rendered_frame();
+    RenderFrame &GetLastRenderedFrame();
     
-    VkSemaphore request_semaphore();
+    VkSemaphore RequestSemaphore();
     
-    VkSemaphore request_semaphore_with_ownership();
+    VkSemaphore RequestSemaphoreWithOwnership();
     
-    void release_owned_semaphore(VkSemaphore semaphore);
+    void ReleaseOwnedSemaphore(VkSemaphore semaphore);
     
-    Device &get_device();
+    Device &GetDevice();
     
     /**
      * @brief Returns the format that the RenderTargets are created with within the RenderContext
      */
-    [[nodiscard]] VkFormat get_format() const;
+    [[nodiscard]] VkFormat GetFormat() const;
     
-    [[nodiscard]] Swapchain const &get_swapchain() const;
+    [[nodiscard]] Swapchain const &GetSwapchain() const;
     
-    [[nodiscard]] VkExtent2D const &get_surface_extent() const;
+    [[nodiscard]] VkExtent2D const &GetSurfaceExtent() const;
     
-    [[nodiscard]] uint32_t get_active_frame_index() const;
+    [[nodiscard]] uint32_t GetActiveFrameIndex() const;
     
-    std::vector<std::unique_ptr<RenderFrame>> &get_render_frames();
+    std::vector<std::unique_ptr<RenderFrame>> &GetRenderFrames();
     
     /**
      * @brief Handles surface changes, only applicable if the render_context makes use of a swapchain
      */
-    virtual bool handle_surface_changes(bool force_update = false);
+    virtual bool HandleSurfaceChanges(bool force_update = false);
     
     /**
      * @brief Returns the WSI acquire semaphore. Only to be used in very special circumstances.
      * @return The WSI acquire semaphore.
      */
-    VkSemaphore consume_acquired_semaphore();
+    VkSemaphore ConsumeAcquiredSemaphore();
     
 protected:
     VkExtent2D surface_extent_;

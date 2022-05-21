@@ -29,12 +29,12 @@ public:
     
     std::string make_expanded(const CLI::App *sub) const override;
     
-    void register_meta(const CLI::App *command, const Meta &meta);
+    void RegisterMeta(const CLI::App *command, const Meta &meta);
     
 private:
     std::unordered_map<const CLI::App *, Meta> meta_;
     
-    const Meta *get_meta(const CLI::App *command) const;
+    const Meta *GetMeta(const CLI::App *command) const;
 };
 
 }        // namespace vox

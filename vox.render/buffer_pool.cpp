@@ -14,11 +14,11 @@ namespace vox {
 BufferBlock::BufferBlock(Device &device, VkDeviceSize size, VkBufferUsageFlags usage, VmaMemoryUsage memory_usage) :
 buffer_{device, size, usage, memory_usage} {
     if (usage == VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) {
-        alignment_ = device.get_gpu().get_properties().limits.minUniformBufferOffsetAlignment;
+        alignment_ = device.GetGpu().GetProperties().limits.minUniformBufferOffsetAlignment;
     } else if (usage == VK_BUFFER_USAGE_STORAGE_BUFFER_BIT) {
-        alignment_ = device.get_gpu().get_properties().limits.minStorageBufferOffsetAlignment;
+        alignment_ = device.GetGpu().GetProperties().limits.minStorageBufferOffsetAlignment;
     } else if (usage == VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT) {
-        alignment_ = device.get_gpu().get_properties().limits.minTexelBufferOffsetAlignment;
+        alignment_ = device.GetGpu().GetProperties().limits.minTexelBufferOffsetAlignment;
     } else if (usage == VK_BUFFER_USAGE_INDEX_BUFFER_BIT || usage == VK_BUFFER_USAGE_VERTEX_BUFFER_BIT ||
                usage == VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT) {
         // Used to calculate the offset, required when allocating memory (its value should be power of 2)
@@ -28,12 +28,12 @@ buffer_{device, size, usage, memory_usage} {
     }
 }
 
-BufferAllocation BufferBlock::allocate(const uint32_t allocate_size) {
+BufferAllocation BufferBlock::Allocate(const uint32_t allocate_size) {
     assert(allocate_size > 0 && "Allocation size must be greater than zero");
     
     auto aligned_offset = (offset_ + alignment_ - 1) & ~(alignment_ - 1);
     
-    if (aligned_offset + allocate_size > buffer_.get_size()) {
+    if (aligned_offset + allocate_size > buffer_.GetSize()) {
         // No more space available from the underlying buffer, return empty allocation
         return BufferAllocation{};
     }
@@ -43,11 +43,11 @@ BufferAllocation BufferBlock::allocate(const uint32_t allocate_size) {
     return BufferAllocation{buffer_, allocate_size, aligned_offset};
 }
 
-VkDeviceSize BufferBlock::get_size() const {
-    return buffer_.get_size();
+VkDeviceSize BufferBlock::GetSize() const {
+    return buffer_.GetSize();
 }
 
-void BufferBlock::reset() {
+void BufferBlock::Reset() {
     offset_ = 0;
 }
 
@@ -59,12 +59,12 @@ usage_{usage},
 memory_usage_{memory_usage} {
 }
 
-BufferBlock &BufferPool::request_buffer_block(const VkDeviceSize minimum_size) {
+BufferBlock &BufferPool::RequestBufferBlock(VkDeviceSize minimum_size) {
     // Find the first block in the range of the inactive blocks
     // which can fit the minimum size
     auto it = std::upper_bound(buffer_blocks_.begin() + active_buffer_block_count_, buffer_blocks_.end(), minimum_size,
                                [](const VkDeviceSize &a, const std::unique_ptr<BufferBlock> &b) -> bool {
-        return a <= b->get_size();
+        return a <= b->GetSize();
     });
     
     if (it != buffer_blocks_.end()) {
@@ -84,9 +84,9 @@ BufferBlock &BufferPool::request_buffer_block(const VkDeviceSize minimum_size) {
     return *block;
 }
 
-void BufferPool::reset() {
+void BufferPool::Reset() {
     for (auto &buffer_block : buffer_blocks_) {
-        buffer_block->reset();
+        buffer_block->Reset();
     }
     
     active_buffer_block_count_ = 0;
@@ -98,29 +98,29 @@ size_{size},
 base_offset_{offset} {
 }
 
-void BufferAllocation::update(const std::vector<uint8_t> &data, uint32_t offset) {
+void BufferAllocation::Update(const std::vector<uint8_t> &data, uint32_t offset) {
     assert(buffer_ && "Invalid buffer pointer");
     
     if (offset + data.size() <= size_) {
-        buffer_->update(data, to_u32(base_offset_) + offset);
+        buffer_->Update(data, ToU32(base_offset_) + offset);
     } else {
         LOGE("Ignore buffer allocation update")
     }
 }
 
-bool BufferAllocation::empty() const {
+bool BufferAllocation::Empty() const {
     return size_ == 0 || buffer_ == nullptr;
 }
 
-VkDeviceSize BufferAllocation::get_size() const {
+VkDeviceSize BufferAllocation::GetSize() const {
     return size_;
 }
 
-VkDeviceSize BufferAllocation::get_offset() const {
+VkDeviceSize BufferAllocation::GetOffset() const {
     return base_offset_;
 }
 
-core::Buffer &BufferAllocation::get_buffer() {
+core::Buffer &BufferAllocation::GetBuffer() {
     assert(buffer_ && "Invalid buffer pointer");
     return *buffer_;
 }

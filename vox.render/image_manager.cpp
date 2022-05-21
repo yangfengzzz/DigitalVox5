@@ -9,11 +9,11 @@
 #include "shader/shader_manager.h"
 
 namespace vox {
-ImageManager *ImageManager::get_singleton_ptr() {
+ImageManager *ImageManager::GetSingletonPtr() {
     return ms_singleton_;
 }
 
-ImageManager &ImageManager::get_singleton() {
+ImageManager &ImageManager::GetSingleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }
@@ -38,10 +38,10 @@ sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
     // Note that for simplicity, we will always be using max. available anisotropy level for the current device
     // This may have an impact on performance, esp. on lower-specced devices
     // In a real-world scenario the level of anisotropy should be a user setting or e.g. lowered for mobile devices by default
-    sampler_create_info_.maxAnisotropy = device.get_gpu().get_features().samplerAnisotropy
-    ? (device.get_gpu().get_properties().limits.maxSamplerAnisotropy)
+    sampler_create_info_.maxAnisotropy = device.GetGpu().GetFeatures().samplerAnisotropy
+    ? (device.GetGpu().GetProperties().limits.maxSamplerAnisotropy)
     : 1.0f;
-    sampler_create_info_.anisotropyEnable = device.get_gpu().get_features().samplerAnisotropy;
+    sampler_create_info_.anisotropyEnable = device.GetGpu().GetFeatures().samplerAnisotropy;
     sampler_create_info_.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
     
     sampler_ = std::make_unique<core::Sampler>(device, sampler_create_info_);
@@ -52,8 +52,8 @@ std::shared_ptr<Image> ImageManager::load_texture(const std::string &file) {
     if (iter != image_pool_.end()) {
         return iter->second;
     } else {
-        auto image = vox::Image::load(file, file);
-        image->create_vk_image(device_);
+        auto image = vox::Image::Load(file, file);
+        image->CreateVkImage(device_);
         upload_image(image.get());
         image_pool_.insert(std::make_pair(file, image));
         return image;
@@ -65,8 +65,8 @@ std::shared_ptr<Image> ImageManager::load_texture_array(const std::string &file)
     if (iter != image_pool_.end()) {
         return iter->second;
     } else {
-        auto image = vox::Image::load(file, file);
-        image->create_vk_image(device_, VK_IMAGE_VIEW_TYPE_2D_ARRAY);
+        auto image = vox::Image::Load(file, file);
+        image->CreateVkImage(device_, VK_IMAGE_VIEW_TYPE_2D_ARRAY);
         upload_image(image.get());
         image_pool_.insert(std::make_pair(file, image));
         return image;
@@ -78,8 +78,8 @@ std::shared_ptr<Image> ImageManager::load_texture_cubemap(const std::string &fil
     if (iter != image_pool_.end()) {
         return iter->second;
     } else {
-        auto image = vox::Image::load(file, file);
-        image->create_vk_image(device_, VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
+        auto image = vox::Image::Load(file, file);
+        image->CreateVkImage(device_, VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
         upload_image(image.get());
         image_pool_.insert(std::make_pair(file, image));
         return image;
@@ -87,34 +87,33 @@ std::shared_ptr<Image> ImageManager::load_texture_cubemap(const std::string &fil
 }
 
 void ImageManager::upload_image(Image* image) {
-    const auto &queue = device_.get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
+    const auto &queue = device_.GetQueueByFlags(VK_QUEUE_GRAPHICS_BIT, 0);
     
-    VkCommandBuffer command_buffer = device_.create_command_buffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
+    VkCommandBuffer command_buffer = device_.CreateCommandBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
     
-    vox::core::Buffer stage_buffer{device_,
-        image->get_data().size(),
+    vox::core::Buffer stage_buffer{device_, image->GetData().size(),
         VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
         VMA_MEMORY_USAGE_CPU_ONLY};
     
-    stage_buffer.update(image->get_data());
+    stage_buffer.Update(image->GetData());
     
     // Setup buffer copy regions for each mip level
     std::vector<VkBufferImageCopy> buffer_copy_regions;
     
-    auto &mipmaps = image->get_mipmaps();
-    const auto &layers = image->get_layers();
+    auto &mipmaps = image->GetMipmaps();
+    const auto &layers = image->GetLayers();
     
-    auto &offsets = image->get_offsets();
+    auto &offsets = image->GetOffsets();
     
     for (uint32_t layer = 0; layer < layers; layer++) {
         for (size_t i = 0; i < mipmaps.size(); i++) {
             VkBufferImageCopy buffer_copy_region = {};
             buffer_copy_region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-            buffer_copy_region.imageSubresource.mipLevel = vox::to_u32(i);
+            buffer_copy_region.imageSubresource.mipLevel = vox::ToU32(i);
             buffer_copy_region.imageSubresource.baseArrayLayer = layer;
             buffer_copy_region.imageSubresource.layerCount = 1;
-            buffer_copy_region.imageExtent.width = image->get_extent().width >> i;
-            buffer_copy_region.imageExtent.height = image->get_extent().height >> i;
+            buffer_copy_region.imageExtent.width = image->GetExtent().width >> i;
+            buffer_copy_region.imageExtent.height = image->GetExtent().height >> i;
             buffer_copy_region.imageExtent.depth = 1;
             buffer_copy_region.bufferOffset = layers > 1 ? offsets[layer][i] : mipmaps[i].offset;
             
@@ -125,33 +124,26 @@ void ImageManager::upload_image(Image* image) {
     VkImageSubresourceRange subresource_range = {};
     subresource_range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
     subresource_range.baseMipLevel = 0;
-    subresource_range.levelCount = vox::to_u32(mipmaps.size());
+    subresource_range.levelCount = vox::ToU32(mipmaps.size());
     subresource_range.layerCount = layers;
     
     // Image barrier for optimal image (target)
     // Optimal image will be used as destination for the copy
-    vox::set_image_layout(command_buffer,
-                          image->get_vk_image().get_handle(),
-                          VK_IMAGE_LAYOUT_UNDEFINED,
-                          VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                          subresource_range);
+    vox::SetImageLayout(command_buffer, image->GetVkImage().GetHandle(), VK_IMAGE_LAYOUT_UNDEFINED,
+                        VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, subresource_range);
     
     // Copy mip levels from staging buffer
     vkCmdCopyBufferToImage(command_buffer,
-                           stage_buffer.get_handle(),
-                           image->get_vk_image().get_handle(),
+                           stage_buffer.GetHandle(), image->GetVkImage().GetHandle(),
                            VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
                            static_cast<uint32_t>(buffer_copy_regions.size()),
                            buffer_copy_regions.data());
     
     // Change texture image layout to shader read after all mip levels have been copied
-    vox::set_image_layout(command_buffer,
-                          image->get_vk_image().get_handle(),
-                          VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                          VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-                          subresource_range);
-    
-    device_.flush_command_buffer(command_buffer, queue.get_handle());
+    vox::SetImageLayout(command_buffer, image->GetVkImage().GetHandle(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                        VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, subresource_range);
+
+    device_.FlushCommandBuffer(command_buffer, queue.GetHandle());
 }
 
 void ImageManager::collect_garbage() {
@@ -169,41 +161,43 @@ std::shared_ptr<Image> ImageManager::generate_ibl(const std::string &file,
     if (iter != image_pool_.end()) {
         return iter->second;
     } else {
-        auto &command_buffer = render_context.begin();
-        command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+        auto &command_buffer = render_context.Begin();
+        command_buffer.Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
         
         auto source = load_texture_cubemap(file);
-        auto baker_mipmap_count = static_cast<uint32_t>(source->get_mipmaps().size());
-        std::vector<Mipmap> mipmap = source->get_mipmaps();
+        auto baker_mipmap_count = static_cast<uint32_t>(source->GetMipmaps().size());
+        std::vector<Mipmap> mipmap = source->GetMipmaps();
         
         auto target = std::make_shared<Image>(file + "ibl", std::vector<uint8_t>(), std::move(mipmap));
-        target->set_layers(source->get_layers());
-        target->set_format(source->get_format());
-        target->create_vk_image(device_, 0, VK_IMAGE_USAGE_STORAGE_BIT|VK_IMAGE_USAGE_SAMPLED_BIT);
+        target->SetLayers(source->GetLayers());
+        target->SetFormat(source->GetFormat());
+        target->CreateVkImage(device_, 0, VK_IMAGE_USAGE_STORAGE_BIT | VK_IMAGE_USAGE_SAMPLED_BIT);
         
         if (!pipeline_) {
             pipeline_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
-            ibl_pass_ = &pipeline_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/ibl.comp"));
-            ibl_pass_->attach_shader_data(&shader_data_);
+            ibl_pass_ = &pipeline_->AddPass<PostProcessingComputePass>(
+                    ShaderManager::GetSingleton().LoadShader("base/ibl.comp"));
+            ibl_pass_->AttachShaderData(&shader_data_);
         }
-        shader_data_.set_sampled_texture("environmentMap", source->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE), sampler_.get());
-        uint32_t source_width = source->get_extent().width;
-        shader_data_.set_data("textureSize", source_width);
+        shader_data_.SetSampledTexture("environmentMap", source->GetVkImageView(VK_IMAGE_VIEW_TYPE_CUBE),
+                                       sampler_.get());
+        uint32_t source_width = source->GetExtent().width;
+        shader_data_.SetData("textureSize", source_width);
         
-        auto &render_frame = render_context.get_active_frame();
+        auto &render_frame = render_context.GetActiveFrame();
         for (uint32_t lod = 0; lod < baker_mipmap_count; lod++) {
             float lod_roughness = float(lod) / float(baker_mipmap_count - 1); // linear
-            auto allocation = render_frame.allocate_buffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(float), 0);
-            allocation.update(lod_roughness);
-            shader_data_.set_data("lodRoughness", std::move(allocation));
-            
-            shader_data_.set_storage_texture("o_results", target->get_vk_image_view(VK_IMAGE_VIEW_TYPE_CUBE, lod, 0, 1, 0));
-            
-            ibl_pass_->set_dispatch_size({(source_width + 8) / 8, (source_width + 8) / 8, 6});
-            pipeline_->draw(command_buffer, render_context.get_active_frame().get_render_target());
+            auto allocation = render_frame.AllocateBuffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(float), 0);
+            allocation.Update(lod_roughness);
+            shader_data_.SetData("lodRoughness", std::move(allocation));
+
+            shader_data_.SetStorageTexture("o_results", target->GetVkImageView(VK_IMAGE_VIEW_TYPE_CUBE, lod, 0, 1, 0));
+
+            ibl_pass_->SetDispatchSize({(source_width + 8) / 8, (source_width + 8) / 8, 6});
+            pipeline_->Draw(command_buffer, render_context.GetActiveFrame().GetRenderTarget());
         }
-        command_buffer.end();
-        render_context.submit(command_buffer);
+        command_buffer.End();
+        render_context.Submit(command_buffer);
         
         image_pool_.insert(std::make_pair(file + "ibl", target));
         return target;
@@ -212,13 +206,13 @@ std::shared_ptr<Image> ImageManager::generate_ibl(const std::string &file,
 
 SphericalHarmonics3 ImageManager::generate_sh(const std::string &file) {
     auto source = load_texture_cubemap(file);
-    const auto &layers = source->get_layers();
-    auto &offsets = source->get_offsets();
-    uint32_t texture_size = source->get_extent().width;
+    const auto &layers = source->GetLayers();
+    auto &offsets = source->GetOffsets();
+    uint32_t texture_size = source->GetExtent().width;
     float texel_size = 2.f / static_cast<float>(texture_size); // convolution is in the space of [-1, 1]
     
     float solid_angle_sum = 0;
-    const uint32_t kChannelLength = get_bits_per_pixel(source->get_format()) / 8;
+    const uint32_t kChannelLength = GetBitsPerPixel(source->GetFormat()) / 8;
     const uint32_t kChannelShift = kChannelLength / 4;
     const float kTotalColor = std::powf(256.f, static_cast<float>(kChannelShift)) - 1;
     SphericalHarmonics3 sh;
@@ -292,13 +286,13 @@ SphericalHarmonics3 ImageManager::generate_sh(const std::string &file) {
 std::shared_ptr<Image> ImageManager::packed_shadow_map(CommandBuffer &command_buffer,
                                                        std::vector<RenderTarget*> used_shadow,
                                                        uint32_t shadow_map_resolution) {
-    if (!packed_shadow_map_ || packed_shadow_map_->get_layers() != used_shadow.size()) {
+    if (!packed_shadow_map_ || packed_shadow_map_->GetLayers() != used_shadow.size()) {
         std::vector<Mipmap> mipmap(1);
         mipmap[0].extent = {shadow_map_resolution, shadow_map_resolution, 1};
         packed_shadow_map_ = std::make_shared<Image>("shadowmap", std::vector<uint8_t>(), std::move(mipmap));
-        packed_shadow_map_->set_layers(static_cast<uint32_t>(used_shadow.size()));
-        packed_shadow_map_->set_format(get_suitable_depth_format(command_buffer.get_device().get_gpu().get_handle()));
-        packed_shadow_map_->create_vk_image(command_buffer.get_device());
+        packed_shadow_map_->SetLayers(static_cast<uint32_t>(used_shadow.size()));
+        packed_shadow_map_->SetFormat(GetSuitableDepthFormat(command_buffer.GetDevice().GetGpu().GetHandle()));
+        packed_shadow_map_->CreateVkImage(command_buffer.GetDevice());
     }
     
     std::vector<VkImageCopy> regions(1);
@@ -309,8 +303,8 @@ std::shared_ptr<Image> ImageManager::packed_shadow_map(CommandBuffer &command_bu
     for (uint32_t i = 0; i < used_shadow.size(); i++) {
         regions[0].dstSubresource.baseArrayLayer = i;
         
-        const auto& src_img = used_shadow[i]->get_views()[0].get_image();
-        command_buffer.copy_image(src_img, packed_shadow_map_->get_vk_image(), regions);
+        const auto& src_img = used_shadow[i]->GetViews()[0].GetImage();
+        command_buffer.CopyImage(src_img, packed_shadow_map_->GetVkImage(), regions);
     }
     return packed_shadow_map_;
 }

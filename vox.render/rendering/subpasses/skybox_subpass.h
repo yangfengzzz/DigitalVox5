@@ -25,24 +25,24 @@ public:
     
     ~SkyboxSubpass() override = default;
     
-    void prepare() override;
+    void Prepare() override;
     
     /**
      * @brief Record draw commands
      */
-    void draw(CommandBuffer &command_buffer) override;
+    void Draw(CommandBuffer &command_buffer) override;
     
 public:
-    void create_cuboid();
+    void CreateCuboid();
     
-    void flip_vertically();
+    void FlipVertically();
     
     /**
      * Texture cube map of the sky box material.
      */
-    [[nodiscard]] const std::shared_ptr<Image> &texture_cube_map() const;
+    [[nodiscard]] const std::shared_ptr<Image> &TextureCubeMap() const;
     
-    void set_texture_cube_map(const std::shared_ptr<Image> &v);
+    void SetTextureCubeMap(const std::shared_ptr<Image> &v);
     
 private:
     bool is_flip_vertically_{false};

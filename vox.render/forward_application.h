@@ -28,17 +28,17 @@ public:
     /**
      * @brief Additional sample initialization
      */
-    bool prepare(Platform &platform) override;
+    bool Prepare(Platform &platform) override;
     
     /**
      * @brief Main loop sample events
      */
-    void update(float delta_time) override;
+    void Update(float delta_time) override;
     
-    bool resize(uint32_t win_width, uint32_t win_height,
+    bool Resize(uint32_t win_width, uint32_t win_height,
                 uint32_t fb_width, uint32_t fb_height) override;
     
-    void input_event(const InputEvent &input_event) override;
+    void InputEvent(const vox::InputEvent &input_event) override;
     
     void render(CommandBuffer &command_buffer, RenderTarget &render_target) override;
     

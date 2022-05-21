@@ -13,9 +13,9 @@
 namespace vox {
 class MeshManager : public Singleton<MeshManager> {
 public:
-    static MeshManager &get_singleton();
+    static MeshManager &GetSingleton();
     
-    static MeshManager *get_singleton_ptr();
+    static MeshManager *GetSingletonPtr();
     
     explicit MeshManager(Device &device);
     

@@ -40,12 +40,12 @@ private:
      * @param extent Extent of the image
      * @param data Pointer to ASTC image data
      */
-    void decode(BlockDim blockdim, VkExtent3D extent, const uint8_t *data);
+    void Decode(BlockDim blockdim, VkExtent3D extent, const uint8_t *data);
     
     /**
      * @brief Initializes ASTC library
      */
-    static void init();
+    static void Init();
 };
 
 }        // namespace vox

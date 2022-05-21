@@ -25,11 +25,11 @@ public:
     
     ~Cli11CommandContext() override = default;
     
-    [[nodiscard]] bool has_group_name() const;
+    [[nodiscard]] bool HasGroupName() const;
     
-    [[nodiscard]] const std::string &get_group_name() const;
+    [[nodiscard]] const std::string &GetGroupName() const;
     
-    [[nodiscard]] CLI11CommandContextState get_state() const;
+    [[nodiscard]] CLI11CommandContextState GetState() const;
     
     CLI::App *cli_11_;
     
@@ -44,14 +44,14 @@ public:
     
     ~Cli11CommandParser() override = default;
     
-    [[nodiscard]] std::vector<std::string> help() const override;
+    [[nodiscard]] std::vector<std::string> Help() const override;
     
-    bool parse(const std::vector<Plugin *> &plugins) override;
+    bool Parse(const std::vector<Plugin *> &plugins) override;
     
-    bool parse(const std::vector<Command *> &commands) override;
+    bool Parse(const std::vector<Command *> &commands) override;
     
 protected:
-#define CAST(type) virtual void parse(CommandParserContext *context, type *command) override;
+#define CAST(type) virtual void Parse(CommandParserContext *context, type *command) override;
     
     CAST(CommandGroup);
     
@@ -62,15 +62,15 @@ protected:
     CAST(FlagCommand);
 #undef CAST
     
-    void parse(Cli11CommandContext *context, CommandGroup *command);
+    void Parse(Cli11CommandContext *context, CommandGroup *command);
     
-    void parse(Cli11CommandContext *context, SubCommand *command);
+    void Parse(Cli11CommandContext *context, SubCommand *command);
     
-    void parse(Cli11CommandContext *context, PositionalCommand *command);
+    void Parse(Cli11CommandContext *context, PositionalCommand *command);
     
-    void parse(Cli11CommandContext *context, FlagCommand *command);
+    void Parse(Cli11CommandContext *context, FlagCommand *command);
     
-    bool contains(Command *command) const override;
+    bool Contains(Command *command) const override;
     
 private:
     std::vector<const char *> args_;
@@ -81,9 +81,9 @@ private:
     std::unordered_map<Plugin *, std::shared_ptr<CLI::App>> option_groups_;
     std::shared_ptr<HelpFormatter> formatter_;
     
-    std::vector<std::string> get_command_value(Command *command) const override;
+    std::vector<std::string> GetCommandValue(Command *command) const override;
     
-    bool cli_11_parse(CLI::App *app);
+    bool Cli11Parse(CLI::App *app);
 };
 
 }        // namespace vox

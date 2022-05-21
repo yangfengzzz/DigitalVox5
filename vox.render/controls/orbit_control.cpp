@@ -38,26 +38,26 @@ void OrbitControl::resize(uint32_t win_width, uint32_t win_height,
 
 void OrbitControl::input_event(const InputEvent &input_event) {
     if (enable_event_) {
-        if (input_event.get_source() == EventSource::KEYBOARD) {
+        if (input_event.GetSource() == EventSource::KEYBOARD) {
             const auto &key_event = static_cast<const KeyInputEvent &>(input_event);
-            on_key_down(key_event.get_code());
-        } else if (input_event.get_source() == EventSource::MOUSE) {
+            on_key_down(key_event.GetCode());
+        } else if (input_event.GetSource() == EventSource::MOUSE) {
             const auto &mouse_button = static_cast<const MouseButtonInputEvent &>(input_event);
-            if (mouse_button.get_action() == MouseAction::DOWN) {
-                on_mouse_down(mouse_button.get_button(), mouse_button.get_pos_x(), mouse_button.get_pos_y());
+            if (mouse_button.GetAction() == MouseAction::DOWN) {
+                on_mouse_down(mouse_button.GetButton(), mouse_button.GetPosX(), mouse_button.GetPosY());
                 enable_move_ = true;
-            } else if (mouse_button.get_action() == MouseAction::UP) {
+            } else if (mouse_button.GetAction() == MouseAction::UP) {
                 on_mouse_up();
                 enable_move_ = false;
             }
             
-            if (enable_move_ && mouse_button.get_action() == MouseAction::MOVE) {
-                on_mouse_move(mouse_button.get_pos_x(), mouse_button.get_pos_y());
+            if (enable_move_ && mouse_button.GetAction() == MouseAction::MOVE) {
+                on_mouse_move(mouse_button.GetPosX(), mouse_button.GetPosY());
             }
-        } else if (input_event.get_source() == EventSource::SCROLL) {
+        } else if (input_event.GetSource() == EventSource::SCROLL) {
             const auto &scroll_event = static_cast<const ScrollInputEvent &>(input_event);
-            on_mouse_wheel(scroll_event.offset_x(), scroll_event.offset_y());
-        } else if (input_event.get_source() == EventSource::TOUCHSCREEN) {
+            on_mouse_wheel(scroll_event.OffsetX(), scroll_event.OffsetY());
+        } else if (input_event.GetSource() == EventSource::TOUCHSCREEN) {
             // TODO
         }
     }

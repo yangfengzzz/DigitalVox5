@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "helpers.h"
-#include "vk_common.h"
 #include "core/render_pass.h"
+#include "helpers.h"
 #include "rendering/render_target.h"
+#include "vk_common.h"
 
 namespace vox {
 class Device;
@@ -17,27 +17,27 @@ class Device;
 class Framebuffer {
 public:
     Framebuffer(Device &device, const RenderTarget &render_target, const RenderPass &render_pass);
-    
+
     Framebuffer(const Framebuffer &) = delete;
-    
+
     Framebuffer(Framebuffer &&other) noexcept;
-    
+
     ~Framebuffer();
-    
+
     Framebuffer &operator=(const Framebuffer &) = delete;
-    
+
     Framebuffer &operator=(Framebuffer &&) = delete;
-    
-    [[nodiscard]] VkFramebuffer get_handle() const;
-    
-    [[nodiscard]] const VkExtent2D &get_extent() const;
-    
+
+    [[nodiscard]] VkFramebuffer GetHandle() const;
+
+    [[nodiscard]] const VkExtent2D &GetExtent() const;
+
 private:
     Device &device_;
-    
+
     VkFramebuffer handle_{VK_NULL_HANDLE};
-    
+
     VkExtent2D extent_{};
 };
 
-}        // namespace vox
+}  // namespace vox

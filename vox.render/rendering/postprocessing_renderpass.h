@@ -71,17 +71,17 @@ public:
      * @brief Maps the names of input attachments in the shader to indices into the render target's images.
      *        These are given as `subpassInput`s to the subpass, at set 0; they are bound automatically according to their name.
      */
-    [[nodiscard]] inline const AttachmentMap &get_input_attachments() const {
+    [[nodiscard]] inline const AttachmentMap &GetInputAttachments() const {
         return input_attachments_;
     }
     
     /**
      * @brief Maps the names of samplers in the shader to vox::core::SampledImage.
      *        These are given as samplers to the subpass, at set 0; they are bound automatically according to their name.
-     * @remarks PostProcessingPipeline::get_sampler() is used as the default sampler if none is specified.
+     * @remarks PostProcessingPipeline::GetSampler() is used as the default sampler if none is specified.
      *          The RenderTarget for the current PostProcessingSubpass is used if none is specified for attachment images.
      */
-    [[nodiscard]] inline const SampledMap &get_sampled_images() const {
+    [[nodiscard]] inline const SampledMap &GetSampledImages() const {
         return sampled_images_;
     }
     
@@ -89,21 +89,21 @@ public:
      * @brief Maps the names of storage images in the shader to vox::core::ImageView.
      *        These are given as image2D[Array] to the subpass, at set 0; they are bound automatically according to their name.
      */
-    [[nodiscard]] inline const StorageImageMap &get_storage_images() const {
+    [[nodiscard]] inline const StorageImageMap &GetStorageImages() const {
         return storage_images_;
     }
     
     /**
      * @brief Returns the shader variant used for this postprocess' fragment shader.
      */
-    inline ShaderVariant &get_fs_variant() {
+    inline ShaderVariant &GetFsVariant() {
         return fs_variant_;
     }
     
     /**
      * @brief Sets the shader variant that will be used for this postprocess' fragment shader.
      */
-    inline PostProcessingSubpass &set_fs_variant(ShaderVariant &&new_variant) {
+    inline PostProcessingSubpass &SetFsVariant(ShaderVariant &&new_variant) {
         fs_variant_ = std::move(new_variant);
         
         return *this;
@@ -112,8 +112,8 @@ public:
     /**
      * @brief Changes the debug name of this Subpass.
      */
-    inline PostProcessingSubpass &set_debug_name(const std::string &name) {
-        Subpass::set_debug_name(name);
+    inline PostProcessingSubpass &SetDebugName(const std::string &name) {
+        Subpass::SetDebugName(name);
         
         return *this;
     }
@@ -121,30 +121,30 @@ public:
     /**
      * @brief Changes (or adds) the input attachment at name for this step.
      */
-    PostProcessingSubpass &bind_input_attachment(const std::string &name, uint32_t new_input_attachment);
+    PostProcessingSubpass &BindInputAttachment(const std::string &name, uint32_t new_input_attachment);
     
     /**
      * @brief Changes (or adds) the sampled image at name for this step.
      * @remarks If no RenderTarget is specifically set for the core::SampledImage,
      *          it will default to sample in the RenderTarget currently bound for drawing in the parent PostProcessingRenderpass.
      */
-    PostProcessingSubpass &bind_sampled_image(const std::string &name, core::SampledImage &&new_image);
+    PostProcessingSubpass &BindSampledImage(const std::string &name, core::SampledImage &&new_image);
     
     /**
      * @brief Changes (or adds) the storage image at name for this step.
      */
-    PostProcessingSubpass &bind_storage_image(const std::string &name, const core::ImageView &new_image);
+    PostProcessingSubpass &BindStorageImage(const std::string &name, const core::ImageView &new_image);
     
     /**
      * @brief Set the constants that are pushed before each fullscreen draw.
      */
-    PostProcessingSubpass &set_push_constants(const std::vector<uint8_t> &data);
+    PostProcessingSubpass &SetPushConstants(const std::vector<uint8_t> &data);
     
     /**
      * @brief Set the constants that are pushed before each fullscreen draw.
      */
     template<typename T>
-    inline PostProcessingSubpass &set_push_constants(const T &data) {
+    inline PostProcessingSubpass &SetPushConstants(const T &data) {
         push_constants_data_.reserve(sizeof(data));
         auto data_ptr = reinterpret_cast<const uint8_t *>(&data);
         push_constants_data_.assign(data_ptr, data_ptr + sizeof(data));
@@ -154,20 +154,20 @@ public:
     
     /**
      * @brief A functor used to draw the primitives for a post-processing step.
-     * @see default_draw_func()
+     * @see DefaultDrawFunc()
      */
     using DrawFunc = std::function<void(CommandBuffer &command_buffer, RenderTarget &render_target)>;
     
     /**
      * @brief Sets the function used to draw this postprocessing step.
-     * @see default_draw_func()
+     * @see DefaultDrawFunc()
      */
-    PostProcessingSubpass &set_draw_func(DrawFunc &&new_func);
+    PostProcessingSubpass &SetDrawFunc(DrawFunc &&new_func);
     
     /**
      * @brief The default function used to draw a step; it draws 1 instance with 3 vertices.
      */
-    static void default_draw_func(vox::CommandBuffer &command_buffer, vox::RenderTarget &render_target);
+    static void DefaultDrawFunc(vox::CommandBuffer &command_buffer, vox::RenderTarget &render_target);
     
 private:
     PostProcessingRenderPass *parent_;
@@ -182,10 +182,10 @@ private:
     
     std::vector<uint8_t> push_constants_data_{};
     
-    DrawFunc draw_func_{&PostProcessingSubpass::default_draw_func};
+    DrawFunc draw_func_{&PostProcessingSubpass::DefaultDrawFunc};
     
-    void prepare() override;
-    void draw(CommandBuffer &command_buffer) override;
+    void Prepare() override;
+    void Draw(CommandBuffer &command_buffer) override;
 };
 
 //MARK: - PostProcessingRenderPass
@@ -205,13 +205,13 @@ public:
     PostProcessingRenderPass(PostProcessingRenderPass &&to_move) = default;
     PostProcessingRenderPass &operator=(PostProcessingRenderPass &&to_move) = default;
     
-    void draw(CommandBuffer &command_buffer, RenderTarget &default_render_target) override;
+    void Draw(CommandBuffer &command_buffer, RenderTarget &default_render_target) override;
     
     /**
      * @brief Gets the step at the given index.
      */
-    inline PostProcessingSubpass &get_subpass(size_t index) {
-        return *dynamic_cast<PostProcessingSubpass *>(pipeline_.get_subpasses().at(index).get());
+    inline PostProcessingSubpass &GetSubpass(size_t index) {
+        return *dynamic_cast<PostProcessingSubpass *>(pipeline_.GetSubpasses().at(index).get());
     }
     
     /**
@@ -220,15 +220,14 @@ public:
      * @returns The inserted step.
      */
     template<typename... ConstructorArgs>
-    PostProcessingSubpass &add_subpass(ConstructorArgs &&... args) {
-        ShaderSource vs_copy = get_triangle_vs();
-        auto new_subpass = std::make_unique<PostProcessingSubpass>(this,
-                                                                   get_render_context(),
+    PostProcessingSubpass &AddSubpass(ConstructorArgs &&... args) {
+        ShaderSource vs_copy = GetTriangleVs();
+        auto new_subpass = std::make_unique<PostProcessingSubpass>(this, GetRenderContext(),
                                                                    std::move(vs_copy),
                                                                    std::forward<ConstructorArgs>(args)...);
         auto &new_subpass_ref = *new_subpass;
-        
-        pipeline_.add_subpass(std::move(new_subpass));
+
+        pipeline_.AddSubpass(std::move(new_subpass));
         
         return new_subpass_ref;
     }
@@ -237,7 +236,7 @@ public:
      * @brief Set the uniform data to be bound at set 0, binding 0.
      */
     template<typename T>
-    inline PostProcessingRenderPass &set_uniform_data(const T &data) {
+    inline PostProcessingRenderPass &SetUniformData(const T &data) {
         uniform_data_.reserve(sizeof(data));
         auto data_ptr = reinterpret_cast<const uint8_t *>(&data);
         uniform_data_.assign(data_ptr, data_ptr + sizeof(data));
@@ -246,9 +245,9 @@ public:
     }
     
     /**
-     * @copydoc set_uniform_data(const T&)
+     * @copydoc SetUniformData(const T&)
      */
-    inline PostProcessingRenderPass &set_uniform_data(const std::vector<uint8_t> &data) {
+    inline PostProcessingRenderPass &SetUniformData(const std::vector<uint8_t> &data) {
         uniform_data_ = data;
         
         return *this;
@@ -262,7 +261,7 @@ private:
      * @brief Transition input, sampled and output attachments as appropriate.
      * @remarks If a RenderTarget is not explicitly set for this pass, fallback_render_target is used.
      */
-    void transition_attachments(const AttachmentSet &input_attachments,
+    void TransitionAttachments(const AttachmentSet &input_attachments,
                                 const SampledAttachmentSet &sampled_attachments,
                                 const AttachmentSet &output_attachments,
                                 CommandBuffer &command_buffer,
@@ -274,7 +273,7 @@ private:
      *        in the pipeline.
      * @remarks If a RenderTarget is not explicitly set for this pass, fallback_render_target is used.
      */
-    void update_load_stores(const AttachmentSet &input_attachments,
+    void UpdateLoadStores(const AttachmentSet &input_attachments,
                             const SampledAttachmentSet &sampled_attachments,
                             const AttachmentSet &output_attachments,
                             const RenderTarget &fallback_render_target);
@@ -282,10 +281,10 @@ private:
     /**
      * @brief Transition images and prepare load/stores before draw()ing.
      */
-    void prepare_draw(CommandBuffer &command_buffer, RenderTarget &fallback_render_target);
+    void PrepareDraw(CommandBuffer &command_buffer, RenderTarget &fallback_render_target);
     
-    [[nodiscard]] BarrierInfo get_src_barrier_info() const override;
-    [[nodiscard]] BarrierInfo get_dst_barrier_info() const override;
+    [[nodiscard]] BarrierInfo GetSrcBarrierInfo() const override;
+    [[nodiscard]] BarrierInfo GetDstBarrierInfo() const override;
     
     RenderPipeline pipeline_{};
     std::unique_ptr<core::Sampler> default_sampler_{};

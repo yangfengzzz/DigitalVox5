@@ -19,7 +19,7 @@ CharacterController(entity) {
 }
 
 void CapsuleCharacterController::set_desc(const PxCapsuleControllerDesc &desc) {
-    native_controller_ = PhysicsManager::get_singleton().native_character_controller_manager_->createController(desc);
+    native_controller_ = PhysicsManager::GetSingleton().native_character_controller_manager_->createController(desc);
 }
 
 float CapsuleCharacterController::radius() const {

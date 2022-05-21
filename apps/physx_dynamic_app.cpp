@@ -40,7 +40,7 @@ public:
     }
     
     void input_event(const InputEvent &input_event) override {
-        if (input_event.get_source() == EventSource::KEYBOARD) {
+        if (input_event.GetSource() == EventSource::KEYBOARD) {
             const auto &key_event = static_cast<const KeyInputEvent &>(input_event);
             
             Vector3F forward = entity()->transform_->position() - camera_->transform_->position();
@@ -48,7 +48,7 @@ public:
             forward.normalize();
             Vector3F cross = Vector3F(forward.z, 0, -forward.x);
             
-            switch (key_event.get_code()) {
+            switch (key_event.GetCode()) {
                 case KeyCode::W:displacement_ = forward * 0.3f;
                     break;
                 case KeyCode::S:displacement_ = -forward * 0.3f;
@@ -214,13 +214,13 @@ void PhysXDynamicApp::load_scene() {
 void PhysXDynamicApp::input_event(const InputEvent &input_event) {
     ForwardApplication::input_event(input_event);
     
-    if (input_event.get_source() == EventSource::MOUSE) {
+    if (input_event.GetSource() == EventSource::MOUSE) {
         const auto &mouse_button = static_cast<const MouseButtonInputEvent &>(input_event);
-        if (mouse_button.get_action() == MouseAction::DOWN) {
-            Ray ray = main_camera_->screen_point_to_ray(Vector2F(mouse_button.get_pos_x(), mouse_button.get_pos_y()));
+        if (mouse_button.GetAction() == MouseAction::DOWN) {
+            Ray ray = main_camera_->screen_point_to_ray(Vector2F(mouse_button.GetPosX(), mouse_button.GetPosY()));
             
             physics::HitResult hit;
-            auto result = physics::PhysicsManager::get_singleton().raycast(ray, std::numeric_limits<float>::max(),
+            auto result = physics::PhysicsManager::GetSingleton().raycast(ray, std::numeric_limits<float>::max(),
                                                                            Layer::LAYER_0, hit);
             if (result) {
                 auto mtl = std::make_shared<BlinnPhongMaterial>(*device_);
@@ -232,13 +232,13 @@ void PhysXDynamicApp::input_event(const InputEvent &input_event) {
                 }
             }
         }
-    } else if (input_event.get_source() == EventSource::KEYBOARD) {
+    } else if (input_event.GetSource() == EventSource::KEYBOARD) {
         const auto &key_event = static_cast<const KeyInputEvent &>(input_event);
-        if (key_event.get_action() == KeyAction::UP) {
+        if (key_event.GetAction() == KeyAction::UP) {
             Vector3F dir = main_camera_->entity()->transform_->world_forward();
             dir = dir * 50.0f;
             
-            switch (key_event.get_code()) {
+            switch (key_event.GetCode()) {
                 case KeyCode::ENTER:
                     add_sphere(0.5, main_camera_->entity()->transform_->position(),
                                main_camera_->entity()->transform_->rotation_quaternion(), dir);

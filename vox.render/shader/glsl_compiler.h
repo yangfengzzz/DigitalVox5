@@ -34,13 +34,13 @@ public:
      * @param target_language The language to translate to
      * @param target_language_version The version of the language to translate to
      */
-    static void set_target_environment(glslang::EShTargetLanguage target_language,
+    static void SetTargetEnvironment(glslang::EShTargetLanguage target_language,
                                        glslang::EShTargetLanguageVersion target_language_version);
     
     /**
      * @brief Reset the glslang target environment to the default values
      */
-    static void reset_target_environment();
+    static void ResetTargetEnvironment();
     
     /**
      * @brief Compiles GLSL to SPIRV code
@@ -51,7 +51,7 @@ public:
      * @param[out] spirv The generated SPIRV code
      * @param[out] info_log Stores any log messages during the compilation process
      */
-    static bool compile_to_spirv(VkShaderStageFlagBits stage,
+    static bool CompileToSpirv(VkShaderStageFlagBits stage,
                                  const std::vector<uint8_t> &glsl_source,
                                  const std::string &entry_point,
                                  const ShaderVariant &shader_variant,

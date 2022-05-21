@@ -12,11 +12,11 @@
 #include "logging.h"
 
 namespace vox {
-LightManager *LightManager::get_singleton_ptr() {
+LightManager *LightManager::GetSingletonPtr() {
     return ms_singleton_;
 }
 
-LightManager &LightManager::get_singleton() {
+LightManager &LightManager::GetSingleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }
@@ -33,33 +33,32 @@ cluster_lights_prop_("clusterLights") {
     auto &device = scene_->device();
     clusters_buffer_ = std::make_unique<core::Buffer>(device, sizeof(Clusters),
                                                       VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, VMA_MEMORY_USAGE_GPU_ONLY);
-    shader_data_.set_buffer_functor(clusters_prop_, [this]() -> core::Buffer* {
-        return clusters_buffer_.get();
-    });
+    shader_data_.SetBufferFunctor(clusters_prop_, [this]() -> core::Buffer * { return clusters_buffer_.get(); });
     
     cluster_lights_buffer_ = std::make_unique<core::Buffer>(device, sizeof(ClusterLightGroup),
                                                             VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, VMA_MEMORY_USAGE_CPU_TO_GPU);
-    scene_->shader_data_.set_buffer_functor(cluster_lights_prop_, [this]() -> core::Buffer* {
-        return cluster_lights_buffer_.get();
-    });
+    scene_->shader_data_.SetBufferFunctor(cluster_lights_prop_,
+                                          [this]() -> core::Buffer * { return cluster_lights_buffer_.get(); });
     
     cluster_bounds_compute_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
-    bounds_pass_ = &cluster_bounds_compute_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/light/cluster_bounds.comp"));
-    bounds_pass_->set_dispatch_size(dispatch_size_);
-    bounds_pass_->attach_shader_data(&shader_data_);
-    bounds_pass_->attach_shader_data(&scene_->shader_data_);
+    bounds_pass_ = &cluster_bounds_compute_->AddPass<PostProcessingComputePass>(
+            ShaderManager::GetSingleton().LoadShader("base/light/cluster_bounds.comp"));
+    bounds_pass_->SetDispatchSize(dispatch_size_);
+    bounds_pass_->AttachShaderData(&shader_data_);
+    bounds_pass_->AttachShaderData(&scene_->shader_data_);
     
     cluster_lights_compute_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
-    lights_pass_ = &cluster_lights_compute_->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/light/cluster_light.comp"));
-    lights_pass_->set_dispatch_size(dispatch_size_);
-    lights_pass_->attach_shader_data(&shader_data_);
-    lights_pass_->attach_shader_data(&scene_->shader_data_);
+    lights_pass_ = &cluster_lights_compute_->AddPass<PostProcessingComputePass>(
+            ShaderManager::GetSingleton().LoadShader("base/light/cluster_light.comp"));
+    lights_pass_->SetDispatchSize(dispatch_size_);
+    lights_pass_->AttachShaderData(&shader_data_);
+    lights_pass_->AttachShaderData(&scene_->shader_data_);
 }
 
 void LightManager::set_camera(Camera *camera) {
     camera_ = camera;
-    bounds_pass_->attach_shader_data(&camera_->shader_data_);
-    lights_pass_->attach_shader_data(&camera_->shader_data_);
+    bounds_pass_->AttachShaderData(&camera_->shader_data_);
+    lights_pass_->AttachShaderData(&camera_->shader_data_);
 }
 
 //MARK: - Point Light
@@ -146,24 +145,24 @@ void LightManager::update_shader_data(ShaderData &shader_data) {
     }
     
     if (direct_light_count) {
-        shader_data.add_define(DIRECT_LIGHT_COUNT + std::to_string(direct_light_count));
-        shader_data.set_data(LightManager::direct_light_property_, direct_light_datas_);
+        shader_data.AddDefine(DIRECT_LIGHT_COUNT + std::to_string(direct_light_count));
+        shader_data.SetData(LightManager::direct_light_property_, direct_light_datas_);
     } else {
-        shader_data.remove_define(DIRECT_LIGHT_COUNT);
+        shader_data.RemoveDefine(DIRECT_LIGHT_COUNT);
     }
     
     if (point_light_count) {
-        shader_data.add_define(POINT_LIGHT_COUNT + std::to_string(point_light_count));
-        shader_data.set_data(LightManager::point_light_property_, point_light_datas_);
+        shader_data.AddDefine(POINT_LIGHT_COUNT + std::to_string(point_light_count));
+        shader_data.SetData(LightManager::point_light_property_, point_light_datas_);
     } else {
-        shader_data.remove_define(POINT_LIGHT_COUNT);
+        shader_data.RemoveDefine(POINT_LIGHT_COUNT);
     }
     
     if (spot_light_count) {
-        shader_data.add_define(SPOT_LIGHT_COUNT + std::to_string(spot_light_count));
-        shader_data.set_data(LightManager::spot_light_property_, spot_light_datas_);
+        shader_data.AddDefine(SPOT_LIGHT_COUNT + std::to_string(spot_light_count));
+        shader_data.SetData(LightManager::spot_light_property_, spot_light_datas_);
     } else {
-        shader_data.remove_define(SPOT_LIGHT_COUNT);
+        shader_data.RemoveDefine(SPOT_LIGHT_COUNT);
     }
 }
 
@@ -174,7 +173,7 @@ void LightManager::draw(CommandBuffer &command_buffer, RenderTarget &render_targ
     size_t point_light_count = point_lights_.size();
     size_t spot_light_count = spot_lights_.size();
     if (point_light_count + spot_light_count > forward_plus_enable_min_count_) {
-        scene_->shader_data_.add_define("NEED_FORWARD_PLUS");
+        scene_->shader_data_.AddDefine("NEED_FORWARD_PLUS");
 
         bool update_bounds = false;
         
@@ -186,15 +185,15 @@ void LightManager::draw(CommandBuffer &command_buffer, RenderTarget &render_targ
         }
         forward_plus_uniforms_.z = camera_->near_clip_plane();
         forward_plus_uniforms_.w = camera_->far_clip_plane();
-        scene_->shader_data_.set_data(forward_plus_prop_, forward_plus_uniforms_);
+        scene_->shader_data_.SetData(forward_plus_prop_, forward_plus_uniforms_);
         
         // Reset the light offset counter to 0 before populating the light clusters.
         uint32_t empty = 0;
-        cluster_lights_buffer_->update(&empty, sizeof(uint32_t));
+        cluster_lights_buffer_->Update(&empty, sizeof(uint32_t));
         if (update_bounds) {
-            cluster_bounds_compute_->draw(command_buffer, render_target);
+            cluster_bounds_compute_->Draw(command_buffer, render_target);
         }
-        cluster_lights_compute_->draw(command_buffer, render_target);
+        cluster_lights_compute_->Draw(command_buffer, render_target);
     }
 }
 

@@ -19,7 +19,7 @@ public:
     
     ShaderVariant(std::string &&preamble, std::vector<std::string> &&processes);
     
-    [[nodiscard]] size_t get_id() const;
+    [[nodiscard]] size_t GetId() const;
     
     /**
      * Union of two variant collection.
@@ -27,20 +27,20 @@ public:
      * @param right - input variant collection
      * @param result - union variant macro collection
      */
-    static void union_collection(const ShaderVariant &left, const ShaderVariant &right,
+    static void UnionCollection(const ShaderVariant &left, const ShaderVariant &right,
                                  ShaderVariant &result);
     
     /**
      * @brief Adds a define macro to the shader
      * @param def String which should go to the right of a define directive
      */
-    void add_define(const std::string &def);
+    void AddDefine(const std::string &def);
     
     /**
      * @brief Remove a def macro to the shader
      * @param def String which should go to the right of a define directive
      */
-    void remove_define(const std::string &def);
+    void RemoveDefine(const std::string &def);
     
     /**
      * @brief Specifies the size of a named runtime array for automatic reflection. If already specified, overrides the size.
@@ -48,17 +48,17 @@ public:
      * @param size Integer specifying the wanted size of the runtime array (in number of elements, not size in bytes), used for automatic allocation of buffers.
      * See get_declared_struct_size_runtime_array() in spirv_cross.h
      */
-    void add_runtime_array_size(const std::string &runtime_array_name, size_t size);
+    void AddRuntimeArraySize(const std::string &runtime_array_name, size_t size);
     
-    void set_runtime_array_sizes(const std::unordered_map<std::string, size_t> &sizes);
+    void SetRuntimeArraySizes(const std::unordered_map<std::string, size_t> &sizes);
     
-    [[nodiscard]] std::string get_preamble() const;
+    [[nodiscard]] std::string GetPreamble() const;
     
-    [[nodiscard]] const std::vector<std::string> &get_processes() const;
+    [[nodiscard]] const std::vector<std::string> &GetProcesses() const;
     
-    [[nodiscard]] const std::unordered_map<std::string, size_t> &get_runtime_array_sizes() const;
+    [[nodiscard]] const std::unordered_map<std::string, size_t> &GetRuntimeArraySizes() const;
     
-    void clear();
+    void Clear();
     
 private:
     size_t id_{};
@@ -69,7 +69,7 @@ private:
     
     std::unordered_map<std::string, size_t> runtime_array_sizes_;
     
-    void update_id();
+    void UpdateId();
 };
 
 }

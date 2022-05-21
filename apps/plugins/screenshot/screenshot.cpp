@@ -59,8 +59,8 @@ void Screenshot::on_post_draw(vox::RenderContext &context) {
             
             output_path = stream.str();
         }
-        
-        screenshot(context, output_path);
+
+        Screenshot(context, output_path);
     }
 }
 }        // namespace plugins

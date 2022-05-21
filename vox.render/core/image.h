@@ -8,9 +8,9 @@
 
 #include <unordered_set>
 
+#include "core/vulkan_resource.h"
 #include "helpers.h"
 #include "vk_common.h"
-#include "core/vulkan_resource.h"
 
 namespace vox {
 class Device;
@@ -26,7 +26,7 @@ public:
           VkFormat format,
           VkImageUsageFlags image_usage,
           VkSampleCountFlagBits sample_count = VK_SAMPLE_COUNT_1_BIT);
-    
+
     Image(Device const &device,
           const VkExtent3D &extent,
           VkFormat format,
@@ -39,75 +39,75 @@ public:
           VkImageCreateFlags flags = 0,
           uint32_t num_queue_families = 0,
           const uint32_t *queue_families = nullptr);
-    
+
     Image(const Image &) = delete;
-    
+
     Image(Image &&other) noexcept;
-    
+
     ~Image() override;
-    
+
     Image &operator=(const Image &) = delete;
-    
+
     Image &operator=(Image &&) = delete;
-    
-    [[nodiscard]] VmaAllocation get_memory() const;
-    
+
+    [[nodiscard]] VmaAllocation GetMemory() const;
+
     /**
      * @brief Maps vulkan memory to an host visible address
      * @return Pointer to host visible memory
      */
-    uint8_t *map();
-    
+    uint8_t *Map();
+
     /**
      * @brief Unmaps vulkan memory from the host visible address
      */
-    void unmap();
-    
-    [[nodiscard]] VkImageType get_type() const;
-    
-    [[nodiscard]] const VkExtent3D &get_extent() const;
-    
-    [[nodiscard]] VkFormat get_format() const;
-    
-    [[nodiscard]] VkSampleCountFlagBits get_sample_count() const;
-    
-    [[nodiscard]] VkImageUsageFlags get_usage() const;
-    
-    [[nodiscard]] VkImageTiling get_tiling() const;
-    
-    [[nodiscard]] VkImageSubresource get_subresource() const;
-    
-    [[nodiscard]] uint32_t get_array_layer_count() const;
-    
-    std::unordered_set<ImageView *> &get_views();
-    
+    void Unmap();
+
+    [[nodiscard]] VkImageType GetType() const;
+
+    [[nodiscard]] const VkExtent3D &GetExtent() const;
+
+    [[nodiscard]] VkFormat GetFormat() const;
+
+    [[nodiscard]] VkSampleCountFlagBits GetSampleCount() const;
+
+    [[nodiscard]] VkImageUsageFlags GetUsage() const;
+
+    [[nodiscard]] VkImageTiling GetTiling() const;
+
+    [[nodiscard]] VkImageSubresource GetSubresource() const;
+
+    [[nodiscard]] uint32_t GetArrayLayerCount() const;
+
+    std::unordered_set<ImageView *> &GetViews();
+
 private:
     VmaAllocation memory_{VK_NULL_HANDLE};
-    
+
     VkImageType type_{};
-    
+
     VkExtent3D extent_{};
-    
+
     VkFormat format_{};
-    
+
     VkImageUsageFlags usage_{};
-    
+
     VkSampleCountFlagBits sample_count_{};
-    
+
     VkImageTiling tiling_{};
-    
+
     VkImageSubresource subresource_{};
-    
+
     uint32_t array_layer_count_{0};
-    
+
     /// Image views referring to this image
     std::unordered_set<ImageView *> views_;
-    
+
     uint8_t *mapped_data_{nullptr};
-    
+
     /// Whether it was mapped with vmaMapMemory
     bool mapped_{false};
 };
 
-}        // namespace core
-}        // namespace vox
+}  // namespace core
+}  // namespace vox

@@ -32,41 +32,41 @@ public:
      * @return false Can not be casted
      */
     template<class U>
-    [[nodiscard]] bool is() const {
-        return is_impl(typeid(U));
+    [[nodiscard]] bool Is() const {
+        return IsImpl(typeid(U));
     }
     
     /**
-     * @brief Case to a specfic type of command
+     * @brief Case to a specific type of command
      *
      * @tparam U The type of command to cast to
      * @return U* A ptr to this as the type of command
      */
     template<class U>
-    U *get() {
-        assert(is<U>() && "Attempting to retrieve incorrect command type");
+    U *Get() {
+        assert(Is<U>() && "Attempting to retrieve incorrect command type");
         return static_cast<U *>(this);
     }
     
     /**
-     * @brief Case to a specfic type of command
+     * @brief Case to a specific type of command
      *
      * @tparam U The type of command to cast to
      * @return const U* A ptr to this as the type of command
      */
     template<class U>
-    const U *get() const {
-        assert(is<U>() && "Attempting to retrieve incorrect command type");
+    const U *Get() const {
+        assert(Is<U>() && "Attempting to retrieve incorrect command type");
         return static_cast<const U *>(this);
     }
     
-    [[nodiscard]] const std::string &get_name() const;
+    [[nodiscard]] const std::string &GetName() const;
     
-    void set_name(const std::string &name);
+    void SetName(const std::string &name);
     
-    [[nodiscard]] const std::string &get_help_line() const;
+    [[nodiscard]] const std::string &GetHelpLine() const;
     
-    void set_help_line(const std::string &help_line);
+    void SetHelpLine(const std::string &help_line);
     
 protected:
     /**
@@ -76,7 +76,7 @@ protected:
      * @return true Is equal to the given index
      * @return false Is not the equal to the given index
      */
-    [[nodiscard]] virtual bool is_impl(const std::type_index &index) const = 0;
+    [[nodiscard]] virtual bool IsImpl(const std::type_index &index) const = 0;
     
 private:
     std::string name_;
@@ -92,7 +92,7 @@ public:
     
     virtual ~MultipleCommands() = default;
     
-    [[nodiscard]] const std::vector<Command *> &get_commands() const;
+    [[nodiscard]] const std::vector<Command *> &GetCommands() const;
     
 private:
     std::vector<Command *> commands_;
@@ -113,7 +113,7 @@ public:
     ~TypedCommand() override = default;
     
 protected:
-    bool is_impl(const std::type_index &index) const override {
+    [[nodiscard]] bool IsImpl(const std::type_index &index) const override {
         return type_ == index;
     }
     
@@ -132,7 +132,7 @@ public:
 };
 
 /**
- * @brief Subcommands act as separate entrypoints to the application and may implement a subset of commands
+ * @brief Subcommands act as separate entrypoint to the application and may implement a subset of commands
  */
 class SubCommand : public TypedCommand<SubCommand>, public MultipleCommands {
 public:
@@ -158,7 +158,7 @@ enum class FlagType {
 };
 
 /**
- * @brief Flag command reprosent a flag and value e.g --sample afbc
+ * @brief Flag command represent a flag and value e.g --sample afbc
  */
 class FlagCommand : public TypedCommand<FlagCommand> {
 public:
@@ -167,7 +167,7 @@ public:
     
     ~FlagCommand() override = default;
     
-    [[nodiscard]] FlagType get_flag_type() const;
+    [[nodiscard]] FlagType GetFlagType() const;
     
 private:
     FlagType type_;
@@ -190,7 +190,7 @@ class CommandParser {
 public:
     virtual ~CommandParser() = default;
     
-    virtual bool contains(Command *command) const = 0;
+    virtual bool Contains(Command *command) const = 0;
     
     /**
      * @brief Cast a commands value to a given type
@@ -200,10 +200,10 @@ public:
      * @return Type A cast version of the commands underlying value or a default initialization
      */
     template<typename Type>
-    Type as(Command *command) const {
-        auto values = get_command_value(command);
+    Type As(Command *command) const {
+        auto values = GetCommandValue(command);
         Type type{};
-        bool implemented_type_conversion = convert_type(values, &type);
+        bool implemented_type_conversion = ConvertType(values, &type);
         assert(implemented_type_conversion && "Failed to retrieve value. Type unsupported");
         return type;
     }
@@ -213,25 +213,25 @@ public:
      *
      * @return std::vector<std::string> A list of individual lines
      */
-    [[nodiscard]] virtual std::vector<std::string> help() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> Help() const = 0;
     
-    virtual bool parse(const std::vector<Plugin *> &plugins) = 0;
+    virtual bool Parse(const std::vector<Plugin *> &plugins) = 0;
     
-    virtual bool parse(const std::vector<Command *> &commands) = 0;
+    virtual bool Parse(const std::vector<Command *> &commands) = 0;
     
 protected:
     /*
      * Individual parse functions visit each type of command to configure the underlying CLI implementation
      */
-    virtual bool parse(CommandParserContext *context, const std::vector<Command *> &commands);
+    virtual bool Parse(CommandParserContext *context, const std::vector<Command *> &commands);
     
-    virtual void parse(CommandParserContext *context, CommandGroup *command) = 0;
+    virtual void Parse(CommandParserContext *context, CommandGroup *command) = 0;
     
-    virtual void parse(CommandParserContext *context, SubCommand *command) = 0;
+    virtual void Parse(CommandParserContext *context, SubCommand *command) = 0;
     
-    virtual void parse(CommandParserContext *context, PositionalCommand *command) = 0;
+    virtual void Parse(CommandParserContext *context, PositionalCommand *command) = 0;
     
-    virtual void parse(CommandParserContext *context, FlagCommand *command) = 0;
+    virtual void Parse(CommandParserContext *context, FlagCommand *command) = 0;
     
 private:
     /**
@@ -240,7 +240,7 @@ private:
      * @param command The command to retrieve the raw value from
      * @return std::vector<std::string> The raw values for a given command
      */
-    virtual std::vector<std::string> get_command_value(Command *command) const = 0;
+    virtual std::vector<std::string> GetCommandValue(Command *command) const = 0;
     
     /**
      * @brief Cast from the CLI raw value to a given type
@@ -252,13 +252,13 @@ private:
      * @return false if no implementation exists
      */
     template<typename Type>
-    inline bool convert_type(const std::vector<std::string> &values, Type *type) const {
+    inline bool ConvertType(const std::vector<std::string> &values, Type *type) const {
         return false;
     }
 };
 
 template<>
-inline bool CommandParser::convert_type(const std::vector<std::string> &values, uint32_t *type) const {
+inline bool CommandParser::ConvertType(const std::vector<std::string> &values, uint32_t *type) const {
     if (values.size() != 1) {
         *type = 0;
     } else {
@@ -269,7 +269,7 @@ inline bool CommandParser::convert_type(const std::vector<std::string> &values, 
 }
 
 template<>
-inline bool CommandParser::convert_type(const std::vector<std::string> &values, float *type) const {
+inline bool CommandParser::ConvertType(const std::vector<std::string> &values, float *type) const {
     if (values.size() != 1) {
         *type = 0.0f;
     } else {
@@ -280,13 +280,13 @@ inline bool CommandParser::convert_type(const std::vector<std::string> &values, 
 
 template<>
 inline bool
-CommandParser::convert_type(const std::vector<std::string> &values, std::vector<std::string> *type) const {
+CommandParser::ConvertType(const std::vector<std::string> &values, std::vector<std::string> *type) const {
     *type = values;
     return true;
 }
 
 template<>
-inline bool CommandParser::convert_type(const std::vector<std::string> &values, std::string *type) const {
+inline bool CommandParser::ConvertType(const std::vector<std::string> &values, std::string *type) const {
     if (!values.empty()) {
         *type = values[0];
     } else {

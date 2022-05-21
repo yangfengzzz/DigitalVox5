@@ -10,11 +10,11 @@ namespace vox {
 MeshManager::MeshManager(Device &device) :
 device_(device) {}
 
-MeshManager *MeshManager::get_singleton_ptr() {
+MeshManager *MeshManager::GetSingletonPtr() {
     return ms_singleton_;
 }
 
-MeshManager &MeshManager::get_singleton() {
+MeshManager &MeshManager::GetSingleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }

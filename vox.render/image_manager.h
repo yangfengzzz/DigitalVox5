@@ -15,9 +15,9 @@
 namespace vox {
 class ImageManager: public Singleton<ImageManager> {
 public:
-    static ImageManager &get_singleton();
+    static ImageManager &GetSingleton();
     
-    static ImageManager *get_singleton_ptr();
+    static ImageManager *GetSingletonPtr();
     
     explicit ImageManager(Device& device);
     

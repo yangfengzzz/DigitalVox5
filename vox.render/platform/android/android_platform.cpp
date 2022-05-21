@@ -501,7 +501,7 @@ std::vector<spdlog::sink_ptr> AndroidPlatform::get_platform_sinks() {
     std::time_t time = std::time(0);
     std::tm now = thread_safe_time(time);
     std::strftime(timestamp, 80, "%G-%m-%d_%H-%M-%S_log.txt", &now);
-    log_output = vox::fs::path::get(vox::fs::path::Logs) + std::string(timestamp);
+    log_output = vox::fs::path::Get(vox::fs::path::Logs) + std::string(timestamp);
     
     sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(log_output, true));
     

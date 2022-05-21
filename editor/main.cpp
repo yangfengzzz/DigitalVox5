@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 
     auto code = platform.initialize({});
     if (code == vox::ExitCode::SUCCESS) {
-        platform.set_app(std::make_unique<vox::editor::EditorApplication>("", ""));
+        platform.SetApp(std::make_unique<vox::editor::EditorApplication>("", ""));
         code = platform.main_loop();
     }
     platform.terminate(code);

@@ -20,9 +20,9 @@ class EditorApplication;
  */
 class EditorActions : public Singleton<EditorActions> {
 public:
-    static EditorActions &get_singleton();
+    static EditorActions &GetSingleton();
     
-    static EditorActions *get_singleton_ptr();
+    static EditorActions *GetSingletonPtr();
     
     /**
      * Constructor

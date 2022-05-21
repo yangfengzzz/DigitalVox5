@@ -15,7 +15,7 @@ const Color &PbrSpecularMaterial::specular_color() const {
 
 void PbrSpecularMaterial::set_specular_color(const Color &new_value) {
     pbr_specular_data_.specular_color = new_value;
-    shader_data_.set_data(pbr_specular_prop_, pbr_specular_data_);
+    shader_data_.SetData(pbr_specular_prop_, pbr_specular_data_);
 }
 
 float PbrSpecularMaterial::glossiness() const {
@@ -24,7 +24,7 @@ float PbrSpecularMaterial::glossiness() const {
 
 void PbrSpecularMaterial::set_glossiness(float new_value) {
     pbr_specular_data_.glossiness = new_value;
-    shader_data_.set_data(pbr_specular_prop_, pbr_specular_data_);
+    shader_data_.SetData(pbr_specular_prop_, pbr_specular_data_);
 }
 
 std::shared_ptr<Image> PbrSpecularMaterial::specular_glossiness_texture() const {
@@ -33,7 +33,7 @@ std::shared_ptr<Image> PbrSpecularMaterial::specular_glossiness_texture() const 
 
 void PbrSpecularMaterial::set_specular_glossiness_texture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
-        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         set_specular_glossiness_texture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
@@ -42,11 +42,11 @@ void PbrSpecularMaterial::set_specular_glossiness_texture(const std::shared_ptr<
                                                           const VkSamplerCreateInfo &info) {
     specular_glossiness_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(specular_glossiness_texture_prop_, new_value->get_vk_image_view(),
-                                         &device_.get_resource_cache().request_sampler(info));
-        shader_data_.add_define(HAS_SPECULARGLOSSINESSMAP);
+        shader_data_.SetSampledTexture(specular_glossiness_texture_prop_, new_value->GetVkImageView(),
+                                       &device_.GetResourceCache().RequestSampler(info));
+        shader_data_.AddDefine(HAS_SPECULARGLOSSINESSMAP);
     } else {
-        shader_data_.remove_define(HAS_SPECULARGLOSSINESSMAP);
+        shader_data_.RemoveDefine(HAS_SPECULARGLOSSINESSMAP);
     }
 }
 
@@ -54,10 +54,10 @@ PbrSpecularMaterial::PbrSpecularMaterial(Device &device, const std::string &name
 PbrBaseMaterial(device, name),
 pbr_specular_prop_("pbrSpecularData"),
 specular_glossiness_texture_prop_("specularGlossinessTexture") {
-    vertex_source_ = ShaderManager::get_singleton().load_shader("base/blinn-phong.vert");
-    fragment_source_ = ShaderManager::get_singleton().load_shader("base/pbr.frag");
-    
-    shader_data_.set_data(pbr_specular_prop_, pbr_specular_data_);
+    vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/blinn-phong.vert");
+    fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/pbr.frag");
+
+    shader_data_.SetData(pbr_specular_prop_, pbr_specular_data_);
 }
 
 }

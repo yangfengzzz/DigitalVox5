@@ -35,52 +35,52 @@ public:
                         uint32_t set_index,
                         std::vector<ShaderModule *> shader_modules,
                         const std::vector<ShaderResource> &resource_set);
-    
+
     DescriptorSetLayout(const DescriptorSetLayout &) = delete;
-    
+
     DescriptorSetLayout(DescriptorSetLayout &&other) noexcept;
-    
+
     ~DescriptorSetLayout();
-    
+
     DescriptorSetLayout &operator=(const DescriptorSetLayout &) = delete;
-    
+
     DescriptorSetLayout &operator=(DescriptorSetLayout &&) = delete;
-    
-    [[nodiscard]] uint32_t get_index() const;
-    
-    [[nodiscard]] VkDescriptorSetLayout get_handle() const;
-    
-    [[nodiscard]] const std::vector<VkDescriptorSetLayoutBinding> &get_bindings() const;
-    
-    [[nodiscard]] const std::vector<VkDescriptorBindingFlagsEXT> &get_binding_flags() const;
-    
-    [[nodiscard]] const std::vector<ShaderModule *> &get_shader_modules() const;
-    
+
+    [[nodiscard]] uint32_t GetIndex() const;
+
+    [[nodiscard]] VkDescriptorSetLayout GetHandle() const;
+
+    [[nodiscard]] const std::vector<VkDescriptorSetLayoutBinding> &GetBindings() const;
+
+    [[nodiscard]] const std::vector<VkDescriptorBindingFlagsEXT> &GetBindingFlags() const;
+
+    [[nodiscard]] const std::vector<ShaderModule *> &GetShaderModules() const;
+
 public:
-    [[nodiscard]] std::unique_ptr<VkDescriptorSetLayoutBinding> get_layout_binding(uint32_t binding_index) const;
-    
-    [[nodiscard]] std::unique_ptr<VkDescriptorSetLayoutBinding> get_layout_binding(const std::string &name) const;
-    
-    [[nodiscard]] VkDescriptorBindingFlagsEXT get_layout_binding_flag(uint32_t binding_index) const;
-    
+    [[nodiscard]] std::unique_ptr<VkDescriptorSetLayoutBinding> GetLayoutBinding(uint32_t binding_index) const;
+
+    [[nodiscard]] std::unique_ptr<VkDescriptorSetLayoutBinding> GetLayoutBinding(const std::string &name) const;
+
+    [[nodiscard]] VkDescriptorBindingFlagsEXT GetLayoutBindingFlag(uint32_t binding_index) const;
+
 private:
     Device &device_;
-    
+
     const uint32_t set_index_;
-    
+
     VkDescriptorSetLayout handle_{VK_NULL_HANDLE};
-    
+
     std::vector<VkDescriptorSetLayoutBinding> bindings_;
-    
+
     std::vector<VkDescriptorBindingFlagsEXT> binding_flags_;
-    
+
     std::vector<ShaderModule *> shader_modules_;
-    
+
     std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings_lookup_;
-    
+
     std::unordered_map<uint32_t, VkDescriptorBindingFlagsEXT> binding_flags_lookup_;
-    
+
     std::unordered_map<std::string, uint32_t> resources_lookup_;
 };
 
-}        // namespace vox
+}  // namespace vox

@@ -45,7 +45,7 @@ struct Static : public Base {
     ~Static() override = default;
     
     std::string to_string() override {
-        return vox::to_string(value);
+        return vox::ToString(value);
     }
 };
 
@@ -65,7 +65,7 @@ struct Dynamic : public Base {
     ~Dynamic() override = default;
     
     std::string to_string() override {
-        return vox::to_string(value);
+        return vox::ToString(value);
     }
 };
 
@@ -90,9 +90,9 @@ struct Vector final : public Static<T> {
     virtual ~Vector() = default;
     
     std::string to_string() override {
-        return "x: " + vox::to_string(x) + " " +
-        "y: " + vox::to_string(y) + " " +
-        "z: " + vox::to_string(z);
+        return "x: " + vox::ToString(x) + " " +
+        "y: " + vox::ToString(y) + " " +
+        "z: " + vox::ToString(z);
     }
 };
 
@@ -125,8 +125,8 @@ struct MinMax final : public Dynamic<T> {
             min = Dynamic<T>::value;
         }
         
-        return "current: " + vox::to_string(Dynamic<T>::value) + " min: " + vox::to_string(min) + " max: " +
-        vox::to_string(max);
+        return "current: " + vox::ToString(Dynamic<T>::value) + " min: " + vox::ToString(min) + " max: " +
+        vox::ToString(max);
     }
 };
 }        // namespace field

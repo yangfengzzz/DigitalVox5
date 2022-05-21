@@ -26,15 +26,15 @@ public:
     
     SemaphorePool &operator=(SemaphorePool &&) = delete;
     
-    VkSemaphore request_semaphore();
+    VkSemaphore RequestSemaphore();
     
-    VkSemaphore request_semaphore_with_ownership();
+    VkSemaphore RequestSemaphoreWithOwnership();
     
-    void release_owned_semaphore(VkSemaphore semaphore);
+    void ReleaseOwnedSemaphore(VkSemaphore semaphore);
     
-    void reset();
+    void Reset();
     
-    [[nodiscard]] uint32_t get_active_semaphore_count() const;
+    [[nodiscard]] uint32_t GetActiveSemaphoreCount() const;
     
 private:
     Device &device_;

@@ -23,19 +23,19 @@ public:
      * @brief A direct window doesn't have a surface
      * @returns VK_NULL_HANDLE
      */
-    VkSurfaceKHR create_surface(Instance &instance) override;
+    VkSurfaceKHR CreateSurface(Instance &instance) override;
     
     /**
      * @brief A direct window doesn't have a surface
      * @returns nullptr
      */
-    VkSurfaceKHR create_surface(VkInstance instance, VkPhysicalDevice physical_device) override;
+    VkSurfaceKHR CreateSurface(VkInstance instance, VkPhysicalDevice physical_device) override;
     
-    bool should_close() override;
+    bool ShouldClose() override;
     
-    void close() override;
+    void Close() override;
     
-    [[nodiscard]] float get_dpi_factor() const override;
+    [[nodiscard]] float GetDpiFactor() const override;
     
 private:
     bool closed_{false};

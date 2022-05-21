@@ -28,24 +28,24 @@ public:
     
     ~PluginBase() override = default;
     
-    [[nodiscard]] const std::vector<Command *> &get_cli_commands() const override;
+    [[nodiscard]] const std::vector<Command *> &GetCliCommands() const override;
     
-    [[nodiscard]] const std::vector<Hook> &get_hooks() const override;
+    [[nodiscard]] const std::vector<Hook> &GetHooks() const override;
     
-    bool has_tag(TagId id) const override;
+    bool HasTag(TagId id) const override;
     
     // hooks that can be implemented by plugins
-    void on_update(float delta_time) override {};
+    void OnUpdate(float delta_time) override {};
     
-    void on_app_start(const std::string &app_id) override {};
+    void OnAppStart(const std::string &app_id) override {};
     
-    void on_app_close(const std::string &app_id) override {};
+    void OnAppClose(const std::string &app_id) override {};
     
-    void on_platform_close() override {};
+    void OnPlatformClose() override {};
     
-    void on_post_draw(RenderContext &context) override {};
+    void OnPostDraw(RenderContext &context) override {};
     
-    void on_app_error(const std::string &app_id) override {};
+    void OnAppError(const std::string &app_id) override {};
     
 private:
     Tag<TAGS...> *tags_ = reinterpret_cast<Tag<TAGS...> *>(this);
@@ -61,17 +61,17 @@ Plugin(name, description), hooks_{std::move(hooks)}, commands_{std::move(command
 }
 
 template<typename... TAGS>
-const std::vector<Command *> &PluginBase<TAGS...>::get_cli_commands() const {
+const std::vector<Command *> &PluginBase<TAGS...>::GetCliCommands() const {
     return commands_;
 }
 
 template<typename... TAGS>
-bool PluginBase<TAGS...>::has_tag(TagId id) const {
-    return tags_->has_tag(id);
+bool PluginBase<TAGS...>::HasTag(TagId id) const {
+    return tags_->HasTag(id);
 }
 
 template<typename... TAGS>
-const std::vector<Hook> &PluginBase<TAGS...>::get_hooks() const {
+const std::vector<Hook> &PluginBase<TAGS...>::GetHooks() const {
     return hooks_;
 }
 

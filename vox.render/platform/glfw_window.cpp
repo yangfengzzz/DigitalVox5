@@ -25,29 +25,29 @@ VKBP_ENABLE_WARNINGS()
 
 namespace vox {
 namespace {
-void error_callback(int error, const char *description) {
+void ErrorCallback(int error, const char *description) {
     LOGE("GLFW Error (code {}): {}", error, description)
 }
 
-void window_close_callback(GLFWwindow *window) {
+void WindowCloseCallback(GLFWwindow *window) {
     glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
-void window_size_callback(GLFWwindow *window, int width, int height) {
+void WindowSizeCallback(GLFWwindow *window, int width, int height) {
     if (auto platform = reinterpret_cast<Platform *>(glfwGetWindowUserPointer(window))) {
         int fb_width, fb_height;
         glfwGetFramebufferSize(window, &fb_width, &fb_height);
-        platform->resize(width, height, fb_width, fb_height);
+        platform->Resize(width, height, fb_width, fb_height);
     }
 }
 
-void window_focus_callback(GLFWwindow *window, int focused) {
+void WindowFocusCallback(GLFWwindow *window, int focused) {
     if (auto platform = reinterpret_cast<Platform *>(glfwGetWindowUserPointer(window))) {
-        platform->set_focus(focused);
+        platform->SetFocus(focused);
     }
 }
 
-inline KeyCode translate_key_code(int key) {
+inline KeyCode TranslateKeyCode(int key) {
     static const std::unordered_map<int, KeyCode> kEyLookup =
     {
         {GLFW_KEY_SPACE, KeyCode::SPACE},
@@ -163,7 +163,7 @@ inline KeyCode translate_key_code(int key) {
     return key_it->second;
 }
 
-inline KeyAction translate_key_action(int action) {
+inline KeyAction TranslateKeyAction(int action) {
     if (action == GLFW_PRESS) {
         return KeyAction::DOWN;
     } else if (action == GLFW_RELEASE) {
@@ -175,16 +175,16 @@ inline KeyAction translate_key_action(int action) {
     return KeyAction::UNKNOWN;
 }
 
-void key_callback(GLFWwindow *window, int key, int /*scancode*/, int action, int /*mods*/) {
-    KeyCode key_code = translate_key_code(key);
-    KeyAction key_action = translate_key_action(action);
+void KeyCallback(GLFWwindow *window, int key, int /*scancode*/, int action, int /*mods*/) {
+    KeyCode key_code = TranslateKeyCode(key);
+    KeyAction key_action = TranslateKeyAction(action);
     
     if (auto platform = reinterpret_cast<Platform *>(glfwGetWindowUserPointer(window))) {
-        platform->input_event(KeyInputEvent{key_code, key_action});
+        platform->InputEvent(KeyInputEvent{key_code, key_action});
     }
 }
 
-inline MouseButton translate_mouse_button(int button) {
+inline MouseButton TranslateMouseButton(int button) {
     if (button < GLFW_MOUSE_BUTTON_6) {
         return static_cast<MouseButton>(button);
     }
@@ -192,7 +192,7 @@ inline MouseButton translate_mouse_button(int button) {
     return MouseButton::UNKNOWN;
 }
 
-inline MouseAction translate_mouse_action(int action) {
+inline MouseAction TranslateMouseAction(int action) {
     if (action == GLFW_PRESS) {
         return MouseAction::DOWN;
     } else if (action == GLFW_RELEASE) {
@@ -202,34 +202,28 @@ inline MouseAction translate_mouse_action(int action) {
     return MouseAction::UNKNOWN;
 }
 
-void cursor_position_callback(GLFWwindow *window, double xpos, double ypos) {
+void CursorPositionCallback(GLFWwindow *window, double xpos, double ypos) {
     if (auto *platform = reinterpret_cast<Platform *>(glfwGetWindowUserPointer(window))) {
-        platform->input_event(MouseButtonInputEvent{
-            MouseButton::UNKNOWN,
-            MouseAction::MOVE,
-            static_cast<float>(xpos),
-            static_cast<float>(ypos)});
+        platform->InputEvent(MouseButtonInputEvent{MouseButton::UNKNOWN, MouseAction::MOVE, static_cast<float>(xpos),
+                                                   static_cast<float>(ypos)});
     }
 }
 
-void mouse_button_callback(GLFWwindow *window, int button, int action, int /*mods*/) {
-    MouseAction mouse_action = translate_mouse_action(action);
+void MouseButtonCallback(GLFWwindow *window, int button, int action, int /*mods*/) {
+    MouseAction mouse_action = TranslateMouseAction(action);
     
     if (auto *platform = reinterpret_cast<Platform *>(glfwGetWindowUserPointer(window))) {
         double xpos, ypos;
         glfwGetCursorPos(window, &xpos, &ypos);
-        
-        platform->input_event(MouseButtonInputEvent{
-            translate_mouse_button(button),
-            mouse_action,
-            static_cast<float>(xpos),
-            static_cast<float>(ypos)});
+
+        platform->InputEvent(MouseButtonInputEvent{TranslateMouseButton(button), mouse_action,
+                                                   static_cast<float>(xpos), static_cast<float>(ypos)});
     }
 }
 
-void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+void ScrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
     if (auto *platform = reinterpret_cast<Platform *>(glfwGetWindowUserPointer(window))) {
-        platform->input_event(ScrollInputEvent(xoffset, yoffset));
+        platform->InputEvent(ScrollInputEvent(xoffset, yoffset));
     }
 }
 
@@ -244,8 +238,8 @@ Window(properties) {
     if (!glfwInit()) {
         throw std::runtime_error("GLFW couldn't be initialized.");
     }
-    
-    glfwSetErrorCallback(error_callback);
+
+    glfwSetErrorCallback(ErrorCallback);
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     
     switch (properties.mode) {
@@ -273,21 +267,21 @@ Window(properties) {
             break;
     }
     
-    resize(Extent{properties.extent.width, properties.extent.height});
+    Resize(Extent{properties.extent.width, properties.extent.height});
     
     if (!handle_) {
         throw std::runtime_error("Couldn't create glfw window.");
     }
     
     glfwSetWindowUserPointer(handle_, platform);
-    
-    glfwSetWindowCloseCallback(handle_, window_close_callback);
-    glfwSetWindowSizeCallback(handle_, window_size_callback);
-    glfwSetWindowFocusCallback(handle_, window_focus_callback);
-    glfwSetKeyCallback(handle_, key_callback);
-    glfwSetCursorPosCallback(handle_, cursor_position_callback);
-    glfwSetMouseButtonCallback(handle_, mouse_button_callback);
-    glfwSetScrollCallback(handle_, scroll_callback);
+
+    glfwSetWindowCloseCallback(handle_, WindowCloseCallback);
+    glfwSetWindowSizeCallback(handle_, WindowSizeCallback);
+    glfwSetWindowFocusCallback(handle_, WindowFocusCallback);
+    glfwSetKeyCallback(handle_, KeyCallback);
+    glfwSetCursorPosCallback(handle_, CursorPositionCallback);
+    glfwSetMouseButtonCallback(handle_, MouseButtonCallback);
+    glfwSetScrollCallback(handle_, ScrollCallback);
 
     glfwSetInputMode(handle_, GLFW_STICKY_KEYS, 1);
     glfwSetInputMode(handle_, GLFW_STICKY_MOUSE_BUTTONS, 1);
@@ -297,11 +291,11 @@ GlfwWindow::~GlfwWindow() {
     glfwTerminate();
 }
 
-VkSurfaceKHR GlfwWindow::create_surface(Instance &instance) {
-    return create_surface(instance.get_handle(), VK_NULL_HANDLE);
+VkSurfaceKHR GlfwWindow::CreateSurface(Instance &instance) {
+    return CreateSurface(instance.GetHandle(), VK_NULL_HANDLE);
 }
 
-VkSurfaceKHR GlfwWindow::create_surface(VkInstance instance, VkPhysicalDevice) {
+VkSurfaceKHR GlfwWindow::CreateSurface(VkInstance instance, VkPhysicalDevice) {
     if (instance == VK_NULL_HANDLE || !handle_) {
         return VK_NULL_HANDLE;
     }
@@ -317,21 +311,21 @@ VkSurfaceKHR GlfwWindow::create_surface(VkInstance instance, VkPhysicalDevice) {
     return surface;
 }
 
-bool GlfwWindow::should_close() {
+bool GlfwWindow::ShouldClose() {
     return glfwWindowShouldClose(handle_);
 }
 
-void GlfwWindow::process_events() {
+void GlfwWindow::ProcessEvents() {
     glfwPollEvents();
 }
 
-void GlfwWindow::close() {
+void GlfwWindow::Close() {
     glfwSetWindowShouldClose(handle_, GLFW_TRUE);
 }
 
 /// @brief It calculates the dpi factor using the density from GLFW physical size
 /// <a href="https://www.glfw.org/docs/latest/monitor_guide.html#monitor_size">GLFW docs for dpi</a>
-float GlfwWindow::get_dpi_factor() const {
+float GlfwWindow::GetDpiFactor() const {
     auto primary_monitor = glfwGetPrimaryMonitor();
     auto vidmode = glfwGetVideoMode(primary_monitor);
     
@@ -347,7 +341,7 @@ float GlfwWindow::get_dpi_factor() const {
     return dpi_factor;
 }
 
-float GlfwWindow::get_content_scale_factor() const {
+float GlfwWindow::GetContentScaleFactor() const {
     int fb_width, fb_height;
     glfwGetFramebufferSize(handle_, &fb_width, &fb_height);
     int win_width, win_height;
@@ -359,7 +353,7 @@ float GlfwWindow::get_content_scale_factor() const {
     return static_cast<float>(fb_width) / win_width;
 }
 
-GLFWwindow *GlfwWindow::handle() {
+GLFWwindow *GlfwWindow::Handle() {
     return handle_;
 }
 

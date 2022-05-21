@@ -9,7 +9,7 @@
 
 namespace vox {
 ModelMeshPtr WireframePrimitiveMesh::create_cuboid_wire_frame(float width, float height, float depth) {
-    auto mesh = MeshManager::get_singleton().load_model_mesh();
+    auto mesh = MeshManager::GetSingleton().load_model_mesh();
     
     auto half_width = width / 2;
     auto half_height = height / 2;
@@ -118,7 +118,7 @@ ModelMeshPtr WireframePrimitiveMesh::create_cuboid_wire_frame(float width, float
 }
 
 ModelMeshPtr WireframePrimitiveMesh::create_sphere_wire_frame(float radius) {
-    auto mesh = MeshManager::get_singleton().load_model_mesh();
+    auto mesh = MeshManager::GetSingleton().load_model_mesh();
     
     auto vertex_count = 40;
     auto shift = Vector3F();
@@ -143,7 +143,7 @@ ModelMeshPtr WireframePrimitiveMesh::create_sphere_wire_frame(float radius) {
 }
 
 ModelMeshPtr WireframePrimitiveMesh::create_capsule_wire_frame(float radius, float height) {
-    auto mesh = MeshManager::get_singleton().load_model_mesh();
+    auto mesh = MeshManager::GetSingleton().load_model_mesh();
     
     auto vertex_count = 40;
     auto shift = Vector3F();

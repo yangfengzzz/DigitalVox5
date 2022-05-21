@@ -24,21 +24,21 @@ public:
     
     ~GlfwWindow() override;
     
-    VkSurfaceKHR create_surface(Instance &instance) override;
+    VkSurfaceKHR CreateSurface(Instance &instance) override;
     
-    VkSurfaceKHR create_surface(VkInstance instance, VkPhysicalDevice physical_device) override;
+    VkSurfaceKHR CreateSurface(VkInstance instance, VkPhysicalDevice physical_device) override;
     
-    bool should_close() override;
+    bool ShouldClose() override;
     
-    void process_events() override;
+    void ProcessEvents() override;
     
-    void close() override;
+    void Close() override;
     
-    [[nodiscard]] float get_dpi_factor() const override;
+    [[nodiscard]] float GetDpiFactor() const override;
     
-    [[nodiscard]] float get_content_scale_factor() const override;
+    [[nodiscard]] float GetContentScaleFactor() const override;
     
-    GLFWwindow *handle();
+    GLFWwindow *Handle();
     
 private:
     GLFWwindow *handle_ = nullptr;

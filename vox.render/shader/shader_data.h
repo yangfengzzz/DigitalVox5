@@ -21,15 +21,15 @@ class ShaderData {
 public:
     explicit ShaderData(Device &device);
     
-    void bind_data(CommandBuffer &command_buffer, DescriptorSetLayout &descriptor_set_layout);
+    void BindData(CommandBuffer &command_buffer, DescriptorSetLayout &descriptor_set_layout);
     
-    void set_buffer_functor(const std::string &property_name,
+    void SetBufferFunctor(const std::string &property_name,
                             const std::function<core::Buffer *()> &functor);
     
-    void set_data(const std::string &property_name, BufferAllocation &&value);
+    void SetData(const std::string &property_name, BufferAllocation &&value);
     
     template<typename T>
-    void set_data(const std::string &property_name, T &value) {
+    void SetData(const std::string &property_name, T &value) {
         auto iter = shader_buffers_.find(property_name);
         if (iter == shader_buffers_.end()) {
             shader_buffers_.insert(std::make_pair(property_name,
@@ -38,11 +38,11 @@ public:
                                                                                  VMA_MEMORY_USAGE_CPU_TO_GPU)));
         }
         iter = shader_buffers_.find(property_name);
-        iter->second->update(&value, sizeof(T));
+        iter->second->Update(&value, sizeof(T));
     }
     
     template<typename T>
-    void set_data(const std::string &property_name, std::vector<T> &value) {
+    void SetData(const std::string &property_name, std::vector<T> &value) {
         auto iter = shader_buffers_.find(property_name);
         if (iter == shader_buffers_.end()) {
             shader_buffers_.insert(std::make_pair(property_name,
@@ -51,11 +51,11 @@ public:
                                                                                  VMA_MEMORY_USAGE_CPU_TO_GPU)));
         }
         iter = shader_buffers_.find(property_name);
-        iter->second->update(value.data(), sizeof(T) * value.size());
+        iter->second->Update(value.data(), sizeof(T) * value.size());
     }
     
     template<typename T, size_t N>
-    void set_data(const std::string &property_name, std::array<T, N> &value) {
+    void SetData(const std::string &property_name, std::array<T, N> &value) {
         auto iter = shader_buffers_.find(property_name);
         if (iter == shader_buffers_.end()) {
             shader_buffers_.insert(std::make_pair(property_name,
@@ -64,22 +64,22 @@ public:
                                                                                  VMA_MEMORY_USAGE_CPU_TO_GPU)));
         }
         iter = shader_buffers_.find(property_name);
-        iter->second->update(value.data(), sizeof(T) * N);
+        iter->second->Update(value.data(), sizeof(T) * N);
     }
     
 public:
-    void set_sampled_texture(const std::string &texture_name,
+    void SetSampledTexture(const std::string &texture_name,
                              const core::ImageView &image_view,
                              core::Sampler *sampler);
     
-    void set_storage_texture(const std::string &texture_name,
+    void SetStorageTexture(const std::string &texture_name,
                              const core::ImageView &image_view);
     
-    inline const std::unordered_map<std::string, std::unique_ptr<core::SampledImage>>& sampled_textures() const {
+    [[nodiscard]] inline const std::unordered_map<std::string, std::unique_ptr<core::SampledImage>>&SampledTextures() const {
         return sampled_textures_;
     }
     
-    inline const std::unordered_map<std::string, std::unique_ptr<core::SampledImage>>& storage_textures() const {
+    [[nodiscard]] inline const std::unordered_map<std::string, std::unique_ptr<core::SampledImage>>&StorageTextures() const {
         return storage_textures_;
     }
     
@@ -88,15 +88,15 @@ public:
      * @brief Adds a define macro to the shader
      * @param def String which should go to the right of a define directive
      */
-    void add_define(const std::string &def);
+    void AddDefine(const std::string &def);
     
     /**
      * @brief Adds an undef macro to the shader
      * @param undef String which should go to the right of an undef directive
      */
-    void remove_define(const std::string &undef);
+    void RemoveDefine(const std::string &undef);
     
-    void merge_variants(const ShaderVariant &variant, ShaderVariant &result) const;
+    void MergeVariants(const ShaderVariant &variant, ShaderVariant &result) const;
     
 private:
     Device &device_;

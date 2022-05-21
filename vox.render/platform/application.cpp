@@ -14,8 +14,8 @@ Application::Application() :
 name_{"Sample Name"} {
 }
 
-bool Application::prepare(Platform &platform) {
-    auto &debug_info = get_debug_info();
+bool Application::Prepare(Platform &platform) {
+    auto &debug_info = GetDebugInfo();
     debug_info.insert<field::MinMax, float>("fps", fps_);
     debug_info.insert<field::MinMax, float>("frame_time", frame_time_);
     
@@ -24,31 +24,31 @@ bool Application::prepare(Platform &platform) {
     return true;
 }
 
-void Application::finish() {
+void Application::Finish() {
 }
 
-bool Application::resize(uint32_t win_width, uint32_t win_height,
+bool Application::Resize(uint32_t win_width, uint32_t win_height,
                          uint32_t fb_width, uint32_t fb_height) {
     return true;
 }
 
-void Application::input_event(const InputEvent &input_event) {
+void Application::InputEvent(const vox::InputEvent &input_event) {
 }
 
-void Application::update(float delta_time) {
+void Application::Update(float delta_time) {
     fps_ = 1.0f / delta_time;
     frame_time_ = delta_time * 1000.0f;
 }
 
-const std::string &Application::get_name() const {
+const std::string &Application::GetName() const {
     return name_;
 }
 
-void Application::set_name(const std::string &name) {
+void Application::SetName(const std::string &name) {
     name_ = name;
 }
 
-DebugInfo &Application::get_debug_info() {
+DebugInfo &Application::GetDebugInfo() {
     return debug_info_;
 }
 

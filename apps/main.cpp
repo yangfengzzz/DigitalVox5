@@ -55,9 +55,9 @@ int main(int argc, char *argv[]) {
 #    endif
 #endif
 
-    auto code = platform.initialize(plugins::get_all());
+    auto code = platform.initialize(plugins::GetAll());
     if (code == vox::ExitCode::SUCCESS) {
-        platform.set_app(std::make_unique<vox::GuiApp>());
+        platform.SetApp(std::make_unique<vox::GuiApp>());
         code = platform.main_loop();
     }
     platform.terminate(code);

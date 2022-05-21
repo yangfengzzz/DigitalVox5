@@ -9,23 +9,23 @@
 #include "logging.h"
 
 namespace vox {
-ParticleManager *ParticleManager::get_singleton_ptr() {
+ParticleManager *ParticleManager::GetSingletonPtr() {
     return ms_singleton_;
 }
 
-ParticleManager &ParticleManager::get_singleton() {
+ParticleManager &ParticleManager::GetSingleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }
 //-----------------------------------------------------------------------
 ParticleManager::ParticleManager(Device &device, RenderContext &render_context) {
     emitter_pipeline_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
-    emitter_pass_ = &emitter_pipeline_
-    ->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/particle/particle_emission.comp"));
+    emitter_pass_ = &emitter_pipeline_->AddPass<PostProcessingComputePass>(
+            ShaderManager::GetSingleton().LoadShader("base/particle/particle_emission.comp"));
     
     simulation_pipeline_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
-    simulation_pass_ = &simulation_pipeline_
-    ->add_pass<PostProcessingComputePass>(ShaderManager::get_singleton().load_shader("base/particle/particle_simulation.comp"));
+    simulation_pass_ = &simulation_pipeline_->AddPass<PostProcessingComputePass>(
+            ShaderManager::GetSingleton().LoadShader("base/particle/particle_simulation.comp"));
 }
 
 const std::vector<ParticleRenderer *> &ParticleManager::particles() const {
@@ -77,12 +77,12 @@ void ParticleManager::emission(const uint32_t count, ParticleRenderer *particle,
         //return;
     }
     particle->set_emit_count(count);
-    
-    emitter_pass_->attach_shader_data(&particle->shader_data_);
+
+    emitter_pass_->AttachShaderData(&particle->shader_data_);
     auto n_groups = threads_group_count(count);
-    emitter_pass_->set_dispatch_size({n_groups, 1, 1});
-    emitter_pipeline_->draw(command_buffer, render_target);
-    emitter_pass_->detach_shader_data(&particle->shader_data_);
+    emitter_pass_->SetDispatchSize({n_groups, 1, 1});
+    emitter_pipeline_->Draw(command_buffer, render_target);
+    emitter_pass_->DetachShaderData(&particle->shader_data_);
 }
 
 void ParticleManager::simulation(ParticleRenderer *particle,
@@ -90,12 +90,12 @@ void ParticleManager::simulation(ParticleRenderer *particle,
     if (particle->num_alive_particles() == 0u) {
         return;
     }
-    
-    simulation_pass_->attach_shader_data(&particle->shader_data_);
+
+    simulation_pass_->AttachShaderData(&particle->shader_data_);
     auto n_groups = threads_group_count(particle->num_alive_particles());
-    simulation_pass_->set_dispatch_size({n_groups, 1, 1});
-    simulation_pipeline_->draw(command_buffer, render_target);
-    simulation_pass_->detach_shader_data(&particle->shader_data_);
+    simulation_pass_->SetDispatchSize({n_groups, 1, 1});
+    simulation_pipeline_->Draw(command_buffer, render_target);
+    simulation_pass_->DetachShaderData(&particle->shader_data_);
 }
 
 }

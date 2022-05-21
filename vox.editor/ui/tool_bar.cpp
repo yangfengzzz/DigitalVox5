@@ -33,21 +33,21 @@ resource_(resource) {
     refresh_button.line_break_ = false;
     
     play_button_->clicked_event_ +=
-    std::bind(&EditorActions::start_playing, EditorActions::get_singleton_ptr());
+    std::bind(&EditorActions::start_playing, EditorActions::GetSingletonPtr());
     
     pause_button_->clicked_event_ +=
-    std::bind(&EditorActions::pause_game, EditorActions::get_singleton_ptr());
+    std::bind(&EditorActions::pause_game, EditorActions::GetSingletonPtr());
     
     stop_button_->clicked_event_ +=
-    std::bind(&EditorActions::stop_playing, EditorActions::get_singleton_ptr());
+    std::bind(&EditorActions::stop_playing, EditorActions::GetSingletonPtr());
     
     next_button_->clicked_event_ +=
-    std::bind(&EditorActions::next_frame, EditorActions::get_singleton_ptr());
+    std::bind(&EditorActions::next_frame, EditorActions::GetSingletonPtr());
     
     refresh_button.clicked_event_ +=
-    std::bind(&EditorActions::refresh_scripts, EditorActions::get_singleton_ptr());
+    std::bind(&EditorActions::refresh_scripts, EditorActions::GetSingletonPtr());
     
-    EditorActions::get_singleton().editor_mode_changed_event_ += [this](EditorActions::EditorMode new_mode) {
+    EditorActions::GetSingleton().editor_mode_changed_event_ += [this](EditorActions::EditorMode new_mode) {
         auto enable = [](ButtonImage *button, bool enable) {
             button->disabled_ = !enable;
             button->tint_ = enable ? Color{1.0f, 1.0f, 1.0f, 1.0f} : Color{1.0f, 1.0f, 1.0f, 0.15f};
@@ -77,7 +77,7 @@ resource_(resource) {
         }
     };
     
-    EditorActions::get_singleton().set_editor_mode(EditorActions::EditorMode::EDIT);
+    EditorActions::GetSingleton().set_editor_mode(EditorActions::EditorMode::EDIT);
 }
 
 void Toolbar::draw_impl() {

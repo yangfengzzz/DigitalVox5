@@ -44,7 +44,7 @@ extern const std::unordered_map<Type, std::string> kRelativePaths;
  * @throws runtime_error if the platform didn't initialize each path properly, path wasn't found or the path was found but is empty
  * @return Path to the directory of a certain type
  */
-std::string get(Type type, const std::string &file = "");
+std::string Get(Type type, const std::string &file = "");
 }        // namespace path
 
 /**
@@ -52,27 +52,27 @@ std::string get(Type type, const std::string &file = "");
  * @param path A path to a directory
  * @return True if the path points to a valid directory, false if not
  */
-bool is_directory(const std::string &path);
+bool IsDirectory(const std::string &path);
 
 /** 
  * @brief Checks if a file exists
  * @param filename The filename to check
  * @return True if the path points to a valid file, false if not
  */
-bool is_file(const std::string &filename);
+bool IsFile(const std::string &filename);
 
 /**
  * @brief Platform specific implementation to create a directory
  * @param path A path to a directory
  */
-void create_directory(const std::string &path);
+void CreateDirectory(const std::string &path);
 
 /**
  * @brief Recursively creates a directory
  * @param root The root directory that the path is relative to
  * @param path A path in the format 'this/is/an/example/path/'
  */
-void create_path(const std::string &root, const std::string &path);
+void CreatePath(const std::string &root, const std::string &path);
 
 /**
  * @brief Helper to read an asset file into a byte-array
@@ -82,7 +82,7 @@ void create_path(const std::string &root, const std::string &path);
  * of the file will be used.
  * @return A vector filled with data read from the file
  */
-std::vector<uint8_t> read_asset(const std::string &filename, uint32_t count = 0);
+std::vector<uint8_t> ReadAsset(const std::string &filename, uint32_t count = 0);
 
 /**
  * @brief Helper to read a shader file into a single string
@@ -90,7 +90,7 @@ std::vector<uint8_t> read_asset(const std::string &filename, uint32_t count = 0)
  * @param filename The path to the file (relative to the assets directory)
  * @return A string of the text in the shader file
  */
-std::string read_shader(const std::string &filename);
+std::string ReadShader(const std::string &filename);
 
 /**
  * @brief Helper to read a shader file into a byte-array
@@ -98,7 +98,7 @@ std::string read_shader(const std::string &filename);
  * @param filename The path to the file (relative to the assets directory)
  * @return A vector filled with data read from the file
  */
-std::vector<uint8_t> read_shader_binary(const std::string &filename);
+std::vector<uint8_t> ReadShaderBinary(const std::string &filename);
 
 /**
  * @brief Helper to read a temporary file into a byte-array
@@ -108,7 +108,7 @@ std::vector<uint8_t> read_shader_binary(const std::string &filename);
  * of the file will be used.
  * @return A vector filled with data read from the file
  */
-std::vector<uint8_t> read_temp(const std::string &filename, uint32_t count = 0);
+std::vector<uint8_t> ReadTemp(const std::string &filename, uint32_t count = 0);
 
 /**
  * @brief Helper to write to a file in temporary storage
@@ -118,7 +118,7 @@ std::vector<uint8_t> read_temp(const std::string &filename, uint32_t count = 0);
  * @param count (optional) How many bytes to write. If 0 or not specified, the size
  * of data will be used.
  */
-void write_temp(const std::vector<uint8_t> &data, const std::string &filename, uint32_t count = 0);
+void WriteTemp(const std::vector<uint8_t> &data, const std::string &filename, uint32_t count = 0);
 
 /**
  * @brief Helper to write to a png image in permanent storage
@@ -130,7 +130,7 @@ void write_temp(const std::vector<uint8_t> &data, const std::string &filename, u
  * @param components The number of bytes per element
  * @param row_stride The stride in bytes of a row of pixels
  */
-void write_image(const uint8_t *data, const std::string &filename, uint32_t width, uint32_t height,
+void WriteImage(const uint8_t *data, const std::string &filename, uint32_t width, uint32_t height,
                  uint32_t components, uint32_t row_stride);
 
 /**
@@ -139,7 +139,7 @@ void write_image(const uint8_t *data, const std::string &filename, uint32_t widt
  * @param data A json object
  * @param filename The name of the file
  */
-bool write_json(nlohmann::json &data, const std::string &filename);
+bool WriteJson(nlohmann::json &data, const std::string &filename);
 
 //MARK: - extension
 enum class FileType {
@@ -157,38 +157,38 @@ enum class FileType {
 /**
  * Returns the windows style version of the given path ('/' replaced by '\')
  */
-std::string make_windows_style(const std::string &path);
+std::string MakeWindowsStyle(const std::string &path);
 
 /**
  * Returns the non-windows style version of the given path ('\' replaced by '/')
  */
-std::string make_non_windows_style(const std::string &path);
+std::string MakeNonWindowsStyle(const std::string &path);
 
 /**
  * Returns the containing folder of the file or folder identified by the given path
  */
-std::string extra_containing_folder(const std::string &path);
+std::string ExtraContainingFolder(const std::string &path);
 
 /**
  * Returns the name of the file or folder identified by the given path
  */
-std::string extra_element_name(const std::string &path);
+std::string ExtraElementName(const std::string &path);
 
 /**
  * @brief Extracts the extension from an uri
  * @param uri An uniform Resource Identifier
  * @return The extension
  */
-std::string extra_extension(const std::string &uri);
+std::string ExtraExtension(const std::string &uri);
 
 /**
  * @brief Convert the EFileType value to a string
  */
-std::string file_type_to_string(FileType file_type);
+std::string FileTypeToString(FileType file_type);
 
 /**
  * @brief Returns the file type of the file identified by the given path
  */
-FileType extra_file_type(const std::string &path);
+FileType ExtraFileType(const std::string &path);
 
 }        // namespace vox

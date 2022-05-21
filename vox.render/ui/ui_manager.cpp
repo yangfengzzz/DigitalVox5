@@ -13,11 +13,11 @@
 #include "vk_initializers.h"
 
 namespace vox {
-ui::UiManager *ui::UiManager::get_singleton_ptr() {
+ui::UiManager *ui::UiManager::GetSingletonPtr() {
     return ms_singleton_;
 }
 
-ui::UiManager &ui::UiManager::get_singleton() {
+ui::UiManager &ui::UiManager::GetSingleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }
@@ -38,16 +38,16 @@ render_context_(render_context) {
     
     setup_render_pass();
     setup_descriptor_pool();
-    info.Instance = render_context->get_device().get_gpu().get_instance().get_handle();
-    info.PhysicalDevice = render_context->get_device().get_gpu().get_handle();
-    info.Device = render_context->get_device().get_handle();
-    info.Queue = render_context->get_device().get_suitable_graphics_queue().get_handle();
-    info.QueueFamily = render_context->get_device().get_queue_family_index(VK_QUEUE_GRAPHICS_BIT);
+    info.Instance = render_context->GetDevice().GetGpu().GetInstance().GetHandle();
+    info.PhysicalDevice = render_context->GetDevice().GetGpu().GetHandle();
+    info.Device = render_context->GetDevice().GetHandle();
+    info.Queue = render_context->GetDevice().GetSuitableGraphicsQueue().GetHandle();
+    info.QueueFamily = render_context->GetDevice().GetQueueFamilyIndex(VK_QUEUE_GRAPHICS_BIT);
     info.PipelineCache = VK_NULL_HANDLE;
     info.DescriptorPool = descriptor_pool_;
     info.Subpass = 0;
     info.MinImageCount = 2;
-    info.ImageCount = static_cast<uint32_t>(render_context->get_render_frames().size());
+    info.ImageCount = static_cast<uint32_t>(render_context->GetRenderFrames().size());
     info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
     info.Allocator = nullptr;
     info.CheckVkResultFn = nullptr;
@@ -55,7 +55,7 @@ render_context_(render_context) {
     ImGui_ImplGlfw_InitForOpenGL(glfw_window, true);
     ImGui_ImplVulkan_LoadFunctions([](const char *function_name, void *user_data) {
         auto app = static_cast<UiManager *>(user_data);
-        return vkGetInstanceProcAddr(app->render_context_->get_device().get_gpu().get_instance().get_handle(), function_name);
+        return vkGetInstanceProcAddr(app->render_context_->GetDevice().GetGpu().GetInstance().GetHandle(), function_name);
     }, this);
     ImGui_ImplVulkan_Init(&info, render_pass_);
 }
@@ -210,7 +210,7 @@ void UiManager::apply_style(Style style) {
 bool UiManager::load_font(const std::string &id, const std::string &path, float font_size) {
     if (fonts_.find(id) == fonts_.end()) {
         auto &io = ImGui::GetIO();
-        ImFont *font_instance = io.Fonts->AddFontFromFileTTF((fs::path::get(fs::path::Type::ASSETS) + path).c_str(), font_size);
+        ImFont *font_instance = io.Fonts->AddFontFromFileTTF((fs::path::Get(fs::path::Type::ASSETS) + path).c_str(), font_size);
         
         if (font_instance) {
             fonts_[id] = font_instance;
@@ -311,7 +311,7 @@ void UiManager::pop_current_font() {
 void UiManager::setup_render_pass() {
     std::array<VkAttachmentDescription, 2> attachments = {};
     // Color attachment
-    attachments[0].format = render_context_->get_format();
+    attachments[0].format = render_context_->GetFormat();
     attachments[0].samples = VK_SAMPLE_COUNT_1_BIT;
     attachments[0].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
     attachments[0].storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -320,7 +320,7 @@ void UiManager::setup_render_pass() {
     attachments[0].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
     attachments[0].finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
     // Depth attachment
-    attachments[1].format = get_suitable_depth_format(render_context_->get_device().get_gpu().get_handle());
+    attachments[1].format = GetSuitableDepthFormat(render_context_->GetDevice().GetGpu().GetHandle());
     attachments[1].samples = VK_SAMPLE_COUNT_1_BIT;
     attachments[1].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
     attachments[1].storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
@@ -382,7 +382,7 @@ void UiManager::setup_render_pass() {
     render_pass_create_info.dependencyCount = static_cast<uint32_t>(dependencies.size());
     render_pass_create_info.pDependencies = dependencies.data();
     
-    VK_CHECK(vkCreateRenderPass(render_context_->get_device().get_handle(), &render_pass_create_info, nullptr, &render_pass_));
+    VK_CHECK(vkCreateRenderPass(render_context_->GetDevice().GetHandle(), &render_pass_create_info, nullptr, &render_pass_));
 }
 
 void UiManager::setup_descriptor_pool() {
@@ -406,25 +406,25 @@ void UiManager::setup_descriptor_pool() {
     pool_info.maxSets = 1000 * IM_ARRAYSIZE(pool_sizes);
     pool_info.poolSizeCount = (uint32_t)IM_ARRAYSIZE(pool_sizes);
     pool_info.pPoolSizes = pool_sizes;
-    VK_CHECK(vkCreateDescriptorPool(render_context_->get_device().get_handle(), &pool_info, nullptr, &descriptor_pool_));
+    VK_CHECK(vkCreateDescriptorPool(render_context_->GetDevice().GetHandle(), &pool_info, nullptr, &descriptor_pool_));
 }
 
 void UiManager::draw(CommandBuffer &command_buffer) {
     if (current_canvas_) {
         current_canvas_->draw();
-        ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), command_buffer.get_handle());
+        ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), command_buffer.GetHandle());
     }
 }
 
 void UiManager::update_font_texture() {
-    auto &command_buffer = render_context_->begin();
-    command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+    auto &command_buffer = render_context_->Begin();
+    command_buffer.Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
     
-    ImGui_ImplVulkan_CreateFontsTexture(command_buffer.get_handle());
+    ImGui_ImplVulkan_CreateFontsTexture(command_buffer.GetHandle());
     
-    command_buffer.end();
-    render_context_->submit(command_buffer);
-    render_context_->get_device().wait_idle();
+    command_buffer.End();
+    render_context_->Submit(command_buffer);
+    render_context_->GetDevice().WaitIdle();
     ImGui_ImplVulkan_DestroyFontUploadObjects();
 }
 

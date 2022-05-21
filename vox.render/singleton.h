@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_SINGLETON_H_
-#define DIGITALVOX_VOX_RENDER_SINGLETON_H_
+#pragma once
 
 #include <cassert>
 
@@ -37,15 +36,14 @@ public:
         ms_singleton_ = 0;
     }
     
-    static T &get_singleton() {
+    static T &GetSingleton() {
         assert(ms_singleton_);
         return (*ms_singleton_);
     }
     
-    static T *get_singleton_ptr() {
+    static T *GetSingletonPtr() {
         return ms_singleton_;
     }
 };
 
 }
-#endif /* DIGITALVOX_VOX_RENDER_SINGLETON_H_ */

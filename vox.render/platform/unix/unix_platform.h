@@ -20,10 +20,10 @@ public:
     
     ~UnixPlatform() override = default;
     
-    const char *get_surface_extension() override;
+    const char *GetSurfaceExtension() override;
     
 protected:
-    void create_window(const Window::Properties &properties) override;
+    void CreateWindow(const Window::Properties &properties) override;
     
 private:
     UnixType type_;

@@ -253,13 +253,13 @@ std::unique_ptr<Entity> Entity::remove_from_parent() {
 }
 
 void Entity::process_active() {
-    active_changed_components_ = ComponentsManager::get_singleton().get_active_changed_temp_list();
+    active_changed_components_ = ComponentsManager::GetSingleton().get_active_changed_temp_list();
     set_active_in_hierarchy(active_changed_components_);
     set_active_components(true);
 }
 
 void Entity::process_in_active() {
-    active_changed_components_ = ComponentsManager::get_singleton().get_active_changed_temp_list();
+    active_changed_components_ = ComponentsManager::GetSingleton().get_active_changed_temp_list();
     set_in_active_in_hierarchy(active_changed_components_);
     set_active_components(false);
 }
@@ -268,7 +268,7 @@ void Entity::set_active_components(bool is_active) {
     for (size_t i = 0, length = active_changed_components_.size(); i < length; ++i) {
         active_changed_components_[i]->set_active(is_active);
     }
-    ComponentsManager::get_singleton().put_active_changed_temp_list(active_changed_components_);
+    ComponentsManager::GetSingleton().put_active_changed_temp_list(active_changed_components_);
     active_changed_components_.clear();
 }
 

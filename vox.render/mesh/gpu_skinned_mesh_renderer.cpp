@@ -43,14 +43,14 @@ void GpuSkinnedMeshRenderer::update(float delta_time) {
             joint_mat = inverse_transform * joint_mat;
             std::copy(joint_mat.data(), joint_mat.data() + 16, joint_matrix_.data() + i * 16);
         }
-        shader_data_.set_data(joint_matrix_property_, joint_matrix_);
-        shader_data_.add_define(JOINTS_COUNT + std::to_string(skin_->joints.size()));
+        shader_data_.SetData(joint_matrix_property_, joint_matrix_);
+        shader_data_.AddDefine(JOINTS_COUNT + std::to_string(skin_->joints.size()));
     }
 }
 
 void GpuSkinnedMeshRenderer::init_joints() {
     joint_matrix_.resize(skin_->joints.size() * 16);
-    shader_data_.add_define(HAS_SKIN);
+    shader_data_.AddDefine(HAS_SKIN);
 }
 
 //MARK: - Reflection

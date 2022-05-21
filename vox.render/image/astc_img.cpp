@@ -24,7 +24,7 @@ VKBP_ENABLE_WARNINGS()
 #define MAGIC_FILE_CONSTANT 0x5CA1AB13
 
 namespace vox {
-BlockDim to_blockdim(const VkFormat format) {
+BlockDim ToBlockdim(const VkFormat format) {
     switch (format) {
         case VK_FORMAT_ASTC_4x4_UNORM_BLOCK:
         case VK_FORMAT_ASTC_4x4_SRGB_BLOCK:return {4, 4, 1};
@@ -68,7 +68,7 @@ struct AstcHeader {
     uint8_t zsize[3];        // block count is inferred
 };
 
-void Astc::init() {
+void Astc::Init() {
     // Initializes ASTC library
     static bool initialized{false};
     static std::mutex initialization;
@@ -81,7 +81,7 @@ void Astc::init() {
     }
 }
 
-void Astc::decode(BlockDim blockdim, VkExtent3D extent, const uint8_t *data) {
+void Astc::Decode(BlockDim blockdim, VkExtent3D extent, const uint8_t *data) {
     // Actual decoding
     astc_decode_mode decode_mode = DECODE_LDR_SRGB;
     uint32_t bitness = 8;
@@ -129,25 +129,25 @@ void Astc::decode(BlockDim blockdim, VkExtent3D extent, const uint8_t *data) {
             }
         }
     }
-    
-    set_data(astc_image->imagedata8[0][0], astc_image->xsize * astc_image->ysize * astc_image->zsize * 4);
-    set_format(VK_FORMAT_R8G8B8A8_SRGB);
-    set_width(static_cast<uint32_t>(astc_image->xsize));
-    set_height(static_cast<uint32_t>(astc_image->ysize));
-    set_depth(static_cast<uint32_t>(astc_image->zsize));
+
+    SetData(astc_image->imagedata8[0][0], astc_image->xsize * astc_image->ysize * astc_image->zsize * 4);
+    SetFormat(VK_FORMAT_R8G8B8A8_SRGB);
+    SetWidth(static_cast<uint32_t>(astc_image->xsize));
+    SetHeight(static_cast<uint32_t>(astc_image->ysize));
+    SetDepth(static_cast<uint32_t>(astc_image->zsize));
     
     destroy_image(astc_image);
 }
 
 Astc::Astc(const Image &image) :
 Image{image.name_} {
-    init();
-    decode(to_blockdim(image.get_format()), image.get_extent(), image.get_data().data());
+    Init();
+    Decode(ToBlockdim(image.GetFormat()), image.GetExtent(), image.GetData().data());
 }
 
 Astc::Astc(const std::string &name, const std::vector<uint8_t> &data) :
 Image{name} {
-    init();
+    Init();
     
     // Read header
     if (data.size() < sizeof(AstcHeader)) {
@@ -175,7 +175,7 @@ Image{name} {
         /* depth  = */
         static_cast<uint32_t>(header.zsize[0] + 256 * header.zsize[1] + 65536 * header.zsize[2])};
     
-    decode(blockdim, extent, data.data() + sizeof(AstcHeader));
+    Decode(blockdim, extent, data.data() + sizeof(AstcHeader));
 }
 
 }        // namespace vox

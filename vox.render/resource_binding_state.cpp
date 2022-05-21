@@ -7,76 +7,75 @@
 #include "resource_binding_state.h"
 
 namespace vox {
-void ResourceBindingState::reset() {
-    clear_dirty();
+void ResourceBindingState::Reset() {
+    ClearDirty();
     
     resource_sets_.clear();
 }
 
-bool ResourceBindingState::is_dirty() const {
+bool ResourceBindingState::IsDirty() const {
     return dirty_;
 }
 
-void ResourceBindingState::clear_dirty() {
+void ResourceBindingState::ClearDirty() {
     dirty_ = false;
 }
 
-void ResourceBindingState::clear_dirty(uint32_t set) {
-    resource_sets_[set].clear_dirty();
+void ResourceBindingState::ClearDirty(uint32_t set) { resource_sets_[set].ClearDirty();
 }
 
 void
-ResourceBindingState::bind_buffer(const core::Buffer &buffer, VkDeviceSize offset, VkDeviceSize range, uint32_t set,
+ResourceBindingState::BindBuffer(const core::Buffer &buffer, VkDeviceSize offset, VkDeviceSize range, uint32_t set,
                                   uint32_t binding, uint32_t array_element) {
-    resource_sets_[set].bind_buffer(buffer, offset, range, binding, array_element);
+    resource_sets_[set].BindBuffer(buffer, offset, range, binding, array_element);
     
     dirty_ = true;
 }
 
-void ResourceBindingState::bind_image(const core::ImageView &image_view, const core::Sampler &sampler, uint32_t set,
+void ResourceBindingState::BindImage(const core::ImageView &image_view, const core::Sampler &sampler, uint32_t set,
                                       uint32_t binding, uint32_t array_element) {
-    resource_sets_[set].bind_image(image_view, sampler, binding, array_element);
+    resource_sets_[set].BindImage(image_view, sampler, binding, array_element);
     
     dirty_ = true;
 }
 
-void ResourceBindingState::bind_image(const core::ImageView &image_view, uint32_t set, uint32_t binding,
+void ResourceBindingState::BindImage(const core::ImageView &image_view, uint32_t set, uint32_t binding,
                                       uint32_t array_element) {
-    resource_sets_[set].bind_image(image_view, binding, array_element);
+    resource_sets_[set].BindImage(image_view, binding, array_element);
     
     dirty_ = true;
 }
 
-void ResourceBindingState::bind_input(const core::ImageView &image_view, uint32_t set, uint32_t binding,
+void ResourceBindingState::BindInput(const core::ImageView &image_view, uint32_t set, uint32_t binding,
                                       uint32_t array_element) {
-    resource_sets_[set].bind_input(image_view, binding, array_element);
+    resource_sets_[set].BindInput(image_view, binding, array_element);
     
     dirty_ = true;
 }
 
-const std::unordered_map<uint32_t, ResourceSet> &ResourceBindingState::get_resource_sets() {
+const std::unordered_map<uint32_t, ResourceSet> &ResourceBindingState::GetResourceSets() {
     return resource_sets_;
 }
 
-void ResourceSet::reset() {
-    clear_dirty();
+void ResourceSet::Reset() {
+    ClearDirty();
     
     resource_bindings_.clear();
 }
 
-bool ResourceSet::is_dirty() const {
+bool ResourceSet::IsDirty() const {
     return dirty_;
 }
 
-void ResourceSet::clear_dirty() {
+void ResourceSet::ClearDirty() {
     dirty_ = false;
 }
 
-void ResourceSet::clear_dirty(uint32_t binding, uint32_t array_element) {
+void ResourceSet::ClearDirty(uint32_t binding, uint32_t array_element) {
     resource_bindings_[binding][array_element].dirty = false;
 }
 
-void ResourceSet::bind_buffer(const core::Buffer &buffer, VkDeviceSize offset, VkDeviceSize range, uint32_t binding,
+void ResourceSet::BindBuffer(const core::Buffer &buffer, VkDeviceSize offset, VkDeviceSize range, uint32_t binding,
                               uint32_t array_element) {
     resource_bindings_[binding][array_element].dirty = true;
     resource_bindings_[binding][array_element].buffer = &buffer;
@@ -86,7 +85,7 @@ void ResourceSet::bind_buffer(const core::Buffer &buffer, VkDeviceSize offset, V
     dirty_ = true;
 }
 
-void ResourceSet::bind_image(const core::ImageView &image_view, const core::Sampler &sampler, uint32_t binding,
+void ResourceSet::BindImage(const core::ImageView &image_view, const core::Sampler &sampler, uint32_t binding,
                              uint32_t array_element) {
     resource_bindings_[binding][array_element].dirty = true;
     resource_bindings_[binding][array_element].image_view = &image_view;
@@ -95,7 +94,7 @@ void ResourceSet::bind_image(const core::ImageView &image_view, const core::Samp
     dirty_ = true;
 }
 
-void ResourceSet::bind_image(const core::ImageView &image_view, uint32_t binding, uint32_t array_element) {
+void ResourceSet::BindImage(const core::ImageView &image_view, uint32_t binding, uint32_t array_element) {
     resource_bindings_[binding][array_element].dirty = true;
     resource_bindings_[binding][array_element].image_view = &image_view;
     resource_bindings_[binding][array_element].sampler = nullptr;
@@ -104,14 +103,14 @@ void ResourceSet::bind_image(const core::ImageView &image_view, uint32_t binding
 }
 
 void
-ResourceSet::bind_input(const core::ImageView &image_view, const uint32_t binding, const uint32_t array_element) {
+ResourceSet::BindInput(const core::ImageView &image_view, uint32_t binding, uint32_t array_element) {
     resource_bindings_[binding][array_element].dirty = true;
     resource_bindings_[binding][array_element].image_view = &image_view;
     
     dirty_ = true;
 }
 
-const BindingMap<ResourceInfo> &ResourceSet::get_resource_bindings() const {
+const BindingMap<ResourceInfo> &ResourceSet::GetResourceBindings() const {
     return resource_bindings_;
 }
 

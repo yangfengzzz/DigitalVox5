@@ -21,7 +21,7 @@ namespace vox {
  * @param format Vulkan format
  * @return Whether the vulkan format is ASTC
  */
-bool is_astc(VkFormat format);
+bool IsAstc(VkFormat format);
 
 /**
  * @brief Mipmap information
@@ -43,32 +43,32 @@ public:
     
     explicit Image(std::string name, std::vector<uint8_t> &&data = {}, std::vector<Mipmap> &&mipmaps = {{}});
     
-    static std::shared_ptr<Image> load(const std::string &name, const std::string &uri);
+    static std::shared_ptr<Image> Load(const std::string &name, const std::string &uri);
     
     virtual ~Image() = default;
     
-    [[nodiscard]] const std::vector<uint8_t> &get_data() const;
+    [[nodiscard]] const std::vector<uint8_t> &GetData() const;
     
-    void clear_data();
+    void ClearData();
     
-    [[nodiscard]] VkFormat get_format() const;
+    [[nodiscard]] VkFormat GetFormat() const;
     
-    [[nodiscard]] const VkExtent3D &get_extent() const;
+    [[nodiscard]] const VkExtent3D &GetExtent() const;
     
-    [[nodiscard]] uint32_t get_layers() const;
+    [[nodiscard]] uint32_t GetLayers() const;
     
-    [[nodiscard]] const std::vector<Mipmap> &get_mipmaps() const;
+    [[nodiscard]] const std::vector<Mipmap> &GetMipmaps() const;
     
-    [[nodiscard]] const std::vector<std::vector<VkDeviceSize>> &get_offsets() const;
+    [[nodiscard]] const std::vector<std::vector<VkDeviceSize>> &GetOffsets() const;
     
-    void generate_mipmaps();
+    void GenerateMipmaps();
     
-    void create_vk_image(Device const &device, VkImageCreateFlags flags = 0,
+    void CreateVkImage(Device const &device, VkImageCreateFlags flags = 0,
                          VkImageUsageFlags image_usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT);
     
-    [[nodiscard]] const core::Image &get_vk_image() const;
+    [[nodiscard]] const core::Image &GetVkImage() const;
     
-    [[nodiscard]] const core::ImageView &get_vk_image_view(VkImageViewType view_type = VK_IMAGE_VIEW_TYPE_2D,
+    [[nodiscard]] const core::ImageView &GetVkImageView(VkImageViewType view_type = VK_IMAGE_VIEW_TYPE_2D,
                                                            uint32_t base_mip_level = 0,
                                                            uint32_t base_array_layer = 0,
                                                            uint32_t n_mip_levels = 0,
@@ -77,25 +77,25 @@ public:
 protected:
     friend class ImageManager;
     
-    std::vector<uint8_t> &get_mut_data();
+    std::vector<uint8_t> &GetMutData();
     
-    void set_data(const uint8_t *raw_data, size_t size);
+    void SetData(const uint8_t *raw_data, size_t size);
     
-    void set_format(VkFormat format);
+    void SetFormat(VkFormat format);
     
-    void set_width(uint32_t width);
+    void SetWidth(uint32_t width);
     
-    void set_height(uint32_t height);
+    void SetHeight(uint32_t height);
     
-    void set_depth(uint32_t depth);
+    void SetDepth(uint32_t depth);
     
-    void set_layers(uint32_t layers);
+    void SetLayers(uint32_t layers);
     
-    void set_offsets(const std::vector<std::vector<VkDeviceSize>> &offsets);
+    void SetOffsets(const std::vector<std::vector<VkDeviceSize>> &offsets);
     
-    Mipmap &get_mipmap(size_t index);
+    Mipmap &GetMipmap(size_t index);
     
-    std::vector<Mipmap> &get_mut_mipmaps();
+    std::vector<Mipmap> &GetMutMipmaps();
     
 private:
     std::vector<uint8_t> data_;

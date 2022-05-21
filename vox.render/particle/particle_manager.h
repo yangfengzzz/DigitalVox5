@@ -24,9 +24,9 @@ public:
         return particles_kernel_group_width_ * (nparticles / particles_kernel_group_width_);
     }
     
-    static ParticleManager &get_singleton();
+    static ParticleManager &GetSingleton();
     
-    static ParticleManager *get_singleton_ptr();
+    static ParticleManager *GetSingletonPtr();
     
     ParticleManager(Device &device, RenderContext &render_context);
     

@@ -16,10 +16,10 @@ public:
     
     virtual ~WindowsPlatform() = default;
     
-    virtual const char *get_surface_extension() override;
+    virtual const char *GetSurfaceExtension() override;
     
 protected:
-    virtual void create_window(const Window::Properties &properties) override;
+    virtual void CreateWindow(const Window::Properties &properties) override;
 };
 
 }        // namespace vox

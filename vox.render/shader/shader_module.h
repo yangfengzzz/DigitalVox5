@@ -108,23 +108,23 @@ public:
     
     ShaderModule &operator=(ShaderModule &&) = delete;
     
-    [[nodiscard]] size_t get_id() const;
+    [[nodiscard]] size_t GetId() const;
     
-    [[nodiscard]] VkShaderStageFlagBits get_stage() const;
+    [[nodiscard]] VkShaderStageFlagBits GetStage() const;
     
-    [[nodiscard]] const std::string &get_entry_point() const;
+    [[nodiscard]] const std::string &GetEntryPoint() const;
     
-    [[nodiscard]] const std::vector<ShaderResource> &get_resources() const;
+    [[nodiscard]] const std::vector<ShaderResource> &GetResources() const;
     
-    [[nodiscard]] const std::string &get_info_log() const;
+    [[nodiscard]] const std::string &GetInfoLog() const;
     
-    [[nodiscard]] const std::vector<uint32_t> &get_binary() const;
+    [[nodiscard]] const std::vector<uint32_t> &GetBinary() const;
     
-    [[nodiscard]] inline const std::string &get_debug_name() const {
+    [[nodiscard]] inline const std::string &GetDebugName() const {
         return debug_name_;
     }
     
-    inline void set_debug_name(const std::string &name) {
+    inline void SetDebugName(const std::string &name) {
         debug_name_ = name;
     }
     
@@ -133,7 +133,7 @@ public:
      * @param resource_name The name of the shader resource
      * @param resource_mode The mode of how the shader resource will be bound
      */
-    void set_resource_mode(const std::string &resource_name, const ShaderResourceMode &resource_mode);
+    void SetResourceMode(const std::string &resource_name, const ShaderResourceMode &resource_mode);
     
 private:
     Device &device_;

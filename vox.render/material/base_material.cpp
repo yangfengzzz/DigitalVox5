@@ -36,13 +36,13 @@ float BaseMaterial::alpha_cutoff() const {
 
 void BaseMaterial::set_alpha_cutoff(float new_value) {
     alpha_cutoff_ = new_value;
-    shader_data_.set_data(alpha_cutoff_prop_, new_value);
+    shader_data_.SetData(alpha_cutoff_prop_, new_value);
     
     if (new_value > 0) {
-        shader_data_.add_define(NEED_ALPHA_CUTOFF);
+        shader_data_.AddDefine(NEED_ALPHA_CUTOFF);
         render_queue_ = is_transparent_ ? RenderQueueType::TRANSPARENT : RenderQueueType::ALPHA_TEST;
     } else {
-        shader_data_.remove_define(NEED_ALPHA_CUTOFF);
+        shader_data_.RemoveDefine(NEED_ALPHA_CUTOFF);
         render_queue_ = is_transparent_ ? RenderQueueType::TRANSPARENT : RenderQueueType::OPAQUE;
     }
 }
@@ -100,7 +100,7 @@ const Vector4F &BaseMaterial::tiling_offset() const {
 
 void BaseMaterial::set_tiling_offset(const Vector4F &new_value) {
     tiling_offset_ = new_value;
-    shader_data_.set_data(tiling_offset_prop_, tiling_offset_);
+    shader_data_.SetData(tiling_offset_prop_, tiling_offset_);
 }
 
 VkSamplerCreateInfo BaseMaterial::last_sampler_create_info_;
@@ -109,12 +109,12 @@ BaseMaterial::BaseMaterial(Device &device, const std::string &name) :
 Material(device, name),
 alpha_cutoff_prop_("alphaCutoff"),
 tiling_offset_prop_("tilingOffset") {
-    shader_data_.add_define(NEED_TILINGOFFSET);
-    shader_data_.set_data(tiling_offset_prop_, tiling_offset_);
+    shader_data_.AddDefine(NEED_TILINGOFFSET);
+    shader_data_.SetData(tiling_offset_prop_, tiling_offset_);
     
     color_blend_state_.attachments.resize(1);
     set_blend_mode(BlendMode::NORMAL);
-    shader_data_.set_data(alpha_cutoff_prop_, alpha_cutoff_);
+    shader_data_.SetData(alpha_cutoff_prop_, alpha_cutoff_);
     
     if (last_sampler_create_info_.sType != VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO) {
         // Create a default sampler
@@ -134,10 +134,11 @@ tiling_offset_prop_("tilingOffset") {
         // Note that for simplicity, we will always be using max. available anisotropy level for the current device
         // This may have an impact on performance, esp. on lower-specced devices
         // In a real-world scenario the level of anisotropy should be a user setting or e.g. lowered for mobile devices by default
-        last_sampler_create_info_.maxAnisotropy = device.get_gpu().get_features().samplerAnisotropy
-        ? (device.get_gpu().get_properties().limits.maxSamplerAnisotropy)
+        last_sampler_create_info_.maxAnisotropy =
+                device.GetGpu().GetFeatures().samplerAnisotropy
+        ? (device.GetGpu().GetProperties().limits.maxSamplerAnisotropy)
         : 1.0f;
-        last_sampler_create_info_.anisotropyEnable = device.get_gpu().get_features().samplerAnisotropy;
+        last_sampler_create_info_.anisotropyEnable = device.GetGpu().GetFeatures().samplerAnisotropy;
         last_sampler_create_info_.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
     }
 }

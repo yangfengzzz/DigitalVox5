@@ -207,28 +207,28 @@ void ModelMesh::upload_data(bool no_longer_accessible) {
     auto vertices = std::vector<float>(vertex_float_count);
     update_vertices(vertices);
     
-    auto &queue = device_.get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
+    auto &queue = device_.GetQueueByFlags(VK_QUEUE_GRAPHICS_BIT, 0);
     
     // keep stage buffer alive until submit finish
     std::vector<core::Buffer> transient_buffers;
-    auto &command_buffer = device_.request_command_buffer();
+    auto &command_buffer = device_.RequestCommandBuffer();
     
-    command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+    command_buffer.Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
     
     core::Buffer stage_buffer{device_,
         vertices.size() * sizeof(float),
         VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
         VMA_MEMORY_USAGE_CPU_ONLY};
     
-    stage_buffer.update(vertices.data(), vertices.size() * sizeof(float));
+    stage_buffer.Update(vertices.data(), vertices.size() * sizeof(float));
     
     auto new_vertex_buffer = std::make_unique<core::Buffer>(device_,
                                                             vertices.size() * sizeof(float),
                                                             VK_BUFFER_USAGE_TRANSFER_DST_BIT
                                                             | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                                                             VMA_MEMORY_USAGE_GPU_ONLY);
-    
-    command_buffer.copy_buffer(stage_buffer, *new_vertex_buffer, vertices.size() * sizeof(float));
+
+    command_buffer.CopyBuffer(stage_buffer, *new_vertex_buffer, vertices.size() * sizeof(float));
     set_vertex_buffer_binding(0, std::move(new_vertex_buffer));
     transient_buffers.push_back(std::move(stage_buffer));
     
@@ -238,15 +238,15 @@ void ModelMesh::upload_data(bool no_longer_accessible) {
             VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
             VMA_MEMORY_USAGE_CPU_ONLY};
         
-        stage_buffer.update(indices_16_.data(), indices_16_.size() * sizeof(uint16_t));
+        stage_buffer.Update(indices_16_.data(), indices_16_.size() * sizeof(uint16_t));
         
         core::Buffer new_index_buffer{device_,
             indices_16_.size() * sizeof(uint16_t),
             VK_BUFFER_USAGE_TRANSFER_DST_BIT |
             VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
             VMA_MEMORY_USAGE_GPU_ONLY};
-        
-        command_buffer.copy_buffer(stage_buffer, new_index_buffer, indices_16_.size() * sizeof(uint16_t));
+
+        command_buffer.CopyBuffer(stage_buffer, new_index_buffer, indices_16_.size() * sizeof(uint16_t));
         set_index_buffer_binding(std::make_unique<IndexBufferBinding>(std::move(new_index_buffer), indices_type_));
         transient_buffers.push_back(std::move(stage_buffer));
     } else if (indices_type_ == VkIndexType::VK_INDEX_TYPE_UINT32) {
@@ -255,26 +255,26 @@ void ModelMesh::upload_data(bool no_longer_accessible) {
             VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
             VMA_MEMORY_USAGE_CPU_ONLY};
         
-        stage_buffer.update(indices_32_.data(), indices_32_.size() * sizeof(uint32_t));
+        stage_buffer.Update(indices_32_.data(), indices_32_.size() * sizeof(uint32_t));
         
         core::Buffer new_index_buffer{device_,
             indices_32_.size() * sizeof(uint32_t),
             VK_BUFFER_USAGE_TRANSFER_DST_BIT |
             VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
             VMA_MEMORY_USAGE_GPU_ONLY};
-        
-        command_buffer.copy_buffer(stage_buffer, new_index_buffer, indices_32_.size() * sizeof(uint32_t));
+
+        command_buffer.CopyBuffer(stage_buffer, new_index_buffer, indices_32_.size() * sizeof(uint32_t));
         set_index_buffer_binding(std::make_unique<IndexBufferBinding>(std::move(new_index_buffer), indices_type_));
         transient_buffers.push_back(std::move(stage_buffer));
     }
     
-    command_buffer.end();
+    command_buffer.End();
     
-    queue.submit(command_buffer, device_.request_fence());
-    
-    device_.get_fence_pool().wait();
-    device_.get_fence_pool().reset();
-    device_.get_command_pool().reset_pool();
+    queue.Submit(command_buffer, device_.RequestFence());
+
+    device_.GetFencePool().wait();
+    device_.GetFencePool().reset();
+    device_.GetCommandPool().ResetPool();
     
     if (no_longer_accessible) {
         accessible_ = false;
@@ -285,88 +285,84 @@ void ModelMesh::upload_data(bool no_longer_accessible) {
 void ModelMesh::update_vertex_state() {
     auto &vertex_input_attributes = vertex_input_state_.attributes;
     vertex_input_attributes.resize(1);
-    vertex_input_attributes[0] = initializers::vertex_input_attribute_description(0, 0, VK_FORMAT_R32G32B32_SFLOAT, 0);
+    vertex_input_attributes[0] = initializers::VertexInputAttributeDescription(0, 0, VK_FORMAT_R32G32B32_SFLOAT, 0);
     
     uint32_t offset = 12;
     uint32_t element_count = 3;
     if (!normals_.empty()) {
         vertex_input_attributes
-            .push_back(initializers::vertex_input_attribute_description(0, (uint32_t)Attributes::NORMAL,
-                                                                        VK_FORMAT_R32G32B32_SFLOAT, offset));
+            .push_back(initializers::VertexInputAttributeDescription(
+                0, (uint32_t)Attributes::NORMAL, VK_FORMAT_R32G32B32_SFLOAT, offset));
         offset += 12;
         element_count += 3;
     }
     if (!colors_.empty()) {
         vertex_input_attributes
-            .push_back(initializers::vertex_input_attribute_description(0,
-                                                                        (uint32_t)Attributes::COLOR_0,
-                                                                        VK_FORMAT_R32G32B32A32_SFLOAT,
-                                                                        offset));
+            .push_back(initializers::VertexInputAttributeDescription(
+                0, (uint32_t)Attributes::COLOR_0, VK_FORMAT_R32G32B32A32_SFLOAT, offset));
         offset += 16;
         element_count += 4;
     }
     if (!tangents_.empty()) {
         vertex_input_attributes
-            .push_back(initializers::vertex_input_attribute_description(0,
-                                                                        (uint32_t)Attributes::TANGENT,
-                                                                        VK_FORMAT_R32G32B32A32_SFLOAT,
-                                                                        offset));
+            .push_back(initializers::VertexInputAttributeDescription(
+                0, (uint32_t)Attributes::TANGENT, VK_FORMAT_R32G32B32A32_SFLOAT, offset));
         offset += 16;
         element_count += 4;
     }
     if (!uv_.empty()) {
         vertex_input_attributes
-            .push_back(initializers::vertex_input_attribute_description(0, (uint32_t)Attributes::UV_0,
-                                                                        VK_FORMAT_R32G32_SFLOAT, offset));
+            .push_back(initializers::VertexInputAttributeDescription(
+                0, (uint32_t)Attributes::UV_0, VK_FORMAT_R32G32_SFLOAT, offset));
         offset += 8;
         element_count += 2;
     }
     if (!uv_1_.empty()) {
         vertex_input_attributes
-            .push_back(initializers::vertex_input_attribute_description(0, (uint32_t)Attributes::UV_1,
-                                                                        VK_FORMAT_R32G32_SFLOAT, offset));
+            .push_back(initializers::VertexInputAttributeDescription(
+                0, (uint32_t)Attributes::UV_1, VK_FORMAT_R32G32_SFLOAT, offset));
         offset += 8;
         element_count += 2;
     }
     if (!uv_2_.empty()) {
         vertex_input_attributes
-            .push_back(initializers::vertex_input_attribute_description(0, (uint32_t)Attributes::UV_2,
-                                                                        VK_FORMAT_R32G32_SFLOAT, offset));
+            .push_back(initializers::VertexInputAttributeDescription(
+                0, (uint32_t)Attributes::UV_2, VK_FORMAT_R32G32_SFLOAT, offset));
         offset += 8;
         element_count += 2;
     }
     if (!uv_3_.empty()) {
         vertex_input_attributes
-            .push_back(initializers::vertex_input_attribute_description(0, (uint32_t)Attributes::UV_3,
-                                                                        VK_FORMAT_R32G32_SFLOAT, offset));
+            .push_back(initializers::VertexInputAttributeDescription(
+                0, (uint32_t)Attributes::UV_3, VK_FORMAT_R32G32_SFLOAT, offset));
         offset += 8;
         element_count += 2;
     }
     if (!uv_4_.empty()) {
         vertex_input_attributes
-            .push_back(initializers::vertex_input_attribute_description(0, (uint32_t)Attributes::UV_4,
-                                                                        VK_FORMAT_R32G32_SFLOAT, offset));
+            .push_back(initializers::VertexInputAttributeDescription(
+                0, (uint32_t)Attributes::UV_4, VK_FORMAT_R32G32_SFLOAT, offset));
         offset += 8;
         element_count += 2;
     }
     if (!uv_5_.empty()) {
         vertex_input_attributes
-            .push_back(initializers::vertex_input_attribute_description(0, (uint32_t)Attributes::UV_5,
-                                                                        VK_FORMAT_R32G32_SFLOAT, offset));
+            .push_back(initializers::VertexInputAttributeDescription(
+                0, (uint32_t)Attributes::UV_5, VK_FORMAT_R32G32_SFLOAT, offset));
         offset += 8;
         element_count += 2;
     }
     if (!uv_6_.empty()) {
         vertex_input_attributes
-            .push_back(initializers::vertex_input_attribute_description(0, (uint32_t)Attributes::UV_6,
-                                                                        VK_FORMAT_R32G32_SFLOAT, offset));
+            .push_back(initializers::VertexInputAttributeDescription(
+                0, (uint32_t)Attributes::UV_6, VK_FORMAT_R32G32_SFLOAT, offset));
         offset += 8;
         element_count += 2;
     }
     if (!uv_7_.empty()) {
         vertex_input_attributes
-            .push_back(initializers::vertex_input_attribute_description(0, (uint32_t)Attributes::UV_7,
-                                                                        VK_FORMAT_R32G32_SFLOAT, offset));
+            .push_back(initializers::VertexInputAttributeDescription(
+                0, (uint32_t)Attributes::UV_7, VK_FORMAT_R32G32_SFLOAT, offset));
         offset += 8;
         element_count += 2;
     }
@@ -374,10 +370,10 @@ void ModelMesh::update_vertex_state() {
     auto &vertex_input_bindings = vertex_input_state_.bindings;
     vertex_input_bindings.resize(1);
     vertex_input_bindings[0] =
-    vox::initializers::vertex_input_binding_description(0, element_count * 4, VK_VERTEX_INPUT_RATE_VERTEX);
+            vox::initializers::VertexInputBindingDescription(0, element_count * 4, VK_VERTEX_INPUT_RATE_VERTEX);
     
     VkPipelineVertexInputStateCreateInfo
-    vertex_input_state = vox::initializers::pipeline_vertex_input_state_create_info();
+    vertex_input_state = vox::initializers::PipelineVertexInputStateCreateInfo();
     vertex_input_state.vertexBindingDescriptionCount = static_cast<uint32_t>(vertex_input_bindings.size());
     vertex_input_state.pVertexBindingDescriptions = vertex_input_bindings.data();
     vertex_input_state.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertex_input_attributes.size());

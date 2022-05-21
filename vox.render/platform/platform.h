@@ -44,79 +44,79 @@ public:
      * @param plugins plugins available to the platform
      * @return An exit code representing the outcome of initialization
      */
-    virtual ExitCode initialize(std::vector<Plugin *> plugins = {});
+    virtual ExitCode Initialize(std::vector<Plugin *> plugins = {});
     
     /**
      * @brief Handles the main loop of the platform
      * This should be overridden if a platform requires a specific main loop setup.
      * @return An exit code representing the outcome of the loop
      */
-    ExitCode main_loop();
+    ExitCode MainLoop();
     
     /**
      * @brief Runs the application for one frame
      */
-    void update();
+    void Update();
     
     /**
      * @brief Terminates the platform and the application
      * @param code Determines how the platform should exit
      */
-    virtual void terminate(ExitCode code);
+    virtual void Terminate(ExitCode code);
     
     /**
      * @brief Requests to close the platform at the next available point
      */
-    virtual void close();
+    virtual void Close();
     
-    virtual std::unique_ptr<RenderContext> create_render_context(Device &device, VkSurfaceKHR surface,
+    virtual std::unique_ptr<RenderContext> CreateRenderContext(Device &device, VkSurfaceKHR surface,
                                                                  const std::vector<VkSurfaceFormatKHR> &surface_format_priority) const;
     
-    virtual void resize(uint32_t win_width, uint32_t win_height,
+    virtual void Resize(uint32_t win_width, uint32_t win_height,
                         uint32_t fb_width, uint32_t fb_height);
     
-    virtual void input_event(const InputEvent &input_event);
+    virtual void InputEvent(const InputEvent &input_event);
     
 public:
-    Window &get_window();
+    Window &GetWindow();
     
-    [[nodiscard]] Application &get_app() const;
+    [[nodiscard]] Application &GetApp() const;
     
-    Application &get_app();
+    Application &GetApp();
     
-    void set_app(std::unique_ptr<Application> &&active_app);
+    void SetApp(std::unique_ptr<Application> &&active_app);
     
-    bool start_app();
-    
-public:
-    void set_focus(bool focused);
-    
-    void force_simulation_fps(float fps);
-    
-    void disable_input_processing();
+    bool StartApp();
     
 public:
-    void set_window_properties(const Window::OptionalProperties &properties);
+    void SetFocus(bool focused);
+    
+    void ForceSimulationFps(float fps);
+    
+    void DisableInputProcessing();
+    
+public:
+    void SetWindowProperties(const Window::OptionalProperties &properties);
     
     /**
      * @brief Returns the working directory of the application set by the platform
      * @returns The path to the working directory
      */
-    static const std::string &get_external_storage_directory();
+    static const std::string &GetExternalStorageDirectory();
     
     /**
      * @brief Returns the suitable directory for temporary files from the environment variables set in the system
      * @returns The path to the temp folder on the system
      */
-    static const std::string &get_temp_directory();
+    static const std::string &GetTempDirectory();
     
-    static std::vector<std::string> &get_arguments();
+    static std::vector<std::string> &GetArguments();
     
-    static void set_arguments(const std::vector<std::string> &args);
+    static void SetArguments(const std::vector<std::string> &args);
     
-    static void set_external_storage_directory(const std::string &dir);
+    static void SetExternalStorageDirectory(const std::string &dir);
     
-    static void set_temp_directory(const std::string &dir);
+    static void SetTempDirectory(const std::string &dir);
     
     static const uint32_t min_window_width_;
     static const uint32_t min_window_height_;
@@ -125,15 +125,15 @@ public:
     /**
      * @return The VkInstance extension name for the platform
      */
-    virtual const char *get_surface_extension() = 0;
+    virtual const char *GetSurfaceExtension() = 0;
     
     template<class T>
-    T *get_plugin() const;
+    T *GetPlugin() const;
     
     template<class T>
-    [[nodiscard]] bool using_plugin() const;
+    [[nodiscard]] bool UsingPlugin() const;
     
-    void on_post_draw(RenderContext &context);
+    void OnPostDraw(RenderContext &context);
     
 protected:
     std::unique_ptr<CommandParser> parser_;
@@ -146,24 +146,24 @@ protected:
     
     std::unique_ptr<Application> active_app_{nullptr};
     
-    virtual std::vector<spdlog::sink_ptr> get_platform_sinks();
+    virtual std::vector<spdlog::sink_ptr> GetPlatformSinks();
     
     /**
      * @brief Handles the creation of the window
      *
      * @param properties Preferred window configuration
      */
-    virtual void create_window(const Window::Properties &properties) = 0;
+    virtual void CreateWindow(const Window::Properties &properties) = 0;
     
-    void on_update(float delta_time);
+    void OnUpdate(float delta_time);
     
-    void on_app_error(const std::string &app_id);
+    void OnAppError(const std::string &app_id);
     
-    void on_app_start(const std::string &app_id);
+    void OnAppStart(const std::string &app_id);
     
-    void on_app_close(const std::string &app_id);
+    void OnAppClose(const std::string &app_id);
     
-    void on_platform_close();
+    void OnPlatformClose();
     
     Window::Properties window_properties_;              /* Source of truth for window state */
     bool fixed_simulation_fps_{false};    /* Delta time should be fixed with a fabricated value */
@@ -188,14 +188,14 @@ private:
 };
 
 template<class T>
-bool Platform::using_plugin() const {
-    return !plugins::with_tags<T>(active_plugins_).empty();
+bool Platform::UsingPlugin() const {
+    return !plugins::WithTags<T>(active_plugins_).empty();
 }
 
 template<class T>
-T *Platform::get_plugin() const {
-    assert(using_plugin<T>() && "Plugin is not enabled but was requested");
-    const auto kPlugins = plugins::with_tags<T>(active_plugins_);
+T *Platform::GetPlugin() const {
+    assert(UsingPlugin<T>() && "Plugin is not enabled but was requested");
+    const auto kPlugins = plugins::WithTags<T>(active_plugins_);
     return dynamic_cast<T *>(kPlugins[0]);
 }
 

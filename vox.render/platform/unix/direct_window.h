@@ -23,22 +23,22 @@ public:
     
     virtual ~DirectWindow();
     
-    virtual VkSurfaceKHR create_surface(Instance &instance) override;
+    virtual VkSurfaceKHR CreateSurface(Instance &instance) override;
     
-    virtual VkSurfaceKHR create_surface(VkInstance instance, VkPhysicalDevice physical_device) override;
+    virtual VkSurfaceKHR CreateSurface(VkInstance instance, VkPhysicalDevice physical_device) override;
     
-    virtual bool should_close() override;
+    virtual bool ShouldClose() override;
     
-    virtual void process_events() override;
+    virtual void ProcessEvents() override;
     
-    virtual void close() override;
+    virtual void Close() override;
     
-    float get_dpi_factor() const override;
+    float GetDpiFactor() const override;
     
 private:
-    void poll_terminal();
+    void PollTerminal();
     
-    uint32_t find_compatible_plane(VkPhysicalDevice phys_dev, VkDisplayKHR display,
+    uint32_t FindCompatiblePlane(VkPhysicalDevice phys_dev, VkDisplayKHR display,
                                    const std::vector<VkDisplayPlanePropertiesKHR> &plane_properties);
     
 private:
@@ -48,7 +48,7 @@ private:
     int tty_fd;
     struct termios termio;
     struct termios termio_prev;
-    KeyCode key_down = KeyCode::Unknown;
+    KeyCode key_down = KeyCode::UNKNOWN;
 };
 
 }        // namespace vox

@@ -39,25 +39,25 @@ struct ResourceInfo {
  */
 class ResourceSet {
 public:
-    void reset();
+    void Reset();
     
-    [[nodiscard]] bool is_dirty() const;
+    [[nodiscard]] bool IsDirty() const;
     
-    void clear_dirty();
+    void ClearDirty();
     
-    void clear_dirty(uint32_t binding, uint32_t array_element);
+    void ClearDirty(uint32_t binding, uint32_t array_element);
     
-    void bind_buffer(const core::Buffer &buffer, VkDeviceSize offset, VkDeviceSize range, uint32_t binding,
+    void BindBuffer(const core::Buffer &buffer, VkDeviceSize offset, VkDeviceSize range, uint32_t binding,
                      uint32_t array_element);
     
-    void bind_image(const core::ImageView &image_view, const core::Sampler &sampler, uint32_t binding,
+    void BindImage(const core::ImageView &image_view, const core::Sampler &sampler, uint32_t binding,
                     uint32_t array_element);
     
-    void bind_image(const core::ImageView &image_view, uint32_t binding, uint32_t array_element);
+    void BindImage(const core::ImageView &image_view, uint32_t binding, uint32_t array_element);
     
-    void bind_input(const core::ImageView &image_view, uint32_t binding, uint32_t array_element);
+    void BindInput(const core::ImageView &image_view, uint32_t binding, uint32_t array_element);
     
-    [[nodiscard]] const BindingMap<ResourceInfo> &get_resource_bindings() const;
+    [[nodiscard]] const BindingMap<ResourceInfo> &GetResourceBindings() const;
     
 private:
     bool dirty_{false};
@@ -73,26 +73,25 @@ private:
  */
 class ResourceBindingState {
 public:
-    void reset();
+    void Reset();
     
-    [[nodiscard]] bool is_dirty() const;
+    [[nodiscard]] bool IsDirty() const;
     
-    void clear_dirty();
+    void ClearDirty();
     
-    void clear_dirty(uint32_t set);
+    void ClearDirty(uint32_t set);
     
-    void
-    bind_buffer(const core::Buffer &buffer, VkDeviceSize offset, VkDeviceSize range, uint32_t set, uint32_t binding,
+    void BindBuffer(const core::Buffer &buffer, VkDeviceSize offset, VkDeviceSize range, uint32_t set, uint32_t binding,
                 uint32_t array_element);
     
-    void bind_image(const core::ImageView &image_view, const core::Sampler &sampler, uint32_t set, uint32_t binding,
+    void BindImage(const core::ImageView &image_view, const core::Sampler &sampler, uint32_t set, uint32_t binding,
                     uint32_t array_element);
     
-    void bind_image(const core::ImageView &image_view, uint32_t set, uint32_t binding, uint32_t array_element);
+    void BindImage(const core::ImageView &image_view, uint32_t set, uint32_t binding, uint32_t array_element);
     
-    void bind_input(const core::ImageView &image_view, uint32_t set, uint32_t binding, uint32_t array_element);
+    void BindInput(const core::ImageView &image_view, uint32_t set, uint32_t binding, uint32_t array_element);
     
-    const std::unordered_map<uint32_t, ResourceSet> &get_resource_sets();
+    const std::unordered_map<uint32_t, ResourceSet> &GetResourceSets();
     
 private:
     bool dirty_{false};

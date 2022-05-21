@@ -22,13 +22,13 @@ vertex_shader_{std::move(triangle_vs)},
 fragment_shader_{std::move(fs)},
 parent_{parent},
 fs_variant_{std::move(fs_variant)} {
-    set_disable_depth_stencil_attachment(true);
+    SetDisableDepthStencilAttachment(true);
     
     std::vector<uint32_t> input_attachments{};
     for (const auto &it : input_attachments_) {
         input_attachments.push_back(it.second);
     }
-    set_input_attachments(input_attachments);
+    SetInputAttachments(input_attachments);
 }
 
 PostProcessingSubpass::PostProcessingSubpass(PostProcessingSubpass &&to_move) noexcept:
@@ -38,7 +38,7 @@ fs_variant_{std::move(to_move.fs_variant_)},
 input_attachments_{std::move(to_move.input_attachments_)},
 sampled_images_{std::move(to_move.sampled_images_)} {}
 
-PostProcessingSubpass &PostProcessingSubpass::bind_input_attachment(const std::string &name,
+PostProcessingSubpass &PostProcessingSubpass::BindInputAttachment(const std::string &name,
                                                                     uint32_t new_input_attachment) {
     input_attachments_[name] = new_input_attachment;
     
@@ -46,13 +46,13 @@ PostProcessingSubpass &PostProcessingSubpass::bind_input_attachment(const std::s
     for (const auto &it : input_attachments_) {
         input_attachments.push_back(it.second);
     }
-    set_input_attachments(input_attachments);
+    SetInputAttachments(input_attachments);
     
     parent_->load_stores_dirty_ = true;
     return *this;
 }
 
-PostProcessingSubpass &PostProcessingSubpass::bind_sampled_image(const std::string &name,
+PostProcessingSubpass &PostProcessingSubpass::BindSampledImage(const std::string &name,
                                                                  core::SampledImage &&new_image) {
     auto it = sampled_images_.find(name);
     if (it != sampled_images_.end()) {
@@ -65,7 +65,7 @@ PostProcessingSubpass &PostProcessingSubpass::bind_sampled_image(const std::stri
     return *this;
 }
 
-PostProcessingSubpass &PostProcessingSubpass::bind_storage_image(const std::string &name,
+PostProcessingSubpass &PostProcessingSubpass::BindStorageImage(const std::string &name,
                                                                  const core::ImageView &new_image) {
     auto it = storage_images_.find(name);
     if (it != storage_images_.end()) {
@@ -77,86 +77,86 @@ PostProcessingSubpass &PostProcessingSubpass::bind_storage_image(const std::stri
     return *this;
 }
 
-PostProcessingSubpass &PostProcessingSubpass::set_push_constants(const std::vector<uint8_t> &data) {
+PostProcessingSubpass &PostProcessingSubpass::SetPushConstants(const std::vector<uint8_t> &data) {
     push_constants_data_ = data;
     return *this;
 }
 
-PostProcessingSubpass &PostProcessingSubpass::set_draw_func(DrawFunc &&new_func) {
+PostProcessingSubpass &PostProcessingSubpass::SetDrawFunc(DrawFunc &&new_func) {
     draw_func_ = std::move(new_func);
     return *this;
 }
 
-void PostProcessingSubpass::prepare() {
+void PostProcessingSubpass::Prepare() {
     // Build all shaders upfront
-    auto &resource_cache = render_context_.get_device().get_resource_cache();
-    resource_cache.request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, *vertex_shader_);
-    resource_cache.request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, *fragment_shader_, fs_variant_);
+    auto &resource_cache = render_context_.GetDevice().GetResourceCache();
+    resource_cache.RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, *vertex_shader_);
+    resource_cache.RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, *fragment_shader_, fs_variant_);
 }
 
-void PostProcessingSubpass::draw(CommandBuffer &command_buffer) {
+void PostProcessingSubpass::Draw(CommandBuffer &command_buffer) {
     // Get shaders from cache
-    auto &resource_cache = command_buffer.get_device().get_resource_cache();
-    auto &vert_shader_module = resource_cache.request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, *vertex_shader_);
+    auto &resource_cache = command_buffer.GetDevice().GetResourceCache();
+    auto &vert_shader_module = resource_cache.RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, *vertex_shader_);
     auto &frag_shader_module =
-    resource_cache.request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, *fragment_shader_, fs_variant_);
+            resource_cache.RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, *fragment_shader_, fs_variant_);
     
     std::vector<ShaderModule *> shader_modules{&vert_shader_module, &frag_shader_module};
     
     // Create pipeline layout and bind it
-    auto &pipeline_layout = resource_cache.request_pipeline_layout(shader_modules);
-    command_buffer.bind_pipeline_layout(pipeline_layout);
+    auto &pipeline_layout = resource_cache.RequestPipelineLayout(shader_modules);
+    command_buffer.BindPipelineLayout(pipeline_layout);
     
     // Disable culling
     RasterizationState rasterization_state;
     rasterization_state.cull_mode = VK_CULL_MODE_NONE;
-    command_buffer.set_rasterization_state(rasterization_state);
+    command_buffer.SetRasterizationState(rasterization_state);
     
     auto &render_target = *parent_->draw_render_target_;
-    const auto &target_views = render_target.get_views();
+    const auto &target_views = render_target.GetViews();
     
     if (parent_->uniform_buffer_alloc_ != nullptr) {
         // Bind buffer to set = 0, binding = 0
         auto &uniform_alloc = *parent_->uniform_buffer_alloc_;
-        command_buffer
-            .bind_buffer(uniform_alloc.get_buffer(), uniform_alloc.get_offset(), uniform_alloc.get_size(), 0, 0, 0);
+        command_buffer.BindBuffer(uniform_alloc.GetBuffer(), uniform_alloc.GetOffset(), uniform_alloc.GetSize(), 0,
+                                  0, 0);
     }
     
-    const auto &bindings = pipeline_layout.get_descriptor_set_layout(0);
+    const auto &bindings = pipeline_layout.GetDescriptorSetLayout(0);
     
     // Bind subpass inputs to set = 0, binding = <according to name>
     for (const auto &it : input_attachments_) {
-        if (auto layout_binding = bindings.get_layout_binding(it.first)) {
-            command_buffer.bind_input(target_views.at(it.second), 0, layout_binding->binding, 0);
+        if (auto layout_binding = bindings.GetLayoutBinding(it.first)) {
+            command_buffer.BindInput(target_views.at(it.second), 0, layout_binding->binding, 0);
         }
     }
     
     // Bind samplers to set = 0, binding = <according to name>
     for (const auto &it : sampled_images_) {
-        if (auto layout_binding = bindings.get_layout_binding(it.first)) {
-            const auto &view = it.second.get_image_view(render_target);
-            const auto &sampler = it.second.get_sampler() ? *it.second.get_sampler() : *parent_->default_sampler_;
-            
-            command_buffer.bind_image(view, sampler, 0, layout_binding->binding, 0);
+        if (auto layout_binding = bindings.GetLayoutBinding(it.first)) {
+            const auto &view = it.second.GetImageView(render_target);
+            const auto &sampler = it.second.GetSampler() ? *it.second.GetSampler() : *parent_->default_sampler_;
+
+            command_buffer.BindImage(view, sampler, 0, layout_binding->binding, 0);
         }
     }
     
     // Bind storage images to set = 0, binding = <according to name>
     for (const auto &it : storage_images_) {
-        if (auto layout_binding = bindings.get_layout_binding(it.first)) {
-            command_buffer.bind_image(*it.second, 0, layout_binding->binding, 0);
+        if (auto layout_binding = bindings.GetLayoutBinding(it.first)) {
+            command_buffer.BindImage(*it.second, 0, layout_binding->binding, 0);
         }
     }
     
     // Per-draw push constants
-    command_buffer.push_constants(push_constants_data_);
+    command_buffer.PushConstants(push_constants_data_);
     
     // draw full screen triangle
     draw_func_(command_buffer, render_target);
 }
 
-void PostProcessingSubpass::default_draw_func(vox::CommandBuffer &command_buffer, vox::RenderTarget &) {
-    command_buffer.draw(3, 1, 0, 0);
+void PostProcessingSubpass::DefaultDrawFunc(vox::CommandBuffer &command_buffer, vox::RenderTarget &render_target) {
+    command_buffer.Draw(3, 1, 0, 0);
 }
 
 //MARK: - PostProcessingRenderPass
@@ -181,11 +181,11 @@ default_sampler_{std::move(default_sampler)} {
         sampler_info.maxAnisotropy = 0.0f;
         sampler_info.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
         
-        default_sampler_ = std::make_unique<vox::core::Sampler>(get_render_context().get_device(), sampler_info);
+        default_sampler_ = std::make_unique<vox::core::Sampler>(GetRenderContext().GetDevice(), sampler_info);
     }
 }
 
-void PostProcessingRenderPass::update_load_stores(
+void PostProcessingRenderPass::UpdateLoadStores(
                                                   const AttachmentSet &input_attachments,
                                                   const SampledAttachmentSet &sampled_attachments,
                                                   const AttachmentSet &output_attachments,
@@ -199,7 +199,7 @@ void PostProcessingRenderPass::update_load_stores(
     // Update load/stores accordingly
     load_stores_.clear();
     
-    for (uint32_t j = 0; j < uint32_t(render_target.get_attachments().size()); j++) {
+    for (uint32_t j = 0; j < uint32_t(render_target.GetAttachments().size()); j++) {
         const bool kIsInput = input_attachments.find(j) != input_attachments.end();
         const bool kIsSampled = std::find_if(sampled_attachments.begin(), sampled_attachments.end(),
                                              [&render_target, j](auto &pair) {
@@ -229,12 +229,12 @@ void PostProcessingRenderPass::update_load_stores(
         
         load_stores_.push_back({load, store});
     }
-    
-    pipeline_.set_load_store(load_stores_);
+
+    pipeline_.SetLoadStore(load_stores_);
     load_stores_dirty_ = false;
 }
 
-PostProcessingRenderPass::BarrierInfo PostProcessingRenderPass::get_src_barrier_info() const {
+PostProcessingRenderPass::BarrierInfo PostProcessingRenderPass::GetSrcBarrierInfo() const {
     BarrierInfo info{};
     info.pipeline_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
     info.image_read_access = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT;
@@ -242,7 +242,7 @@ PostProcessingRenderPass::BarrierInfo PostProcessingRenderPass::get_src_barrier_
     return info;
 }
 
-PostProcessingRenderPass::BarrierInfo PostProcessingRenderPass::get_dst_barrier_info() const {
+PostProcessingRenderPass::BarrierInfo PostProcessingRenderPass::GetDstBarrierInfo() const {
     BarrierInfo info{};
     info.pipeline_stage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
     info.image_read_access = VK_ACCESS_SHADER_READ_BIT;
@@ -252,7 +252,7 @@ PostProcessingRenderPass::BarrierInfo PostProcessingRenderPass::get_dst_barrier_
 
 // If the passed `src_access` is zero, guess it - and the corresponding source stage - from the src_access_mask
 // of the image
-static void ensure_src_access(uint32_t &src_access, uint32_t &src_stage, VkImageLayout layout) {
+static void EnsureSrcAccess(uint32_t &src_access, uint32_t &src_stage, VkImageLayout layout) {
     if (src_access == 0) {
         switch (layout) {
             case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
@@ -267,41 +267,40 @@ static void ensure_src_access(uint32_t &src_access, uint32_t &src_stage, VkImage
     }
 }
 
-void PostProcessingRenderPass::transition_attachments(
+void PostProcessingRenderPass::TransitionAttachments(
                                                       const AttachmentSet &input_attachments,
                                                       const SampledAttachmentSet &sampled_attachments,
                                                       const AttachmentSet &output_attachments,
                                                       CommandBuffer &command_buffer,
                                                       RenderTarget &fallback_render_target) {
     auto &render_target = render_target_ ? *render_target_ : fallback_render_target;
-    const auto &views = render_target.get_views();
+    const auto &views = render_target.GetViews();
     
     BarrierInfo fallback_barrier_src{};
     fallback_barrier_src.pipeline_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
     fallback_barrier_src.image_read_access = 0;        // For UNDEFINED -> COLOR_ATTACHMENT_OPTIMAL in first RP
     fallback_barrier_src.image_write_access = 0;
-    auto prev_pass_barrier_info = get_predecessor_src_barrier_info(fallback_barrier_src);
+    auto prev_pass_barrier_info = GetPredecessorSrcBarrierInfo(fallback_barrier_src);
     
     for (uint32_t input : input_attachments) {
-        const VkImageLayout kPrevLayout = render_target.get_layout(input);
+        const VkImageLayout kPrevLayout = render_target.GetLayout(input);
         if (kPrevLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL) {
             // No-op
             continue;
         }
-        
-        ensure_src_access(prev_pass_barrier_info.image_write_access, prev_pass_barrier_info.pipeline_stage,
-                          kPrevLayout);
+
+        EnsureSrcAccess(prev_pass_barrier_info.image_write_access, prev_pass_barrier_info.pipeline_stage, kPrevLayout);
         
         vox::ImageMemoryBarrier barrier;
-        barrier.old_layout = render_target.get_layout(input);
+        barrier.old_layout = render_target.GetLayout(input);
         barrier.new_layout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
         barrier.src_access_mask = prev_pass_barrier_info.image_write_access;
         barrier.dst_access_mask = VK_ACCESS_INPUT_ATTACHMENT_READ_BIT;
         barrier.src_stage_mask = prev_pass_barrier_info.pipeline_stage;
         barrier.dst_stage_mask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-        
-        command_buffer.image_memory_barrier(views.at(input), barrier);
-        render_target.set_layout(input, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+
+        command_buffer.ImageMemoryBarrier(views.at(input), barrier);
+        render_target.SetLayout(input, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
     }
     
     for (const auto &sampled : sampled_attachments) {
@@ -311,7 +310,7 @@ void PostProcessingRenderPass::transition_attachments(
         bool is_depth_resolve = sampled.second & kDepthResolveBitmask;
         uint32_t attachment = sampled.second & kAttachmentBitmask;
         
-        const auto kPrevLayout = sampled_rt->get_layout(attachment);
+        const auto kPrevLayout = sampled_rt->GetLayout(attachment);
         
         if (kPrevLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL) {
             // No-op
@@ -324,8 +323,8 @@ void PostProcessingRenderPass::transition_attachments(
             prev_pass_barrier_info.pipeline_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
             prev_pass_barrier_info.image_read_access = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
         } else {
-            ensure_src_access(prev_pass_barrier_info.image_read_access, prev_pass_barrier_info.pipeline_stage,
-                              kPrevLayout);
+            EnsureSrcAccess(prev_pass_barrier_info.image_read_access, prev_pass_barrier_info.pipeline_stage,
+                            kPrevLayout);
         }
         
         vox::ImageMemoryBarrier barrier;
@@ -335,18 +334,18 @@ void PostProcessingRenderPass::transition_attachments(
         barrier.dst_access_mask = VK_ACCESS_SHADER_READ_BIT;
         barrier.src_stage_mask = prev_pass_barrier_info.pipeline_stage;
         barrier.dst_stage_mask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-        
-        command_buffer.image_memory_barrier(sampled_rt->get_views().at(attachment), barrier);
-        sampled_rt->set_layout(attachment, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+
+        command_buffer.ImageMemoryBarrier(sampled_rt->GetViews().at(attachment), barrier);
+        sampled_rt->SetLayout(attachment, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
     }
     
     for (uint32_t output : output_attachments) {
-        const VkFormat kAttachmentFormat = views.at(output).get_format();
+        const VkFormat kAttachmentFormat = views.at(output).GetFormat();
         const bool kIsDepthStencil =
-        vox::is_depth_only_format(kAttachmentFormat) || vox::is_depth_stencil_format(kAttachmentFormat);
+                vox::IsDepthOnlyFormat(kAttachmentFormat) || vox::IsDepthStencilFormat(kAttachmentFormat);
         const VkImageLayout kOutputLayout = kIsDepthStencil ? VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL :
         VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-        if (render_target.get_layout(output) == kOutputLayout) {
+        if (render_target.GetLayout(output) == kOutputLayout) {
             // No-op
             continue;
         }
@@ -366,61 +365,59 @@ void PostProcessingRenderPass::transition_attachments(
             barrier.src_stage_mask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
             barrier.dst_stage_mask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
         }
-        
-        command_buffer.image_memory_barrier(views.at(output), barrier);
-        render_target.set_layout(output, kOutputLayout);
+
+        command_buffer.ImageMemoryBarrier(views.at(output), barrier);
+        render_target.SetLayout(output, kOutputLayout);
     }
     
     // NOTE: Unused attachments might be carried over to other render passes,
     //       so we don't want to transition them to UNDEFINED layout here
 }
 
-void PostProcessingRenderPass::prepare_draw(CommandBuffer &command_buffer, RenderTarget &fallback_render_target) {
+void PostProcessingRenderPass::PrepareDraw(CommandBuffer &command_buffer, RenderTarget &fallback_render_target) {
     // Collect all input, output, and sampled-from attachments from all subpasses (steps)
     AttachmentSet input_attachments, output_attachments;
     SampledAttachmentSet sampled_attachments;
     
-    for (auto &step_ptr : pipeline_.get_subpasses()) {
+    for (auto &step_ptr : pipeline_.GetSubpasses()) {
         auto &step = *dynamic_cast<PostProcessingSubpass *>(step_ptr.get());
         
-        for (auto &it : step.get_input_attachments()) {
+        for (auto &it : step.GetInputAttachments()) {
             input_attachments.insert(it.second);
         }
         
-        for (auto &it : step.get_sampled_images()) {
-            if (const uint32_t *sampled_attachment = it.second.get_target_attachment()) {
-                auto *image_rt = it.second.get_render_target();
+        for (auto &it : step.GetSampledImages()) {
+            if (const uint32_t *sampled_attachment = it.second.GetTargetAttachment()) {
+                auto *image_rt = it.second.GetRenderTarget();
                 auto packed_sampled_attachment = *sampled_attachment;
                 
                 // pack sampled attachment
-                if (it.second.is_depth_resolve())
+                if (it.second.IsDepthResolve())
                     packed_sampled_attachment |= kDepthResolveBitmask;
                 
                 sampled_attachments.insert({image_rt, packed_sampled_attachment});
             }
         }
         
-        for (uint32_t it : step.get_output_attachments()) {
+        for (uint32_t it : step.GetOutputAttachments()) {
             output_attachments.insert(it);
         }
     }
-    
-    transition_attachments(input_attachments, sampled_attachments, output_attachments,
-                           command_buffer, fallback_render_target);
-    update_load_stores(input_attachments, sampled_attachments, output_attachments,
-                       fallback_render_target);
+
+    TransitionAttachments(input_attachments, sampled_attachments, output_attachments, command_buffer,
+                          fallback_render_target);
+    UpdateLoadStores(input_attachments, sampled_attachments, output_attachments, fallback_render_target);
 }
 
-void PostProcessingRenderPass::draw(CommandBuffer &command_buffer, RenderTarget &default_render_target) {
-    prepare_draw(command_buffer, default_render_target);
+void PostProcessingRenderPass::Draw(CommandBuffer &command_buffer, RenderTarget &default_render_target) {
+    PrepareDraw(command_buffer, default_render_target);
     
     if (!uniform_data_.empty()) {
         // Allocate a buffer (using the buffer pool from the active frame to store uniform values) and bind it
-        auto &render_frame = parent_->get_render_context().get_active_frame();
-        uniform_buffer_alloc_ = std::make_shared<BufferAllocation>(render_frame.allocate_buffer(
-                                                                                                VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-                                                                                                uniform_data_.size()));
-        uniform_buffer_alloc_->update(uniform_data_);
+        auto &render_frame = parent_->GetRenderContext().GetActiveFrame();
+        uniform_buffer_alloc_ = std::make_shared<BufferAllocation>(
+                render_frame.AllocateBuffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, uniform_data_.size()));
+        uniform_buffer_alloc_->Update(uniform_data_);
     }
     
     // Update render target for this draw
@@ -428,26 +425,26 @@ void PostProcessingRenderPass::draw(CommandBuffer &command_buffer, RenderTarget 
     
     // Set appropriate viewport & scissor for this RT
     {
-        auto &extent = draw_render_target_->get_extent();
+        auto &extent = draw_render_target_->GetExtent();
         
         VkViewport viewport{};
         viewport.width = static_cast<float>(extent.width);
         viewport.height = static_cast<float>(extent.height);
         viewport.minDepth = 0.0f;
         viewport.maxDepth = 1.0f;
-        command_buffer.set_viewport(0, {viewport});
+        command_buffer.SetViewport(0, {viewport});
         
         VkRect2D scissor{};
         scissor.extent = extent;
-        command_buffer.set_scissor(0, {scissor});
+        command_buffer.SetScissor(0, {scissor});
     }
     
     // Finally, draw all subpasses
-    pipeline_.draw(command_buffer, *draw_render_target_);
+    pipeline_.Draw(command_buffer, *draw_render_target_);
     
-    if (parent_->get_current_pass_index() < (parent_->get_passes().size() - 1)) {
+    if (parent_->GetCurrentPassIndex() < (parent_->GetPasses().size() - 1)) {
         // Leave the last renderpass open for user modification (e.g., drawing GUI)
-        command_buffer.end_render_pass();
+        command_buffer.EndRenderPass();
     }
 }
 

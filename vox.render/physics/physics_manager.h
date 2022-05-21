@@ -22,9 +22,9 @@ namespace physics {
  */
 class PhysicsManager : public Singleton<PhysicsManager> {
 public:
-    static PhysicsManager &get_singleton();
+    static PhysicsManager &GetSingleton();
     
-    static PhysicsManager *get_singleton_ptr();
+    static PhysicsManager *GetSingletonPtr();
     
     static uint32_t id_generator_;
     static Physics native_physics_;

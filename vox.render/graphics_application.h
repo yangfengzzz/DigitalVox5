@@ -94,7 +94,7 @@ public:
     /**
      * @brief Additional sample initialization
      */
-    bool prepare(Platform &platform) override;
+    bool Prepare(Platform &platform) override;
     
     /**
      * @brief Create the Vulkan device used by this sample
@@ -111,18 +111,18 @@ public:
     /**
      * @brief Main loop sample events
      */
-    void update(float delta_time) override;
+    void Update(float delta_time) override;
     
-    bool resize(uint32_t win_width, uint32_t win_height,
+    bool Resize(uint32_t win_width, uint32_t win_height,
                 uint32_t fb_width, uint32_t fb_height) override;
     
-    void input_event(const InputEvent &input_event) override;
+    void InputEvent(const vox::InputEvent &input_event) override;
     
-    void finish() override;
+    void Finish() override;
     
     VkSurfaceKHR get_surface();
     
-    Device &get_device();
+    Device &GetDevice();
     
     RenderContext &get_render_context();
     

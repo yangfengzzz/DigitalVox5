@@ -85,7 +85,7 @@ bool Graph::dump_to_file(const std::string &file) {
         {"edges", edges},
         {"styles", style_colors_}};
     
-    return fs::write_json(j, file);
+    return fs::WriteJson(j, file);
 }
 
 }        // namespace vox

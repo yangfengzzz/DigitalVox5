@@ -31,28 +31,28 @@ public:
         tags_ = {Tag<TAGS>::id_...};
     }
     
-    static void member() {};
+    static void Member() {};
     
     /**
      * @brief Unique TagID for a given Tag<TagName>
      */
-    constexpr static TagId id_ = &member;
+    constexpr static TagId id_ = &Member;
     
-    static bool has_tag(TagId id) {
+    static bool HasTag(TagId id) {
         return std::find(tags_.begin(), tags_.end(), id) != tags_.end();
     }
     
     template<typename C>
-    static bool has_tag() {
+    static bool HasTag() {
         return has_tag(Tag<C>::id_);
     }
     
     template<typename... C>
-    static bool has_tags() {
+    static bool HasTags() {
         std::vector<TagId> query = {Tag<C>::id_...};
         bool res = true;
         for (auto id : query) {
-            res &= has_tag(id);
+            res &= HasTag(id);
         }
         return res;
     }

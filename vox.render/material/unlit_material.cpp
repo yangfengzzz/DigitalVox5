@@ -15,7 +15,7 @@ const Color &UnlitMaterial::base_color() const {
 
 void UnlitMaterial::set_base_color(const Color &new_value) {
     base_color_ = new_value;
-    shader_data_.set_data(UnlitMaterial::base_color_prop_, base_color_);
+    shader_data_.SetData(UnlitMaterial::base_color_prop_, base_color_);
 }
 
 std::shared_ptr<Image> UnlitMaterial::base_texture() const {
@@ -24,7 +24,7 @@ std::shared_ptr<Image> UnlitMaterial::base_texture() const {
 
 void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
-        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->get_mipmaps().size());
+        BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         set_base_texture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
@@ -32,11 +32,11 @@ void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value) {
 void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
     if (new_value) {
-        shader_data_.set_sampled_texture(base_texture_prop_, new_value->get_vk_image_view(),
-                                         &device_.get_resource_cache().request_sampler(info));
-        shader_data_.add_define(HAS_BASE_TEXTURE);
+        shader_data_.SetSampledTexture(base_texture_prop_, new_value->GetVkImageView(),
+                                       &device_.GetResourceCache().RequestSampler(info));
+        shader_data_.AddDefine(HAS_BASE_TEXTURE);
     } else {
-        shader_data_.remove_define(HAS_BASE_TEXTURE);
+        shader_data_.RemoveDefine(HAS_BASE_TEXTURE);
     }
 }
 
@@ -44,12 +44,12 @@ UnlitMaterial::UnlitMaterial(Device &device, const std::string &name) :
 BaseMaterial(device, name),
 base_color_prop_("baseColor"),
 base_texture_prop_("baseTexture") {
-    vertex_source_ = ShaderManager::get_singleton().load_shader("base/unlit.vert");
-    fragment_source_ = ShaderManager::get_singleton().load_shader("base/unlit.frag");
+    vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/unlit.vert");
+    fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/unlit.frag");
 
-    shader_data_.add_define(OMIT_NORMAL);
-    
-    shader_data_.set_data(base_color_prop_, base_color_);
+    shader_data_.AddDefine(OMIT_NORMAL);
+
+    shader_data_.SetData(base_color_prop_, base_color_);
 }
 
 }

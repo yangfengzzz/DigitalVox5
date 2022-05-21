@@ -65,31 +65,31 @@ public:
     
     RenderFrame &operator=(RenderFrame &&) = delete;
     
-    void reset();
+    void Reset();
     
-    Device &get_device();
+    Device &GetDevice();
     
-    [[nodiscard]] const FencePool &get_fence_pool() const;
+    [[nodiscard]] const FencePool &GetFencePool() const;
     
-    VkFence request_fence();
+    VkFence RequestFence();
     
-    [[nodiscard]] const SemaphorePool &get_semaphore_pool() const;
+    [[nodiscard]] const SemaphorePool &GetSemaphorePool() const;
     
-    VkSemaphore request_semaphore();
+    VkSemaphore RequestSemaphore();
     
-    VkSemaphore request_semaphore_with_ownership();
+    VkSemaphore RequestSemaphoreWithOwnership();
     
-    void release_owned_semaphore(VkSemaphore semaphore);
+    void ReleaseOwnedSemaphore(VkSemaphore semaphore);
     
     /**
      * @brief Called when the swapchain changes
      * @param render_target A new render target with updated images
      */
-    void update_render_target(std::unique_ptr<RenderTarget> &&render_target);
+    void UpdateRenderTarget(std::unique_ptr<RenderTarget> &&render_target);
     
-    RenderTarget &get_render_target();
+    RenderTarget &GetRenderTarget();
     
-    [[nodiscard]] const RenderTarget &get_render_target_const() const;
+    [[nodiscard]] const RenderTarget &GetRenderTargetConst() const;
     
     /**
      * @brief Requests a command buffer to the command pool of the active frame
@@ -101,23 +101,23 @@ public:
      * @param thread_index Selects the thread's command pool used to manage the buffer
      * @return A command buffer related to the current active frame
      */
-    CommandBuffer &request_command_buffer(const Queue &queue,
+    CommandBuffer &RequestCommandBuffer(const Queue &queue,
                                           CommandBuffer::ResetMode reset_mode = CommandBuffer::ResetMode::RESET_POOL,
                                           VkCommandBufferLevel level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
                                           size_t thread_index = 0);
     
-    DescriptorSet &request_descriptor_set(DescriptorSetLayout &descriptor_set_layout,
+    DescriptorSet &RequestDescriptorSet(DescriptorSetLayout &descriptor_set_layout,
                                           const BindingMap<VkDescriptorBufferInfo> &buffer_infos,
                                           const BindingMap<VkDescriptorImageInfo> &image_infos,
                                           size_t thread_index = 0);
     
-    void clear_descriptors();
+    void ClearDescriptors();
     
     /**
      * @brief Sets a new buffer allocation strategy
      * @param new_strategy The new buffer allocation strategy
      */
-    void set_buffer_allocation_strategy(BufferAllocationStrategy new_strategy);
+    void SetBufferAllocationStrategy(BufferAllocationStrategy new_strategy);
     
     /**
      * @param usage Usage of the buffer
@@ -125,12 +125,12 @@ public:
      * @param thread_index Index of the buffer pool to be used by the current thread
      * @return The requested allocation, it may be empty
      */
-    BufferAllocation allocate_buffer(VkBufferUsageFlags usage, VkDeviceSize size, size_t thread_index = 0);
+    BufferAllocation AllocateBuffer(VkBufferUsageFlags usage, VkDeviceSize size, size_t thread_index = 0);
     
     /**
      * @brief Updates all the descriptor sets in the current frame at a specific thread index
      */
-    void update_descriptor_sets(size_t thread_index = 0);
+    void UpdateDescriptorSets(size_t thread_index = 0);
     
 private:
     Device &device_;
@@ -142,8 +142,7 @@ private:
      *        may trigger a pool re-creation to set necessary flags
      * @return The frame's command pool(s)
      */
-    std::vector<std::unique_ptr<CommandPool>> &
-    get_command_pools(const Queue &queue, CommandBuffer::ResetMode reset_mode);
+    std::vector<std::unique_ptr<CommandPool>> &GetCommandPools(const Queue &queue, CommandBuffer::ResetMode reset_mode);
     
     /// Commands pools associated to the frame
     std::map<uint32_t, std::vector<std::unique_ptr<CommandPool>>> command_pools_;

@@ -12,16 +12,16 @@
 namespace vox {
 class ShaderManager : public Singleton<ShaderManager> {
 public:
-    static ShaderManager &get_singleton();
+    static ShaderManager &GetSingleton();
     
-    static ShaderManager *get_singleton_ptr();
+    static ShaderManager *GetSingletonPtr();
     
     /**
      * @brief Loads shader source
      */
-    std::shared_ptr<ShaderSource> load_shader(const std::string &file);
+    std::shared_ptr<ShaderSource> LoadShader(const std::string &file);
     
-    void collect_garbage();
+    void CollectGarbage();
     
 private:
     std::unordered_map<std::string, std::shared_ptr<ShaderSource>> shader_pool_;

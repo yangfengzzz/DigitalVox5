@@ -43,13 +43,13 @@ void MenuBar::register_panel(const std::string &name, PanelWindow &panel) {
 void MenuBar::create_file_menu() {
     auto &file_menu = create_widget<MenuList>("File");
     file_menu.create_widget<MenuItem>("New Scene", "CTRL + N").clicked_event_ +=
-    std::bind(&EditorActions::load_empty_scene, EditorActions::get_singleton_ptr());
+    std::bind(&EditorActions::load_empty_scene, EditorActions::GetSingletonPtr());
     
     file_menu.create_widget<MenuItem>("Save Scene", "CTRL + S").clicked_event_ +=
-    std::bind(&EditorActions::save_scene_changes, EditorActions::get_singleton_ptr());
+    std::bind(&EditorActions::save_scene_changes, EditorActions::GetSingletonPtr());
     
     file_menu.create_widget<MenuItem>("Save Scene As...", "CTRL + SHIFT + S").clicked_event_ +=
-    std::bind(&EditorActions::save_as, EditorActions::get_singleton_ptr());
+    std::bind(&EditorActions::save_as, EditorActions::GetSingletonPtr());
     
     file_menu.create_widget<MenuItem>("Exit", "ALT + F4").clicked_event_ += [] {
         // EDITOR_CONTEXT(window)->SetShouldClose(true);
@@ -59,14 +59,14 @@ void MenuBar::create_file_menu() {
 void MenuBar::create_build_menu() {
     auto &build_menu = create_widget<MenuList>("Build");
     build_menu.create_widget<MenuItem>("Build game").clicked_event_ +=
-    std::bind(&EditorActions::build, EditorActions::get_singleton_ptr(), false, false);
+    std::bind(&EditorActions::build, EditorActions::GetSingletonPtr(), false, false);
     
     build_menu.create_widget<MenuItem>("Build game and run").clicked_event_ +=
-    std::bind(&EditorActions::build, EditorActions::get_singleton_ptr(), true, false);
+    std::bind(&EditorActions::build, EditorActions::GetSingletonPtr(), true, false);
     
     build_menu.create_widget<Separator>();
     build_menu.create_widget<MenuItem>("Temporary build").clicked_event_ +=
-    std::bind(&EditorActions::build, EditorActions::get_singleton_ptr(), true, true);
+    std::bind(&EditorActions::build, EditorActions::GetSingletonPtr(), true, true);
 }
 
 void MenuBar::create_window_menu() {
@@ -87,16 +87,16 @@ void MenuBar::create_actors_menu() {
 void MenuBar::create_resources_menu() {
     auto &resources_menu = create_widget<MenuList>("Resources");
     resources_menu.create_widget<MenuItem>("Compile shaders").clicked_event_ +=
-    std::bind(&EditorActions::compile_shaders, EditorActions::get_singleton_ptr());
+    std::bind(&EditorActions::compile_shaders, EditorActions::GetSingletonPtr());
     
     resources_menu.create_widget<MenuItem>("Save materials").clicked_event_ +=
-    std::bind(&EditorActions::save_materials, EditorActions::get_singleton_ptr());
+    std::bind(&EditorActions::save_materials, EditorActions::GetSingletonPtr());
 }
 
 void MenuBar::create_settings_menu() {
     auto &settings_menu = create_widget<MenuList>("Settings");
     settings_menu.create_widget<MenuItem>("Spawn actors at origin", "", true, true).value_changed_event_ +=
-    std::bind(&EditorActions::set_entity_spawn_at_origin, EditorActions::get_singleton_ptr(), std::placeholders::_1);
+    std::bind(&EditorActions::set_entity_spawn_at_origin, EditorActions::GetSingletonPtr(), std::placeholders::_1);
     
     settings_menu.create_widget<MenuItem>("Vertical Synchronization", "", true, true).value_changed_event_ += [this](bool value) {
         // EDITOR_CONTEXT(device)->SetVsync(p_value);
@@ -105,19 +105,19 @@ void MenuBar::create_settings_menu() {
     auto &camera_speed_menu = settings_menu.create_widget<MenuList>("Camera Speed");
     {
         camera_speed_menu.create_widget<SliderInt>(1, 50, 15, SliderOrientation::HORIZONTAL, "Scene View").value_changed_event_ +=
-        std::bind(&EditorActions::set_scene_view_camera_speed, EditorActions::get_singleton_ptr(), std::placeholders::_1);
+        std::bind(&EditorActions::set_scene_view_camera_speed, EditorActions::GetSingletonPtr(), std::placeholders::_1);
         
         camera_speed_menu.create_widget<SliderInt>(1, 50, 15, SliderOrientation::HORIZONTAL, "Asset View").value_changed_event_ +=
-        std::bind(&EditorActions::set_asset_view_camera_speed, EditorActions::get_singleton_ptr(), std::placeholders::_1);
+        std::bind(&EditorActions::set_asset_view_camera_speed, EditorActions::GetSingletonPtr(), std::placeholders::_1);
     }
     
     auto &camera_position_menu = settings_menu.create_widget<MenuList>("Reset Camera");
     {
         camera_position_menu.create_widget<MenuItem>("Scene View").clicked_event_ +=
-        std::bind(&EditorActions::reset_scene_view_camera_position, EditorActions::get_singleton_ptr());
+        std::bind(&EditorActions::reset_scene_view_camera_position, EditorActions::GetSingletonPtr());
         
         camera_position_menu.create_widget<MenuItem>("Asset View").clicked_event_ +=
-        std::bind(&EditorActions::reset_asset_view_camera_position, EditorActions::get_singleton_ptr());
+        std::bind(&EditorActions::reset_asset_view_camera_position, EditorActions::GetSingletonPtr());
     }
     
     auto &view_colors = settings_menu.create_widget<MenuList>("View Colors");
@@ -218,7 +218,7 @@ void MenuBar::create_settings_menu() {
 void MenuBar::create_layout_menu() {
     auto &layout_menu = create_widget<MenuList>("Layout");
     layout_menu.create_widget<MenuItem>("Reset").clicked_event_ +=
-    std::bind(&EditorActions::reset_layout, EditorActions::get_singleton_ptr());
+    std::bind(&EditorActions::reset_layout, EditorActions::GetSingletonPtr());
 }
 
 void MenuBar::create_help_menu() {

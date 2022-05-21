@@ -22,14 +22,14 @@ ForwardApplication::~ForwardApplication() {
     
     image_manager_->collect_garbage();
     image_manager_.reset();
-    shader_manager_->collect_garbage();
+    shader_manager_->CollectGarbage();
     shader_manager_.reset();
     mesh_manager_->collect_garbage();
     mesh_manager_.reset();
 }
 
-bool ForwardApplication::prepare(Platform &platform) {
-    GraphicsApplication::prepare(platform);
+bool ForwardApplication::Prepare(Platform &platform) {
+    GraphicsApplication::Prepare(platform);
     
     // resource loader
     image_manager_ = std::make_unique<ImageManager>(*device_);
@@ -46,8 +46,8 @@ bool ForwardApplication::prepare(Platform &platform) {
     light_manager_ = std::make_unique<LightManager>(scene, *render_context_);
     {
         load_scene();
-        auto extent = platform.get_window().get_extent();
-        auto factor = static_cast<uint32_t>(platform.get_window().get_content_scale_factor());
+        auto extent = platform.GetWindow().GetExtent();
+        auto factor = static_cast<uint32_t>(platform.GetWindow().GetContentScaleFactor());
         components_manager_->call_script_resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
         main_camera_->resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
     }
@@ -64,7 +64,7 @@ bool ForwardApplication::prepare(Platform &platform) {
     return true;
 }
 
-void ForwardApplication::update(float delta_time) {
+void ForwardApplication::Update(float delta_time) {
     {
         components_manager_->call_script_on_start();
         
@@ -79,19 +79,19 @@ void ForwardApplication::update(float delta_time) {
         scene_manager_->current_scene()->update_shader_data();
     }
     
-    GraphicsApplication::update(delta_time);
+    GraphicsApplication::Update(delta_time);
 }
 
-bool ForwardApplication::resize(uint32_t win_width, uint32_t win_height,
+bool ForwardApplication::Resize(uint32_t win_width, uint32_t win_height,
                                 uint32_t fb_width, uint32_t fb_height) {
-    GraphicsApplication::resize(win_width, win_height, fb_width, fb_height);
+    GraphicsApplication::Resize(win_width, win_height, fb_width, fb_height);
     components_manager_->call_script_resize(win_width, win_height, fb_width, fb_height);
     main_camera_->resize(win_width, win_height, fb_width, fb_height);
     return true;
 }
 
-void ForwardApplication::input_event(const InputEvent &input_event) {
-    GraphicsApplication::input_event(input_event);
+void ForwardApplication::InputEvent(const vox::InputEvent &input_event) {
+    GraphicsApplication::InputEvent(input_event);
     components_manager_->call_script_input_event(input_event);
 }
 

@@ -25,15 +25,15 @@ public:
     PostProcessingComputePass(PostProcessingComputePass &&to_move) = default;
     PostProcessingComputePass &operator=(PostProcessingComputePass &&to_move) = default;
     
-    void prepare(CommandBuffer &command_buffer, RenderTarget &default_render_target) override;
+    void Prepare(CommandBuffer &command_buffer, RenderTarget &default_render_target) override;
     
-    void draw(CommandBuffer &command_buffer, RenderTarget &default_render_target) override;
+    void Draw(CommandBuffer &command_buffer, RenderTarget &default_render_target) override;
     
 public:
     /**
      * @brief Sets the number of workgroups to be dispatched each draw().
      */
-    inline PostProcessingComputePass &set_dispatch_size(std::array<uint32_t, 3> new_size) {
+    inline PostProcessingComputePass &SetDispatchSize(std::array<uint32_t, 3> new_size) {
         n_workgroups_ = new_size;
         return *this;
     }
@@ -41,19 +41,19 @@ public:
     /**
      * @brief Gets the number of workgroups that will be dispatched each draw().
      */
-    [[nodiscard]] inline std::array<uint32_t, 3> get_dispatch_size() const {
+    [[nodiscard]] inline std::array<uint32_t, 3> GetDispatchSize() const {
         return n_workgroups_;
     }
     
-    void attach_shader_data(ShaderData *data);
+    void AttachShaderData(ShaderData *data);
     
-    void detach_shader_data(ShaderData *data);
+    void DetachShaderData(ShaderData *data);
     
     /**
      * @brief Set the constants that are pushed before each draw.
      */
     template<typename T>
-    inline PostProcessingComputePass &set_push_constants(const T &data) {
+    inline PostProcessingComputePass &SetPushConstants(const T &data) {
         push_constants_data_.reserve(sizeof(data));
         auto data_ptr = reinterpret_cast<const uint8_t *>(&data);
         push_constants_data_.assign(data_ptr, data_ptr + sizeof(data));
@@ -62,9 +62,9 @@ public:
     }
     
     /**
-     * @copydoc set_push_constants(const T&)
+     * @copydoc SetPushConstants(const T&)
      */
-    inline PostProcessingComputePass &set_push_constants(const std::vector<uint8_t> &data) {
+    inline PostProcessingComputePass &SetPushConstants(const std::vector<uint8_t> &data) {
         push_constants_data_ = data;
         
         return *this;
@@ -81,11 +81,11 @@ private:
      * @brief Transitions sampled_images (to SHADER_READ_ONLY_OPTIMAL)
      *        and storage_images (to GENERAL) as appropriate.
      */
-    void transition_images(CommandBuffer &command_buffer, RenderTarget &default_render_target,
+    void TransitionImages(CommandBuffer &command_buffer, RenderTarget &default_render_target,
                            const ShaderVariant &cs_variant);
     
-    [[nodiscard]] BarrierInfo get_src_barrier_info() const override;
-    [[nodiscard]] BarrierInfo get_dst_barrier_info() const override;
+    [[nodiscard]] BarrierInfo GetSrcBarrierInfo() const override;
+    [[nodiscard]] BarrierInfo GetDstBarrierInfo() const override;
 };
 
 }        // namespace vox

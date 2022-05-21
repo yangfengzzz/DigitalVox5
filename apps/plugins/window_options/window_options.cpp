@@ -63,7 +63,7 @@ void WindowOptions::init(const vox::CommandParser &parser) {
             properties.vsync = vox::Window::Vsync::OFF;
         }
     }
-    
-    platform_->set_window_properties(properties);
+
+    platform_->SetWindowProperties(properties);
 }
 }        // namespace plugins

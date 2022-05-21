@@ -5,9 +5,6 @@
 //  property of any third parties.
 #pragma once
 
-#include "helpers.h"
-#include "logging.h"
-#include "vk_common.h"
 #include "core/command_buffer.h"
 #include "core/command_pool.h"
 #include "core/debug.h"
@@ -20,13 +17,16 @@
 #include "core/pipeline_layout.h"
 #include "core/queue.h"
 #include "core/render_pass.h"
-#include "shader/shader_module.h"
 #include "core/swapchain.h"
 #include "core/vulkan_resource.h"
 #include "fence_pool.h"
+#include "helpers.h"
+#include "logging.h"
 #include "rendering/pipeline_state.h"
 #include "rendering/render_target.h"
 #include "resource_cache.h"
+#include "shader/shader_module.h"
+#include "vk_common.h"
 
 namespace vox {
 struct DriverVersion {
@@ -48,54 +48,50 @@ public:
            VkSurfaceKHR surface,
            std::unique_ptr<DebugUtils> &&debug_utils,
            std::unordered_map<const char *, bool> requested_extensions = {});
-    
+
     /**
      * @brief Device constructor
      * @param gpu A valid Vulkan physical device and the requested gpu features
      * @param vulkan_device A valid Vulkan device
      * @param surface The surface
      */
-    Device(PhysicalDevice &gpu,
-           VkDevice &vulkan_device,
-           VkSurfaceKHR surface);
-    
+    Device(PhysicalDevice &gpu, VkDevice &vulkan_device, VkSurfaceKHR surface);
+
     Device(const Device &) = delete;
-    
+
     Device(Device &&) = delete;
-    
+
     ~Device() override;
-    
+
     Device &operator=(const Device &) = delete;
-    
+
     Device &operator=(Device &&) = delete;
-    
-    const PhysicalDevice &get_gpu() const;
-    
-    VmaAllocator get_memory_allocator() const;
-    
+
+    const PhysicalDevice &GetGpu() const;
+
+    VmaAllocator GetMemoryAllocator() const;
+
     /**
      * @brief Returns the debug utils associated with this Device.
      */
-    inline const DebugUtils &get_debug_utils() const {
-        return *debug_utils_;
-    }
-    
+    inline const DebugUtils &GetDebugUtils() const { return *debug_utils_; }
+
     /**
      * @return The version of the driver of the current physical device
      */
-    DriverVersion get_driver_version() const;
-    
+    DriverVersion GetDriverVersion() const;
+
     /**
      * @return Whether an image format is supported by the GPU
      */
-    bool is_image_format_supported(VkFormat format) const;
-    
-    const Queue &get_queue(uint32_t queue_family_index, uint32_t queue_index);
-    
-    const Queue &get_queue_by_flags(VkQueueFlags queue_flags, uint32_t queue_index) const;
-    
-    const Queue &get_queue_by_present(uint32_t queue_index) const;
-    
+    bool IsImageFormatSupported(VkFormat format) const;
+
+    const Queue &GetQueue(uint32_t queue_family_index, uint32_t queue_index);
+
+    const Queue &GetQueueByFlags(VkQueueFlags queue_flags, uint32_t queue_index) const;
+
+    const Queue &GetQueueByPresent(uint32_t queue_index) const;
+
     /**
      * @brief Manually adds a new queue from a given family index to this device
      * @param global_index Index at where the queue should be placed inside the already existing list of queues
@@ -103,25 +99,24 @@ public:
      * @param properties Vulkan queue family properties
      * @param can_present True if the queue is able to present images
      */
-    void
-    add_queue(size_t global_index, uint32_t family_index, VkQueueFamilyProperties properties, VkBool32 can_present);
-    
+    void AddQueue(size_t global_index, uint32_t family_index, VkQueueFamilyProperties properties, VkBool32 can_present);
+
     /**
      * @brief Finds a suitable graphics queue to submit to
      * @return The first present supported queue, otherwise just any graphics queue
      */
-    const Queue &get_suitable_graphics_queue() const;
-    
-    bool is_extension_supported(const std::string &extension);
-    
-    bool is_enabled(const char *extension);
-    
-    uint32_t get_queue_family_index(VkQueueFlagBits queue_flag);
-    
-    uint32_t get_num_queues_for_queue_family(uint32_t queue_family_index);
-    
-    CommandPool &get_command_pool() const;
-    
+    const Queue &GetSuitableGraphicsQueue() const;
+
+    bool IsExtensionSupported(const std::string &extension);
+
+    bool IsEnabled(const char *extension);
+
+    uint32_t GetQueueFamilyIndex(VkQueueFlagBits queue_flag);
+
+    uint32_t GetNumQueuesForQueueFamily(uint32_t queue_family_index);
+
+    CommandPool &GetCommandPool() const;
+
     /**
      * @brief Checks that a given memory type is supported by the GPU
      * @param bits The memory requirement type bits
@@ -129,9 +124,10 @@ public:
      * @param memory_type_found True if found, false if not found
      * @returns The memory type index of the found memory type
      */
-    uint32_t
-    get_memory_type(uint32_t bits, VkMemoryPropertyFlags properties, VkBool32 *memory_type_found = nullptr) const;
-    
+    uint32_t GetMemoryType(uint32_t bits,
+                           VkMemoryPropertyFlags properties,
+                           VkBool32 *memory_type_found = nullptr) const;
+
     /**
      * @brief Creates a vulkan buffer
      * @param usage The buffer usage
@@ -141,9 +137,12 @@ public:
      * @param data The data to place inside the buffer
      * @returns A valid VkBuffer
      */
-    VkBuffer create_buffer(VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkDeviceSize size,
-                           VkDeviceMemory *memory, void *data = nullptr);
-    
+    VkBuffer CreateBuffer(VkBufferUsageFlags usage,
+                          VkMemoryPropertyFlags properties,
+                          VkDeviceSize size,
+                          VkDeviceMemory *memory,
+                          void *data = nullptr);
+
     /**
      * @brief Copies a buffer from one to another
      * @param src The buffer to copy from
@@ -151,27 +150,28 @@ public:
      * @param queue The queue to submit the copy command to
      * @param copy_region The amount to copy, if null copies the entire buffer
      */
-    void
-    copy_buffer(vox::core::Buffer &src, vox::core::Buffer &dst, VkQueue queue,
-                VkBufferCopy *copy_region = nullptr) const;
-    
+    void CopyBuffer(vox::core::Buffer &src,
+                    vox::core::Buffer &dst,
+                    VkQueue queue,
+                    VkBufferCopy *copy_region = nullptr) const;
+
     /**
      * @brief Creates a command pool
      * @param queue_index The queue index this command pool is associated with
      * @param flags The command pool flags
      * @returns A valid VkCommandPool
      */
-    VkCommandPool create_command_pool(uint32_t queue_index,
-                                      VkCommandPoolCreateFlags flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT);
-    
+    VkCommandPool CreateCommandPool(uint32_t queue_index,
+                                    VkCommandPoolCreateFlags flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT);
+
     /**
      * @brief Requests a command buffer from the device's command pool
      * @param level The command buffer level
      * @param begin Whether the command buffer should be implicitly started before it's returned
      * @returns A valid VkCommandBuffer
      */
-    VkCommandBuffer create_command_buffer(VkCommandBufferLevel level, bool begin = false) const;
-    
+    VkCommandBuffer CreateCommandBuffer(VkCommandBufferLevel level, bool begin = false) const;
+
     /**
      * @brief Submits and frees up a given command buffer
      * @param command_buffer The command buffer
@@ -179,64 +179,66 @@ public:
      * @param free Whether the command buffer should be implicitly freed up
      * @param signal_semaphore An optional semaphore to signal when the commands have been executed
      */
-    void flush_command_buffer(VkCommandBuffer command_buffer, VkQueue queue, bool free = true,
-                              VkSemaphore signal_semaphore = VK_NULL_HANDLE) const;
-    
+    void FlushCommandBuffer(VkCommandBuffer command_buffer,
+                            VkQueue queue,
+                            bool free = true,
+                            VkSemaphore signal_semaphore = VK_NULL_HANDLE) const;
+
     /**
      * @brief Requests a command buffer from the general command_pool
      * @return A new command buffer
      */
-    CommandBuffer &request_command_buffer() const;
-    
-    FencePool &get_fence_pool() const;
-    
+    CommandBuffer &RequestCommandBuffer() const;
+
+    FencePool &GetFencePool() const;
+
     /**
      * @brief Creates the fence pool used by this device
      */
-    void create_internal_fence_pool();
-    
+    void CreateInternalFencePool();
+
     /**
      * @brief Creates the command pool used by this device
      */
-    void create_internal_command_pool();
-    
+    void CreateInternalCommandPool();
+
     /**
      * @brief Creates and sets up the Vulkan memory allocator
      */
-    void prepare_memory_allocator();
-    
+    void PrepareMemoryAllocator();
+
     /**
      * @brief Requests a fence to the fence pool
      * @return A vulkan fence
      */
-    VkFence request_fence() const;
-    
-    VkResult wait_idle() const;
-    
-    ResourceCache &get_resource_cache();
-    
+    VkFence RequestFence() const;
+
+    VkResult WaitIdle() const;
+
+    ResourceCache &GetResourceCache();
+
 private:
     const PhysicalDevice &gpu_;
-    
+
     VkSurfaceKHR surface_{VK_NULL_HANDLE};
-    
+
     std::unique_ptr<DebugUtils> debug_utils_;
-    
+
     std::vector<VkExtensionProperties> device_extensions_;
-    
+
     std::vector<const char *> enabled_extensions_{};
-    
+
     VmaAllocator memory_allocator_{VK_NULL_HANDLE};
-    
+
     std::vector<std::vector<Queue>> queues_;
-    
+
     /// A command pool associated to the primary queue
     std::unique_ptr<CommandPool> command_pool_;
-    
+
     /// A fence pool associated to the primary queue
     std::unique_ptr<FencePool> fence_pool_;
-    
+
     ResourceCache resource_cache_;
 };
 
-}        // namespace vox
+}  // namespace vox

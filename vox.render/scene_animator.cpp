@@ -41,11 +41,11 @@ void SceneAnimator::play(const std::string &name) {
 }
 
 void SceneAnimator::on_enable() {
-    ComponentsManager::get_singleton().add_on_update_scene_animators(this);
+    ComponentsManager::GetSingleton().add_on_update_scene_animators(this);
 }
 
 void SceneAnimator::on_disable() {
-    ComponentsManager::get_singleton().remove_on_update_scene_animators(this);
+    ComponentsManager::GetSingleton().remove_on_update_scene_animators(this);
 }
 
 //MARK: - Reflection

@@ -33,9 +33,9 @@ enum class Style {
  */
 class UiManager : public Singleton<UiManager> {
 public:
-    static UiManager &get_singleton();
+    static UiManager &GetSingleton();
     
-    static UiManager *get_singleton_ptr();
+    static UiManager *GetSingletonPtr();
     
     /**
      * Create the UI manager. Will setup ImGui internally\

@@ -85,7 +85,7 @@ PanelWindow(title, opened, window_settings) {
     log_group_ = &create_widget<Group>();
     log_group_->reverse_draw_order();
     
-    EditorActions::get_singleton().play_event_ += std::bind(&Console::clear_on_play, this);
+    EditorActions::GetSingleton().play_event_ += std::bind(&Console::clear_on_play, this);
 }
 
 Console::~Console() {

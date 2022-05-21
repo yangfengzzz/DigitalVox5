@@ -54,7 +54,7 @@ std::ostream &operator<<(std::ostream &os, const VkResult result) {
 
 namespace vox {
 namespace {
-VkShaderStageFlagBits find_shader_stage(const std::string &ext) {
+VkShaderStageFlagBits FindShaderStage(const std::string &ext) {
     if (ext == "vert") {
         return VK_SHADER_STAGE_VERTEX_BIT;
     } else if (ext == "frag") {
@@ -84,24 +84,23 @@ VkShaderStageFlagBits find_shader_stage(const std::string &ext) {
     throw std::runtime_error("File extension `" + ext + "` does not have a vulkan shader stage.");
 }
 }        // namespace
-bool is_depth_only_format(VkFormat format) {
+bool IsDepthOnlyFormat(VkFormat format) {
     return format == VK_FORMAT_D16_UNORM ||
     format == VK_FORMAT_D32_SFLOAT;
 }
 
-bool is_depth_stencil_format(VkFormat format) {
+bool IsDepthStencilFormat(VkFormat format) {
     return format == VK_FORMAT_D16_UNORM_S8_UINT ||
     format == VK_FORMAT_D24_UNORM_S8_UINT ||
-    format == VK_FORMAT_D32_SFLOAT_S8_UINT ||
-    is_depth_only_format(format);
+    format == VK_FORMAT_D32_SFLOAT_S8_UINT || IsDepthOnlyFormat(format);
 }
 
-VkFormat get_suitable_depth_format(VkPhysicalDevice physical_device, bool depth_only,
+VkFormat GetSuitableDepthFormat(VkPhysicalDevice physical_device, bool depth_only,
                                    const std::vector<VkFormat> &depth_format_priority_list) {
     VkFormat depth_format{VK_FORMAT_UNDEFINED};
     
     for (auto &format : depth_format_priority_list) {
-        if (depth_only && !is_depth_only_format(format)) {
+        if (depth_only && !IsDepthOnlyFormat(format)) {
             continue;
         }
         
@@ -116,25 +115,24 @@ VkFormat get_suitable_depth_format(VkPhysicalDevice physical_device, bool depth_
     }
     
     if (depth_format != VK_FORMAT_UNDEFINED) {
-        LOGI("Depth format selected: {}", to_string(depth_format))
+        LOGI("Depth format selected: {}", ToString(depth_format))
         return depth_format;
     }
     
     throw std::runtime_error("No suitable depth format could be determined");
 }
 
-bool is_dynamic_buffer_descriptor_type(VkDescriptorType descriptor_type) {
+bool IsDynamicBufferDescriptorType(VkDescriptorType descriptor_type) {
     return descriptor_type == VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC ||
     descriptor_type == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
 }
 
-bool is_buffer_descriptor_type(VkDescriptorType descriptor_type) {
+bool IsBufferDescriptorType(VkDescriptorType descriptor_type) {
     return descriptor_type == VK_DESCRIPTOR_TYPE_STORAGE_BUFFER ||
-    descriptor_type == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER ||
-    is_dynamic_buffer_descriptor_type(descriptor_type);
+    descriptor_type == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER || IsDynamicBufferDescriptorType(descriptor_type);
 }
 
-int32_t get_bits_per_pixel(VkFormat format) {
+int32_t GetBitsPerPixel(VkFormat format) {
     switch (format) {
         case VK_FORMAT_R4G4_UNORM_PACK8:
             return 8;
@@ -300,8 +298,8 @@ int32_t get_bits_per_pixel(VkFormat format) {
     }
 }
 
-VkShaderModule load_shader(const std::string &filename, VkDevice device, VkShaderStageFlagBits stage) {
-    auto buffer = vox::fs::read_shader_binary(filename);
+VkShaderModule LoadShader(const std::string &filename, VkDevice device, VkShaderStageFlagBits stage) {
+    auto buffer = vox::fs::ReadShaderBinary(filename);
     
     std::string file_ext = filename;
     
@@ -312,7 +310,7 @@ VkShaderModule load_shader(const std::string &filename, VkDevice device, VkShade
     std::string info_log;
     
     // Compile the GLSL source
-    if (!GLSLCompiler::compile_to_spirv(vox::find_shader_stage(file_ext), buffer, "main", {}, spirv, info_log)) {
+    if (!GLSLCompiler::CompileToSpirv(vox::FindShaderStage(file_ext), buffer, "main", {}, spirv, info_log)) {
         LOGE("Failed to compile shader, Error: {}", info_log.c_str())
         return VK_NULL_HANDLE;
     }
@@ -332,7 +330,7 @@ VkShaderModule load_shader(const std::string &filename, VkDevice device, VkShade
 // an image and put it into an active command buffer
 // See chapter 11.4 "Image Layout" for details
 
-void set_image_layout(
+void SetImageLayout(
                       VkCommandBuffer command_buffer,
                       VkImage image,
                       VkImageLayout old_layout,
@@ -454,7 +452,7 @@ void set_image_layout(
 }
 
 // Fixed sub resource on first mip level and layer
-void set_image_layout(
+void SetImageLayout(
                       VkCommandBuffer command_buffer,
                       VkImage image,
                       VkImageAspectFlags aspect_mask,
@@ -467,10 +465,10 @@ void set_image_layout(
     subresource_range.baseMipLevel = 0;
     subresource_range.levelCount = 1;
     subresource_range.layerCount = 1;
-    set_image_layout(command_buffer, image, old_layout, new_layout, subresource_range, src_mask, dst_mask);
+    SetImageLayout(command_buffer, image, old_layout, new_layout, subresource_range, src_mask, dst_mask);
 }
 
-void insert_image_memory_barrier(
+void InsertImageMemoryBarrier(
                                  VkCommandBuffer command_buffer,
                                  VkImage image,
                                  VkAccessFlags src_access_mask,
@@ -502,7 +500,7 @@ void insert_image_memory_barrier(
 }
 
 namespace gbuffer {
-std::vector<LoadStoreInfo> get_load_all_store_swapchain() {
+std::vector<LoadStoreInfo> GetLoadAllStoreSwapchain() {
     // Load every attachment and store only swapchain
     std::vector<LoadStoreInfo> load_store{4};
     
@@ -525,7 +523,7 @@ std::vector<LoadStoreInfo> get_load_all_store_swapchain() {
     return load_store;
 }
 
-std::vector<LoadStoreInfo> get_clear_all_store_swapchain() {
+std::vector<LoadStoreInfo> GetClearAllStoreSwapchain() {
     // Clear every attachment and store only swapchain
     std::vector<LoadStoreInfo> load_store{4};
     
@@ -548,7 +546,7 @@ std::vector<LoadStoreInfo> get_clear_all_store_swapchain() {
     return load_store;
 }
 
-std::vector<LoadStoreInfo> get_clear_store_all() {
+std::vector<LoadStoreInfo> GetClearStoreAll() {
     // Clear and store every attachment
     std::vector<LoadStoreInfo> load_store{4};
     
@@ -571,7 +569,7 @@ std::vector<LoadStoreInfo> get_clear_store_all() {
     return load_store;
 }
 
-std::vector<VkClearValue> get_clear_value() {
+std::vector<VkClearValue> GetClearValue() {
     // Clear values
     std::vector<VkClearValue> clear_value{4};
     clear_value[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};

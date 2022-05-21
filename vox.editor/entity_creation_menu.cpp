@@ -24,13 +24,13 @@ std::function<void()> combine(std::function<void()> p_a, const std::optional<std
 template<class T>
 std::function<void()> entity_with_component_creation_handler(Entity *parent,
                                                              std::optional<std::function<void()>> on_item_clicked) {
-    return combine(std::bind(&EditorActions::create_mono_component_entity<T>, EditorActions::get_singleton_ptr(),
+    return combine(std::bind(&EditorActions::create_mono_component_entity<T>, EditorActions::GetSingletonPtr(),
                              true, parent), on_item_clicked);
 }
 
 std::function<void()> entity_with_model_component_creation_handler(Entity *parent, const std::string &model_name,
                                                                    const std::optional<std::function<void()>> &on_item_clicked) {
-    return combine(std::bind(&EditorActions::create_entity_with_model, EditorActions::get_singleton_ptr(),
+    return combine(std::bind(&EditorActions::create_entity_with_model, EditorActions::GetSingletonPtr(),
                              ":Models/" + model_name + ".fbx", true, parent, model_name), on_item_clicked);
 }
 
@@ -38,7 +38,7 @@ void EntityCreationMenu::generate_entity_creation_menu(::vox::ui::MenuList &menu
                                                        const std::optional<std::function<void()>> &on_item_clicked) {
     menu_list.create_widget<MenuItem>("Create Empty").clicked_event_
     += combine(std::bind(&::vox::editor::EditorActions::create_empty_entity,
-                         EditorActions::get_singleton_ptr(), true, p_parent, ""), on_item_clicked);
+                         EditorActions::GetSingletonPtr(), true, p_parent, ""), on_item_clicked);
     
     auto &primitives = menu_list.create_widget<MenuList>("Primitives");
     auto &physicals = menu_list.create_widget<MenuList>("Physicals");

@@ -16,10 +16,10 @@ Window::Window(Properties properties) :
 properties_{std::move(properties)} {
 }
 
-void Window::process_events() {
+void Window::ProcessEvents() {
 }
 
-Window::Extent Window::resize(const Extent &new_extent) {
+Window::Extent Window::Resize(const Extent &new_extent) {
     if (properties_.resizable) {
         properties_.extent.width = new_extent.width;
         properties_.extent.height = new_extent.height;
@@ -28,15 +28,15 @@ Window::Extent Window::resize(const Extent &new_extent) {
     return properties_.extent;
 }
 
-const Window::Extent &Window::get_extent() const {
+const Window::Extent &Window::GetExtent() const {
     return properties_.extent;
 }
 
-float Window::get_content_scale_factor() const {
+float Window::GetContentScaleFactor() const {
     return 1.0f;
 }
 
-Window::Mode Window::get_window_mode() const {
+Window::Mode Window::GetWindowMode() const {
     return properties_.mode;
 }
 

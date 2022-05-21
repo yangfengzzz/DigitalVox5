@@ -38,67 +38,68 @@ public:
                   DescriptorPool &descriptor_pool,
                   const BindingMap<VkDescriptorBufferInfo> &buffer_infos = {},
                   const BindingMap<VkDescriptorImageInfo> &image_infos = {});
-    
+
     DescriptorSet(const DescriptorSet &) = delete;
-    
+
     DescriptorSet(DescriptorSet &&other) noexcept;
-    
+
     // The descriptor set handle is managed by the pool, and will be destroyed when the pool is reset
     ~DescriptorSet() = default;
-    
+
     DescriptorSet &operator=(const DescriptorSet &) = delete;
-    
+
     DescriptorSet &operator=(DescriptorSet &&) = delete;
-    
+
     /**
      * @brief Resets the DescriptorSet state
      *        Optionally prepares a new set of buffer infos and/or image infos
      * @param new_buffer_infos A map of buffer descriptors and their respective bindings
      * @param new_image_infos A map of image descriptors and their respective bindings
      */
-    void reset(const BindingMap<VkDescriptorBufferInfo> &new_buffer_infos = {},
+    void Reset(const BindingMap<VkDescriptorBufferInfo> &new_buffer_infos = {},
                const BindingMap<VkDescriptorImageInfo> &new_image_infos = {});
-    
+
     /**
      * @brief Updates the contents of the DescriptorSet by performing the write operations
-     * @param bindings_to_update If empty. we update all bindings. Otherwise, only write the specified bindings if they haven't already been written
+     * @param bindings_to_update If empty. we update all bindings. Otherwise, only write the specified bindings if they
+     * haven't already been written
      */
-    void update(const std::vector<uint32_t> &bindings_to_update = {});
-    
-    [[nodiscard]] const DescriptorSetLayout &get_layout() const;
-    
-    [[nodiscard]] VkDescriptorSet get_handle() const;
-    
-    BindingMap<VkDescriptorBufferInfo> &get_buffer_infos();
-    
-    BindingMap<VkDescriptorImageInfo> &get_image_infos();
-    
+    void Update(const std::vector<uint32_t> &bindings_to_update = {});
+
+    [[nodiscard]] const DescriptorSetLayout &GetLayout() const;
+
+    [[nodiscard]] VkDescriptorSet GetHandle() const;
+
+    BindingMap<VkDescriptorBufferInfo> &GetBufferInfos();
+
+    BindingMap<VkDescriptorImageInfo> &GetImageInfos();
+
 protected:
     /**
      * @brief Prepares the descriptor set to have its contents updated by loading a vector of write operations
      *        Cannot be called twice during the lifetime of a DescriptorSet
      */
-    void prepare();
-    
+    void Prepare();
+
 private:
     Device &device_;
-    
+
     DescriptorSetLayout &descriptor_set_layout_;
-    
+
     DescriptorPool &descriptor_pool_;
-    
+
     BindingMap<VkDescriptorBufferInfo> buffer_infos_;
-    
+
     BindingMap<VkDescriptorImageInfo> image_infos_;
-    
+
     VkDescriptorSet handle_{VK_NULL_HANDLE};
-    
+
     // The list of write operations for the descriptor set
     std::vector<VkWriteDescriptorSet> write_descriptor_sets_;
-    
-    // The bindings of the write descriptors that have had vkUpdateDescriptorSets since the last call to update().
+
+    // The bindings of write descriptors that have had vkUpdateDescriptorSets since the last call to update().
     // Each binding number is mapped to a hash of the binding description that it will be updated to.
     std::unordered_map<uint32_t, size_t> updated_bindings_;
 };
 
-}        // namespace vox
+}  // namespace vox

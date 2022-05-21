@@ -259,7 +259,7 @@ void Camera::update() {
     camera_data_.view_inv_mat = transform_->world_matrix();
     camera_data_.proj_inv_mat = inverse_projection_matrix();
     camera_data_.camera_pos = transform_->world_position();
-    shader_data_.set_data(Camera::camera_property_, camera_data_);
+    shader_data_.SetData(Camera::camera_property_, camera_data_);
     
     if (enable_frustum_culling_ && (frustum_view_change_flag_->flag_ || is_frustum_project_dirty_)) {
         frustum_.calculateFromMatrix(camera_data_.vp_mat);

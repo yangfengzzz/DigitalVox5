@@ -21,9 +21,9 @@ namespace vox {
  */
 class ComponentsManager : public Singleton<ComponentsManager> {
 public:
-    static ComponentsManager &get_singleton();
+    static ComponentsManager &GetSingleton();
     
-    static ComponentsManager *get_singleton_ptr();
+    static ComponentsManager *GetSingletonPtr();
     
     void add_on_start_script(Script *script);
     

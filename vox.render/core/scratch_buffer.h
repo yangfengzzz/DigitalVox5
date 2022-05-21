@@ -23,35 +23,32 @@ public:
      * @param device A valid Vulkan device
      * @param size The size in bytes of the buffer
      */
-    ScratchBuffer(Device &device,
-                  VkDeviceSize size);
-    
+    ScratchBuffer(Device &device, VkDeviceSize size);
+
     ~ScratchBuffer();
-    
-    [[nodiscard]] VkBuffer get_handle() const;
-    
-    [[nodiscard]] uint64_t get_device_address() const;
-    
+
+    [[nodiscard]] VkBuffer GetHandle() const;
+
+    [[nodiscard]] uint64_t GetDeviceAddress() const;
+
     /**
      * @return The size of the buffer
      */
-    [[nodiscard]] VkDeviceSize get_size() const {
-        return size_;
-    }
-    
+    [[nodiscard]] VkDeviceSize GetSize() const { return size_; }
+
 private:
     Device &device_;
-    
+
     uint64_t device_address_{0};
-    
+
     VkBuffer handle_{VK_NULL_HANDLE};
-    
+
     VmaAllocation allocation_{VK_NULL_HANDLE};
-    
+
     VkDeviceMemory memory_{VK_NULL_HANDLE};
-    
+
     VkDeviceSize size_{0};
 };
 
-}        // namespace core
-}        // namespace vox
+}  // namespace core
+}  // namespace vox

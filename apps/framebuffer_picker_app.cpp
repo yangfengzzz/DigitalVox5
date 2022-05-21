@@ -71,8 +71,7 @@ std::unique_ptr<RenderTarget> FramebufferPickerApp::create_render_target(uint32_
     };
     
     core::Image depth_image{
-        *device_, extent,
-        get_suitable_depth_format(device_->get_gpu().get_handle()),
+        *device_, extent, GetSuitableDepthFormat(device_->GetGpu().GetHandle()),
         VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
         VMA_MEMORY_USAGE_GPU_ONLY
     };
@@ -85,17 +84,17 @@ std::unique_ptr<RenderTarget> FramebufferPickerApp::create_render_target(uint32_
 
 bool FramebufferPickerApp::prepare(Platform &platform) {
     ForwardApplication::prepare(platform);
-    auto extent = platform.get_window().get_extent();
-    auto factor = static_cast<uint32_t>(platform.get_window().get_content_scale_factor());
+    auto extent = platform.GetWindow().get_extent();
+    auto factor = static_cast<uint32_t>(platform.GetWindow().GetContentScaleFactor());
     color_picker_render_target_ = create_render_target(extent.width * factor, extent.height * factor);
     
     auto subpass = std::make_unique<ColorPickerSubpass>(*render_context_, scene_manager_->current_scene(), main_camera_);
     color_picker_subpass_ = subpass.get();
     color_picker_render_pipeline_ = std::make_unique<RenderPipeline>();
-    color_picker_render_pipeline_->add_subpass(std::move(subpass));
-    auto clear_value = color_picker_render_pipeline_->get_clear_value();
+    color_picker_render_pipeline_->AddSubpass(std::move(subpass));
+    auto clear_value = color_picker_render_pipeline_->GetClearValue();
     clear_value[0].color = {1.0f, 1.0f, 1.0f, 1.0f};
-    color_picker_render_pipeline_->set_clear_value(clear_value);
+    color_picker_render_pipeline_->SetClearValue(clear_value);
     
     stage_buffer_ = std::make_unique<core::Buffer>(*device_, 4, VK_BUFFER_USAGE_TRANSFER_DST_BIT, VMA_MEMORY_USAGE_GPU_TO_CPU);
     
@@ -112,8 +111,8 @@ bool FramebufferPickerApp::resize(uint32_t win_width, uint32_t win_height,
                                   uint32_t fb_width, uint32_t fb_height) {
     ForwardApplication::resize(win_width, win_height, fb_width, fb_height);
     
-    if (color_picker_render_target_->get_extent().width != fb_width ||
-        color_picker_render_target_->get_extent().height != fb_height) {
+    if (color_picker_render_target_->GetExtent().width != fb_width ||
+        color_picker_render_target_->GetExtent().height != fb_height) {
         color_picker_render_target_ = create_render_target(fb_width, fb_height);
     }
     return true;
@@ -122,10 +121,10 @@ bool FramebufferPickerApp::resize(uint32_t win_width, uint32_t win_height,
 //MARK: - Main Loop
 void FramebufferPickerApp::input_event(const InputEvent &input_event) {
     ForwardApplication::input_event(input_event);
-    if (input_event.get_source() == EventSource::MOUSE) {
+    if (input_event.GetSource() == EventSource::MOUSE) {
         const auto &mouse_button = static_cast<const MouseButtonInputEvent &>(input_event);
-        if (mouse_button.get_action() == MouseAction::DOWN) {
-            pick(mouse_button.get_pos_x(), mouse_button.get_pos_y());
+        if (mouse_button.GetAction() == MouseAction::DOWN) {
+            pick(mouse_button.GetPosX(), mouse_button.GetPosY());
         }
     }
 }
@@ -138,7 +137,7 @@ void FramebufferPickerApp::pick(float offset_x, float offset_y) {
 void FramebufferPickerApp::render(CommandBuffer &command_buffer, RenderTarget &render_target) {
     if (need_pick_) {
         color_picker_render_pipeline_->draw(command_buffer, *color_picker_render_target_);
-        command_buffer.end_render_pass();
+        command_buffer.EndRenderPass();
         copy_render_target_to_buffer(command_buffer);
     }
     
@@ -174,16 +173,15 @@ void FramebufferPickerApp::copy_render_target_to_buffer(CommandBuffer &command_b
     
     regions_[0].imageOffset.x = static_cast<int32_t>(kLeft);
     regions_[0].imageOffset.y = static_cast<int32_t>(canvas_height - kBottom);
-    command_buffer
-        .copy_image_to_buffer(color_picker_render_target_->get_views().at(0).get_image(), VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
-                              *stage_buffer_, regions_);
+    command_buffer.CopyImageToBuffer(color_picker_render_target_->GetViews().at(0).GetImage(),
+                                     VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, *stage_buffer_, regions_);
 }
 
 void FramebufferPickerApp::read_color_from_render_target() {
     uint8_t *raw = stage_buffer_->map();
     if (raw) {
         memcpy(pixel_.data(), raw, 4);
-        pick_result_ = color_picker_subpass_->get_object_by_color(pixel_);
+        pick_result_ = color_picker_subpass_->GetObjectByColor(pixel_);
     }
     stage_buffer_->unmap();
 }

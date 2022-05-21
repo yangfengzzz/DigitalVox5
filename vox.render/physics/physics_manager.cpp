@@ -13,11 +13,11 @@
 #include "../script.h"
 
 namespace vox {
-physics::PhysicsManager *physics::PhysicsManager::get_singleton_ptr() {
+physics::PhysicsManager *physics::PhysicsManager::GetSingletonPtr() {
     return ms_singleton_;
 }
 
-physics::PhysicsManager &physics::PhysicsManager::get_singleton() {
+physics::PhysicsManager &physics::PhysicsManager::GetSingleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }

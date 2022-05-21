@@ -11,7 +11,7 @@
 #include "shader/shader_module.h"
 
 namespace vox {
-std::vector<std::string> split(const std::string &str, const std::string &delimiter) {
+std::vector<std::string> Split(const std::string &str, const std::string &delimiter) {
     if (str.empty()) {
         return {};
     }
@@ -34,7 +34,7 @@ std::vector<std::string> split(const std::string &str, const std::string &delimi
     return out;
 }
 
-std::string join(const std::vector<std::string> &str, const std::string &seperator) {
+std::string Join(const std::vector<std::string> &str, const std::string &seperator) {
     std::stringstream out;
     
     for (auto it = str.begin(); it != str.end(); it++) {
@@ -48,7 +48,7 @@ std::string join(const std::vector<std::string> &str, const std::string &seperat
     return out.str();
 }
 
-std::string to_string(VkFormat format) {
+std::string ToString(VkFormat format) {
     switch (format) {
         case VK_FORMAT_R4G4_UNORM_PACK8:return "VK_FORMAT_R4G4_UNORM_PACK8";
         case VK_FORMAT_R4G4B4A4_UNORM_PACK16:return "VK_FORMAT_R4G4B4A4_UNORM_PACK16";
@@ -185,7 +185,7 @@ std::string to_string(VkFormat format) {
     }
 }
 
-std::string to_string(VkPresentModeKHR present_mode) {
+std::string ToString(VkPresentModeKHR present_mode) {
     switch (present_mode) {
         case VK_PRESENT_MODE_MAILBOX_KHR:return "VK_PRESENT_MODE_MAILBOX_KHR";
         case VK_PRESENT_MODE_IMMEDIATE_KHR:return "VK_PRESENT_MODE_IMMEDIATE_KHR";
@@ -197,7 +197,7 @@ std::string to_string(VkPresentModeKHR present_mode) {
     }
 }
 
-std::string to_string(VkResult result) {
+std::string ToString(VkResult result) {
     switch (result) {
 #define STR(r)   \
 case VK_##r: \
@@ -230,7 +230,7 @@ return #r
     }
 }
 
-std::string to_string(VkSurfaceTransformFlagBitsKHR transform_flag) {
+std::string ToString(VkSurfaceTransformFlagBitsKHR transform_flag) {
     switch (transform_flag) {
         case VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR:return "SURFACE_TRANSFORM_IDENTITY";
         case VK_SURFACE_TRANSFORM_ROTATE_90_BIT_KHR:return "SURFACE_TRANSFORM_ROTATE_90";
@@ -246,8 +246,8 @@ std::string to_string(VkSurfaceTransformFlagBitsKHR transform_flag) {
     }
 }
 
-std::string to_string(VkSurfaceFormatKHR surface_format) {
-    std::string surface_format_string = to_string(surface_format.format) + ", ";
+std::string ToString(VkSurfaceFormatKHR surface_format) {
+    std::string surface_format_string = ToString(surface_format.format) + ", ";
     
     switch (surface_format.colorSpace) {
         case VK_COLORSPACE_SRGB_NONLINEAR_KHR:surface_format_string += "VK_COLORSPACE_SRGB_NONLINEAR_KHR";
@@ -257,7 +257,7 @@ std::string to_string(VkSurfaceFormatKHR surface_format) {
     return surface_format_string;
 }
 
-std::string to_string(VkCompositeAlphaFlagBitsKHR composite_alpha) {
+std::string ToString(VkCompositeAlphaFlagBitsKHR composite_alpha) {
     switch (composite_alpha) {
         case VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR:return "VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR";
         case VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR:return "VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR";
@@ -268,7 +268,7 @@ std::string to_string(VkCompositeAlphaFlagBitsKHR composite_alpha) {
     }
 }
 
-std::string to_string(VkImageUsageFlagBits image_usage) {
+std::string ToString(VkImageUsageFlagBits image_usage) {
     switch (image_usage) {
         case VK_IMAGE_USAGE_TRANSFER_SRC_BIT:return "VK_IMAGE_USAGE_TRANSFER_SRC_BIT";
         case VK_IMAGE_USAGE_TRANSFER_DST_BIT:return "VK_IMAGE_USAGE_TRANSFER_DST_BIT";
@@ -283,11 +283,11 @@ std::string to_string(VkImageUsageFlagBits image_usage) {
     }
 }
 
-std::string to_string(VkExtent2D extent) {
+std::string ToString(VkExtent2D extent) {
     return fmt::format("{}x{}", extent.width, extent.height);
 }
 
-std::string to_string(VkSampleCountFlagBits flags) {
+std::string ToString(VkSampleCountFlagBits flags) {
     std::string result;
     bool append = false;
     if (flags & VK_SAMPLE_COUNT_1_BIT) {
@@ -326,7 +326,7 @@ std::string to_string(VkSampleCountFlagBits flags) {
     return result;
 }
 
-std::string to_string(VkPhysicalDeviceType type) {
+std::string ToString(VkPhysicalDeviceType type) {
     switch (type) {
         case VK_PHYSICAL_DEVICE_TYPE_OTHER:return "VK_PHYSICAL_DEVICE_TYPE_OTHER";
         case VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:return "VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU";
@@ -337,7 +337,7 @@ std::string to_string(VkPhysicalDeviceType type) {
     }
 }
 
-std::string to_string(VkImageTiling tiling) {
+std::string ToString(VkImageTiling tiling) {
     switch (tiling) {
         case VK_IMAGE_TILING_OPTIMAL:return "VK_IMAGE_TILING_OPTIMAL";
         case VK_IMAGE_TILING_LINEAR:return "VK_IMAGE_TILING_LINEAR";
@@ -345,7 +345,7 @@ std::string to_string(VkImageTiling tiling) {
     }
 }
 
-std::string to_string(VkImageType type) {
+std::string ToString(VkImageType type) {
     switch (type) {
         case VK_IMAGE_TYPE_1D:return "VK_IMAGE_TYPE_1D";
         case VK_IMAGE_TYPE_2D:return "VK_IMAGE_TYPE_2D";
@@ -354,7 +354,7 @@ std::string to_string(VkImageType type) {
     }
 }
 
-std::string to_string(VkBlendFactor blend) {
+std::string ToString(VkBlendFactor blend) {
     switch (blend) {
         case VK_BLEND_FACTOR_ZERO:return "VK_BLEND_FACTOR_ZERO";
         case VK_BLEND_FACTOR_ONE:return "VK_BLEND_FACTOR_ONE";
@@ -379,7 +379,7 @@ std::string to_string(VkBlendFactor blend) {
     }
 }
 
-std::string to_string(VkVertexInputRate rate) {
+std::string ToString(VkVertexInputRate rate) {
     switch (rate) {
         case VK_VERTEX_INPUT_RATE_VERTEX:return "VK_VERTEX_INPUT_RATE_VERTEX";
         case VK_VERTEX_INPUT_RATE_INSTANCE:return "VK_VERTEX_INPUT_RATE_INSTANCE";
@@ -387,7 +387,7 @@ std::string to_string(VkVertexInputRate rate) {
     }
 }
 
-std::string to_string_vk_bool(VkBool32 state) {
+std::string ToStringVkBool(VkBool32 state) {
     if (state == VK_TRUE) {
         return "true";
     }
@@ -395,7 +395,7 @@ std::string to_string_vk_bool(VkBool32 state) {
     return "false";
 }
 
-std::string to_string(VkPrimitiveTopology topology) {
+std::string ToString(VkPrimitiveTopology topology) {
     if (topology == VK_PRIMITIVE_TOPOLOGY_POINT_LIST) {
         return "VK_PRIMITIVE_TOPOLOGY_POINT_LIST";
     }
@@ -433,7 +433,7 @@ std::string to_string(VkPrimitiveTopology topology) {
     return "UNKOWN TOPOLOGY";
 }
 
-std::string to_string(VkFrontFace face) {
+std::string ToString(VkFrontFace face) {
     if (face == VK_FRONT_FACE_COUNTER_CLOCKWISE) {
         return "VK_FRONT_FACE_COUNTER_CLOCKWISE";
     }
@@ -443,7 +443,7 @@ std::string to_string(VkFrontFace face) {
     return "UNKOWN";
 }
 
-std::string to_string(VkPolygonMode mode) {
+std::string ToString(VkPolygonMode mode) {
     if (mode == VK_POLYGON_MODE_FILL) {
         return "VK_POLYGON_MODE_FILL";
     }
@@ -459,7 +459,7 @@ std::string to_string(VkPolygonMode mode) {
     return "UNKOWN";
 }
 
-std::string to_string(VkCompareOp operation) {
+std::string ToString(VkCompareOp operation) {
     if (operation == VK_COMPARE_OP_NEVER) {
         return "NEVER";
     }
@@ -487,7 +487,7 @@ std::string to_string(VkCompareOp operation) {
     return "Unkown";
 }
 
-std::string to_string(VkStencilOp operation) {
+std::string ToString(VkStencilOp operation) {
     if (operation == VK_STENCIL_OP_KEEP) {
         return "KEEP";
     }
@@ -515,7 +515,7 @@ std::string to_string(VkStencilOp operation) {
     return "Unkown";
 }
 
-std::string to_string(VkLogicOp operation) {
+std::string ToString(VkLogicOp operation) {
     if (operation == VK_LOGIC_OP_CLEAR) {
         return "CLEAR";
     }
@@ -567,7 +567,7 @@ std::string to_string(VkLogicOp operation) {
     return "Unkown";
 }
 
-std::string to_string(VkBlendOp operation) {
+std::string ToString(VkBlendOp operation) {
     if (operation == VK_BLEND_OP_ADD) {
         return "ADD";
     }
@@ -774,14 +774,14 @@ std::string to_string(VkBlendOp operation) {
     return "Unkown";
 }
 
-std::string to_string(bool flag) {
+std::string ToString(bool flag) {
     if (flag) {
         return "true";
     }
     return "false";
 }
 
-std::string to_string(ShaderResourceType type) {
+std::string ToString(ShaderResourceType type) {
     switch (type) {
         case ShaderResourceType::INPUT:return "Input";
         case ShaderResourceType::INPUT_ATTACHMENT:return "InputAttachment";
@@ -798,8 +798,8 @@ std::string to_string(ShaderResourceType type) {
     }
 }
 
-std::string buffer_usage_to_string(VkBufferUsageFlags flags) {
-    return to_string<VkBufferUsageFlagBits>(flags,
+std::string BufferUsageToString(VkBufferUsageFlags flags) {
+    return ToString<VkBufferUsageFlagBits>(flags,
                                             {{VK_BUFFER_USAGE_TRANSFER_SRC_BIT, "VK_BUFFER_USAGE_TRANSFER_SRC_BIT"},
         {VK_BUFFER_USAGE_TRANSFER_DST_BIT, "VK_BUFFER_USAGE_TRANSFER_DST_BIT"},
         {VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT,
@@ -831,8 +831,8 @@ std::string buffer_usage_to_string(VkBufferUsageFlags flags) {
             "VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT_KHR"}});
 }
 
-std::string shader_stage_to_string(VkShaderStageFlags flags) {
-    return to_string<VkShaderStageFlagBits>(flags,
+std::string ShaderStageToString(VkShaderStageFlags flags) {
+    return ToString<VkShaderStageFlagBits>(flags,
                                             {{VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT, "TESSELLATION_CONTROL"},
         {VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT,
             "TESSELLATION_EVALUATION"},
@@ -843,8 +843,8 @@ std::string shader_stage_to_string(VkShaderStageFlags flags) {
         {VK_SHADER_STAGE_ALL_GRAPHICS, "ALL GRAPHICS"}});
 }
 
-std::string image_usage_to_string(VkImageUsageFlags flags) {
-    return to_string<VkImageUsageFlagBits>(flags,
+std::string ImageUsageToString(VkImageUsageFlags flags) {
+    return ToString<VkImageUsageFlagBits>(flags,
                                            {{VK_IMAGE_USAGE_TRANSFER_SRC_BIT, "VK_IMAGE_USAGE_TRANSFER_SRC_BIT"},
         {VK_IMAGE_USAGE_TRANSFER_DST_BIT, "VK_IMAGE_USAGE_TRANSFER_DST_BIT"},
         {VK_IMAGE_USAGE_SAMPLED_BIT, "VK_IMAGE_USAGE_SAMPLED_BIT"},
@@ -859,8 +859,8 @@ std::string image_usage_to_string(VkImageUsageFlags flags) {
             "VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT"}});
 }
 
-std::string image_aspect_to_string(VkImageAspectFlags flags) {
-    return to_string<VkImageAspectFlagBits>(flags,
+std::string ImageAspectToString(VkImageAspectFlags flags) {
+    return ToString<VkImageAspectFlagBits>(flags,
                                             {{VK_IMAGE_ASPECT_COLOR_BIT, "VK_IMAGE_ASPECT_COLOR_BIT"},
         {VK_IMAGE_ASPECT_DEPTH_BIT, "VK_IMAGE_ASPECT_DEPTH_BIT"},
         {VK_IMAGE_ASPECT_STENCIL_BIT, "VK_IMAGE_ASPECT_STENCIL_BIT"},
@@ -870,23 +870,23 @@ std::string image_aspect_to_string(VkImageAspectFlags flags) {
         {VK_IMAGE_ASPECT_PLANE_2_BIT, "VK_IMAGE_ASPECT_PLANE_2_BIT"}});
 }
 
-std::string cull_mode_to_string(VkCullModeFlags flags) {
-    return to_string<VkCullModeFlagBits>(flags,
+std::string CullModeToString(VkCullModeFlags flags) {
+    return ToString<VkCullModeFlagBits>(flags,
                                          {{VK_CULL_MODE_NONE, "VK_CULL_MODE_NONE"},
         {VK_CULL_MODE_FRONT_BIT, "VK_CULL_MODE_FRONT_BIT"},
         {VK_CULL_MODE_BACK_BIT, "VK_CULL_MODE_BACK_BIT"},
         {VK_CULL_MODE_FRONT_AND_BACK, "VK_CULL_MODE_FRONT_AND_BACK"}});
 }
 
-std::string color_component_to_string(VkColorComponentFlags flags) {
-    return to_string<VkColorComponentFlagBits>(flags,
+std::string ColorComponentToString(VkColorComponentFlags flags) {
+    return ToString<VkColorComponentFlagBits>(flags,
                                                {{VK_COLOR_COMPONENT_R_BIT, "R"},
         {VK_COLOR_COMPONENT_G_BIT, "G"},
         {VK_COLOR_COMPONENT_B_BIT, "B"},
         {VK_COLOR_COMPONENT_A_BIT, "A"}});
 }
 
-std::vector<std::string> split(const std::string &input, char delim) {
+std::vector<std::string> Split(const std::string &input, char delim) {
     std::vector<std::string> tokens;
     
     std::stringstream sstream(input);
@@ -898,7 +898,7 @@ std::vector<std::string> split(const std::string &input, char delim) {
     return tokens;
 }
 
-bool replace(std::string &target, const std::string &from, const std::string &to) {
+bool Replace(std::string &target, const std::string &from, const std::string &to) {
     size_t start_pos = target.find(from);
     
     if (start_pos != std::string::npos) {
@@ -909,7 +909,7 @@ bool replace(std::string &target, const std::string &from, const std::string &to
     return false;
 }
 
-void replace_all(std::string &target, const std::string &from, const std::string &to) {
+void ReplaceAll(std::string &target, const std::string &from, const std::string &to) {
     if (from.empty()) return;
     
     size_t start_pos = 0;
@@ -919,7 +919,7 @@ void replace_all(std::string &target, const std::string &from, const std::string
     }
 }
 
-std::string generate_unique(const std::string &source, const std::function<bool(std::string)> &is_available) {
+std::string GenerateUnique(const std::string &source, const std::function<bool(std::string)> &is_available) {
     auto suffixless_source = source;
     
     auto suffix_opening_parenthesis_pos = std::string::npos;

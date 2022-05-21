@@ -9,13 +9,13 @@
 #include "core/device.h"
 
 namespace vox::core::detail {
-void set_debug_name(const Device *device, VkObjectType object_type, uint64_t handle, const char *debug_name) {
+void SetDebugName(const Device *device, VkObjectType object_type, uint64_t handle, const char *debug_name) {
     if (!debug_name || *debug_name == '\0' || !device) {
         // Can't set name, or no point in setting an empty name
         return;
     }
-    
-    device->get_debug_utils().set_debug_name(device->get_handle(), object_type, handle, debug_name);
+
+    device->GetDebugUtils().SetDebugName(device->GetHandle(), object_type, handle, debug_name);
 }
 
-}        // namespace vox
+}  // namespace vox::core::detail

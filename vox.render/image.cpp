@@ -26,7 +26,7 @@ VKBP_ENABLE_WARNINGS()
 #include "image/stb_img.h"
 
 namespace vox {
-bool is_astc(const VkFormat format) {
+bool IsAstc(VkFormat format) {
     return (format == VK_FORMAT_ASTC_4x4_UNORM_BLOCK ||
             format == VK_FORMAT_ASTC_4x4_SRGB_BLOCK ||
             format == VK_FORMAT_ASTC_5x4_UNORM_BLOCK ||
@@ -64,70 +64,69 @@ format_{VK_FORMAT_R8G8B8A8_UNORM},
 mipmaps_{std::move(m)} {
 }
 
-const std::vector<uint8_t> &Image::get_data() const {
+const std::vector<uint8_t> &Image::GetData() const {
     return data_;
 }
 
-void Image::clear_data() {
+void Image::ClearData() {
     data_.clear();
     data_.shrink_to_fit();
 }
 
-VkFormat Image::get_format() const {
+VkFormat Image::GetFormat() const {
     return format_;
 }
 
-const VkExtent3D &Image::get_extent() const {
+const VkExtent3D &Image::GetExtent() const {
     return mipmaps_.at(0).extent;
 }
 
-uint32_t Image::get_layers() const {
+uint32_t Image::GetLayers() const {
     return layers_;
 }
 
-const std::vector<Mipmap> &Image::get_mipmaps() const {
+const std::vector<Mipmap> &Image::GetMipmaps() const {
     return mipmaps_;
 }
 
-const std::vector<std::vector<VkDeviceSize>> &Image::get_offsets() const {
+const std::vector<std::vector<VkDeviceSize>> &Image::GetOffsets() const {
     return offsets_;
 }
 
-void Image::create_vk_image(Device const &device, VkImageCreateFlags flags, VkImageUsageFlags image_usage) {
+void Image::CreateVkImage(Device const &device, VkImageCreateFlags flags, VkImageUsageFlags image_usage) {
     assert(!vk_image_ && vk_image_views_.empty() && "Vulkan image already constructed");
     
-    vk_image_ = std::make_unique<core::Image>(device,
-                                              get_extent(),
+    vk_image_ = std::make_unique<core::Image>(device, GetExtent(),
                                               format_,
                                               image_usage,
                                               VMA_MEMORY_USAGE_GPU_ONLY,
                                               VK_SAMPLE_COUNT_1_BIT,
-                                              to_u32(mipmaps_.size()),
+                                              ToU32(mipmaps_.size()),
                                               layers_,
                                               VK_IMAGE_TILING_OPTIMAL,
                                               flags);
-    vk_image_->set_debug_name(name_);
+    vk_image_->SetDebugName(name_);
 }
 
-const core::Image &Image::get_vk_image() const {
+const core::Image &Image::GetVkImage() const {
     assert(vk_image_ && "Vulkan image was not created");
     return *vk_image_;
 }
 
-const core::ImageView &Image::get_vk_image_view(VkImageViewType view_type,
+const core::ImageView &Image::GetVkImageView(VkImageViewType view_type,
                                                 uint32_t base_mip_level,
                                                 uint32_t base_array_layer,
                                                 uint32_t n_mip_levels,
                                                 uint32_t n_array_layers) {
     std::size_t key = 0;
-    vox::hash_combine(key, view_type);
-    vox::hash_combine(key, base_mip_level);
-    vox::hash_combine(key, base_array_layer);
-    vox::hash_combine(key, n_mip_levels);
-    vox::hash_combine(key, n_array_layers);
+    vox::HashCombine(key, view_type);
+    vox::HashCombine(key, base_mip_level);
+    vox::HashCombine(key, base_array_layer);
+    vox::HashCombine(key, n_mip_levels);
+    vox::HashCombine(key, n_array_layers);
     auto iter = vk_image_views_.find(key);
     if (iter == vk_image_views_.end()) {
-        vk_image_views_.insert(std::make_pair(key, std::make_unique<core::ImageView>(*vk_image_, view_type, get_format(),
+        vk_image_views_.insert(std::make_pair(key, std::make_unique<core::ImageView>(*vk_image_, view_type, GetFormat(),
                                                                                      base_mip_level, base_array_layer,
                                                                                      n_mip_levels, n_array_layers)));
     }
@@ -135,18 +134,18 @@ const core::ImageView &Image::get_vk_image_view(VkImageViewType view_type,
     return *vk_image_views_.find(key)->second.get();
 }
 
-Mipmap &Image::get_mipmap(const size_t index) {
+Mipmap &Image::GetMipmap(size_t index) {
     return mipmaps_.at(index);
 }
 
-void Image::generate_mipmaps() {
+void Image::GenerateMipmaps() {
     assert(mipmaps_.size() == 1 && "Mipmaps already generated");
     
     if (mipmaps_.size() > 1) {
         return;        // Do not generate again
     }
     
-    auto extent = get_extent();
+    auto extent = GetExtent();
     auto next_width = std::max<uint32_t>(1u, extent.width / 2);
     auto next_height = std::max<uint32_t>(1u, extent.height / 2);
     auto channels = 4;
@@ -154,7 +153,7 @@ void Image::generate_mipmaps() {
     
     while (true) {
         // Make space for next mipmap
-        auto old_size = to_u32(data_.size());
+        auto old_size = ToU32(data_.size());
         data_.resize(old_size + next_size);
         
         auto &prev_mipmap = mipmaps_.back();
@@ -183,50 +182,50 @@ void Image::generate_mipmaps() {
     }
 }
 
-std::vector<Mipmap> &Image::get_mut_mipmaps() {
+std::vector<Mipmap> &Image::GetMutMipmaps() {
     return mipmaps_;
 }
 
-std::vector<uint8_t> &Image::get_mut_data() {
+std::vector<uint8_t> &Image::GetMutData() {
     return data_;
 }
 
-void Image::set_data(const uint8_t *raw_data, size_t size) {
+void Image::SetData(const uint8_t *raw_data, size_t size) {
     assert(data_.empty() && "Image data already set");
     data_ = {raw_data, raw_data + size};
 }
 
-void Image::set_format(const VkFormat f) {
-    format_ = f;
+void Image::SetFormat(VkFormat format) {
+    format_ = format;
 }
 
-void Image::set_width(const uint32_t width) {
+void Image::SetWidth(uint32_t width) {
     mipmaps_.at(0).extent.width = width;
 }
 
-void Image::set_height(const uint32_t height) {
+void Image::SetHeight(uint32_t height) {
     mipmaps_.at(0).extent.height = height;
 }
 
-void Image::set_depth(const uint32_t depth) {
+void Image::SetDepth(uint32_t depth) {
     mipmaps_.at(0).extent.depth = depth;
 }
 
-void Image::set_layers(uint32_t l) {
-    layers_ = l;
+void Image::SetLayers(uint32_t layers) {
+    layers_ = layers;
 }
 
-void Image::set_offsets(const std::vector<std::vector<VkDeviceSize>> &o) {
-    offsets_ = o;
+void Image::SetOffsets(const std::vector<std::vector<VkDeviceSize>> &offsets) {
+    offsets_ = offsets;
 }
 
-std::shared_ptr<Image> Image::load(const std::string &name, const std::string &uri) {
+std::shared_ptr<Image> Image::Load(const std::string &name, const std::string &uri) {
     std::shared_ptr<Image> image{nullptr};
     
-    auto data = fs::read_asset(uri);
+    auto data = fs::ReadAsset(uri);
     
     // Get extension
-    auto extension = get_extension(uri);
+    auto extension = GetExtension(uri);
     
     if (extension == "png" || extension == "jpg") {
         image = std::make_shared<Stb>(name, data);

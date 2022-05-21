@@ -30,23 +30,23 @@ public:
     /// @param spirv The SPIRV code of shader
     /// @param[out] resources The list of reflected shader resources
     /// @param variant ShaderVariant used for reflection to specify the size of the runtime arrays in Storage Buffers
-    static bool reflect_shader_resources(VkShaderStageFlagBits stage,
+    static bool ReflectShaderResources(VkShaderStageFlagBits stage,
                                          const std::vector<uint32_t> &spirv,
                                          std::vector<ShaderResource> &resources,
                                          const ShaderVariant &variant);
     
 private:
-    static void parse_shader_resources(const spirv_cross::Compiler &compiler,
+    static void ParseShaderResources(const spirv_cross::Compiler &compiler,
                                        VkShaderStageFlagBits stage,
                                        std::vector<ShaderResource> &resources,
                                        const ShaderVariant &variant);
     
-    static void parse_push_constants(const spirv_cross::Compiler &compiler,
+    static void ParsePushConstants(const spirv_cross::Compiler &compiler,
                                      VkShaderStageFlagBits stage,
                                      std::vector<ShaderResource> &resources,
                                      const ShaderVariant &variant);
     
-    static void parse_specialization_constants(const spirv_cross::Compiler &compiler,
+    static void ParseSpecializationConstants(const spirv_cross::Compiler &compiler,
                                                VkShaderStageFlagBits stage,
                                                std::vector<ShaderResource> &resources,
                                                const ShaderVariant &variant);

@@ -51,8 +51,8 @@ inline std::string get_temp_path_from_environment() {
 }        // namespace
 
 namespace fs {
-void create_directory(const std::string &path) {
-    if (!is_directory(path)) {
+void CreateDirectory(const std::string &path) {
+    if (!IsDirectory(path)) {
         mkdir(path.c_str(), 0777);
     }
 }
@@ -60,11 +60,11 @@ void create_directory(const std::string &path) {
 
 UnixPlatform::UnixPlatform(const UnixType &type, int argc, char **argv) :
 type_{type} {
-    Platform::set_arguments({argv + 1, argv + argc});
-    Platform::set_temp_directory(get_temp_path_from_environment());
+    Platform::SetArguments({argv + 1, argv + argc});
+    Platform::SetTempDirectory(get_temp_path_from_environment());
 }
 
-const char *UnixPlatform::get_surface_extension() {
+const char *UnixPlatform::GetSurfaceExtension() {
     if (type_ == UnixType::MAC) {
         return VK_EXT_METAL_SURFACE_EXTENSION_NAME;
     }
@@ -81,7 +81,7 @@ const char *UnixPlatform::get_surface_extension() {
 #endif
 }
 
-void UnixPlatform::create_window(const Window::Properties &properties) {
+void UnixPlatform::CreateWindow(const Window::Properties &properties) {
     if (properties.mode == vox::Window::Mode::HEADLESS) {
         window_ = std::make_unique<HeadlessWindow>(properties);
     } else {

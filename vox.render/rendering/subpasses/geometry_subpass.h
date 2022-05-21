@@ -29,29 +29,29 @@ public:
     
     ~GeometrySubpass() override = default;
     
-    void prepare() override;
+    void Prepare() override;
     
     /**
      * @brief Record draw commands
      */
-    void draw(CommandBuffer &command_buffer) override;
+    void Draw(CommandBuffer &command_buffer) override;
     
     /**
      * @brief Thread index to use for allocating resources
      */
-    void set_thread_index(uint32_t index);
+    void SetThreadIndex(uint32_t index);
     
 public:
-    [[nodiscard]] RenderMode render_mode() const;
+    [[nodiscard]] RenderMode GetRenderMode() const;
     
-    void set_render_mode(RenderMode mode);
+    void SetRenderMode(RenderMode mode);
     
-    void add_render_element(const RenderElement &element);
+    void AddRenderElement(const RenderElement &element);
     
-    void clear_all_render_element();
+    void ClearAllRenderElement();
     
 protected:
-    void draw_element(CommandBuffer &command_buffer,
+    void DrawElement(CommandBuffer &command_buffer,
                       const std::vector<RenderElement> &items,
                       const ShaderVariant &variant);
     

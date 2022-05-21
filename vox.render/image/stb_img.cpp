@@ -26,14 +26,14 @@ Image{name} {
     if (!raw_data) {
         throw std::runtime_error{"Failed to load " + name + ": " + stbi_failure_reason()};
     }
-    
-    set_data(raw_data, width * height * req_comp);
+
+    SetData(raw_data, width * height * req_comp);
     stbi_image_free(raw_data);
-    
-    set_format(VK_FORMAT_R8G8B8A8_UNORM);
-    set_width(to_u32(width));
-    set_height(to_u32(height));
-    set_depth(1u);
+
+    SetFormat(VK_FORMAT_R8G8B8A8_UNORM);
+    SetWidth(ToU32(width));
+    SetHeight(ToU32(height));
+    SetDepth(1u);
 }
 
 }        // namespace vox

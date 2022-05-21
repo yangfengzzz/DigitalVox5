@@ -12,19 +12,19 @@ namespace vox {
 PostProcessingPassBase::PostProcessingPassBase(PostProcessingPipeline *parent) :
 parent_{parent} {}
 
-RenderContext &PostProcessingPassBase::get_render_context() const {
+RenderContext &PostProcessingPassBase::GetRenderContext() const {
     return *parent_->render_context_;
 }
 
-ShaderSource &PostProcessingPassBase::get_triangle_vs() const {
+ShaderSource &PostProcessingPassBase::GetTriangleVs() const {
     return parent_->triangle_vs_;
 }
 
-PostProcessingPassBase::BarrierInfo PostProcessingPassBase::get_predecessor_src_barrier_info(BarrierInfo fallback) const {
-    const size_t kCurPassI = parent_->get_current_pass_index();
+PostProcessingPassBase::BarrierInfo PostProcessingPassBase::GetPredecessorSrcBarrierInfo(BarrierInfo fallback) const {
+    const size_t kCurPassI = parent_->GetCurrentPassIndex();
     if (kCurPassI > 0) {
-        const auto &prev_pass = parent_->get_pass<vox::PostProcessingPassBase>(kCurPassI - 1);
-        return prev_pass.get_src_barrier_info();
+        const auto &prev_pass = parent_->GetPass<vox::PostProcessingPassBase>(kCurPassI - 1);
+        return prev_pass.GetSrcBarrierInfo();
     } else {
         return fallback;
     }

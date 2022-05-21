@@ -17,13 +17,13 @@ namespace vox {
  * @param uri An uniform Resource Identifier
  * @return The extension
  */
-std::string get_extension(const std::string &uri);
+std::string GetExtension(const std::string &uri);
 
 /**
  * @param name String to convert to snake case
  * @return a snake case version of the string
  */
-std::string to_snake_case(const std::string &name);
+std::string ToSnakeCase(const std::string &name);
 
 class CommandBuffer;
 
@@ -32,6 +32,6 @@ class CommandBuffer;
  * @param render_context The RenderContext to use
  * @param filename The name of the file to save the output to
  */
-void screenshot(RenderContext &render_context, const std::string &filename);
+void Screenshot(RenderContext &render_context, const std::string &filename);
 
 }        // namespace vox

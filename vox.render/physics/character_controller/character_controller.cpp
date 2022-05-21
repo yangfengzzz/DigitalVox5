@@ -98,11 +98,11 @@ void CharacterController::on_late_update() {
 }
 
 void CharacterController::on_enable() {
-    PhysicsManager::get_singleton().add_character_controller(this);
+    PhysicsManager::GetSingleton().add_character_controller(this);
 }
 
 void CharacterController::on_disable() {
-    PhysicsManager::get_singleton().remove_character_controller(this);
+    PhysicsManager::GetSingleton().remove_character_controller(this);
 }
 
 }

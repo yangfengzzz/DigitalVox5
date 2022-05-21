@@ -30,7 +30,7 @@ void AssimpParser::load_model(Entity *root, const std::string &file, unsigned in
     directory_ = file.substr(0, file.find_last_of('/'));
     
     Assimp::Importer importer;
-    const aiScene *scene = importer.ReadFile(fs::path::get(fs::path::Type::ASSETS) + file, p_flags | aiProcess_CalcTangentSpace);
+    const aiScene *scene = importer.ReadFile(fs::path::Get(fs::path::Type::ASSETS) + file, p_flags | aiProcess_CalcTangentSpace);
     // check for errors
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
         LOGE("ERROR::ASSIMP:: {}", importer.GetErrorString())
@@ -64,7 +64,7 @@ void AssimpParser::process_node(Entity *root, aiNode *node, const aiScene *scene
 
 void AssimpParser::process_mesh(Entity *root, aiMesh *mesh, const aiScene *scene) {
     auto renderer = root->add_component<MeshRenderer>();
-    auto model_mesh = MeshManager::get_singleton().load_model_mesh();
+    auto model_mesh = MeshManager::GetSingleton().load_model_mesh();
     renderer->set_mesh(model_mesh);
     
     std::vector<Vector3F> vec3_array(mesh->mNumVertices);
@@ -259,7 +259,7 @@ std::shared_ptr<Image> AssimpParser::process_textures(aiMaterial *mat, aiTexture
         mat->GetTexture(type, 0, &str);
         std::string filename(str.C_Str());
         filename = directory_ + '/' + filename;
-        return ImageManager::get_singleton().load_texture(filename);
+        return ImageManager::GetSingleton().load_texture(filename);
     }
     return nullptr;
 }

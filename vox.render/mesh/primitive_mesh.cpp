@@ -11,7 +11,7 @@ namespace vox {
 ModelMeshPtr PrimitiveMesh::create_sphere(float radius,
                                           size_t segments,
                                           bool no_longer_accessible) {
-    auto mesh = MeshManager::get_singleton().load_model_mesh();
+    auto mesh = MeshManager::GetSingleton().load_model_mesh();
     segments = std::max(size_t(2), segments);
     
     const auto kCount = segments + 1;
@@ -78,7 +78,7 @@ ModelMeshPtr PrimitiveMesh::create_cuboid(float width,
                                           float height,
                                           float depth,
                                           bool no_longer_accessible) {
-    auto mesh = MeshManager::get_singleton().load_model_mesh();
+    auto mesh = MeshManager::GetSingleton().load_model_mesh();
     
     const auto kHalfWidth = width / 2;
     const auto kHalfHeight = height / 2;
@@ -225,7 +225,7 @@ ModelMeshPtr PrimitiveMesh::create_plane(float width,
                                          size_t horizontal_segments,
                                          size_t vertical_segments,
                                          bool no_longer_accessible) {
-    auto mesh = MeshManager::get_singleton().load_model_mesh();
+    auto mesh = MeshManager::GetSingleton().load_model_mesh();
     horizontal_segments = std::max(size_t(1), horizontal_segments);
     vertical_segments = std::max(size_t(1), vertical_segments);
     
@@ -293,7 +293,7 @@ ModelMeshPtr PrimitiveMesh::create_cylinder(float radius_top,
                                             size_t radial_segments,
                                             size_t height_segments,
                                             bool no_longer_accessible) {
-    auto mesh = MeshManager::get_singleton().load_model_mesh();
+    auto mesh = MeshManager::GetSingleton().load_model_mesh();
     
     const auto kRadialCount = radial_segments + 1;
     const auto kVerticalCount = height_segments + 1;
@@ -439,7 +439,7 @@ ModelMeshPtr PrimitiveMesh::create_torus(float radius,
                                          size_t tubular_segments,
                                          float arc,
                                          bool no_longer_accessible) {
-    auto mesh = MeshManager::get_singleton().load_model_mesh();
+    auto mesh = MeshManager::GetSingleton().load_model_mesh();
     
     const auto kVertexCount = (radial_segments + 1) * (tubular_segments + 1);
     const auto kRectangleCount = radial_segments * tubular_segments;
@@ -508,7 +508,7 @@ ModelMeshPtr PrimitiveMesh::create_cone(float radius,
                                         size_t radial_segments,
                                         size_t height_segments,
                                         bool no_longer_accessible) {
-    auto mesh = MeshManager::get_singleton().load_model_mesh();
+    auto mesh = MeshManager::GetSingleton().load_model_mesh();
     
     const auto kRadialCount = radial_segments + 1;
     const auto kVerticalCount = height_segments + 1;
@@ -620,7 +620,7 @@ ModelMeshPtr PrimitiveMesh::create_capsule(float radius,
                                            size_t radial_segments,
                                            size_t height_segments,
                                            bool no_longer_accessible) {
-    auto mesh = MeshManager::get_singleton().load_model_mesh();
+    auto mesh = MeshManager::GetSingleton().load_model_mesh();
     
     radial_segments = std::max(size_t(2), radial_segments);
     

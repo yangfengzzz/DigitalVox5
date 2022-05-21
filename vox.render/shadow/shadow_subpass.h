@@ -18,18 +18,18 @@ public:
     /**
      * @brief Thread index to use for allocating resources
      */
-    void set_thread_index(uint32_t index);
+    void SetThreadIndex(uint32_t index);
     
-    void set_view_projection_matrix(const Matrix4x4F &vp);
+    void SetViewProjectionMatrix(const Matrix4x4F &vp);
     
-    void set_viewport(const std::optional<VkViewport> &viewport);
+    void SetViewport(const std::optional<VkViewport> &viewport);
     
-    void prepare() override;
+    void Prepare() override;
     
-    void draw(CommandBuffer &command_buffer) override;
+    void Draw(CommandBuffer &command_buffer) override;
     
 protected:
-    void draw_element(CommandBuffer &command_buffer,
+    void DrawElement(CommandBuffer &command_buffer,
                       const std::vector<RenderElement> &items,
                       const ShaderVariant &variant);
     

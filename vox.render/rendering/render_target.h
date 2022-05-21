@@ -59,33 +59,33 @@ public:
     
     RenderTarget &operator=(RenderTarget &&other) noexcept = delete;
     
-    [[nodiscard]] const VkExtent2D &get_extent() const;
+    [[nodiscard]] const VkExtent2D &GetExtent() const;
     
-    [[nodiscard]] const std::vector<core::ImageView> &get_views() const;
+    [[nodiscard]] const std::vector<core::ImageView> &GetViews() const;
     
-    [[nodiscard]] const std::vector<Attachment> &get_attachments() const;
+    [[nodiscard]] const std::vector<Attachment> &GetAttachments() const;
     
     /**
      * @brief Sets the current input attachments overwriting the current ones
      *        Should be set before beginning the render pass and before starting a new subpass
      * @param input Set of attachment reference number to use as input
      */
-    void set_input_attachments(std::vector<uint32_t> &input);
+    void SetInputAttachments(std::vector<uint32_t> &input);
     
-    [[nodiscard]] const std::vector<uint32_t> &get_input_attachments() const;
+    [[nodiscard]] const std::vector<uint32_t> &GetInputAttachments() const;
     
     /**
      * @brief Sets the current output attachments overwriting the current ones
      *        Should be set before beginning the render pass and before starting a new subpass
      * @param output Set of attachment reference number to use as output
      */
-    void set_output_attachments(std::vector<uint32_t> &output);
+    void SetOutputAttachments(std::vector<uint32_t> &output);
     
-    [[nodiscard]] const std::vector<uint32_t> &get_output_attachments() const;
+    [[nodiscard]] const std::vector<uint32_t> &GetOutputAttachments() const;
     
-    void set_layout(uint32_t attachment, VkImageLayout layout);
+    void SetLayout(uint32_t attachment, VkImageLayout layout);
     
-    [[nodiscard]] VkImageLayout get_layout(uint32_t attachment) const;
+    [[nodiscard]] VkImageLayout GetLayout(uint32_t attachment) const;
     
 private:
     Device const &device_;

@@ -31,7 +31,7 @@ VKBP_ENABLE_WARNINGS()
 namespace vox {
 GraphicsApplication::~GraphicsApplication() {
     if (device_) {
-        device_->wait_idle();
+        device_->WaitIdle();
     }
         
     if (render_pipeline_) {
@@ -43,7 +43,7 @@ GraphicsApplication::~GraphicsApplication() {
     device_.reset();
     
     if (surface_ != VK_NULL_HANDLE) {
-        vkDestroySurfaceKHR(instance_->get_handle(), surface_, nullptr);
+        vkDestroySurfaceKHR(instance_->GetHandle(), surface_, nullptr);
     }
     
     instance_.reset();
@@ -58,14 +58,14 @@ RenderPipeline &GraphicsApplication::get_render_pipeline() {
     return *render_pipeline_;
 }
 
-bool GraphicsApplication::prepare(Platform &platform) {
-    if (!Application::prepare(platform)) {
+bool GraphicsApplication::Prepare(Platform &platform) {
+    if (!Application::Prepare(platform)) {
         return false;
     }
     
     LOGI("Initializing DigitalVox")
     
-    bool headless = platform.get_window().get_window_mode() == Window::Mode::HEADLESS;
+    bool headless = platform.GetWindow().GetWindowMode() == Window::Mode::HEADLESS;
     
     VkResult result = volkInitialize();
     if (result) {
@@ -75,7 +75,7 @@ bool GraphicsApplication::prepare(Platform &platform) {
     std::unique_ptr<DebugUtils> debug_utils{};
     
     // Creating the vulkan instance
-    add_instance_extension(platform.get_surface_extension());
+    add_instance_extension(platform.GetSurfaceExtension());
     
 #ifdef VKB_VULKAN_DEBUG
     {
@@ -101,36 +101,36 @@ bool GraphicsApplication::prepare(Platform &platform) {
     create_instance();
     
     if (!instance_) {
-        instance_ = std::make_unique<Instance>(get_name(), get_instance_extensions(), get_validation_layers(),
+        instance_ = std::make_unique<Instance>(GetName(), get_instance_extensions(), get_validation_layers(),
                                                headless, api_version_);
     }
     
     // Getting a valid vulkan surface from the platform
-    surface_ = platform.get_window().create_surface(*instance_);
+    surface_ = platform.GetWindow().CreateSurface(*instance_);
     
-    auto &gpu = instance_->get_suitable_gpu(surface_);
-    gpu.set_high_priority_graphics_queue_enable(high_priority_graphics_queue_);
+    auto &gpu = instance_->GetSuitableGpu(surface_);
+    gpu.SetHighPriorityGraphicsQueueEnable(high_priority_graphics_queue_);
     
     // Request to enable ASTC
-    if (gpu.get_features().textureCompressionASTC_LDR) {
-        gpu.get_mutable_requested_features().textureCompressionASTC_LDR = VK_TRUE;
+    if (gpu.GetFeatures().textureCompressionASTC_LDR) {
+        gpu.GetMutableRequestedFeatures().textureCompressionASTC_LDR = VK_TRUE;
     }
     
     // Request sample required GPU features
     request_gpu_features(gpu);
     
     // Creating vulkan device, specifying the swapchain extension always
-    if (!headless || instance_->is_enabled(VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME)) {
+    if (!headless || instance_->IsEnabled(VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME)) {
         add_device_extension(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
     }
     
 #ifdef VKB_VULKAN_DEBUG
     if (!debug_utils) {
         uint32_t device_extension_count;
-        VK_CHECK(vkEnumerateDeviceExtensionProperties(gpu.get_handle(), nullptr, &device_extension_count, nullptr));
+        VK_CHECK(vkEnumerateDeviceExtensionProperties(gpu.GetHandle(), nullptr, &device_extension_count, nullptr));
         
         std::vector<VkExtensionProperties> available_device_extensions(device_extension_count);
-        VK_CHECK(vkEnumerateDeviceExtensionProperties(gpu.get_handle(), nullptr, &device_extension_count,
+        VK_CHECK(vkEnumerateDeviceExtensionProperties(gpu.GetHandle(), nullptr, &device_extension_count,
                                                       available_device_extensions.data()));
         
         for (const auto &it : available_device_extensions) {
@@ -162,11 +162,11 @@ bool GraphicsApplication::prepare(Platform &platform) {
     create_render_context(platform);
     prepare_render_context();
     
-    gui_ = std::make_unique<ui::UiManager>(static_cast<GlfwWindow*>(&platform.get_window())->handle(), render_context_.get());
+    gui_ = std::make_unique<ui::UiManager>(static_cast<GlfwWindow*>(&platform.GetWindow())->Handle(), render_context_.get());
     stats_ = std::make_unique<vox::Stats>(*render_context_);
     
     // Start the sample in the first GUI configuration
-    configuration_.reset();
+    configuration_.Reset();
     
     return true;
 }
@@ -184,11 +184,11 @@ void GraphicsApplication::create_render_context(Platform &platform) {
         {VK_FORMAT_R8G8B8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR},
         {VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR}};
     
-    render_context_ = platform.create_render_context(*device_, surface_, surface_priority_list);
+    render_context_ = platform.CreateRenderContext(*device_, surface_, surface_priority_list);
 }
 
 void GraphicsApplication::prepare_render_context() {
-    render_context_->prepare();
+    render_context_->Prepare();
 }
 
 void GraphicsApplication::update_stats(float delta_time) {
@@ -206,28 +206,28 @@ void GraphicsApplication::update_stats(float delta_time) {
     }
 }
 
-void GraphicsApplication::update(float delta_time) {
-    auto &command_buffer = render_context_->begin();
+void GraphicsApplication::Update(float delta_time) {
+    auto &command_buffer = render_context_->Begin();
     
     // Collect the performance data for the sample graphs
     update_stats(delta_time);
     
-    command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+    command_buffer.Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
     stats_->begin_sampling(command_buffer);
     
-    draw(command_buffer, render_context_->get_active_frame().get_render_target());
+    draw(command_buffer, render_context_->GetActiveFrame().GetRenderTarget());
     
     stats_->end_sampling(command_buffer);
-    command_buffer.end();
+    command_buffer.End();
     
-    render_context_->submit(command_buffer);
-    
-    platform_->on_post_draw(get_render_context());
-    device_->wait_idle(); // sync cpu and gpu
+    render_context_->Submit(command_buffer);
+
+    platform_->OnPostDraw(get_render_context());
+    device_->WaitIdle(); // sync cpu and gpu
 }
 
 void GraphicsApplication::draw(CommandBuffer &command_buffer, RenderTarget &render_target) {
-    auto &views = render_target.get_views();
+    auto &views = render_target.GetViews();
     
     {
         // Image 0 is the swapchain
@@ -238,12 +238,12 @@ void GraphicsApplication::draw(CommandBuffer &command_buffer, RenderTarget &rend
         memory_barrier.dst_access_mask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
         memory_barrier.src_stage_mask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
         memory_barrier.dst_stage_mask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-        
-        command_buffer.image_memory_barrier(views.at(0), memory_barrier);
+
+        command_buffer.ImageMemoryBarrier(views.at(0), memory_barrier);
         
         // Skip 1 as it is handled later as a depth-stencil attachment
         for (size_t i = 2; i < views.size(); ++i) {
-            command_buffer.image_memory_barrier(views.at(i), memory_barrier);
+            command_buffer.ImageMemoryBarrier(views.at(i), memory_barrier);
         }
     }
     
@@ -257,8 +257,8 @@ void GraphicsApplication::draw(CommandBuffer &command_buffer, RenderTarget &rend
         memory_barrier.src_stage_mask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
         memory_barrier.dst_stage_mask =
         VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;
-        
-        command_buffer.image_memory_barrier(views.at(1), memory_barrier);
+
+        command_buffer.ImageMemoryBarrier(views.at(1), memory_barrier);
     }
     
     draw_renderpass(command_buffer, render_target);
@@ -270,8 +270,8 @@ void GraphicsApplication::draw(CommandBuffer &command_buffer, RenderTarget &rend
         memory_barrier.src_access_mask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
         memory_barrier.src_stage_mask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
         memory_barrier.dst_stage_mask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
-        
-        command_buffer.image_memory_barrier(views.at(0), memory_barrier);
+
+        command_buffer.ImageMemoryBarrier(views.at(0), memory_barrier);
     }
 }
 
@@ -281,20 +281,20 @@ void GraphicsApplication::draw_renderpass(CommandBuffer &command_buffer, RenderT
     if (gui_) {
         gui_->draw(command_buffer);
     }
-    
-    command_buffer.end_render_pass();
+
+    command_buffer.EndRenderPass();
 }
 
 void GraphicsApplication::render(CommandBuffer &command_buffer, RenderTarget &render_target) {
     if (render_pipeline_) {
-        set_viewport_and_scissor(command_buffer, render_target.get_extent());
-        render_pipeline_->draw(command_buffer, render_target);
+        set_viewport_and_scissor(command_buffer, render_target.GetExtent());
+        render_pipeline_->Draw(command_buffer, render_target);
     }
 }
 
-bool GraphicsApplication::resize(uint32_t win_width, uint32_t win_height,
+bool GraphicsApplication::Resize(uint32_t win_width, uint32_t win_height,
                                  uint32_t fb_width, uint32_t fb_height) {
-    Application::resize(win_width, win_height, fb_width, fb_height);
+    Application::Resize(win_width, win_height, fb_width, fb_height);
     
     if (stats_) {
         stats_->resize(win_width);
@@ -302,14 +302,14 @@ bool GraphicsApplication::resize(uint32_t win_width, uint32_t win_height,
     return true;
 }
 
-void GraphicsApplication::input_event(const InputEvent &input_event) {
-    Application::input_event(input_event);
+void GraphicsApplication::InputEvent(const vox::InputEvent &input_event) {
+    Application::InputEvent(input_event);
     
-    if (input_event.get_source() == EventSource::KEYBOARD) {
+    if (input_event.GetSource() == EventSource::KEYBOARD) {
         const auto &key_event = static_cast<const KeyInputEvent &>(input_event);
-        if (key_event.get_action() == KeyAction::DOWN &&
-            (key_event.get_code() == KeyCode::PRINT_SCREEN || key_event.get_code() == KeyCode::F12)) {
-            screenshot(*render_context_, "screenshot-" + get_name());
+        if (key_event.GetAction() == KeyAction::DOWN &&
+            (key_event.GetCode() == KeyCode::PRINT_SCREEN || key_event.GetCode() == KeyCode::F12)) {
+            Screenshot(*render_context_, "screenshot-" + GetName());
         }
         
         //		if (key_event.get_code() == KeyCode::F6 && key_event.get_action() == KeyAction::Down)
@@ -322,15 +322,15 @@ void GraphicsApplication::input_event(const InputEvent &input_event) {
     }
 }
 
-void GraphicsApplication::finish() {
-    Application::finish();
+void GraphicsApplication::Finish() {
+    Application::Finish();
     
     if (device_) {
-        device_->wait_idle();
+        device_->WaitIdle();
     }
 }
 
-Device &GraphicsApplication::get_device() {
+Device &GraphicsApplication::GetDevice() {
     return *device_;
 }
 
@@ -347,11 +347,11 @@ void GraphicsApplication::set_viewport_and_scissor(vox::CommandBuffer &command_b
     viewport.height = static_cast<float>(extent.height);
     viewport.minDepth = 0.0f;
     viewport.maxDepth = 1.0f;
-    command_buffer.set_viewport(0, {viewport});
+    command_buffer.SetViewport(0, {viewport});
     
     VkRect2D scissor{};
     scissor.extent = extent;
-    command_buffer.set_scissor(0, {scissor});
+    command_buffer.SetScissor(0, {scissor});
 }
 
 VkSurfaceKHR GraphicsApplication::get_surface() {

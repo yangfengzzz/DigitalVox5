@@ -75,7 +75,7 @@ inline std::vector<std::string> get_args() {
 }        // namespace
 
 namespace fs {
-void create_directory(const std::string &path) {
+void CreateDirectory(const std::string &path) {
     if (!is_directory(path)) {
         CreateDirectory(path.c_str(), NULL);
     }

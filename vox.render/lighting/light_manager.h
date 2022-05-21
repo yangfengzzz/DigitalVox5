@@ -35,9 +35,9 @@ public:
     // This limitation should be able to go away when we have atomic methods in Vulkan.
     static constexpr uint32_t max_lights_per_cluster_ = 50;
     
-    static LightManager &get_singleton();
+    static LightManager &GetSingleton();
     
-    static LightManager *get_singleton_ptr();
+    static LightManager *GetSingletonPtr();
     
     explicit LightManager(Scene *scene, RenderContext &render_context);
     

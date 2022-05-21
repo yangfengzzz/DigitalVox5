@@ -13,11 +13,11 @@
 #include "logging.h"
 
 namespace vox {
-ComponentsManager *ComponentsManager::get_singleton_ptr() {
+ComponentsManager *ComponentsManager::GetSingletonPtr() {
     return ms_singleton_;
 }
 
-ComponentsManager &ComponentsManager::get_singleton() {
+ComponentsManager &ComponentsManager::GetSingleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }

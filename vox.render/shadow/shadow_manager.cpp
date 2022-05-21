@@ -21,11 +21,11 @@ uint32_t ShadowManager::cube_shadow_count() {
     return cube_shadow_count_;
 }
 
-ShadowManager *ShadowManager::get_singleton_ptr() {
+ShadowManager *ShadowManager::GetSingletonPtr() {
     return ms_singleton_;
 }
 
-ShadowManager &ShadowManager::get_singleton() {
+ShadowManager &ShadowManager::GetSingleton() {
     assert(ms_singleton_);
     return (*ms_singleton_);
 }
@@ -61,15 +61,15 @@ sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
     auto subpass = std::make_unique<ShadowSubpass>(render_context_, scene, camera);
     shadow_subpass_ = subpass.get();
     render_pipeline_ = std::make_unique<RenderPipeline>();
-    render_pipeline_->add_subpass(std::move(subpass));
+    render_pipeline_->AddSubpass(std::move(subpass));
     
     std::vector<VkClearValue> clear_value(1);
     clear_value[0].depthStencil = {1.0f, 255U};
-    render_pipeline_->set_clear_value(clear_value);
+    render_pipeline_->SetClearValue(clear_value);
     
     std::vector<LoadStoreInfo> load_store_info(1);
     load_store_info[0].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
-    render_pipeline_->set_load_store(load_store_info);
+    render_pipeline_->SetLoadStore(load_store_info);
 
     auto offset = static_cast<float>(shadow_map_resolution_ / 2);
     viewport_[0] = {0.f, 0.f, offset, offset, 0.f, 1.f};
@@ -91,9 +91,10 @@ void ShadowManager::draw(CommandBuffer &command_buffer) {
     draw_spot_shadow_map(command_buffer);
     draw_direct_shadow_map(command_buffer);
     if (!used_shadow_.empty()) {
-        auto image = ImageManager::get_singleton().packed_shadow_map(command_buffer, used_shadow_, shadow_map_resolution_);
-        scene_->shader_data_.set_sampled_texture(shadow_map_prop_, image->get_vk_image_view(VK_IMAGE_VIEW_TYPE_2D_ARRAY), sampler_.get());
-        scene_->shader_data_.set_data(shadow_data_prop_, shadow_datas_);
+        auto image = ImageManager::GetSingleton().packed_shadow_map(command_buffer, used_shadow_, shadow_map_resolution_);
+        scene_->shader_data_.SetSampledTexture(shadow_map_prop_, image->GetVkImageView(VK_IMAGE_VIEW_TYPE_2D_ARRAY),
+                                               sampler_.get());
+        scene_->shader_data_.SetData(shadow_data_prop_, shadow_datas_);
     }
     
     cube_shadow_count_ = 0;
@@ -103,7 +104,7 @@ void ShadowManager::draw(CommandBuffer &command_buffer) {
 }
 
 void ShadowManager::draw_spot_shadow_map(CommandBuffer &command_buffer) {
-    const auto &lights = LightManager::get_singleton().spot_lights();
+    const auto &lights = LightManager::GetSingleton().spot_lights();
     for (const auto &light : lights) {
         size_t shadow_count = used_shadow_.size();
         if (light->enable_shadow() && shadow_count < max_shadow_) {
@@ -111,30 +112,31 @@ void ShadowManager::draw_spot_shadow_map(CommandBuffer &command_buffer) {
             
             RenderTarget *render_target{nullptr};
             if (shadow_count < shadow_maps_.size()) {
-                render_target = shadow_maps_[shadow_count][render_context_.get_active_frame_index()].get();
+                render_target = shadow_maps_[shadow_count][render_context_.GetActiveFrameIndex()].get();
             } else {
-                std::vector<std::unique_ptr<RenderTarget>> shadow_render_targets(render_context_.get_render_frames().size());
+                std::vector<std::unique_ptr<RenderTarget>> shadow_render_targets(
+                        render_context_.GetRenderFrames().size());
                 for (auto &shadow_render_target : shadow_render_targets) {
                     shadow_render_target = create_shadow_render_target(shadow_map_resolution_);
                 }
-                render_target = shadow_render_targets[render_context_.get_active_frame_index()].get();
+                render_target = shadow_render_targets[render_context_.GetActiveFrameIndex()].get();
                 shadow_maps_.emplace_back(std::move(shadow_render_targets));
             }
-            
-            shadow_subpass_->set_view_projection_matrix(shadow_datas_[shadow_count].vp[0]);
+
+            shadow_subpass_->SetViewProjectionMatrix(shadow_datas_[shadow_count].vp[0]);
             
             record_shadow_pass_image_memory_barrier(command_buffer, *render_target);
-            render_pipeline_->draw(command_buffer, *render_target);
-            command_buffer.end_render_pass();
+            render_pipeline_->Draw(command_buffer, *render_target);
+            command_buffer.EndRenderPass();
             used_shadow_.emplace_back(render_target);
         }
     }
 }
 
 void ShadowManager::draw_direct_shadow_map(CommandBuffer &command_buffer) {
-    auto load_store = render_pipeline_->get_load_store();
+    auto load_store = render_pipeline_->GetLoadStore();
     
-    const auto &lights = LightManager::get_singleton().direct_lights();
+    const auto &lights = LightManager::GetSingleton().direct_lights();
     for (const auto &light : lights) {
         size_t shadow_count = used_shadow_.size();
         if (light->enable_shadow() && shadow_count < max_shadow_) {
@@ -142,60 +144,62 @@ void ShadowManager::draw_direct_shadow_map(CommandBuffer &command_buffer) {
             
             RenderTarget *render_target{nullptr};
             if (shadow_count < shadow_maps_.size()) {
-                render_target = shadow_maps_[shadow_count][render_context_.get_active_frame_index()].get();
+                render_target = shadow_maps_[shadow_count][render_context_.GetActiveFrameIndex()].get();
             } else {
-                std::vector<std::unique_ptr<RenderTarget>> shadow_render_targets(render_context_.get_render_frames().size());
+                std::vector<std::unique_ptr<RenderTarget>> shadow_render_targets(
+                        render_context_.GetRenderFrames().size());
                 for (auto &shadow_render_target : shadow_render_targets) {
                     shadow_render_target = create_shadow_render_target(shadow_map_resolution_);
                 }
-                render_target = shadow_render_targets[render_context_.get_active_frame_index()].get();
+                render_target = shadow_render_targets[render_context_.GetActiveFrameIndex()].get();
                 shadow_maps_.emplace_back(std::move(shadow_render_targets));
             }
             
             for (int i = 0; i < shadow_map_cascade_count_; i++) {
-                shadow_subpass_->set_view_projection_matrix(shadow_datas_[shadow_count].vp[i]);
-                shadow_subpass_->set_viewport(viewport_[i]);
+                shadow_subpass_->SetViewProjectionMatrix(shadow_datas_[shadow_count].vp[i]);
+                shadow_subpass_->SetViewport(viewport_[i]);
                 
                 if (i == 0) {
                     load_store[0].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
                 } else {
                     load_store[0].load_op = VK_ATTACHMENT_LOAD_OP_LOAD;
                 }
-                render_pipeline_->set_load_store(load_store);
+                render_pipeline_->SetLoadStore(load_store);
                 
                 record_shadow_pass_image_memory_barrier(command_buffer, *render_target);
-                render_pipeline_->draw(command_buffer, *render_target);
-                command_buffer.end_render_pass();
+                render_pipeline_->Draw(command_buffer, *render_target);
+                command_buffer.EndRenderPass();
             }
             used_shadow_.emplace_back(render_target);
         }
     }
     load_store[0].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
-    render_pipeline_->set_load_store(load_store);
-    shadow_subpass_->set_viewport(std::nullopt);
+    render_pipeline_->SetLoadStore(load_store);
+    shadow_subpass_->SetViewport(std::nullopt);
 }
 
 void ShadowManager::draw_point_shadow_map(CommandBuffer &command_buffer) {
-    const auto &lights = LightManager::get_singleton().point_lights();
+    const auto &lights = LightManager::GetSingleton().point_lights();
     for (const auto &light : lights) {
         if (light->enable_shadow() && cube_shadow_count_ < max_cube_shadow_) {
             update_point_shadow(light, cube_shadow_datas_[cube_shadow_count_]);
             
             RenderTarget *render_target{nullptr};
             if (cube_shadow_count_ < cube_shadow_maps_.size()) {
-                render_target = cube_shadow_maps_[cube_shadow_count_][render_context_.get_active_frame_index()].get();
+                render_target = cube_shadow_maps_[cube_shadow_count_][render_context_.GetActiveFrameIndex()].get();
             } else {
-                std::vector<std::unique_ptr<RenderTarget>> shadow_render_targets(render_context_.get_render_frames().size());
+                std::vector<std::unique_ptr<RenderTarget>> shadow_render_targets(
+                        render_context_.GetRenderFrames().size());
                 for (auto &shadow_render_target : shadow_render_targets) {
                     shadow_render_target = create_shadow_render_target(shadow_map_resolution_);
                 }
-                render_target = shadow_render_targets[render_context_.get_active_frame_index()].get();
+                render_target = shadow_render_targets[render_context_.GetActiveFrameIndex()].get();
                 cube_shadow_maps_.emplace_back(std::move(shadow_render_targets));
             }
             
             for (const auto &i : cube_shadow_datas_[cube_shadow_count_].vp) {
-                shadow_subpass_->set_view_projection_matrix(i);
-                render_pipeline_->draw(command_buffer, *render_target);
+                shadow_subpass_->SetViewProjectionMatrix(i);
+                render_pipeline_->Draw(command_buffer, *render_target);
             }
             cube_shadow_count_++;
         }
@@ -206,8 +210,7 @@ std::unique_ptr<RenderTarget> ShadowManager::create_shadow_render_target(uint32_
     VkExtent3D extent{size, size, 1};
     
     core::Image depth_image{device_,
-        extent,
-        get_suitable_depth_format(device_.get_gpu().get_handle()),
+        extent, GetSuitableDepthFormat(device_.GetGpu().GetHandle()),
         VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
         VMA_MEMORY_USAGE_GPU_ONLY
     };
@@ -218,7 +221,7 @@ std::unique_ptr<RenderTarget> ShadowManager::create_shadow_render_target(uint32_
 }
 
 void ShadowManager::record_shadow_pass_image_memory_barrier(CommandBuffer &command_buffer, RenderTarget &render_target) {
-    auto &shadowmap = render_target.get_views().at(0);
+    auto &shadowmap = render_target.GetViews().at(0);
 
     ImageMemoryBarrier memory_barrier{};
     memory_barrier.old_layout      = VK_IMAGE_LAYOUT_UNDEFINED;
@@ -228,7 +231,7 @@ void ShadowManager::record_shadow_pass_image_memory_barrier(CommandBuffer &comma
     memory_barrier.src_stage_mask  = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
     memory_barrier.dst_stage_mask  = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;
 
-    command_buffer.image_memory_barrier(shadowmap, memory_barrier);
+    command_buffer.ImageMemoryBarrier(shadowmap, memory_barrier);
 }
 
 void ShadowManager::update_spot_shadow(SpotLight *light, ShadowManager::ShadowData &shadow_data) {

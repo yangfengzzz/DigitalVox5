@@ -73,7 +73,7 @@ bool operator!=(const vox::ColorBlendState &lhs, const vox::ColorBlendState &rhs
 }
 
 namespace vox {
-void SpecializationConstantState::reset() {
+void SpecializationConstantState::Reset() {
     if (dirty_) {
         specialization_constant_state_.clear();
     }
@@ -81,15 +81,15 @@ void SpecializationConstantState::reset() {
     dirty_ = false;
 }
 
-bool SpecializationConstantState::is_dirty() const {
+bool SpecializationConstantState::IsDirty() const {
     return dirty_;
 }
 
-void SpecializationConstantState::clear_dirty() {
+void SpecializationConstantState::ClearDirty() {
     dirty_ = false;
 }
 
-void SpecializationConstantState::set_constant(uint32_t constant_id, const std::vector<uint8_t> &value) {
+void SpecializationConstantState::SetConstant(uint32_t constant_id, const std::vector<uint8_t> &value) {
     auto data = specialization_constant_state_.find(constant_id);
     
     if (data != specialization_constant_state_.end() && data->second == value) {
@@ -101,24 +101,24 @@ void SpecializationConstantState::set_constant(uint32_t constant_id, const std::
     specialization_constant_state_[constant_id] = value;
 }
 
-void SpecializationConstantState::set_specialization_constant_state(
+void SpecializationConstantState::SetSpecializationConstantState(
                                                                     const std::map<uint32_t, std::vector<uint8_t>> &state) {
     specialization_constant_state_ = state;
 }
 
 const std::map<uint32_t, std::vector<uint8_t>> &
-SpecializationConstantState::get_specialization_constant_state() const {
+SpecializationConstantState::GetSpecializationConstantState() const {
     return specialization_constant_state_;
 }
 
-void PipelineState::reset() {
-    clear_dirty();
+void PipelineState::Reset() {
+    ClearDirty();
     
     pipeline_layout_ = nullptr;
     
     render_pass_ = nullptr;
     
-    specialization_constant_state_.reset();
+    specialization_constant_state_.Reset();
     
     vertex_input_state_ = {};
     
@@ -135,158 +135,158 @@ void PipelineState::reset() {
     subpass_index_ = {0U};
 }
 
-void PipelineState::set_pipeline_layout(PipelineLayout &new_pipeline_layout) {
+void PipelineState::SetPipelineLayout(PipelineLayout &pipeline_layout) {
     if (pipeline_layout_) {
-        if (pipeline_layout_->get_handle() != new_pipeline_layout.get_handle()) {
-            pipeline_layout_ = &new_pipeline_layout;
+        if (pipeline_layout_->GetHandle() != pipeline_layout.GetHandle()) {
+            pipeline_layout_ = &pipeline_layout;
             
             dirty_ = true;
         }
     } else {
-        pipeline_layout_ = &new_pipeline_layout;
+        pipeline_layout_ = &pipeline_layout;
         
         dirty_ = true;
     }
 }
 
-void PipelineState::set_render_pass(const RenderPass &new_render_pass) {
+void PipelineState::SetRenderPass(const RenderPass &render_pass) {
     if (render_pass_) {
-        if (render_pass_->get_handle() != new_render_pass.get_handle()) {
-            render_pass_ = &new_render_pass;
+        if (render_pass_->GetHandle() != render_pass.GetHandle()) {
+            render_pass_ = &render_pass;
             
             dirty_ = true;
         }
     } else {
-        render_pass_ = &new_render_pass;
+        render_pass_ = &render_pass;
         
         dirty_ = true;
     }
 }
 
-void PipelineState::set_specialization_constant(uint32_t constant_id, const std::vector<uint8_t> &data) {
-    specialization_constant_state_.set_constant(constant_id, data);
+void PipelineState::SetSpecializationConstant(uint32_t constant_id, const std::vector<uint8_t> &data) {
+    specialization_constant_state_.SetConstant(constant_id, data);
     
-    if (specialization_constant_state_.is_dirty()) {
+    if (specialization_constant_state_.IsDirty()) {
         dirty_ = true;
     }
 }
 
-void PipelineState::set_vertex_input_state(const VertexInputState &new_vertex_input_state) {
-    if (vertex_input_state_ != new_vertex_input_state) {
-        vertex_input_state_ = new_vertex_input_state;
+void PipelineState::SetVertexInputState(const VertexInputState &vertex_input_state) {
+    if (vertex_input_state_ != vertex_input_state) {
+        vertex_input_state_ = vertex_input_state;
         
         dirty_ = true;
     }
 }
 
-void PipelineState::set_input_assembly_state(const InputAssemblyState &new_input_assembly_state) {
-    if (input_assembly_state_ != new_input_assembly_state) {
-        input_assembly_state_ = new_input_assembly_state;
+void PipelineState::SetInputAssemblyState(const InputAssemblyState &input_assembly_state) {
+    if (input_assembly_state_ != input_assembly_state) {
+        input_assembly_state_ = input_assembly_state;
         
         dirty_ = true;
     }
 }
 
-void PipelineState::set_rasterization_state(const RasterizationState &new_rasterization_state) {
-    if (rasterization_state_ != new_rasterization_state) {
-        rasterization_state_ = new_rasterization_state;
+void PipelineState::SetRasterizationState(const RasterizationState &rasterization_state) {
+    if (rasterization_state_ != rasterization_state) {
+        rasterization_state_ = rasterization_state;
         
         dirty_ = true;
     }
 }
 
-void PipelineState::set_viewport_state(const ViewportState &new_viewport_state) {
-    if (viewport_state_ != new_viewport_state) {
-        viewport_state_ = new_viewport_state;
+void PipelineState::SetViewportState(const ViewportState &viewport_state) {
+    if (viewport_state_ != viewport_state) {
+        viewport_state_ = viewport_state;
         
         dirty_ = true;
     }
 }
 
-void PipelineState::set_multisample_state(const MultisampleState &new_multisample_state) {
-    if (multisample_state_ != new_multisample_state) {
-        multisample_state_ = new_multisample_state;
+void PipelineState::SetMultisampleState(const MultisampleState &multisample_state) {
+    if (multisample_state_ != multisample_state) {
+        multisample_state_ = multisample_state;
         
         dirty_ = true;
     }
 }
 
-void PipelineState::set_depth_stencil_state(const DepthStencilState &new_depth_stencil_state) {
-    if (depth_stencil_state_ != new_depth_stencil_state) {
-        depth_stencil_state_ = new_depth_stencil_state;
+void PipelineState::SetDepthStencilState(const DepthStencilState &depth_stencil_state) {
+    if (depth_stencil_state_ != depth_stencil_state) {
+        depth_stencil_state_ = depth_stencil_state;
         
         dirty_ = true;
     }
 }
 
-void PipelineState::set_color_blend_state(const ColorBlendState &new_color_blend_state) {
-    if (color_blend_state_ != new_color_blend_state) {
-        color_blend_state_ = new_color_blend_state;
+void PipelineState::SetColorBlendState(const ColorBlendState &color_blend_state) {
+    if (color_blend_state_ != color_blend_state) {
+        color_blend_state_ = color_blend_state;
         
         dirty_ = true;
     }
 }
 
-void PipelineState::set_subpass_index(uint32_t new_subpass_index) {
-    if (subpass_index_ != new_subpass_index) {
-        subpass_index_ = new_subpass_index;
+void PipelineState::SetSubpassIndex(uint32_t subpass_index) {
+    if (subpass_index_ != subpass_index) {
+        subpass_index_ = subpass_index;
         
         dirty_ = true;
     }
 }
 
-const PipelineLayout &PipelineState::get_pipeline_layout() const {
+const PipelineLayout &PipelineState::GetPipelineLayout() const {
     assert(pipeline_layout_ && "Graphics state Pipeline layout is not set");
     return *pipeline_layout_;
 }
 
-const RenderPass *PipelineState::get_render_pass() const {
+const RenderPass *PipelineState::GetRenderPass() const {
     return render_pass_;
 }
 
-const SpecializationConstantState &PipelineState::get_specialization_constant_state() const {
+const SpecializationConstantState &PipelineState::GetSpecializationConstantState() const {
     return specialization_constant_state_;
 }
 
-const VertexInputState &PipelineState::get_vertex_input_state() const {
+const VertexInputState &PipelineState::GetVertexInputState() const {
     return vertex_input_state_;
 }
 
-const InputAssemblyState &PipelineState::get_input_assembly_state() const {
+const InputAssemblyState &PipelineState::GetInputAssemblyState() const {
     return input_assembly_state_;
 }
 
-const RasterizationState &PipelineState::get_rasterization_state() const {
+const RasterizationState &PipelineState::GetRasterizationState() const {
     return rasterization_state_;
 }
 
-const ViewportState &PipelineState::get_viewport_state() const {
+const ViewportState &PipelineState::GetViewportState() const {
     return viewport_state_;
 }
 
-const MultisampleState &PipelineState::get_multisample_state() const {
+const MultisampleState &PipelineState::GetMultisampleState() const {
     return multisample_state_;
 }
 
-const DepthStencilState &PipelineState::get_depth_stencil_state() const {
+const DepthStencilState &PipelineState::GetDepthStencilState() const {
     return depth_stencil_state_;
 }
 
-const ColorBlendState &PipelineState::get_color_blend_state() const {
+const ColorBlendState &PipelineState::GetColorBlendState() const {
     return color_blend_state_;
 }
 
-uint32_t PipelineState::get_subpass_index() const {
+uint32_t PipelineState::GetSubpassIndex() const {
     return subpass_index_;
 }
 
-bool PipelineState::is_dirty() const {
-    return dirty_ || specialization_constant_state_.is_dirty();
+bool PipelineState::IsDirty() const {
+    return dirty_ || specialization_constant_state_.IsDirty();
 }
 
-void PipelineState::clear_dirty() {
+void PipelineState::ClearDirty() {
     dirty_ = false;
-    specialization_constant_state_.clear_dirty();
+    specialization_constant_state_.ClearDirty();
 }
 
 }        // namespace vox

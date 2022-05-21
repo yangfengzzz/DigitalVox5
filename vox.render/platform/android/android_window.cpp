@@ -17,7 +17,7 @@ platform{platform} {
 }
 
 VkSurfaceKHR AndroidWindow::create_surface(Instance &instance) {
-    return create_surface(instance.get_handle(), VK_NULL_HANDLE);
+    return create_surface(instance.GetHandle(), VK_NULL_HANDLE);
 }
 
 VkSurfaceKHR AndroidWindow::create_surface(VkInstance instance, VkPhysicalDevice) {

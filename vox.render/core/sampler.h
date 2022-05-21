@@ -6,9 +6,9 @@
 
 #pragma once
 
+#include "core/vulkan_resource.h"
 #include "helpers.h"
 #include "vk_common.h"
-#include "core/vulkan_resource.h"
 
 namespace vox {
 class Device;
@@ -25,17 +25,17 @@ public:
      * @param info Creation details
      */
     Sampler(Device const &d, const VkSamplerCreateInfo &info);
-    
+
     Sampler(const Sampler &) = delete;
-    
+
     Sampler(Sampler &&sampler) noexcept;
-    
+
     ~Sampler() override;
-    
+
     Sampler &operator=(const Sampler &) = delete;
-    
+
     Sampler &operator=(Sampler &&) = delete;
 };
 
-}        // namespace core
-}        // namespace vox
+}  // namespace core
+}  // namespace vox

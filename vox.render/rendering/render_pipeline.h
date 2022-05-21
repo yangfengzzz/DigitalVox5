@@ -41,47 +41,47 @@ public:
     /**
      * @brief Prepares the subpasses
      */
-    void prepare();
+    void Prepare();
     
     /**
      * @return Load store info
      */
-    [[nodiscard]] const std::vector<LoadStoreInfo> &get_load_store() const;
+    [[nodiscard]] const std::vector<LoadStoreInfo> &GetLoadStore() const;
     
     /**
      * @param load_store Load store info to set
      */
-    void set_load_store(const std::vector<LoadStoreInfo> &load_store);
+    void SetLoadStore(const std::vector<LoadStoreInfo> &load_store);
     
     /**
      * @return Clear values
      */
-    [[nodiscard]] const std::vector<VkClearValue> &get_clear_value() const;
+    [[nodiscard]] const std::vector<VkClearValue> &GetClearValue() const;
     
     /**
      * @param clear_values Clear values to set
      */
-    void set_clear_value(const std::vector<VkClearValue> &clear_values);
+    void SetClearValue(const std::vector<VkClearValue> &clear_values);
     
     /**
      * @brief Appends a subpass to the pipeline
      * @param subpass Subpass to append
      */
-    void add_subpass(std::unique_ptr<Subpass> &&subpass);
+    void AddSubpass(std::unique_ptr<Subpass> &&subpass);
     
-    std::vector<std::unique_ptr<Subpass>> &get_subpasses();
+    std::vector<std::unique_ptr<Subpass>> &GetSubpasses();
     
     /**
      * @brief Record draw commands for each Subpass
      */
-    void draw(CommandBuffer &command_buffer, RenderTarget &render_target,
+    void Draw(CommandBuffer &command_buffer, RenderTarget &render_target,
               VkSubpassContents contents = VK_SUBPASS_CONTENTS_INLINE);
     
     /**
      * @return Subpass currently being recorded, or the first one
      *         if drawing has not started
      */
-    std::unique_ptr<Subpass> &get_active_subpass();
+    std::unique_ptr<Subpass> &GetActiveSubpass();
     
 private:
     std::vector<std::unique_ptr<Subpass>> subpasses_;
