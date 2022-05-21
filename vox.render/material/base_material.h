@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "material.h"
 #include "enums/blend_mode.h"
 #include "enums/render_face.h"
+#include "material.h"
 #include "vector4.h"
 
 namespace vox {
@@ -17,63 +17,64 @@ public:
     /**
      * Is this material transparent.
      * @remarks
-     * If material is transparent, transparent blend mode will be affected by `blend_mode`, default is `BlendMode.Normal`.
+     * If material is transparent, transparent blend mode will be affected by `blend_mode`, default is
+     * `BlendMode.Normal`.
      */
-    [[nodiscard]] bool is_transparent() const;
-    
-    void set_is_transparent(bool new_value);
-    
+    [[nodiscard]] bool IsTransparent() const;
+
+    void SetIsTransparent(bool new_value);
+
     /**
      * Alpha cutoff value.
      * @remarks
      * Fragments with alpha channel lower than cutoff value will be discarded.
      * `0` means no fragment will be discarded.
      */
-    [[nodiscard]] float alpha_cutoff() const;
-    
-    void set_alpha_cutoff(float new_value);
-    
+    [[nodiscard]] float AlphaCutoff() const;
+
+    void SetAlphaCutoff(float new_value);
+
     /**
      * Set which face for render.
      */
-    [[nodiscard]] const RenderFace &render_face() const;
-    
-    void set_render_face(const RenderFace &new_value);
-    
+    [[nodiscard]] const RenderFace &GetRenderFace() const;
+
+    void SetRenderFace(const RenderFace &new_value);
+
     /**
      * Alpha blend mode.
      * @remarks
      * Only take effect when `is_transparent` is `true`.
      */
-    [[nodiscard]] const BlendMode &blend_mode() const;
-    
-    void set_blend_mode(const BlendMode &new_value);
-    
+    [[nodiscard]] const BlendMode &GetBlendMode() const;
+
+    void SetBlendMode(const BlendMode &new_value);
+
     /**
      * Tiling and offset of main textures.
      */
-    [[nodiscard]] const Vector4F &tiling_offset() const;
-    
-    void set_tiling_offset(const Vector4F &new_value);
-    
+    [[nodiscard]] const Vector4F &TilingOffset() const;
+
+    void SetTilingOffset(const Vector4F &new_value);
+
     /**
      * Create a BaseMaterial instance.
      */
     BaseMaterial(Device &device, const std::string &name = "");
-    
+
 protected:
     static VkSamplerCreateInfo last_sampler_create_info_;
-        
+
 private:
     float alpha_cutoff_ = 0.0;
     const std::string alpha_cutoff_prop_;
-    
+
     Vector4F tiling_offset_ = Vector4F(1, 1, 0, 0);
     const std::string tiling_offset_prop_;
-    
+
     RenderFace render_face_ = RenderFace::BACK;
     BlendMode blend_mode_ = BlendMode::NORMAL;
     bool is_transparent_ = false;
 };
 
-}
+}  // namespace vox

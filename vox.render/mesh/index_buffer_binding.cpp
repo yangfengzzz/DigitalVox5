@@ -7,18 +7,11 @@
 #include "index_buffer_binding.h"
 
 namespace vox {
-IndexBufferBinding::IndexBufferBinding(core::Buffer&& buffer, VkIndexType index_type):
-buffer_(std::move(buffer)),
-index_type_(index_type) {
-}
+IndexBufferBinding::IndexBufferBinding(core::Buffer&& buffer, VkIndexType index_type)
+    : buffer_(std::move(buffer)), index_type_(index_type) {}
 
-const core::Buffer& IndexBufferBinding::buffer() const {
-    return buffer_;
-}
+const core::Buffer& IndexBufferBinding::Buffer() const { return buffer_; }
 
-VkIndexType IndexBufferBinding::index_type() const {
-    return index_type_;
-    
-}
+VkIndexType IndexBufferBinding::IndexType() const { return index_type_; }
 
-}
+}  // namespace vox

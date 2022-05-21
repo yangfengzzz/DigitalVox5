@@ -35,7 +35,7 @@ public:
         vel_ = std::abs(dis_(gen_) * 4);
     }
     
-    void on_update(float delta_time) override {
+    void OnUpdate(float delta_time) override {
         if (pos_.y >= 5) {
             vel_sign_ = -1;
         }
@@ -43,53 +43,53 @@ public:
             vel_sign_ = 1;
         }
         pos_.y += delta_time * vel_ * float(vel_sign_);
-        
-        entity()->transform_->set_position(pos_);
-        entity()->transform_->look_at(Point3F(0, 0, 0));
+
+        entity()->transform->SetPosition(pos_);
+        entity()->transform->LookAt(Point3F(0, 0, 0));
     }
 };
 
 }
 
-void MultiLightApp::load_scene() {
-    auto scene = scene_manager_->current_scene();
-    scene->ambient_light()->set_diffuse_solid_color(Color(1, 1, 1));
+void MultiLightApp::LoadScene() {
+    auto scene = scene_manager_->CurrentScene();
+    scene->AmbientLight()->SetDiffuseSolidColor(Color(1, 1, 1));
     
-    auto root_entity = scene->create_root_entity();
-    root_entity->add_component<SpriteDebug>();
+    auto root_entity = scene->CreateRootEntity();
+    root_entity->AddComponent<SpriteDebug>();
     
-    auto camera_entity = root_entity->create_child("camera");
-    camera_entity->transform_->set_position(10, 10, 10);
-    camera_entity->transform_->look_at(Point3F(0, 0, 0));
-    main_camera_ = camera_entity->add_component<Camera>();
-    camera_entity->add_component<control::OrbitControl>();
+    auto camera_entity = root_entity->CreateChild("camera");
+    camera_entity->transform->SetPosition(10, 10, 10);
+    camera_entity->transform->LookAt(Point3F(0, 0, 0));
+    main_camera_ = camera_entity->AddComponent<Camera>();
+    camera_entity->AddComponent<control::OrbitControl>();
     
     std::default_random_engine e;
     std::uniform_real_distribution<float> u(0, 1);
     // init point light
     for (uint32_t i = 0; i < 50; i++) {
-        auto light = root_entity->create_child("light");
-        light->add_component<MoveScript>();
-        auto point_light = light->add_component<PointLight>();
+        auto light = root_entity->CreateChild("light");
+        light->AddComponent<MoveScript>();
+        auto point_light = light->AddComponent<PointLight>();
         point_light->color_ = Color(u(e), u(e), u(e), 1);
     }
     
     // init spot light
     for (uint32_t i = 0; i < 50; i++) {
-        auto light = root_entity->create_child("light");
-        light->add_component<MoveScript>();
-        auto spot_light = light->add_component<SpotLight>();
+        auto light = root_entity->CreateChild("light");
+        light->AddComponent<MoveScript>();
+        auto spot_light = light->AddComponent<SpotLight>();
         spot_light->color_ = Color(u(e), u(e), u(e), 1);
     }
     
     // create box test entity
     float cube_size = 20.0;
-    auto box_entity = root_entity->create_child("BoxEntity");
+    auto box_entity = root_entity->CreateChild("BoxEntity");
     auto box_mtl = std::make_shared<BlinnPhongMaterial>(*device_);
-    box_mtl->set_base_color(Color(0.0, 0.6, 0.3, 1.0));
-    auto box_renderer = box_entity->add_component<MeshRenderer>();
-    box_renderer->set_mesh(PrimitiveMesh::create_plane(cube_size, cube_size, 100, 1000));
-    box_renderer->set_material(box_mtl);
+    box_mtl->SetBaseColor(Color(0.0, 0.6, 0.3, 1.0));
+    auto box_renderer = box_entity->AddComponent<MeshRenderer>();
+    box_renderer->SetMesh(PrimitiveMesh::CreatePlane(cube_size, cube_size, 100, 1000));
+    box_renderer->SetMaterial(box_mtl);
     
     scene->play();
 }

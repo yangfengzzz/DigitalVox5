@@ -12,17 +12,15 @@ namespace vox::ui {
 /**
  * Slider widget of multiple type float
  */
-template<size_t Size>
+template <size_t Size>
 class SliderMultipleFloats : public SliderMultipleScalars<float, Size> {
 public:
     explicit SliderMultipleFloats(float min = 0.0f,
                                   float max = 1.0f,
                                   float value = 0.5f,
                                   const std::string &label = "",
-                                  const std::string &format = "%.3f") :
-    SliderMultipleScalars<float, Size>(ImGuiDataType_::ImGuiDataType_Float,
-                                       min, max, value, label, format) {
-    }
+                                  const std::string &format = "%.3f")
+        : SliderMultipleScalars<float, Size>(ImGuiDataType_::ImGuiDataType_Float, min, max, value, label, format) {}
 };
 
-}
+}  // namespace vox::ui

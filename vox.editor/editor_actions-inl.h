@@ -14,7 +14,7 @@ template<typename T>
 inline Entity *EditorActions::create_mono_component_entity(bool focus_on_creation, Entity *parent) {
     auto instance = create_empty_entity(false, parent);
     
-    T *component = instance->add_component<T>();
+    T *component = instance->AddComponent<T>();
     
     instance->name_ = component->name();
     

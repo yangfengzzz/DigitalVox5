@@ -5,41 +5,36 @@
 //  property of any third parties.
 
 #include "pbr_material.h"
+
 #include "shader/internal_variant_name.h"
 #include "shader/shader_manager.h"
 
 namespace vox {
-float PbrMaterial::metallic() const {
-    return pbr_data_.metallic;
-}
+float PbrMaterial::Metallic() const { return pbr_data_.metallic; }
 
-void PbrMaterial::set_metallic(float new_value) {
+void PbrMaterial::SetMetallic(float new_value) {
     pbr_data_.metallic = new_value;
     shader_data_.SetData(pbr_prop_, pbr_data_);
 }
 
-float PbrMaterial::roughness() const {
-    return pbr_data_.roughness;
-}
+float PbrMaterial::Roughness() const { return pbr_data_.roughness; }
 
-void PbrMaterial::set_roughness(float new_value) {
+void PbrMaterial::SetRoughness(float new_value) {
     pbr_data_.roughness = new_value;
     shader_data_.SetData(pbr_prop_, pbr_data_);
 }
 
-std::shared_ptr<Image> PbrMaterial::metallic_roughness_texture() {
-    return metallic_roughness_texture_;
-}
+std::shared_ptr<Image> PbrMaterial::MetallicRoughnessTexture() { return metallic_roughness_texture_; }
 
-void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &new_value) {
+void PbrMaterial::SetMetallicRoughnessTexture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
-        set_metallic_roughness_texture(new_value, BaseMaterial::last_sampler_create_info_);
+        SetMetallicRoughnessTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &new_value,
-                                                 const VkSamplerCreateInfo &info) {
+void PbrMaterial::SetMetallicRoughnessTexture(const std::shared_ptr<Image> &new_value,
+                                              const VkSamplerCreateInfo &info) {
     metallic_roughness_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(metallic_roughness_texture_prop_, new_value->GetVkImageView(),
@@ -50,10 +45,10 @@ void PbrMaterial::set_metallic_roughness_texture(const std::shared_ptr<Image> &n
     }
 }
 
-PbrMaterial::PbrMaterial(Device &device, const std::string &name) :
-PbrBaseMaterial(device, name),
-pbr_prop_("pbrData"),
-metallic_roughness_texture_prop_("metallicRoughnessTexture") {
+PbrMaterial::PbrMaterial(Device &device, const std::string &name)
+    : PbrBaseMaterial(device, name),
+      pbr_prop_("pbrData"),
+      metallic_roughness_texture_prop_("metallicRoughnessTexture") {
     shader_data_.AddDefine("IS_METALLIC_WORKFLOW");
     vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/blinn-phong.vert");
     fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/pbr.frag");
@@ -61,4 +56,4 @@ metallic_roughness_texture_prop_("metallicRoughnessTexture") {
     shader_data_.SetData(pbr_prop_, pbr_data_);
 }
 
-}
+}  // namespace vox

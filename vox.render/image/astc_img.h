@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "vk_common.h"
 #include "../image.h"
+#include "vk_common.h"
 
 namespace vox {
 struct BlockDim {
@@ -23,16 +23,16 @@ public:
      * @param image Image to decode
      */
     explicit Astc(const Image &image);
-    
+
     /**
      * @brief Decodes ASTC data with an ASTC header
      * @param name Name of the component
      * @param data ASTC data with header
      */
     Astc(const std::string &name, const std::vector<uint8_t> &data);
-    
+
     ~Astc() override = default;
-    
+
 private:
     /**
      * @brief Decodes ASTC data
@@ -41,11 +41,11 @@ private:
      * @param data Pointer to ASTC image data
      */
     void Decode(BlockDim blockdim, VkExtent3D extent, const uint8_t *data);
-    
+
     /**
      * @brief Initializes ASTC library
      */
     static void Init();
 };
 
-}        // namespace vox
+}  // namespace vox

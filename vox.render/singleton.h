@@ -12,38 +12,35 @@ namespace vox {
 /*
  * Template class for creating single-instance global classes.
  */
-template<typename T>
+template <typename T>
 class Singleton {
 public:
     /** @brief Explicit private copy constructor. This is a forbidden operation.*/
     Singleton(const Singleton<T> &) = delete;
-    
+
     /** @brief Private operator= . This is a forbidden operation. */
     Singleton &operator=(const Singleton<T> &) = delete;
-    
+
 protected:
-    
-    static T *ms_singleton_;
-    
+    static T *ms_singleton;
+
 public:
     Singleton() {
-        assert(!ms_singleton_);
-        ms_singleton_ = static_cast< T * >( this );
+        assert(!ms_singleton);
+        ms_singleton = static_cast<T *>(this);
     }
-    
+
     ~Singleton() {
-        assert(ms_singleton_);
-        ms_singleton_ = 0;
+        assert(ms_singleton);
+        ms_singleton = 0;
     }
-    
+
     static T &GetSingleton() {
-        assert(ms_singleton_);
-        return (*ms_singleton_);
+        assert(ms_singleton);
+        return (*ms_singleton);
     }
-    
-    static T *GetSingletonPtr() {
-        return ms_singleton_;
-    }
+
+    static T *GetSingletonPtr() { return ms_singleton; }
 };
 
-}
+}  // namespace vox

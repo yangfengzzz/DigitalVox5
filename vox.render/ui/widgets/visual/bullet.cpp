@@ -7,8 +7,6 @@
 #include "bullet.h"
 
 namespace vox::ui {
-void Bullet::draw_impl() {
-    ImGui::Bullet();
-}
+void Bullet::draw_impl() { ImGui::Bullet(); }
 
-}
+}  // namespace vox::ui

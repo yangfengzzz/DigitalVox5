@@ -9,24 +9,21 @@
 #include "platform/platform.h"
 
 namespace vox {
-enum UnixType {
-    MAC,
-    LINUX
-};
+enum UnixType { MAC, LINUX };
 
 class UnixPlatform : public Platform {
 public:
     UnixPlatform(const UnixType &type, int argc, char **argv);
-    
+
     ~UnixPlatform() override = default;
-    
+
     const char *GetSurfaceExtension() override;
-    
+
 protected:
     void CreateWindow(const Window::Properties &properties) override;
-    
+
 private:
     UnixType type_;
 };
 
-}        // namespace vox
+}  // namespace vox

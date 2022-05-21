@@ -13,20 +13,21 @@ namespace vox {
 class ShaderManager : public Singleton<ShaderManager> {
 public:
     static ShaderManager &GetSingleton();
-    
+
     static ShaderManager *GetSingletonPtr();
-    
+
     /**
      * @brief Loads shader source
      */
     std::shared_ptr<ShaderSource> LoadShader(const std::string &file);
-    
+
     void CollectGarbage();
-    
+
 private:
     std::unordered_map<std::string, std::shared_ptr<ShaderSource>> shader_pool_;
 };
 
-template<> inline ShaderManager *Singleton<ShaderManager>::ms_singleton_{nullptr};
+template <>
+inline ShaderManager *Singleton<ShaderManager>::ms_singleton{nullptr};
 
-}
+}  // namespace vox

@@ -11,14 +11,14 @@
 namespace vox {
 class BufferMesh : public Mesh {
 public:
-    void set_vertex_buffer_binding(size_t index, core::Buffer *binding);
-    
-    [[nodiscard]] size_t vertex_buffer_count() const override;
-    
-    [[nodiscard]] const core::Buffer *vertex_buffer(size_t index) const override;
-    
+    void SetVertexBufferBinding(size_t index, core::Buffer *binding);
+
+    [[nodiscard]] size_t VertexBufferCount() const override;
+
+    [[nodiscard]] const core::Buffer *VertexBuffer(size_t index) const override;
+
 private:
     std::vector<core::Buffer *> vertex_buffer_bindings_{};
 };
 
-}
+}  // namespace vox

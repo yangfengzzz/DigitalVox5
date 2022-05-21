@@ -5,23 +5,18 @@
 //  property of any third parties.
 
 #include "shader_source.h"
+
 #include "platform/filesystem.h"
 
 namespace vox {
-ShaderSource::ShaderSource(const std::string &filename) :
-filename_{filename},
-source_{fs::ReadShader(filename)} {
+ShaderSource::ShaderSource(const std::string &filename) : filename_{filename}, source_{fs::ReadShader(filename)} {
     std::hash<std::string> hasher{};
     id_ = hasher(std::string{source_.cbegin(), source_.cend()});
 }
 
-size_t ShaderSource::GetId() const {
-    return id_;
-}
+size_t ShaderSource::GetId() const { return id_; }
 
-const std::string &ShaderSource::GetFilename() const {
-    return filename_;
-}
+const std::string &ShaderSource::GetFilename() const { return filename_; }
 
 void ShaderSource::SetSource(const std::string &source) {
     source_ = source;
@@ -29,8 +24,6 @@ void ShaderSource::SetSource(const std::string &source) {
     id_ = hasher(std::string{source_.cbegin(), source_.cend()});
 }
 
-const std::string &ShaderSource::GetSource() const {
-    return source_;
-}
+const std::string &ShaderSource::GetSource() const { return source_; }
 
-}
+}  // namespace vox

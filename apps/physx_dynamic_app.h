@@ -12,7 +12,7 @@
 namespace vox {
 class PhysXDynamicApp : public ForwardApplication {
 public:
-    void load_scene() override;
+    void LoadScene() override;
     
     void input_event(const InputEvent &input_event) override;
     

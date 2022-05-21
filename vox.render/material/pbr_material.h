@@ -18,42 +18,42 @@ public:
         float metallic = 1.f;
         float roughness = 1.f;
     };
-    
+
     /**
      * Metallic.
      */
-    [[nodiscard]] float metallic() const;
-    
-    void set_metallic(float new_value);
-    
+    [[nodiscard]] float Metallic() const;
+
+    void SetMetallic(float new_value);
+
     /**
      * Roughness.
      */
-    [[nodiscard]] float roughness() const;
-    
-    void set_roughness(float new_value);
-    
+    [[nodiscard]] float Roughness() const;
+
+    void SetRoughness(float new_value);
+
     /**
      * Roughness metallic texture.
      * @remarks G channel is roughness, B channel is metallic
      */
-    std::shared_ptr<Image> metallic_roughness_texture();
-    
-    void set_metallic_roughness_texture(const std::shared_ptr<Image> &new_value);
-    
-    void set_metallic_roughness_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
-    
+    std::shared_ptr<Image> MetallicRoughnessTexture();
+
+    void SetMetallicRoughnessTexture(const std::shared_ptr<Image> &new_value);
+
+    void SetMetallicRoughnessTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+
     /**
      * Create a pbr metallic-roughness workflow material instance.
      */
     PbrMaterial(Device &device, const std::string &name = "");
-    
+
 private:
     PBRData pbr_data_;
     const std::string pbr_prop_;
-    
+
     std::shared_ptr<Image> metallic_roughness_texture_{nullptr};
     const std::string metallic_roughness_texture_prop_;
 };
 
-}
+}  // namespace vox

@@ -5,30 +5,27 @@
 //  property of any third parties.
 
 #include "pbr_base_material.h"
+
 #include "shader/internal_variant_name.h"
 
 namespace vox {
-const Color &PbrBaseMaterial::base_color() const {
-    return pbr_base_data_.base_color;
-}
+const Color &PbrBaseMaterial::BaseColor() const { return pbr_base_data_.base_color; }
 
-void PbrBaseMaterial::set_base_color(const Color &new_value) {
+void PbrBaseMaterial::SetBaseColor(const Color &new_value) {
     pbr_base_data_.base_color = new_value;
     shader_data_.SetData(pbr_base_prop_, pbr_base_data_);
 }
 
-std::shared_ptr<Image> PbrBaseMaterial::base_texture() const {
-    return base_texture_;
-}
+std::shared_ptr<Image> PbrBaseMaterial::BaseTexture() const { return base_texture_; }
 
-void PbrBaseMaterial::set_base_texture(const std::shared_ptr<Image> &new_value) {
+void PbrBaseMaterial::SetBaseTexture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
-        set_base_texture(new_value, BaseMaterial::last_sampler_create_info_);
+        SetBaseTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void PbrBaseMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void PbrBaseMaterial::SetBaseTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(base_texture_prop_, new_value->GetVkImageView(),
@@ -39,18 +36,16 @@ void PbrBaseMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, 
     }
 }
 
-std::shared_ptr<Image> PbrBaseMaterial::normal_texture() const {
-    return normal_texture_;
-}
+std::shared_ptr<Image> PbrBaseMaterial::NormalTexture() const { return normal_texture_; }
 
-void PbrBaseMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value) {
+void PbrBaseMaterial::SetNormalTexture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
-        set_normal_texture(new_value, BaseMaterial::last_sampler_create_info_);
+        SetNormalTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void PbrBaseMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void PbrBaseMaterial::SetNormalTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     normal_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(normal_texture_prop_, new_value->GetVkImageView(),
@@ -61,36 +56,30 @@ void PbrBaseMaterial::set_normal_texture(const std::shared_ptr<Image> &new_value
     }
 }
 
-float PbrBaseMaterial::normal_texture_intensity() const {
-    return pbr_base_data_.normal_texture_intensity;
-}
+float PbrBaseMaterial::NormalTextureIntensity() const { return pbr_base_data_.normal_texture_intensity; }
 
-void PbrBaseMaterial::set_normal_texture_intensity(float new_value) {
+void PbrBaseMaterial::SetNormalTextureIntensity(float new_value) {
     pbr_base_data_.normal_texture_intensity = new_value;
     shader_data_.SetData(pbr_base_prop_, pbr_base_data_);
 }
 
-const Color &PbrBaseMaterial::emissive_color() const {
-    return pbr_base_data_.emissive_color;
-}
+const Color &PbrBaseMaterial::EmissiveColor() const { return pbr_base_data_.emissive_color; }
 
-void PbrBaseMaterial::set_emissive_color(const Color &new_value) {
+void PbrBaseMaterial::SetEmissiveColor(const Color &new_value) {
     pbr_base_data_.emissive_color = new_value;
     shader_data_.SetData(pbr_base_prop_, pbr_base_data_);
 }
 
-std::shared_ptr<Image> PbrBaseMaterial::emissive_texture() const {
-    return emissive_texture_;
-}
+std::shared_ptr<Image> PbrBaseMaterial::EmissiveTexture() const { return emissive_texture_; }
 
-void PbrBaseMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_value) {
+void PbrBaseMaterial::SetEmissiveTexture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
-        set_emissive_texture(new_value, BaseMaterial::last_sampler_create_info_);
+        SetEmissiveTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void PbrBaseMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void PbrBaseMaterial::SetEmissiveTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     emissive_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(emissive_texture_prop_, new_value->GetVkImageView(),
@@ -101,18 +90,16 @@ void PbrBaseMaterial::set_emissive_texture(const std::shared_ptr<Image> &new_val
     }
 }
 
-std::shared_ptr<Image> PbrBaseMaterial::occlusion_texture() const {
-    return occlusion_texture_;
-}
+std::shared_ptr<Image> PbrBaseMaterial::OcclusionTexture() const { return occlusion_texture_; }
 
-void PbrBaseMaterial::set_occlusion_texture(const std::shared_ptr<Image> &new_value) {
+void PbrBaseMaterial::SetOcclusionTexture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
-        set_occlusion_texture(new_value, BaseMaterial::last_sampler_create_info_);
+        SetOcclusionTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void PbrBaseMaterial::set_occlusion_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void PbrBaseMaterial::SetOcclusionTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     occlusion_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(occlusion_texture_prop_, new_value->GetVkImageView(),
@@ -123,24 +110,22 @@ void PbrBaseMaterial::set_occlusion_texture(const std::shared_ptr<Image> &new_va
     }
 }
 
-float PbrBaseMaterial::occlusion_texture_intensity() const {
-    return pbr_base_data_.occlusion_texture_intensity;
-}
+float PbrBaseMaterial::OcclusionTextureIntensity() const { return pbr_base_data_.occlusion_texture_intensity; }
 
-void PbrBaseMaterial::set_occlusion_texture_intensity(float new_value) {
+void PbrBaseMaterial::SetOcclusionTextureIntensity(float new_value) {
     pbr_base_data_.occlusion_texture_intensity = new_value;
     shader_data_.SetData(pbr_base_prop_, pbr_base_data_);
 }
 
-PbrBaseMaterial::PbrBaseMaterial(Device &device, const std::string &name) :
-BaseMaterial(device, name),
-pbr_base_prop_("pbrBaseData"),
-base_texture_prop_("baseColorTexture"),
-normal_texture_prop_("normalTexture"),
-emissive_texture_prop_("emissiveTexture"),
-occlusion_texture_prop_("occlusionTexture") {
+PbrBaseMaterial::PbrBaseMaterial(Device &device, const std::string &name)
+    : BaseMaterial(device, name),
+      pbr_base_prop_("pbrBaseData"),
+      base_texture_prop_("baseColorTexture"),
+      normal_texture_prop_("normalTexture"),
+      emissive_texture_prop_("emissiveTexture"),
+      occlusion_texture_prop_("occlusionTexture") {
     shader_data_.AddDefine(NEED_WORLDPOS);
     shader_data_.SetData(pbr_base_prop_, pbr_base_data_);
 }
 
-}
+}  // namespace vox

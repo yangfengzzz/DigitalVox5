@@ -18,8 +18,8 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "vk_common.h"
 #include "shader/shader_module.h"
+#include "vk_common.h"
 
 namespace vox {
 /// Generate a list of shader resource based on SPIRV reflection code, and provided ShaderVariant
@@ -31,25 +31,25 @@ public:
     /// @param[out] resources The list of reflected shader resources
     /// @param variant ShaderVariant used for reflection to specify the size of the runtime arrays in Storage Buffers
     static bool ReflectShaderResources(VkShaderStageFlagBits stage,
-                                         const std::vector<uint32_t> &spirv,
-                                         std::vector<ShaderResource> &resources,
-                                         const ShaderVariant &variant);
-    
-private:
-    static void ParseShaderResources(const spirv_cross::Compiler &compiler,
-                                       VkShaderStageFlagBits stage,
+                                       const std::vector<uint32_t> &spirv,
                                        std::vector<ShaderResource> &resources,
                                        const ShaderVariant &variant);
-    
-    static void ParsePushConstants(const spirv_cross::Compiler &compiler,
+
+private:
+    static void ParseShaderResources(const spirv_cross::Compiler &compiler,
                                      VkShaderStageFlagBits stage,
                                      std::vector<ShaderResource> &resources,
                                      const ShaderVariant &variant);
-    
+
+    static void ParsePushConstants(const spirv_cross::Compiler &compiler,
+                                   VkShaderStageFlagBits stage,
+                                   std::vector<ShaderResource> &resources,
+                                   const ShaderVariant &variant);
+
     static void ParseSpecializationConstants(const spirv_cross::Compiler &compiler,
-                                               VkShaderStageFlagBits stage,
-                                               std::vector<ShaderResource> &resources,
-                                               const ShaderVariant &variant);
+                                             VkShaderStageFlagBits stage,
+                                             std::vector<ShaderResource> &resources,
+                                             const ShaderVariant &variant);
 };
 
-}        // namespace vox
+}  // namespace vox

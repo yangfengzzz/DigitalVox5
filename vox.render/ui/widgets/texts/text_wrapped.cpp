@@ -7,12 +7,8 @@
 #include "text_wrapped.h"
 
 namespace vox::ui {
-TextWrapped::TextWrapped(const std::string &content) :
-Text(content) {
-}
+TextWrapped::TextWrapped(const std::string &content) : Text(content) {}
 
-void TextWrapped::draw_impl() {
-    ImGui::TextWrapped("%s", content_.c_str());
-}
+void TextWrapped::draw_impl() { ImGui::TextWrapped("%s", content_.c_str()); }
 
-}
+}  // namespace vox::ui

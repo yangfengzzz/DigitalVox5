@@ -10,46 +10,35 @@
 #include "platform/platform.h"
 
 namespace vox {
-Application::Application() :
-name_{"Sample Name"} {
-}
+Application::Application() : name_{"Sample Name"} {}
 
 bool Application::Prepare(Platform &platform) {
     auto &debug_info = GetDebugInfo();
     debug_info.insert<field::MinMax, float>("fps", fps_);
     debug_info.insert<field::MinMax, float>("frame_time", frame_time_);
-    
+
     platform_ = &platform;
-    
+
     return true;
 }
 
-void Application::Finish() {
-}
+void Application::Finish() {}
 
-bool Application::Resize(uint32_t win_width, uint32_t win_height,
-                         uint32_t fb_width, uint32_t fb_height) {
+bool Application::Resize(uint32_t win_width, uint32_t win_height, uint32_t fb_width, uint32_t fb_height) {
     return true;
 }
 
-void Application::InputEvent(const vox::InputEvent &input_event) {
-}
+void Application::InputEvent(const vox::InputEvent &input_event) {}
 
 void Application::Update(float delta_time) {
     fps_ = 1.0f / delta_time;
     frame_time_ = delta_time * 1000.0f;
 }
 
-const std::string &Application::GetName() const {
-    return name_;
-}
+const std::string &Application::GetName() const { return name_; }
 
-void Application::SetName(const std::string &name) {
-    name_ = name;
-}
+void Application::SetName(const std::string &name) { name_ = name; }
 
-DebugInfo &Application::GetDebugInfo() {
-    return debug_info_;
-}
+DebugInfo &Application::GetDebugInfo() { return debug_info_; }
 
-}        // namespace vox
+}  // namespace vox

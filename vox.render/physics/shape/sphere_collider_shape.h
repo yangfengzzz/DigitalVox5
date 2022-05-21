@@ -16,26 +16,26 @@ namespace vox::physics {
 class SphereColliderShape : public ColliderShape {
 public:
     SphereColliderShape();
-    
+
     /**
      * Radius of sphere shape.
      */
     [[nodiscard]] float radius() const;
-    
+
     void set_radius(float value);
-    
+
     void set_world_scale(const Vector3F &scale) override;
-    
+
 #ifdef DEBUG
     void set_entity(Entity *value) override;
-    
+
     void sync_sphere_geometry();
 #endif
-    
+
 private:
     float radius_ = 1.0;
 };
 
-}
+}  // namespace vox::physics
 
 #endif /* DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_SPHERE_COLLIDER_SHAPE_H_ */

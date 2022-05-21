@@ -12,13 +12,13 @@ namespace vox {
 class UnixD2DPlatform : public Platform {
 public:
     UnixD2DPlatform(int argc, char **argv);
-    
+
     virtual ~UnixD2DPlatform() = default;
-    
+
     virtual const char *GetSurfaceExtension() override;
-    
+
 protected:
     virtual void CreateWindow(const Window::Properties &properties) override;
 };
 
-}        // namespace vox
+}  // namespace vox

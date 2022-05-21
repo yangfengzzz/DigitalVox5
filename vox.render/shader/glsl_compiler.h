@@ -17,8 +17,8 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "vk_common.h"
 #include "shader/shader_module.h"
+#include "vk_common.h"
 
 namespace vox {
 /// Helper class to generate SPIRV code from GLSL source
@@ -27,7 +27,7 @@ class GLSLCompiler {
 private:
     static glslang::EShTargetLanguage env_target_language_;
     static glslang::EShTargetLanguageVersion env_target_language_version_;
-    
+
 public:
     /**
      * @brief Set the glslang target environment to translate to when generating code
@@ -35,13 +35,13 @@ public:
      * @param target_language_version The version of the language to translate to
      */
     static void SetTargetEnvironment(glslang::EShTargetLanguage target_language,
-                                       glslang::EShTargetLanguageVersion target_language_version);
-    
+                                     glslang::EShTargetLanguageVersion target_language_version);
+
     /**
      * @brief Reset the glslang target environment to the default values
      */
     static void ResetTargetEnvironment();
-    
+
     /**
      * @brief Compiles GLSL to SPIRV code
      * @param stage The Vulkan shader stage flag
@@ -52,11 +52,11 @@ public:
      * @param[out] info_log Stores any log messages during the compilation process
      */
     static bool CompileToSpirv(VkShaderStageFlagBits stage,
-                                 const std::vector<uint8_t> &glsl_source,
-                                 const std::string &entry_point,
-                                 const ShaderVariant &shader_variant,
-                                 std::vector<std::uint32_t> &spirv,
-                                 std::string &info_log);
+                               const std::vector<uint8_t> &glsl_source,
+                               const std::string &entry_point,
+                               const ShaderVariant &shader_variant,
+                               std::vector<std::uint32_t> &spirv,
+                               std::string &info_log);
 };
 
-}        // namespace vox
+}  // namespace vox

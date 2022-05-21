@@ -5,14 +5,12 @@
 //  property of any third parties.
 
 #include "dummy.h"
+
 #include "ui/widgets/converter.h"
 
 namespace vox::ui {
-Dummy::Dummy(const Vector2F &size) : size_(size) {
-}
+Dummy::Dummy(const Vector2F &size) : size_(size) {}
 
-void Dummy::draw_impl() {
-    ImGui::Dummy(Converter::to_imVec2(size_));
-}
+void Dummy::draw_impl() { ImGui::Dummy(Converter::to_imVec2(size_)); }
 
-}
+}  // namespace vox::ui

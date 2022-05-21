@@ -6,15 +6,15 @@
 
 #pragma once
 
-#include "error.h"
 #include "../image.h"
+#include "error.h"
 
 namespace vox {
 class Ktx : public Image {
 public:
     Ktx(const std::string &name, const std::vector<uint8_t> &data);
-    
+
     ~Ktx() override = default;
 };
 
-}        // namespace vox
+}  // namespace vox

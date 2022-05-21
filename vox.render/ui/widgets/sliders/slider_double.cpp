@@ -12,9 +12,7 @@ SliderDouble::SliderDouble(double min,
                            double value,
                            SliderOrientation orientation,
                            const std::string &label,
-                           const std::string &format) :
-SliderSingleScalar<double>(ImGuiDataType_::ImGuiDataType_Double, min, max,
-                           value, orientation, label, format) {
-}
+                           const std::string &format)
+    : SliderSingleScalar<double>(ImGuiDataType_::ImGuiDataType_Double, min, max, value, orientation, label, format) {}
 
-}
+}  // namespace vox::ui

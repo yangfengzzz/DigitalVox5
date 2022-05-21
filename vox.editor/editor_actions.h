@@ -340,6 +340,6 @@ private:
 };
 
 }
-template<> inline editor::EditorActions *Singleton<editor::EditorActions>::ms_singleton_{nullptr};
+template<> inline editor::EditorActions *Singleton<editor::EditorActions>::ms_singleton{nullptr};
 }
 #include "editor_actions-inl.h"

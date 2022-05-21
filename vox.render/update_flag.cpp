@@ -5,16 +5,15 @@
 //  property of any third parties.
 
 #include "update_flag.h"
+
 #include "update_flag_manager.h"
 
 namespace vox {
-UpdateFlag::UpdateFlag(UpdateFlagManager *flags) : flags_(flags) {
-    flags->update_flags_.push_back(this);
-}
+UpdateFlag::UpdateFlag(UpdateFlagManager *flags) : flags_(flags) { flags->update_flags_.push_back(this); }
 
 UpdateFlag::~UpdateFlag() {
-    flags_->update_flags_.erase(std::remove(flags_->update_flags_.begin(),
-                                            flags_->update_flags_.end(), this), flags_->update_flags_.end());
+    flags_->update_flags_.erase(std::remove(flags_->update_flags_.begin(), flags_->update_flags_.end(), this),
+                                flags_->update_flags_.end());
 }
 
-}        // namespace vox
+}  // namespace vox

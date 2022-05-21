@@ -15,10 +15,10 @@ GameView::GameView(const std::string &title, bool opened,
                    RenderContext &render_context, Scene *scene) :
 View(title, opened, window_settings, render_context),
 scene_(scene) {
-    scene->background_.solid_color_ = Color(0.2, 0.4, 0.6, 1.0);
-    auto editor_root = scene_->find_entity_by_name("GameRoot");
+    scene->background_.solid_color = Color(0.2, 0.4, 0.6, 1.0);
+    auto editor_root = scene_->FindEntityByName("GameRoot");
     if (!editor_root) {
-        editor_root = scene_->create_root_entity("GameRoot");
+        editor_root = scene_->CreateRootEntity("GameRoot");
     }
     load_scene(editor_root);
     
@@ -42,16 +42,16 @@ void GameView::update(float delta_time) {
     
     auto [win_width, win_height] = safe_size();
     if (win_width > 0) {
-        main_camera_->set_aspect_ratio(float(win_width) / float(win_height));
+        main_camera_->SetAspectRatio(float(win_width) / float(win_height));
         main_camera_->resize(win_width, win_height, win_width * 2, win_height * 2);
     }
 }
 
 void GameView::load_scene(Entity *root_entity) {
-    auto camera_entity = root_entity->create_child("MainCamera");
-    camera_entity->transform_->set_position(10, 0, 0);
-    camera_entity->transform_->look_at(Point3F(0, 0, 0));
-    main_camera_ = camera_entity->add_component<Camera>();
+    auto camera_entity = root_entity->CreateChild("MainCamera");
+    camera_entity->transform->SetPosition(10, 0, 0);
+    camera_entity->transform->LookAt(Point3F(0, 0, 0));
+    main_camera_ = camera_entity->AddComponent<Camera>();
 }
 
 }

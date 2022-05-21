@@ -13,7 +13,7 @@ class IBLApp : public ForwardApplication {
 public:
     bool prepare(Platform &platform) override;
 
-    void load_scene() override;
+    void LoadScene() override;
     
 private:
     struct Material {

@@ -6,10 +6,9 @@
 
 #pragma once
 
+#include <CLI/FormatterFwd.hpp>
 #include <functional>
 #include <unordered_map>
-
-#include <CLI/FormatterFwd.hpp>
 
 namespace vox {
 class HelpFormatter : public CLI::Formatter {
@@ -18,23 +17,23 @@ public:
         std::string name;
         std::string description;
     };
-    
+
     HelpFormatter() = default;
-    
+
     HelpFormatter(const HelpFormatter &) = default;
-    
+
     HelpFormatter(HelpFormatter &&) = default;
-    
+
     std::string make_help(const CLI::App *, std::string, CLI::AppFormatMode) const override;
-    
+
     std::string make_expanded(const CLI::App *sub) const override;
-    
+
     void RegisterMeta(const CLI::App *command, const Meta &meta);
-    
+
 private:
     std::unordered_map<const CLI::App *, Meta> meta_;
-    
+
     const Meta *GetMeta(const CLI::App *command) const;
 };
 
-}        // namespace vox
+}  // namespace vox

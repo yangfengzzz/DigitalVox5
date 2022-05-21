@@ -135,18 +135,18 @@ PanelWindow(title, opened, window_settings) {
         
         auto parent = element.first->parent();
         if (parent) {
-            parent->remove_child(element.first);
+            parent->RemoveChild(element.first);
         }
     };
     scene_root_->add_plugin<HierarchyContextualMenu>(nullptr, *scene_root_);
     
     EditorActions::GetSingleton().entity_unselected_event_ += std::bind(&Hierarchy::unselect_entities_widgets, this);
     //    EDITOR_CONTEXT(sceneManager).SceneUnloadEvent += std::bind(&Hierarchy::clear, this);
-    Entity::created_event_ += std::bind(&Hierarchy::add_entity_by_instance, this, std::placeholders::_1);
-    Entity::destroyed_event_ += std::bind(&Hierarchy::delete_entity_by_instance, this, std::placeholders::_1);
+    Entity::created_event += std::bind(&Hierarchy::add_entity_by_instance, this, std::placeholders::_1);
+    Entity::destroyed_event += std::bind(&Hierarchy::delete_entity_by_instance, this, std::placeholders::_1);
     EditorActions::GetSingleton().entity_selected_event_ += std::bind(&Hierarchy::select_entity_by_instance, this, std::placeholders::_1);
-    Entity::attach_event_ += std::bind(&Hierarchy::attach_entity_to_parent, this, std::placeholders::_1);
-    Entity::dettach_event_ += std::bind(&Hierarchy::detach_from_parent, this, std::placeholders::_1);
+    Entity::attach_event += std::bind(&Hierarchy::attach_entity_to_parent, this, std::placeholders::_1);
+    Entity::dettach_event += std::bind(&Hierarchy::detach_from_parent, this, std::placeholders::_1);
 }
 
 void Hierarchy::clear() {
@@ -246,8 +246,8 @@ void Hierarchy::add_entity_by_instance(Entity *entity) {
             element.second->parent()->unconsider_widget(*element.second);
         
         text_selectable.consider_widget(*element.second);
-        
-        entity->add_child(element.first->parent()->remove_child(element.first));
+
+        entity->AddChild(element.first->parent()->RemoveChild(element.first));
     };
     auto &dispatcher = text_selectable.add_plugin<DataDispatcher<std::string>>();
     

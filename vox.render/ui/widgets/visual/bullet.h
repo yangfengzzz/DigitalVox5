@@ -17,4 +17,4 @@ protected:
     void draw_impl() override;
 };
 
-}
+}  // namespace vox::ui

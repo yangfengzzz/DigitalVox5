@@ -76,6 +76,6 @@ class SpotLight;
 
 class DirectLight;
 
-}
+}  // namespace vox
 
 #endif /* DIGITALVOX_VOX_RENDER_SCENE_FORWARD_H_ */

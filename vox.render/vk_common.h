@@ -6,6 +6,9 @@
 
 #pragma once
 
+#include <vk_mem_alloc.h>
+#include <volk.h>
+
 #include <cstdio>
 #include <map>
 #include <sstream>
@@ -13,17 +16,14 @@
 #include <unordered_map>
 #include <vector>
 
-#include <vk_mem_alloc.h>
-#include <volk.h>
+#define VK_FLAGS_NONE 0  // Custom define for better code readability
 
-#define VK_FLAGS_NONE 0        // Custom define for better code readability
+#define DEFAULT_FENCE_TIMEOUT 100000000000  // Default fence timeout in nanoseconds
 
-#define DEFAULT_FENCE_TIMEOUT 100000000000        // Default fence timeout in nanoseconds
-
-template<class T>
+template <class T>
 using ShaderStageMap = std::map<VkShaderStageFlagBits, T>;
 
-template<class T>
+template <class T>
 using BindingMap = std::map<uint32_t, std::map<uint32_t, T>>;
 
 namespace vox {
@@ -50,19 +50,21 @@ bool IsDepthStencilFormat(VkFormat format);
  * @return The valid suited depth format
  */
 VkFormat GetSuitableDepthFormat(VkPhysicalDevice physical_device,
-                                   bool depth_only = false,
-                                   const std::vector<VkFormat> &depth_format_priority_list = {
+                                bool depth_only = false,
+                                const std::vector<VkFormat> &depth_format_priority_list = {
                                         VK_FORMAT_D32_SFLOAT, VK_FORMAT_D24_UNORM_S8_UINT, VK_FORMAT_D16_UNORM});
 
 /**
- * @brief Helper function to determine if a Vulkan descriptor type is a dynamic storage buffer or dynamic uniform buffer.
+ * @brief Helper function to determine if a Vulkan descriptor type is a dynamic storage buffer or dynamic uniform
+ * buffer.
  * @param descriptor_type Vulkan descriptor type to check.
  * @return True if type is dynamic buffer, false otherwise.
  */
 bool IsDynamicBufferDescriptorType(VkDescriptorType descriptor_type);
 
 /**
- * @brief Helper function to determine if a Vulkan descriptor type is a buffer (either uniform or storage buffer, dynamic or not).
+ * @brief Helper function to determine if a Vulkan descriptor type is a buffer (either uniform or storage buffer,
+ * dynamic or not).
  * @param descriptor_type Vulkan descriptor type to check.
  * @return True if type is buffer, false otherwise.
  */
@@ -90,19 +92,19 @@ VkShaderModule LoadShader(const std::string &filename, VkDevice device, VkShader
  */
 struct ImageMemoryBarrier {
     VkPipelineStageFlags src_stage_mask{VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT};
-    
+
     VkPipelineStageFlags dst_stage_mask{VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT};
-    
+
     VkAccessFlags src_access_mask{0};
-    
+
     VkAccessFlags dst_access_mask{0};
-    
+
     VkImageLayout old_layout{VK_IMAGE_LAYOUT_UNDEFINED};
-    
+
     VkImageLayout new_layout{VK_IMAGE_LAYOUT_UNDEFINED};
-    
+
     uint32_t old_queue_family{VK_QUEUE_FAMILY_IGNORED};
-    
+
     uint32_t new_queue_family{VK_QUEUE_FAMILY_IGNORED};
 };
 
@@ -112,58 +114,55 @@ struct ImageMemoryBarrier {
  */
 struct BufferMemoryBarrier {
     VkPipelineStageFlags src_stage_mask{VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT};
-    
+
     VkPipelineStageFlags dst_stage_mask{VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT};
-    
+
     VkAccessFlags src_access_mask{0};
-    
+
     VkAccessFlags dst_access_mask{0};
 };
 
 /**
  * @brief Put an image memory barrier for setting an image layout on the sub resource into the given command buffer
  */
-void SetImageLayout(
-                      VkCommandBuffer command_buffer,
-                      VkImage image,
-                      VkImageLayout old_layout,
-                      VkImageLayout new_layout,
-                      VkImageSubresourceRange subresource_range,
-                      VkPipelineStageFlags src_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
-                      VkPipelineStageFlags dst_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT);
+void SetImageLayout(VkCommandBuffer command_buffer,
+                    VkImage image,
+                    VkImageLayout old_layout,
+                    VkImageLayout new_layout,
+                    VkImageSubresourceRange subresource_range,
+                    VkPipelineStageFlags src_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
+                    VkPipelineStageFlags dst_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT);
 
 /**
  * @brief Uses a fixed sub resource layout with first mip level and layer
  */
-void SetImageLayout(
-                      VkCommandBuffer command_buffer,
-                      VkImage image,
-                      VkImageAspectFlags aspect_mask,
-                      VkImageLayout old_layout,
-                      VkImageLayout new_layout,
-                      VkPipelineStageFlags src_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
-                      VkPipelineStageFlags dst_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT);
+void SetImageLayout(VkCommandBuffer command_buffer,
+                    VkImage image,
+                    VkImageAspectFlags aspect_mask,
+                    VkImageLayout old_layout,
+                    VkImageLayout new_layout,
+                    VkPipelineStageFlags src_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
+                    VkPipelineStageFlags dst_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT);
 
 /**
  * @brief Insert an image memory barrier into the command buffer
  */
-void InsertImageMemoryBarrier(
-                                 VkCommandBuffer command_buffer,
-                                 VkImage image,
-                                 VkAccessFlags src_access_mask,
-                                 VkAccessFlags dst_access_mask,
-                                 VkImageLayout old_layout,
-                                 VkImageLayout new_layout,
-                                 VkPipelineStageFlags src_stage_mask,
-                                 VkPipelineStageFlags dst_stage_mask,
-                                 VkImageSubresourceRange subresource_range);
+void InsertImageMemoryBarrier(VkCommandBuffer command_buffer,
+                              VkImage image,
+                              VkAccessFlags src_access_mask,
+                              VkAccessFlags dst_access_mask,
+                              VkImageLayout old_layout,
+                              VkImageLayout new_layout,
+                              VkPipelineStageFlags src_stage_mask,
+                              VkPipelineStageFlags dst_stage_mask,
+                              VkImageSubresourceRange subresource_range);
 
 /**
  * @brief Load and store info for a render pass attachment.
  */
 struct LoadStoreInfo {
     VkAttachmentLoadOp load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
-    
+
     VkAttachmentStoreOp store_op = VK_ATTACHMENT_STORE_OP_STORE;
 };
 
@@ -188,5 +187,5 @@ std::vector<LoadStoreInfo> GetClearStoreAll();
  */
 std::vector<VkClearValue> GetClearValue();
 
-}        // namespace gbuffer
-}        // namespace vox
+}  // namespace gbuffer
+}  // namespace vox

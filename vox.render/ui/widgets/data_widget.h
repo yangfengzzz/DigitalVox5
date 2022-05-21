@@ -6,38 +6,37 @@
 
 #pragma once
 
-#include "buttons/button.h"
 #include "../plugins/data_dispatcher.h"
+#include "buttons/button.h"
 
 namespace vox::ui {
 /**
  * DataWidget are widgets that contains a value. It is very usefully in combination with
  * DataDispatcher plugin
  */
-template<typename T>
+template <typename T>
 class DataWidget : public Widget {
 public:
     /**
      * Create a DataWidget with the data specification
      */
-    explicit DataWidget(T &data_holder) : data_(data_holder) {
-    };
-    
+    explicit DataWidget(T &data_holder) : data_(data_holder){};
+
     /**
      * Draw the widget
      */
     void draw() override;
-    
+
     /**
      * Notify that the widget data has changed to allow the data dispatcher to execute its behaviour
      */
     void notify_change();
-    
+
 private:
     T &data_;
 };
 
-template<typename T>
+template <typename T>
 inline void DataWidget<T>::draw() {
     if (enabled_) {
         TRY_GATHER(T, data_)
@@ -46,9 +45,9 @@ inline void DataWidget<T>::draw() {
     }
 }
 
-template<typename T>
+template <typename T>
 inline void DataWidget<T>::notify_change() {
     TRY_NOTIFY_CHANGE(T)
 }
 
-}
+}  // namespace vox::ui

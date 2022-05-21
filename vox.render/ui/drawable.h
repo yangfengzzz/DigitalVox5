@@ -13,9 +13,9 @@ namespace vox::ui {
 class Drawable {
 public:
     virtual void draw() = 0;
-    
+
 protected:
     virtual ~Drawable() = default;
 };
 
-}
+}  // namespace vox::ui

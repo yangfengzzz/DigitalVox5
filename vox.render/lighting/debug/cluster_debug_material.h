@@ -14,4 +14,4 @@ public:
     explicit ClusterDebugMaterial(Device &device);
 };
 
-}
+}  // namespace vox

@@ -82,6 +82,6 @@ enum Layer {
     NOTHING = 0x0
 };
 
-}        // namespace vox
+}  // namespace vox
 
 #endif /* DIGITALVOX_VOX_RENDER_LAYER_H_ */

@@ -15,35 +15,35 @@ namespace vox::physics {
 class SpringJoint : public Joint {
 public:
     SpringJoint(Collider *collider_0, Collider *collider_1);
-    
+
     [[nodiscard]] float distance() const;
-    
+
     void set_min_distance(float distance);
-    
+
     [[nodiscard]] float min_distance() const;
-    
+
     void set_max_distance(float distance);
-    
+
     [[nodiscard]] float max_distance() const;
-    
+
     void set_tolerance(float tolerance);
-    
+
     [[nodiscard]] float tolerance() const;
-    
+
     void set_stiffness(float stiffness);
-    
+
     [[nodiscard]] float stiffness() const;
-    
+
     void set_damping(float damping);
-    
+
     [[nodiscard]] float damping() const;
-    
+
     void set_distance_joint_flags(const PxDistanceJointFlags &flags);
-    
+
     void set_distance_joint_flag(PxDistanceJointFlag::Enum flag, bool value);
-    
+
     [[nodiscard]] PxDistanceJointFlags distance_joint_flags() const;
 };
 
-}
+}  // namespace vox::physics
 #endif /* DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_SPRING_JOINT_H_ */

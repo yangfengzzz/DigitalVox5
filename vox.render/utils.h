@@ -34,4 +34,4 @@ class CommandBuffer;
  */
 void Screenshot(RenderContext &render_context, const std::string &filename);
 
-}        // namespace vox
+}  // namespace vox

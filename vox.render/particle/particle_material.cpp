@@ -5,83 +5,69 @@
 //  property of any third parties.
 
 #include "particle_material.h"
+
 #include "shader/shader_manager.h"
 
 namespace vox {
-ParticleMaterial::ParticleMaterial(Device &device) :
-BaseMaterial(device, "particle_instancing"),
-particle_data_prop_("particleData") {
+ParticleMaterial::ParticleMaterial(Device &device)
+    : BaseMaterial(device, "particle_instancing"), particle_data_prop_("particleData") {
     shader_data_.SetData(particle_data_prop_, particle_data_);
-    
+
     vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/particle/particle_render_instancing.vert");
     fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/particle/particle_render_instancing.frag");
-    
-    set_is_transparent(true);
-    set_blend_mode(BlendMode::ADDITIVE);
+
+    SetIsTransparent(true);
+    SetBlendMode(BlendMode::ADDITIVE);
     input_assembly_state_.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
 }
 
-float ParticleMaterial::min_particle_size() const {
-    return particle_data_.min_particle_size;
-}
+float ParticleMaterial::MinParticleSize() const { return particle_data_.min_particle_size; }
 
-void ParticleMaterial::set_min_particle_size(float size) {
+void ParticleMaterial::SetMinParticleSize(float size) {
     particle_data_.min_particle_size = size;
     shader_data_.SetData(particle_data_prop_, particle_data_);
 }
 
-float ParticleMaterial::max_particle_size() const {
-    return particle_data_.max_particle_size;
-}
+float ParticleMaterial::MaxParticleSize() const { return particle_data_.max_particle_size; }
 
-void ParticleMaterial::set_max_particle_size(float size) {
+void ParticleMaterial::SetMaxParticleSize(float size) {
     particle_data_.max_particle_size = size;
     shader_data_.SetData(particle_data_prop_, particle_data_);
 }
 
-ParticleMaterial::ColorMode ParticleMaterial::color_mode() const {
-    return particle_data_.color_mode;
-}
+ParticleMaterial::ColorMode ParticleMaterial::GetColorMode() const { return particle_data_.color_mode; }
 
-void ParticleMaterial::set_color_mode(ColorMode mode) {
+void ParticleMaterial::SetColorMode(ColorMode mode) {
     particle_data_.color_mode = mode;
     shader_data_.SetData(particle_data_prop_, particle_data_);
 }
 
-Vector3F ParticleMaterial::birth_gradient() const {
-    return particle_data_.birth_gradient;
-}
+Vector3F ParticleMaterial::BirthGradient() const { return particle_data_.birth_gradient; }
 
-void ParticleMaterial::set_birth_gradient(const Vector3F &gradient) {
+void ParticleMaterial::SetBirthGradient(const Vector3F &gradient) {
     particle_data_.birth_gradient = gradient;
     shader_data_.SetData(particle_data_prop_, particle_data_);
 }
 
-Vector3F ParticleMaterial::death_gradient() const {
-    return particle_data_.death_gradient;
-}
+Vector3F ParticleMaterial::DeathGradient() const { return particle_data_.death_gradient; }
 
-void ParticleMaterial::set_death_gradient(const Vector3F &gradient) {
+void ParticleMaterial::SetDeathGradient(const Vector3F &gradient) {
     particle_data_.death_gradient = gradient;
     shader_data_.SetData(particle_data_prop_, particle_data_);
 }
 
-float ParticleMaterial::fade_coefficient() const {
-    return particle_data_.fade_coefficient;
-}
+float ParticleMaterial::FadeCoefficient() const { return particle_data_.fade_coefficient; }
 
-void ParticleMaterial::set_fade_coefficient(float coeff) {
+void ParticleMaterial::SetFadeCoefficient(float coeff) {
     particle_data_.fade_coefficient = coeff;
     shader_data_.SetData(particle_data_prop_, particle_data_);
 }
 
-bool ParticleMaterial::debug_draw() const {
-    return particle_data_.debug_draw;
-}
+bool ParticleMaterial::DebugDraw() const { return particle_data_.debug_draw; }
 
-void ParticleMaterial::set_debug_draw(bool flag) {
+void ParticleMaterial::SetDebugDraw(bool flag) {
     particle_data_.debug_draw = flag ? 1 : 0;
     shader_data_.SetData(particle_data_prop_, particle_data_);
 }
 
-}
+}  // namespace vox

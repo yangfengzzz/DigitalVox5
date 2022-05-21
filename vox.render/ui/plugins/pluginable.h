@@ -6,8 +6,9 @@
 
 #pragma once
 
-#include "plugin.h"
 #include <vector>
+
+#include "plugin.h"
 
 namespace vox::ui {
 /**
@@ -18,58 +19,53 @@ public:
     /**
      * Destructor (Destroys every plugins)
      */
-    ~Pluginable() {
-        remove_all_plugins();
-    }
-    
+    ~Pluginable() { remove_all_plugins(); }
+
     /**
      * Add a plugin
      */
-    template<typename T, typename... Args>
-    T &add_plugin(Args &&... args) {
+    template <typename T, typename... Args>
+    T &add_plugin(Args &&...args) {
         static_assert(std::is_base_of<Plugin, T>::value, "T should derive from IPlugin");
-        
+
         T *new_plugin = new T(std::forward<Args>(args)...);
         plugins_.push_back(new_plugin);
         return *new_plugin;
     }
-    
+
     /**
      * Returns the plugin of the given type, or nullptr if not found
      */
-    template<typename T>
+    template <typename T>
     T *get_plugin() {
         static_assert(std::is_base_of<Plugin, T>::value, "T should derive from IPlugin");
-        
+
         for (auto &plugin : plugins_) {
             T *result = dynamic_cast<T *>(plugin);
-            if (result)
-                return result;
+            if (result) return result;
         }
-        
+
         return nullptr;
     }
-    
+
     /**
      * Execute every plugins
      */
     void execute_plugins() {
-        for (auto &plugin : plugins_)
-            plugin->execute();
+        for (auto &plugin : plugins_) plugin->execute();
     }
-    
+
     /**
      * Remove every plugins
      */
     void remove_all_plugins() {
-        for (auto &plugin : plugins_)
-            delete plugin;
-        
+        for (auto &plugin : plugins_) delete plugin;
+
         plugins_.clear();
     }
-    
+
 private:
     std::vector<Plugin *> plugins_;
 };
 
-}
+}  // namespace vox::ui

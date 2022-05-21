@@ -16,26 +16,26 @@ public:
      * Returns the name of the component
      */
     std::string name() override;
-    
+
     explicit StaticCollider(Entity *entity);
-    
+
 public:
     /**
      * Called when the serialization is asked
      */
-    void on_serialize(nlohmann::json &data) override;
-    
+    void OnSerialize(nlohmann::json &data) override;
+
     /**
      * Called when the deserialization is asked
      */
-    void on_deserialize(const nlohmann::json &data) override;
-    
+    void OnDeserialize(const nlohmann::json &data) override;
+
     /**
      * Defines how the component should be drawn in the inspector
      */
-    void on_inspector(ui::WidgetContainer &p_root) override;
+    void OnInspector(ui::WidgetContainer &p_root) override;
 };
 
-}
+}  // namespace vox::physics
 
 #endif /* DIGITALVOX_VOX_RENDER_PHYSICS_STATIC_COLLIDER_H_ */

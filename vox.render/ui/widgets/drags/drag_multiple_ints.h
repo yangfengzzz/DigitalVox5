@@ -12,7 +12,7 @@ namespace vox::ui {
 /**
  * Drag widget of multiple type int
  */
-template<size_t Size>
+template <size_t Size>
 class DragMultipleInts : public DragMultipleScalars<int, Size> {
 public:
     explicit DragMultipleInts(int min = 0,
@@ -21,9 +21,7 @@ public:
                               float speed = 1.0f,
                               const std::string &label = "",
                               const std::string &format = "%d")
-    : DragMultipleScalars<int, Size>(ImGuiDataType_::ImGuiDataType_S32,
-                                     min, max, value, speed, label, format) {
-    }
+        : DragMultipleScalars<int, Size>(ImGuiDataType_::ImGuiDataType_S32, min, max, value, speed, label, format) {}
 };
 
-}
+}  // namespace vox::ui

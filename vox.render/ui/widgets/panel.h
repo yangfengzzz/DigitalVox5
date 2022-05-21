@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 #include "widget_container.h"
 
@@ -21,28 +21,28 @@ public:
      * Constructor
      */
     Panel();
-    
+
     /**
      * Draw the panel
      */
     void draw() override;
-    
+
     /**
      * Returns the panel identifier
      */
     [[nodiscard]] const std::string &panel_id() const;
-    
+
 protected:
     virtual void draw_impl() = 0;
-    
+
 public:
     bool enabled_ = true;
-    
+
 protected:
     std::string panel_id_;
-    
+
 private:
     static uint64_t panel_id_increment_;
 };
 
-}
+}  // namespace vox::ui

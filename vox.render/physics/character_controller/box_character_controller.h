@@ -19,40 +19,40 @@ public:
      * Returns the name of the component
      */
     std::string name() override;
-    
+
     explicit BoxCharacterController(Entity *entity);
-    
+
     void set_desc(const PxBoxControllerDesc &desc);
-    
+
     [[nodiscard]] float half_height() const;
-    
+
     [[nodiscard]] float half_side_extent() const;
-    
+
     [[nodiscard]] float half_forward_extent() const;
-    
+
     bool set_half_height(float half_height);
-    
+
     bool set_half_side_extent(float half_side_extent);
-    
+
     bool set_half_forward_extent(float half_forward_extent);
-    
+
 public:
     /**
      * Called when the serialization is asked
      */
-    void on_serialize(nlohmann::json &data) override;
-    
+    void OnSerialize(nlohmann::json &data) override;
+
     /**
      * Called when the deserialization is asked
      */
-    void on_deserialize(const nlohmann::json &data) override;
-    
+    void OnDeserialize(const nlohmann::json &data) override;
+
     /**
      * Defines how the component should be drawn in the inspector
      */
-    void on_inspector(ui::WidgetContainer &p_root) override;
+    void OnInspector(ui::WidgetContainer &p_root) override;
 };
 
-}
+}  // namespace vox::physics
 
 #endif /* DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_BOX_CHARACTER_CONTROLLER_H_ */

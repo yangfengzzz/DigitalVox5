@@ -5,68 +5,62 @@
 //  property of any third parties.
 
 #include "component.h"
+
 #include "entity.h"
 
 namespace vox {
-Component::Component(Entity *entity) : entity_(entity) {
-}
+Component::Component(vox::Entity *entity) : entity_(entity) {}
 
 Component::~Component() {
-    if (entity_->is_active_in_hierarchy()) {
+    if (entity_->IsActiveInHierarchy()) {
         if (enabled_) {
-            on_disable();
+            OnDisable();
         }
-        on_in_active();
+        OnInActive();
     }
 }
 
-bool Component::enabled() const {
-    return enabled_;
-}
+bool Component::Enabled() const { return enabled_; }
 
-void Component::set_enabled(bool value) {
+void Component::SetEnabled(bool value) {
     if (value == enabled_) {
         return;
     }
     enabled_ = value;
     if (value) {
-        if (entity_->is_active_in_hierarchy()) {
-            on_enable();
+        if (entity_->IsActiveInHierarchy()) {
+            OnEnable();
         }
     } else {
-        if (entity_->is_active_in_hierarchy()) {
-            on_disable();
+        if (entity_->IsActiveInHierarchy()) {
+            OnDisable();
         }
     }
 }
 
-Entity *Component::entity() const {
-    return entity_;
-}
+Entity *Component::GetEntity() const { return entity_; }
 
-Scene *Component::scene() {
-    return entity_->scene();
-}
+Scene *Component::GetScene() { return entity_->Scene(); }
 
-void Component::set_active(bool value) {
+void Component::SetActive(bool value) {
     if (value) {
         if (!awoken_) {
             awoken_ = true;
-            on_awake();
+            OnAwake();
         }
         // You can do is_active = false in onAwake function.
-        if (entity_->is_active_in_hierarchy_) {
-            on_active();
+        if (entity_->is_active_in_hierarchy) {
+            OnActive();
             if (enabled_) {
-                on_enable();
+                OnEnable();
             }
         }
     } else {
         if (enabled_) {
-            on_disable();
+            OnDisable();
         }
-        on_in_active();
+        OnInActive();
     }
 }
 
-}        // namespace vox
+}  // namespace vox

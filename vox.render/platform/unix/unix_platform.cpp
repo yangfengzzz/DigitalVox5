@@ -7,7 +7,6 @@
 #include "unix_platform.h"
 
 #include "error.h"
-
 #include "platform/glfw_window.h"
 #include "platform/headless_window.h"
 
@@ -18,37 +17,37 @@ VKBP_DISABLE_WARNINGS()
 VKBP_ENABLE_WARNINGS()
 
 #ifndef VK_MVK_MACOS_SURFACE_EXTENSION_NAME
-#	define VK_MVK_MACOS_SURFACE_EXTENSION_NAME "VK_MVK_macos_surface"
+#define VK_MVK_MACOS_SURFACE_EXTENSION_NAME "VK_MVK_macos_surface"
 #endif
 
 #ifndef VK_KHR_XCB_SURFACE_EXTENSION_NAME
-#	define VK_KHR_XCB_SURFACE_EXTENSION_NAME "VK_KHR_xcb_surface"
+#define VK_KHR_XCB_SURFACE_EXTENSION_NAME "VK_KHR_xcb_surface"
 #endif
 
 #ifndef VK_EXT_METAL_SURFACE_EXTENSION_NAME
-#	define VK_EXT_METAL_SURFACE_EXTENSION_NAME "VK_EXT_metal_surface"
+#define VK_EXT_METAL_SURFACE_EXTENSION_NAME "VK_EXT_metal_surface"
 #endif
 
 #ifndef VK_KHR_XLIB_SURFACE_EXTENSION_NAME
-#	define VK_KHR_XLIB_SURFACE_EXTENSION_NAME "VK_KHR_xlib_surface"
+#define VK_KHR_XLIB_SURFACE_EXTENSION_NAME "VK_KHR_xlib_surface"
 #endif
 
 #ifndef VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME
-#	define VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME "VK_KHR_wayland_surface"
+#define VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME "VK_KHR_wayland_surface"
 #endif
 
 namespace vox {
 namespace {
 inline std::string get_temp_path_from_environment() {
     std::string temp_path = "/tmp/";
-    
+
     if (const char *env_ptr = std::getenv("TMPDIR")) {
         temp_path = std::string(env_ptr) + "/";
     }
-    
+
     return temp_path;
 }
-}        // namespace
+}  // namespace
 
 namespace fs {
 void CreateDirectory(const std::string &path) {
@@ -56,10 +55,9 @@ void CreateDirectory(const std::string &path) {
         mkdir(path.c_str(), 0777);
     }
 }
-}        // namespace fs
+}  // namespace fs
 
-UnixPlatform::UnixPlatform(const UnixType &type, int argc, char **argv) :
-type_{type} {
+UnixPlatform::UnixPlatform(const UnixType &type, int argc, char **argv) : type_{type} {
     Platform::SetArguments({argv + 1, argv + argc});
     Platform::SetTempDirectory(get_temp_path_from_environment());
 }
@@ -68,7 +66,7 @@ const char *UnixPlatform::GetSurfaceExtension() {
     if (type_ == UnixType::MAC) {
         return VK_EXT_METAL_SURFACE_EXTENSION_NAME;
     }
-    
+
 #if defined(VK_USE_PLATFORM_XCB_KHR)
     return VK_KHR_XCB_SURFACE_EXTENSION_NAME;
 #elif defined(VK_USE_PLATFORM_XLIB_KHR)
@@ -89,4 +87,4 @@ void UnixPlatform::CreateWindow(const Window::Properties &properties) {
     }
 }
 
-}        // namespace vox
+}  // namespace vox

@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "plugin.h"
+
 #include "platform/platform.h"
 
 namespace vox {
@@ -14,66 +15,54 @@ std::vector<Plugin *> AssociatePlugins(const std::vector<Plugin *> &plugins) {
             bool full_control = comparison_plugin->HasTags<tags::FullControl>();
             bool stopping = comparison_plugin->HasTags<tags::Stopping>();
             bool controlling = full_control || stopping;
-            
+
             bool entrypoint = comparison_plugin->HasTags<tags::Entrypoint>();
-            
+
             if (plugin->HasTag<tags::FullControl>() && (controlling || entrypoint)) {
                 plugin->Excludes(comparison_plugin);
                 continue;
             }
-            
+
             if (plugin->HasTag<tags::Stopping>() && stopping) {
                 plugin->Excludes(comparison_plugin);
                 continue;
             }
-            
+
             if (plugin->HasTag<tags::Entrypoint>() && entrypoint) {
                 plugin->Excludes(comparison_plugin);
                 continue;
             }
-            
+
             plugin->Includes(comparison_plugin);
         }
     }
-    
+
     return plugins;
 }
 
 bool Plugin::ActivatePlugin(Platform *platform, const CommandParser &parser, bool force_activation) {
     platform_ = platform;
-    
+
     bool active = IsActive(parser);
-    
+
     // Plugin activated
     if (force_activation || active) {
         Init(parser);
     }
-    
+
     return active;
 }
 
-const std::string &Plugin::GetName() const {
-    return name_;
-}
+const std::string &Plugin::GetName() const { return name_; }
 
-const std::string &Plugin::GetDescription() const {
-    return description_;
-}
+const std::string &Plugin::GetDescription() const { return description_; }
 
-void Plugin::Excludes(Plugin *plugin) {
-    exclusions_.push_back(plugin);
-}
+void Plugin::Excludes(Plugin *plugin) { exclusions_.push_back(plugin); }
 
-const std::vector<Plugin *> &Plugin::GetExclusions() const {
-    return exclusions_;
-}
+const std::vector<Plugin *> &Plugin::GetExclusions() const { return exclusions_; }
 
-void Plugin::Includes(Plugin *plugin) {
-    inclusions_.push_back(plugin);
-}
+void Plugin::Includes(Plugin *plugin) { inclusions_.push_back(plugin); }
 
-const std::vector<Plugin *> &Plugin::GetInclusions() const {
-    return inclusions_;
-}
+const std::vector<Plugin *> &Plugin::GetInclusions() const { return inclusions_; }
 
-}        // namespace vox
+}  // namespace vox

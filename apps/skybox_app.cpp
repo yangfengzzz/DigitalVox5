@@ -16,33 +16,33 @@ namespace vox {
 bool SkyboxApp::prepare(Platform &platform) {
     ForwardApplication::prepare(platform);
     
-    auto scene = scene_manager_->current_scene();
+    auto scene = scene_manager_->CurrentScene();
     auto skybox = std::make_unique<SkyboxSubpass>(*render_context_,
                                                   scene, main_camera_);
     skybox->CreateCuboid();
     skybox->FlipVertically();
-    skybox->SetTextureCubeMap(ImageManager::GetSingleton().load_texture_cubemap("Textures/uffizi_rgba16f_cube.ktx"));
+    skybox->SetTextureCubeMap(ImageManager::GetSingleton().LoadTextureCubemap("Textures/uffizi_rgba16f_cube.ktx"));
     render_pipeline_->AddSubpass(std::move(skybox));
     
     return true;
 }
 
-void SkyboxApp::load_scene() {
-    auto scene = scene_manager_->current_scene();
-    auto root_entity = scene->create_root_entity();
+void SkyboxApp::LoadScene() {
+    auto scene = scene_manager_->CurrentScene();
+    auto root_entity = scene->CreateRootEntity();
     
-    auto camera_entity = root_entity->create_child();
-    camera_entity->transform_->set_position(10, 10, 10);
-    camera_entity->transform_->look_at(Point3F(0, 0, 0));
-    main_camera_ = camera_entity->add_component<Camera>();
-    camera_entity->add_component<control::OrbitControl>();
+    auto camera_entity = root_entity->CreateChild();
+    camera_entity->transform->SetPosition(10, 10, 10);
+    camera_entity->transform->LookAt(Point3F(0, 0, 0));
+    main_camera_ = camera_entity->AddComponent<Camera>();
+    camera_entity->AddComponent<control::OrbitControl>();
     
-    auto model_entity = root_entity->create_child();
-    auto renderer = model_entity->add_component<MeshRenderer>();
-    renderer->set_mesh(PrimitiveMesh::create_cuboid());
+    auto model_entity = root_entity->CreateChild();
+    auto renderer = model_entity->AddComponent<MeshRenderer>();
+    renderer->SetMesh(PrimitiveMesh::CreateCuboid());
     auto material = std::make_shared<UnlitMaterial>(*device_);
-    material->set_base_color(Color(0.6, 0.4, 0.7, 1.0));
-    renderer->set_material(material);
+    material->SetBaseColor(Color(0.6, 0.4, 0.7, 1.0));
+    renderer->SetMaterial(material);
     
     scene->play();
 }

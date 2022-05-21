@@ -9,9 +9,8 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <vector>
-
 #include <nlohmann/json.hpp>
+#include <vector>
 
 #include "error.h"
 #include "graph_node.h"
@@ -22,29 +21,27 @@ struct Edge {
     size_t from;
     size_t to;
     nlohmann::json options;
-    Edge(size_t id, size_t s, size_t t) :
-    id(id),
-    from(s),
-    to(t) {};
+    Edge(size_t id, size_t s, size_t t) : id(id), from(s), to(t){};
 };
 
 /**
- * @brief Graph is an implementation of an adjacency list graph. The nodes are created from a variadic function and their implementation is defined by the given NodeType
+ * @brief Graph is an implementation of an adjacency list graph. The nodes are created from a variadic function and
+ * their implementation is defined by the given NodeType
  */
 class Graph {
 public:
     explicit Graph(const char *name);
-    
+
     static const size_t node_not_found_ = 0;
-    
+
     /**
      * @brief Create a new style
      *
      * @param style_name the group name
      * @param color the hex color of the group
      */
-    void new_style(const std::string &style_name, const std::string &color);
-    
+    void NewStyle(const std::string &style_name, const std::string &color);
+
     /**
      * @brief Create a node object
      *
@@ -53,12 +50,12 @@ public:
      * @param data json data to be displayed with node
      * @return size_t id of node
      */
-    size_t create_node(const char *title = "Node", const char *style = nullptr, const nlohmann::json &data = {}) {
-        size_t id = new_id();
+    size_t CreateNode(const char *title = "Node", const char *style = nullptr, const nlohmann::json &data = {}) {
+        size_t id = NewId();
         nodes_[id] = std::make_unique<Node>(id, title, style, data);
         return id;
     }
-    
+
     /**
      * @brief Find a node from a reference
      * 		  If the node does not exist then the reference will be node_not_found
@@ -66,45 +63,45 @@ public:
      * @param name of node
      * @return size_t if of node
      */
-    size_t find_ref(std::string &name);
-    
+    size_t FindRef(std::string &name);
+
     /**
      * @brief Add a readable reference to a node
      *
      * @param name of reference
      * @param id of node
      */
-    void add_ref(std::string &name, size_t id);
-    
+    void AddRef(std::string &name, size_t id);
+
     /**
      * @brief Remove a readable reference to a node
      *
      * @param name of ref
      */
-    void remove_ref(std::string &name);
-    
+    void RemoveRef(std::string &name);
+
     /**
      * @brief Add an edge to the graph
      * @param from source node
      * @param to target node
      */
-    void add_edge(size_t from, size_t to);
-    
+    void AddEdge(size_t from, size_t to);
+
     /**
      * @brief Remove Edge from the graph
      * @param from source node
      * @param to target node
      */
-    void remove_edge(size_t from, size_t to);
-    
+    void RemoveEdge(size_t from, size_t to);
+
     /**
      * @brief Dump the graphs state to json in the given file name
      * @param file_name to dump to
      */
-    bool dump_to_file(const std::string &file_name);
-    
-    size_t new_id();
-    
+    bool DumpToFile(const std::string &file_name);
+
+    size_t NewId();
+
 private:
     size_t next_id_ = 1;
     std::vector<Edge> adj_;
@@ -114,4 +111,4 @@ private:
     std::unordered_map<std::string, std::string> style_colors_;
 };
 
-}        // namespace vox
+}  // namespace vox::graphing

@@ -13,7 +13,6 @@ set(FRAMEWORK_FILES
         buffer_pool.h
         debug_info.h
         fence_pool.h
-        heightmap.h
         semaphore_pool.h
         resource_binding_state.h
         resource_cache.h
@@ -29,7 +28,6 @@ set(FRAMEWORK_FILES
         debug_info.cpp
         buffer_pool.cpp
         fence_pool.cpp
-        heightmap.cpp
         semaphore_pool.cpp
         resource_binding_state.cpp
         resource_cache.cpp

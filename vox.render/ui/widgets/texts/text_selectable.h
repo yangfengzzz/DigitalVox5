@@ -14,19 +14,18 @@ namespace vox::ui {
  */
 class TextSelectable : public Text {
 public:
-    explicit TextSelectable(const std::string &content = "",
-                            bool selected = false, bool disabled = false);
-    
+    explicit TextSelectable(const std::string &content = "", bool selected = false, bool disabled = false);
+
 protected:
     void draw_impl() override;
-    
+
 public:
     bool selected_;
     bool disabled_;
-    
+
     Event<bool> clicked_event_;
     Event<> selected_event_;
     Event<> unselected_event_;
 };
 
-}
+}  // namespace vox::ui

@@ -10,7 +10,7 @@
 #include <string>
 
 #if defined(VK_USE_PLATFORM_XLIB_KHR)
-#	undef None
+#undef None
 #endif
 
 namespace vox {
@@ -34,7 +34,7 @@ enum class StatIndex {
     CPU_ASE_SPEC,
     CPU_VFP_SPEC,
     CPU_CRYPTO_SPEC,
-    
+
     GPU_CYCLES,
     GPU_VERTEX_CYCLES,
     GPU_LOAD_STORE_CYCLES,
@@ -52,7 +52,7 @@ enum class StatIndex {
 };
 
 struct StatIndexHash {
-    template<typename T>
+    template <typename T>
     std::size_t operator()(T t) const {
         return static_cast<std::size_t>(t);
     }
@@ -61,10 +61,10 @@ struct StatIndexHash {
 enum class StatScaling {
     // The stat is not scaled
     NONE,
-    
+
     // The stat is scaled by delta time, useful for per-second values
     BY_DELTA_TIME,
-    
+
     // The stat is scaled by another counter, useful for ratios
     BY_COUNTER
 };
@@ -79,10 +79,10 @@ enum class CounterSamplingMode {
 struct CounterSamplingConfig {
     /// Sampling mode (polling or continuous)
     CounterSamplingMode mode;
-    
+
     /// Sampling interval in continuous mode
     std::chrono::milliseconds interval{1};
-    
+
     /// Speed of circular buffer updates in continuous mode;
     /// at speed = 1.0f a new sample is displayed over 1 second.
     float speed{0.5f};
@@ -104,9 +104,9 @@ public:
                   float scale_factor = 1.0f,
                   bool has_fixed_max = false,
                   float max_value = 0.0f);
-    
+
     StatGraphData() = default;
-    
+
     std::string name_;
     std::string format_;
     float scale_factor_{};
@@ -114,4 +114,4 @@ public:
     float max_value_{};
 };
 
-}        // namespace vox
+}  // namespace vox

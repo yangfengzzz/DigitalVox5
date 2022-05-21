@@ -18,12 +18,12 @@ public:
      * Create the button
      */
     explicit ButtonArrow(ImGuiDir direction = ImGuiDir_None);
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     ImGuiDir direction_;
 };
 
-}
+}  // namespace vox::ui

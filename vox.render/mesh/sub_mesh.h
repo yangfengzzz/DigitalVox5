@@ -20,11 +20,11 @@ public:
      * @param count - Drawing count
      */
     explicit SubMesh(uint32_t start = 0, uint32_t count = 0);
-    
-    [[nodiscard]] uint32_t start() const;
-    
-    [[nodiscard]] uint32_t count() const;
-    
+
+    [[nodiscard]] uint32_t Start() const;
+
+    [[nodiscard]] uint32_t Count() const;
+
 private:
     /** Start drawing offset. */
     uint32_t start_;
@@ -32,4 +32,4 @@ private:
     uint32_t count_;
 };
 
-}
+}  // namespace vox

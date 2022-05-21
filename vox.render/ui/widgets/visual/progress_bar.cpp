@@ -7,15 +7,15 @@
 #include "progress_bar.h"
 
 #include <utility>
+
 #include "ui/widgets/converter.h"
 
 namespace vox::ui {
-ProgressBar::ProgressBar(float fraction, const Vector2F &size, std::string overlay) :
-fraction_(fraction), size_(size), overlay_(std::move(overlay)) {
-}
+ProgressBar::ProgressBar(float fraction, const Vector2F &size, std::string overlay)
+    : fraction_(fraction), size_(size), overlay_(std::move(overlay)) {}
 
 void ProgressBar::draw_impl() {
     ImGui::ProgressBar(fraction_, Converter::to_imVec2(size_), !overlay_.empty() ? overlay_.c_str() : nullptr);
 }
 
-}
+}  // namespace vox::ui

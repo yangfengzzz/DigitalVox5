@@ -9,46 +9,46 @@
 #include <spdlog/fmt/fmt.h>
 
 #include "logging.h"
-#include "strings.h"
-#include "shader/glsl_compiler.h"
 #include "platform/filesystem.h"
+#include "shader/glsl_compiler.h"
+#include "strings.h"
 
 std::ostream &operator<<(std::ostream &os, const VkResult result) {
 #define WRITE_VK_ENUM(r) \
     case VK_##r:         \
         os << #r;        \
         break;
-    
+
     switch (result) {
-            WRITE_VK_ENUM(NOT_READY)
-            WRITE_VK_ENUM(TIMEOUT)
-            WRITE_VK_ENUM(EVENT_SET)
-            WRITE_VK_ENUM(EVENT_RESET)
-            WRITE_VK_ENUM(INCOMPLETE)
-            WRITE_VK_ENUM(ERROR_OUT_OF_HOST_MEMORY)
-            WRITE_VK_ENUM(ERROR_OUT_OF_DEVICE_MEMORY)
-            WRITE_VK_ENUM(ERROR_INITIALIZATION_FAILED)
-            WRITE_VK_ENUM(ERROR_DEVICE_LOST)
-            WRITE_VK_ENUM(ERROR_MEMORY_MAP_FAILED)
-            WRITE_VK_ENUM(ERROR_LAYER_NOT_PRESENT)
-            WRITE_VK_ENUM(ERROR_EXTENSION_NOT_PRESENT)
-            WRITE_VK_ENUM(ERROR_FEATURE_NOT_PRESENT)
-            WRITE_VK_ENUM(ERROR_INCOMPATIBLE_DRIVER)
-            WRITE_VK_ENUM(ERROR_TOO_MANY_OBJECTS)
-            WRITE_VK_ENUM(ERROR_FORMAT_NOT_SUPPORTED)
-            WRITE_VK_ENUM(ERROR_SURFACE_LOST_KHR)
-            WRITE_VK_ENUM(ERROR_NATIVE_WINDOW_IN_USE_KHR)
-            WRITE_VK_ENUM(SUBOPTIMAL_KHR)
-            WRITE_VK_ENUM(ERROR_OUT_OF_DATE_KHR)
-            WRITE_VK_ENUM(ERROR_INCOMPATIBLE_DISPLAY_KHR)
-            WRITE_VK_ENUM(ERROR_VALIDATION_FAILED_EXT)
-            WRITE_VK_ENUM(ERROR_INVALID_SHADER_NV)
+        WRITE_VK_ENUM(NOT_READY)
+        WRITE_VK_ENUM(TIMEOUT)
+        WRITE_VK_ENUM(EVENT_SET)
+        WRITE_VK_ENUM(EVENT_RESET)
+        WRITE_VK_ENUM(INCOMPLETE)
+        WRITE_VK_ENUM(ERROR_OUT_OF_HOST_MEMORY)
+        WRITE_VK_ENUM(ERROR_OUT_OF_DEVICE_MEMORY)
+        WRITE_VK_ENUM(ERROR_INITIALIZATION_FAILED)
+        WRITE_VK_ENUM(ERROR_DEVICE_LOST)
+        WRITE_VK_ENUM(ERROR_MEMORY_MAP_FAILED)
+        WRITE_VK_ENUM(ERROR_LAYER_NOT_PRESENT)
+        WRITE_VK_ENUM(ERROR_EXTENSION_NOT_PRESENT)
+        WRITE_VK_ENUM(ERROR_FEATURE_NOT_PRESENT)
+        WRITE_VK_ENUM(ERROR_INCOMPATIBLE_DRIVER)
+        WRITE_VK_ENUM(ERROR_TOO_MANY_OBJECTS)
+        WRITE_VK_ENUM(ERROR_FORMAT_NOT_SUPPORTED)
+        WRITE_VK_ENUM(ERROR_SURFACE_LOST_KHR)
+        WRITE_VK_ENUM(ERROR_NATIVE_WINDOW_IN_USE_KHR)
+        WRITE_VK_ENUM(SUBOPTIMAL_KHR)
+        WRITE_VK_ENUM(ERROR_OUT_OF_DATE_KHR)
+        WRITE_VK_ENUM(ERROR_INCOMPATIBLE_DISPLAY_KHR)
+        WRITE_VK_ENUM(ERROR_VALIDATION_FAILED_EXT)
+        WRITE_VK_ENUM(ERROR_INVALID_SHADER_NV)
         default:
             os << "UNKNOWN_ERROR";
     }
-    
+
 #undef WRITE_VK_ENUM
-    
+
     return os;
 }
 
@@ -80,56 +80,53 @@ VkShaderStageFlagBits FindShaderStage(const std::string &ext) {
     } else if (ext == "rcall") {
         return VK_SHADER_STAGE_CALLABLE_BIT_KHR;
     }
-    
+
     throw std::runtime_error("File extension `" + ext + "` does not have a vulkan shader stage.");
 }
-}        // namespace
-bool IsDepthOnlyFormat(VkFormat format) {
-    return format == VK_FORMAT_D16_UNORM ||
-    format == VK_FORMAT_D32_SFLOAT;
-}
+}  // namespace
+bool IsDepthOnlyFormat(VkFormat format) { return format == VK_FORMAT_D16_UNORM || format == VK_FORMAT_D32_SFLOAT; }
 
 bool IsDepthStencilFormat(VkFormat format) {
-    return format == VK_FORMAT_D16_UNORM_S8_UINT ||
-    format == VK_FORMAT_D24_UNORM_S8_UINT ||
-    format == VK_FORMAT_D32_SFLOAT_S8_UINT || IsDepthOnlyFormat(format);
+    return format == VK_FORMAT_D16_UNORM_S8_UINT || format == VK_FORMAT_D24_UNORM_S8_UINT ||
+           format == VK_FORMAT_D32_SFLOAT_S8_UINT || IsDepthOnlyFormat(format);
 }
 
-VkFormat GetSuitableDepthFormat(VkPhysicalDevice physical_device, bool depth_only,
-                                   const std::vector<VkFormat> &depth_format_priority_list) {
+VkFormat GetSuitableDepthFormat(VkPhysicalDevice physical_device,
+                                bool depth_only,
+                                const std::vector<VkFormat> &depth_format_priority_list) {
     VkFormat depth_format{VK_FORMAT_UNDEFINED};
-    
+
     for (auto &format : depth_format_priority_list) {
         if (depth_only && !IsDepthOnlyFormat(format)) {
             continue;
         }
-        
+
         VkFormatProperties properties;
         vkGetPhysicalDeviceFormatProperties(physical_device, format, &properties);
-        
+
         // Format must support depth stencil attachment for optimal tiling
         if (properties.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) {
             depth_format = format;
             break;
         }
     }
-    
+
     if (depth_format != VK_FORMAT_UNDEFINED) {
         LOGI("Depth format selected: {}", ToString(depth_format))
         return depth_format;
     }
-    
+
     throw std::runtime_error("No suitable depth format could be determined");
 }
 
 bool IsDynamicBufferDescriptorType(VkDescriptorType descriptor_type) {
     return descriptor_type == VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC ||
-    descriptor_type == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
+           descriptor_type == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
 }
 
 bool IsBufferDescriptorType(VkDescriptorType descriptor_type) {
     return descriptor_type == VK_DESCRIPTOR_TYPE_STORAGE_BUFFER ||
-    descriptor_type == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER || IsDynamicBufferDescriptorType(descriptor_type);
+           descriptor_type == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER || IsDynamicBufferDescriptorType(descriptor_type);
 }
 
 int32_t GetBitsPerPixel(VkFormat format) {
@@ -300,29 +297,29 @@ int32_t GetBitsPerPixel(VkFormat format) {
 
 VkShaderModule LoadShader(const std::string &filename, VkDevice device, VkShaderStageFlagBits stage) {
     auto buffer = vox::fs::ReadShaderBinary(filename);
-    
+
     std::string file_ext = filename;
-    
+
     // Extract extension name from the glsl shader file
     file_ext = file_ext.substr(file_ext.find_last_of('.') + 1);
-    
+
     std::vector<uint32_t> spirv;
     std::string info_log;
-    
+
     // Compile the GLSL source
     if (!GLSLCompiler::CompileToSpirv(vox::FindShaderStage(file_ext), buffer, "main", {}, spirv, info_log)) {
         LOGE("Failed to compile shader, Error: {}", info_log.c_str())
         return VK_NULL_HANDLE;
     }
-    
+
     VkShaderModule shader_module;
     VkShaderModuleCreateInfo module_create_info{};
     module_create_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
     module_create_info.codeSize = spirv.size() * sizeof(uint32_t);
     module_create_info.pCode = spirv.data();
-    
+
     VK_CHECK(vkCreateShaderModule(device, &module_create_info, nullptr, &shader_module));
-    
+
     return shader_module;
 }
 
@@ -330,14 +327,13 @@ VkShaderModule LoadShader(const std::string &filename, VkDevice device, VkShader
 // an image and put it into an active command buffer
 // See chapter 11.4 "Image Layout" for details
 
-void SetImageLayout(
-                      VkCommandBuffer command_buffer,
-                      VkImage image,
-                      VkImageLayout old_layout,
-                      VkImageLayout new_layout,
-                      VkImageSubresourceRange subresource_range,
-                      VkPipelineStageFlags src_mask,
-                      VkPipelineStageFlags dst_mask) {
+void SetImageLayout(VkCommandBuffer command_buffer,
+                    VkImage image,
+                    VkImageLayout old_layout,
+                    VkImageLayout new_layout,
+                    VkImageSubresourceRange subresource_range,
+                    VkPipelineStageFlags src_mask,
+                    VkPipelineStageFlags dst_mask) {
     // Create an image barrier object
     VkImageMemoryBarrier barrier{};
     barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -347,7 +343,7 @@ void SetImageLayout(
     barrier.newLayout = new_layout;
     barrier.image = image;
     barrier.subresourceRange = subresource_range;
-    
+
     // Source layouts (old)
     // Source access mask controls actions that have to be finished on the old layout
     // before it will be transitioned to the new layout
@@ -358,38 +354,38 @@ void SetImageLayout(
             // No flags required, listed only for completeness
             barrier.srcAccessMask = 0;
             break;
-            
+
         case VK_IMAGE_LAYOUT_PREINITIALIZED:
             // Image is preinitialized
             // Only valid as initial layout for linear images, preserves memory contents
             // Make sure host writes have been finished
             barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
             break;
-            
+
         case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
             // Image is a color attachment
             // Make sure any writes to the color buffer have been finished
             barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
             break;
-            
+
         case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
             // Image is a depth/stencil attachment
             // Make sure any writes to the depth/stencil buffer have been finished
             barrier.srcAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
             break;
-            
+
         case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
             // Image is a transfer source
             // Make sure any reads from the image have been finished
             barrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
             break;
-            
+
         case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
             // Image is a transfer destination
             // Make sure any writes to the image have been finished
             barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
             break;
-            
+
         case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
             // Image is read by a shader
             // Make sure any shader reads from the image have been finished
@@ -399,7 +395,7 @@ void SetImageLayout(
             // Other source layouts aren't handled (yet)
             break;
     }
-    
+
     // Target layouts (new)
     // Destination access mask controls the dependency for the new image layout
     switch (new_layout) {
@@ -408,25 +404,25 @@ void SetImageLayout(
             // Make sure any writes to the image have been finished
             barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
             break;
-            
+
         case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
             // Image will be used as a transfer source
             // Make sure any reads from the image have been finished
             barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
             break;
-            
+
         case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
             // Image will be used as a color attachment
             // Make sure any writes to the color buffer have been finished
             barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
             break;
-            
+
         case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
             // Image layout will be used as a depth/stencil attachment
             // Make sure any writes to depth/stencil buffer have been finished
             barrier.dstAccessMask = barrier.dstAccessMask | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
             break;
-            
+
         case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
             // Image will be read in a shader (sampler, input attachment)
             // Make sure any writes to the image have been finished
@@ -439,27 +435,19 @@ void SetImageLayout(
             // Other source layouts aren't handled (yet)
             break;
     }
-    
+
     // Put barrier inside setup command buffer
-    vkCmdPipelineBarrier(
-                         command_buffer,
-                         src_mask,
-                         dst_mask,
-                         0,
-                         0, nullptr,
-                         0, nullptr,
-                         1, &barrier);
+    vkCmdPipelineBarrier(command_buffer, src_mask, dst_mask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 }
 
 // Fixed sub resource on first mip level and layer
-void SetImageLayout(
-                      VkCommandBuffer command_buffer,
-                      VkImage image,
-                      VkImageAspectFlags aspect_mask,
-                      VkImageLayout old_layout,
-                      VkImageLayout new_layout,
-                      VkPipelineStageFlags src_mask,
-                      VkPipelineStageFlags dst_mask) {
+void SetImageLayout(VkCommandBuffer command_buffer,
+                    VkImage image,
+                    VkImageAspectFlags aspect_mask,
+                    VkImageLayout old_layout,
+                    VkImageLayout new_layout,
+                    VkPipelineStageFlags src_mask,
+                    VkPipelineStageFlags dst_mask) {
     VkImageSubresourceRange subresource_range = {};
     subresource_range.aspectMask = aspect_mask;
     subresource_range.baseMipLevel = 0;
@@ -468,16 +456,15 @@ void SetImageLayout(
     SetImageLayout(command_buffer, image, old_layout, new_layout, subresource_range, src_mask, dst_mask);
 }
 
-void InsertImageMemoryBarrier(
-                                 VkCommandBuffer command_buffer,
-                                 VkImage image,
-                                 VkAccessFlags src_access_mask,
-                                 VkAccessFlags dst_access_mask,
-                                 VkImageLayout old_layout,
-                                 VkImageLayout new_layout,
-                                 VkPipelineStageFlags src_stage_mask,
-                                 VkPipelineStageFlags dst_stage_mask,
-                                 VkImageSubresourceRange subresource_range) {
+void InsertImageMemoryBarrier(VkCommandBuffer command_buffer,
+                              VkImage image,
+                              VkAccessFlags src_access_mask,
+                              VkAccessFlags dst_access_mask,
+                              VkImageLayout old_layout,
+                              VkImageLayout new_layout,
+                              VkPipelineStageFlags src_stage_mask,
+                              VkPipelineStageFlags dst_stage_mask,
+                              VkImageSubresourceRange subresource_range) {
     VkImageMemoryBarrier barrier{};
     barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
     barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
@@ -488,84 +475,77 @@ void InsertImageMemoryBarrier(
     barrier.newLayout = new_layout;
     barrier.image = image;
     barrier.subresourceRange = subresource_range;
-    
-    vkCmdPipelineBarrier(
-                         command_buffer,
-                         src_stage_mask,
-                         dst_stage_mask,
-                         0,
-                         0, nullptr,
-                         0, nullptr,
-                         1, &barrier);
+
+    vkCmdPipelineBarrier(command_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 }
 
 namespace gbuffer {
 std::vector<LoadStoreInfo> GetLoadAllStoreSwapchain() {
     // Load every attachment and store only swapchain
     std::vector<LoadStoreInfo> load_store{4};
-    
+
     // Swapchain
     load_store[0].load_op = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
     load_store[0].store_op = VK_ATTACHMENT_STORE_OP_STORE;
-    
+
     // Depth
     load_store[1].load_op = VK_ATTACHMENT_LOAD_OP_LOAD;
     load_store[1].store_op = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-    
+
     // Albedo
     load_store[2].load_op = VK_ATTACHMENT_LOAD_OP_LOAD;
     load_store[2].store_op = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-    
+
     // Normal
     load_store[3].load_op = VK_ATTACHMENT_LOAD_OP_LOAD;
     load_store[3].store_op = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-    
+
     return load_store;
 }
 
 std::vector<LoadStoreInfo> GetClearAllStoreSwapchain() {
     // Clear every attachment and store only swapchain
     std::vector<LoadStoreInfo> load_store{4};
-    
+
     // Swapchain
     load_store[0].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
     load_store[0].store_op = VK_ATTACHMENT_STORE_OP_STORE;
-    
+
     // Depth
     load_store[1].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
     load_store[1].store_op = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-    
+
     // Albedo
     load_store[2].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
     load_store[2].store_op = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-    
+
     // Normal
     load_store[3].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
     load_store[3].store_op = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-    
+
     return load_store;
 }
 
 std::vector<LoadStoreInfo> GetClearStoreAll() {
     // Clear and store every attachment
     std::vector<LoadStoreInfo> load_store{4};
-    
+
     // Swapchain
     load_store[0].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
     load_store[0].store_op = VK_ATTACHMENT_STORE_OP_STORE;
-    
+
     // Depth
     load_store[1].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
     load_store[1].store_op = VK_ATTACHMENT_STORE_OP_STORE;
-    
+
     // Albedo
     load_store[2].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
     load_store[2].store_op = VK_ATTACHMENT_STORE_OP_STORE;
-    
+
     // Normal
     load_store[3].load_op = VK_ATTACHMENT_LOAD_OP_CLEAR;
     load_store[3].store_op = VK_ATTACHMENT_STORE_OP_STORE;
-    
+
     return load_store;
 }
 
@@ -576,9 +556,9 @@ std::vector<VkClearValue> GetClearValue() {
     clear_value[1].depthStencil = {0.0f, ~0U};
     clear_value[2].color = {{0.0f, 0.0f, 0.0f, 1.0f}};
     clear_value[3].color = {{0.0f, 0.0f, 0.0f, 1.0f}};
-    
+
     return clear_value;
 }
 
-}        // namespace gbuffer
-}        // namespace vox
+}  // namespace gbuffer
+}  // namespace vox

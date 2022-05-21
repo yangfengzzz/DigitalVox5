@@ -5,19 +5,17 @@
 //  property of any third parties.
 
 #include "skybox_subpass.h"
-#include "mesh/mesh_manager.h"
+
 #include "camera.h"
+#include "mesh/mesh_manager.h"
 
 namespace vox {
-SkyboxSubpass::SkyboxSubpass(RenderContext &render_context, Scene *scene, Camera *camera) :
-Subpass{render_context, scene, camera},
-vert_shader_("base/skybox.vert"),
-frag_shader_("base/skybox.frag") {
-}
+SkyboxSubpass::SkyboxSubpass(RenderContext &render_context, Scene *scene, Camera *camera)
+    : Subpass{render_context, scene, camera}, vert_shader_("base/skybox.vert"), frag_shader_("base/skybox.frag") {}
 
 void SkyboxSubpass::CreateCuboid() {
-    mesh_ = MeshManager::GetSingleton().load_model_mesh();
-    
+    mesh_ = MeshManager::GetSingleton().LoadModelMesh();
+
     const float kHalfLength = 0.5f;
     auto positions = std::vector<Vector3F>(24);
     // Up
@@ -50,7 +48,7 @@ void SkyboxSubpass::CreateCuboid() {
     positions[21] = Vector3F(kHalfLength, kHalfLength, -kHalfLength);
     positions[22] = Vector3F(kHalfLength, -kHalfLength, -kHalfLength);
     positions[23] = Vector3F(-kHalfLength, -kHalfLength, -kHalfLength);
-    
+
     auto indices = std::vector<uint16_t>(36);
     // Up
     indices[0] = 0;
@@ -94,45 +92,38 @@ void SkyboxSubpass::CreateCuboid() {
     indices[33] = 22;
     indices[34] = 20;
     indices[35] = 21;
-    
+
     auto &bounds = mesh_->bounds_;
     bounds.lower_corner = Point3F(-kHalfLength, -kHalfLength, -kHalfLength);
     bounds.upper_corner = Point3F(kHalfLength, kHalfLength, kHalfLength);
-    
-    mesh_->set_positions(positions);
-    mesh_->set_indices(indices);
-    mesh_->upload_data(true);
-    mesh_->add_sub_mesh(0, static_cast<uint32_t>(indices.size()));
+
+    mesh_->SetPositions(positions);
+    mesh_->SetIndices(indices);
+    mesh_->UploadData(true);
+    mesh_->AddSubMesh(0, static_cast<uint32_t>(indices.size()));
 }
 
-const std::shared_ptr<Image> &SkyboxSubpass::TextureCubeMap() const {
-    return cube_map_;
-}
+const std::shared_ptr<Image> &SkyboxSubpass::TextureCubeMap() const { return cube_map_; }
 
-void SkyboxSubpass::SetTextureCubeMap(const std::shared_ptr<Image> &v) {
-    cube_map_ = v;
-}
+void SkyboxSubpass::SetTextureCubeMap(const std::shared_ptr<Image> &v) { cube_map_ = v; }
 
-void SkyboxSubpass::FlipVertically() {
-    is_flip_vertically_ = true;
-}
+void SkyboxSubpass::FlipVertically() { is_flip_vertically_ = true; }
 
 void SkyboxSubpass::Prepare() {
     auto &device = render_context_.GetDevice();
-    vp_matrix_ = std::make_unique<core::Buffer>(device, sizeof(Matrix4x4F),
-                                                VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+    vp_matrix_ = std::make_unique<core::Buffer>(device, sizeof(Matrix4x4F), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                                                 VMA_MEMORY_USAGE_CPU_TO_GPU);
     if (is_flip_vertically_) {
         variant_.AddDefine("NEED_FLIP_Y");
     }
     device.GetResourceCache().RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, vert_shader_, variant_);
     device.GetResourceCache().RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, frag_shader_, variant_);
-    
+
     depth_stencil_state_.depth_write_enable = false;
     depth_stencil_state_.depth_compare_op = VK_COMPARE_OP_LESS_OR_EQUAL;
     color_blend_state_.attachments.resize(1);
     rasterization_state_.cull_mode = VK_CULL_MODE_BACK_BIT;
-    
+
     // Create a default sampler
     VkSamplerCreateInfo sampler_create_info = {};
     sampler_create_info.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
@@ -153,8 +144,8 @@ void SkyboxSubpass::Prepare() {
 }
 
 void SkyboxSubpass::Draw(CommandBuffer &command_buffer) {
-    const auto kProjectionMatrix = camera_->projection_matrix();
-    auto view_matrix = camera_->view_matrix();
+    const auto kProjectionMatrix = camera_->ProjectionMatrix();
+    auto view_matrix = camera_->ViewMatrix();
     view_matrix[12] = 0;
     view_matrix[13] = 0;
     view_matrix[14] = 0;
@@ -162,14 +153,14 @@ void SkyboxSubpass::Draw(CommandBuffer &command_buffer) {
     auto matrix = kProjectionMatrix * view_matrix;
     std::vector<uint8_t> bytes = ToBytes(matrix);
     vp_matrix_->Update(bytes);
-    
+
     // pipeline state
     command_buffer.SetRasterizationState(rasterization_state_);
     command_buffer.SetMultisampleState(multisample_state_);
     command_buffer.SetDepthStencilState(depth_stencil_state_);
     command_buffer.SetColorBlendState(color_blend_state_);
     command_buffer.SetInputAssemblyState(input_assembly_state_);
-    
+
     // shader
     auto &device = render_context_.GetDevice();
     auto &vert_shader_module =
@@ -179,15 +170,15 @@ void SkyboxSubpass::Draw(CommandBuffer &command_buffer) {
     std::vector<ShaderModule *> shader_modules{&vert_shader_module, &frag_shader_module};
     auto &pipeline_layout = PreparePipelineLayout(command_buffer, shader_modules);
     command_buffer.BindPipelineLayout(pipeline_layout);
-    
+
     // uniform & texture
     command_buffer.BindBuffer(*vp_matrix_, 0, vp_matrix_->GetSize(), 0, 10, 0);
     command_buffer.BindImage(cube_map_->GetVkImageView(VK_IMAGE_VIEW_TYPE_CUBE), *cube_sampler_, 0, 11, 0);
-    
+
     // vertex buffer
-    command_buffer.SetVertexInputState(mesh_->vertex_input_state());
-    for (uint32_t j = 0; j < mesh_->vertex_buffer_bindings().size(); j++) {
-        const auto &vertex_buffer_binding = mesh_->vertex_buffer_bindings()[j];
+    command_buffer.SetVertexInputState(mesh_->VertexInputState());
+    for (uint32_t j = 0; j < mesh_->VertexBufferBindings().size(); j++) {
+        const auto &vertex_buffer_binding = mesh_->VertexBufferBindings()[j];
         if (vertex_buffer_binding) {
             std::vector<std::reference_wrapper<const core::Buffer>> buffers;
             buffers.emplace_back(std::ref(*vertex_buffer_binding));
@@ -195,12 +186,13 @@ void SkyboxSubpass::Draw(CommandBuffer &command_buffer) {
         }
     }
     // Draw submesh indexed if indices exists
-    const auto &index_buffer_binding = mesh_->index_buffer_binding();
+    const auto &index_buffer_binding = mesh_->IndexBufferBinding();
     // Bind index buffer of submesh
-    command_buffer.BindIndexBuffer(index_buffer_binding->buffer(), 0, index_buffer_binding->index_type());
-    
+    command_buffer.BindIndexBuffer(index_buffer_binding->Buffer(), 0, index_buffer_binding->IndexType());
+
     // Draw submesh using indexed data
-    command_buffer.DrawIndexed(mesh_->sub_mesh()->count(), mesh_->instance_count(), mesh_->sub_mesh()->start(), 0, 0);
+    command_buffer.DrawIndexed(mesh_->FirstSubMesh()->Count(), mesh_->InstanceCount(), mesh_->FirstSubMesh()->Start(),
+                               0, 0);
 }
 
-}
+}  // namespace vox

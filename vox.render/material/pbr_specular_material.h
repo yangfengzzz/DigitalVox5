@@ -16,44 +16,45 @@ class PbrSpecularMaterial : public PbrBaseMaterial {
 public:
     struct alignas(16) PBRSpecularData {
         Color specular_color = Color(1, 1, 1, 1);
-        float glossiness = 1.f;;
+        float glossiness = 1.f;
+        ;
     };
-    
+
     /**
      * Specular color.
      */
-    [[nodiscard]] const Color &specular_color() const;
-    
-    void set_specular_color(const Color &new_value);
-    
+    [[nodiscard]] const Color &SpecularColor() const;
+
+    void SetSpecularColor(const Color &new_value);
+
     /**
      * Glossiness.
      */
-    [[nodiscard]] float glossiness() const;
-    
-    void set_glossiness(float new_value);
-    
+    [[nodiscard]] float Glossiness() const;
+
+    void SetGlossiness(float new_value);
+
     /**
      * Specular glossiness texture.
      * @remarks RGB is specular, A is glossiness
      */
-    [[nodiscard]] std::shared_ptr<Image> specular_glossiness_texture() const;
-    
-    void set_specular_glossiness_texture(const std::shared_ptr<Image> &new_value);
-    
-    void set_specular_glossiness_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
-    
+    [[nodiscard]] std::shared_ptr<Image> SpecularGlossinessTexture() const;
+
+    void SetSpecularGlossinessTexture(const std::shared_ptr<Image> &new_value);
+
+    void SetSpecularGlossinessTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+
     /**
      * Create a pbr specular-glossiness workflow material instance.
      */
     PbrSpecularMaterial(Device &device, const std::string &name = "");
-    
+
 private:
     PBRSpecularData pbr_specular_data_;
     const std::string pbr_specular_prop_;
-    
+
     std::shared_ptr<Image> specular_glossiness_texture_{nullptr};
     const std::string specular_glossiness_texture_prop_;
 };
 
-}
+}  // namespace vox

@@ -7,13 +7,10 @@
 #include "button_arrow.h"
 
 namespace vox::ui {
-ButtonArrow::ButtonArrow(ImGuiDir direction) :
-direction_(direction) {
-}
+ButtonArrow::ButtonArrow(ImGuiDir direction) : direction_(direction) {}
 
 void ButtonArrow::draw_impl() {
-    if (ImGui::ArrowButton(widget_id_.c_str(), direction_))
-        clicked_event_.invoke();
+    if (ImGui::ArrowButton(widget_id_.c_str(), direction_)) clicked_event_.Invoke();
 }
 
-}
+}  // namespace vox::ui

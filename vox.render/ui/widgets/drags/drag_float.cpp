@@ -7,14 +7,8 @@
 #include "drag_float.h"
 
 namespace vox::ui {
-DragFloat::DragFloat(float min,
-                     float max,
-                     float value,
-                     float speed,
-                     const std::string &label,
-                     const std::string &format) :
-DragSingleScalar<float>(ImGuiDataType_::ImGuiDataType_Float, min, max,
-                        value, speed, label, format) {
-}
+DragFloat::DragFloat(
+        float min, float max, float value, float speed, const std::string &label, const std::string &format)
+    : DragSingleScalar<float>(ImGuiDataType_::ImGuiDataType_Float, min, max, value, speed, label, format) {}
 
-}
+}  // namespace vox::ui

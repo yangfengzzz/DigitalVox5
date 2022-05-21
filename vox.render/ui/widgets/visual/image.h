@@ -6,9 +6,10 @@
 
 #pragma once
 
+#include <volk.h>
+
 #include "ui/widgets/widget.h"
 #include "vector2.h"
-#include <volk.h>
 
 namespace vox::ui {
 /**
@@ -17,15 +18,15 @@ namespace vox::ui {
 class Image : public Widget {
 public:
     Image(VkDescriptorSet texture_id, const Vector2F &size);
-    
+
     void set_texture_view(VkDescriptorSet texture_id);
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     VkDescriptorSet texture_id_;
     Vector2F size_;
 };
 
-}
+}  // namespace vox::ui

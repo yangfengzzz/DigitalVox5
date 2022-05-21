@@ -7,8 +7,8 @@
 #pragma once
 
 #include "button.h"
-#include "vector2.h"
 #include "color.h"
+#include "vector2.h"
 
 namespace vox::ui {
 /**
@@ -16,23 +16,21 @@ namespace vox::ui {
  */
 class ButtonSimple : public Button {
 public:
-    explicit ButtonSimple(std::string label = "",
-                          const Vector2F &size = Vector2F(0.f, 0.f),
-                          bool disabled = false);
-    
+    explicit ButtonSimple(std::string label = "", const Vector2F &size = Vector2F(0.f, 0.f), bool disabled = false);
+
 protected:
     void draw_impl() override;
-    
+
 public:
     std::string label_;
     Vector2F size_;
     bool disabled_ = false;
-    
+
     Color idle_background_color_;
     Color hovered_background_color_;
     Color clicked_background_color_;
-    
+
     Color text_color_;
 };
 
-}
+}  // namespace vox::ui

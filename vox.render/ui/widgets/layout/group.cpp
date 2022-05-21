@@ -7,8 +7,6 @@
 #include "group.h"
 
 namespace vox::ui {
-void Group::draw_impl() {
-    draw_widgets();
-}
+void Group::draw_impl() { draw_widgets(); }
 
-}
+}  // namespace vox::ui

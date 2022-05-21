@@ -15,9 +15,9 @@ namespace vox::ui {
 class TextWrapped : public Text {
 public:
     explicit TextWrapped(const std::string &content = "");
-    
+
 protected:
     void draw_impl() override;
 };
 
-}
+}  // namespace vox::ui

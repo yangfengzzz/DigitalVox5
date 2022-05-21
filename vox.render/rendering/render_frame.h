@@ -7,9 +7,6 @@
 #pragma once
 
 #include "buffer_pool.h"
-#include "helpers.h"
-#include "resource_caching.h"
-#include "vk_common.h"
 #include "core/buffer.h"
 #include "core/command_buffer.h"
 #include "core/command_pool.h"
@@ -18,14 +15,14 @@
 #include "core/query_pool.h"
 #include "core/queue.h"
 #include "fence_pool.h"
+#include "helpers.h"
 #include "rendering/render_target.h"
+#include "resource_caching.h"
 #include "semaphore_pool.h"
+#include "vk_common.h"
 
 namespace vox {
-enum BufferAllocationStrategy {
-    ONE_ALLOCATION_PER_BUFFER,
-    MULTIPLE_ALLOCATIONS_PER_BUFFER
-};
+enum BufferAllocationStrategy { ONE_ALLOCATION_PER_BUFFER, MULTIPLE_ALLOCATIONS_PER_BUFFER };
 
 /**
  * @brief RenderFrame is a container for per-frame data, including BufferPool objects,
@@ -46,51 +43,51 @@ public:
      * @brief Block size of a buffer pool in kilobytes
      */
     static constexpr uint32_t buffer_pool_block_size_ = 256;
-    
+
     // A map of the supported usages to a multiplier for the BUFFER_POOL_BLOCK_SIZE
     const std::unordered_map<VkBufferUsageFlags, uint32_t> supported_usage_map_ = {
-        {VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, 1},
-        {VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
-            2},        // x2 the size of BUFFER_POOL_BLOCK_SIZE since SSBOs are normally much larger than other types of buffers
-        {VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, 1},
-        {VK_BUFFER_USAGE_INDEX_BUFFER_BIT, 1}};
-    
+            {VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, 1},
+            {VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, 2},  // x2 the size of BUFFER_POOL_BLOCK_SIZE since SSBOs are normally
+                                                      // much larger than other types of buffers
+            {VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, 1},
+            {VK_BUFFER_USAGE_INDEX_BUFFER_BIT, 1}};
+
     RenderFrame(Device &device, std::unique_ptr<RenderTarget> &&render_target, size_t thread_count = 1);
-    
+
     RenderFrame(const RenderFrame &) = delete;
-    
+
     RenderFrame(RenderFrame &&) = delete;
-    
+
     RenderFrame &operator=(const RenderFrame &) = delete;
-    
+
     RenderFrame &operator=(RenderFrame &&) = delete;
-    
+
     void Reset();
-    
+
     Device &GetDevice();
-    
+
     [[nodiscard]] const FencePool &GetFencePool() const;
-    
+
     VkFence RequestFence();
-    
+
     [[nodiscard]] const SemaphorePool &GetSemaphorePool() const;
-    
+
     VkSemaphore RequestSemaphore();
-    
+
     VkSemaphore RequestSemaphoreWithOwnership();
-    
+
     void ReleaseOwnedSemaphore(VkSemaphore semaphore);
-    
+
     /**
      * @brief Called when the swapchain changes
      * @param render_target A new render target with updated images
      */
     void UpdateRenderTarget(std::unique_ptr<RenderTarget> &&render_target);
-    
+
     RenderTarget &GetRenderTarget();
-    
+
     [[nodiscard]] const RenderTarget &GetRenderTargetConst() const;
-    
+
     /**
      * @brief Requests a command buffer to the command pool of the active frame
      *        A frame should be active at the moment of requesting it
@@ -102,23 +99,23 @@ public:
      * @return A command buffer related to the current active frame
      */
     CommandBuffer &RequestCommandBuffer(const Queue &queue,
-                                          CommandBuffer::ResetMode reset_mode = CommandBuffer::ResetMode::RESET_POOL,
-                                          VkCommandBufferLevel level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
-                                          size_t thread_index = 0);
-    
+                                        CommandBuffer::ResetMode reset_mode = CommandBuffer::ResetMode::RESET_POOL,
+                                        VkCommandBufferLevel level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
+                                        size_t thread_index = 0);
+
     DescriptorSet &RequestDescriptorSet(DescriptorSetLayout &descriptor_set_layout,
-                                          const BindingMap<VkDescriptorBufferInfo> &buffer_infos,
-                                          const BindingMap<VkDescriptorImageInfo> &image_infos,
-                                          size_t thread_index = 0);
-    
+                                        const BindingMap<VkDescriptorBufferInfo> &buffer_infos,
+                                        const BindingMap<VkDescriptorImageInfo> &image_infos,
+                                        size_t thread_index = 0);
+
     void ClearDescriptors();
-    
+
     /**
      * @brief Sets a new buffer allocation strategy
      * @param new_strategy The new buffer allocation strategy
      */
     void SetBufferAllocationStrategy(BufferAllocationStrategy new_strategy);
-    
+
     /**
      * @param usage Usage of the buffer
      * @param size Amount of memory required
@@ -126,15 +123,15 @@ public:
      * @return The requested allocation, it may be empty
      */
     BufferAllocation AllocateBuffer(VkBufferUsageFlags usage, VkDeviceSize size, size_t thread_index = 0);
-    
+
     /**
      * @brief Updates all the descriptor sets in the current frame at a specific thread index
      */
     void UpdateDescriptorSets(size_t thread_index = 0);
-    
+
 private:
     Device &device_;
-    
+
     /**
      * @brief Retrieve the frame's command pool(s)
      * @param queue The queue command buffers will be submitted on
@@ -143,27 +140,27 @@ private:
      * @return The frame's command pool(s)
      */
     std::vector<std::unique_ptr<CommandPool>> &GetCommandPools(const Queue &queue, CommandBuffer::ResetMode reset_mode);
-    
+
     /// Commands pools associated to the frame
     std::map<uint32_t, std::vector<std::unique_ptr<CommandPool>>> command_pools_;
-    
+
     /// Descriptor pools for the frame
     std::vector<std::unique_ptr<std::unordered_map<std::size_t, DescriptorPool>>> descriptor_pools_;
-    
+
     /// Descriptor sets for the frame
     std::vector<std::unique_ptr<std::unordered_map<std::size_t, DescriptorSet>>> descriptor_sets_;
-    
+
     FencePool fence_pool_;
-    
+
     SemaphorePool semaphore_pool_;
-    
+
     size_t thread_count_;
-    
+
     std::unique_ptr<RenderTarget> swapchain_render_target_;
-    
+
     BufferAllocationStrategy buffer_allocation_strategy_{BufferAllocationStrategy::MULTIPLE_ALLOCATIONS_PER_BUFFER};
-    
+
     std::map<VkBufferUsageFlags, std::vector<std::pair<BufferPool, BufferBlock *>>> buffer_pools_;
 };
 
-}        // namespace vox
+}  // namespace vox

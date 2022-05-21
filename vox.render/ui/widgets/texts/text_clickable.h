@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "text.h"
 #include "event.h"
+#include "text.h"
 
 namespace vox::ui {
 /**
@@ -16,13 +16,13 @@ namespace vox::ui {
 class TextClickable : public Text {
 public:
     explicit TextClickable(const std::string &content = "");
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     Event<> clicked_event_;
     Event<> double_clicked_event_;
 };
 
-}
+}  // namespace vox::ui

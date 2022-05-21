@@ -5,18 +5,15 @@
 //  property of any third parties.
 
 #include "capsule_character_controller.h"
+
 #include "../physics_manager.h"
 #include "entity.h"
 #include "scene.h"
 
 namespace vox::physics {
-std::string CapsuleCharacterController::name() {
-    return "CapsuleCharacterController";
-}
+std::string CapsuleCharacterController::name() { return "CapsuleCharacterController"; }
 
-CapsuleCharacterController::CapsuleCharacterController(Entity *entity) :
-CharacterController(entity) {
-}
+CapsuleCharacterController::CapsuleCharacterController(Entity *entity) : CharacterController(entity) {}
 
 void CapsuleCharacterController::set_desc(const PxCapsuleControllerDesc &desc) {
     native_controller_ = PhysicsManager::GetSingleton().native_character_controller_manager_->createController(desc);
@@ -46,17 +43,11 @@ bool CapsuleCharacterController::set_climbing_mode(PxCapsuleClimbingMode::Enum m
     return static_cast<PxCapsuleController *>(native_controller_)->setClimbingMode(mode);
 }
 
-//MARK: - Reflection
-void CapsuleCharacterController::on_serialize(nlohmann::json &data) {
-    
-}
+// MARK: - Reflection
+void CapsuleCharacterController::OnSerialize(nlohmann::json &data) {}
 
-void CapsuleCharacterController::on_deserialize(const nlohmann::json &data) {
-    
-}
+void CapsuleCharacterController::OnDeserialize(const nlohmann::json &data) {}
 
-void CapsuleCharacterController::on_inspector(ui::WidgetContainer &p_root) {
-    
-}
+void CapsuleCharacterController::OnInspector(ui::WidgetContainer &p_root) {}
 
-}
+}  // namespace vox::physics

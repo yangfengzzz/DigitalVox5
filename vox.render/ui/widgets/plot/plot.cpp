@@ -14,9 +14,13 @@ Plot::Plot(std::vector<float> data,
            float max_scale,
            const Vector2F &size,
            std::string overlay,
-           std::string label) :
-DataWidget(data_), data_(std::move(data)), min_scale_(min_scale), max_scale_(max_scale),
-size_(size), overlay_(std::move(overlay)), label_(std::move(label)) {
-}
+           std::string label)
+    : DataWidget(data_),
+      data_(std::move(data)),
+      min_scale_(min_scale),
+      max_scale_(max_scale),
+      size_(size),
+      overlay_(std::move(overlay)),
+      label_(std::move(label)) {}
 
-}
+}  // namespace vox::ui

@@ -34,45 +34,45 @@ struct ColliderShapeUpAxis {
 class CapsuleColliderShape : public ColliderShape {
 public:
     CapsuleColliderShape();
-    
+
     /**
      * Radius of capsule.
      */
     [[nodiscard]] float radius() const;
-    
+
     void set_radius(float value);
-    
+
     /**
      * Height of capsule.
      */
     [[nodiscard]] float height() const;
-    
+
     void set_height(float value);
-    
+
     /**
      * Up axis of capsule.
      */
     ColliderShapeUpAxis::Enum up_axis();
-    
+
     void set_up_axis(ColliderShapeUpAxis::Enum value);
-    
+
     void set_world_scale(const Vector3F &scale) override;
-    
+
 #ifdef DEBUG
     void set_entity(Entity *value) override;
-    
+
     void sync_capsule_geometry();
-    
+
     void sync_capsule_axis(ColliderShapeUpAxis::Enum up_axis);
-    
+
     MeshRenderer *renderer_{nullptr};
 #endif
-    
+
 private:
     float radius_ = 1;
     float height_ = 2;
     ColliderShapeUpAxis::Enum up_axis_ = ColliderShapeUpAxis::Enum::Y;
 };
 
-}
+}  // namespace vox::physics
 #endif /* DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_CAPSULE_COLLIDER_SHAPE_H_ */

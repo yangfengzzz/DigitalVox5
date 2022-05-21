@@ -20,4 +20,4 @@ public:
     static void bind_globals(sol::state &lua_state);
 };
 
-}
+}  // namespace vox

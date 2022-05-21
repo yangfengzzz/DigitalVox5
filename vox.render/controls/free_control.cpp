@@ -5,121 +5,120 @@
 //  property of any third parties.
 
 #include "free_control.h"
+
 #include "../entity.h"
 #include "math_utils.h"
 
 namespace vox::control {
-std::string FreeControl::name() {
-    return "FreeControl";
-}
+std::string FreeControl::name() { return "FreeControl"; }
 
-FreeControl::FreeControl(Entity *entity) :
-Script(entity) {
+FreeControl::FreeControl(Entity *entity) : Script(entity) {
     // init spherical
-    update_spherical();
+    UpdateSpherical();
 }
 
-void FreeControl::onDisable() {
-    enable_event_ = false;
-}
+void FreeControl::OnScriptDisable() { enable_event_ = false; }
 
-void FreeControl::onEnable() {
-    enable_event_ = true;
-}
+void FreeControl::OnScriptEnable() { enable_event_ = true; }
 
-void FreeControl::on_destroy() {
-    onDisable();
-}
+void FreeControl::OnDestroy() { OnScriptDisable(); }
 
-void FreeControl::resize(uint32_t win_width, uint32_t win_height,
-                         uint32_t fb_width, uint32_t fb_height) {
+void FreeControl::Resize(uint32_t win_width, uint32_t win_height, uint32_t fb_width, uint32_t fb_height) {
     width_ = win_width;
     height_ = win_height;
 }
 
-void FreeControl::input_event(const InputEvent &input_event) {
+void FreeControl::InputEvent(const vox::InputEvent &input_event) {
     if (enable_event_) {
         if (input_event.GetSource() == EventSource::KEYBOARD) {
             const auto &key_event = static_cast<const KeyInputEvent &>(input_event);
             if (key_event.GetAction() == KeyAction::DOWN) {
-                on_key_down(key_event.GetCode());
+                OnKeyDown(key_event.GetCode());
             } else if (key_event.GetAction() == KeyAction::UP) {
-                on_key_up(key_event.GetCode());
+                OnKeyUp(key_event.GetCode());
             }
         } else if (input_event.GetSource() == EventSource::MOUSE) {
             const auto &mouse_button = static_cast<const MouseButtonInputEvent &>(input_event);
             if (mouse_button.GetAction() == MouseAction::DOWN) {
-                on_mouse_down(mouse_button.GetPosX(), mouse_button.GetPosY());
+                OnMouseDown(mouse_button.GetPosX(), mouse_button.GetPosY());
             } else if (mouse_button.GetAction() == MouseAction::UP) {
-                on_mouse_up();
+                OnMouseUp();
             } else if (mouse_button.GetAction() == MouseAction::MOVE) {
-                on_mouse_move(mouse_button.GetPosX(), mouse_button.GetPosY());
+                OnMouseMove(mouse_button.GetPosX(), mouse_button.GetPosY());
             }
-            } else if (input_event.GetSource() == EventSource::SCROLL) {
-            } else if (input_event.GetSource() == EventSource::TOUCHSCREEN) {
-                // TODO
-            }
+        } else if (input_event.GetSource() == EventSource::SCROLL) {
+        } else if (input_event.GetSource() == EventSource::TOUCHSCREEN) {
+            // TODO
+        }
     }
 }
 
-void FreeControl::on_key_down(KeyCode key) {
+void FreeControl::OnKeyDown(KeyCode key) {
     switch (key) {
         case KeyCode::W:
-        case KeyCode::UP:move_forward_ = true;
+        case KeyCode::UP:
+            move_forward_ = true;
             break;
-            
+
         case KeyCode::S:
-        case KeyCode::DOWN:move_backward_ = true;
+        case KeyCode::DOWN:
+            move_backward_ = true;
             break;
-            
+
         case KeyCode::A:
-        case KeyCode::LEFT:move_left_ = true;
+        case KeyCode::LEFT:
+            move_left_ = true;
             break;
-            
+
         case KeyCode::D:
-        case KeyCode::RIGHT:move_right_ = true;
+        case KeyCode::RIGHT:
+            move_right_ = true;
             break;
-            
-        default:break;
+
+        default:
+            break;
     }
 }
 
-void FreeControl::on_key_up(KeyCode key) {
+void FreeControl::OnKeyUp(KeyCode key) {
     switch (key) {
         case KeyCode::W:
-        case KeyCode::UP:move_forward_ = false;
+        case KeyCode::UP:
+            move_forward_ = false;
             break;
-            
+
         case KeyCode::S:
-        case KeyCode::DOWN:move_backward_ = false;
+        case KeyCode::DOWN:
+            move_backward_ = false;
             break;
-            
+
         case KeyCode::A:
-        case KeyCode::LEFT:move_left_ = false;
+        case KeyCode::LEFT:
+            move_left_ = false;
             break;
-            
+
         case KeyCode::D:
-        case KeyCode::RIGHT:move_right_ = false;
+        case KeyCode::RIGHT:
+            move_right_ = false;
             break;
-            
-        default:break;
+
+        default:
+            break;
     }
 }
 
-void FreeControl::on_mouse_down(double xpos, double ypos) {
+void FreeControl::OnMouseDown(double xpos, double ypos) {
     press_ = true;
     rotate_.x = static_cast<float>(xpos);
     rotate_.y = static_cast<float>(ypos);
 }
 
-void FreeControl::on_mouse_up() {
-    press_ = false;
-}
+void FreeControl::OnMouseUp() { press_ = false; }
 
-void FreeControl::on_mouse_move(double client_x, double client_y) {
+void FreeControl::OnMouseMove(double client_x, double client_y) {
     if (!press_) return;
-    if (!enabled()) return;
-    
+    if (!Enabled()) return;
+
     const auto kMovementX = client_x - rotate_.x;
     const auto kMovementY = client_y - rotate_.y;
     rotate_.x = static_cast<float>(client_x);
@@ -128,55 +127,55 @@ void FreeControl::on_mouse_move(double client_x, double client_y) {
     const auto kFactorY = 180.0 / height_;
     const auto kActualX = kMovementX * kFactorX;
     const auto kActualY = kMovementY * kFactorY;
-    
-    rotate(-static_cast<float>(kActualX), static_cast<float>(kActualY));
+
+    Rotate(-static_cast<float>(kActualX), static_cast<float>(kActualY));
 }
 
-void FreeControl::rotate(float alpha, float beta) {
+void FreeControl::Rotate(float alpha, float beta) {
     theta_ += degreesToRadians(alpha);
     phi_ += degreesToRadians(beta);
     phi_ = clamp<float>(phi_, 1e-6, M_PI - 1e-6);
     spherical_.theta_ = theta_;
     spherical_.phi_ = phi_;
-    spherical_.set_to_vec3(v3_cache_);
-    Point3F offset = entity()->transform_->position() + v3_cache_;
+    spherical_.SetToVec3(v3_cache_);
+    Point3F offset = GetEntity()->transform->Position() + v3_cache_;
     v3_cache_ = Vector3F(offset.x, offset.y, offset.y);
-    entity()->transform_->look_at(offset, Vector3F(0, 1, 0));
+    GetEntity()->transform->LookAt(offset, Vector3F(0, 1, 0));
 }
 
-void FreeControl::on_update(float delta) {
-    if (!enabled()) return;
-    
+void FreeControl::OnUpdate(float delta) {
+    if (!Enabled()) return;
+
     const auto kActualMoveSpeed = delta * movement_speed_;
-    forward_ = entity()->transform_->world_forward();
-    right_ = entity()->transform_->world_right();
-    
+    forward_ = GetEntity()->transform->WorldForward();
+    right_ = GetEntity()->transform->WorldRight();
+
     if (move_forward_) {
-        entity()->transform_->translate(forward_ * kActualMoveSpeed, false);
+        GetEntity()->transform->Translate(forward_ * kActualMoveSpeed, false);
     }
     if (move_backward_) {
-        entity()->transform_->translate(forward_ * (-kActualMoveSpeed), false);
+        GetEntity()->transform->Translate(forward_ * (-kActualMoveSpeed), false);
     }
     if (move_left_) {
-        entity()->transform_->translate(right_ * (-kActualMoveSpeed), false);
+        GetEntity()->transform->Translate(right_ * (-kActualMoveSpeed), false);
     }
     if (move_right_) {
-        entity()->transform_->translate(right_ * kActualMoveSpeed, false);
+        GetEntity()->transform->Translate(right_ * kActualMoveSpeed, false);
     }
-    
+
     if (floor_mock_) {
-        const auto kPosition = entity()->transform_->position();
+        const auto kPosition = GetEntity()->transform->Position();
         if (kPosition.y != floor_y_) {
-            entity()->transform_->set_position(kPosition.x, floor_y_, kPosition.z);
+            GetEntity()->transform->SetPosition(kPosition.x, floor_y_, kPosition.z);
         }
     }
 }
 
-void FreeControl::update_spherical() {
-    v3_cache_ = entity()->transform_->rotation_quaternion() * Vector3F(0, 0, -1);
-    spherical_.set_from_vec3(v3_cache_);
+void FreeControl::UpdateSpherical() {
+    v3_cache_ = GetEntity()->transform->RotationQuaternion() * Vector3F(0, 0, -1);
+    spherical_.SetFromVec3(v3_cache_);
     theta_ = spherical_.theta_;
     phi_ = spherical_.phi_;
 }
 
-}
+}  // namespace vox::control

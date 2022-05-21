@@ -11,7 +11,7 @@
 namespace vox {
 class ShadowMapApp : public ForwardApplication {
 public:
-    void load_scene() override;
+    void LoadScene() override;
 };
 
 }

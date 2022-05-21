@@ -7,31 +7,27 @@
 #include "combo_box.h"
 
 namespace vox::ui {
-ComboBox::ComboBox(int current_choice) :
-DataWidget<int>(current_choice_), current_choice_(current_choice) {
-    
-}
+ComboBox::ComboBox(int current_choice) : DataWidget<int>(current_choice_), current_choice_(current_choice) {}
 
 void ComboBox::draw_impl() {
-    if (choices_.find(current_choice_) == choices_.end())
-        current_choice_ = choices_.begin()->first;
-    
+    if (choices_.find(current_choice_) == choices_.end()) current_choice_ = choices_.begin()->first;
+
     if (ImGui::BeginCombo(widget_id_.c_str(), choices_[current_choice_].c_str())) {
         for (const auto &[kEy, kValue] : choices_) {
             bool selected = kEy == current_choice_;
-            
+
             if (ImGui::Selectable(kValue.c_str(), selected)) {
                 if (!selected) {
                     ImGui::SetItemDefaultFocus();
                     current_choice_ = kEy;
-                    value_changed_event_.invoke(current_choice_);
+                    value_changed_event_.Invoke(current_choice_);
                     notify_change();
                 }
             }
         }
-        
+
         ImGui::EndCombo();
     }
 }
 
-}
+}  // namespace vox::ui

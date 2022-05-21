@@ -4,11 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-
 #pragma once
 
-#include "vk_common.h"
 #include "platform/window.h"
+#include "vk_common.h"
 
 struct GLFWwindow;
 
@@ -21,27 +20,27 @@ class Platform;
 class GlfwWindow : public Window {
 public:
     GlfwWindow(Platform *platform, const Window::Properties &properties);
-    
+
     ~GlfwWindow() override;
-    
+
     VkSurfaceKHR CreateSurface(Instance &instance) override;
-    
+
     VkSurfaceKHR CreateSurface(VkInstance instance, VkPhysicalDevice physical_device) override;
-    
+
     bool ShouldClose() override;
-    
+
     void ProcessEvents() override;
-    
+
     void Close() override;
-    
+
     [[nodiscard]] float GetDpiFactor() const override;
-    
+
     [[nodiscard]] float GetContentScaleFactor() const override;
-    
+
     GLFWwindow *Handle();
-    
+
 private:
     GLFWwindow *handle_ = nullptr;
 };
 
-}        // namespace vox
+}  // namespace vox

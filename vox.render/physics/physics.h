@@ -7,12 +7,14 @@
 #ifndef DIGITALVOX_VOX_RENDER_PHYSICS_PHYSICS_H_
 #define DIGITALVOX_VOX_RENDER_PHYSICS_PHYSICS_H_
 
-#include "vector3.h"
 #include <PxPhysicsAPI.h>
+
 #include <memory>
 
+#include "vector3.h"
+
 namespace vox::physics {
-//MARK: - Forward Declare
+// MARK: - Forward Declare
 class PhysicsMaterial;
 
 class ColliderShape;
@@ -29,19 +31,19 @@ class CapsuleCharacterController;
 
 using namespace physx;
 
-//MARK: - PxPhysics
+// MARK: - PxPhysics
 class Physics {
 public:
     Physics();
-    
+
     PxPhysics *operator()();
-    
+
 private:
     PxPhysics *physics_;
     PxDefaultAllocator g_allocator_;
     PxDefaultErrorCallback g_error_callback_;
 };
 
-}
+}  // namespace vox::physics
 
 #endif /* DIGITALVOX_VOX_RENDER_PHYSICS_PHYSICS_H_ */

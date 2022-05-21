@@ -22,4 +22,4 @@ public:
                      const std::string &format = "%d");
 };
 
-}
+}  // namespace vox::ui

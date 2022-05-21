@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "plane_collider_shape.h"
+
 #include "../physics_manager.h"
 
 namespace vox::physics {
@@ -12,14 +13,12 @@ PlaneColliderShape::PlaneColliderShape() {
     native_geometry_ = std::make_shared<PxPlaneGeometry>();
     native_shape_ = PhysicsManager::native_physics_()->createShape(*native_geometry_, *native_material_, true);
     native_shape_->setQueryFilterData(PxFilterData(PhysicsManager::id_generator_++, 0, 0, 0));
-    
+
     pose_.setOrientation(QuaternionF(0, 0, ColliderShape::half_sqrt_, ColliderShape::half_sqrt_));
     set_local_pose(pose_);
 }
 
-Vector3F PlaneColliderShape::rotation() {
-    return pose_.orientation().toEuler();
-}
+Vector3F PlaneColliderShape::rotation() { return pose_.orientation().toEuler(); }
 
 void PlaneColliderShape::set_rotation(const Vector3F &value) {
     auto rotation = QuaternionF::makeRotationEuler(value.x, value.y, value.z);
@@ -29,4 +28,4 @@ void PlaneColliderShape::set_rotation(const Vector3F &value) {
     set_local_pose(pose_);
 }
 
-}
+}  // namespace vox::physics

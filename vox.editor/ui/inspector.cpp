@@ -43,17 +43,17 @@ PanelWindow(title, opened, window_settings) {
     
     /* Active field */
     auto active_gatherer = [this] {
-        return target_entity_ != nullptr && target_entity_->is_active();
+        return target_entity_ != nullptr && target_entity_->IsActive();
     };
     auto active_provider = [this](bool active) {
-        if (target_entity_) target_entity_->set_is_active(active);
+        if (target_entity_) target_entity_->SetIsActive(active);
     };
     GuiDrawer::draw_boolean(header_columns, "Active", active_gatherer, active_provider);
     
 }
 
 Inspector::~Inspector() {
-    Entity::destroyed_event_ -= destroyed_listener_;
+    Entity::destroyed_event -= destroyed_listener_;
     un_focus();
 }
 
@@ -65,22 +65,22 @@ void Inspector::focus_entity(Entity *target) {
     
     target_entity_ = target;
     
-    component_added_listener_ = target_entity_->component_added_event_ += [this](auto useless) {
+    component_added_listener_ = target_entity_->component_added_event += [this](auto useless) {
         EditorActions::GetSingleton().delay_action([this] {
             refresh();
         });
     };
-    behaviour_added_listener_ = target_entity_->behaviour_added_event_ += [this](auto useless) {
+    behaviour_added_listener_ = target_entity_->behaviour_added_event += [this](auto useless) {
         EditorActions::GetSingleton().delay_action([this] {
             refresh();
         });
     };
-    component_removed_listener_ = target_entity_->component_removed_event_ += [this](auto useless) {
+    component_removed_listener_ = target_entity_->component_removed_event += [this](auto useless) {
         EditorActions::GetSingleton().delay_action([this] {
             refresh();
         });
     };
-    behaviour_removed_listener_ = target_entity_->behaviour_removed_event_ += [this](auto useless) {
+    behaviour_removed_listener_ = target_entity_->behaviour_removed_event += [this](auto useless) {
         EditorActions::GetSingleton().delay_action([this] {
             refresh();
         });
@@ -99,10 +99,10 @@ void Inspector::focus_entity(Entity *target) {
 
 void Inspector::un_focus() {
     if (target_entity_) {
-        target_entity_->component_added_event_ -= component_added_listener_;
-        target_entity_->component_removed_event_ -= component_removed_listener_;
-        target_entity_->behaviour_added_event_ -= behaviour_added_listener_;
-        target_entity_->behaviour_removed_event_ -= behaviour_removed_listener_;
+        target_entity_->component_added_event -= component_added_listener_;
+        target_entity_->component_removed_event -= component_removed_listener_;
+        target_entity_->behaviour_added_event -= behaviour_added_listener_;
+        target_entity_->behaviour_removed_event -= behaviour_removed_listener_;
     }
     
     soft_un_focus();
@@ -128,7 +128,7 @@ void Inspector::create_entity_inspector(Entity *target) {
     //        if (component->name() != "Transform")
     //            components[component->name()] = component.get();
     
-    auto transform = target->get_component<Transform>();
+    auto transform = target->GetComponent<Transform>();
     if (transform)
         draw_component(transform);
     

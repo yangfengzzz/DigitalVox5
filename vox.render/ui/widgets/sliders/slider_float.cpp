@@ -12,9 +12,7 @@ SliderFloat::SliderFloat(float min,
                          float value,
                          SliderOrientation orientation,
                          const std::string &label,
-                         const std::string &format) :
-SliderSingleScalar<float>(ImGuiDataType_::ImGuiDataType_Float, min, max,
-                          value, orientation, label, format) {
-}
+                         const std::string &format)
+    : SliderSingleScalar<float>(ImGuiDataType_::ImGuiDataType_Float, min, max, value, orientation, label, format) {}
 
-}
+}  // namespace vox::ui

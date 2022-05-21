@@ -15,12 +15,12 @@ namespace vox::ui {
 class TextLabelled : public Text {
 public:
     explicit TextLabelled(const std::string &content = "", std::string label = "");
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     std::string label_;
 };
 
-}
+}  // namespace vox::ui

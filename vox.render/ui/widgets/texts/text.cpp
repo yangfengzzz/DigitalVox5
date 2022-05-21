@@ -9,13 +9,8 @@
 #include <utility>
 
 namespace vox::ui {
-Text::Text(std::string content) :
-DataWidget(content_),
-content_(std::move(content)) {
-}
+Text::Text(std::string content) : DataWidget(content_), content_(std::move(content)) {}
 
-void Text::draw_impl() {
-    ImGui::Text("%s", content_.c_str());
-}
+void Text::draw_impl() { ImGui::Text("%s", content_.c_str()); }
 
-}
+}  // namespace vox::ui

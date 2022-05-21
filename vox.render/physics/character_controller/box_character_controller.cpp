@@ -5,18 +5,15 @@
 //  property of any third parties.
 
 #include "box_character_controller.h"
+
+#include "../physics_manager.h"
 #include "entity.h"
 #include "scene.h"
-#include "../physics_manager.h"
 
 namespace vox::physics {
-std::string BoxCharacterController::name() {
-    return "BoxCharacterController";
-}
+std::string BoxCharacterController::name() { return "BoxCharacterController"; }
 
-BoxCharacterController::BoxCharacterController(Entity *entity) :
-CharacterController(entity) {
-}
+BoxCharacterController::BoxCharacterController(Entity *entity) : CharacterController(entity) {}
 
 void BoxCharacterController::set_desc(const PxBoxControllerDesc &desc) {
     native_controller_ = PhysicsManager::GetSingleton().native_character_controller_manager_->createController(desc);
@@ -46,17 +43,11 @@ bool BoxCharacterController::set_half_forward_extent(float half_forward_extent) 
     return static_cast<PxBoxController *>(native_controller_)->setHalfForwardExtent(half_forward_extent);
 }
 
-//MARK: - Reflection
-void BoxCharacterController::on_serialize(nlohmann::json &data) {
-    
-}
+// MARK: - Reflection
+void BoxCharacterController::OnSerialize(nlohmann::json &data) {}
 
-void BoxCharacterController::on_deserialize(const nlohmann::json &data) {
-    
-}
+void BoxCharacterController::OnDeserialize(const nlohmann::json &data) {}
 
-void BoxCharacterController::on_inspector(ui::WidgetContainer &p_root) {
-    
-}
+void BoxCharacterController::OnInspector(ui::WidgetContainer &p_root) {}
 
-}
+}  // namespace vox::physics

@@ -5,53 +5,38 @@
 //  property of any third parties.
 
 #include "direct_light.h"
+
 #include "entity.h"
 #include "light_manager.h"
 
 namespace vox {
-std::string DirectLight::name() {
-    return "DirectLight";
-}
+std::string DirectLight::name() { return "DirectLight"; }
 
-DirectLight::DirectLight(Entity *entity) :
-Light(entity) {
-}
+DirectLight::DirectLight(Entity *entity) : Light(entity) {}
 
-void DirectLight::on_enable() {
-	LightManager::GetSingleton().attach_direct_light(this);
-}
+void DirectLight::OnEnable() { LightManager::GetSingleton().AttachDirectLight(this); }
 
-void DirectLight::on_disable() {
-	LightManager::GetSingleton().detach_direct_light(this);
-}
+void DirectLight::OnDisable() { LightManager::GetSingleton().DetachDirectLight(this); }
 
-void DirectLight::update_shader_data(DirectLightData &shader_data) {
+void DirectLight::UpdateShaderData(DirectLightData &shader_data) {
     shader_data.color = Vector3F(color_.r * intensity_, color_.g * intensity_, color_.b * intensity_);
-    auto direction = entity()->transform_->world_forward();
+    auto direction = GetEntity()->transform->WorldForward();
     shader_data.direction = Vector3F(direction.x, direction.y, direction.z);
 }
 
-//MARK: - Shadow
-Vector3F DirectLight::direction() {
-    return entity()->transform_->world_forward();
-}
+// MARK: - Shadow
+Vector3F DirectLight::Direction() { return GetEntity()->transform->WorldForward(); }
 
-Matrix4x4F DirectLight::shadow_projection_matrix() {
+Matrix4x4F DirectLight::ShadowProjectionMatrix() {
     assert(false && "cascade shadow don't use this projection");
     throw std::exception();
 }
 
-//MARK: - Reflection
-void DirectLight::on_serialize(nlohmann::json &data) {
-    
-}
+// MARK: - Reflection
+void DirectLight::OnSerialize(nlohmann::json &data) {}
 
-void DirectLight::on_deserialize(const nlohmann::json &data) {
-    
-}
+void DirectLight::OnDeserialize(const nlohmann::json &data) {}
 
-void DirectLight::on_inspector(ui::WidgetContainer &p_root) {
-    
-}
+void DirectLight::OnInspector(ui::WidgetContainer &p_root) {}
 
-}
+}  // namespace vox

@@ -6,13 +6,14 @@
 
 #pragma once
 
-#include "sub_mesh.h"
-#include "index_buffer_binding.h"
-#include "bounding_box3.h"
-#include "update_flag_manager.h"
-#include "../vk_initializers.h"
-#include "rendering/pipeline_state.h"
 #include <string>
+
+#include "../vk_initializers.h"
+#include "bounding_box3.h"
+#include "index_buffer_binding.h"
+#include "rendering/pipeline_state.h"
+#include "sub_mesh.h"
+#include "update_flag_manager.h"
 
 namespace vox {
 class Mesh {
@@ -21,31 +22,31 @@ public:
     std::string name_;
     /** The bounding volume of the mesh. */
     BoundingBox3F bounds_ = BoundingBox3F();
-    
+
     /**
      * Instanced count, disable instanced drawing when set zero.
      */
-    [[nodiscard]] uint32_t instance_count() const;
-    
-    void set_instance_count(uint32_t value);
-    
+    [[nodiscard]] uint32_t InstanceCount() const;
+
+    void SetInstanceCount(uint32_t value);
+
     /**
      * First sub-mesh. Rendered using the first material.
      */
-    [[nodiscard]] const SubMesh *sub_mesh() const;
-    
+    [[nodiscard]] const SubMesh *FirstSubMesh() const;
+
     /**
      * A collection of sub-mesh, each sub-mesh can be rendered with an independent material.
      */
-    [[nodiscard]] const std::vector<SubMesh> &sub_meshes() const;
-    
+    [[nodiscard]] const std::vector<SubMesh> &SubMeshes() const;
+
     /**
      * Add sub-mesh, each sub-mesh can correspond to an independent material.
      * @param sub_mesh - Start drawing offset, if the index buffer is set,
      * it means the offset in the index buffer, if not set, it means the offset in the vertex buffer
      */
-    void add_sub_mesh(SubMesh sub_mesh);
-    
+    void AddSubMesh(SubMesh sub_mesh);
+
     /**
      * Add sub-mesh, each sub-mesh can correspond to an independent material.
      * @param start - Start drawing offset, if the index buffer is set,
@@ -55,48 +56,48 @@ public:
      * it means the count in the index buffer, if not set,
      * it means the count in the vertex buffer
      */
-    void add_sub_mesh(uint32_t start = 0, uint32_t count = 0);
-    
+    void AddSubMesh(uint32_t start = 0, uint32_t count = 0);
+
     /**
      * Clear all sub-mesh.
      */
-    void clear_sub_mesh();
-    
+    void ClearSubMesh();
+
     /**
      * Register update flag, update flag will be true if the vertex element changes.
      * @returns Update flag
      */
-    std::unique_ptr<UpdateFlag> register_update_flag();
-    
+    std::unique_ptr<UpdateFlag> RegisterUpdateFlag();
+
 public:
     /**
      * Set vertex state.
      * @param vertex_input_bindings - stride step size
      * @param vertex_input_attributes - Vertex attributes collection
      */
-    void set_vertex_input_state(const std::vector<VkVertexInputBindingDescription> &vertex_input_bindings,
-                                const std::vector<VkVertexInputAttributeDescription> &vertex_input_attributes);
-    
-    [[nodiscard]] const VertexInputState &vertex_input_state() const;
-    
+    void SetVertexInputState(const std::vector<VkVertexInputBindingDescription> &vertex_input_bindings,
+                             const std::vector<VkVertexInputAttributeDescription> &vertex_input_attributes);
+
+    [[nodiscard]] const VertexInputState &VertexInputState() const;
+
     /**
      * Index buffer binding.
      */
-    [[nodiscard]] const IndexBufferBinding *index_buffer_binding() const;
-    
-    void set_index_buffer_binding(std::unique_ptr<IndexBufferBinding> &&binding);
-    
-    [[nodiscard]] virtual size_t vertex_buffer_count() const = 0;
-    
-    [[nodiscard]] virtual const core::Buffer *vertex_buffer(size_t index) const = 0;
-    
+    [[nodiscard]] const IndexBufferBinding *IndexBufferBinding() const;
+
+    void SetIndexBufferBinding(std::unique_ptr<vox::IndexBufferBinding> &&binding);
+
+    [[nodiscard]] virtual size_t VertexBufferCount() const = 0;
+
+    [[nodiscard]] virtual const core::Buffer *VertexBuffer(size_t index) const = 0;
+
 protected:
     uint32_t instance_count_ = 1;
-    std::unique_ptr<IndexBufferBinding> index_buffer_binding_{nullptr};
-    VertexInputState vertex_input_state_;
-    
+    std::unique_ptr<vox::IndexBufferBinding> index_buffer_binding_{nullptr};
+    vox::VertexInputState vertex_input_state_;
+
     std::vector<SubMesh> sub_meshes_{};
     UpdateFlagManager update_flag_manager_;
 };
 
-}
+}  // namespace vox

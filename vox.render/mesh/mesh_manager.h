@@ -14,26 +14,27 @@ namespace vox {
 class MeshManager : public Singleton<MeshManager> {
 public:
     static MeshManager &GetSingleton();
-    
+
     static MeshManager *GetSingletonPtr();
-    
+
     explicit MeshManager(Device &device);
-    
+
     ~MeshManager() = default;
-    
+
     /**
      * @brief Loads mesh
      */
-    std::shared_ptr<BufferMesh> load_buffer_mesh();
-    
-    std::shared_ptr<ModelMesh> load_model_mesh();
-    
-    void collect_garbage();
-    
+    std::shared_ptr<BufferMesh> LoadBufferMesh();
+
+    std::shared_ptr<ModelMesh> LoadModelMesh();
+
+    void CollectGarbage();
+
 private:
     Device &device_;
     std::vector<std::shared_ptr<Mesh>> mesh_pool_;
 };
 
-template<> inline MeshManager *Singleton<MeshManager>::ms_singleton_{nullptr};
-}
+template <>
+inline MeshManager *Singleton<MeshManager>::ms_singleton{nullptr};
+}  // namespace vox

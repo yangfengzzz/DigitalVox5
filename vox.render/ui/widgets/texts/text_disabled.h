@@ -15,9 +15,9 @@ namespace vox::ui {
 class TextDisabled : public Text {
 public:
     explicit TextDisabled(const std::string &content = "");
-    
+
 protected:
     void draw_impl() override;
 };
 
-}
+}  // namespace vox::ui

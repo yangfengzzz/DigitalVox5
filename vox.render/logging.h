@@ -14,7 +14,7 @@
 
 // Mainly for IDEs
 #ifndef ROOT_PATH_SIZE
-#	define ROOT_PATH_SIZE 0
+#define ROOT_PATH_SIZE 0
 #endif
 
 #define __FILENAME__ (static_cast<const char *>(__FILE__) + ROOT_PATH_SIZE)

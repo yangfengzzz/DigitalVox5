@@ -7,14 +7,8 @@
 #include "drag_double.h"
 
 namespace vox::ui {
-DragDouble::DragDouble(double min,
-                       double max,
-                       double value,
-                       float speed,
-                       const std::string &label,
-                       const std::string &format) :
-DragSingleScalar<double>(ImGuiDataType_::ImGuiDataType_Double, min, max,
-                         value, speed, label, format) {
-}
+DragDouble::DragDouble(
+        double min, double max, double value, float speed, const std::string &label, const std::string &format)
+    : DragSingleScalar<double>(ImGuiDataType_::ImGuiDataType_Double, min, max, value, speed, label, format) {}
 
-}
+}  // namespace vox::ui

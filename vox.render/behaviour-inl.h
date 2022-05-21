@@ -10,8 +10,8 @@
 #include "logging.h"
 
 namespace vox {
-template<typename ...Args>
-inline void Behaviour::behaviour_call(const std::string &function_name, Args &&...args) {
+template <typename... Args>
+inline void Behaviour::BehaviourCall(const std::string &function_name, Args &&...args) {
     if (object_.valid()) {
         if (object_[function_name].valid()) {
             sol::protected_function pfr = object_[function_name];
@@ -24,4 +24,4 @@ inline void Behaviour::behaviour_call(const std::string &function_name, Args &&.
     }
 }
 
-}
+}  // namespace vox

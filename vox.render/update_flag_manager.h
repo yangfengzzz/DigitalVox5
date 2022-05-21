@@ -4,25 +4,24 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_UPDATE_FLAG_MANAGER_H_
-#define DIGITALVOX_VOX_RENDER_UPDATE_FLAG_MANAGER_H_
+#pragma once
 
 #include <memory>
 #include <vector>
+
 #include "update_flag.h"
 
 namespace vox {
 class UpdateFlagManager {
 public:
-    std::unique_ptr<UpdateFlag> registration();
-    
-    void distribute();
-    
+    std::unique_ptr<UpdateFlag> Registration();
+
+    void Distribute();
+
 private:
     friend class UpdateFlag;
-    
+
     std::vector<UpdateFlag *> update_flags_;
 };
 
-}        // namespace vox
-#endif /* DIGITALVOX_VOX_RENDER_UPDATE_FLAG_MANAGER_H_ */
+}  // namespace vox

@@ -27,4 +27,4 @@ struct PanelWindowSettings {
     bool auto_size = false;
 };
 
-}
+}  // namespace vox::ui

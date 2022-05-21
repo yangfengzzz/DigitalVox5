@@ -5,32 +5,25 @@
 //  property of any third parties.
 
 #include "spot_light.h"
-#include "matrix_utils.h"
+
 #include "entity.h"
 #include "light_manager.h"
+#include "matrix_utils.h"
 
 namespace vox {
-std::string SpotLight::name() {
-    return "SpotLight";
-}
+std::string SpotLight::name() { return "SpotLight"; }
 
-SpotLight::SpotLight(Entity *entity) :
-Light(entity) {
-}
+SpotLight::SpotLight(Entity *entity) : Light(entity) {}
 
-void SpotLight::on_enable() {
-	LightManager::GetSingleton().attach_spot_light(this);
-}
+void SpotLight::OnEnable() { LightManager::GetSingleton().AttachSpotLight(this); }
 
-void SpotLight::on_disable() {
-	LightManager::GetSingleton().detach_spot_light(this);
-}
+void SpotLight::OnDisable() { LightManager::GetSingleton().DetachSpotLight(this); }
 
-void SpotLight::update_shader_data(SpotLightData &shader_data) {
+void SpotLight::UpdateShaderData(SpotLightData &shader_data) {
     shader_data.color = Vector3F(color_.r * intensity_, color_.g * intensity_, color_.b * intensity_);
-    auto position = entity()->transform_->world_position();
+    auto position = GetEntity()->transform->WorldPosition();
     shader_data.position = Vector3F(position.x, position.y, position.z);
-    auto direction = entity()->transform_->world_forward();
+    auto direction = GetEntity()->transform->WorldForward();
     shader_data.direction = Vector3F(direction.x, direction.y, direction.z);
     shader_data.distance = distance_;
     shader_data.angle_cos = std::cos(angle_);
@@ -38,22 +31,16 @@ void SpotLight::update_shader_data(SpotLightData &shader_data) {
 }
 
 // MARK: - Shadow
-Matrix4x4F SpotLight::shadow_projection_matrix() {
+Matrix4x4F SpotLight::ShadowProjectionMatrix() {
     const auto kFov = std::min<float>(M_PI / 2, angle_ * 2.f * std::sqrt(2.f));
     return makePerspective<float>(kFov, 1, 0.1, distance_ + 5);
 }
 
-//MARK: - Reflection
-void SpotLight::on_serialize(nlohmann::json &data) {
-    
-}
+// MARK: - Reflection
+void SpotLight::OnSerialize(nlohmann::json &data) {}
 
-void SpotLight::on_deserialize(const nlohmann::json &data) {
-    
-}
+void SpotLight::OnDeserialize(const nlohmann::json &data) {}
 
-void SpotLight::on_inspector(ui::WidgetContainer &p_root) {
-    
-}
+void SpotLight::OnInspector(ui::WidgetContainer &p_root) {}
 
-}
+}  // namespace vox

@@ -5,31 +5,28 @@
 //  property of any third parties.
 
 #include "unlit_material.h"
+
 #include "shader/internal_variant_name.h"
 #include "shader/shader_manager.h"
 
 namespace vox {
-const Color &UnlitMaterial::base_color() const {
-    return base_color_;
-}
+const Color &UnlitMaterial::BaseColor() const { return base_color_; }
 
-void UnlitMaterial::set_base_color(const Color &new_value) {
+void UnlitMaterial::SetBaseColor(const Color &new_value) {
     base_color_ = new_value;
     shader_data_.SetData(UnlitMaterial::base_color_prop_, base_color_);
 }
 
-std::shared_ptr<Image> UnlitMaterial::base_texture() const {
-    return base_texture_;
-}
+std::shared_ptr<Image> UnlitMaterial::BaseTexture() const { return base_texture_; }
 
-void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value) {
+void UnlitMaterial::SetBaseTexture(const std::shared_ptr<Image> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
-        set_base_texture(new_value, BaseMaterial::last_sampler_create_info_);
+        SetBaseTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void UnlitMaterial::SetBaseTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(base_texture_prop_, new_value->GetVkImageView(),
@@ -40,10 +37,8 @@ void UnlitMaterial::set_base_texture(const std::shared_ptr<Image> &new_value, co
     }
 }
 
-UnlitMaterial::UnlitMaterial(Device &device, const std::string &name) :
-BaseMaterial(device, name),
-base_color_prop_("baseColor"),
-base_texture_prop_("baseTexture") {
+UnlitMaterial::UnlitMaterial(Device &device, const std::string &name)
+    : BaseMaterial(device, name), base_color_prop_("baseColor"), base_texture_prop_("baseTexture") {
     vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/unlit.vert");
     fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/unlit.frag");
 
@@ -52,4 +47,4 @@ base_texture_prop_("baseTexture") {
     shader_data_.SetData(base_color_prop_, base_color_);
 }
 
-}
+}  // namespace vox

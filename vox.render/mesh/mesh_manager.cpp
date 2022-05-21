@@ -7,34 +7,31 @@
 #include "mesh_manager.h"
 
 namespace vox {
-MeshManager::MeshManager(Device &device) :
-device_(device) {}
+MeshManager::MeshManager(Device &device) : device_(device) {}
 
-MeshManager *MeshManager::GetSingletonPtr() {
-    return ms_singleton_;
-}
+MeshManager *MeshManager::GetSingletonPtr() { return ms_singleton; }
 
 MeshManager &MeshManager::GetSingleton() {
-    assert(ms_singleton_);
-    return (*ms_singleton_);
+    assert(ms_singleton);
+    return (*ms_singleton);
 }
 
-std::shared_ptr<BufferMesh> MeshManager::load_buffer_mesh() {
+std::shared_ptr<BufferMesh> MeshManager::LoadBufferMesh() {
     auto mesh = std::make_shared<BufferMesh>();
     mesh_pool_.emplace_back(mesh);
     return mesh;
 }
 
-std::shared_ptr<ModelMesh> MeshManager::load_model_mesh() {
+std::shared_ptr<ModelMesh> MeshManager::LoadModelMesh() {
     auto mesh = std::make_shared<ModelMesh>(device_);
     mesh_pool_.emplace_back(mesh);
     return mesh;
 }
 
-void MeshManager::collect_garbage() {
-    mesh_pool_.erase(std::remove_if(mesh_pool_.begin(), mesh_pool_.end(), [](const std::shared_ptr<Mesh> &mesh) {
-        return mesh.use_count() == 1;
-    }), mesh_pool_.end());
+void MeshManager::CollectGarbage() {
+    mesh_pool_.erase(std::remove_if(mesh_pool_.begin(), mesh_pool_.end(),
+                                    [](const std::shared_ptr<Mesh> &mesh) { return mesh.use_count() == 1; }),
+                     mesh_pool_.end());
 }
 
-}
+}  // namespace vox

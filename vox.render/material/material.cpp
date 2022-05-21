@@ -9,10 +9,6 @@
 #include <utility>
 
 namespace vox {
-Material::Material(Device &device, std::string name) :
-device_(device),
-shader_data_(device),
-name_{std::move(name)} {
-}
+Material::Material(Device &device, std::string name) : device_(device), shader_data_(device), name_{std::move(name)} {}
 
-}        // namespace vox
+}  // namespace vox

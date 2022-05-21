@@ -6,9 +6,8 @@
 
 #pragma once
 
-#include "vector2.h"
-
 #include "ui/widgets/widget.h"
+#include "vector2.h"
 
 namespace vox::ui {
 /**
@@ -17,12 +16,12 @@ namespace vox::ui {
 class Dummy : public Widget {
 public:
     explicit Dummy(const Vector2F &size = {0.0f, 0.0f});
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     Vector2F size_;
 };
 
-}
+}  // namespace vox::ui

@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "ui/widgets/data_widget.h"
 #include "event.h"
+#include "ui/widgets/data_widget.h"
 
 namespace vox::ui {
 /**
@@ -16,14 +16,14 @@ namespace vox::ui {
 class CheckBox : public DataWidget<bool> {
 public:
     explicit CheckBox(bool value = false, std::string label = "");
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     bool value_;
     std::string label_;
     Event<bool> value_changed_event_;
 };
 
-}
+}  // namespace vox::ui

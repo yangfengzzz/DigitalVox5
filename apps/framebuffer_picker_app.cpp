@@ -13,49 +13,49 @@
 #include "camera.h"
 
 namespace vox {
-void FramebufferPickerApp::load_scene() {
+void FramebufferPickerApp::LoadScene() {
     u = std::uniform_real_distribution<float>(0, 1);
-    auto scene = scene_manager_->current_scene();
-    auto root_entity = scene->create_root_entity();
+    auto scene = scene_manager_->CurrentScene();
+    auto root_entity = scene->CreateRootEntity();
     
-    auto camera_entity = root_entity->create_child("camera");
-    camera_entity->transform_->set_position(10, 10, 10);
-    camera_entity->transform_->look_at(Point3F(0, 0, 0));
-    main_camera_ = camera_entity->add_component<Camera>();
+    auto camera_entity = root_entity->CreateChild("camera");
+    camera_entity->transform->SetPosition(10, 10, 10);
+    camera_entity->transform->LookAt(Point3F(0, 0, 0));
+    main_camera_ = camera_entity->AddComponent<Camera>();
     
     // init point light
-    auto light = root_entity->create_child("light");
-    light->transform_->set_position(0, 3, 0);
-    auto point_light = light->add_component<PointLight>();
+    auto light = root_entity->CreateChild("light");
+    light->transform->SetPosition(0, 3, 0);
+    auto point_light = light->AddComponent<PointLight>();
     point_light->intensity_ = 0.3;
     
     // create box test entity
     float cube_size = 2.0;
-    auto box_entity = root_entity->create_child("BoxEntity");
+    auto box_entity = root_entity->CreateChild("BoxEntity");
     auto box_mtl = std::make_shared<BlinnPhongMaterial>(*device_);
-    auto box_renderer = box_entity->add_component<MeshRenderer>();
-    box_mtl->set_base_color(Color(0.8, 0.3, 0.3, 1.0));
-    box_renderer->set_mesh(PrimitiveMesh::create_cuboid(cube_size, cube_size, cube_size));
-    box_renderer->set_material(box_mtl);
+    auto box_renderer = box_entity->AddComponent<MeshRenderer>();
+    box_mtl->SetBaseColor(Color(0.8, 0.3, 0.3, 1.0));
+    box_renderer->SetMesh(PrimitiveMesh::CreateCuboid(cube_size, cube_size, cube_size));
+    box_renderer->SetMaterial(box_mtl);
     
     // create sphere test entity
     float radius = 1.25;
-    auto sphere_entity = root_entity->create_child("SphereEntity");
-    sphere_entity->transform_->set_position(Point3F(-5, 0, 0));
-    auto sphere_renderer = sphere_entity->add_component<MeshRenderer>();
+    auto sphere_entity = root_entity->CreateChild("SphereEntity");
+    sphere_entity->transform->SetPosition(Point3F(-5, 0, 0));
+    auto sphere_renderer = sphere_entity->AddComponent<MeshRenderer>();
     auto sphere_mtl = std::make_shared<BlinnPhongMaterial>(*device_);
     std::default_random_engine e;
     std::uniform_real_distribution<float> u(0, 1);
-    sphere_mtl->set_base_color(Color(u(e), u(e), u(e), 1));
-    sphere_renderer->set_mesh(PrimitiveMesh::create_sphere(radius));
-    sphere_renderer->set_material(sphere_mtl);
+    sphere_mtl->SetBaseColor(Color(u(e), u(e), u(e), 1));
+    sphere_renderer->SetMesh(PrimitiveMesh::CreateSphere(radius));
+    sphere_renderer->SetMaterial(sphere_mtl);
     
     scene->play();
 }
 
 void FramebufferPickerApp::pick_functor(Renderer *renderer, const MeshPtr &mesh) {
     if (renderer && mesh) {
-        static_cast<BlinnPhongMaterial *>(renderer->get_material().get())->set_base_color(Color(u(e), u(e), u(e), 1));
+        static_cast<BlinnPhongMaterial *>(renderer->GetMaterial().get())->SetBaseColor(Color(u(e), u(e), u(e), 1));
     }
 }
 
@@ -88,7 +88,7 @@ bool FramebufferPickerApp::prepare(Platform &platform) {
     auto factor = static_cast<uint32_t>(platform.GetWindow().GetContentScaleFactor());
     color_picker_render_target_ = create_render_target(extent.width * factor, extent.height * factor);
     
-    auto subpass = std::make_unique<ColorPickerSubpass>(*render_context_, scene_manager_->current_scene(), main_camera_);
+    auto subpass = std::make_unique<ColorPickerSubpass>(*render_context_, scene_manager_->CurrentScene(), main_camera_);
     color_picker_subpass_ = subpass.get();
     color_picker_render_pipeline_ = std::make_unique<RenderPipeline>();
     color_picker_render_pipeline_->AddSubpass(std::move(subpass));
@@ -156,8 +156,8 @@ void FramebufferPickerApp::update(float delta_time) {
 void FramebufferPickerApp::copy_render_target_to_buffer(CommandBuffer &command_buffer) {
     uint32_t client_width = main_camera_->width();
     uint32_t client_height = main_camera_->height();
-    uint32_t canvas_width = main_camera_->framebuffer_width();
-    uint32_t canvas_height = main_camera_->framebuffer_height();
+    uint32_t canvas_width = main_camera_->FramebufferWidth();
+    uint32_t canvas_height = main_camera_->FramebufferHeight();
     
     const float kPx = (pick_pos_.x / static_cast<float>(client_width)) * static_cast<float>(canvas_width);
     const float kPy = (pick_pos_.y / static_cast<float>(client_height)) * static_cast<float>(canvas_height);

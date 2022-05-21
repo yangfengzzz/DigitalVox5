@@ -13,7 +13,7 @@
 namespace vox {
 class FramebufferPickerApp : public ForwardApplication {
 public:
-    void load_scene() override;
+    void LoadScene() override;
     
     void pick_functor(Renderer *renderer, const MeshPtr &mesh);
     

@@ -9,10 +9,8 @@
 #include <utility>
 
 namespace vox::ui {
-TreeNode::TreeNode(std::string name, bool arrow_click_to_open) :
-DataWidget(name_),
-name_(std::move(name)),
-arrow_click_to_open_(arrow_click_to_open) {
+TreeNode::TreeNode(std::string name, bool arrow_click_to_open)
+    : DataWidget(name_), name_(std::move(name)), arrow_click_to_open_(arrow_click_to_open) {
     auto_execute_plugins_ = false;
 }
 
@@ -26,13 +24,11 @@ void TreeNode::close() {
     should_open_ = false;
 }
 
-bool TreeNode::is_opened() const {
-    return opened_;
-}
+bool TreeNode::is_opened() const { return opened_; }
 
 void TreeNode::draw_impl() {
     bool prev_opened = opened_;
-    
+
     if (should_open_) {
         ImGui::SetNextItemOpen(true);
         should_open_ = false;
@@ -40,42 +36,40 @@ void TreeNode::draw_impl() {
         ImGui::SetNextItemOpen(false);
         should_close_ = false;
     }
-    
+
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_None;
     if (arrow_click_to_open_) flags |= ImGuiTreeNodeFlags_OpenOnArrow;
     if (selected_) flags |= ImGuiTreeNodeFlags_Selected;
     if (leaf_) flags |= ImGuiTreeNodeFlags_Leaf;
-    
+
     bool opened = ImGui::TreeNodeEx((name_ + widget_id_).c_str(), flags);
-    
-    if (ImGui::IsItemClicked()
-        && (ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) > ImGui::GetTreeNodeToLabelSpacing()) {
-        clicked_event_.invoke();
-        
+
+    if (ImGui::IsItemClicked() &&
+        (ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) > ImGui::GetTreeNodeToLabelSpacing()) {
+        clicked_event_.Invoke();
+
         if (ImGui::IsMouseDoubleClicked(0)) {
-            double_clicked_event_.invoke();
+            double_clicked_event_.Invoke();
         }
     }
-    
+
     if (opened) {
-        if (!prev_opened)
-            opened_event_.invoke();
-        
+        if (!prev_opened) opened_event_.Invoke();
+
         opened_ = true;
-        
-        execute_plugins(); // Manually execute plugins to make plugins considering the TreeNode and no childs
-        
+
+        execute_plugins();  // Manually execute plugins to make plugins considering the TreeNode and no childs
+
         draw_widgets();
-        
+
         ImGui::TreePop();
     } else {
-        if (prev_opened)
-            closed_event_.invoke();
-        
+        if (prev_opened) closed_event_.Invoke();
+
         opened_ = false;
-        
-        execute_plugins(); // Manually execute plugins to make plugins considering the TreeNode and no childs
+
+        execute_plugins();  // Manually execute plugins to make plugins considering the TreeNode and no childs
     }
 }
 
-}
+}  // namespace vox::ui

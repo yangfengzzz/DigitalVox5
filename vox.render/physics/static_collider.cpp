@@ -5,34 +5,26 @@
 //  property of any third parties.
 
 #include "static_collider.h"
+
 #include "physics_manager.h"
 
 namespace vox::physics {
-std::string StaticCollider::name() {
-    return "StaticCollider";
-}
+std::string StaticCollider::name() { return "StaticCollider"; }
 
-StaticCollider::StaticCollider(Entity *entity) :
-Collider(entity) {
-    const auto &p = entity->transform_->world_position();
-    auto q = entity->transform_->world_rotation_quaternion();
+StaticCollider::StaticCollider(Entity *entity) : Collider(entity) {
+    const auto &p = entity->transform->WorldPosition();
+    auto q = entity->transform->WorldRotationQuaternion();
     q.normalize();
-    
-    native_actor_ = PhysicsManager::native_physics_()->createRigidStatic(PxTransform(PxVec3(p.x, p.y, p.z),
-                                                                                     PxQuat(q.x, q.y, q.z, q.w)));
+
+    native_actor_ = PhysicsManager::native_physics_()->createRigidStatic(
+            PxTransform(PxVec3(p.x, p.y, p.z), PxQuat(q.x, q.y, q.z, q.w)));
 }
 
-//MARK: - Reflection
-void StaticCollider::on_serialize(nlohmann::json &data) {
-    
-}
+// MARK: - Reflection
+void StaticCollider::OnSerialize(nlohmann::json &data) {}
 
-void StaticCollider::on_deserialize(const nlohmann::json &data) {
-    
-}
+void StaticCollider::OnDeserialize(const nlohmann::json &data) {}
 
-void StaticCollider::on_inspector(ui::WidgetContainer &p_root) {
-    
-}
+void StaticCollider::OnInspector(ui::WidgetContainer &p_root) {}
 
-}
+}  // namespace vox::physics

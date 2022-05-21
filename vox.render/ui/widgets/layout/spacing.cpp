@@ -7,17 +7,14 @@
 #include "spacing.h"
 
 namespace vox::ui {
-Spacing::Spacing(uint16_t spaces) :
-spaces_(spaces) {
-}
+Spacing::Spacing(uint16_t spaces) : spaces_(spaces) {}
 
 void Spacing::draw_impl() {
     for (uint16_t i = 0; i < spaces_; ++i) {
         ImGui::Spacing();
-        
-        if (i + 1 < spaces_)
-            ImGui::SameLine();
+
+        if (i + 1 < spaces_) ImGui::SameLine();
     }
 }
 
-}
+}  // namespace vox::ui

@@ -9,16 +9,11 @@
 #include "postprocessing_pipeline.h"
 
 namespace vox {
-PostProcessingPassBase::PostProcessingPassBase(PostProcessingPipeline *parent) :
-parent_{parent} {}
+PostProcessingPassBase::PostProcessingPassBase(PostProcessingPipeline *parent) : parent_{parent} {}
 
-RenderContext &PostProcessingPassBase::GetRenderContext() const {
-    return *parent_->render_context_;
-}
+RenderContext &PostProcessingPassBase::GetRenderContext() const { return *parent_->render_context_; }
 
-ShaderSource &PostProcessingPassBase::GetTriangleVs() const {
-    return parent_->triangle_vs_;
-}
+ShaderSource &PostProcessingPassBase::GetTriangleVs() const { return parent_->triangle_vs_; }
 
 PostProcessingPassBase::BarrierInfo PostProcessingPassBase::GetPredecessorSrcBarrierInfo(BarrierInfo fallback) const {
     const size_t kCurPassI = parent_->GetCurrentPassIndex();
@@ -30,4 +25,4 @@ PostProcessingPassBase::BarrierInfo PostProcessingPassBase::GetPredecessorSrcBar
     }
 }
 
-}        // namespace vox
+}  // namespace vox

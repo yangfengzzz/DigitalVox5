@@ -8,49 +8,48 @@
 
 #include <utility>
 
-#include "ui/widgets/data_widget.h"
 #include "event.h"
+#include "ui/widgets/data_widget.h"
 
 namespace vox::ui {
 /**
  * Drag widget of multiple generic type
  */
-template<typename T, size_t Size>
+template <typename T, size_t Size>
 class DragMultipleScalars : public DataWidget<std::array<T, Size>> {
     static_assert(Size > 1, "Invalid DragMultipleScalars _Size (2 or more required)");
-    
+
 public:
-    DragMultipleScalars(ImGuiDataType_ data_type,
-                        T min,
-                        T max,
-                        T value,
-                        float speed,
-                        std::string label,
-                        std::string format) :
-    DataWidget<std::array<T, Size>>(values_), data_type_(data_type),
-    min_(min), max_(max), speed_(speed), label_(std::move(label)), format_(std::move(format)) {
+    DragMultipleScalars(
+            ImGuiDataType_ data_type, T min, T max, T value, float speed, std::string label, std::string format)
+        : DataWidget<std::array<T, Size>>(values_),
+          data_type_(data_type),
+          min_(min),
+          max_(max),
+          speed_(speed),
+          label_(std::move(label)),
+          format_(std::move(format)) {
         values_.fill(value);
     }
-    
+
 protected:
     void draw_impl() override {
-        if (max_ < min_)
-            max_ = min_;
-        
+        if (max_ < min_) max_ = min_;
+
         for (size_t i = 0; i < Size; ++i) {
             if (values_[i] < min_)
                 values_[i] = min_;
             else if (values_[i] > max_)
                 values_[i] = max_;
         }
-        
-        if (ImGui::DragScalarN((label_ + DataWidget<std::array<T, Size>>::widget_id_).c_str(),
-                               data_type_, values_.data(), Size, speed_, &min_, &max_, format_.c_str())) {
-            value_changed_event_.invoke(values_);
+
+        if (ImGui::DragScalarN((label_ + DataWidget<std::array<T, Size>>::widget_id_).c_str(), data_type_,
+                               values_.data(), Size, speed_, &min_, &max_, format_.c_str())) {
+            value_changed_event_.Invoke(values_);
             DataWidget<std::array<T, Size>>::notify_change();
         }
     }
-    
+
 public:
     T min_;
     T max_;
@@ -59,9 +58,9 @@ public:
     std::string label_;
     std::string format_;
     Event<std::array<T, Size> &> value_changed_event_;
-    
+
 protected:
     ImGuiDataType_ data_type_;
 };
 
-}
+}  // namespace vox::ui

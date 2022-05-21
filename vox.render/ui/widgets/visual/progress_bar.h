@@ -15,16 +15,15 @@ namespace vox::ui {
  */
 class ProgressBar : public Widget {
 public:
-    explicit ProgressBar(float fraction = 0.0f, const Vector2F &size = {0.0f, 0.0f},
-                         std::string overlay = "");
-    
+    explicit ProgressBar(float fraction = 0.0f, const Vector2F &size = {0.0f, 0.0f}, std::string overlay = "");
+
 protected:
     void draw_impl() override;
-    
+
 public:
     float fraction_;
     Vector2F size_;
     std::string overlay_;
 };
 
-}
+}  // namespace vox::ui

@@ -5,16 +5,17 @@
 //  property of any third parties.
 
 #include "configurable_joint.h"
-#include "../physics_manager.h"
+
 #include "../collider.h"
+#include "../physics_manager.h"
 
 namespace vox::physics {
 ConfigurableJoint::ConfigurableJoint(Collider *collider_0, Collider *collider_1) : Joint() {
     auto actor_0 = collider_0 ? collider_0->handle() : nullptr;
     auto actor_1 = collider_1 ? collider_1->handle() : nullptr;
-    native_joint_ = PxD6JointCreate(*PhysicsManager::native_physics_(),
-                                    actor_0, PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)),
-                                    actor_1, PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)));
+    native_joint_ =
+            PxD6JointCreate(*PhysicsManager::native_physics_(), actor_0, PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)),
+                            actor_1, PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)));
 }
 
 void ConfigurableJoint::set_motion(PxD6Axis::Enum axis, PxD6Motion::Enum type) {
@@ -25,17 +26,11 @@ PxD6Motion::Enum ConfigurableJoint::motion(PxD6Axis::Enum axis) const {
     return static_cast<PxD6Joint *>(native_joint_)->getMotion(axis);
 }
 
-float ConfigurableJoint::twist_angle() const {
-    return static_cast<PxD6Joint *>(native_joint_)->getTwistAngle();
-}
+float ConfigurableJoint::twist_angle() const { return static_cast<PxD6Joint *>(native_joint_)->getTwistAngle(); }
 
-float ConfigurableJoint::swing_y_angle() const {
-    return static_cast<PxD6Joint *>(native_joint_)->getSwingYAngle();
-}
+float ConfigurableJoint::swing_y_angle() const { return static_cast<PxD6Joint *>(native_joint_)->getSwingYAngle(); }
 
-float ConfigurableJoint::swing_z_angle() const {
-    return static_cast<PxD6Joint *>(native_joint_)->getSwingZAngle();
-}
+float ConfigurableJoint::swing_z_angle() const { return static_cast<PxD6Joint *>(native_joint_)->getSwingZAngle(); }
 
 void ConfigurableJoint::set_distance_limit(const PxJointLinearLimit &limit) {
     static_cast<PxD6Joint *>(native_joint_)->setDistanceLimit(limit);
@@ -88,9 +83,9 @@ PxD6JointDrive ConfigurableJoint::drive(PxD6Drive::Enum index) const {
 void ConfigurableJoint::set_drive_position(const Transform3F &pose, bool autowake) {
     const auto &p = pose.translation();
     const auto &q = pose.orientation();
-    
-    static_cast<PxD6Joint *>(native_joint_)->setDrivePosition(PxTransform(PxVec3(p.x, p.y, p.z),
-                                                                          PxQuat(q.x, q.y, q.z, q.w)), autowake);
+
+    static_cast<PxD6Joint *>(native_joint_)
+            ->setDrivePosition(PxTransform(PxVec3(p.x, p.y, p.z), PxQuat(q.x, q.y, q.z, q.w)), autowake);
 }
 
 Transform3F ConfigurableJoint::drive_position() const {
@@ -102,8 +97,8 @@ Transform3F ConfigurableJoint::drive_position() const {
 }
 
 void ConfigurableJoint::set_drive_velocity(const Vector3F &linear, const Vector3F &angular, bool autowake) {
-    static_cast<PxD6Joint *>(native_joint_)->setDriveVelocity(PxVec3(linear.x, linear.y, linear.z),
-                                                              PxVec3(angular.x, angular.y, angular.z), autowake);
+    static_cast<PxD6Joint *>(native_joint_)
+            ->setDriveVelocity(PxVec3(linear.x, linear.y, linear.z), PxVec3(angular.x, angular.y, angular.z), autowake);
 }
 
 void ConfigurableJoint::drive_velocity(Vector3F &linear, Vector3F &angular) const {
@@ -129,4 +124,4 @@ float ConfigurableJoint::projection_angular_tolerance() const {
     return static_cast<PxD6Joint *>(native_joint_)->getProjectionAngularTolerance();
 }
 
-}
+}  // namespace vox::physics

@@ -15,9 +15,9 @@ namespace vox::ui {
 class PanelUndecorated : public PanelTransformable {
 public:
     void draw_impl() override;
-    
+
 private:
     int collect_flags();
 };
 
-}
+}  // namespace vox::ui

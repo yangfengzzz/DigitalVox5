@@ -7,9 +7,9 @@
 #pragma once
 
 #include "ui/plugins/plugin.h"
-#include "ui/widgets/widget_container.h"
-#include "ui/widgets/menu/menu_list.h"
 #include "ui/widgets/menu/menu_item.h"
+#include "ui/widgets/menu/menu_list.h"
+#include "ui/widgets/widget_container.h"
 
 namespace vox::ui {
 /**
@@ -22,11 +22,11 @@ public:
      * Execute the plugin
      */
     void execute() override;
-    
+
     /**
      * Force close the contextual menu
      */
     static void close();
 };
 
-}
+}  // namespace vox::ui

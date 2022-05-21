@@ -5,137 +5,126 @@
 //  property of any third parties.
 
 #include "scene_manager.h"
-#include "entity.h"
-#include "camera.h"
-#include "lighting/direct_light.h"
+
 #include <utility>
 
+#include "camera.h"
+#include "entity.h"
+#include "lighting/direct_light.h"
+
 namespace vox {
-SceneManager *SceneManager::GetSingletonPtr() {
-    return ms_singleton_;
-}
+SceneManager *SceneManager::GetSingletonPtr() { return ms_singleton; }
 
 SceneManager &SceneManager::GetSingleton() {
-    assert(ms_singleton_);
-    return (*ms_singleton_);
+    assert(ms_singleton);
+    return (*ms_singleton);
 }
 
-SceneManager::SceneManager(Device &device, std::string p_scene_root_folder) :
-device_(device),
-scene_root_folder_(std::move(p_scene_root_folder)) {
-    load_empty_scene();
+SceneManager::SceneManager(Device &device, std::string p_scene_root_folder)
+    : device_(device), scene_root_folder_(std::move(p_scene_root_folder)) {
+    LoadEmptyScene();
 }
 
-SceneManager::~SceneManager() {
-    unload_current_scene();
-}
+SceneManager::~SceneManager() { UnloadCurrentScene(); }
 
-void SceneManager::update() {
+void SceneManager::Update() {
     if (delayed_load_call_) {
         delayed_load_call_();
         delayed_load_call_ = nullptr;
     }
 }
 
-void SceneManager::load_and_play_delayed(const std::string &p_path, bool p_absolute) {
+void SceneManager::LoadAndPlayDelayed(const std::string &p_path, bool p_absolute) {
     delayed_load_call_ = [this, p_path, p_absolute] {
-        std::string previous_source_path = current_scene_source_path();
-        load_scene(p_path, p_absolute);
-        store_current_scene_source_path(previous_source_path);
-        current_scene()->play();
+        std::string previous_source_path = CurrentSceneSourcePath();
+        LoadScene(p_path, p_absolute);
+        StoreCurrentSceneSourcePath(previous_source_path);
+        CurrentScene()->Play();
     };
 }
 
-void SceneManager::load_empty_scene() {
-    unload_current_scene();
-    
+void SceneManager::LoadEmptyScene() {
+    UnloadCurrentScene();
+
     current_scene_ = std::make_unique<Scene>(device_);
-    current_scene_->process_active(false);
-    
-    scene_load_event_.invoke();
+    current_scene_->ProcessActive(false);
+
+    scene_load_event_.Invoke();
 }
 
-void SceneManager::load_empty_lighted_scene() {
-    load_empty_scene();
-    
-    auto root_entity = current_scene_->create_root_entity();
-    auto camera_entity = root_entity->create_child("MainCamera");
-    camera_entity->transform_->set_position(10, 10, 10);
-    camera_entity->transform_->look_at(Point3F(0, 0, 0));
-    camera_entity->add_component<Camera>();
-    
+void SceneManager::LoadEmptyLightedScene() {
+    LoadEmptyScene();
+
+    auto root_entity = current_scene_->CreateRootEntity();
+    auto camera_entity = root_entity->CreateChild("MainCamera");
+    camera_entity->transform->SetPosition(10, 10, 10);
+    camera_entity->transform->LookAt(Point3F(0, 0, 0));
+    camera_entity->AddComponent<Camera>();
+
     // init directional light
-    auto light = root_entity->create_child("light");
-    light->transform_->set_position(0, 3, 0);
-    light->add_component<DirectLight>();
+    auto light = root_entity->CreateChild("light");
+    light->transform->SetPosition(0, 3, 0);
+    light->AddComponent<DirectLight>();
 }
 
-bool SceneManager::load_scene(const std::string &p_path, bool p_absolute) {
-//    std::string completePath = (p_absolute ? "" : _sceneRootFolder) + p_path;
-//
-//    tinyxml2::XMLDocument doc;
-//    doc.LoadFile(completePath.c_str());
-//
-//    if (load_scene_from_memory(doc)) {
-//        store_current_scene_source_path(completePath);
-//        return true;
-//    }
+bool SceneManager::LoadScene(const std::string &p_path, bool p_absolute) {
+    //    std::string completePath = (p_absolute ? "" : _sceneRootFolder) + p_path;
+    //
+    //    tinyxml2::XMLDocument doc;
+    //    doc.LoadFile(completePath.c_str());
+    //
+    //    if (load_scene_from_memory(doc)) {
+    //        store_current_scene_source_path(completePath);
+    //        return true;
+    //    }
 
     return false;
 }
 
-bool SceneManager::load_scene_from_memory(const nlohmann::json &data) {
-//    if (!p_doc.Error()) {
-//        tinyxml2::XMLNode *root = p_doc.FirstChild();
-//        if (root) {
-//            tinyxml2::XMLNode *sceneNode = root->FirstChildElement("scene");
-//            if (sceneNode) {
-//                load_empty_scene();
-//                _currentScene->on_deserialize(p_doc, sceneNode);
-//                return true;
-//            }
-//        }
-//    }
+bool SceneManager::LoadSceneFromMemory(const nlohmann::json &data) {
+    //    if (!p_doc.Error()) {
+    //        tinyxml2::XMLNode *root = p_doc.FirstChild();
+    //        if (root) {
+    //            tinyxml2::XMLNode *sceneNode = root->FirstChildElement("scene");
+    //            if (sceneNode) {
+    //                load_empty_scene();
+    //                _currentScene->on_deserialize(p_doc, sceneNode);
+    //                return true;
+    //            }
+    //        }
+    //    }
 
     return false;
 }
 
-void SceneManager::unload_current_scene() {
+void SceneManager::UnloadCurrentScene() {
     if (current_scene_) {
         current_scene_.reset();
         current_scene_ = nullptr;
-        scene_unload_event_.invoke();
+        scene_unload_event_.Invoke();
     }
-    
-    forget_current_scene_source_path();
+
+    ForgetCurrentSceneSourcePath();
 }
 
-bool SceneManager::has_current_scene() const {
-    return current_scene_ != nullptr;
-}
+bool SceneManager::HasCurrentScene() const { return current_scene_ != nullptr; }
 
-Scene *SceneManager::current_scene() {
-    return current_scene_.get();
-}
+Scene *SceneManager::CurrentScene() { return current_scene_.get(); }
 
-std::string SceneManager::current_scene_source_path() const {
-    return current_scene_source_path_;
-}
+std::string SceneManager::CurrentSceneSourcePath() const { return current_scene_source_path_; }
 
-bool SceneManager::is_current_scene_loaded_from_disk() const {
-    return current_scene_loaded_from_path_;
-}
+bool SceneManager::IsCurrentSceneLoadedFromDisk() const { return current_scene_loaded_from_path_; }
 
-void SceneManager::store_current_scene_source_path(const std::string &p_path) {
+void SceneManager::StoreCurrentSceneSourcePath(const std::string &p_path) {
     current_scene_source_path_ = p_path;
     current_scene_loaded_from_path_ = true;
-    current_scene_source_path_changed_event_.invoke(current_scene_source_path_);
+    current_scene_source_path_changed_event_.Invoke(current_scene_source_path_);
 }
 
-void SceneManager::forget_current_scene_source_path() {
+void SceneManager::ForgetCurrentSceneSourcePath() {
     current_scene_source_path_ = "";
     current_scene_loaded_from_path_ = false;
-    current_scene_source_path_changed_event_.invoke(current_scene_source_path_);
+    current_scene_source_path_changed_event_.Invoke(current_scene_source_path_);
 }
 
-}
+}  // namespace vox

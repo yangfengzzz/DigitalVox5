@@ -12,23 +12,23 @@ namespace vox {
 class ShaderSource {
 public:
     ShaderSource() = default;
-    
+
     explicit ShaderSource(const std::string &filename);
-    
+
     [[nodiscard]] size_t GetId() const;
-    
+
     [[nodiscard]] const std::string &GetFilename() const;
-    
+
     void SetSource(const std::string &source);
-    
+
     [[nodiscard]] const std::string &GetSource() const;
-    
+
 private:
     size_t id_{};
-    
+
     std::string filename_;
-    
+
     std::string source_;
 };
 
-}
+}  // namespace vox

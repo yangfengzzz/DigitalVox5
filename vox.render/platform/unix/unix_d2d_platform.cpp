@@ -22,14 +22,14 @@ namespace vox {
 namespace {
 inline const std::string get_temp_path_from_environment() {
     std::string temp_path = "/tmp/";
-    
+
     if (const char *env_ptr = std::getenv("TMPDIR")) {
         temp_path = std::string(env_ptr) + "/";
     }
-    
+
     return temp_path;
 }
-}        // namespace
+}  // namespace
 
 namespace fs {
 void CreateDirectory(const std::string &path) {
@@ -37,7 +37,7 @@ void CreateDirectory(const std::string &path) {
         mkdir(path.c_str(), 0777);
     }
 }
-}        // namespace fs
+}  // namespace fs
 
 UnixD2DPlatform::UnixD2DPlatform(int argc, char **argv) {
     Platform::SetArguments({argv + 1, argv + argc});
@@ -52,8 +52,6 @@ void UnixD2DPlatform::CreateWindow(const Window::Properties &properties) {
     }
 }
 
-const char *UnixD2DPlatform::GetSurfaceExtension() {
-    return VK_KHR_DISPLAY_EXTENSION_NAME;
-}
+const char *UnixD2DPlatform::GetSurfaceExtension() { return VK_KHR_DISPLAY_EXTENSION_NAME; }
 
-}        // namespace vox
+}  // namespace vox

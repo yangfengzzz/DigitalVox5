@@ -20,4 +20,4 @@ public:
     static void call_binders(sol::state &lua_state);
 };
 
-}
+}  // namespace vox

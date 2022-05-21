@@ -45,50 +45,50 @@ private:
     const std::string face_index_prop_ = "faceIndex";
 };
 
-void IrradianceApp::load_scene() {
-    auto scene = scene_manager_->current_scene();
-    auto root_entity = scene->create_root_entity();
+void IrradianceApp::LoadScene() {
+    auto scene = scene_manager_->CurrentScene();
+    auto root_entity = scene->CreateRootEntity();
     
-    auto camera_entity = root_entity->create_child();
-    camera_entity->transform_->set_position(0, 0, 10);
-    camera_entity->transform_->look_at(Point3F(0, 0, 0));
-    main_camera_ = camera_entity->add_component<Camera>();
-    camera_entity->add_component<control::OrbitControl>();
+    auto camera_entity = root_entity->CreateChild();
+    camera_entity->transform->SetPosition(0, 0, 10);
+    camera_entity->transform->LookAt(Point3F(0, 0, 0));
+    main_camera_ = camera_entity->AddComponent<Camera>();
+    camera_entity->AddComponent<control::OrbitControl>();
     
     // Create Sphere
-    auto sphere_entity = root_entity->create_child("box");
-    sphere_entity->transform_->set_position(-1, 2, 0);
+    auto sphere_entity = root_entity->CreateChild("box");
+    sphere_entity->transform->SetPosition(-1, 2, 0);
     auto sphere_material = std::make_shared<PbrMaterial>(*device_);
-    sphere_material->set_roughness(0);
-    sphere_material->set_metallic(1);
-    auto renderer = sphere_entity->add_component<MeshRenderer>();
-    renderer->set_mesh(PrimitiveMesh::create_sphere(1, 64));
-    renderer->set_material(sphere_material);
+    sphere_material->SetRoughness(0);
+    sphere_material->SetMetallic(1);
+    auto renderer = sphere_entity->AddComponent<MeshRenderer>();
+    renderer->SetMesh(PrimitiveMesh::CreateSphere(1, 64));
+    renderer->SetMaterial(sphere_material);
     
     // Create planes
     std::array<Entity*, 6> planes{};
     std::array<std::shared_ptr<BakerMaterial>, 6> plane_materials{};
     
     for (int i = 0; i < 6; i++) {
-        auto baker_entity = root_entity->create_child("IBL Baker Entity");
-        baker_entity->transform_->set_rotation(90, 0, 0);
+        auto baker_entity = root_entity->CreateChild("IBL Baker Entity");
+        baker_entity->transform->SetRotation(90, 0, 0);
         auto baker_material = std::make_shared<BakerMaterial>(*device_);
-        auto baker_renderer = baker_entity->add_component<MeshRenderer>();
-        baker_renderer->set_mesh(PrimitiveMesh::create_plane(2, 2));
-        baker_renderer->set_material(baker_material);
+        auto baker_renderer = baker_entity->AddComponent<MeshRenderer>();
+        baker_renderer->SetMesh(PrimitiveMesh::CreatePlane(2, 2));
+        baker_renderer->SetMaterial(baker_material);
         planes[i] = baker_entity;
         plane_materials[i] = baker_material;
     }
+
+    planes[0]->transform->SetPosition(1, 0, 0); // PX
+    planes[1]->transform->SetPosition(-3, 0, 0); // NX
+    planes[2]->transform->SetPosition(1, 2, 0); // PY
+    planes[3]->transform->SetPosition(1, -2, 0); // NY
+    planes[4]->transform->SetPosition(-1, 0, 0); // PZ
+    planes[5]->transform->SetPosition(3, 0, 0); // NZ
     
-    planes[0]->transform_->set_position(1, 0, 0); // PX
-    planes[1]->transform_->set_position(-3, 0, 0); // NX
-    planes[2]->transform_->set_position(1, 2, 0); // PY
-    planes[3]->transform_->set_position(1, -2, 0); // NY
-    planes[4]->transform_->set_position(-1, 0, 0); // PZ
-    planes[5]->transform_->set_position(3, 0, 0); // NZ
-    
-    auto ibl_map = ImageManager::GetSingleton().generate_ibl("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
-    scene->ambient_light()->set_specular_texture(ibl_map);
+    auto ibl_map = ImageManager::GetSingleton().GenerateIBL("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
+    scene->AmbientLight()->SetSpecularTexture(ibl_map);
     
     auto change_mipmap = [&](uint32_t mipLevel) {
         for (uint32_t i = 0; i < 6; i++) {

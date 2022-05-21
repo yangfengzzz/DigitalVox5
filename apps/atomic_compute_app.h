@@ -14,9 +14,9 @@ class AtomicComputeApp : public ForwardApplication {
 public:
     bool prepare(Platform &platform) override;
     
-    void load_scene() override;
+    void LoadScene() override;
     
-    void update_gpu_task(CommandBuffer &command_buffer, RenderTarget &render_target) override;
+    void UpdateGpuTask(CommandBuffer &command_buffer, RenderTarget &render_target) override;
     
 private:
     std::shared_ptr<Material> material_{nullptr};

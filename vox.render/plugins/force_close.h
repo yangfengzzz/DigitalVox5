@@ -27,15 +27,15 @@ using ForceCloseTags = PluginBase<ForceClose, tags::Passive>;
 class ForceClose : public ForceCloseTags {
 public:
     ForceClose();
-    
+
     ~ForceClose() override = default;
-    
+
     bool IsActive(const CommandParser &parser) override;
-    
+
     void Init(const CommandParser &parser) override;
-    
+
     FlagCommand stop_cmd_ = {FlagType::FLAG_ONLY, "force-close", "",
-        "Force the close of the application if halted before exiting"};
+                             "Force the close of the application if halted before exiting"};
 };
 
-}
+}  // namespace vox::plugins

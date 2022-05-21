@@ -16,19 +16,19 @@ public:
      * @param requested_stats Set of stats to be collected. Supported stats will be removed from the set.
      */
     explicit FrameTimeStatsProvider(std::set<StatIndex> &requested_stats);
-    
+
     /**
      * @brief Checks if this provider can supply the given enabled stat
      * @param index The stat index
      * @return True if the stat is available, false otherwise
      */
-    [[nodiscard]] bool is_available(StatIndex index) const override;
-    
+    [[nodiscard]] bool IsAvailable(StatIndex index) const override;
+
     /**
      * @brief Retrieve a new sample set
      * @param delta_time Time since last sample
      */
-    Counters sample(float delta_time) override;
+    Counters Sample(float delta_time) override;
 };
 
-}        // namespace vox
+}  // namespace vox

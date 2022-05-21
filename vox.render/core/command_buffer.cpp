@@ -282,8 +282,7 @@ void CommandBuffer::BindIndexBuffer(const core::Buffer &buffer, VkDeviceSize off
     vkCmdBindIndexBuffer(GetHandle(), buffer.GetHandle(), offset, index_type);
 }
 
-void CommandBuffer::SetViewportState(const ViewportState &state_info) { pipeline_state_.SetViewportState(state_info);
-}
+void CommandBuffer::SetViewportState(const ViewportState &state_info) { pipeline_state_.SetViewportState(state_info); }
 
 void CommandBuffer::SetVertexInputState(const VertexInputState &state_info) {
     pipeline_state_.SetVertexInputState(state_info);

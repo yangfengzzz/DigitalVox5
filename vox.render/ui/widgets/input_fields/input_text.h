@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "ui/widgets/data_widget.h"
 #include "event.h"
+#include "ui/widgets/data_widget.h"
 
 namespace vox::ui {
 /**
@@ -16,10 +16,10 @@ namespace vox::ui {
 class InputText : public DataWidget<std::string> {
 public:
     explicit InputText(std::string content = "", std::string label = "");
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     std::string content_;
     std::string label_;
@@ -28,4 +28,4 @@ public:
     Event<std::string> enter_pressed_event_;
 };
 
-}
+}  // namespace vox::ui

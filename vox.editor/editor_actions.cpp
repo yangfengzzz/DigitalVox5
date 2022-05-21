@@ -16,12 +16,12 @@
 
 namespace vox {
 editor::EditorActions *editor::EditorActions::GetSingletonPtr() {
-    return ms_singleton_;
+    return ms_singleton;
 }
 
 editor::EditorActions &editor::EditorActions::GetSingleton() {
-    assert(ms_singleton_);
-    return (*ms_singleton_);
+    assert(ms_singleton);
+    return (*ms_singleton);
 }
 
 namespace editor {
@@ -33,15 +33,15 @@ app_(app) {
 void EditorActions::load_empty_scene() {
     if (current_editor_mode() != EditorMode::EDIT)
         stop_playing();
-    
-    SceneManager::GetSingleton().load_empty_lighted_scene();
+
+    SceneManager::GetSingleton().LoadEmptyLightedScene();
     LOGI("New scene created")
 }
 
 void EditorActions::save_current_scene_to(const std::string &path) {
-    SceneManager::GetSingleton().store_current_scene_source_path(path);
+    SceneManager::GetSingleton().StoreCurrentSceneSourcePath(path);
     nlohmann::json root;
-    SceneManager::GetSingleton().current_scene()->on_serialize(root);
+    SceneManager::GetSingleton().CurrentScene()->on_serialize(root);
     
     nlohmann::json j = {
         {"root", root},
@@ -52,20 +52,20 @@ void EditorActions::save_current_scene_to(const std::string &path) {
 void EditorActions::load_scene_from_disk(const std::string &path, bool absolute) {
     if (current_editor_mode() != EditorMode::EDIT)
         stop_playing();
-    
-    SceneManager::GetSingleton().load_scene(path, absolute);
-    LOGI("Scene loaded from disk: {}", SceneManager::GetSingleton().current_scene_source_path())
+
+    SceneManager::GetSingleton().LoadScene(path, absolute);
+    LOGI("Scene loaded from disk: {}", SceneManager::GetSingleton().CurrentSceneSourcePath())
     app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
 }
 
 bool EditorActions::is_current_scene_loaded_from_disk() const {
-    return SceneManager::GetSingleton().is_current_scene_loaded_from_disk();
+    return SceneManager::GetSingleton().IsCurrentSceneLoadedFromDisk();
 }
 
 void EditorActions::save_scene_changes() {
     if (is_current_scene_loaded_from_disk()) {
-        save_current_scene_to(SceneManager::GetSingleton().current_scene_source_path());
-        LOGI("Current scene saved to: {}" + SceneManager::GetSingleton().current_scene_source_path())
+        save_current_scene_to(SceneManager::GetSingleton().CurrentSceneSourcePath());
+        LOGI("Current scene saved to: {}" + SceneManager::GetSingleton().CurrentSceneSourcePath())
     } else {
         save_as();
     }
@@ -163,12 +163,12 @@ int EditorActions::asset_view_camera_speed() {
 
 void EditorActions::reset_scene_view_camera_position() {
     auto orbit_control = app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control();
-    orbit_control->entity()->transform_->set_position({-10.0f, 4.0f, 10.0f});
+    orbit_control->entity()->transform->SetPosition({-10.0f, 4.0f, 10.0f});
 }
 
 void EditorActions::reset_asset_view_camera_position() {
     auto orbit_control = app_.panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control();
-    orbit_control->entity()->transform_->set_position({-10.0f, 4.0f, 10.0f});
+    orbit_control->entity()->transform->SetPosition({-10.0f, 4.0f, 10.0f});
 }
 
 //MARK: - GAME
@@ -191,11 +191,11 @@ void EditorActions::start_playing() {
             scene_backup_.clear();
             
             nlohmann::json root;
-            SceneManager::GetSingleton().current_scene()->on_serialize(root);
+            SceneManager::GetSingleton().CurrentScene()->on_serialize(root);
             scene_backup_.insert(scene_backup_.begin(), {"root", root});
             
             app_.panels_manager_.get_panel_as<ui::GameView>("Game View").focus();
-            SceneManager::GetSingleton().current_scene()->play();
+            SceneManager::GetSingleton().CurrentScene()->play();
             set_editor_mode(EditorMode::PLAY);
         }
     } else {
@@ -213,22 +213,22 @@ void EditorActions::stop_playing() {
         // ImGui::GetIO().DisableMouseUpdate = false;
         // m_context.window->SetCursorMode(OvWindowing::Cursor::ECursorMode::NORMAL);
         set_editor_mode(EditorMode::EDIT);
-        bool loaded_from_disk = SceneManager::GetSingleton().is_current_scene_loaded_from_disk();
-        std::string scene_source_path = SceneManager::GetSingleton().current_scene_source_path();
+        bool loaded_from_disk = SceneManager::GetSingleton().IsCurrentSceneLoadedFromDisk();
+        std::string scene_source_path = SceneManager::GetSingleton().CurrentSceneSourcePath();
         
         std::string focused_actor_id;
         
         if (auto target_actor = app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").target_entity())
             focused_actor_id = target_actor->name_;
-        
-        SceneManager::GetSingleton().load_scene_from_memory(scene_backup_);
+
+        SceneManager::GetSingleton().LoadSceneFromMemory(scene_backup_);
         if (loaded_from_disk) {
             // To bo able to save or reload the scene whereas the scene is loaded from memory (Supposed to have no path)
-            SceneManager::GetSingleton().store_current_scene_source_path(scene_source_path);
+            SceneManager::GetSingleton().StoreCurrentSceneSourcePath(scene_source_path);
         }
         scene_backup_.clear();
         app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
-        if (auto actor_instance = SceneManager::GetSingleton().current_scene()->find_entity_by_name(focused_actor_id)) {
+        if (auto actor_instance = SceneManager::GetSingleton().CurrentScene()->FindEntityByName(focused_actor_id)) {
             app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").focus_entity(actor_instance);
         }
     }
@@ -242,21 +242,22 @@ void EditorActions::next_frame() {
 //MARK: - Entity_CREATION_DESTRUCTION
 Point3F EditorActions::calculate_entity_spawn_point(float distance_to_camera) {
     auto camera_entity = app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control()->entity();
-    return camera_entity->transform_->world_position() + camera_entity->transform_->world_rotation_quaternion()
-    * camera_entity->transform_->world_forward() * distance_to_camera;
+    return camera_entity->transform->WorldPosition() + camera_entity->transform->WorldRotationQuaternion()
+    *
+                                                                camera_entity->transform->WorldForward() * distance_to_camera;
 }
 
 Entity *EditorActions::create_empty_entity(bool focus_on_creation, Entity *parent, const std::string &name) {
-    const auto kCurrentScene = SceneManager::GetSingleton().current_scene();
+    const auto kCurrentScene = SceneManager::GetSingleton().CurrentScene();
     Entity* entity{nullptr};
     if (parent) {
-        entity = parent->create_child(name);
+        entity = parent->CreateChild(name);
     } else {
-        entity = kCurrentScene->create_root_entity(name);
+        entity = kCurrentScene->CreateRootEntity(name);
     }
     
     if (entity_spawn_mode_ == EntitySpawnMode::FRONT)
-        entity->transform_->set_world_position(calculate_entity_spawn_point(10.0f));
+        entity->transform->SetWorldPosition(calculate_entity_spawn_point(10.0f));
     
     if (focus_on_creation)
         select_entity(entity);

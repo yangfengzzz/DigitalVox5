@@ -5,50 +5,44 @@
 //  property of any third parties.
 
 #include "mesh_renderer.h"
-#include "mesh.h"
-#include "shader/shader_common.h"
-#include "shader/internal_variant_name.h"
+
 #include "entity.h"
+#include "mesh.h"
+#include "shader/internal_variant_name.h"
+#include "shader/shader_common.h"
 
 namespace vox {
-std::string MeshRenderer::name() {
-    return "MeshRenderer";
-}
+std::string MeshRenderer::name() { return "MeshRenderer"; }
 
-MeshRenderer::MeshRenderer(Entity *entity) :
-Renderer(entity) {
-    
-}
+MeshRenderer::MeshRenderer(Entity *entity) : Renderer(entity) {}
 
-void MeshRenderer::set_mesh(const MeshPtr &mesh) {
+void MeshRenderer::SetMesh(const MeshPtr &mesh) {
     auto &last_mesh = mesh_;
     if (last_mesh != mesh) {
         if (last_mesh != nullptr) {
             mesh_update_flag_.reset();
         }
         if (mesh != nullptr) {
-            mesh_update_flag_ = mesh->register_update_flag();
+            mesh_update_flag_ = mesh->RegisterUpdateFlag();
         }
         mesh_ = mesh;
     }
 }
 
-MeshPtr MeshRenderer::mesh() {
-    return mesh_;
-}
+MeshPtr MeshRenderer::Mesh() { return mesh_; }
 
-void MeshRenderer::render(std::vector<RenderElement> &opaque_queue,
+void MeshRenderer::Render(std::vector<RenderElement> &opaque_queue,
                           std::vector<RenderElement> &alpha_test_queue,
                           std::vector<RenderElement> &transparent_queue) {
     if (mesh_ != nullptr) {
         if (mesh_update_flag_->flag_) {
-            const auto &vertex_input_state = mesh_->vertex_input_state();
+            const auto &vertex_input_state = mesh_->VertexInputState();
 
             shader_data_.RemoveDefine(HAS_UV);
             shader_data_.RemoveDefine(HAS_NORMAL);
             shader_data_.RemoveDefine(HAS_TANGENT);
             shader_data_.RemoveDefine(HAS_VERTEXCOLOR);
-            
+
             for (auto attribute : vertex_input_state.attributes) {
                 if (attribute.location == (uint32_t)Attributes::UV_0) {
                     shader_data_.AddDefine(HAS_UV);
@@ -65,8 +59,8 @@ void MeshRenderer::render(std::vector<RenderElement> &opaque_queue,
             }
             mesh_update_flag_->flag_ = false;
         }
-        
-        auto &sub_meshes = mesh_->sub_meshes();
+
+        auto &sub_meshes = mesh_->SubMeshes();
         for (size_t i = 0; i < sub_meshes.size(); i++) {
             MaterialPtr material;
             if (i < materials_.size()) {
@@ -76,7 +70,7 @@ void MeshRenderer::render(std::vector<RenderElement> &opaque_queue,
             }
             if (material != nullptr) {
                 RenderElement element(this, mesh_, &sub_meshes[i], material);
-                push_primitive(element, opaque_queue, alpha_test_queue, transparent_queue);
+                PushPrimitive(element, opaque_queue, alpha_test_queue, transparent_queue);
             }
         }
     } else {
@@ -84,10 +78,10 @@ void MeshRenderer::render(std::vector<RenderElement> &opaque_queue,
     }
 }
 
-void MeshRenderer::update_bounds(BoundingBox3F &world_bounds) {
+void MeshRenderer::UpdateBounds(BoundingBox3F &world_bounds) {
     if (mesh_ != nullptr) {
         const auto kLocalBounds = mesh_->bounds_;
-        const auto kWorldMatrix = entity_->transform_->world_matrix();
+        const auto kWorldMatrix = entity_->transform->WorldMatrix();
         world_bounds = kLocalBounds.transform(kWorldMatrix);
     } else {
         world_bounds.lower_corner = Point3F(0, 0, 0);
@@ -95,17 +89,11 @@ void MeshRenderer::update_bounds(BoundingBox3F &world_bounds) {
     }
 }
 
-//MARK: - Reflection
-void MeshRenderer::on_serialize(nlohmann::json &data) {
-    
-}
+// MARK: - Reflection
+void MeshRenderer::OnSerialize(nlohmann::json &data) {}
 
-void MeshRenderer::on_deserialize(const nlohmann::json &data) {
-    
-}
+void MeshRenderer::OnDeserialize(const nlohmann::json &data) {}
 
-void MeshRenderer::on_inspector(ui::WidgetContainer &p_root) {
-    
-}
+void MeshRenderer::OnInspector(ui::WidgetContainer &p_root) {}
 
-}
+}  // namespace vox

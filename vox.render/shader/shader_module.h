@@ -6,12 +6,12 @@
 
 #pragma once
 
-#include "vk_common.h"
-#include "shader_variant.h"
 #include "shader_source.h"
+#include "shader_variant.h"
+#include "vk_common.h"
 
 #if defined(VK_USE_PLATFORM_XLIB_KHR)
-#	undef None
+#undef None
 #endif
 
 namespace vox {
@@ -34,11 +34,7 @@ enum class ShaderResourceType {
 };
 
 /// This determines the type and method of how descriptor set should be created and bound
-enum class ShaderResourceMode {
-    STATIC,
-    DYNAMIC,
-    UPDATE_AFTER_BIND
-};
+enum class ShaderResourceMode { STATIC, DYNAMIC, UPDATE_AFTER_BIND };
 
 /// A bitmask of qualifiers applied to a resource
 struct ShaderResourceQualifiers {
@@ -53,33 +49,33 @@ struct ShaderResourceQualifiers {
 /// Used by the shader module.
 struct ShaderResource {
     VkShaderStageFlags stages;
-    
+
     ShaderResourceType type;
-    
+
     ShaderResourceMode mode;
-    
+
     uint32_t set;
-    
+
     uint32_t binding;
-    
+
     uint32_t location;
-    
+
     uint32_t input_attachment_index;
-    
+
     uint32_t vec_size;
-    
+
     uint32_t columns;
-    
+
     uint32_t array_size;
-    
+
     uint32_t offset;
-    
+
     uint32_t size;
-    
+
     uint32_t constant_id;
-    
+
     uint32_t qualifiers;
-    
+
     std::string name;
 };
 
@@ -99,63 +95,59 @@ public:
                  const ShaderSource &glsl_source,
                  const std::string &entry_point,
                  const ShaderVariant &shader_variant);
-    
+
     ShaderModule(const ShaderModule &) = delete;
-    
+
     ShaderModule(ShaderModule &&other) noexcept;
-    
+
     ShaderModule &operator=(const ShaderModule &) = delete;
-    
+
     ShaderModule &operator=(ShaderModule &&) = delete;
-    
+
     [[nodiscard]] size_t GetId() const;
-    
+
     [[nodiscard]] VkShaderStageFlagBits GetStage() const;
-    
+
     [[nodiscard]] const std::string &GetEntryPoint() const;
-    
+
     [[nodiscard]] const std::vector<ShaderResource> &GetResources() const;
-    
+
     [[nodiscard]] const std::string &GetInfoLog() const;
-    
+
     [[nodiscard]] const std::vector<uint32_t> &GetBinary() const;
-    
-    [[nodiscard]] inline const std::string &GetDebugName() const {
-        return debug_name_;
-    }
-    
-    inline void SetDebugName(const std::string &name) {
-        debug_name_ = name;
-    }
-    
+
+    [[nodiscard]] inline const std::string &GetDebugName() const { return debug_name_; }
+
+    inline void SetDebugName(const std::string &name) { debug_name_ = name; }
+
     /**
      * @brief Flags a resource to use a different method of being bound to the shader
      * @param resource_name The name of the shader resource
      * @param resource_mode The mode of how the shader resource will be bound
      */
     void SetResourceMode(const std::string &resource_name, const ShaderResourceMode &resource_mode);
-    
+
 private:
     Device &device_;
-    
+
     /// Shader unique id
     size_t id_;
-    
+
     /// Stage of the shader (vertex, fragment, etc)
     VkShaderStageFlagBits stage_{};
-    
+
     /// Name of the main function
     std::string entry_point_;
-    
+
     /// Human-readable name for the shader
     std::string debug_name_;
-    
+
     /// Compiled source
     std::vector<uint32_t> spirv_;
-    
+
     std::vector<ShaderResource> resources_;
-    
+
     std::string info_log_;
 };
 
-}        // namespace vox
+}  // namespace vox

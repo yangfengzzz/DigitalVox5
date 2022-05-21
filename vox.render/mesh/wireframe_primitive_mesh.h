@@ -15,27 +15,28 @@ namespace vox {
  */
 class WireframePrimitiveMesh {
 public:
-    static ModelMeshPtr create_cuboid_wire_frame(float width, float height, float depth);
-    
-    static ModelMeshPtr create_sphere_wire_frame(float radius);
-    
-    static ModelMeshPtr create_capsule_wire_frame(float radius, float height);
-    
+    static ModelMeshPtr CreateCuboidWireFrame(float width, float height, float depth);
+
+    static ModelMeshPtr CreateSphereWireFrame(float radius);
+
+    static ModelMeshPtr CreateCapsuleWireFrame(float radius, float height);
+
 private:
-    static void create_circle_wire_frame(float radius,
-                                         uint32_t vertex_begin,
-                                         uint32_t vertex_count,
-                                         uint8_t axis,
-                                         const Vector3F &shift,
-                                         std::vector<Vector3F> &positions,
-                                         std::vector<uint32_t> &indices);
-    
-    static void create_elliptic_wire_frame(float radius, float height,
-                                           uint32_t vertex_begin,
-                                           uint32_t vertex_count,
-                                           uint8_t axis,
-                                           std::vector<Vector3F> &positions,
-                                           std::vector<uint32_t> &indices);
+    static void CreateCircleWireFrame(float radius,
+                                      uint32_t vertex_begin,
+                                      uint32_t vertex_count,
+                                      uint8_t axis,
+                                      const Vector3F &shift,
+                                      std::vector<Vector3F> &positions,
+                                      std::vector<uint32_t> &indices);
+
+    static void CreateEllipticWireFrame(float radius,
+                                        float height,
+                                        uint32_t vertex_begin,
+                                        uint32_t vertex_count,
+                                        uint8_t axis,
+                                        std::vector<Vector3F> &positions,
+                                        std::vector<uint32_t> &indices);
 };
 
-}
+}  // namespace vox

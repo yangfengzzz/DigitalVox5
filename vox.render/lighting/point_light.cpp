@@ -5,50 +5,35 @@
 //  property of any third parties.
 
 #include "point_light.h"
-#include "matrix_utils.h"
+
 #include "entity.h"
 #include "light_manager.h"
+#include "matrix_utils.h"
 
 namespace vox {
-std::string PointLight::name() {
-    return "PointLight";
-}
+std::string PointLight::name() { return "PointLight"; }
 
-PointLight::PointLight(Entity *entity) :
-Light(entity) {
-}
+PointLight::PointLight(Entity *entity) : Light(entity) {}
 
-void PointLight::on_enable() {
-	LightManager::GetSingleton().attach_point_light(this);
-}
+void PointLight::OnEnable() { LightManager::GetSingleton().AttachPointLight(this); }
 
-void PointLight::on_disable() {
-	LightManager::GetSingleton().detach_point_light(this);
-}
+void PointLight::OnDisable() { LightManager::GetSingleton().DetachPointLight(this); }
 
-void PointLight::update_shader_data(PointLightData &shader_data) {
+void PointLight::UpdateShaderData(PointLightData &shader_data) {
     shader_data.color = Vector3F(color_.r * intensity_, color_.g * intensity_, color_.b * intensity_);
-    auto position = entity()->transform_->world_position();
+    auto position = GetEntity()->transform->WorldPosition();
     shader_data.position = Vector3F(position.x, position.y, position.z);
     shader_data.distance = distance_;
 }
 
-//MARK: - Shadow
-Matrix4x4F PointLight::shadow_projection_matrix() {
-    return makePerspective<float>(degreesToRadians(120.f), 1, 0.1, 100);
-}
+// MARK: - Shadow
+Matrix4x4F PointLight::ShadowProjectionMatrix() { return makePerspective<float>(degreesToRadians(120.f), 1, 0.1, 100); }
 
-//MARK: - Reflection
-void PointLight::on_serialize(nlohmann::json &data) {
-    
-}
+// MARK: - Reflection
+void PointLight::OnSerialize(nlohmann::json &data) {}
 
-void PointLight::on_deserialize(const nlohmann::json &data) {
-    
-}
+void PointLight::OnDeserialize(const nlohmann::json &data) {}
 
-void PointLight::on_inspector(ui::WidgetContainer &p_root) {
-    
-}
+void PointLight::OnInspector(ui::WidgetContainer &p_root) {}
 
-}
+}  // namespace vox

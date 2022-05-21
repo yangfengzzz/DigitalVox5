@@ -5,41 +5,34 @@
 //  property of any third parties.
 
 #include "gpu_skinned_mesh_renderer.h"
+
 #include "entity.h"
 #include "scene.h"
 #include "shader/internal_variant_name.h"
 
 namespace vox {
-std::string GpuSkinnedMeshRenderer::name() {
-    return "GPUSkinnedMeshRenderer";
-}
+std::string GpuSkinnedMeshRenderer::name() { return "GPUSkinnedMeshRenderer"; }
 
-GpuSkinnedMeshRenderer::GpuSkinnedMeshRenderer(Entity *entity) :
-MeshRenderer(entity),
-joint_matrix_property_("jointMatrix") {
-}
+GpuSkinnedMeshRenderer::GpuSkinnedMeshRenderer(Entity *entity)
+    : MeshRenderer(entity), joint_matrix_property_("jointMatrix") {}
 
-GpuSkinnedMeshRenderer::SkinPtr GpuSkinnedMeshRenderer::skin() {
-    return skin_;
-}
+GpuSkinnedMeshRenderer::SkinPtr GpuSkinnedMeshRenderer::Skin() { return skin_; }
 
-void GpuSkinnedMeshRenderer::set_skin(const SkinPtr &skin) {
-    skin_ = skin;
-}
+void GpuSkinnedMeshRenderer::SetSkin(const SkinPtr &skin) { skin_ = skin; }
 
-void GpuSkinnedMeshRenderer::update(float delta_time) {
+void GpuSkinnedMeshRenderer::Update(float delta_time) {
     if (skin_) {
         if (!has_init_joints_) {
-            init_joints();
+            InitJoints();
             has_init_joints_ = true;
         }
-        
+
         // Update join matrices
-        auto m = entity()->transform_->world_matrix();
+        auto m = GetEntity()->transform->WorldMatrix();
         auto inverse_transform = m.inverse();
         for (size_t i = 0; i < skin_->joints.size(); i++) {
             auto joint_node = skin_->joints[i];
-            auto joint_mat = joint_node->transform_->world_matrix() * skin_->inverse_bind_matrices[i];
+            auto joint_mat = joint_node->transform->WorldMatrix() * skin_->inverse_bind_matrices[i];
             joint_mat = inverse_transform * joint_mat;
             std::copy(joint_mat.data(), joint_mat.data() + 16, joint_matrix_.data() + i * 16);
         }
@@ -48,22 +41,16 @@ void GpuSkinnedMeshRenderer::update(float delta_time) {
     }
 }
 
-void GpuSkinnedMeshRenderer::init_joints() {
+void GpuSkinnedMeshRenderer::InitJoints() {
     joint_matrix_.resize(skin_->joints.size() * 16);
     shader_data_.AddDefine(HAS_SKIN);
 }
 
-//MARK: - Reflection
-void GpuSkinnedMeshRenderer::on_serialize(nlohmann::json &data) {
-    
-}
+// MARK: - Reflection
+void GpuSkinnedMeshRenderer::OnSerialize(nlohmann::json &data) {}
 
-void GpuSkinnedMeshRenderer::on_deserialize(const nlohmann::json &data) {
-    
-}
+void GpuSkinnedMeshRenderer::OnDeserialize(const nlohmann::json &data) {}
 
-void GpuSkinnedMeshRenderer::on_inspector(ui::WidgetContainer &p_root) {
-    
-}
+void GpuSkinnedMeshRenderer::OnInspector(ui::WidgetContainer &p_root) {}
 
-}
+}  // namespace vox

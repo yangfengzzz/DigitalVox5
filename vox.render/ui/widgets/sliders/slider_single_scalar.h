@@ -8,28 +8,24 @@
 
 #include <utility>
 
-#include "vector2.h"
 #include "event.h"
-
-#include "ui/widgets/data_widget.h"
 #include "ui/widgets/converter.h"
+#include "ui/widgets/data_widget.h"
+#include "vector2.h"
 
 namespace vox::ui {
 /**
  * Defines the slider orientation
  */
-enum class SliderOrientation {
-    HORIZONTAL,
-    VERTICAL
-};
+enum class SliderOrientation { HORIZONTAL, VERTICAL };
 
 /**
  * Slider widget of generic type
  */
-template<typename T>
+template <typename T>
 class SliderSingleScalar : public DataWidget<T> {
     static_assert(std::is_scalar<T>::value, "Invalid SliderSingleScalar T (Scalar expected)");
-    
+
 public:
     SliderSingleScalar(ImGuiDataType data_type,
                        T min,
@@ -37,41 +33,45 @@ public:
                        T value,
                        SliderOrientation orientation,
                        std::string label,
-                       std::string format) :
-    DataWidget<T>(value_), data_type_(data_type), min_(min), max_(max),
-    value_(value), orientation_(orientation), label_(std::move(label)), format_(std::move(format)) {
-    }
-    
+                       std::string format)
+        : DataWidget<T>(value_),
+          data_type_(data_type),
+          min_(min),
+          max_(max),
+          value_(value),
+          orientation_(orientation),
+          label_(std::move(label)),
+          format_(std::move(format)) {}
+
 protected:
     void draw_impl() override {
-        if (max_ < min_)
-            max_ = min_;
-        
+        if (max_ < min_) max_ = min_;
+
         if (value_ < min_)
             value_ = min_;
         else if (value_ > max_)
             value_ = max_;
-        
+
         bool value_changed = false;
-        
+
         switch (orientation_) {
             case SliderOrientation::HORIZONTAL:
-                value_changed = ImGui::SliderScalar((label_ + DataWidget<T>::widget_id_).c_str(),
-                                                    data_type_, &value_, &min_, &max_, format_.c_str());
+                value_changed = ImGui::SliderScalar((label_ + DataWidget<T>::widget_id_).c_str(), data_type_, &value_,
+                                                    &min_, &max_, format_.c_str());
                 break;
             case SliderOrientation::VERTICAL:
                 value_changed = ImGui::VSliderScalar((label_ + DataWidget<T>::widget_id_).c_str(),
-                                                     Converter::to_imVec2(vertical_mode_size_),
-                                                     data_type_, &value_, &min_, &max_, format_.c_str());
+                                                     Converter::to_imVec2(vertical_mode_size_), data_type_, &value_,
+                                                     &min_, &max_, format_.c_str());
                 break;
         }
-        
+
         if (value_changed) {
-            value_changed_event_.invoke(value_);
+            value_changed_event_.Invoke(value_);
             DataWidget<T>::notify_change();
         }
     }
-    
+
 public:
     T min_;
     T max_;
@@ -81,9 +81,9 @@ public:
     std::string label_;
     std::string format_;
     Event<T> value_changed_event_;
-    
+
 private:
     ImGuiDataType data_type_;
 };
 
-}
+}  // namespace vox::ui

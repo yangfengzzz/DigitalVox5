@@ -66,4 +66,4 @@ const std::string PARTICLE_COUNT = "PARTICLE_COUNT ";
 const std::string SHADOW_MAP_COUNT = "SHADOW_MAP_COUNT ";
 const std::string CUBE_SHADOW_MAP_COUNT = "CUBE_SHADOW_MAP_COUNT ";
 
-}
+}  // namespace vox

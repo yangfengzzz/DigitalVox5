@@ -14,4 +14,4 @@ Node::Node(size_t id, const char *title, const char *style, const nlohmann::json
     attributes_["style"] = style;
 }
 
-}        // namespace vox
+}  // namespace vox::graphing

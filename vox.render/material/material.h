@@ -6,10 +6,10 @@
 
 #pragma once
 
+#include "core/device.h"
+#include "enums/render_queue_type.h"
 #include "rendering/pipeline_state.h"
 #include "shader/shader_data.h"
-#include "enums/render_queue_type.h"
-#include "core/device.h"
 
 namespace vox {
 /**
@@ -19,32 +19,32 @@ class Material {
 public:
     /** Name. */
     std::string name_;
-    
+
     /** Render queue type. */
     RenderQueueType::Enum render_queue_ = RenderQueueType::Enum::OPAQUE;
-    
+
     /** Shader used by the material. */
     std::shared_ptr<ShaderSource> vertex_source_{nullptr};
     std::shared_ptr<ShaderSource> fragment_source_{nullptr};
-    
+
     /** Shader data. */
     ShaderData shader_data_;
-    
+
     /** Render state. */
     InputAssemblyState input_assembly_state_;
     RasterizationState rasterization_state_;
     MultisampleState multisample_state_;
     DepthStencilState depth_stencil_state_;
     ColorBlendState color_blend_state_;
-    
+
     explicit Material(Device &device, std::string name = "");
-    
+
     Material(Material &&other) = default;
-    
+
     virtual ~Material() = default;
-    
+
 protected:
-    Device& device_;
+    Device &device_;
 };
 
-}        // namespace vox
+}  // namespace vox

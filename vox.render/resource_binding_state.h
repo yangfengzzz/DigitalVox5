@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "vk_common.h"
 #include "core/buffer.h"
 #include "core/image_view.h"
 #include "core/sampler.h"
+#include "vk_common.h"
 
 namespace vox {
 /**
@@ -19,15 +19,15 @@ namespace vox {
  */
 struct ResourceInfo {
     bool dirty{false};
-    
+
     const core::Buffer *buffer{nullptr};
-    
+
     VkDeviceSize offset{0};
-    
+
     VkDeviceSize range{0};
-    
+
     const core::ImageView *image_view{nullptr};
-    
+
     const core::Sampler *sampler{nullptr};
 };
 
@@ -40,28 +40,33 @@ struct ResourceInfo {
 class ResourceSet {
 public:
     void Reset();
-    
+
     [[nodiscard]] bool IsDirty() const;
-    
+
     void ClearDirty();
-    
+
     void ClearDirty(uint32_t binding, uint32_t array_element);
-    
-    void BindBuffer(const core::Buffer &buffer, VkDeviceSize offset, VkDeviceSize range, uint32_t binding,
-                     uint32_t array_element);
-    
-    void BindImage(const core::ImageView &image_view, const core::Sampler &sampler, uint32_t binding,
+
+    void BindBuffer(const core::Buffer &buffer,
+                    VkDeviceSize offset,
+                    VkDeviceSize range,
+                    uint32_t binding,
                     uint32_t array_element);
-    
+
+    void BindImage(const core::ImageView &image_view,
+                   const core::Sampler &sampler,
+                   uint32_t binding,
+                   uint32_t array_element);
+
     void BindImage(const core::ImageView &image_view, uint32_t binding, uint32_t array_element);
-    
+
     void BindInput(const core::ImageView &image_view, uint32_t binding, uint32_t array_element);
-    
+
     [[nodiscard]] const BindingMap<ResourceInfo> &GetResourceBindings() const;
-    
+
 private:
     bool dirty_{false};
-    
+
     BindingMap<ResourceInfo> resource_bindings_;
 };
 
@@ -74,29 +79,36 @@ private:
 class ResourceBindingState {
 public:
     void Reset();
-    
+
     [[nodiscard]] bool IsDirty() const;
-    
+
     void ClearDirty();
-    
+
     void ClearDirty(uint32_t set);
-    
-    void BindBuffer(const core::Buffer &buffer, VkDeviceSize offset, VkDeviceSize range, uint32_t set, uint32_t binding,
-                uint32_t array_element);
-    
-    void BindImage(const core::ImageView &image_view, const core::Sampler &sampler, uint32_t set, uint32_t binding,
+
+    void BindBuffer(const core::Buffer &buffer,
+                    VkDeviceSize offset,
+                    VkDeviceSize range,
+                    uint32_t set,
+                    uint32_t binding,
                     uint32_t array_element);
-    
+
+    void BindImage(const core::ImageView &image_view,
+                   const core::Sampler &sampler,
+                   uint32_t set,
+                   uint32_t binding,
+                   uint32_t array_element);
+
     void BindImage(const core::ImageView &image_view, uint32_t set, uint32_t binding, uint32_t array_element);
-    
+
     void BindInput(const core::ImageView &image_view, uint32_t set, uint32_t binding, uint32_t array_element);
-    
+
     const std::unordered_map<uint32_t, ResourceSet> &GetResourceSets();
-    
+
 private:
     bool dirty_{false};
-    
+
     std::unordered_map<uint32_t, ResourceSet> resource_sets_;
 };
 
-}        // namespace vox
+}  // namespace vox

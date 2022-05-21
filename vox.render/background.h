@@ -24,23 +24,24 @@ struct BackgroundMode {
 /**
  * Background of scene.
  */
-class Background {
+struct Background {
 public:
     /**
      * Background mode.
      * @defaultValue `BackgroundMode.SolidColor`
-     * @remarks If using `BackgroundMode.Sky` mode and material or mesh of the `sky` is not defined, it will downgrade to `BackgroundMode.SolidColor`.
+     * @remarks If using `BackgroundMode.Sky` mode and material or mesh of the `sky` is not defined, it will downgrade
+     * to `BackgroundMode.SolidColor`.
      */
-    BackgroundMode::Enum mode_ = BackgroundMode::Enum::SOLID_COLOR;
-    
+    BackgroundMode::Enum mode = BackgroundMode::Enum::SOLID_COLOR;
+
     /**
      * Background solid color.
      * @defaultValue `new Color(0.25, 0.25, 0.25, 1.0)`
      * @remarks When `mode` is `BackgroundMode.SolidColor`, the property will take effects.
      */
-    Color solid_color_ = Color(0.25, 0.25, 0.25, 1.0);
-    
+    Color solid_color = Color(0.25, 0.25, 0.25, 1.0);
+
     Background() = default;
 };
 
-}
+}  // namespace vox

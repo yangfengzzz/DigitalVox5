@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "text.h"
 #include "color.h"
+#include "text.h"
 
 namespace vox::ui {
 /**
@@ -15,14 +15,13 @@ namespace vox::ui {
  */
 class TextColored : public Text {
 public:
-    explicit TextColored(const std::string &content = "",
-                         const Color &color = Color(1.0f, 1.0f, 1.0f, 1.0f));
-    
+    explicit TextColored(const std::string &content = "", const Color &color = Color(1.0f, 1.0f, 1.0f, 1.0f));
+
 public:
     Color color_;
-    
+
 protected:
     void draw_impl() override;
 };
 
-}
+}  // namespace vox::ui

@@ -20,9 +20,9 @@ public:
                        const Vector2F &size = {0.0f, 0.0f},
                        const std::string &overlay = "",
                        const std::string &label = "");
-    
+
 protected:
     void draw_impl() override;
 };
 
-}
+}  // namespace vox::ui

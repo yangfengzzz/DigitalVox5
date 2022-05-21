@@ -44,12 +44,12 @@ EditorApplication::~EditorApplication() {
     light_manager_.reset();
     shadow_manager_.reset();
     particle_manager_.reset();
-    
-    image_manager_->collect_garbage();
+
+    image_manager_->CollectGarbage();
     image_manager_.reset();
     shader_manager_->CollectGarbage();
     shader_manager_.reset();
-    mesh_manager_->collect_garbage();
+    mesh_manager_->CollectGarbage();
     mesh_manager_.reset();
 }
 
@@ -74,26 +74,27 @@ bool EditorApplication::prepare(Platform &platform) {
     components_manager_ = std::make_unique<ComponentsManager>();
     physics_manager_ = std::make_unique<physics::PhysicsManager>();
     scene_manager_ = std::make_unique<SceneManager>(*device_);
-    auto scene = scene_manager_->current_scene();
+    auto scene = scene_manager_->CurrentScene();
     
     particle_manager_ = std::make_unique<ParticleManager>(*device_, *render_context_);
     light_manager_ = std::make_unique<LightManager>(scene, *render_context_);
     {
         auto extent = platform.GetWindow().get_extent();
         auto factor = static_cast<uint32_t>(platform.GetWindow().GetContentScaleFactor());
-        components_manager_->call_script_resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
+        components_manager_->CallScriptResize(extent.width, extent.height, factor * extent.width,
+                                              factor * extent.height);
     }
-    light_manager_->set_camera(main_camera_);
+    light_manager_->SetCamera(main_camera_);
     
     // internal manager
     shadow_manager_ = std::make_unique<ShadowManager>(*device_, *render_context_, scene, main_camera_);
     
     // default render pipeline
-    auto subpass = std::make_unique<GeometrySubpass>(get_render_context(), scene, nullptr);
+    auto subpass = std::make_unique<GeometrySubpass>(GetRenderContext(), scene, nullptr);
     subpass->SetRenderMode(GeometrySubpass::RenderMode::MANUAL);
     std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
     scene_subpasses.emplace_back(std::move(subpass));
-    set_render_pipeline(RenderPipeline(std::move(scene_subpasses)));
+    SetRenderPipeline(RenderPipeline(std::move(scene_subpasses)));
     
     editor_actions_ = std::make_unique<EditorActions>(*this);
     editor_resources_ = std::make_unique<EditorResources>(*device_, editor_assets_path_);
@@ -114,18 +115,21 @@ void EditorApplication::setup_ui() {
     panels_manager_.create_panel<ui::Hierarchy>("Hierarchy", true, settings);
     panels_manager_.create_panel<ui::Inspector>("Inspector", true, settings);
     panels_manager_.create_panel<ui::SceneView>("Scene View", true, settings,
-                                                *render_context_, scene_manager_->current_scene());
+                                                *render_context_,
+                                                scene_manager_->CurrentScene());
     panels_manager_.create_panel<ui::GameView>("Game View", true, settings,
-                                               *render_context_, scene_manager_->current_scene());
+                                               *render_context_,
+                                               scene_manager_->CurrentScene());
     
     panels_manager_.create_panel<ui::AssetView>("Asset View", true, settings,
-                                                *render_context_, scene_manager_->current_scene());
+                                                *render_context_,
+                                                scene_manager_->CurrentScene());
     panels_manager_.create_panel<ui::Toolbar>("Toolbar", true, settings, editor_resources_.get());
     panels_manager_.create_panel<ui::ProjectSettings>("Project Settings", false, settings, project_path_, project_name_);
     
     canvas_.make_dock_space(true);
     gui_->set_canvas(canvas_);
-    scene_manager_->current_scene()->play();
+    scene_manager_->CurrentScene()->play();
 }
 
 //MARK: - Update
@@ -133,25 +137,25 @@ void EditorApplication::update(float delta_time) {
 //    if (auto editorMode = editor_actions_->current_editor_mode();
 //        editorMode == EditorActions::EditorMode::PLAY ||
 //        editorMode == EditorActions::EditorMode::FRAME_BY_FRAME) {
-        components_manager_->call_script_on_start();
+components_manager_->CallScriptOnStart();
         
         physics_manager_->update(delta_time);
-        
-        components_manager_->call_script_on_update(delta_time);
+
+        components_manager_->CallScriptOnUpdate(delta_time);
         //        _componentsManager->callAnimatorUpdate(deltaTime);
-        components_manager_->call_scene_animator_update(delta_time);
-        components_manager_->call_script_on_late_update(delta_time);
-        
-        components_manager_->call_renderer_on_update(delta_time);
-        scene_manager_->current_scene()->update_shader_data();
+        components_manager_->CallSceneAnimatorUpdate(delta_time);
+        components_manager_->CallScriptOnLateUpdate(delta_time);
+
+        components_manager_->CallRendererOnUpdate(delta_time);
+        scene_manager_->CurrentScene()->UpdateShaderData();
         
 //        if (editorMode == EditorActions::EditorMode::FRAME_BY_FRAME)
 //            editor_actions_->pause_game();
 //    }
     
     PROFILER_SPY("Scene garbage collection");
-    image_manager_->collect_garbage();
-    mesh_manager_->collect_garbage();
+    image_manager_->CollectGarbage();
+    mesh_manager_->CollectGarbage();
     shader_manager_->CollectGarbage();
     
     delta_time_ = delta_time;
@@ -216,13 +220,13 @@ void EditorApplication::render_views(float delta_time, CommandBuffer &command_bu
 bool EditorApplication::resize(uint32_t win_width, uint32_t win_height,
                                uint32_t fb_width, uint32_t fb_height) {
     GraphicsApplication::resize(win_width, win_height, fb_width, fb_height);
-    components_manager_->call_script_resize(win_width, win_height, fb_width, fb_height);
+    components_manager_->CallScriptResize(win_width, win_height, fb_width, fb_height);
     return true;
 }
 
 void EditorApplication::input_event(const InputEvent &input_event) {
     GraphicsApplication::input_event(input_event);
-    components_manager_->call_script_input_event(input_event);
+    components_manager_->CallScriptInputEvent(input_event);
     
     auto &scene_view = panels_manager_.get_panel_as<ui::SceneView>("Scene View");
     scene_view.input_event(input_event);

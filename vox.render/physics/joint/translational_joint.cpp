@@ -5,25 +5,22 @@
 //  property of any third parties.
 
 #include "translational_joint.h"
-#include "../physics_manager.h"
+
 #include "../collider.h"
+#include "../physics_manager.h"
 
 namespace vox::physics {
 TranslationalJoint::TranslationalJoint(Collider *collider_0, Collider *collider_1) : Joint() {
     auto actor_0 = collider_0 ? collider_0->handle() : nullptr;
     auto actor_1 = collider_1 ? collider_1->handle() : nullptr;
-    native_joint_ = PxPrismaticJointCreate(*PhysicsManager::native_physics_(),
-                                           actor_0, PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)),
-                                           actor_1, PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)));
+    native_joint_ = PxPrismaticJointCreate(*PhysicsManager::native_physics_(), actor_0,
+                                           PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)), actor_1,
+                                           PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)));
 }
 
-float TranslationalJoint::position() const {
-    return static_cast<PxPrismaticJoint *>(native_joint_)->getPosition();
-}
+float TranslationalJoint::position() const { return static_cast<PxPrismaticJoint *>(native_joint_)->getPosition(); }
 
-float TranslationalJoint::velocity() const {
-    return static_cast<PxPrismaticJoint *>(native_joint_)->getVelocity();
-}
+float TranslationalJoint::velocity() const { return static_cast<PxPrismaticJoint *>(native_joint_)->getVelocity(); }
 
 void TranslationalJoint::set_limit(const PxJointLinearLimitPair &pair) {
     static_cast<PxPrismaticJoint *>(native_joint_)->setLimit(pair);
@@ -61,4 +58,4 @@ float TranslationalJoint::projection_angular_tolerance() const {
     return static_cast<PxPrismaticJoint *>(native_joint_)->getProjectionAngularTolerance();
 }
 
-}
+}  // namespace vox::physics

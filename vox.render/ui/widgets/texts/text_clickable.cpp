@@ -7,21 +7,18 @@
 #include "text_clickable.h"
 
 namespace vox::ui {
-TextClickable::TextClickable(const std::string &content) :
-Text(content) {
-}
+TextClickable::TextClickable(const std::string &content) : Text(content) {}
 
 void TextClickable::draw_impl() {
     bool useless = false;
-    
-    if (ImGui::Selectable((content_ + widget_id_).c_str(), &useless,
-                          ImGuiSelectableFlags_AllowDoubleClick)) {
+
+    if (ImGui::Selectable((content_ + widget_id_).c_str(), &useless, ImGuiSelectableFlags_AllowDoubleClick)) {
         if (ImGui::IsMouseDoubleClicked(0)) {
-            double_clicked_event_.invoke();
+            double_clicked_event_.Invoke();
         } else {
-            clicked_event_.invoke();
+            clicked_event_.Invoke();
         }
     }
 }
 
-}
+}  // namespace vox::ui

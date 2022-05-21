@@ -14,8 +14,6 @@ void ContextualMenu::execute() {
     }
 }
 
-void ContextualMenu::close() {
-    ImGui::CloseCurrentPopup();
-}
+void ContextualMenu::close() { ImGui::CloseCurrentPopup(); }
 
-}
+}  // namespace vox::ui

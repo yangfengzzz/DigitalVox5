@@ -7,7 +7,7 @@
 #include "buffer_mesh.h"
 
 namespace vox {
-void BufferMesh::set_vertex_buffer_binding(size_t index, core::Buffer *binding) {
+void BufferMesh::SetVertexBufferBinding(size_t index, core::Buffer *binding) {
     if (vertex_buffer_bindings_.size() > index) {
         vertex_buffer_bindings_[index] = binding;
     } else {
@@ -15,12 +15,8 @@ void BufferMesh::set_vertex_buffer_binding(size_t index, core::Buffer *binding) 
     }
 }
 
-size_t BufferMesh::vertex_buffer_count() const {
-    return vertex_buffer_bindings_.size();
-}
+size_t BufferMesh::VertexBufferCount() const { return vertex_buffer_bindings_.size(); }
 
-const core::Buffer *BufferMesh::vertex_buffer(size_t index) const {
-    return vertex_buffer_bindings_[index];
-}
+const core::Buffer *BufferMesh::VertexBuffer(size_t index) const { return vertex_buffer_bindings_[index]; }
 
-}
+}  // namespace vox

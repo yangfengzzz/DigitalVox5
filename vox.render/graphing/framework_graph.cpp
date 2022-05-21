@@ -9,38 +9,38 @@
 #include "strings.h"
 
 namespace vox::graphing::framework_graph {
-bool generate(RenderContext &context) {
+bool Generate(RenderContext &context) {
     Graph graph("Framework");
-    graph.new_style("Core", "#00BCD4");
-    graph.new_style("Rendering", "#4CAF50");
-    graph.new_style("Framework", "#FFC107");
-    graph.new_style("Vulkan", "#F44336");
+    graph.NewStyle("Core", "#00BCD4");
+    graph.NewStyle("Rendering", "#4CAF50");
+    graph.NewStyle("Framework", "#FFC107");
+    graph.NewStyle("Vulkan", "#F44336");
 
-    size_t device_id = device_node(graph, context.GetDevice());
+    size_t device_id = DeviceNode(graph, context.GetDevice());
 
     // Device
     auto &device = context.GetDevice();
 
     auto &resource_cache = device.GetResourceCache();
-    size_t resource_cache_id = resource_cache_node(graph, resource_cache);
-    graph.add_edge(device_id, resource_cache_id);
+    size_t resource_cache_id = ResourceCacheNode(graph, resource_cache);
+    graph.AddEdge(device_id, resource_cache_id);
 
     const auto &resource_cache_state = resource_cache.GetInternalState();
 
     auto it_pipeline_layouts = resource_cache_state.pipeline_layouts.begin();
     while (it_pipeline_layouts != resource_cache_state.pipeline_layouts.end()) {
-        size_t pipeline_layouts_id = pipeline_layout_node(graph, it_pipeline_layouts->second);
-        graph.add_edge(resource_cache_id, pipeline_layouts_id);
+        size_t pipeline_layouts_id = PipelineLayoutNode(graph, it_pipeline_layouts->second);
+        graph.AddEdge(resource_cache_id, pipeline_layouts_id);
 
         auto &shader_modules = it_pipeline_layouts->second.GetShaderModules();
         for (const auto *shader_module : shader_modules) {
-            size_t shader_modules_id = shader_module_node(graph, *shader_module);
-            graph.add_edge(pipeline_layouts_id, shader_modules_id);
+            size_t shader_modules_id = ShaderModuleNode(graph, *shader_module);
+            graph.AddEdge(pipeline_layouts_id, shader_modules_id);
 
             const auto &resources = shader_module->GetResources();
             for (const auto &resource : resources) {
-                size_t resource_id = shader_resource_node(graph, resource);
-                graph.add_edge(shader_modules_id, resource_id);
+                size_t resource_id = ShaderResourceNode(graph, resource);
+                graph.AddEdge(shader_modules_id, resource_id);
             }
         }
 
@@ -49,78 +49,78 @@ bool generate(RenderContext &context) {
 
     auto it_descriptor_set_layouts = resource_cache_state.descriptor_set_layouts.begin();
     while (it_descriptor_set_layouts != resource_cache_state.descriptor_set_layouts.end()) {
-        size_t descriptor_set_layouts_id = descriptor_set_layout_node(graph, it_descriptor_set_layouts->second);
-        graph.add_edge(resource_cache_id, descriptor_set_layouts_id);
+        size_t descriptor_set_layouts_id = DescriptorSetLayoutNode(graph, it_descriptor_set_layouts->second);
+        graph.AddEdge(resource_cache_id, descriptor_set_layouts_id);
         it_descriptor_set_layouts++;
     }
     auto it_graphics_pipelines = resource_cache_state.graphics_pipelines.begin();
     while (it_graphics_pipelines != resource_cache_state.graphics_pipelines.end()) {
         size_t pipeline_layout =
-                pipeline_layout_node(graph, it_graphics_pipelines->second.GetState().GetPipelineLayout());
-        graph.add_edge(resource_cache_id, pipeline_layout);
+                PipelineLayoutNode(graph, it_graphics_pipelines->second.GetState().GetPipelineLayout());
+        graph.AddEdge(resource_cache_id, pipeline_layout);
 
-        size_t graphics_pipelines_id = graphics_pipeline_node(graph, it_graphics_pipelines->second);
-        graph.add_edge(pipeline_layout, graphics_pipelines_id);
+        size_t graphics_pipelines_id = GraphicsPipelineNode(graph, it_graphics_pipelines->second);
+        graph.AddEdge(pipeline_layout, graphics_pipelines_id);
 
-        size_t graphics_pipelines_state_id = pipeline_state_node(graph, it_graphics_pipelines->second.GetState());
-        graph.add_edge(graphics_pipelines_id, graphics_pipelines_state_id);
+        size_t graphics_pipelines_state_id = PipelineStateNode(graph, it_graphics_pipelines->second.GetState());
+        graph.AddEdge(graphics_pipelines_id, graphics_pipelines_state_id);
 
-        size_t render_pass = render_pass_node(graph, *it_graphics_pipelines->second.GetState().GetRenderPass());
-        graph.add_edge(graphics_pipelines_state_id, render_pass);
+        size_t render_pass = RenderPassNode(graph, *it_graphics_pipelines->second.GetState().GetRenderPass());
+        graph.AddEdge(graphics_pipelines_state_id, render_pass);
 
-        size_t specialization_constant_state = specialization_constant_state_node(
+        size_t specialization_constant_state = SpecializationConstantStateNode(
                 graph, it_graphics_pipelines->second.GetState().GetSpecializationConstantState());
-        graph.add_edge(graphics_pipelines_state_id, specialization_constant_state);
+        graph.AddEdge(graphics_pipelines_state_id, specialization_constant_state);
 
         size_t vertex_input_state =
-                vertex_input_state_node(graph, it_graphics_pipelines->second.GetState().GetVertexInputState());
-        graph.add_edge(graphics_pipelines_state_id, vertex_input_state);
+                VertexInputStateNode(graph, it_graphics_pipelines->second.GetState().GetVertexInputState());
+        graph.AddEdge(graphics_pipelines_state_id, vertex_input_state);
 
         size_t input_assembly_state =
-                input_assembly_state_node(graph, it_graphics_pipelines->second.GetState().GetInputAssemblyState());
-        graph.add_edge(graphics_pipelines_state_id, input_assembly_state);
+                InputAssemblyStateNode(graph, it_graphics_pipelines->second.GetState().GetInputAssemblyState());
+        graph.AddEdge(graphics_pipelines_state_id, input_assembly_state);
 
         size_t rasterization_state =
-                rasterization_state_node(graph, it_graphics_pipelines->second.GetState().GetRasterizationState());
-        graph.add_edge(graphics_pipelines_state_id, rasterization_state);
+                RasterizationStateNode(graph, it_graphics_pipelines->second.GetState().GetRasterizationState());
+        graph.AddEdge(graphics_pipelines_state_id, rasterization_state);
 
-        size_t viewport_state = viewport_state_node(graph, it_graphics_pipelines->second.GetState().GetViewportState());
-        graph.add_edge(graphics_pipelines_state_id, viewport_state);
+        size_t viewport_state = ViewportStateNode(graph, it_graphics_pipelines->second.GetState().GetViewportState());
+        graph.AddEdge(graphics_pipelines_state_id, viewport_state);
 
         size_t multisample_state =
-                multisample_state_node(graph, it_graphics_pipelines->second.GetState().GetMultisampleState());
-        graph.add_edge(graphics_pipelines_state_id, multisample_state);
+                MultisampleStateNode(graph, it_graphics_pipelines->second.GetState().GetMultisampleState());
+        graph.AddEdge(graphics_pipelines_state_id, multisample_state);
 
         size_t depth_stencil_state =
-                depth_stencil_state_node(graph, it_graphics_pipelines->second.GetState().GetDepthStencilState());
-        graph.add_edge(graphics_pipelines_state_id, depth_stencil_state);
+                DepthStencilStateNode(graph, it_graphics_pipelines->second.GetState().GetDepthStencilState());
+        graph.AddEdge(graphics_pipelines_state_id, depth_stencil_state);
 
         size_t color_blend_state =
-                color_blend_state_node(graph, it_graphics_pipelines->second.GetState().GetColorBlendState());
-        graph.add_edge(graphics_pipelines_state_id, color_blend_state);
+                ColorBlendStateNode(graph, it_graphics_pipelines->second.GetState().GetColorBlendState());
+        graph.AddEdge(graphics_pipelines_state_id, color_blend_state);
         it_graphics_pipelines++;
     }
     auto it_compute_pipelines = resource_cache_state.compute_pipelines.begin();
     while (it_compute_pipelines != resource_cache_state.compute_pipelines.end()) {
-        size_t compute_pipelines_id = compute_pipeline_node(graph, it_compute_pipelines->second);
-        graph.add_edge(resource_cache_id, compute_pipelines_id);
+        size_t compute_pipelines_id = ComputePipelineNode(graph, it_compute_pipelines->second);
+        graph.AddEdge(resource_cache_id, compute_pipelines_id);
         it_compute_pipelines++;
     }
 
     auto it_framebuffers = resource_cache_state.framebuffers.begin();
     while (it_framebuffers != resource_cache_state.framebuffers.end()) {
-        size_t framebuffers_id = framebuffer_node(graph, it_framebuffers->second);
-        graph.add_edge(resource_cache_id, framebuffers_id);
+        size_t framebuffers_id = FramebufferNode(graph, it_framebuffers->second);
+        graph.AddEdge(resource_cache_id, framebuffers_id);
         it_framebuffers++;
     }
 
-    size_t render_context_id = render_context_node(graph, context);
-    graph.add_edge(device_id, render_context_id);
-    size_t swapchain_id = swapchain_node(graph, context.GetSwapchain());
+    size_t render_context_id = RenderContextNode(graph, context);
+    graph.AddEdge(device_id, render_context_id);
+    size_t swapchain_id = SwapchainNode(graph, context.GetSwapchain());
 
     for (auto image : context.GetSwapchain().GetImages()) {
-        size_t vkimage_id = create_vk_image(graph, image);
-        graph.add_edge(vkimage_id, swapchain_id);
+        size_t vkimage_id = CreateVkImage(graph, image);
+        graph.AddEdge(vkimage_id, swapchain_id);
     }
 
     const auto &const_context = context;
@@ -133,42 +133,40 @@ bool generate(RenderContext &context) {
         }
         i++;
 
-        size_t frame_id = render_frame_node(graph, frame, label);
-        graph.add_edge(render_context_id, frame_id);
+        size_t frame_id = RenderFrameNode(graph, frame, label);
+        graph.AddEdge(render_context_id, frame_id);
 
-        size_t semaphore_pool_id = semaphore_pool_node(graph, frame->GetSemaphorePool());
-        size_t fence_pool_id = fence_pool_node(graph, frame->GetFencePool());
-        size_t render_target_id = render_target_node(graph, frame->GetRenderTargetConst());
-        graph.add_edge(frame_id, semaphore_pool_id);
-        graph.add_edge(frame_id, fence_pool_id);
-        graph.add_edge(frame_id, render_target_id);
+        size_t semaphore_pool_id = SemaphorePoolNode(graph, frame->GetSemaphorePool());
+        size_t fence_pool_id = FencePoolNode(graph, frame->GetFencePool());
+        size_t render_target_id = RenderTargetNode(graph, frame->GetRenderTargetConst());
+        graph.AddEdge(frame_id, semaphore_pool_id);
+        graph.AddEdge(frame_id, fence_pool_id);
+        graph.AddEdge(frame_id, render_target_id);
 
         for (const auto &view : frame->GetRenderTargetConst().GetViews()) {
-            size_t image_view_id = image_view_node(graph, view);
+            size_t image_view_id = ImageViewNode(graph, view);
             const auto &image = view.GetImage();
-            size_t image_id = image_node(graph, image);
+            size_t image_id = ImageNode(graph, image);
 
-            graph.add_edge(render_target_id, image_view_id);
-            graph.add_edge(image_view_id, image_id);
+            graph.AddEdge(render_target_id, image_view_id);
+            graph.AddEdge(image_view_id, image_id);
 
-            size_t vkimage_id = create_vk_image(graph, image.GetHandle());
-            graph.add_edge(image_id, vkimage_id);
+            size_t vkimage_id = CreateVkImage(graph, image.GetHandle());
+            graph.AddEdge(image_id, vkimage_id);
 
-            size_t vkimageview_id = create_vk_image_view(graph, view.GetHandle());
-            graph.add_edge(image_view_id, vkimageview_id);
+            size_t vkimageview_id = CreateVkImageView(graph, view.GetHandle());
+            graph.AddEdge(image_view_id, vkimageview_id);
         }
     }
 
-    return graph.dump_to_file("framework.json");
+    return graph.DumpToFile("framework.json");
 }
 
-size_t create_vk_image(Graph &graph, const VkImage &image) { return create_vk_node(graph, "VkImage", image); }
+size_t CreateVkImage(Graph &graph, const VkImage &image) { return CreateVkNode(graph, "VkImage", image); }
 
-size_t create_vk_image_view(Graph &graph, const VkImageView &image) {
-    return create_vk_node(graph, "VkImageView", image);
-}
+size_t CreateVkImageView(Graph &graph, const VkImageView &image) { return CreateVkNode(graph, "VkImageView", image); }
 
-size_t device_node(Graph &graph, const Device &device) {
+size_t DeviceNode(Graph &graph, const Device &device) {
     auto pd_props = device.GetGpu().GetProperties();
 
     nlohmann::json device_properties = {{"deviceID", pd_props.deviceID},
@@ -180,32 +178,30 @@ size_t device_node(Graph &graph, const Device &device) {
 
     nlohmann::json data = {{"VkPhysicalDeviceProperties", device_properties}};
 
-    return graph.create_node("Device", "Core", data);
+    return graph.CreateNode("Device", "Core", data);
 }
 
-size_t render_context_node(Graph &graph, const RenderContext &context) {
+size_t RenderContextNode(Graph &graph, const RenderContext &context) {
     auto surface = context.GetSurfaceExtent();
 
     nlohmann::json data = {{"VkExtent2D", {{"width", surface.width}, {"height", surface.height}}},
                            {"active_frame_index", context.GetActiveFrameIndex()}};
 
-    return graph.create_node("Render Context", "Rendering", data);
+    return graph.CreateNode("Render Context", "Rendering", data);
 }
 
-size_t semaphore_pool_node(Graph &graph, const SemaphorePool &semaphore_pool) {
+size_t SemaphorePoolNode(Graph &graph, const SemaphorePool &semaphore_pool) {
     nlohmann::json data = {{"active_semaphore_count", semaphore_pool.GetActiveSemaphoreCount()}};
-    return graph.create_node("Semaphore Pool", "Framework", data);
+    return graph.CreateNode("Semaphore Pool", "Framework", data);
 }
 
-size_t fence_pool_node(Graph &graph, const FencePool &fence_pool) {
-    return graph.create_node("Fence Pool", "Framework");
+size_t FencePoolNode(Graph &graph, const FencePool &fence_pool) { return graph.CreateNode("Fence Pool", "Framework"); }
+
+size_t RenderFrameNode(Graph &graph, const std::unique_ptr<RenderFrame> &frame, const std::string &label) {
+    return graph.CreateNode(label.c_str(), "Rendering");
 }
 
-size_t render_frame_node(Graph &graph, const std::unique_ptr<RenderFrame> &frame, const std::string &label) {
-    return graph.create_node(label.c_str(), "Rendering");
-}
-
-size_t render_target_node(Graph &graph, const RenderTarget &render_target) {
+size_t RenderTargetNode(Graph &graph, const RenderTarget &render_target) {
     VkExtent2D surface = render_target.GetExtent();
 
     nlohmann::json data = {{"VkExtent2D", {{"width", surface.width}, {"height", surface.height}}},
@@ -213,10 +209,10 @@ size_t render_target_node(Graph &graph, const RenderTarget &render_target) {
                            {"Attachment_count", render_target.GetAttachments().size()},
                            {"output_attachment_count", render_target.GetOutputAttachments().size()}};
 
-    return graph.create_node("Render Target", "Rendering", data);
+    return graph.CreateNode("Render Target", "Rendering", data);
 }
 
-size_t image_view_node(Graph &graph, const core::ImageView &image_view) {
+size_t ImageViewNode(Graph &graph, const core::ImageView &image_view) {
     auto subresource_range = image_view.GetSubresourceRange();
     auto subresource_layers = image_view.GetSubresourceLayers();
 
@@ -233,10 +229,10 @@ size_t image_view_node(Graph &graph, const core::ImageView &image_view) {
                              {"base_array_layer", subresource_layers.baseArrayLayer},
                              {"layer_count", subresource_layers.layerCount}}}};
 
-    return graph.create_node("Image View", "Core", data);
+    return graph.CreateNode("Image View", "Core", data);
 }
 
-size_t image_node(Graph &graph, const core::Image &image) {
+size_t ImageNode(Graph &graph, const core::Image &image) {
     std::string result;
     bool append = false;
     auto flags = image.GetUsage();
@@ -263,10 +259,10 @@ size_t image_node(Graph &graph, const core::Image &image) {
                              {"mip_level", subresource.mipLevel},
                              {"array_layer", subresource.arrayLayer}}}};
 
-    return graph.create_node(result.c_str(), "Core", data);
+    return graph.CreateNode(result.c_str(), "Core", data);
 }
 
-size_t swapchain_node(Graph &graph, const Swapchain &swapchain) {
+size_t SwapchainNode(Graph &graph, const Swapchain &swapchain) {
     auto surface = swapchain.GetExtent();
     auto format = swapchain.GetFormat();
     auto image_count = swapchain.GetImages().size();
@@ -278,14 +274,14 @@ size_t swapchain_node(Graph &graph, const Swapchain &swapchain) {
                            {"VkPresentModeKHR", ToString(swapchain.GetPresentMode())},
                            {"VkImageUsageFlags", ImageUsageToString(swapchain.GetUsage())}};
 
-    return graph.create_node("Swapchain", "Core", data);
+    return graph.CreateNode("Swapchain", "Core", data);
 }
 
-size_t resource_cache_node(Graph &graph, const ResourceCache &resource_cache) {
-    return graph.create_node("Resource Cache", "Core");
+size_t ResourceCacheNode(Graph &graph, const ResourceCache &resource_cache) {
+    return graph.CreateNode("Resource Cache", "Core");
 }
 
-size_t descriptor_set_layout_node(Graph &graph, const DescriptorSetLayout &descriptor_set_layout) {
+size_t DescriptorSetLayoutNode(Graph &graph, const DescriptorSetLayout &descriptor_set_layout) {
     std::vector<nlohmann::json> bindings;
 
     auto it = descriptor_set_layout.GetBindings().begin();
@@ -296,25 +292,25 @@ size_t descriptor_set_layout_node(Graph &graph, const DescriptorSetLayout &descr
         it++;
     }
 
-    nlohmann::json data = {{"handle", Node::handle_to_uintptr_t(descriptor_set_layout.GetHandle())},
+    nlohmann::json data = {{"handle", Node::HandleToUintptrT(descriptor_set_layout.GetHandle())},
                            {"VkDescriptorSetLayoutBinding", bindings}};
 
-    return graph.create_node("Descriptor Set Layout", "Core", data);
+    return graph.CreateNode("Descriptor Set Layout", "Core", data);
 }
 
-size_t framebuffer_node(Graph &graph, const Framebuffer &framebuffer) {
-    nlohmann::json data = {{"handle", Node::handle_to_uintptr_t(framebuffer.GetHandle())}};
+size_t FramebufferNode(Graph &graph, const Framebuffer &framebuffer) {
+    nlohmann::json data = {{"handle", Node::HandleToUintptrT(framebuffer.GetHandle())}};
 
-    return graph.create_node("Frame Buffer", "Core", data);
+    return graph.CreateNode("Frame Buffer", "Core", data);
 }
 
-size_t render_pass_node(Graph &graph, const RenderPass &render_pass) {
-    nlohmann::json data = {{"handle", Node::handle_to_uintptr_t(render_pass.GetHandle())}};
+size_t RenderPassNode(Graph &graph, const RenderPass &render_pass) {
+    nlohmann::json data = {{"handle", Node::HandleToUintptrT(render_pass.GetHandle())}};
 
-    return graph.create_node("Render Pass", "Rendering", data);
+    return graph.CreateNode("Render Pass", "Rendering", data);
 }
 
-size_t shader_module_node(Graph &graph, const ShaderModule &shader_module) {
+size_t ShaderModuleNode(Graph &graph, const ShaderModule &shader_module) {
     std::string stage = ShaderStageToString(shader_module.GetStage());
     std::transform(stage.begin(), stage.end(), stage.begin(), [](unsigned char c) { return std::tolower(c); });
 
@@ -325,10 +321,10 @@ size_t shader_module_node(Graph &graph, const ShaderModule &shader_module) {
 
     stage = "Shader Module: " + stage;
 
-    return graph.create_node(stage.c_str(), "Rendering", data);
+    return graph.CreateNode(stage.c_str(), "Rendering", data);
 }
 
-size_t shader_resource_node(Graph &graph, const ShaderResource &shader_resource) {
+size_t ShaderResourceNode(Graph &graph, const ShaderResource &shader_resource) {
     std::string label = fmt::format("{}: {}", ToString(shader_resource.type), shader_resource.name);
 
     nlohmann::json data = {{"ShaderResourceType", ToString(shader_resource.type)},
@@ -346,41 +342,40 @@ size_t shader_resource_node(Graph &graph, const ShaderResource &shader_resource)
                            {"mode", shader_resource.mode},
                            {"name", shader_resource.name}};
 
-    return graph.create_node(label.c_str(), "Rendering", data);
+    return graph.CreateNode(label.c_str(), "Rendering", data);
 }
 
-size_t pipeline_layout_node(Graph &graph, const PipelineLayout &pipeline_layout) {
-    nlohmann::json data = {{"handle", Node::handle_to_uintptr_t(pipeline_layout.GetHandle())}};
+size_t PipelineLayoutNode(Graph &graph, const PipelineLayout &pipeline_layout) {
+    nlohmann::json data = {{"handle", Node::HandleToUintptrT(pipeline_layout.GetHandle())}};
 
-    return graph.create_node("Pipeline Layout", "Core", data);
+    return graph.CreateNode("Pipeline Layout", "Core", data);
 }
 
-size_t graphics_pipeline_node(Graph &graph, const GraphicsPipeline &graphics_pipeline) {
-    nlohmann::json data = {{"handle", Node::handle_to_uintptr_t(graphics_pipeline.GetHandle())}};
+size_t GraphicsPipelineNode(Graph &graph, const GraphicsPipeline &graphics_pipeline) {
+    nlohmann::json data = {{"handle", Node::HandleToUintptrT(graphics_pipeline.GetHandle())}};
 
-    return graph.create_node("Graphics Pipeline", "Core", data);
+    return graph.CreateNode("Graphics Pipeline", "Core", data);
 }
 
-size_t compute_pipeline_node(Graph &graph, const ComputePipeline &compute_pipeline) {
-    nlohmann::json data = {{"handle", Node::handle_to_uintptr_t(compute_pipeline.GetHandle())}};
+size_t ComputePipelineNode(Graph &graph, const ComputePipeline &compute_pipeline) {
+    nlohmann::json data = {{"handle", Node::HandleToUintptrT(compute_pipeline.GetHandle())}};
 
-    return graph.create_node("Compute Pipeline", "Core", data);
+    return graph.CreateNode("Compute Pipeline", "Core", data);
 }
 
-size_t pipeline_state_node(Graph &graph, const PipelineState &pipeline_state) {
+size_t PipelineStateNode(Graph &graph, const PipelineState &pipeline_state) {
     nlohmann::json data = {{"subpass_index", pipeline_state.GetSubpassIndex()}};
 
-    return graph.create_node("Pipeline State", "Core", data);
+    return graph.CreateNode("Pipeline State", "Core", data);
 }
 
-size_t descriptor_set_node(Graph &graph, const DescriptorSet &descriptor_set) {
-    nlohmann::json data = {{"handle", Node::handle_to_uintptr_t(descriptor_set.GetHandle())}};
+size_t DescriptorSetNode(Graph &graph, const DescriptorSet &descriptor_set) {
+    nlohmann::json data = {{"handle", Node::HandleToUintptrT(descriptor_set.GetHandle())}};
 
-    return graph.create_node("Descriptor Set", "Core", data);
+    return graph.CreateNode("Descriptor Set", "Core", data);
 }
 
-size_t specialization_constant_state_node(Graph &graph,
-                                          const SpecializationConstantState &specialization_constant_state) {
+size_t SpecializationConstantStateNode(Graph &graph, const SpecializationConstantState &specialization_constant_state) {
     nlohmann::json data = {};
 
     const auto &state = specialization_constant_state.GetSpecializationConstantState();
@@ -391,10 +386,10 @@ size_t specialization_constant_state_node(Graph &graph,
         data.push_back({str.str(), it->second});
     }
 
-    return graph.create_node("Specialization Constant state", "Core", data);
+    return graph.CreateNode("Specialization Constant state", "Core", data);
 }
 
-size_t vertex_input_state_node(Graph &graph, const VertexInputState &vertex_input_state) {
+size_t VertexInputStateNode(Graph &graph, const VertexInputState &vertex_input_state) {
     std::vector<nlohmann::json> bindings;
 
     for (auto binding : vertex_input_state.bindings) {
@@ -415,18 +410,18 @@ size_t vertex_input_state_node(Graph &graph, const VertexInputState &vertex_inpu
     nlohmann::json data = {{"VkVertexInputBindingDescription", bindings},
                            {"VkVertexInputAttributeDescription", binding}};
 
-    return graph.create_node("Vertex Input State", "Core", data);
+    return graph.CreateNode("Vertex Input State", "Core", data);
 }
 
-size_t input_assembly_state_node(Graph &graph, const InputAssemblyState &input_assembly_state) {
+size_t InputAssemblyStateNode(Graph &graph, const InputAssemblyState &input_assembly_state) {
     nlohmann::json data = {
             {"VkPrimitiveTopology", ToString(input_assembly_state.topology)},
             {"primitive_restart_enabled", ToStringVkBool(input_assembly_state.primitive_restart_enable)}};
 
-    return graph.create_node("Input Assembly State", "Core", data);
+    return graph.CreateNode("Input Assembly State", "Core", data);
 }
 
-size_t rasterization_state_node(Graph &graph, const RasterizationState &rasterization_state) {
+size_t RasterizationStateNode(Graph &graph, const RasterizationState &rasterization_state) {
     nlohmann::json data = {
             {"depth_clamp_enable", ToStringVkBool(rasterization_state.depth_clamp_enable)},
             {"rasterizer_discard_enable", ToStringVkBool(rasterization_state.rasterizer_discard_enable)},
@@ -436,17 +431,17 @@ size_t rasterization_state_node(Graph &graph, const RasterizationState &rasteriz
             {"depth_bias_enable", ToStringVkBool(rasterization_state.depth_bias_enable)},
     };
 
-    return graph.create_node("Rasterization State", "Core", data);
+    return graph.CreateNode("Rasterization State", "Core", data);
 }
 
-size_t viewport_state_node(Graph &graph, const ViewportState &viewport_state) {
+size_t ViewportStateNode(Graph &graph, const ViewportState &viewport_state) {
     nlohmann::json data = {{"viewport_count", viewport_state.viewport_count},
                            {"scissor_count", viewport_state.scissor_count}};
 
-    return graph.create_node("Viewport State", "Core", data);
+    return graph.CreateNode("Viewport State", "Core", data);
 }
 
-size_t multisample_state_node(Graph &graph, const MultisampleState &multisample_state) {
+size_t MultisampleStateNode(Graph &graph, const MultisampleState &multisample_state) {
     nlohmann::json data = {{"rasterization_samples", multisample_state.rasterization_samples},
                            {"sample_shading_enable", ToStringVkBool(multisample_state.sample_shading_enable)},
                            {"min_sample_shading", multisample_state.min_sample_shading},
@@ -454,10 +449,10 @@ size_t multisample_state_node(Graph &graph, const MultisampleState &multisample_
                            {"alpha_to_coverage_enable", ToStringVkBool(multisample_state.alpha_to_coverage_enable)},
                            {"alpha_to_one_enable", ToStringVkBool(multisample_state.alpha_to_one_enable)}};
 
-    return graph.create_node("Multisample State", "Core", data);
+    return graph.CreateNode("Multisample State", "Core", data);
 }
 
-size_t depth_stencil_state_node(Graph &graph, const DepthStencilState &depth_stencil_state) {
+size_t DepthStencilStateNode(Graph &graph, const DepthStencilState &depth_stencil_state) {
     nlohmann::json data = {{"depth_test_enable", ToStringVkBool(depth_stencil_state.depth_test_enable)},
                            {"depth_write_enable", ToStringVkBool(depth_stencil_state.depth_write_enable)},
                            {"depth_compare_op", ToString(depth_stencil_state.depth_compare_op)},
@@ -474,17 +469,17 @@ size_t depth_stencil_state_node(Graph &graph, const DepthStencilState &depth_ste
                              {"depth_fail_op", ToString(depth_stencil_state.back.depth_fail_op)},
                              {"compare_op", ToString(depth_stencil_state.back.compare_op)}}}};
 
-    return graph.create_node("Depth Stencil State", "Core", data);
+    return graph.CreateNode("Depth Stencil State", "Core", data);
 }
 
-size_t color_blend_state_node(Graph &graph, const ColorBlendState &color_blend_state) {
+size_t ColorBlendStateNode(Graph &graph, const ColorBlendState &color_blend_state) {
     nlohmann::json data = {{"logic_op_enable", ToStringVkBool(color_blend_state.logic_op_enable)},
                            {"logic_op", ToString(color_blend_state.logic_op)}};
 
-    return graph.create_node("Color Blend State", "Core", data);
+    return graph.CreateNode("Color Blend State", "Core", data);
 }
 
-size_t color_blend_attachment_state_node(Graph &graph, const ColorBlendAttachmentState &state) {
+size_t ColorBlendAttachmentStateNode(Graph &graph, const ColorBlendAttachmentState &state) {
     nlohmann::json data = {{"blend_enable", ToStringVkBool(state.blend_enable)},
                            {"src_color_blend_factor", ToString(state.src_color_blend_factor)},
                            {"dst_color_blend_factor", ToString(state.dst_color_blend_factor)},
@@ -494,7 +489,7 @@ size_t color_blend_attachment_state_node(Graph &graph, const ColorBlendAttachmen
                            {"alpha_blend_op", ToString(state.alpha_blend_op)},
                            {"color_write_mask", ColorComponentToString(state.color_write_mask)}};
 
-    return graph.create_node("Color Blend Attachment State", "Core", data);
+    return graph.CreateNode("Color Blend Attachment State", "Core", data);
 }
 
 }  // namespace vox::graphing::framework_graph

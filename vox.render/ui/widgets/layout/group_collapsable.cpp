@@ -9,22 +9,19 @@
 #include <utility>
 
 namespace vox::ui {
-GroupCollapsable::GroupCollapsable(std::string name) :
-name_(std::move(name)) {
-}
+GroupCollapsable::GroupCollapsable(std::string name) : name_(std::move(name)) {}
 
 void GroupCollapsable::draw_impl() {
     bool previously_opened = opened_;
-    
-    if (ImGui::CollapsingHeader(name_.c_str(), closable_ ? &opened_ : nullptr))
-        Group::draw_impl();
-    
+
+    if (ImGui::CollapsingHeader(name_.c_str(), closable_ ? &opened_ : nullptr)) Group::draw_impl();
+
     if (opened_ != previously_opened) {
         if (opened_)
-            open_event_.invoke();
+            open_event_.Invoke();
         else
-            close_event_.invoke();
+            close_event_.Invoke();
     }
 }
 
-}
+}  // namespace vox::ui

@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "ui/widgets/data_widget.h"
-#include "event.h"
 #include "color.h"
+#include "event.h"
+#include "ui/widgets/data_widget.h"
 
 namespace vox::ui {
 /**
@@ -17,14 +17,14 @@ namespace vox::ui {
 class ColorEdit : public DataWidget<Color> {
 public:
     explicit ColorEdit(bool enable_alpha = false, const Color &default_color = {});
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     bool enable_alpha_;
     Color color_;
     Event<Color &> color_changed_event_;
 };
 
-}
+}  // namespace vox::ui

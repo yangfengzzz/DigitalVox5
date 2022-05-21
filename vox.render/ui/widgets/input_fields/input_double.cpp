@@ -7,12 +7,18 @@
 #include "input_double.h"
 
 namespace vox::ui {
-InputDouble::InputDouble(double default_value, double step, double fast_step,
-                         const std::string &label, const std::string &format,
-                         bool select_all_on_click) :
-InputSingleScalar<double>(ImGuiDataType_::ImGuiDataType_Double,
-                          default_value, step, fast_step,
-                          label, format, select_all_on_click) {
-}
+InputDouble::InputDouble(double default_value,
+                         double step,
+                         double fast_step,
+                         const std::string &label,
+                         const std::string &format,
+                         bool select_all_on_click)
+    : InputSingleScalar<double>(ImGuiDataType_::ImGuiDataType_Double,
+                                default_value,
+                                step,
+                                fast_step,
+                                label,
+                                format,
+                                select_all_on_click) {}
 
-}
+}  // namespace vox::ui

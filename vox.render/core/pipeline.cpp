@@ -150,8 +150,7 @@ GraphicsPipeline::GraphicsPipeline(Device &device, VkPipelineCache pipeline_cach
     VkPipelineVertexInputStateCreateInfo vertex_input_state{VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO};
 
     vertex_input_state.pVertexAttributeDescriptions = pipeline_state.GetVertexInputState().attributes.data();
-    vertex_input_state.vertexAttributeDescriptionCount =
-            ToU32(pipeline_state.GetVertexInputState().attributes.size());
+    vertex_input_state.vertexAttributeDescriptionCount = ToU32(pipeline_state.GetVertexInputState().attributes.size());
 
     vertex_input_state.pVertexBindingDescriptions = pipeline_state.GetVertexInputState().bindings.data();
     vertex_input_state.vertexBindingDescriptionCount = ToU32(pipeline_state.GetVertexInputState().bindings.size());

@@ -9,25 +9,23 @@
 #include <utility>
 
 namespace vox::ui {
-InputText::InputText(std::string content, std::string label) :
-DataWidget<std::string>(content_), content_(std::move(content)), label_(std::move(label)) {
-}
+InputText::InputText(std::string content, std::string label)
+    : DataWidget<std::string>(content_), content_(std::move(content)), label_(std::move(label)) {}
 
 void InputText::draw_impl() {
     std::string previous_content = content_;
-    
+
     content_.resize(256, '\0');
-    bool enter_pressed = ImGui::InputText((label_ + widget_id_).c_str(), &content_[0], 256,
-                                          ImGuiInputTextFlags_EnterReturnsTrue
-                                          | (select_all_on_click_ ? ImGuiInputTextFlags_AutoSelectAll : 0));
-    
+    bool enter_pressed = ImGui::InputText(
+            (label_ + widget_id_).c_str(), &content_[0], 256,
+            ImGuiInputTextFlags_EnterReturnsTrue | (select_all_on_click_ ? ImGuiInputTextFlags_AutoSelectAll : 0));
+
     if (content_ != previous_content) {
-        content_changed_event_.invoke(content_);
+        content_changed_event_.Invoke(content_);
         notify_change();
     }
-    
-    if (enter_pressed)
-        enter_pressed_event_.invoke(content_);
+
+    if (enter_pressed) enter_pressed_event_.Invoke(content_);
 }
 
-}
+}  // namespace vox::ui

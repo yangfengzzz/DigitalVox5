@@ -12,17 +12,12 @@ namespace vox::ui {
 /**
  * Slider widget of multiple type int
  */
-template<size_t Size>
+template <size_t Size>
 class SliderMultipleInts : public SliderMultipleScalars<int, Size> {
 public:
-    explicit SliderMultipleInts(int min = 0,
-                                int max = 100,
-                                int value = 50,
-                                const std::string &label = "",
-                                const std::string &format = "%d") :
-    SliderMultipleScalars<int, Size>(ImGuiDataType_::ImGuiDataType_S32,
-                                     min, max, value, label, format) {
-    }
+    explicit SliderMultipleInts(
+            int min = 0, int max = 100, int value = 50, const std::string &label = "", const std::string &format = "%d")
+        : SliderMultipleScalars<int, Size>(ImGuiDataType_::ImGuiDataType_S32, min, max, value, label, format) {}
 };
 
-}
+}  // namespace vox::ui

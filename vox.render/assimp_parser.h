@@ -6,40 +6,42 @@
 
 #pragma once
 
-#include <string>
 #include <assimp/scene.h>
-#include "scene_forward.h"
+
+#include <string>
+
 #include "core/device.h"
 #include "image.h"
+#include "scene_forward.h"
 
 namespace vox {
 class AssimpParser {
 public:
     explicit AssimpParser(Device &device);
-    
+
     /**
      * Simply load meshes from a file using assimp
      * Return true on success
      */
-    void load_model(Entity *root, const std::string &file, unsigned int p_flags);
-    
+    void LoadModel(Entity *root, const std::string &file, unsigned int p_flags);
+
     /**
      * Processes a node in a recursive fashion.
      * Processes each individual mesh located at the node and repeats this process on its children nodes (if any).
      */
-    void process_node(Entity *root, aiNode *node, const aiScene *scene);
-    
-    void process_mesh(Entity *root, aiMesh *mesh, const aiScene *scene);
-    
-    std::shared_ptr<Material> process_material(aiMaterial *material);
-    
-    std::shared_ptr<Image> process_textures(aiMaterial *mat, aiTextureType type);
-    
+    void ProcessNode(Entity *root, aiNode *node, const aiScene *scene);
+
+    void ProcessMesh(Entity *root, aiMesh *mesh, const aiScene *scene);
+
+    std::shared_ptr<Material> ProcessMaterial(aiMaterial *material);
+
+    std::shared_ptr<Image> ProcessTextures(aiMaterial *mat, aiTextureType type);
+
 private:
-    static std::string to_string(aiShadingMode mode);
-    
+    static std::string ToString(aiShadingMode mode);
+
     std::string directory_;
     Device &device_;
 };
 
-}
+}  // namespace vox

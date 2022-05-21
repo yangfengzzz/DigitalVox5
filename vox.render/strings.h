@@ -6,13 +6,13 @@
 
 #pragma once
 
+#include <volk.h>
+
 #include <map>
 #include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
-
-#include <volk.h>
 
 namespace vox {
 enum class ShaderResourceType;
@@ -195,7 +195,7 @@ std::string ToString(ShaderResourceType type);
  * @param string_map A map of bitmask bits to the string that describe the Vulkan flag
  * @returns A string of the enabled bits in the bitmask
  */
-template<typename T>
+template <typename T>
 inline std::string ToString(uint32_t bitmask, const std::map<T, const char *> string_map) {
     std::stringstream result;
     bool append = false;
@@ -278,4 +278,4 @@ void ReplaceAll(std::string &target, const std::string &from, const std::string 
  */
 std::string GenerateUnique(const std::string &source, const std::function<bool(std::string)> &is_available);
 
-}        // namespace vox
+}  // namespace vox

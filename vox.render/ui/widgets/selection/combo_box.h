@@ -6,9 +6,10 @@
 
 #pragma once
 
-#include "ui/widgets/data_widget.h"
-#include "event.h"
 #include <map>
+
+#include "event.h"
+#include "ui/widgets/data_widget.h"
 
 namespace vox::ui {
 /**
@@ -17,16 +18,16 @@ namespace vox::ui {
 class ComboBox : public DataWidget<int> {
 public:
     explicit ComboBox(int current_choice = 0);
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     std::map<int, std::string> choices_;
     int current_choice_;
-    
+
 public:
     Event<int> value_changed_event_;
 };
 
-}
+}  // namespace vox::ui

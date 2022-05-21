@@ -7,25 +7,20 @@
 #include "timer.h"
 
 namespace vox {
-Timer::Timer() :
-start_time_{Clock::now()},
-previous_tick_{Clock::now()} {
-}
+Timer::Timer() : start_time_{Clock::now()}, previous_tick_{Clock::now()} {}
 
-void Timer::start() {
+void Timer::Start() {
     if (!running_) {
         running_ = true;
         start_time_ = Clock::now();
     }
 }
 
-void Timer::lap() {
+void Timer::Lap() {
     lapping_ = true;
     lap_time_ = Clock::now();
 }
 
-bool Timer::is_running() const {
-    return running_;
-}
+bool Timer::IsRunning() const { return running_; }
 
-}        // namespace vox
+}  // namespace vox

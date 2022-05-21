@@ -9,17 +9,12 @@
 #include <iostream>
 
 namespace vox::plugins {
-ForceClose::ForceClose() :
-ForceCloseTags("Force Close",
-               "Force the application to close if it has been halted before exiting",
-               {}, {&stop_cmd_}) {
-}
+ForceClose::ForceClose()
+    : ForceCloseTags(
+              "Force Close", "Force the application to close if it has been halted before exiting", {}, {&stop_cmd_}) {}
 
-bool ForceClose::IsActive(const CommandParser &parser) {
-    return parser.Contains(&stop_cmd_);
-}
+bool ForceClose::IsActive(const CommandParser &parser) { return parser.Contains(&stop_cmd_); }
 
-void ForceClose::Init(const CommandParser &parser) {
-}
+void ForceClose::Init(const CommandParser &parser) {}
 
-}
+}  // namespace vox::plugins

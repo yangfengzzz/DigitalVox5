@@ -13,16 +13,16 @@ FrameTimeStatsProvider::FrameTimeStatsProvider(std::set<StatIndex> &requested_st
     requested_stats.erase(StatIndex::FRAME_TIMES);
 }
 
-bool FrameTimeStatsProvider::is_available(StatIndex index) const {
+bool FrameTimeStatsProvider::IsAvailable(StatIndex index) const {
     // We only support StatIndex::frame_times
     return index == StatIndex::FRAME_TIMES;
 }
 
-StatsProvider::Counters FrameTimeStatsProvider::sample(float delta_time) {
+StatsProvider::Counters FrameTimeStatsProvider::Sample(float delta_time) {
     Counters res;
     // frame_times comes directly from delta_time
     res[StatIndex::FRAME_TIMES].result = delta_time;
     return res;
 }
 
-}        // namespace vox
+}  // namespace vox

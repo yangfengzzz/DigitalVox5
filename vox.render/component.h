@@ -6,12 +6,13 @@
 
 #pragma once
 
-#include "scene_forward.h"
-#include "inspector_item.h"
 #include <memory>
 #include <string>
 #include <typeindex>
 #include <vector>
+
+#include "inspector_item.h"
+#include "scene_forward.h"
 
 namespace vox {
 /**
@@ -20,54 +21,49 @@ namespace vox {
 class Component : public InspectorItem {
 public:
     explicit Component(Entity *entity);
-    
+
     Component(Component &&other) = default;
-    
+
     ~Component() override;
-    
+
     /**
      * Indicates whether the component is enabled.
      */
-    [[nodiscard]] bool enabled() const;
-    
-    void set_enabled(bool value);
-    
+    [[nodiscard]] bool Enabled() const;
+
+    void SetEnabled(bool value);
+
     /**
      * The entity which the component belongs to.
      */
-    [[nodiscard]] Entity *entity() const;
-    
+    [[nodiscard]] Entity *GetEntity() const;
+
     /**
      * The scene which the component's entity belongs to.
      */
-    Scene *scene();
-    
+    Scene *GetScene();
+
 public:
-    virtual void on_awake() {
-    }
-    
-    virtual void on_enable() {
-    }
-    
-    virtual void on_disable() {
-    }
-    
-    virtual void on_active() {
-    }
-    
-    virtual void on_in_active() {
-    }
-    
+    virtual void OnAwake() {}
+
+    virtual void OnEnable() {}
+
+    virtual void OnDisable() {}
+
+    virtual void OnActive() {}
+
+    virtual void OnInActive() {}
+
 protected:
     friend class Entity;
-    
-    void set_active(bool value);
-    
-    Entity *entity_;
-    
+
+    void SetActive(bool value);
+
+    vox::Entity *entity_;
+
 private:
     bool enabled_ = true;
     bool awoken_ = false;
 };
 
-}        // namespace vox
+}  // namespace vox

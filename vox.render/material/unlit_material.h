@@ -6,9 +6,9 @@
 
 #pragma once
 
+#include "../image.h"
 #include "base_material.h"
 #include "color.h"
-#include "../image.h"
 
 namespace vox {
 /**
@@ -19,30 +19,30 @@ public:
     /**
      * Base color.
      */
-    [[nodiscard]] const Color &base_color() const;
-    
-    void set_base_color(const Color &new_value);
-    
+    [[nodiscard]] const Color &BaseColor() const;
+
+    void SetBaseColor(const Color &new_value);
+
     /**
      * Base texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> base_texture() const;
-    
-    void set_base_texture(const std::shared_ptr<Image> &new_value);
-    
-    void set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
-    
+    [[nodiscard]] std::shared_ptr<Image> BaseTexture() const;
+
+    void SetBaseTexture(const std::shared_ptr<Image> &new_value);
+
+    void SetBaseTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+
     /**
      * Create a unlit material instance.
      */
     UnlitMaterial(Device &device, const std::string &name = "");
-    
+
 private:
     Color base_color_ = Color(1, 1, 1, 1);
     const std::string base_color_prop_;
-    
+
     std::shared_ptr<Image> base_texture_{nullptr};
     const std::string base_texture_prop_;
 };
 
-}
+}  // namespace vox

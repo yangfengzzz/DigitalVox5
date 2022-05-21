@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "ui/widgets/layout/group.h"
 #include "event.h"
+#include "ui/widgets/layout/group.h"
 
 namespace vox::ui {
 /**
@@ -16,17 +16,17 @@ namespace vox::ui {
 class MenuList : public Group {
 public:
     explicit MenuList(std::string name, bool locked = false);
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     std::string name_;
     bool locked_;
     Event<> clicked_event_;
-    
+
 private:
     bool opened_{};
 };
 
-}
+}  // namespace vox::ui

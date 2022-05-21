@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "ui/widgets/widget.h"
 #include "event.h"
+#include "ui/widgets/widget.h"
 
 namespace vox::ui {
 /**
@@ -18,4 +18,4 @@ public:
     Event<> clicked_event_;
 };
 
-}
+}  // namespace vox::ui

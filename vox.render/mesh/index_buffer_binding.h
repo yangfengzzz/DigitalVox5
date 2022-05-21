@@ -20,20 +20,20 @@ public:
      * @param index_type - Index buffer format
      */
     IndexBufferBinding(core::Buffer&& buffer, VkIndexType index_type);
-    
+
     /**
      * Index buffer.
      */
-    [[nodiscard]] const core::Buffer& buffer() const;
+    [[nodiscard]] const core::Buffer& Buffer() const;
 
     /**
      * Index buffer format.
      */
-    [[nodiscard]] VkIndexType index_type() const;
-    
+    [[nodiscard]] VkIndexType IndexType() const;
+
 private:
     core::Buffer buffer_;
     VkIndexType index_type_;
 };
 
-}
+}  // namespace vox

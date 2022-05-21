@@ -15,12 +15,12 @@ namespace vox::ui {
 class Text : public DataWidget<std::string> {
 public:
     explicit Text(std::string content = "");
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     std::string content_;
 };
 
-}
+}  // namespace vox::ui

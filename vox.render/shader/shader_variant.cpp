@@ -7,8 +7,8 @@
 #include "shader_variant.h"
 
 namespace vox {
-ShaderVariant::ShaderVariant(std::string &&preamble, std::vector<std::string> &&processes) :
-processes_{std::move(processes)} {
+ShaderVariant::ShaderVariant(std::string &&preamble, std::vector<std::string> &&processes)
+    : processes_{std::move(processes)} {
     auto splits = Split(preamble, "\n");
     for (const std::string &split : splits) {
         preambles_.insert(split);
@@ -17,22 +17,19 @@ processes_{std::move(processes)} {
     UpdateId();
 }
 
-size_t ShaderVariant::GetId() const {
-    return id_;
-}
+size_t ShaderVariant::GetId() const { return id_; }
 
-void ShaderVariant::UnionCollection(const ShaderVariant &left, const ShaderVariant &right,
-                                     ShaderVariant &result) {
+void ShaderVariant::UnionCollection(const ShaderVariant &left, const ShaderVariant &right, ShaderVariant &result) {
     std::set<std::string> collect;
-    for (const std::string& def : left.GetProcesses()) {
+    for (const std::string &def : left.GetProcesses()) {
         collect.insert(def);
     }
-    
-    for (const std::string& def : right.GetProcesses()) {
+
+    for (const std::string &def : right.GetProcesses()) {
         collect.insert(def);
     }
-    
-    for (const std::string& def : collect) {
+
+    for (const std::string &def : collect) {
         std::string tmp_def(def, 1);
         result.AddDefine(tmp_def);
     }
@@ -43,15 +40,15 @@ void ShaderVariant::AddDefine(const std::string &def) {
     if (iter == processes_.end()) {
         processes_.push_back("D" + def);
     }
-    
+
     std::string tmp_def = def;
-    
+
     // The "=" needs to turn into a space
     size_t pos_equal = tmp_def.find_first_of('=');
     if (pos_equal != std::string::npos) {
         tmp_def[pos_equal] = ' ';
     }
-    
+
     preambles_.insert("#define " + tmp_def + "\n");
 
     UpdateId();
@@ -60,7 +57,7 @@ void ShaderVariant::AddDefine(const std::string &def) {
 void ShaderVariant::RemoveDefine(const std::string &def) {
     std::string process = "D" + def;
     processes_.erase(std::remove(processes_.begin(), processes_.end(), process), processes_.end());
-    
+
     std::string tmp_def = def;
     // The "=" needs to turn into a space
     size_t pos_equal = tmp_def.find_first_of('=');
@@ -90,15 +87,11 @@ void ShaderVariant::SetRuntimeArraySizes(const std::unordered_map<std::string, s
 
 std::string ShaderVariant::GetPreamble() const {
     std::string preamble;
-    std::for_each(preambles_.begin(), preambles_.end(), [&](const std::string &p) {
-        preamble += p;
-    });
+    std::for_each(preambles_.begin(), preambles_.end(), [&](const std::string &p) { preamble += p; });
     return preamble;
 }
 
-const std::vector<std::string> &ShaderVariant::GetProcesses() const {
-    return processes_;
-}
+const std::vector<std::string> &ShaderVariant::GetProcesses() const { return processes_; }
 
 const std::unordered_map<std::string, size_t> &ShaderVariant::GetRuntimeArraySizes() const {
     return runtime_array_sizes_;
@@ -113,9 +106,8 @@ void ShaderVariant::Clear() {
 
 void ShaderVariant::UpdateId() {
     id_ = 0;
-    std::for_each(preambles_.begin(), preambles_.end(), [&](const std::string &preamble) {
-        HashCombine(id_, preamble);
-    });
+    std::for_each(preambles_.begin(), preambles_.end(),
+                  [&](const std::string &preamble) { HashCombine(id_, preamble); });
 }
 
-}
+}  // namespace vox

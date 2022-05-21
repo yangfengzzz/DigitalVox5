@@ -104,7 +104,7 @@ std::unique_ptr<RenderTarget> View::create_render_target(uint32_t width, uint32_
 //MARK: - Grid
 GridMaterial::GridMaterial(Device &device) :
 BaseMaterial(device, "editor-grid") {
-    set_is_transparent(true);
+    SetIsTransparent(true);
     vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/editor/grid.vert");
     fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/editor/grid.frag");
 }
@@ -118,8 +118,8 @@ void View::set_grid_color(const Vector3F &p_color) {
 }
 
 ModelMeshPtr View::create_plane() {
-    auto mesh = MeshManager::GetSingleton().load_model_mesh();
-    mesh->add_sub_mesh(0, 6);
+    auto mesh = MeshManager::GetSingleton().LoadModelMesh();
+    mesh->AddSubMesh(0, 6);
     return mesh;
 }
 

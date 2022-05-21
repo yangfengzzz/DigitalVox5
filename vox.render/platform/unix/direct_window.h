@@ -9,9 +9,9 @@
 #include <termios.h>
 #include <unistd.h>
 
-#include "vk_common.h"
 #include "platform/platform.h"
 #include "platform/window.h"
+#include "vk_common.h"
 
 namespace vox {
 /**
@@ -20,27 +20,28 @@ namespace vox {
 class DirectWindow : public Window {
 public:
     DirectWindow(Platform *platform, const Window::Properties &properties);
-    
+
     virtual ~DirectWindow();
-    
+
     virtual VkSurfaceKHR CreateSurface(Instance &instance) override;
-    
+
     virtual VkSurfaceKHR CreateSurface(VkInstance instance, VkPhysicalDevice physical_device) override;
-    
+
     virtual bool ShouldClose() override;
-    
+
     virtual void ProcessEvents() override;
-    
+
     virtual void Close() override;
-    
+
     float GetDpiFactor() const override;
-    
+
 private:
     void PollTerminal();
-    
-    uint32_t FindCompatiblePlane(VkPhysicalDevice phys_dev, VkDisplayKHR display,
-                                   const std::vector<VkDisplayPlanePropertiesKHR> &plane_properties);
-    
+
+    uint32_t FindCompatiblePlane(VkPhysicalDevice phys_dev,
+                                 VkDisplayKHR display,
+                                 const std::vector<VkDisplayPlanePropertiesKHR> &plane_properties);
+
 private:
     mutable bool keep_running = true;
     Platform *platform = nullptr;
@@ -51,4 +52,4 @@ private:
     KeyCode key_down = KeyCode::UNKNOWN;
 };
 
-}        // namespace vox
+}  // namespace vox

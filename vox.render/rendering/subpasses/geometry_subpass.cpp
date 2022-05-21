@@ -32,7 +32,7 @@ void GeometrySubpass::Prepare() {}
 
 void GeometrySubpass::Draw(CommandBuffer &command_buffer) {
     auto compile_variant = ShaderVariant();
-    scene_->shader_data_.MergeVariants(compile_variant, compile_variant);
+    scene_->shader_data.MergeVariants(compile_variant, compile_variant);
     if (camera_) {
         camera_->shader_data_.MergeVariants(compile_variant, compile_variant);
     }
@@ -43,7 +43,7 @@ void GeometrySubpass::Draw(CommandBuffer &command_buffer) {
         std::vector<RenderElement> opaque_queue;
         std::vector<RenderElement> alpha_test_queue;
         std::vector<RenderElement> transparent_queue;
-        ComponentsManager::GetSingleton().call_render(camera_, opaque_queue, alpha_test_queue, transparent_queue);
+        ComponentsManager::GetSingleton().CallRender(camera_, opaque_queue, alpha_test_queue, transparent_queue);
         std::sort(opaque_queue.begin(), opaque_queue.end(), CompareFromNearToFar);
         std::sort(alpha_test_queue.begin(), alpha_test_queue.end(), CompareFromNearToFar);
         std::sort(transparent_queue.begin(), transparent_queue.end(), CompareFromFarToNear);
@@ -61,11 +61,11 @@ void GeometrySubpass::DrawElement(CommandBuffer &command_buffer,
     for (auto &element : items) {
         auto macros = variant;
         auto &renderer = element.renderer;
-        uint32_t shadow_count = ShadowManager::GetSingleton().shadow_count();
+        uint32_t shadow_count = ShadowManager::GetSingleton().ShadowCount();
         if (renderer->receive_shadow_ && shadow_count != 0) {
             renderer->shader_data_.AddDefine(SHADOW_MAP_COUNT + std::to_string(shadow_count));
         }
-        renderer->update_shader_data();
+        renderer->UpdateShaderData();
         renderer->shader_data_.MergeVariants(macros, macros);
 
         auto &material = element.material;
@@ -98,15 +98,15 @@ void GeometrySubpass::DrawElement(CommandBuffer &command_buffer,
 
         // uniform & texture
         DescriptorSetLayout &descriptor_set_layout = pipeline_layout.GetDescriptorSetLayout(0);
-        scene_->shader_data_.BindData(command_buffer, descriptor_set_layout);
+        scene_->shader_data.BindData(command_buffer, descriptor_set_layout);
         camera_->shader_data_.BindData(command_buffer, descriptor_set_layout);
         renderer->shader_data_.BindData(command_buffer, descriptor_set_layout);
         material->shader_data_.BindData(command_buffer, descriptor_set_layout);
 
         // vertex buffer
-        command_buffer.SetVertexInputState(mesh->vertex_input_state());
-        for (uint32_t j = 0; j < mesh->vertex_buffer_count(); j++) {
-            const auto kVertexBufferBinding = mesh->vertex_buffer(j);
+        command_buffer.SetVertexInputState(mesh->VertexInputState());
+        for (uint32_t j = 0; j < mesh->VertexBufferCount(); j++) {
+            const auto kVertexBufferBinding = mesh->VertexBuffer(j);
             if (kVertexBufferBinding) {
                 std::vector<std::reference_wrapper<const core::Buffer>> buffers;
                 buffers.emplace_back(std::ref(*kVertexBufferBinding));
@@ -114,16 +114,16 @@ void GeometrySubpass::DrawElement(CommandBuffer &command_buffer,
             }
         }
         // Draw submesh indexed if indices exists
-        const auto &index_buffer_binding = mesh->index_buffer_binding();
+        const auto &index_buffer_binding = mesh->IndexBufferBinding();
         if (index_buffer_binding) {
             // Bind index buffer of submesh
-            command_buffer.BindIndexBuffer(index_buffer_binding->buffer(), 0, index_buffer_binding->index_type());
+            command_buffer.BindIndexBuffer(index_buffer_binding->Buffer(), 0, index_buffer_binding->IndexType());
 
             // Draw submesh using indexed data
-            command_buffer.DrawIndexed(sub_mesh->count(), mesh->instance_count(), sub_mesh->start(), 0, 0);
+            command_buffer.DrawIndexed(sub_mesh->Count(), mesh->InstanceCount(), sub_mesh->Start(), 0, 0);
         } else {
             // Draw submesh using vertices only
-            command_buffer.Draw(sub_mesh->count(), mesh->instance_count(), 0, 0);
+            command_buffer.Draw(sub_mesh->Count(), mesh->InstanceCount(), 0, 0);
         }
     }
 }

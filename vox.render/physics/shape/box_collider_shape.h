@@ -13,22 +13,22 @@ namespace vox::physics {
 class BoxColliderShape : public ColliderShape {
 public:
     BoxColliderShape();
-    
+
     Vector3F size();
-    
+
     void set_size(const Vector3F &value);
-    
+
     void set_world_scale(const Vector3F &scale) override;
-    
+
 #ifdef DEBUG
     void set_entity(Entity *value) override;
-    
+
     void sync_box_geometry();
 #endif
-    
+
 private:
     Vector3F half_ = Vector3F(0.5, 0.5, 0.5);
 };
 
-}
+}  // namespace vox::physics
 #endif /* DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_BOX_COLLIDER_SHAPE_H_ */

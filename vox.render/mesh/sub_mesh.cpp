@@ -7,17 +7,10 @@
 #include "sub_mesh.h"
 
 namespace vox {
-SubMesh::SubMesh(uint32_t start, uint32_t count) :
-start_(start),
-count_(count) {
-}
+SubMesh::SubMesh(uint32_t start, uint32_t count) : start_(start), count_(count) {}
 
-uint32_t SubMesh::start() const {
-    return start_;
-}
+uint32_t SubMesh::Start() const { return start_; }
 
-uint32_t SubMesh::count() const {
-    return count_;
-}
+uint32_t SubMesh::Count() const { return count_; }
 
-}
+}  // namespace vox

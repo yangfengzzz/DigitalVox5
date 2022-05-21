@@ -14,4 +14,4 @@ void PanelMenuBar::draw_impl() {
     }
 }
 
-}
+}  // namespace vox::ui

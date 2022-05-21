@@ -7,8 +7,6 @@
 #include "lua_component_binder.h"
 
 namespace vox {
-void LuaComponentBinder::bind_component(sol::state &lua_state) {
-    
-}
+void LuaComponentBinder::bind_component(sol::state &lua_state) {}
 
-}
+}  // namespace vox

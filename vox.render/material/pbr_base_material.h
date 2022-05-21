@@ -6,10 +6,10 @@
 
 #pragma once
 
+#include "../image.h"
 #include "base_material.h"
 #include "color.h"
 #include "vector4.h"
-#include "../image.h"
 
 namespace vox {
 /**
@@ -23,92 +23,92 @@ public:
         float normal_texture_intensity = 1.f;
         float occlusion_texture_intensity = 1.f;
     };
-    
+
     /**
      * Base color.
      */
-    [[nodiscard]] const Color &base_color() const;
-    
-    void set_base_color(const Color &new_value);
-    
+    [[nodiscard]] const Color &BaseColor() const;
+
+    void SetBaseColor(const Color &new_value);
+
     /**
      * Base texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> base_texture() const;
-    
-    void set_base_texture(const std::shared_ptr<Image> &new_value);
-    
-    void set_base_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
-    
+    [[nodiscard]] std::shared_ptr<Image> BaseTexture() const;
+
+    void SetBaseTexture(const std::shared_ptr<Image> &new_value);
+
+    void SetBaseTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+
     /**
      * Normal texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> normal_texture() const;
-    
-    void set_normal_texture(const std::shared_ptr<Image> &new_value);
-    
-    void set_normal_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
-    
+    [[nodiscard]] std::shared_ptr<Image> NormalTexture() const;
+
+    void SetNormalTexture(const std::shared_ptr<Image> &new_value);
+
+    void SetNormalTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+
     /**
      * Normal texture intensity.
      */
-    [[nodiscard]] float normal_texture_intensity() const;
-    
-    void set_normal_texture_intensity(float new_value);
-    
+    [[nodiscard]] float NormalTextureIntensity() const;
+
+    void SetNormalTextureIntensity(float new_value);
+
     /**
      * Emissive color.
      */
-    [[nodiscard]] const Color &emissive_color() const;
-    
-    void set_emissive_color(const Color &new_value);
-    
+    [[nodiscard]] const Color &EmissiveColor() const;
+
+    void SetEmissiveColor(const Color &new_value);
+
     /**
      * Emissive texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> emissive_texture() const;
-    
-    void set_emissive_texture(const std::shared_ptr<Image> &new_value);
-    
-    void set_emissive_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
-    
+    [[nodiscard]] std::shared_ptr<Image> EmissiveTexture() const;
+
+    void SetEmissiveTexture(const std::shared_ptr<Image> &new_value);
+
+    void SetEmissiveTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+
     /**
      * Occlusion texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> occlusion_texture() const;
-    
-    void set_occlusion_texture(const std::shared_ptr<Image> &new_value);
-    
-    void set_occlusion_texture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
-    
+    [[nodiscard]] std::shared_ptr<Image> OcclusionTexture() const;
+
+    void SetOcclusionTexture(const std::shared_ptr<Image> &new_value);
+
+    void SetOcclusionTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+
     /**
      * Occlusion texture intensity.
      */
-    [[nodiscard]] float occlusion_texture_intensity() const;
-    
-    void set_occlusion_texture_intensity(float new_value);
-    
+    [[nodiscard]] float OcclusionTextureIntensity() const;
+
+    void SetOcclusionTextureIntensity(float new_value);
+
 protected:
     /**
      * Create a pbr base material instance.
      */
     explicit PbrBaseMaterial(Device &device, const std::string &name);
-    
+
 private:
     PBRBaseData pbr_base_data_;
     const std::string pbr_base_prop_;
-    
+
     std::shared_ptr<Image> base_texture_{nullptr};
     const std::string base_texture_prop_;
-    
+
     std::shared_ptr<Image> normal_texture_{nullptr};
     const std::string normal_texture_prop_;
-    
+
     std::shared_ptr<Image> emissive_texture_{nullptr};
     const std::string emissive_texture_prop_;
-    
+
     std::shared_ptr<Image> occlusion_texture_{nullptr};
     const std::string occlusion_texture_prop_;
 };
 
-}
+}  // namespace vox

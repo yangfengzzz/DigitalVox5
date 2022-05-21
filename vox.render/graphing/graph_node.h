@@ -11,16 +11,17 @@
 namespace vox::graphing {
 class Node {
 public:
-    Node() = default;;
-    
+    Node() = default;
+    ;
+
     Node(size_t id, const char *title, const char *style = nullptr, const nlohmann::json &data = {});
-    
-    template<typename T>
-    static std::uintptr_t handle_to_uintptr_t(T handle) {
+
+    template <typename T>
+    static std::uintptr_t HandleToUintptrT(T handle) {
         return reinterpret_cast<std::uintptr_t>(reinterpret_cast<void *>(handle));
     }
-    
+
     nlohmann::json attributes_;
 };
 
-}        // namespace vox
+}  // namespace vox::graphing

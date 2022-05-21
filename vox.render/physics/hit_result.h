@@ -7,9 +7,9 @@
 #ifndef DIGITALVOX_VOX_RENDER_PHYSICS_HIT_RESULT_H_
 #define DIGITALVOX_VOX_RENDER_PHYSICS_HIT_RESULT_H_
 
+#include "../entity.h"
 #include "point3.h"
 #include "vector3.h"
-#include "../entity.h"
 
 namespace vox::physics {
 
@@ -27,6 +27,6 @@ struct HitResult {
     Vector3F normal = Vector3F();
 };
 
-}
+}  // namespace vox::physics
 
 #endif /* DIGITALVOX_VOX_RENDER_PHYSICS_HIT_RESULT_H_ */

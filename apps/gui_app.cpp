@@ -13,7 +13,7 @@
 #include "ui/widgets/sliders/slider_float.h"
 
 namespace vox {
-void GuiApp::load_scene() {
+void GuiApp::LoadScene() {
     gui_->load_font("Ruda_Big", "Fonts/Ruda-Bold.ttf", 16);
     gui_->load_font("Ruda_Medium", "Fonts/Ruda-Bold.ttf", 14);
     gui_->load_font("Ruda_Small", "Fonts/Ruda-Bold.ttf", 12);
@@ -27,14 +27,14 @@ void GuiApp::load_scene() {
     panel_.create_widget<ui::TextLabelled>("hello", "world");
     panel_.create_widget<ui::SliderFloat>();
 
-    auto scene = scene_manager_->current_scene();
-    auto root_entity = scene->create_root_entity();
+    auto scene = scene_manager_->CurrentScene();
+    auto root_entity = scene->CreateRootEntity();
     
-    auto camera_entity = root_entity->create_child();
-    camera_entity->transform_->set_position(10, 10, 10);
-    camera_entity->transform_->look_at(Point3F(0, 0, 0));
-    main_camera_ = camera_entity->add_component<Camera>();
-    camera_entity->add_component<control::OrbitControl>();
+    auto camera_entity = root_entity->CreateChild();
+    camera_entity->transform->SetPosition(10, 10, 10);
+    camera_entity->transform->LookAt(Point3F(0, 0, 0));
+    main_camera_ = camera_entity->AddComponent<Camera>();
+    camera_entity->AddComponent<control::OrbitControl>();
     
     scene->play();
 }

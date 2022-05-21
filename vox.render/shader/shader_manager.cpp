@@ -7,13 +7,11 @@
 #include "shader_manager.h"
 
 namespace vox {
-ShaderManager *ShaderManager::GetSingletonPtr() {
-    return ms_singleton_;
-}
+ShaderManager *ShaderManager::GetSingletonPtr() { return ms_singleton; }
 
 ShaderManager &ShaderManager::GetSingleton() {
-    assert(ms_singleton_);
-    return (*ms_singleton_);
+    assert(ms_singleton);
+    return (*ms_singleton);
 }
 
 std::shared_ptr<ShaderSource> ShaderManager::LoadShader(const std::string &file) {
@@ -28,11 +26,11 @@ std::shared_ptr<ShaderSource> ShaderManager::LoadShader(const std::string &file)
 }
 
 void ShaderManager::CollectGarbage() {
-    for (auto& shader : shader_pool_) {
+    for (auto &shader : shader_pool_) {
         if (shader.second.use_count() == 1) {
             shader.second.reset();
         }
     }
 }
 
-}
+}  // namespace vox

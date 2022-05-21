@@ -15,12 +15,12 @@ namespace vox::ui {
 class Spacing : public Widget {
 public:
     explicit Spacing(uint16_t spaces = 1);
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     uint16_t spaces_ = 1;
 };
 
-}
+}  // namespace vox::ui

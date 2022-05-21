@@ -7,8 +7,8 @@
 #pragma once
 
 #include "button.h"
-#include "vector2.h"
 #include "color.h"
+#include "vector2.h"
 
 namespace vox::ui {
 /**
@@ -20,18 +20,18 @@ public:
      * Constructor
      */
     explicit ButtonSmall(std::string label = "");
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     std::string label_;
-    
+
     Color idle_background_color_;
     Color hovered_background_color_;
     Color clicked_background_color_;
-    
+
     Color text_color_;
 };
 
-}
+}  // namespace vox::ui

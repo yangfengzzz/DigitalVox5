@@ -16,14 +16,14 @@ namespace vox::physics {
 class PlaneColliderShape : public ColliderShape {
 public:
     PlaneColliderShape();
-    
+
     /**
      * The local rotation of this plane.
      */
     Vector3F rotation();
-    
+
     void set_rotation(const Vector3F &value);
 };
 
-}
+}  // namespace vox::physics
 #endif /* DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_PLANE_COLLIDER_SHAPE_H_ */

@@ -24,48 +24,48 @@ public:
 
 } // namespace
 
-void CascadeShadowMapApp::load_scene() {
-    auto scene = scene_manager_->current_scene();
-    auto root_entity = scene->create_root_entity();
+void CascadeShadowMapApp::LoadScene() {
+    auto scene = scene_manager_->CurrentScene();
+    auto root_entity = scene->CreateRootEntity();
     
-    auto camera_entity = root_entity->create_child();
-    camera_entity->transform_->set_position(0, 10, 50);
-    camera_entity->transform_->look_at(Point3F(0, 0, 0));
-    main_camera_ = camera_entity->add_component<Camera>();
-    camera_entity->add_component<control::OrbitControl>();
+    auto camera_entity = root_entity->CreateChild();
+    camera_entity->transform->SetPosition(0, 10, 50);
+    camera_entity->transform->LookAt(Point3F(0, 0, 0));
+    main_camera_ = camera_entity->AddComponent<Camera>();
+    camera_entity->AddComponent<control::OrbitControl>();
     
-    auto light = root_entity->create_child("light");
-    light->transform_->set_position(10, 10, 0);
-    light->transform_->look_at(Point3F());
-    auto direct_light = light->add_component<DirectLight>();
+    auto light = root_entity->CreateChild("light");
+    light->transform->SetPosition(10, 10, 0);
+    light->transform->LookAt(Point3F());
+    auto direct_light = light->AddComponent<DirectLight>();
     direct_light->intensity_ = 1.0;
-    direct_light->set_enable_shadow(true);
+    direct_light->SetEnableShadow(true);
     
     // create box test entity
     float cube_size = 2.0;
-    auto box_mesh = PrimitiveMesh::create_cuboid(cube_size, cube_size, cube_size);
+    auto box_mesh = PrimitiveMesh::CreateCuboid(cube_size, cube_size, cube_size);
     auto box_mtl = std::make_shared<BlinnPhongMaterial>(*device_);
-    box_mtl->set_base_color(Color(0.3, 0.3, 0.3, 0.5));
+    box_mtl->SetBaseColor(Color(0.3, 0.3, 0.3, 0.5));
     for (int i = 0; i < 40; i++) {
-        auto box_entity = root_entity->create_child("BoxEntity");
-        box_entity->transform_->set_position(Point3F(0, 2, i * 10 - 200));
+        auto box_entity = root_entity->CreateChild("BoxEntity");
+        box_entity->transform->SetPosition(Point3F(0, 2, i * 10 - 200));
         
-        auto box_renderer = box_entity->add_component<MeshRenderer>();
-        box_renderer->set_mesh(box_mesh);
-        box_renderer->set_material(box_mtl);
+        auto box_renderer = box_entity->AddComponent<MeshRenderer>();
+        box_renderer->SetMesh(box_mesh);
+        box_renderer->SetMaterial(box_mtl);
         box_renderer->cast_shadow_ = true;
     }
     
-    auto plane_entity = root_entity->create_child("PlaneEntity");
+    auto plane_entity = root_entity->CreateChild("PlaneEntity");
     auto plane_mtl = std::make_shared<BlinnPhongMaterial>(*device_);
-    plane_mtl->set_base_color(Color(1.0, 0, 0, 1.0));
-    plane_mtl->set_render_face(RenderFace::DOUBLE);
+    plane_mtl->SetBaseColor(Color(1.0, 0, 0, 1.0));
+    plane_mtl->SetRenderFace(RenderFace::DOUBLE);
     
     auto shadow_debug = std::make_shared<ShadowDebugMaterial>(*device_);
     
-    auto plane_renderer = plane_entity->add_component<MeshRenderer>();
-    plane_renderer->set_mesh(PrimitiveMesh::create_plane(10, 400));
-    plane_renderer->set_material(plane_mtl);
+    auto plane_renderer = plane_entity->AddComponent<MeshRenderer>();
+    plane_renderer->SetMesh(PrimitiveMesh::CreatePlane(10, 400));
+    plane_renderer->SetMaterial(plane_mtl);
     // plane_renderer->set_material(shadow_debug);
     plane_renderer->receive_shadow_ = true;
     

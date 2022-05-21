@@ -12,8 +12,8 @@ namespace vox {
 class Stb : public Image {
 public:
     Stb(const std::string &name, const std::vector<uint8_t> &data);
-    
+
     ~Stb() override = default;
 };
 
-}        // namespace vox
+}  // namespace vox

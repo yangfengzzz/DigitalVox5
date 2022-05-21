@@ -19,39 +19,39 @@ public:
      * Returns the name of the component
      */
     std::string name() override;
-    
+
     explicit CapsuleCharacterController(Entity *entity);
-    
+
     void set_desc(const PxCapsuleControllerDesc &desc);
-    
+
     [[nodiscard]] float radius() const;
-    
+
     bool set_radius(float radius);
-    
+
     [[nodiscard]] float height() const;
-    
+
     bool set_height(float height);
-    
+
     [[nodiscard]] PxCapsuleClimbingMode::Enum climbing_mode() const;
-    
+
     bool set_climbing_mode(PxCapsuleClimbingMode::Enum mode);
-    
+
 public:
     /**
      * Called when the serialization is asked
      */
-    void on_serialize(nlohmann::json &data) override;
-    
+    void OnSerialize(nlohmann::json &data) override;
+
     /**
      * Called when the deserialization is asked
      */
-    void on_deserialize(const nlohmann::json &data) override;
-    
+    void OnDeserialize(const nlohmann::json &data) override;
+
     /**
      * Defines how the component should be drawn in the inspector
      */
-    void on_inspector(ui::WidgetContainer &p_root) override;
+    void OnInspector(ui::WidgetContainer &p_root) override;
 };
 
-}
+}  // namespace vox::physics
 #endif /* DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_CAPSULE_CHARACTER_CONTROLLER_H_ */

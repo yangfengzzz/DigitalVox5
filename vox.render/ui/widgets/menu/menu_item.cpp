@@ -9,23 +9,23 @@
 #include <utility>
 
 namespace vox::ui {
-MenuItem::MenuItem(std::string name, std::string shortcut,
-                   bool checkable, bool checked) :
-DataWidget(selected_), name_(std::move(name)), shortcut_(std::move(shortcut)),
-checkable_(checkable), checked_(checked) {
-}
+MenuItem::MenuItem(std::string name, std::string shortcut, bool checkable, bool checked)
+    : DataWidget(selected_),
+      name_(std::move(name)),
+      shortcut_(std::move(shortcut)),
+      checkable_(checkable),
+      checked_(checked) {}
 
 void MenuItem::draw_impl() {
     bool previous_value = checked_;
-    
-    if (ImGui::MenuItem((name_ + widget_id_).c_str(), shortcut_.c_str(),
-                        checkable_ ? &checked_ : nullptr, enabled_))
-        clicked_event_.invoke();
-    
+
+    if (ImGui::MenuItem((name_ + widget_id_).c_str(), shortcut_.c_str(), checkable_ ? &checked_ : nullptr, enabled_))
+        clicked_event_.Invoke();
+
     if (checked_ != previous_value) {
-        value_changed_event_.invoke(checked_);
+        value_changed_event_.Invoke(checked_);
         notify_change();
     }
 }
 
-}
+}  // namespace vox::ui

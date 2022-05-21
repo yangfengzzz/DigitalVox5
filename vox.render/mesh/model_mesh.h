@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "mesh.h"
 #include "color.h"
+#include "mesh.h"
 
 namespace vox {
 struct ValueChanged {
@@ -39,125 +39,126 @@ public:
     /**
      * Whether to access data of the mesh.
      */
-    [[nodiscard]] bool accessible() const;
-    
+    [[nodiscard]] bool Accessible() const;
+
     /**
      * Vertex count of current mesh.
      */
-    [[nodiscard]] size_t vertex_count() const;
-    
+    [[nodiscard]] size_t VertexCount() const;
+
     /**
      * Create a model mesh.
      * @param device - Engine to which the mesh belongs
      */
     explicit ModelMesh(Device &device);
-    
+
     /**
      * Vertex buffer binding collection.
      */
-    [[nodiscard]] const std::vector<std::unique_ptr<core::Buffer>> &vertex_buffer_bindings() const;
-    
-    void set_vertex_buffer_binding(size_t index, std::unique_ptr<core::Buffer> &&binding);
-    
-    [[nodiscard]] size_t vertex_buffer_count() const override;
-    
-    [[nodiscard]] const core::Buffer *vertex_buffer(size_t index) const override;
-    
+    [[nodiscard]] const std::vector<std::unique_ptr<core::Buffer>> &VertexBufferBindings() const;
+
+    void SetVertexBufferBinding(size_t index, std::unique_ptr<core::Buffer> &&binding);
+
+    [[nodiscard]] size_t VertexBufferCount() const override;
+
+    [[nodiscard]] const core::Buffer *VertexBuffer(size_t index) const override;
+
 public:
     /**
      * Set positions for the mesh.
      * @param positions - The positions for the mesh.
      */
-    void set_positions(const std::vector<Vector3F> &positions);
-    
+    void SetPositions(const std::vector<Vector3F> &positions);
+
     /**
      * Get positions for the mesh.
-     * @remarks Please call the set_positions() method after modification to ensure that the modification takes effect.
+     * @remarks Please call the SetPositions() method after modification to ensure that the modification takes effect.
      */
-    const std::vector<Vector3F> &positions();
-    
+    const std::vector<Vector3F> &Positions();
+
     /**
      * Set per-vertex normals for the mesh.
      * @param normals - The normals for the mesh.
      */
-    void set_normals(const std::vector<Vector3F> &normals);
-    
+    void SetNormals(const std::vector<Vector3F> &normals);
+
     /**
      * Get normals for the mesh.
-     * @remarks Please call the set_normals() method after modification to ensure that the modification takes effect.
+     * @remarks Please call the SetNormals() method after modification to ensure that the modification takes effect.
      */
-    const std::vector<Vector3F> &normals();
-    
+    const std::vector<Vector3F> &Normals();
+
     /**
      * Set per-vertex colors for the mesh.
      * @param colors - The colors for the mesh.
      */
-    void set_colors(const std::vector<Color> &colors);
-    
+    void SetColors(const std::vector<Color> &colors);
+
     /**
      * Get colors for the mesh.
-     * @remarks Please call the set_colors() method after modification to ensure that the modification takes effect.
+     * @remarks Please call the SetColors() method after modification to ensure that the modification takes effect.
      */
-    const std::vector<Color> &colors();
-    
+    const std::vector<Color> &Colors();
+
     /**
      * Set per-vertex tangents for the mesh.
      * @param tangents - The tangents for the mesh.
      */
-    void set_tangents(const std::vector<Vector4F> &tangents);
-    
+    void SetTangents(const std::vector<Vector4F> &tangents);
+
     /**
      * Get tangents for the mesh.
-     * @remarks Please call the set_tangents() method after modification to ensure that the modification takes effect.
+     * @remarks Please call the SetTangents() method after modification to ensure that the modification takes effect.
      */
-    const std::vector<Vector4F> &tangents();
-    
+    const std::vector<Vector4F> &Tangents();
+
     /**
      * Set per-vertex uv for the mesh by channelIndex.
      * @param uv - The uv for the mesh.
      * @param channel_index - The index of uv channels, in [0 ~ 7] range.
      */
-    void set_uvs(const std::vector<Vector2F> &uv, int channel_index = 0);
-    
+    void SetUvs(const std::vector<Vector2F> &uv, int channel_index = 0);
+
     /**
      * Get uv for the mesh by channelIndex.
      * @param channel_index - The index of uv channels, in [0 ~ 7] range.
      * @remarks Please call the setUV() method after modification to ensure that the modification takes effect.
      */
-    const std::vector<Vector2F> &uvs(int channel_index = 0);
-    
+    const std::vector<Vector2F> &Uvs(int channel_index = 0);
+
     /**
      * Set indices for the mesh.
      * @param indices - The indices for the mesh.
      */
-    void set_indices(const std::vector<uint32_t> &indices);
-    
+    void SetIndices(const std::vector<uint32_t> &indices);
+
     /**
      * Set indices for the mesh.
      * @param indices - The indices for the mesh.
      */
-    void set_indices(const std::vector<uint16_t> &indices);
-    
+    void SetIndices(const std::vector<uint16_t> &indices);
+
     /**
      * Upload Mesh Data to the graphics API.
-     * @param no_longer_accessible - Whether to access data later. If true, you'll never access data anymore (free memory cache)
+     * @param no_longer_accessible - Whether to access data later. If true, you'll never access data anymore (free
+     * memory cache)
      */
-    void upload_data(bool no_longer_accessible);
-    
+    void UploadData(bool no_longer_accessible);
+
 private:
     Device &device_;
     std::vector<std::unique_ptr<core::Buffer>> vertex_buffer_bindings_{};
-    
-    void update_vertex_state();
-    
-    void update_vertices(std::vector<float> &vertices);
-    
-    void release_cache();
-    
+
+    void UpdateVertexState();
+
+    void UpdateVertices(std::vector<float> &vertices);
+
+    void ReleaseCache();
+
     bool has_blend_shape_ = false;
     bool use_blend_shape_normal_ = false;
     bool use_blend_shape_tangent_ = false;
-    
+
     size_t vertex_count_ = 0;
     bool accessible_ = true;
     std::vector<float> vertices_{};
@@ -166,7 +167,7 @@ private:
     VkIndexType indices_type_;
     int vertex_change_flag_{};
     size_t element_count_{};
-    
+
     std::vector<Vector3F> positions_;
     std::vector<Vector3F> normals_;
     std::vector<Color> colors_;
@@ -184,4 +185,4 @@ private:
 };
 using ModelMeshPtr = std::shared_ptr<ModelMesh>;
 
-}
+}  // namespace vox

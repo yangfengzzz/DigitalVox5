@@ -5,70 +5,67 @@
 //  property of any third parties.
 
 #include "sprite_debug.h"
-#include "shader/shader_manager.h"
-#include "scene.h"
+
 #include "entity.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/mesh_manager.h"
 #include "lighting/light_manager.h"
+#include "mesh/mesh_manager.h"
+#include "mesh/mesh_renderer.h"
+#include "scene.h"
+#include "shader/shader_manager.h"
 
 namespace vox {
-SpriteDebugMaterial::SpriteDebugMaterial(Device &device) :
-BaseMaterial(device) {
-    set_is_transparent(true);
-    set_blend_mode(BlendMode::ADDITIVE);
+SpriteDebugMaterial::SpriteDebugMaterial(Device &device) : BaseMaterial(device) {
+    SetIsTransparent(true);
+    SetBlendMode(BlendMode::ADDITIVE);
     input_assembly_state_.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
-    
+
     vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/light/light_sprite.vert");
     fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/light/light_sprite.frag");
 }
 
-void SpriteDebugMaterial::set_is_spot_light(bool value) {
+void SpriteDebugMaterial::SetIsSpotLight(bool value) {
     if (value) {
         shader_data_.AddDefine("IS_SPOT_LIGHT");
     }
 }
 
-//MARK: - SpriteDebug
-std::string SpriteDebug::name() {
-    return "SpriteDebug";
+// MARK: - SpriteDebug
+std::string SpriteDebug::name() { return "SpriteDebug"; }
+
+SpriteDebug::SpriteDebug(Entity *entity) : Script(entity) {
+    spot_light_mesh_ = MeshManager::GetSingleton().LoadBufferMesh();
+    spot_light_mesh_->AddSubMesh(0, 4);
+    spot_entity_ = entity->CreateChild();
+    auto spot_renderer = spot_entity_->AddComponent<MeshRenderer>();
+    auto mtl = std::make_shared<SpriteDebugMaterial>(entity->Scene()->Device());
+    mtl->SetIsSpotLight(true);
+    spot_renderer->SetMaterial(mtl);
+    spot_renderer->SetMesh(spot_light_mesh_);
+
+    point_light_mesh_ = MeshManager::GetSingleton().LoadBufferMesh();
+    point_light_mesh_->AddSubMesh(0, 4);
+    point_entity_ = entity->CreateChild();
+    auto point_renderer = point_entity_->AddComponent<MeshRenderer>();
+    point_renderer->SetMaterial(std::make_shared<SpriteDebugMaterial>(entity->Scene()->Device()));
+    point_renderer->SetMesh(point_light_mesh_);
 }
 
-SpriteDebug::SpriteDebug(Entity *entity) :
-Script(entity) {
-    spot_light_mesh_ = MeshManager::GetSingleton().load_buffer_mesh();
-    spot_light_mesh_->add_sub_mesh(0, 4);
-    spot_entity_ = entity->create_child();
-    auto spot_renderer = spot_entity_->add_component<MeshRenderer>();
-    auto mtl = std::make_shared<SpriteDebugMaterial>(entity->scene()->device());
-    mtl->set_is_spot_light(true);
-    spot_renderer->set_material(mtl);
-    spot_renderer->set_mesh(spot_light_mesh_);
-    
-    point_light_mesh_ = MeshManager::GetSingleton().load_buffer_mesh();
-    point_light_mesh_->add_sub_mesh(0, 4);
-    point_entity_ = entity->create_child();
-    auto point_renderer = point_entity_->add_component<MeshRenderer>();
-    point_renderer->set_material(std::make_shared<SpriteDebugMaterial>(entity->scene()->device()));
-    point_renderer->set_mesh(point_light_mesh_);
-}
-
-void SpriteDebug::on_update(float delta_time) {
-    auto spot_light_count = LightManager::GetSingleton().spot_lights().size();
+void SpriteDebug::OnUpdate(float delta_time) {
+    auto spot_light_count = LightManager::GetSingleton().SpotLights().size();
     if (spot_light_count > 0) {
-        spot_light_mesh_->set_instance_count(static_cast<uint32_t>(spot_light_count));
-        spot_entity_->set_is_active(true);
+        spot_light_mesh_->SetInstanceCount(static_cast<uint32_t>(spot_light_count));
+        spot_entity_->SetIsActive(true);
     } else {
-        spot_entity_->set_is_active(false);
+        spot_entity_->SetIsActive(false);
     }
-    
-    auto point_light_count = LightManager::GetSingleton().point_lights().size();
+
+    auto point_light_count = LightManager::GetSingleton().PointLights().size();
     if (point_light_count > 0) {
-        point_light_mesh_->set_instance_count(static_cast<uint32_t>(point_light_count));
-        point_entity_->set_is_active(true);
+        point_light_mesh_->SetInstanceCount(static_cast<uint32_t>(point_light_count));
+        point_entity_->SetIsActive(true);
     } else {
-        point_entity_->set_is_active(false);
+        point_entity_->SetIsActive(false);
     }
 }
 
-}
+}  // namespace vox

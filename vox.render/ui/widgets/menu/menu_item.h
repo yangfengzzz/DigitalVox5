@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "ui/widgets/data_widget.h"
 #include "event.h"
+#include "ui/widgets/data_widget.h"
 
 namespace vox::ui {
 /**
@@ -15,12 +15,11 @@ namespace vox::ui {
  */
 class MenuItem : public DataWidget<bool> {
 public:
-    explicit MenuItem(std::string name, std::string shortcut = "",
-                      bool checkable = false, bool checked = false);
-    
+    explicit MenuItem(std::string name, std::string shortcut = "", bool checkable = false, bool checked = false);
+
 protected:
     void draw_impl() override;
-    
+
 public:
     std::string name_;
     std::string shortcut_;
@@ -28,9 +27,9 @@ public:
     bool checked_;
     Event<> clicked_event_;
     Event<bool> value_changed_event_;
-    
+
 private:
     bool selected_{};
 };
 
-}
+}  // namespace vox::ui

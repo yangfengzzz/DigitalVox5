@@ -7,23 +7,22 @@
 #include "color_picker.h"
 
 namespace vox::ui {
-ColorPicker::ColorPicker(bool enable_alpha, const Color &default_color) :
-DataWidget<Color>(color_), enable_alpha_(enable_alpha), color_(default_color) {
-}
+ColorPicker::ColorPicker(bool enable_alpha, const Color &default_color)
+    : DataWidget<Color>(color_), enable_alpha_(enable_alpha), color_(default_color) {}
 
 void ColorPicker::draw_impl() {
     int flags = !enable_alpha_ ? ImGuiColorEditFlags_NoAlpha : 0;
     bool value_changed = false;
-    
+
     if (enable_alpha_)
         value_changed = ImGui::ColorPicker4(widget_id_.c_str(), &color_.r, flags);
     else
         value_changed = ImGui::ColorPicker3(widget_id_.c_str(), &color_.r, flags);
-    
+
     if (value_changed) {
-        color_changed_event_.invoke(color_);
+        color_changed_event_.Invoke(color_);
         notify_change();
     }
 }
 
-}
+}  // namespace vox::ui

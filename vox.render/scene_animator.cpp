@@ -4,20 +4,16 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-
 #include "scene_animator.h"
+
+#include "components_manager.h"
 #include "entity.h"
 #include "scene.h"
-#include "components_manager.h"
 
 namespace vox {
-std::string SceneAnimator::name() {
-    return "SceneAnimator";
-}
+std::string SceneAnimator::name() { return "SceneAnimator"; }
 
-SceneAnimator::SceneAnimator(Entity *entity) :
-Component(entity) {
-}
+SceneAnimator::SceneAnimator(Entity *entity) : Component(entity) {}
 
 void SceneAnimator::update(float delta_time) {
     if (active_animation_ != -1) {
@@ -30,9 +26,8 @@ void SceneAnimator::add_animation_clip(std::unique_ptr<SceneAnimationClip> &&cli
 }
 
 void SceneAnimator::play(const std::string &name) {
-    auto iter = std::find_if(animation_clips_.begin(), animation_clips_.end(), [&](const auto &u) {
-        return u->name() == name;
-    });
+    auto iter = std::find_if(animation_clips_.begin(), animation_clips_.end(),
+                             [&](const auto &u) { return u->name() == name; });
     if (iter != animation_clips_.end()) {
         active_animation_ = iter - animation_clips_.begin();
     } else {
@@ -40,25 +35,15 @@ void SceneAnimator::play(const std::string &name) {
     }
 }
 
-void SceneAnimator::on_enable() {
-    ComponentsManager::GetSingleton().add_on_update_scene_animators(this);
-}
+void SceneAnimator::OnEnable() { ComponentsManager::GetSingleton().AddOnUpdateSceneAnimators(this); }
 
-void SceneAnimator::on_disable() {
-    ComponentsManager::GetSingleton().remove_on_update_scene_animators(this);
-}
+void SceneAnimator::OnDisable() { ComponentsManager::GetSingleton().RemoveOnUpdateSceneAnimators(this); }
 
-//MARK: - Reflection
-void SceneAnimator::on_serialize(nlohmann::json &data) {
-    
-}
+// MARK: - Reflection
+void SceneAnimator::OnSerialize(nlohmann::json &data) {}
 
-void SceneAnimator::on_deserialize(const nlohmann::json &data) {
-    
-}
+void SceneAnimator::OnDeserialize(const nlohmann::json &data) {}
 
-void SceneAnimator::on_inspector(ui::WidgetContainer &p_root) {
-    
-}
+void SceneAnimator::OnInspector(ui::WidgetContainer &p_root) {}
 
-}
+}  // namespace vox

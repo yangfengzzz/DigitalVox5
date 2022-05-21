@@ -13,7 +13,7 @@
 namespace vox {
 class GuiApp : public ForwardApplication {
 public:
-    void load_scene() override;
+    void LoadScene() override;
     
 private:
     ui::Canvas canvas_;

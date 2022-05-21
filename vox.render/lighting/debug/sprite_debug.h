@@ -6,15 +6,15 @@
 
 #pragma once
 
-#include "script.h"
 #include "material/base_material.h"
+#include "script.h"
 
 namespace vox {
 class SpriteDebugMaterial : public BaseMaterial {
 public:
     SpriteDebugMaterial(Device &device);
-    
-    void set_is_spot_light(bool value);
+
+    void SetIsSpotLight(bool value);
 };
 
 class SpriteDebug : public Script {
@@ -23,17 +23,17 @@ public:
      * Returns the name of the component
      */
     std::string name() override;
-    
+
     explicit SpriteDebug(Entity *entity);
-    
-    void on_update(float delta_time) override;
-    
+
+    void OnUpdate(float delta_time) override;
+
 private:
     Entity *spot_entity_{nullptr};
     std::shared_ptr<Mesh> spot_light_mesh_{nullptr};
-    
+
     Entity *point_entity_{nullptr};
     std::shared_ptr<Mesh> point_light_mesh_{nullptr};
 };
 
-}
+}  // namespace vox

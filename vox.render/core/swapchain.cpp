@@ -147,8 +147,8 @@ inline VkCompositeAlphaFlagBitsKHR ChooseCompositeAlpha(VkCompositeAlphaFlagBits
 
     for (VkCompositeAlphaFlagBitsKHR composite_alpha : kCompositeAlphaFlags) {
         if (composite_alpha & supported_composite_alpha) {
-            LOGW("(Swapchain) Composite alpha '{}' not supported. Selecting '{}.", vox::ToString(request_composite_alpha),
-                 vox::ToString(composite_alpha))
+            LOGW("(Swapchain) Composite alpha '{}' not supported. Selecting '{}.",
+                 vox::ToString(request_composite_alpha), vox::ToString(composite_alpha))
             return composite_alpha;
         }
     }

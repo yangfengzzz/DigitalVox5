@@ -10,19 +10,11 @@ namespace vox::ui {
 /**
  * Defines horizontal alignments
  */
-enum class HorizontalAlignment {
-    LEFT,
-    CENTER,
-    RIGHT
-};
+enum class HorizontalAlignment { LEFT, CENTER, RIGHT };
 
 /**
  * Defines vertical alignments
  */
-enum class VerticalAlignment {
-    TOP,
-    MIDDLE,
-    BOTTOM
-};
+enum class VerticalAlignment { TOP, MIDDLE, BOTTOM };
 
-}
+}  // namespace vox::ui

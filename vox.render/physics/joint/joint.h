@@ -17,47 +17,47 @@ namespace vox::physics {
 class Joint {
 public:
     void set_actors(Collider *actor_0, Collider *actor_1);
-    
+
     void set_local_pose(PxJointActorIndex::Enum actor, const Transform3F &local_pose);
-    
+
     [[nodiscard]] Transform3F local_pose(PxJointActorIndex::Enum actor) const;
-    
+
     [[nodiscard]] Transform3F relative_transform() const;
-    
+
     [[nodiscard]] Vector3F relative_linear_velocity() const;
-    
+
     [[nodiscard]] Vector3F relative_angular_velocity() const;
-    
+
     void set_break_force(float force, float torque);
-    
+
     void get_break_force(float &force, float &torque) const;
-    
+
     void set_constraint_flags(const PxConstraintFlags &flags);
-    
+
     void set_constraint_flag(PxConstraintFlag::Enum flag, bool value);
-    
+
     [[nodiscard]] PxConstraintFlags constraint_flags() const;
-    
+
     void set_inv_mass_scale_0(float inv_mass_scale);
-    
+
     [[nodiscard]] float inv_mass_scale_0() const;
-    
+
     void set_inv_inertia_scale_0(float inv_inertia_scale);
-    
+
     [[nodiscard]] float inv_inertia_scale_0() const;
-    
+
     void set_inv_mass_scale_1(float inv_mass_scale);
-    
+
     [[nodiscard]] float inv_mass_scale_1() const;
-    
+
     void set_inv_inertia_scale_1(float inv_inertia_scale);
-    
+
     [[nodiscard]] float inv_inertia_scale_1() const;
-    
+
 protected:
     PxJoint *native_joint_;
 };
 
-}
+}  // namespace vox::physics
 
 #endif /* DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_JOINT_H_ */

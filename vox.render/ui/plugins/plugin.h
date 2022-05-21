@@ -14,14 +14,14 @@ namespace vox::ui {
 class Plugin {
 public:
     virtual ~Plugin() = default;
-    
+
     /**
      * Execute the plugin behaviour
      */
     virtual void execute() = 0;
-    
+
     /* Feel free to store any data you want here */
     void *user_data_ = nullptr;
 };
 
-}
+}  // namespace vox::ui

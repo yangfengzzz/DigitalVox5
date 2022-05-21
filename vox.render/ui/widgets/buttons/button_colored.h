@@ -7,8 +7,8 @@
 #pragma once
 
 #include "button.h"
-#include "vector2.h"
 #include "color.h"
+#include "vector2.h"
 
 namespace vox::ui {
 /**
@@ -16,12 +16,14 @@ namespace vox::ui {
  */
 class ButtonColored : public Button {
 public:
-    explicit ButtonColored(std::string label = "", const Color &color = {},
-                           const Vector2F &size = Vector2F(0.f, 0.f), bool enable_alpha = true);
-    
+    explicit ButtonColored(std::string label = "",
+                           const Color &color = {},
+                           const Vector2F &size = Vector2F(0.f, 0.f),
+                           bool enable_alpha = true);
+
 protected:
     void draw_impl() override;
-    
+
 public:
     std::string label_;
     Color color_;
@@ -29,4 +31,4 @@ public:
     bool enableAlpha_;
 };
 
-}
+}  // namespace vox::ui

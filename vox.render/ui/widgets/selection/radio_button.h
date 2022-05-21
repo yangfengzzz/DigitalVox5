@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "ui/widgets/data_widget.h"
 #include "event.h"
+#include "ui/widgets/data_widget.h"
 
 namespace vox::ui {
 /**
@@ -16,35 +16,35 @@ namespace vox::ui {
  */
 class RadioButton : public DataWidget<bool> {
     friend class RadioButtonLinker;
-    
+
 public:
     explicit RadioButton(bool selected = false, std::string label = "");
-    
+
     /**
      * Make the radio button selected
      */
     void select();
-    
+
     /**
      * Returns true if the radio button is selected
      */
     [[nodiscard]] bool is_selected() const;
-    
+
     /**
      * Returns the radio button ID
      */
     [[nodiscard]] bool radio_id() const;
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     std::string label_;
     Event<int> clicked_event_;
-    
+
 private:
     bool selected_ = false;
     int radio_id_ = 0;
 };
 
-}
+}  // namespace vox::ui

@@ -5,52 +5,31 @@
 //  property of any third parties.
 
 #include "light.h"
+
 #include "entity.h"
 
 namespace vox {
-Light::Light(Entity *entity) :
-Component(entity) {
-}
+Light::Light(Entity *entity) : Component(entity) {}
 
-Matrix4x4F Light::view_matrix() {
-    return entity()->transform_->world_matrix().inverse();
-}
+Matrix4x4F Light::ViewMatrix() { return GetEntity()->transform->WorldMatrix().inverse(); }
 
-Matrix4x4F Light::inverse_view_matrix() {
-    return entity()->transform_->world_matrix();
-}
+Matrix4x4F Light::InverseViewMatrix() { return GetEntity()->transform->WorldMatrix(); }
 
-//MARK: - Shadow
-bool Light::enable_shadow() const {
-    return enable_shadow_;
-}
+// MARK: - Shadow
+bool Light::EnableShadow() const { return enable_shadow_; }
 
-void Light::set_enable_shadow(bool enabled) {
-    enable_shadow_ = enabled;
-}
+void Light::SetEnableShadow(bool enabled) { enable_shadow_ = enabled; }
 
-float Light::shadow_bias() const {
-    return shadow_bias_;
-}
+float Light::ShadowBias() const { return shadow_bias_; }
 
-void Light::set_shadow_bias(float value) {
-    shadow_bias_ = value;
-}
+void Light::SetShadowBias(float value) { shadow_bias_ = value; }
 
-float Light::shadow_intensity() const {
-    return shadow_intensity_;
-}
+float Light::ShadowIntensity() const { return shadow_intensity_; }
 
-void Light::set_shadow_intensity(float value) {
-    shadow_intensity_ = value;
-}
+void Light::SetShadowIntensity(float value) { shadow_intensity_ = value; }
 
-float Light::shadow_radius() const {
-    return shadow_radius_;
-}
+float Light::ShadowRadius() const { return shadow_radius_; }
 
-void Light::set_shadow_radius(float value) {
-    shadow_radius_ = value;
-}
+void Light::SetShadowRadius(float value) { shadow_radius_ = value; }
 
-}
+}  // namespace vox

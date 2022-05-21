@@ -6,10 +6,11 @@
 
 #pragma once
 
-#include <vector>
 #include <sol/sol.hpp>
-#include "singleton.h"
+#include <vector>
+
 #include "behaviour.h"
+#include "singleton.h"
 
 namespace vox {
 /**
@@ -18,49 +19,49 @@ namespace vox {
 class ScriptInterpreter : public Singleton<ScriptInterpreter> {
 public:
     static ScriptInterpreter &GetSingleton();
-    
+
     static ScriptInterpreter *GetSingletonPtr();
-    
+
     /**
      * Constructor
      */
     ScriptInterpreter(std::string script_root_folder);
-    
+
     /**
      * Destructor
      */
     ~ScriptInterpreter();
-    
+
     /**
      * Handle the creation of the lua context and bind engine functions to lua
      */
     void create_lua_context_and_bind_globals();
-    
+
     /**
      * Destroy the lua context
      */
     void destroy_lua_context();
-    
+
     /**
      * Consider a behaviour
      */
     void consider(Behaviour *to_consider);
-    
+
     /**
      * Unconsider a behaviour
      */
     void unconsider(Behaviour *to_unconsider);
-    
+
     /**
      * Refresh every scripts
      */
     void refresh_all();
-    
+
     /**
      * Returns true if every scripts are OK
      */
     bool is_ok() const;
-    
+
 private:
     std::unique_ptr<sol::state> lua_state_{nullptr};
     std::string script_root_folder_;
@@ -68,6 +69,7 @@ private:
     bool is_ok_{};
 };
 
-template<> inline ScriptInterpreter *Singleton<ScriptInterpreter>::ms_singleton_{nullptr};
+template <>
+inline ScriptInterpreter *Singleton<ScriptInterpreter>::ms_singleton{nullptr};
 
-}
+}  // namespace vox

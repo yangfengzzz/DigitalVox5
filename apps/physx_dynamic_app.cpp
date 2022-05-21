@@ -32,18 +32,18 @@ private:
     
 public:
     explicit ControllerScript(Entity *entity) : Script(entity) {
-        character_ = entity->get_component<physics::CapsuleCharacterController>();
+        character_ = entity->GetComponent<physics::CapsuleCharacterController>();
     }
     
     void target_camera(Entity *camera) {
         camera_ = camera;
     }
     
-    void input_event(const InputEvent &input_event) override {
+    void InputEvent(const InputEvent &input_event) override {
         if (input_event.GetSource() == EventSource::KEYBOARD) {
             const auto &key_event = static_cast<const KeyInputEvent &>(input_event);
             
-            Vector3F forward = entity()->transform_->position() - camera_->transform_->position();
+            Vector3F forward = entity()->transform->position() - camera_->transform->position();
             forward.y = 0;
             forward.normalize();
             Vector3F cross = Vector3F(forward.z, 0, -forward.x);
@@ -66,7 +66,7 @@ public:
         }
     }
     
-    void on_physics_update() override {
+    void OnPhysicsUpdate() override {
         auto flags = character_->move(displacement_, 0.1, physics::PhysicsManager::fixed_time_step_);
         displacement_ = Vector3F();
         if (!flags.isSet(physx::PxControllerCollisionFlag::Enum::eCOLLISION_DOWN)) {
@@ -77,33 +77,33 @@ public:
 
 }
 
-void PhysXDynamicApp::load_scene() {
+void PhysXDynamicApp::LoadScene() {
     u = std::uniform_real_distribution<float>(0, 1);
-    auto scene = scene_manager_->current_scene();
-    scene->ambient_light()->set_diffuse_solid_color(Color(1, 1, 1));
+    auto scene = scene_manager_->CurrentScene();
+    scene->AmbientLight()->SetDiffuseSolidColor(Color(1, 1, 1));
     
-    root_entity_ = scene->create_root_entity();
-    auto camera_entity = root_entity_->create_child("camera");
-    camera_entity->transform_->set_position(20, 20, 20);
-    camera_entity->transform_->look_at(Point3F(0, 0, 0));
-    main_camera_ = camera_entity->add_component<Camera>();
-    camera_entity->add_component<control::OrbitControl>();
+    root_entity_ = scene->CreateRootEntity();
+    auto camera_entity = root_entity_->CreateChild("camera");
+    camera_entity->transform->SetPosition(20, 20, 20);
+    camera_entity->transform->LookAt(Point3F(0, 0, 0));
+    main_camera_ = camera_entity->AddComponent<Camera>();
+    camera_entity->AddComponent<control::OrbitControl>();
     
     auto add_plane = [&](const Vector3F &size, const Point3F &position, const QuaternionF &rotation) {
         auto mtl = std::make_shared<BlinnPhongMaterial>(*device_);
-        mtl->set_base_color(Color(0.03179807202597362, 0.3939682161541871, 0.41177952549087604, 1.0));
-        auto plane_entity = root_entity_->create_child();
+        mtl->SetBaseColor(Color(0.03179807202597362, 0.3939682161541871, 0.41177952549087604, 1.0));
+        auto plane_entity = root_entity_->CreateChild();
         plane_entity->layer_ = Layer::LAYER_1;
         
-        auto renderer = plane_entity->add_component<MeshRenderer>();
+        auto renderer = plane_entity->AddComponent<MeshRenderer>();
         renderer->receive_shadow_ = true;
-        renderer->set_mesh(PrimitiveMesh::create_cuboid(size.x, size.y, size.z));
-        renderer->set_material(mtl);
-        plane_entity->transform_->set_position(position);
-        plane_entity->transform_->set_rotation_quaternion(rotation);
+        renderer->SetMesh(PrimitiveMesh::CreateCuboid(size.x, size.y, size.z));
+        renderer->SetMaterial(mtl);
+        plane_entity->transform->SetPosition(position);
+        plane_entity->transform->SetRotationQuaternion(rotation);
         
         auto physics_plane = std::make_shared<physics::PlaneColliderShape>();
-        auto plane_collider = plane_entity->add_component<physics::StaticCollider>();
+        auto plane_collider = plane_entity->AddComponent<physics::StaticCollider>();
         plane_collider->add_shape(physics_plane);
         
         return plane_entity;
@@ -111,14 +111,14 @@ void PhysXDynamicApp::load_scene() {
     
     auto add_box = [&](const Vector3F &size, const Point3F &position, const QuaternionF &rotation) {
         auto box_mtl = std::make_shared<BlinnPhongMaterial>(*device_);
-        box_mtl->set_base_color(Color(u(e), u(e), u(e), 1.0));
-        auto box_entity = root_entity_->create_child("BoxEntity");
-        auto box_renderer = box_entity->add_component<MeshRenderer>();
+        box_mtl->SetBaseColor(Color(u(e), u(e), u(e), 1.0));
+        auto box_entity = root_entity_->CreateChild("BoxEntity");
+        auto box_renderer = box_entity->AddComponent<MeshRenderer>();
         box_renderer->cast_shadow_ = true;
-        box_renderer->set_mesh(PrimitiveMesh::create_cuboid(size.x, size.y, size.z));
-        box_renderer->set_material(box_mtl);
-        box_entity->transform_->set_position(position);
-        box_entity->transform_->set_rotation_quaternion(rotation);
+        box_renderer->SetMesh(PrimitiveMesh::CreateCuboid(size.x, size.y, size.z));
+        box_renderer->SetMaterial(box_mtl);
+        box_entity->transform->SetPosition(position);
+        box_entity->transform->SetRotationQuaternion(rotation);
         
         auto physics_box = std::make_shared<physics::BoxColliderShape>();
         physics_box->set_size(Vector3F(size.x, size.y, size.z));
@@ -127,7 +127,7 @@ void PhysXDynamicApp::load_scene() {
         physics_box->material()->setRestitution(0.1);
         physics_box->set_trigger(false);
         
-        auto box_collider = box_entity->add_component<physics::DynamicCollider>();
+        auto box_collider = box_entity->AddComponent<physics::DynamicCollider>();
         box_collider->add_shape(physics_box);
         
         return box_entity;
@@ -135,21 +135,21 @@ void PhysXDynamicApp::load_scene() {
     
     auto add_player = [&](float radius, float height, const Point3F &position, const QuaternionF &rotation) {
         auto mtl = std::make_shared<BlinnPhongMaterial>(*device_);
-        mtl->set_base_color(Color(u(e), u(e), u(e), 1.0));
-        auto capsule_entity = root_entity_->create_child();
-        auto renderer = capsule_entity->add_component<MeshRenderer>();
+        mtl->SetBaseColor(Color(u(e), u(e), u(e), 1.0));
+        auto capsule_entity = root_entity_->CreateChild();
+        auto renderer = capsule_entity->AddComponent<MeshRenderer>();
         renderer->cast_shadow_ = true;
-        renderer->set_mesh(PrimitiveMesh::create_capsule(radius, height, 20));
-        renderer->set_material(mtl);
-        capsule_entity->transform_->set_position(position);
-        capsule_entity->transform_->set_rotation_quaternion(rotation);
+        renderer->SetMesh(PrimitiveMesh::CreateCapsule(radius, height, 20));
+        renderer->SetMaterial(mtl);
+        capsule_entity->transform->SetPosition(position);
+        capsule_entity->transform->SetRotationQuaternion(rotation);
         
-        auto character_controller = capsule_entity->add_component<physics::CapsuleCharacterController>();
+        auto character_controller = capsule_entity->AddComponent<physics::CapsuleCharacterController>();
         physx::PxCapsuleControllerDesc character_controller_desc;
         character_controller_desc.radius = radius;
         character_controller_desc.height = height;
         character_controller_desc.material = physics::PhysicsManager::native_physics_()->createMaterial(0, 0, 0);
-        auto world_pos = capsule_entity->transform_->world_position();
+        auto world_pos = capsule_entity->transform->WorldPosition();
         character_controller_desc.position = physx::PxExtendedVec3(world_pos.x, world_pos.y, world_pos.z);
         character_controller->set_desc(character_controller_desc);
         
@@ -172,7 +172,7 @@ void PhysXDynamicApp::load_scene() {
             transform(position, rotation, local_tm_pos, local_tm_quat);
             
             auto current_entity = add_box(Vector3F(2.0, 2.0, 0.5), local_tm_pos, local_tm_quat);
-            auto current_collider = current_entity->get_component<physics::DynamicCollider>();
+            auto current_collider = current_entity->GetComponent<physics::DynamicCollider>();
             
             auto joint = physics::FixedJoint(prev_collider, current_collider);
             Transform3F local_pose;
@@ -186,15 +186,15 @@ void PhysXDynamicApp::load_scene() {
         }
     };
     
-    auto light = root_entity_->create_child("light");
-    light->transform_->set_position(10, 10, 0);
-    light->transform_->look_at(Point3F());
-    auto direct_light = light->add_component<DirectLight>();
+    auto light = root_entity_->CreateChild("light");
+    light->transform->SetPosition(10, 10, 0);
+    light->transform->LookAt(Point3F());
+    auto direct_light = light->AddComponent<DirectLight>();
     direct_light->intensity_ = 0.5;
-    direct_light->set_enable_shadow(true);
+    direct_light->SetEnableShadow(true);
     
     auto player = add_player(1, 3, Point3F(0, 6.5, 0), QuaternionF());
-    auto controller = player->add_component<ControllerScript>();
+    auto controller = player->AddComponent<ControllerScript>();
     controller->target_camera(camera_entity);
     
     add_plane(Vector3F(30, 0.1, 30), Point3F(), QuaternionF());
@@ -217,31 +217,31 @@ void PhysXDynamicApp::input_event(const InputEvent &input_event) {
     if (input_event.GetSource() == EventSource::MOUSE) {
         const auto &mouse_button = static_cast<const MouseButtonInputEvent &>(input_event);
         if (mouse_button.GetAction() == MouseAction::DOWN) {
-            Ray ray = main_camera_->screen_point_to_ray(Vector2F(mouse_button.GetPosX(), mouse_button.GetPosY()));
+            Ray ray = main_camera_->ScreenPointToRay(Vector2F(mouse_button.GetPosX(), mouse_button.GetPosY()));
             
             physics::HitResult hit;
             auto result = physics::PhysicsManager::GetSingleton().raycast(ray, std::numeric_limits<float>::max(),
                                                                            Layer::LAYER_0, hit);
             if (result) {
                 auto mtl = std::make_shared<BlinnPhongMaterial>(*device_);
-                mtl->set_base_color(Color(u(e), u(e), u(e), 1));
+                mtl->SetBaseColor(Color(u(e), u(e), u(e), 1));
                 
-                auto meshes = hit.entity->get_components_include_children<MeshRenderer>();
+                auto meshes = hit.entity->GetComponentsIncludeChildren<MeshRenderer>();
                 for (auto &mesh : meshes) {
-                    mesh->set_material(mtl);
+                    mesh->SetMaterial(mtl);
                 }
             }
         }
     } else if (input_event.GetSource() == EventSource::KEYBOARD) {
         const auto &key_event = static_cast<const KeyInputEvent &>(input_event);
         if (key_event.GetAction() == KeyAction::UP) {
-            Vector3F dir = main_camera_->entity()->transform_->world_forward();
+            Vector3F dir = main_camera_->entity()->transform->WorldForward();
             dir = dir * 50.0f;
             
             switch (key_event.GetCode()) {
                 case KeyCode::ENTER:
-                    add_sphere(0.5, main_camera_->entity()->transform_->position(),
-                               main_camera_->entity()->transform_->rotation_quaternion(), dir);
+                    add_sphere(0.5, main_camera_->entity()->transform->position(),
+                               main_camera_->entity()->transform->RotationQuaternion(), dir);
                     break;
                 default:break;
             }
@@ -252,14 +252,14 @@ void PhysXDynamicApp::input_event(const InputEvent &input_event) {
 Entity *PhysXDynamicApp::add_sphere(float radius, const Point3F &position,
                                     const QuaternionF &rotation, const Vector3F &velocity) {
     auto mtl = std::make_shared<BlinnPhongMaterial>(*device_);
-    mtl->set_base_color(Color(u(e), u(e), u(e), 1.0));
-    auto sphere_entity = root_entity_->create_child();
-    auto renderer = sphere_entity->add_component<MeshRenderer>();
+    mtl->SetBaseColor(Color(u(e), u(e), u(e), 1.0));
+    auto sphere_entity = root_entity_->CreateChild();
+    auto renderer = sphere_entity->AddComponent<MeshRenderer>();
     renderer->cast_shadow_ = true;
-    renderer->set_mesh(PrimitiveMesh::create_sphere(radius));
-    renderer->set_material(mtl);
-    sphere_entity->transform_->set_position(position);
-    sphere_entity->transform_->set_rotation_quaternion(rotation);
+    renderer->SetMesh(PrimitiveMesh::CreateSphere(radius));
+    renderer->SetMaterial(mtl);
+    sphere_entity->transform->SetPosition(position);
+    sphere_entity->transform->SetRotationQuaternion(rotation);
     
     auto physics_sphere = std::make_shared<physics::SphereColliderShape>();
     physics_sphere->set_radius(radius);
@@ -268,7 +268,7 @@ Entity *PhysXDynamicApp::add_sphere(float radius, const Point3F &position,
     physics_sphere->material()->setRestitution(1);
     physics_sphere->material()->setRestitutionCombineMode(physx::PxCombineMode::Enum::eMIN);
     
-    auto sphere_collider = sphere_entity->add_component<physics::DynamicCollider>();
+    auto sphere_collider = sphere_entity->AddComponent<physics::DynamicCollider>();
     sphere_collider->add_shape(physics_sphere);
     sphere_collider->set_linear_velocity(velocity);
     sphere_collider->set_angular_damping(0.5);
@@ -279,20 +279,20 @@ Entity *PhysXDynamicApp::add_sphere(float radius, const Point3F &position,
 Entity *PhysXDynamicApp::add_capsule(float radius, float height,
                                      const Point3F &position, const QuaternionF &rotation) {
     auto mtl = std::make_shared<BlinnPhongMaterial>(*device_);
-    mtl->set_base_color(Color(u(e), u(e), u(e), 1.0));
-    auto capsule_entity = root_entity_->create_child();
-    auto renderer = capsule_entity->add_component<MeshRenderer>();
+    mtl->SetBaseColor(Color(u(e), u(e), u(e), 1.0));
+    auto capsule_entity = root_entity_->CreateChild();
+    auto renderer = capsule_entity->AddComponent<MeshRenderer>();
     renderer->cast_shadow_ = true;
-    renderer->set_mesh(PrimitiveMesh::create_capsule(radius, height));
-    renderer->set_material(mtl);
-    capsule_entity->transform_->set_position(position);
-    capsule_entity->transform_->set_rotation_quaternion(rotation);
+    renderer->SetMesh(PrimitiveMesh::CreateCapsule(radius, height));
+    renderer->SetMaterial(mtl);
+    capsule_entity->transform->SetPosition(position);
+    capsule_entity->transform->SetRotationQuaternion(rotation);
     
     auto physics_capsule = std::make_shared<physics::CapsuleColliderShape>();
     physics_capsule->set_radius(radius);
     physics_capsule->set_height(height);
     
-    auto capsule_collider = capsule_entity->add_component<physics::DynamicCollider>();
+    auto capsule_collider = capsule_entity->AddComponent<physics::DynamicCollider>();
     capsule_collider->add_shape(physics_capsule);
     
     return capsule_entity;

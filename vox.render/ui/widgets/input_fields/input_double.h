@@ -22,4 +22,4 @@ public:
                          bool select_all_on_click = true);
 };
 
-}
+}  // namespace vox::ui

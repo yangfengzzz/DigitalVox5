@@ -6,63 +6,54 @@
 
 #pragma once
 
-#include "event.h"
-#include "ui/widgets/data_widget.h"
 #include <array>
 #include <utility>
+
+#include "event.h"
+#include "ui/widgets/data_widget.h"
 
 namespace vox::ui {
 /**
  * Slider widget of multiple generic type
  */
-template<typename T, size_t Size>
+template <typename T, size_t Size>
 class SliderMultipleScalars : public DataWidget<std::array<T, Size>> {
     using DataWidget<std::array<T, Size>>::widget_id_;
     using DataWidget<std::array<T, Size>>::notify_change;
-    
+
     static_assert(Size > 1, "Invalid SliderMultipleScalars _Size (2 or more required)");
-    
+
 public:
-    SliderMultipleScalars(ImGuiDataType_ data_type,
-                          T min,
-                          T max,
-                          T value,
-                          std::string label,
-                          std::string format) : DataWidget<std::array<T, Size>>(values_),
-    data_type_(data_type),
-    min_(min),
-    max_(max),
-    label_(std::move(label)),
-    format_(std::move(format)) {
+    SliderMultipleScalars(ImGuiDataType_ data_type, T min, T max, T value, std::string label, std::string format)
+        : DataWidget<std::array<T, Size>>(values_),
+          data_type_(data_type),
+          min_(min),
+          max_(max),
+          label_(std::move(label)),
+          format_(std::move(format)) {
         values_.fill(value);
     }
-    
+
 protected:
     void draw_impl() override {
-        if (max_ < min_)
-            max_ = min_;
-        
+        if (max_ < min_) max_ = min_;
+
         for (size_t i = 0; i < Size; ++i) {
             if (values_[i] < min_)
                 values_[i] = min_;
             else if (values_[i] > max_)
                 values_[i] = max_;
         }
-        
-        bool value_changed = ImGui::SliderScalarN((label_ + widget_id_).c_str(),
-                                                  data_type_,
-                                                  values_.data(),
-                                                  Size,
-                                                  &min_,
-                                                  &max_,
-                                                  format_.c_str());
-        
+
+        bool value_changed = ImGui::SliderScalarN((label_ + widget_id_).c_str(), data_type_, values_.data(), Size,
+                                                  &min_, &max_, format_.c_str());
+
         if (value_changed) {
-            value_changed_event_.invoke(values_);
+            value_changed_event_.Invoke(values_);
             notify_change();
         }
     }
-    
+
 public:
     T min_;
     T max_;
@@ -70,9 +61,9 @@ public:
     std::string label_;
     std::string format_;
     Event<std::array<T, Size> &> value_changed_event_;
-    
+
 protected:
     ImGuiDataType_ data_type_;
 };
 
-}
+}  // namespace vox::ui

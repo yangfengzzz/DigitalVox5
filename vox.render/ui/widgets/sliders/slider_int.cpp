@@ -7,14 +7,8 @@
 #include "slider_int.h"
 
 namespace vox::ui {
-SliderInt::SliderInt(int min,
-                     int max,
-                     int value,
-                     SliderOrientation orientation,
-                     const std::string &label,
-                     const std::string &format) :
-SliderSingleScalar<int>(ImGuiDataType_::ImGuiDataType_S32, min, max, value,
-                        orientation, label, format) {
-}
+SliderInt::SliderInt(
+        int min, int max, int value, SliderOrientation orientation, const std::string &label, const std::string &format)
+    : SliderSingleScalar<int>(ImGuiDataType_::ImGuiDataType_S32, min, max, value, orientation, label, format) {}
 
-}
+}  // namespace vox::ui

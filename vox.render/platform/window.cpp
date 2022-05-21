@@ -4,7 +4,6 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-
 #include "window.h"
 
 #include <utility>
@@ -12,32 +11,23 @@
 #include "platform/platform.h"
 
 namespace vox {
-Window::Window(Properties properties) :
-properties_{std::move(properties)} {
-}
+Window::Window(Properties properties) : properties_{std::move(properties)} {}
 
-void Window::ProcessEvents() {
-}
+void Window::ProcessEvents() {}
 
 Window::Extent Window::Resize(const Extent &new_extent) {
     if (properties_.resizable) {
         properties_.extent.width = new_extent.width;
         properties_.extent.height = new_extent.height;
     }
-    
+
     return properties_.extent;
 }
 
-const Window::Extent &Window::GetExtent() const {
-    return properties_.extent;
-}
+const Window::Extent &Window::GetExtent() const { return properties_.extent; }
 
-float Window::GetContentScaleFactor() const {
-    return 1.0f;
-}
+float Window::GetContentScaleFactor() const { return 1.0f; }
 
-Window::Mode Window::GetWindowMode() const {
-    return properties_.mode;
-}
+Window::Mode Window::GetWindowMode() const { return properties_.mode; }
 
-}        // namespace vox
+}  // namespace vox

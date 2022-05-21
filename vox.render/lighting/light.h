@@ -19,47 +19,47 @@ public:
      * Each type of light source is at most 10, beyond which it will not take effect.
      * */
     static constexpr uint32_t max_light_ = 10;
-    
+
     explicit Light(Entity *entity);
-    
+
     /**
      * View matrix.
      */
-    Matrix4x4F view_matrix();
-    
+    Matrix4x4F ViewMatrix();
+
     /**
      * Inverse view matrix.
      */
-    Matrix4x4F inverse_view_matrix();
-    
+    Matrix4x4F InverseViewMatrix();
+
 public:
-    [[nodiscard]] bool enable_shadow() const;
-    
-    void set_enable_shadow(bool enabled);
-    
+    [[nodiscard]] bool EnableShadow() const;
+
+    void SetEnableShadow(bool enabled);
+
     /**
      * Shadow bias.
      */
-    [[nodiscard]] float shadow_bias() const;
-    
-    void set_shadow_bias(float value);
-    
+    [[nodiscard]] float ShadowBias() const;
+
+    void SetShadowBias(float value);
+
     /**
      * Shadow intensity, the larger the value, the clearer and darker the shadow.
      */
-    [[nodiscard]] float shadow_intensity() const;
-    
-    void set_shadow_intensity(float value);
-    
+    [[nodiscard]] float ShadowIntensity() const;
+
+    void SetShadowIntensity(float value);
+
     /**
      * Pixel range used for shadow PCF interpolation.
      */
-    [[nodiscard]] float shadow_radius() const;
-    
-    void set_shadow_radius(float value);
-    
-    virtual Matrix4x4F shadow_projection_matrix() = 0;
-    
+    [[nodiscard]] float ShadowRadius() const;
+
+    void SetShadowRadius(float value);
+
+    virtual Matrix4x4F ShadowProjectionMatrix() = 0;
+
 private:
     bool enable_shadow_ = false;
     float shadow_bias_ = 0.005;
@@ -67,4 +67,4 @@ private:
     float shadow_radius_ = 1;
 };
 
-}
+}  // namespace vox

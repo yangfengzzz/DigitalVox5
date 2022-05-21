@@ -7,137 +7,137 @@
 #pragma once
 
 #include <algorithm>
+#include <iomanip>
+#include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
-#include <iostream>
-#include <iomanip>
-#include "core/device.h"
 
-#include "scene_forward.h"
-#include "vobject.h"
-#include "lighting/ambient_light.h"
-#include "shader/shader_data.h"
 #include "background.h"
+#include "core/device.h"
+#include "lighting/ambient_light.h"
 #include "platform/input_events.h"
+#include "scene_forward.h"
+#include "shader/shader_data.h"
+#include "vobject.h"
 
 namespace vox {
 /// @brief A collection of entities organized in a tree structure.
 ///		   It can contain more than one root entity.
-class Scene : public VObject {
+struct Scene final : public VObject {
 public:
     /** Scene name. */
-    std::string name_;
-    
+    std::string name;
+
     /** The background of the scene. */
-    Background background_ = Background();
-    
+    Background background = Background();
+
     /** Scene-related shader data. */
-    ShaderData shader_data_;
-    
+    ShaderData shader_data;
+
     /**
      * Create scene.
      * @param device - Device
      */
     explicit Scene(Device &device);
-    
+
     ~Scene() override;
-    
-    Device &device();
-    
+
+    Device &Device();
+
     /**
      * Ambient light.
      */
-    [[nodiscard]] const std::shared_ptr<AmbientLight> &ambient_light() const;
-    
-    void set_ambient_light(const std::shared_ptr<AmbientLight> &light);
-    
+    [[nodiscard]] const std::shared_ptr<AmbientLight> &AmbientLight() const;
+
+    void SetAmbientLight(const std::shared_ptr<vox::AmbientLight> &light);
+
     /**
      * Count of root entities.
      */
-    size_t root_entities_count();
-    
+    size_t RootEntitiesCount();
+
     /**
      * Root entity collection.
      */
-    [[nodiscard]] const std::vector<std::unique_ptr<Entity>> &root_entities() const;
-    
+    [[nodiscard]] const std::vector<std::unique_ptr<Entity>> &RootEntities() const;
+
     /**
      * Play the scene
      */
-    void play();
-    
+    void Play();
+
     /**
      * Returns true if the scene is playing
      */
-    [[nodiscard]] bool is_playing() const;
-    
+    [[nodiscard]] bool IsPlaying() const;
+
     /**
      * Create root entity.
      * @param name - Entity name
      * @returns Entity
      */
-    Entity *create_root_entity(const std::string &name = "");
-    
+    Entity *CreateRootEntity(const std::string &name = "");
+
     /**
      * Append an entity.
      * @param entity - The root entity to add
      */
-    void add_root_entity(std::unique_ptr<Entity> &&entity);
-    
+    void AddRootEntity(std::unique_ptr<Entity> &&entity);
+
     /**
      * Remove an entity.
      * @param entity - The root entity to remove
      */
-    void remove_root_entity(Entity *entity);
-    
+    void RemoveRootEntity(Entity *entity);
+
     /**
      * Get root entity from index.
      * @param index - Index
      * @returns Entity
      */
-    Entity *get_root_entity(size_t index = 0);
-    
+    Entity *GetRootEntity(size_t index = 0);
+
     /**
      * Find entity globally by name.
      * @param name - Entity name
      * @returns Entity
      */
-    Entity *find_entity_by_name(const std::string &name);
-    
-    void attach_render_camera(Camera *camera);
-    
-    void detach_render_camera(Camera *camera);
-    
+    Entity *FindEntityByName(const std::string &name);
+
+    void AttachRenderCamera(Camera *camera);
+
+    void DetachRenderCamera(Camera *camera);
+
 public:
-    void update_shader_data();
-    
+    void UpdateShaderData();
+
 public:
     /**
      * Called when the serialization is asked
      */
-    void on_serialize(nlohmann::json &data) override;
-    
+    void OnSerialize(nlohmann::json &data) override;
+
     /**
      * Called when the deserialization is asked
      */
-    void on_deserialize(const nlohmann::json &data) override;
-    
+    void OnDeserialize(const nlohmann::json &data) override;
+
 private:
     friend class SceneManager;
-    
-    void process_active(bool active);
-    
-    void remove_entity(Entity *old_entity);
-    
-    std::vector<Camera *> active_cameras_{};
-    
-    bool is_active_in_engine_ = false;
-    
-    std::vector<std::unique_ptr<Entity>> root_entities_;
-    std::shared_ptr<AmbientLight> ambient_light_;
-    
-    Device &device_;
+
+    void ProcessActive(bool active);
+
+    void RemoveEntity(Entity *old_entity);
+
+    std::vector<Camera *> active_cameras{};
+
+    bool is_active_in_engine = false;
+
+    std::vector<std::unique_ptr<Entity>> root_entities;
+    std::shared_ptr<vox::AmbientLight> ambient_light;
+
+    vox::Device &device;
 };
 
-}        // namespace vox
+}  // namespace vox

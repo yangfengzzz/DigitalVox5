@@ -12,12 +12,8 @@
 namespace vox {
 class ParticleMaterial : public BaseMaterial {
 public:
-    enum class ColorMode : uint32_t {
-        DEFAULT,
-        GRADIENT,
-        K_NUM_COLOR_MODE
-    };
-    
+    enum class ColorMode : uint32_t { DEFAULT, GRADIENT, K_NUM_COLOR_MODE };
+
     struct ParticleData {
         Vector3F birth_gradient;
         float min_particle_size;
@@ -28,40 +24,40 @@ public:
         float debug_draw;
         float pad;
     };
-    
-    [[nodiscard]] float min_particle_size() const;
-    
-    void set_min_particle_size(float size);
-    
-    [[nodiscard]] float max_particle_size() const;
-    
-    void set_max_particle_size(float size);
-    
-    [[nodiscard]] ColorMode color_mode() const;
-    
-    void set_color_mode(ColorMode mode);
-    
-    [[nodiscard]] Vector3F birth_gradient() const;
-    
-    void set_birth_gradient(const Vector3F &gradient);
-    
-    [[nodiscard]] Vector3F death_gradient() const;
-    
-    void set_death_gradient(const Vector3F &gradient);
-    
-    [[nodiscard]] float fade_coefficient() const;
-    
-    void set_fade_coefficient(float coeff);
-    
-    [[nodiscard]] bool debug_draw() const;
-    
-    void set_debug_draw(bool flag);
-    
+
+    [[nodiscard]] float MinParticleSize() const;
+
+    void SetMinParticleSize(float size);
+
+    [[nodiscard]] float MaxParticleSize() const;
+
+    void SetMaxParticleSize(float size);
+
+    [[nodiscard]] ColorMode GetColorMode() const;
+
+    void SetColorMode(ColorMode mode);
+
+    [[nodiscard]] Vector3F BirthGradient() const;
+
+    void SetBirthGradient(const Vector3F &gradient);
+
+    [[nodiscard]] Vector3F DeathGradient() const;
+
+    void SetDeathGradient(const Vector3F &gradient);
+
+    [[nodiscard]] float FadeCoefficient() const;
+
+    void SetFadeCoefficient(float coeff);
+
+    [[nodiscard]] bool DebugDraw() const;
+
+    void SetDebugDraw(bool flag);
+
     explicit ParticleMaterial(Device &device);
-    
+
 private:
     ParticleData particle_data_;
     const std::string particle_data_prop_;
 };
 
-}
+}  // namespace vox

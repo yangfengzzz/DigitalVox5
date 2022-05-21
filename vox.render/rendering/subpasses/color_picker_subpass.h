@@ -6,9 +6,9 @@
 
 #pragma once
 
+#include "material/base_material.h"
 #include "rendering/subpass.h"
 #include "shader/shader_source.h"
-#include "material/base_material.h"
 
 namespace vox {
 class ColorPickerMaterial : public BaseMaterial {
@@ -28,50 +28,49 @@ public:
      * @param camera Camera used to look at the scene
      */
     ColorPickerSubpass(RenderContext &render_context, Scene *scene, Camera *camera);
-    
+
     ~ColorPickerSubpass() override = default;
-    
+
     void Prepare() override;
-    
+
     /**
      * @brief Record draw commands
      */
     void Draw(CommandBuffer &command_buffer) override;
-    
+
 public:
-    void AddExclusiveRenderer(Renderer* renderer);
-    
+    void AddExclusiveRenderer(Renderer *renderer);
+
     void ClearExclusiveList();
-    
+
 public:
     /**
      * Convert id to RGB color value, 0 and 0xffffff are illegal values.
      */
     static Color IdToColor(uint32_t id);
-    
+
     /**
      * Convert RGB color to id.
      * @param color - Color
      */
     static uint32_t ColorToId(const std::array<uint8_t, 4> &color);
-    
+
     /**
      * Get renderer element by color.
      */
     std::pair<Renderer *, MeshPtr> GetObjectByColor(const std::array<uint8_t, 4> &color);
-    
+
 private:
     void DrawElement(CommandBuffer &command_buffer,
-                      const std::vector<RenderElement> &items,
-                      const ShaderVariant &variant);
-    
+                     const std::vector<RenderElement> &items,
+                     const ShaderVariant &variant);
+
     uint32_t current_id_ = 0;
     std::unordered_map<size_t, std::pair<Renderer *, MeshPtr>> primitives_map_;
-    
+
     ColorPickerMaterial material_;
-    
+
     std::vector<Renderer *> exclusive_list_;
 };
 
-}
-
+}  // namespace vox

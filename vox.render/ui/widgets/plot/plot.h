@@ -6,13 +6,12 @@
 
 #pragma once
 
-#include <vector>
 #include <limits>
+#include <vector>
 
-#include "vector2.h"
-
-#include "ui/widgets/widget.h"
 #include "ui/widgets/data_widget.h"
+#include "ui/widgets/widget.h"
+#include "vector2.h"
 
 namespace vox::ui {
 /**
@@ -26,10 +25,10 @@ public:
                   const Vector2F &size = {0.0f, 0.0f},
                   std::string overlay = "",
                   std::string label = "");
-    
+
 protected:
     void draw_impl() override = 0;
-    
+
 public:
     std::vector<float> data_;
     float min_scale_;
@@ -39,4 +38,4 @@ public:
     std::string label_;
 };
 
-}
+}  // namespace vox::ui

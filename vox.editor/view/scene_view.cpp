@@ -22,10 +22,10 @@ SceneView::SceneView(const std::string &title, bool opened,
                      RenderContext &render_context, Scene *scene) :
 View(title, opened, window_settings, render_context),
 scene_(scene) {
-    scene->background_.solid_color_ = Color(0.2, 0.4, 0.6, 1.0);
-    auto editor_root = scene_->find_entity_by_name("SceneRoot");
+    scene->background_.solid_color = Color(0.2, 0.4, 0.6, 1.0);
+    auto editor_root = scene_->FindEntityByName("SceneRoot");
     if (!editor_root) {
-        editor_root = scene_->create_root_entity("SceneRoot");
+        editor_root = scene_->CreateRootEntity("SceneRoot");
     }
     load_scene(editor_root);
     
@@ -50,7 +50,7 @@ scene_(scene) {
         color_picker_render_pipeline_->SetClearValue(clear_value);
         
         // dont't render grid when pick
-        color_picker_subpass_->AddExclusiveRenderer(editor_root->get_component<MeshRenderer>());
+        color_picker_subpass_->AddExclusiveRenderer(editor_root->GetComponent<MeshRenderer>());
     }
     
     stage_buffer_ = std::make_unique<core::Buffer>(render_context.GetDevice(), 4,
@@ -64,30 +64,30 @@ scene_(scene) {
 }
 
 void SceneView::load_scene(Entity *root_entity) {
-    auto camera_entity = root_entity->create_child("MainCamera");
-    camera_entity->transform_->set_position(10, 10, 10);
-    camera_entity->transform_->look_at(Point3F(0, 0, 0));
-    main_camera_ = camera_entity->add_component<Camera>();
-    camera_control_ = camera_entity->add_component<control::OrbitControl>();
+    auto camera_entity = root_entity->CreateChild("MainCamera");
+    camera_entity->transform->SetPosition(10, 10, 10);
+    camera_entity->transform->LookAt(Point3F(0, 0, 0));
+    main_camera_ = camera_entity->AddComponent<Camera>();
+    camera_control_ = camera_entity->AddComponent<control::OrbitControl>();
     
-    auto grid = root_entity->add_component<MeshRenderer>();
-    grid->set_mesh(create_plane());
-    grid->set_material(std::make_shared<GridMaterial>(render_context_.GetDevice()));
+    auto grid = root_entity->AddComponent<MeshRenderer>();
+    grid->SetMesh(create_plane());
+    grid->SetMaterial(std::make_shared<GridMaterial>(render_context_.GetDevice()));
     
     // init point light
-    auto light = root_entity->create_child("light");
-    light->transform_->set_position(0, 3, 0);
-    auto point_light = light->add_component<PointLight>();
+    auto light = root_entity->CreateChild("light");
+    light->transform->SetPosition(0, 3, 0);
+    auto point_light = light->AddComponent<PointLight>();
     point_light->intensity_ = 0.3;
     
     // create box test entity
     float cube_size = 2.0;
-    auto box_entity = root_entity->create_child("BoxEntity");
+    auto box_entity = root_entity->CreateChild("BoxEntity");
     auto box_mtl = std::make_shared<BlinnPhongMaterial>(render_context_.GetDevice());
-    auto box_renderer = box_entity->add_component<MeshRenderer>();
-    box_mtl->set_base_color(Color(0.8, 0.3, 0.3, 1.0));
-    box_renderer->set_mesh(PrimitiveMesh::create_cuboid(cube_size, cube_size, cube_size));
-    box_renderer->set_material(box_mtl);
+    auto box_renderer = box_entity->AddComponent<MeshRenderer>();
+    box_mtl->SetBaseColor(Color(0.8, 0.3, 0.3, 1.0));
+    box_renderer->SetMesh(PrimitiveMesh::CreateCuboid(cube_size, cube_size, cube_size));
+    box_renderer->SetMaterial(box_mtl);
 }
 
 void SceneView::update(float delta_time) {
@@ -95,7 +95,7 @@ void SceneView::update(float delta_time) {
     
     auto [win_width, win_height] = safe_size();
     if (win_width > 0 && (!color_picker_render_target_ || color_picker_render_target_->GetExtent().width != win_width * 2)) {
-        main_camera_->set_aspect_ratio(float(win_width) / float(win_height));
+        main_camera_->SetAspectRatio(float(win_width) / float(win_height));
         main_camera_->resize(win_width, win_height, win_width * 2, win_height * 2);
         color_picker_render_target_ = create_render_target(win_width * 2, win_height * 2, VK_FORMAT_R8G8B8A8_UNORM);
     }
@@ -154,24 +154,24 @@ void SceneView::draw_impl() {
                 camera_control_->set_enabled(false);
             }
             // camera transform
-            auto camera_projection = main_camera_->projection_matrix();
+            auto camera_projection = main_camera_->ProjectionMatrix();
             camera_projection(1, 1) *= -1; // vulkan flip
-            auto camera_view = main_camera_->view_matrix();
-            auto& camera_transform = main_camera_->entity()->transform_;
+            auto camera_view = main_camera_->ViewMatrix();
+            auto& camera_transform = main_camera_->entity()->transform;
             
             // renderer transform
             auto renderer = pick_result_.first;
-            auto& renderer_transform = renderer->entity()->transform_;
-            auto model_mat = renderer_transform->local_matrix();
+            auto& renderer_transform = renderer->entity()->transform;
+            auto model_mat = renderer_transform->LocalMatrix();
             
             // open gizmo
-            cam_distance_ = camera_transform->world_position().distanceTo(renderer_transform->world_position());
+            cam_distance_ = camera_transform->WorldPosition().distanceTo(renderer_transform->WorldPosition());
             edit_transform(camera_view.data(), camera_projection.data(), model_mat.data());
             
             // data store
-            renderer_transform->set_local_matrix(model_mat);
+            renderer_transform->SetLocalMatrix(model_mat);
             camera_view.invert();
-            camera_transform->set_world_matrix(camera_view);
+            camera_transform->SetWorldMatrix(camera_view);
         }
     }
     ImGui::End();
@@ -185,8 +185,8 @@ void SceneView::pick(float offset_x, float offset_y) {
 void SceneView::copy_render_target_to_buffer(CommandBuffer &command_buffer) {
     uint32_t client_width = main_camera_->width();
     uint32_t client_height = main_camera_->height();
-    uint32_t canvas_width = main_camera_->framebuffer_width();
-    uint32_t canvas_height = main_camera_->framebuffer_height();
+    uint32_t canvas_width = main_camera_->FramebufferWidth();
+    uint32_t canvas_height = main_camera_->FramebufferHeight();
     
     const float kPx = (pick_pos_.x / static_cast<float>(client_width)) * static_cast<float>(canvas_width);
     const float kPy = (pick_pos_.y / static_cast<float>(client_height)) * static_cast<float>(canvas_height);

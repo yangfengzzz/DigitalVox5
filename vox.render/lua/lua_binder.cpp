@@ -5,10 +5,11 @@
 //  property of any third parties.
 
 #include "lua_binder.h"
-#include "lua/lua_math_binder.h"
-#include "lua/lua_entity_binder.h"
+
 #include "lua/lua_component_binder.h"
+#include "lua/lua_entity_binder.h"
 #include "lua/lua_global_binder.h"
+#include "lua/lua_math_binder.h"
 
 namespace vox {
 void LuaBinder::call_binders(sol::state &lua_state) {
@@ -18,4 +19,4 @@ void LuaBinder::call_binders(sol::state &lua_state) {
     LuaGlobalsBinder::bind_globals(lua_state);
 }
 
-}
+}  // namespace vox

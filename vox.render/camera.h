@@ -6,12 +6,12 @@
 
 #pragma once
 
-#include "component.h"
-#include "shader/shader_data.h"
-#include "layer.h"
-#include "ray3.h"
-#include "matrix4x4.h"
 #include "bounding_frustum.h"
+#include "component.h"
+#include "layer.h"
+#include "matrix4x4.h"
+#include "ray3.h"
+#include "shader/shader_data.h"
 #include "update_flag.h"
 
 namespace vox {
@@ -36,7 +36,7 @@ public:
      * Returns the name of the component
      */
     std::string name() override;
-    
+
     struct alignas(16) CameraData {
         Matrix4x4F view_mat;
         Matrix4x4F proj_mat;
@@ -45,237 +45,238 @@ public:
         Matrix4x4F proj_inv_mat;
         Point3F camera_pos;
     };
-    
+
     /** Shader data. */
     ShaderData shader_data_;
-    
+
     /** Rendering priority - A Camera with higher priority will be rendered on top of a camera with lower priority. */
     int priority_ = 0;
-    
+
     /** Whether to enable frustum culling, it is enabled by default. */
     bool enable_frustum_culling_ = true;
-    
+
     /**
      * Determining what to clear when rendering by a Camera.
      * @defaultValue `CameraClearFlags.DepthColor`
      */
     CameraClearFlags clear_flags_ = CameraClearFlags::DEPTH_COLOR;
-    
+
     /**
      * Culling mask - which layers the camera renders.
      * @remarks Support bit manipulation, corresponding to Entity's layer.
      */
     Layer culling_mask_ = Layer::EVERYTHING;
-    
+
     /**
      * Create the Camera component.
      * @param entity - Entity
      */
     explicit Camera(Entity *entity);
-    
-    [[nodiscard]] const BoundingFrustum &frustum() const;
-    
+
+    [[nodiscard]] const BoundingFrustum &Frustum() const;
+
     /**
      * Near clip plane - the closest point to the camera when rendering occurs.
      */
-    [[nodiscard]] float near_clip_plane() const;
-    
-    void set_near_clip_plane(float value);
-    
+    [[nodiscard]] float NearClipPlane() const;
+
+    void SetNearClipPlane(float value);
+
     /**
      * Far clip plane - the furthest point to the camera when rendering occurs.
      */
-    [[nodiscard]] float far_clip_plane() const;
-    
-    void set_far_clip_plane(float value);
-    
+    [[nodiscard]] float FarClipPlane() const;
+
+    void SetFarClipPlane(float value);
+
     /**
      * The camera's view angle. activating when camera use perspective projection.
      */
-    [[nodiscard]] float field_of_view() const;
-    
-    void set_field_of_view(float value);
-    
+    [[nodiscard]] float FieldOfView() const;
+
+    void SetFieldOfView(float value);
+
     /**
      * Aspect ratio. The default is automatically calculated by the viewport's aspect ratio. If it is manually set,
-     * the manual value will be kept. Call reset_aspect_ratio() to restore it.
+     * the manual value will be kept. Call ResetAspectRatio() to restore it.
      */
-    [[nodiscard]] float aspect_ratio() const;
-    
-    void set_aspect_ratio(float value);
-    
+    [[nodiscard]] float AspectRatio() const;
+
+    void SetAspectRatio(float value);
+
     /**
      * Viewport, normalized expression, the upper left corner is (0, 0), and the lower right corner is (1, 1).
      * @remarks Re-assignment is required after modification to ensure that the modification takes effect.
      */
-    [[nodiscard]] Vector4F viewport() const;
-    
-    void set_viewport(const Vector4F &value);
-    
+    [[nodiscard]] Vector4F Viewport() const;
+
+    void SetViewport(const Vector4F &value);
+
     /**
-     * Whether it is orthogonal, the default is false. True will use orthographic projection, false will use perspective projection.
+     * Whether it is orthogonal, the default is false. True will use orthographic projection, false will use perspective
+     * projection.
      */
-    [[nodiscard]] bool is_orthographic() const;
-    
-    void set_is_orthographic(bool value);
-    
+    [[nodiscard]] bool IsOrthographic() const;
+
+    void SetIsOrthographic(bool value);
+
     /**
      * Half the size of the camera in orthographic mode.
      */
-    [[nodiscard]] float orthographic_size() const;
-    
-    void set_orthographic_size(float value);
-    
+    [[nodiscard]] float OrthographicSize() const;
+
+    void SetOrthographicSize(float value);
+
     /**
      * View matrix.
      */
-    Matrix4x4F view_matrix();
-    
+    Matrix4x4F ViewMatrix();
+
     /**
-     * The projection matrix is ​​calculated by the relevant parameters of the camera by default.
-     * If it is manually set, the manual value will be maintained. Call reset_projection_matrix() to restore it.
+     * The projection matrix is calculated by the relevant parameters of the camera by default.
+     * If it is manually set, the manual value will be maintained. Call ResetProjectionMatrix() to restore it.
      */
-    void set_projection_matrix(const Matrix4x4F &value);
-    
-    Matrix4x4F projection_matrix();
-    
+    void SetProjectionMatrix(const Matrix4x4F &value);
+
+    Matrix4x4F ProjectionMatrix();
+
     /**
      * The inverse of the projection matrix.
      */
-    Matrix4x4F inverse_projection_matrix();
-    
+    Matrix4x4F InverseProjectionMatrix();
+
     /**
      * Whether to enable HDR.
      * @todo When render pipeline modification
      */
-    bool enable_hdr();
-    
-    void set_enable_hdr(bool value);
-    
+    bool EnableHdr();
+
+    void SetEnableHdr(bool value);
+
 public:
     /**
-     * Restore the automatic calculation of projection matrix through field_of_view, near_clip_plane and far_clip_plane.
+     * Restore the automatic calculation of projection matrix through FieldOfView, NearClipPlane and FarClipPlane.
      */
-    void reset_projection_matrix();
-    
+    void ResetProjectionMatrix();
+
     /**
      * Restore the automatic calculation of the aspect ratio through the viewport aspect ratio.
      */
-    void reset_aspect_ratio();
-    
+    void ResetAspectRatio();
+
     /**
      * Transform a point from world space to viewport space.
      * @param point - Point in world space
      * @return out - A point in the viewport space, X and Y are the viewport space coordinates,
-     * Z is the viewport depth, the near clipping plane is 0, the far clipping plane is 1, and W is the world unit distance from the camera
+     * Z is the viewport depth, the near clipping plane is 0, the far clipping plane is 1, and W is the world unit
+     * distance from the camera
      */
-    Vector4F world_to_viewport_point(const Point3F &point);
-    
+    Vector4F WorldToViewportPoint(const Point3F &point);
+
     /**
      * Transform a point from viewport space to world space.
      * @param point - Point in viewport space, X and Y are the viewport space coordinates,
      * Z is the viewport depth. The near clipping plane is 0, and the far clipping plane is 1
      * @returns Point in world space
      */
-    Point3F viewport_to_world_point(const Vector3F &point);
-    
+    Point3F ViewportToWorldPoint(const Vector3F &point);
+
     /**
      * Generate a ray by a point in viewport.
      * @param point - Point in viewport space, which is represented by normalization
      * @returns Ray
      */
-    Ray3F viewport_point_to_ray(const Vector2F &point);
-    
+    Ray3F ViewportPointToRay(const Vector2F &point);
+
     /**
      * Transform the X and Y coordinates of a point from screen space to viewport space
      * @param point - Point in screen space
      * @returns Point in viewport space
      */
-    Vector2F screen_to_viewport_point(const Vector2F &point) const;
-    
-    Vector3F screen_to_viewport_point(const Vector3F &point) const;
-    
+    [[nodiscard]] Vector2F ScreenToViewportPoint(const Vector2F &point) const;
+
+    [[nodiscard]] Vector3F ScreenToViewportPoint(const Vector3F &point) const;
+
     /**
      * Transform the X and Y coordinates of a point from viewport space to screen space.
      * @param point - Point in viewport space
      * @returns Point in screen space
      */
-    Vector2F viewport_to_screen_point(const Vector2F &point) const;
-    
-    Vector3F viewport_to_screen_point(const Vector3F &point) const;
-    
-    Vector4F viewport_to_screen_point(const Vector4F &point) const;
-    
+    [[nodiscard]] Vector2F ViewportToScreenPoint(const Vector2F &point) const;
+
+    [[nodiscard]] Vector3F ViewportToScreenPoint(const Vector3F &point) const;
+
+    [[nodiscard]] Vector4F ViewportToScreenPoint(const Vector4F &point) const;
+
     /**
      * Transform a point from world space to screen space.
      * @param point - Point in world space
      * @returns Point of screen space
      */
-    Vector4F world_to_screen_point(const Point3F &point);
-    
+    Vector4F WorldToScreenPoint(const Point3F &point);
+
     /**
      * Transform a point from screen space to world space.
      * @param point - Screen space point
      * @returns Point in world space
      */
-    Point3F screen_to_world_point(const Vector3F &point);
-    
+    Point3F ScreenToWorldPoint(const Vector3F &point);
+
     /**
      * Generate a ray by a point in screen.
      * @param point - Point in screen space, the unit is pixel
      * @returns Ray
      */
-    Ray3F screen_point_to_ray(const Vector2F &point);
-    
-    void resize(uint32_t win_width, uint32_t win_height,
-                uint32_t fb_width, uint32_t fb_height);
-    
-    [[nodiscard]] uint32_t width() const;
-    
-    [[nodiscard]] uint32_t height() const;
-    
-    [[nodiscard]] uint32_t framebuffer_width() const;
-    
-    [[nodiscard]] uint32_t framebuffer_height() const;
-    
-    void update();
-    
+    Ray3F ScreenPointToRay(const Vector2F &point);
+
+    void Resize(uint32_t win_width, uint32_t win_height, uint32_t fb_width, uint32_t fb_height);
+
+    [[nodiscard]] uint32_t Width() const;
+
+    [[nodiscard]] uint32_t Height() const;
+
+    [[nodiscard]] uint32_t FramebufferWidth() const;
+
+    [[nodiscard]] uint32_t FramebufferHeight() const;
+
+    void Update();
+
 public:
-    void on_active() override;
-    
-    void on_in_active() override;
-    
+    void OnActive() override;
+
+    void OnInActive() override;
+
 public:
     /**
      * Called when the serialization is asked
      */
-    void on_serialize(nlohmann::json &data) override;
-    
+    void OnSerialize(nlohmann::json &data) override;
+
     /**
      * Called when the deserialization is asked
      */
-    void on_deserialize(const nlohmann::json &data) override;
-    
+    void OnDeserialize(const nlohmann::json &data) override;
+
     /**
      * Defines how the component should be drawn in the inspector
      */
-    void on_inspector(ui::WidgetContainer &p_root) override;
-    
+    void OnInspector(ui::WidgetContainer &p_root) override;
+
 private:
-    void proj_mat_change();
-    
-    static Point3F inner_viewport_to_world_point(const Vector3F &point, const Matrix4x4F &inv_view_proj_mat);
-    
+    void ProjMatChange();
+
+    static Point3F InnerViewportToWorldPoint(const Vector3F &point, const Matrix4x4F &inv_view_proj_mat);
+
     /**
      * The inverse matrix of view projection matrix.
      */
-    Matrix4x4F inv_view_proj_mat();
-    
+    Matrix4x4F InvViewProjMat();
+
     CameraData camera_data_;
     const std::string camera_property_;
-    
+
     BoundingFrustum frustum_ = BoundingFrustum();
-    
+
     bool is_orthographic_ = false;
     bool is_proj_mat_setting_ = false;
     float near_clip_plane_ = 0.1;
@@ -286,7 +287,7 @@ private:
     bool is_inv_proj_mat_dirty_ = true;
     bool is_frustum_project_dirty_ = true;
     std::optional<float> custom_aspect_ratio_ = std::nullopt;
-    
+
     std::unique_ptr<UpdateFlag> frustum_view_change_flag_;
     Transform *transform_;
     std::unique_ptr<UpdateFlag> is_view_matrix_dirty_;
@@ -297,11 +298,11 @@ private:
     Matrix4x4F inverse_projection_matrix_ = Matrix4x4F();
     Vector2F last_aspect_size_ = Vector2F();
     Matrix4x4F inv_view_proj_mat_ = Matrix4x4F();
-    
+
     uint32_t width_{0};
     uint32_t height_{0};
     uint32_t fb_width_{0};
     uint32_t fb_height_{0};
 };
 
-}
+}  // namespace vox

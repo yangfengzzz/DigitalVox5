@@ -12,8 +12,6 @@ Physics::Physics() {
     physics_ = PxCreatePhysics(PX_PHYSICS_VERSION, *g_foundation, PxTolerancesScale(), false, nullptr);
 }
 
-PxPhysics *Physics::operator()() {
-    return physics_;
-}
+PxPhysics *Physics::operator()() { return physics_; }
 
-}
+}  // namespace vox::physics

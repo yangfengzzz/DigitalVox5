@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "group.h"
 #include "event.h"
+#include "group.h"
 
 namespace vox::ui {
 /**
@@ -16,10 +16,10 @@ namespace vox::ui {
 class GroupCollapsable : public Group {
 public:
     explicit GroupCollapsable(std::string name = "");
-    
+
 protected:
     void draw_impl() override;
-    
+
 public:
     std::string name_;
     bool closable_ = false;
@@ -28,4 +28,4 @@ public:
     Event<> open_event_;
 };
 
-}
+}  // namespace vox::ui

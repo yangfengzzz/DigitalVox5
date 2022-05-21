@@ -7,15 +7,13 @@
 #include "debug_info.h"
 
 namespace vox {
-std::vector<std::unique_ptr<field::Base>> &DebugInfo::get_fields() {
-    return fields_;
-}
+std::vector<std::unique_ptr<field::Base>> &DebugInfo::get_fields() { return fields_; }
 
 float DebugInfo::get_longest_label() const {
     float column_width = 0.0f;
     for (auto &field : fields_) {
         const std::string &label = field->label;
-        
+
         if (label.size() > column_width) {
             column_width = static_cast<float>(label.size());
         }
@@ -23,4 +21,4 @@ float DebugInfo::get_longest_label() const {
     return column_width;
 }
 
-}        // namespace vox
+}  // namespace vox

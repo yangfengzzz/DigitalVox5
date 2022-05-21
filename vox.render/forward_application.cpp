@@ -5,105 +5,106 @@
 //  property of any third parties.
 
 #include "forward_application.h"
-#include "rendering/subpasses/geometry_subpass.h"
-#include "platform/platform.h"
+
 #include "camera.h"
+#include "platform/platform.h"
+#include "rendering/subpasses/geometry_subpass.h"
 
 namespace vox {
 ForwardApplication::~ForwardApplication() {
     // release first
     scene_manager_.reset();
-    
+
     components_manager_.reset();
     physics_manager_.reset();
     light_manager_.reset();
     shadow_manager_.reset();
     particle_manager_.reset();
-    
-    image_manager_->collect_garbage();
+
+    image_manager_->CollectGarbage();
     image_manager_.reset();
     shader_manager_->CollectGarbage();
     shader_manager_.reset();
-    mesh_manager_->collect_garbage();
+    mesh_manager_->CollectGarbage();
     mesh_manager_.reset();
 }
 
 bool ForwardApplication::Prepare(Platform &platform) {
     GraphicsApplication::Prepare(platform);
-    
+
     // resource loader
     image_manager_ = std::make_unique<ImageManager>(*device_);
     shader_manager_ = std::make_unique<ShaderManager>();
     mesh_manager_ = std::make_unique<MeshManager>(*device_);
-    
+
     // logic system
     components_manager_ = std::make_unique<ComponentsManager>();
     physics_manager_ = std::make_unique<physics::PhysicsManager>();
     scene_manager_ = std::make_unique<SceneManager>(*device_);
-    auto scene = scene_manager_->current_scene();
-    
+    auto scene = scene_manager_->CurrentScene();
+
     particle_manager_ = std::make_unique<ParticleManager>(*device_, *render_context_);
     light_manager_ = std::make_unique<LightManager>(scene, *render_context_);
     {
-        load_scene();
+        LoadScene();
         auto extent = platform.GetWindow().GetExtent();
         auto factor = static_cast<uint32_t>(platform.GetWindow().GetContentScaleFactor());
-        components_manager_->call_script_resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
-        main_camera_->resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
+        components_manager_->CallScriptResize(extent.width, extent.height, factor * extent.width,
+                                              factor * extent.height);
+        main_camera_->Resize(extent.width, extent.height, factor * extent.width, factor * extent.height);
     }
-    light_manager_->set_camera(main_camera_);
-    
+    light_manager_->SetCamera(main_camera_);
+
     // internal manager
     shadow_manager_ = std::make_unique<ShadowManager>(*device_, *render_context_, scene, main_camera_);
-    
+
     // default render pipeline
     std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
-    scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(get_render_context(), scene, main_camera_));
-    set_render_pipeline(RenderPipeline(std::move(scene_subpasses)));
-    
+    scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(GetRenderContext(), scene, main_camera_));
+    SetRenderPipeline(RenderPipeline(std::move(scene_subpasses)));
+
     return true;
 }
 
 void ForwardApplication::Update(float delta_time) {
     {
-        components_manager_->call_script_on_start();
-        
+        components_manager_->CallScriptOnStart();
+
         physics_manager_->update(delta_time);
-        
-        components_manager_->call_script_on_update(delta_time);
+
+        components_manager_->CallScriptOnUpdate(delta_time);
         //        _componentsManager->callAnimatorUpdate(deltaTime);
-        components_manager_->call_scene_animator_update(delta_time);
-        components_manager_->call_script_on_late_update(delta_time);
-        
-        components_manager_->call_renderer_on_update(delta_time);
-        scene_manager_->current_scene()->update_shader_data();
+        components_manager_->CallSceneAnimatorUpdate(delta_time);
+        components_manager_->CallScriptOnLateUpdate(delta_time);
+
+        components_manager_->CallRendererOnUpdate(delta_time);
+        scene_manager_->CurrentScene()->UpdateShaderData();
     }
-    
+
     GraphicsApplication::Update(delta_time);
 }
 
-bool ForwardApplication::Resize(uint32_t win_width, uint32_t win_height,
-                                uint32_t fb_width, uint32_t fb_height) {
+bool ForwardApplication::Resize(uint32_t win_width, uint32_t win_height, uint32_t fb_width, uint32_t fb_height) {
     GraphicsApplication::Resize(win_width, win_height, fb_width, fb_height);
-    components_manager_->call_script_resize(win_width, win_height, fb_width, fb_height);
-    main_camera_->resize(win_width, win_height, fb_width, fb_height);
+    components_manager_->CallScriptResize(win_width, win_height, fb_width, fb_height);
+    main_camera_->Resize(win_width, win_height, fb_width, fb_height);
     return true;
 }
 
 void ForwardApplication::InputEvent(const vox::InputEvent &input_event) {
     GraphicsApplication::InputEvent(input_event);
-    components_manager_->call_script_input_event(input_event);
+    components_manager_->CallScriptInputEvent(input_event);
 }
 
-void ForwardApplication::render(CommandBuffer &command_buffer, RenderTarget &render_target) {
-    update_gpu_task(command_buffer, render_target);
-    GraphicsApplication::render(command_buffer, render_target);
+void ForwardApplication::Render(CommandBuffer &command_buffer, RenderTarget &render_target) {
+    UpdateGpuTask(command_buffer, render_target);
+    GraphicsApplication::Render(command_buffer, render_target);
 }
 
-void ForwardApplication::update_gpu_task(CommandBuffer &command_buffer, RenderTarget &render_target) {
-    shadow_manager_->draw(command_buffer);
-    light_manager_->draw(command_buffer, render_target);
-    particle_manager_->draw(command_buffer, render_target);
+void ForwardApplication::UpdateGpuTask(CommandBuffer &command_buffer, RenderTarget &render_target) {
+    shadow_manager_->Draw(command_buffer);
+    light_manager_->Draw(command_buffer, render_target);
+    particle_manager_->Draw(command_buffer, render_target);
 }
 
-}
+}  // namespace vox

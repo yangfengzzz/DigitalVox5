@@ -6,20 +6,20 @@
 
 #pragma once
 
+#include <sys/stat.h>
+
 #include <cstdint>
 #include <cstdlib>
 #include <fstream>
+#include <nlohmann/json.hpp>
 #include <string>
-#include <sys/stat.h>
 #include <unordered_map>
 #include <vector>
-
-#include <nlohmann/json.hpp>
 
 namespace vox::fs {
 namespace path {
 enum Type {
-    //Relative paths
+    // Relative paths
     ASSETS,
     SHADERS,
     STORAGE,
@@ -28,8 +28,8 @@ enum Type {
     GRAPHS,
     /* NewFolder */
     TOTAL_RELATIVE_PATH_TYPES,
-    
-    //Special paths
+
+    // Special paths
     EXTERNAL_STORAGE,
     WORKING_DIR = EXTERNAL_STORAGE,
     TEMP
@@ -41,11 +41,12 @@ extern const std::unordered_map<Type, std::string> kRelativePaths;
  * @brief Gets the absolute path of a given type or a specific file
  * @param type The type of file path
  * @param file (Optional) The filename
- * @throws runtime_error if the platform didn't initialize each path properly, path wasn't found or the path was found but is empty
+ * @throws runtime_error if the platform didn't initialize each path properly, path wasn't found or the path was found
+ * but is empty
  * @return Path to the directory of a certain type
  */
 std::string Get(Type type, const std::string &file = "");
-}        // namespace path
+}  // namespace path
 
 /**
  * @brief Helper to tell if a given path is a directory
@@ -54,7 +55,7 @@ std::string Get(Type type, const std::string &file = "");
  */
 bool IsDirectory(const std::string &path);
 
-/** 
+/**
  * @brief Checks if a file exists
  * @param filename The filename to check
  * @return True if the path points to a valid file, false if not
@@ -130,8 +131,12 @@ void WriteTemp(const std::vector<uint8_t> &data, const std::string &filename, ui
  * @param components The number of bytes per element
  * @param row_stride The stride in bytes of a row of pixels
  */
-void WriteImage(const uint8_t *data, const std::string &filename, uint32_t width, uint32_t height,
-                 uint32_t components, uint32_t row_stride);
+void WriteImage(const uint8_t *data,
+                const std::string &filename,
+                uint32_t width,
+                uint32_t height,
+                uint32_t components,
+                uint32_t row_stride);
 
 /**
  * @brief Helper to output a json graph
@@ -141,18 +146,8 @@ void WriteImage(const uint8_t *data, const std::string &filename, uint32_t width
  */
 bool WriteJson(nlohmann::json &data, const std::string &filename);
 
-//MARK: - extension
-enum class FileType {
-    UNKNOWN,
-    MODEL,
-    TEXTURE,
-    SHADER,
-    MATERIAL,
-    SOUND,
-    SCENE,
-    SCRIPT,
-    FONT
-};
+// MARK: - extension
+enum class FileType { UNKNOWN, MODEL, TEXTURE, SHADER, MATERIAL, SOUND, SCENE, SCRIPT, FONT };
 
 /**
  * Returns the windows style version of the given path ('/' replaced by '\')
@@ -191,4 +186,4 @@ std::string FileTypeToString(FileType file_type);
  */
 FileType ExtraFileType(const std::string &path);
 
-}        // namespace vox
+}  // namespace vox::fs

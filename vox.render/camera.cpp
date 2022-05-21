@@ -5,58 +5,47 @@
 //  property of any third parties.
 
 #include "camera.h"
+
 #include "entity.h"
-#include "scene.h"
 #include "matrix_utils.h"
+#include "scene.h"
 
 namespace vox {
-std::string Camera::name() {
-    return "Camera";
-}
+std::string Camera::name() { return "Camera"; }
 
-Camera::Camera(Entity *entity) :
-Component(entity),
-shader_data_(entity->scene()->device()),
-camera_property_("cameraData") {
-    auto transform = entity->transform_;
+Camera::Camera(Entity *entity)
+    : Component(entity), shader_data_(entity->Scene()->Device()), camera_property_("cameraData") {
+    auto transform = entity->transform;
     transform_ = transform;
-    is_view_matrix_dirty_ = transform->register_world_change_flag();
-    is_inv_view_proj_dirty_ = transform->register_world_change_flag();
-    frustum_view_change_flag_ = transform->register_world_change_flag();
+    is_view_matrix_dirty_ = transform->RegisterWorldChangeFlag();
+    is_inv_view_proj_dirty_ = transform->RegisterWorldChangeFlag();
+    frustum_view_change_flag_ = transform->RegisterWorldChangeFlag();
 }
 
-const BoundingFrustum &Camera::frustum() const {
-    return frustum_;
-}
+const BoundingFrustum &Camera::Frustum() const { return frustum_; }
 
-float Camera::near_clip_plane() const {
-    return near_clip_plane_;
-}
+float Camera::NearClipPlane() const { return near_clip_plane_; }
 
-void Camera::set_near_clip_plane(float value) {
+void Camera::SetNearClipPlane(float value) {
     near_clip_plane_ = value;
-    proj_mat_change();
+    ProjMatChange();
 }
 
-float Camera::far_clip_plane() const {
-    return far_clip_plane_;
-}
+float Camera::FarClipPlane() const { return far_clip_plane_; }
 
-void Camera::set_far_clip_plane(float value) {
+void Camera::SetFarClipPlane(float value) {
     far_clip_plane_ = value;
-    proj_mat_change();
+    ProjMatChange();
 }
 
-float Camera::field_of_view() const {
-    return field_of_view_;
-}
+float Camera::FieldOfView() const { return field_of_view_; }
 
-void Camera::set_field_of_view(float value) {
+void Camera::SetFieldOfView(float value) {
     field_of_view_ = value;
-    proj_mat_change();
+    ProjMatChange();
 }
 
-float Camera::aspect_ratio() const {
+float Camera::AspectRatio() const {
     if (custom_aspect_ratio_ == std::nullopt) {
         return (static_cast<float>(width_) * viewport_.z) / (static_cast<float>(height_) * viewport_.w);
     } else {
@@ -64,56 +53,49 @@ float Camera::aspect_ratio() const {
     }
 }
 
-void Camera::set_aspect_ratio(float value) {
+void Camera::SetAspectRatio(float value) {
     custom_aspect_ratio_ = value;
-    proj_mat_change();
+    ProjMatChange();
 }
 
-Vector4F Camera::viewport() const {
-    return viewport_;
-}
+Vector4F Camera::Viewport() const { return viewport_; }
 
-void Camera::set_viewport(const Vector4F &value) {
+void Camera::SetViewport(const Vector4F &value) {
     viewport_ = value;
-    proj_mat_change();
+    ProjMatChange();
 }
 
-bool Camera::is_orthographic() const {
-    return is_orthographic_;
-}
+bool Camera::IsOrthographic() const { return is_orthographic_; }
 
-void Camera::set_is_orthographic(bool value) {
+void Camera::SetIsOrthographic(bool value) {
     is_orthographic_ = value;
-    proj_mat_change();
+    ProjMatChange();
 }
 
-float Camera::orthographic_size() const {
-    return orthographic_size_;
-}
+float Camera::OrthographicSize() const { return orthographic_size_; }
 
-void Camera::set_orthographic_size(float value) {
+void Camera::SetOrthographicSize(float value) {
     orthographic_size_ = value;
-    proj_mat_change();
+    ProjMatChange();
 }
 
-Matrix4x4F Camera::view_matrix() {
+Matrix4x4F Camera::ViewMatrix() {
     // Remove scale
     if (is_view_matrix_dirty_->flag_) {
         is_view_matrix_dirty_->flag_ = false;
-        view_matrix_ = transform_->world_matrix().inverse();
+        view_matrix_ = transform_->WorldMatrix().inverse();
     }
     return view_matrix_;
 }
 
-void Camera::set_projection_matrix(const Matrix4x4F &value) {
+void Camera::SetProjectionMatrix(const Matrix4x4F &value) {
     projection_matrix_ = value;
     is_proj_mat_setting_ = true;
-    proj_mat_change();
+    ProjMatChange();
 }
 
-Matrix4x4F Camera::projection_matrix() {
-    if ((!is_projection_dirty_ || is_proj_mat_setting_) &&
-        last_aspect_size_.x == static_cast<float>(width_) &&
+Matrix4x4F Camera::ProjectionMatrix() {
+    if ((!is_projection_dirty_ || is_proj_mat_setting_) && last_aspect_size_.x == static_cast<float>(width_) &&
         last_aspect_size_.y == static_cast<float>(height_)) {
         return projection_matrix_;
     }
@@ -121,129 +103,119 @@ Matrix4x4F Camera::projection_matrix() {
     last_aspect_size_.x = static_cast<float>(width_);
     last_aspect_size_.y = static_cast<float>(height_);
     if (!is_orthographic_) {
-        projection_matrix_ = makePerspective(degreesToRadians(field_of_view_),
-                                             aspect_ratio(),
-                                             near_clip_plane_,
-                                             far_clip_plane_);
+        projection_matrix_ =
+                makePerspective(degreesToRadians(field_of_view_), AspectRatio(), near_clip_plane_, far_clip_plane_);
     } else {
-        const auto kWidth = orthographic_size_ * aspect_ratio();
+        const auto kWidth = orthographic_size_ * AspectRatio();
         const auto kHeight = orthographic_size_;
         projection_matrix_ = makeOrtho(-kWidth, kWidth, -kHeight, kHeight, near_clip_plane_, far_clip_plane_);
     }
     return projection_matrix_;
 }
 
-bool Camera::enable_hdr() {
-    return false;
-}
+bool Camera::EnableHdr() { return false; }
 
-void Camera::set_enable_hdr(bool value) {
-    assert(false && "not implementation");
-}
+void Camera::SetEnableHdr(bool value) { assert(false && "not implementation"); }
 
-void Camera::reset_projection_matrix() {
+void Camera::ResetProjectionMatrix() {
     is_proj_mat_setting_ = false;
-    proj_mat_change();
+    ProjMatChange();
 }
 
-void Camera::reset_aspect_ratio() {
+void Camera::ResetAspectRatio() {
     custom_aspect_ratio_ = std::nullopt;
-    proj_mat_change();
+    ProjMatChange();
 }
 
-Vector4F Camera::world_to_viewport_point(const Point3F &point) {
-    auto temp_mat_4 = projection_matrix() * view_matrix();
+Vector4F Camera::WorldToViewportPoint(const Point3F &point) {
+    auto temp_mat_4 = ProjectionMatrix() * ViewMatrix();
     auto temp_vec_4 = Vector4F(point.x, point.y, point.z, 1.0);
     temp_vec_4 = temp_mat_4 * temp_vec_4;
-    
+
     const auto kW = temp_vec_4.w;
     const auto kNx = temp_vec_4.x / kW;
     const auto kNy = temp_vec_4.y / kW;
     const auto kNz = temp_vec_4.z / kW;
-    
+
     // Transform of coordinate axis.
     return {(kNx + 1.f) * 0.5f, (1.f - kNy) * 0.5f, kNz, kW};
 }
 
-Point3F Camera::viewport_to_world_point(const Vector3F &point) {
-    return inner_viewport_to_world_point(point, inv_view_proj_mat());
+Point3F Camera::ViewportToWorldPoint(const Vector3F &point) {
+    return InnerViewportToWorldPoint(point, InvViewProjMat());
 }
 
-Ray3F Camera::viewport_point_to_ray(const Vector2F &point) {
+Ray3F Camera::ViewportPointToRay(const Vector2F &point) {
     Ray3F out;
     // Use the intersection of the near clipping plane as the origin point.
     Vector3F clip_point = Vector3F(point.x, point.y, 0);
-    out.origin = viewport_to_world_point(clip_point);
+    out.origin = ViewportToWorldPoint(clip_point);
     // Use the intersection of the far clipping plane as the origin point.
     clip_point.z = 1.0;
-    Point3F far_point = inner_viewport_to_world_point(clip_point, inv_view_proj_mat_);
+    Point3F far_point = InnerViewportToWorldPoint(clip_point, inv_view_proj_mat_);
     out.direction = far_point - out.origin;
     out.direction = out.direction.normalized();
-    
+
     return out;
 }
 
-Vector2F Camera::screen_to_viewport_point(const Vector2F &point) const {
-    const Vector4F kViewport = this->viewport();
+Vector2F Camera::ScreenToViewportPoint(const Vector2F &point) const {
+    const Vector4F kViewport = this->Viewport();
     return {(point.x / static_cast<float>(width_) - kViewport.x) / kViewport.z,
-        1.f - (point.y / static_cast<float>(height_) - kViewport.y) / kViewport.w};
+            1.f - (point.y / static_cast<float>(height_) - kViewport.y) / kViewport.w};
 }
 
-Vector3F Camera::screen_to_viewport_point(const Vector3F &point) const {
-    const Vector4F kViewport = this->viewport();
+Vector3F Camera::ScreenToViewportPoint(const Vector3F &point) const {
+    const Vector4F kViewport = this->Viewport();
     return {(point.x / static_cast<float>(width_) - kViewport.x) / kViewport.z,
-        1.f - (point.y / static_cast<float>(height_) - kViewport.y) / kViewport.w, 0};
+            1.f - (point.y / static_cast<float>(height_) - kViewport.y) / kViewport.w, 0};
 }
 
-Vector2F Camera::viewport_to_screen_point(const Vector2F &point) const {
-    const Vector4F kViewport = this->viewport();
+Vector2F Camera::ViewportToScreenPoint(const Vector2F &point) const {
+    const Vector4F kViewport = this->Viewport();
     return {(kViewport.x + point.x * kViewport.z) * static_cast<float>(width_),
-        (kViewport.y + point.y * kViewport.w) * static_cast<float>(height_)};
+            (kViewport.y + point.y * kViewport.w) * static_cast<float>(height_)};
 }
 
-Vector3F Camera::viewport_to_screen_point(const Vector3F &point) const {
-    const Vector4F kViewport = this->viewport();
+Vector3F Camera::ViewportToScreenPoint(const Vector3F &point) const {
+    const Vector4F kViewport = this->Viewport();
     return {(kViewport.x + point.x * kViewport.z) * static_cast<float>(width_),
-        (kViewport.y + point.y * kViewport.w) * static_cast<float>(height_), 0};
+            (kViewport.y + point.y * kViewport.w) * static_cast<float>(height_), 0};
 }
 
-Vector4F Camera::viewport_to_screen_point(const Vector4F &point) const {
-    const Vector4F kViewport = this->viewport();
+Vector4F Camera::ViewportToScreenPoint(const Vector4F &point) const {
+    const Vector4F kViewport = this->Viewport();
     return {(kViewport.x + point.x * kViewport.z) * static_cast<float>(width_),
-        (kViewport.y + point.y * kViewport.w) * static_cast<float>(height_), 0, 0};
+            (kViewport.y + point.y * kViewport.w) * static_cast<float>(height_), 0, 0};
 }
 
-Vector4F Camera::world_to_screen_point(const Point3F &point) {
-    auto out = world_to_viewport_point(point);
-    return viewport_to_screen_point(out);
+Vector4F Camera::WorldToScreenPoint(const Point3F &point) {
+    auto out = WorldToViewportPoint(point);
+    return ViewportToScreenPoint(out);
 }
 
-Point3F Camera::screen_to_world_point(const Vector3F &point) {
-    auto out = screen_to_viewport_point(point);
-    return viewport_to_world_point(out);
+Point3F Camera::ScreenToWorldPoint(const Vector3F &point) {
+    auto out = ScreenToViewportPoint(point);
+    return ViewportToWorldPoint(out);
 }
 
-Ray3F Camera::screen_point_to_ray(const Vector2F &point) {
-    Vector2F viewport_point = screen_to_viewport_point(point);
-    return viewport_point_to_ray(viewport_point);
+Ray3F Camera::ScreenPointToRay(const Vector2F &point) {
+    Vector2F viewport_point = ScreenToViewportPoint(point);
+    return ViewportPointToRay(viewport_point);
 }
 
-void Camera::on_active() {
-    entity()->scene()->attach_render_camera(this);
-}
+void Camera::OnActive() { GetEntity()->Scene()->AttachRenderCamera(this); }
 
-void Camera::on_in_active() {
-    entity()->scene()->detach_render_camera(this);
-}
+void Camera::OnInActive() { GetEntity()->Scene()->DetachRenderCamera(this); }
 
-void Camera::proj_mat_change() {
+void Camera::ProjMatChange() {
     is_frustum_project_dirty_ = true;
     is_projection_dirty_ = true;
     is_inv_proj_mat_dirty_ = true;
     is_inv_view_proj_dirty_->flag_ = true;
 }
 
-Point3F Camera::inner_viewport_to_world_point(const Vector3F &point, const Matrix4x4F &inv_view_proj_mat) {
+Point3F Camera::InnerViewportToWorldPoint(const Vector3F &point, const Matrix4x4F &inv_view_proj_mat) {
     // Depth is a normalized value, 0 is nearPlane, 1 is far_clip_plane.
     const auto kDepth = point.z * 2 - 1;
     // Transform to clipping space matrix
@@ -252,15 +224,15 @@ Point3F Camera::inner_viewport_to_world_point(const Vector3F &point, const Matri
     return clip_point;
 }
 
-void Camera::update() {
-    camera_data_.view_mat = view_matrix();
-    camera_data_.proj_mat = projection_matrix();
-    camera_data_.vp_mat = projection_matrix() * view_matrix();
-    camera_data_.view_inv_mat = transform_->world_matrix();
-    camera_data_.proj_inv_mat = inverse_projection_matrix();
-    camera_data_.camera_pos = transform_->world_position();
+void Camera::Update() {
+    camera_data_.view_mat = ViewMatrix();
+    camera_data_.proj_mat = ProjectionMatrix();
+    camera_data_.vp_mat = ProjectionMatrix() * ViewMatrix();
+    camera_data_.view_inv_mat = transform_->WorldMatrix();
+    camera_data_.proj_inv_mat = InverseProjectionMatrix();
+    camera_data_.camera_pos = transform_->WorldPosition();
     shader_data_.SetData(Camera::camera_property_, camera_data_);
-    
+
     if (enable_frustum_culling_ && (frustum_view_change_flag_->flag_ || is_frustum_project_dirty_)) {
         frustum_.calculateFromMatrix(camera_data_.vp_mat);
         frustum_view_change_flag_->flag_ = false;
@@ -268,57 +240,42 @@ void Camera::update() {
     }
 }
 
-Matrix4x4F Camera::inv_view_proj_mat() {
+Matrix4x4F Camera::InvViewProjMat() {
     if (is_inv_view_proj_dirty_->flag_) {
         is_inv_view_proj_dirty_->flag_ = false;
-        inv_view_proj_mat_ = transform_->world_matrix() * inverse_projection_matrix();
+        inv_view_proj_mat_ = transform_->WorldMatrix() * InverseProjectionMatrix();
     }
     return inv_view_proj_mat_;
 }
 
-Matrix4x4F Camera::inverse_projection_matrix() {
+Matrix4x4F Camera::InverseProjectionMatrix() {
     if (is_inv_proj_mat_dirty_) {
         is_inv_proj_mat_dirty_ = false;
-        inverse_projection_matrix_ = projection_matrix().inverse();
+        inverse_projection_matrix_ = ProjectionMatrix().inverse();
     }
     return inverse_projection_matrix_;
 }
 
-void Camera::resize(uint32_t win_width, uint32_t win_height,
-                    uint32_t fb_width, uint32_t fb_height) {
+void Camera::Resize(uint32_t win_width, uint32_t win_height, uint32_t fb_width, uint32_t fb_height) {
     width_ = win_width;
     height_ = win_height;
     fb_width_ = fb_width;
     fb_height_ = fb_height;
 }
 
-uint32_t Camera::width() const {
-    return width_;
-}
+uint32_t Camera::Width() const { return width_; }
 
-uint32_t Camera::height() const {
-    return height_;
-}
+uint32_t Camera::Height() const { return height_; }
 
-uint32_t Camera::framebuffer_width() const {
-    return fb_width_;
-}
+uint32_t Camera::FramebufferWidth() const { return fb_width_; }
 
-uint32_t Camera::framebuffer_height() const {
-    return fb_height_;
-}
+uint32_t Camera::FramebufferHeight() const { return fb_height_; }
 
-//MARK: - Reflection
-void Camera::on_serialize(nlohmann::json &data) {
-    
-}
+// MARK: - Reflection
+void Camera::OnSerialize(nlohmann::json &data) {}
 
-void Camera::on_deserialize(const nlohmann::json &data) {
-    
-}
+void Camera::OnDeserialize(const nlohmann::json &data) {}
 
-void Camera::on_inspector(ui::WidgetContainer &p_root) {
-    
-}
+void Camera::OnInspector(ui::WidgetContainer &p_root) {}
 
-}
+}  // namespace vox

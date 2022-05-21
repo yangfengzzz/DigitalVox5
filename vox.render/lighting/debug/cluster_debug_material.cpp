@@ -5,13 +5,13 @@
 //  property of any third parties.
 
 #include "cluster_debug_material.h"
+
 #include "shader/shader_manager.h"
 
 namespace vox {
-ClusterDebugMaterial::ClusterDebugMaterial(Device &device) :
-BaseMaterial(device) {
+ClusterDebugMaterial::ClusterDebugMaterial(Device &device) : BaseMaterial(device) {
     vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/unlit.vert");
     fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/light/cluster_debug.frag");
 }
 
-}
+}  // namespace vox
