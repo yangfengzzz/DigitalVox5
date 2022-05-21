@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(arc.base LANGUAGES C CXX)
+project(vox.base LANGUAGES C CXX)
 
 file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
@@ -21,7 +21,7 @@ if(OpenMP_CXX_FOUND)
 endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-        ../arc.base
+        ../vox.base
         ../third_party/eigen
         ../third_party/json_cpp/include
         ../third_party/zlib/contrib/

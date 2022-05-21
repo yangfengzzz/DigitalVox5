@@ -66,7 +66,7 @@ add_subdirectory(vox.editor)
 add_subdirectory(editor)
 
 ################## Arche source #################
-add_subdirectory(arc.base)
+add_subdirectory(vox.base)
 add_subdirectory(test.base)
 
 add_subdirectory(arc.geometry)

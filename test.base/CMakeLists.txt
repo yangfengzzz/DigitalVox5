@@ -7,7 +7,7 @@ file(GLOB sources
 
 add_executable(${PROJECT_NAME} ${sources})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ../arc.base
+target_include_directories(${PROJECT_NAME} PUBLIC ../vox.base
         ${CMAKE_SOURCE_DIR}/third_party/googletest/googlemock/include
         ${CMAKE_SOURCE_DIR}/third_party/googletest/googletest/include)
 
@@ -29,6 +29,6 @@ target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/g
         ${CMAKE_SOURCE_DIR}/third_party/json_cpp/build/lib
         /usr/local/Cellar/openssl@3/3.0.2/lib
         ${CMAKE_SOURCE_DIR}/third_party/zlib)
-target_link_libraries(${PROJECT_NAME} PUBLIC spdlog arc.base
+target_link_libraries(${PROJECT_NAME} PUBLIC spdlog vox.base
         libgmock.a libgmock_main.a libgtest.a libgtest_main.a
         jsoncpp libcrypto.a curl libz.a)
