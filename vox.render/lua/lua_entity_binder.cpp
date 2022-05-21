@@ -9,6 +9,6 @@
 #include "entity.h"
 
 namespace vox {
-void LuaEntityBinder::bind_entity(sol::state &lua_state) { lua_state.new_usertype<Entity>("entity"); }
+void LuaEntityBinder::BindEntity(sol::state &lua_state) { lua_state.new_usertype<Entity>("entity"); }
 
 }  // namespace vox

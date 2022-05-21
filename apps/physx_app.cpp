@@ -95,8 +95,8 @@ void PhysXApp::LoadScene() {
     auto box_collider = box_entity->AddComponent<physics::StaticCollider>();
     // boxCollider->debugEntity = boxEntity;
     auto box_collider_shape = std::make_shared<physics::BoxColliderShape>();
-    box_collider_shape->set_size(Vector3F(cube_size, cube_size, cube_size));
-    box_collider->add_shape(box_collider_shape);
+    box_collider_shape->SetSize(Vector3F(cube_size, cube_size, cube_size));
+    box_collider->AddShape(box_collider_shape);
     
     // create sphere test entity
     float radius = 1.25;
@@ -113,10 +113,10 @@ void PhysXApp::LoadScene() {
     auto sphere_collider = sphere_entity->AddComponent<physics::DynamicCollider>();
     // sphereCollider->debugEntity = sphereEntity;
     auto sphere_collider_shape = std::make_shared<physics::SphereColliderShape>();
-    sphere_collider_shape->set_radius(radius);
-    sphere_collider_shape->set_trigger(true);
-    sphere_collider->add_shape(sphere_collider_shape);
-    sphere_collider->set_is_kinematic(true);
+    sphere_collider_shape->SetRadius(radius);
+    sphere_collider_shape->SetTrigger(true);
+    sphere_collider->AddShape(sphere_collider_shape);
+    sphere_collider->SetIsKinematic(true);
 
     sphere_entity->AddComponent<CollisionScript>();
     sphere_entity->AddComponent<MoveScript>();

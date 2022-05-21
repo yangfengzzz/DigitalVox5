@@ -17,7 +17,7 @@ public:
     /**
      * Bind engine entity-related features to lua
      */
-    static void bind_entity(sol::state &lua_state);
+    static void BindEntity(sol::state &lua_state);
 };
 
 }  // namespace vox

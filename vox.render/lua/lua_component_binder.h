@@ -17,7 +17,7 @@ public:
     /**
      * Bind engine component-related features to lua
      */
-    static void bind_component(sol::state &lua_state);
+    static void BindComponent(sol::state &lua_state);
 };
 
 }  // namespace vox

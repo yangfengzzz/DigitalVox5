@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_SPHERE_COLLIDER_SHAPE_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_SPHERE_COLLIDER_SHAPE_H_
+#pragma once
 
 #include "collider_shape.h"
 
@@ -20,16 +19,16 @@ public:
     /**
      * Radius of sphere shape.
      */
-    [[nodiscard]] float radius() const;
+    [[nodiscard]] float Radius() const;
 
-    void set_radius(float value);
+    void SetRadius(float value);
 
-    void set_world_scale(const Vector3F &scale) override;
+    void SetWorldScale(const Vector3F &scale) override;
 
 #ifdef DEBUG
-    void set_entity(Entity *value) override;
+    void SetEntity(Entity *value) override;
 
-    void sync_sphere_geometry();
+    void SyncSphereGeometry();
 #endif
 
 private:
@@ -37,5 +36,3 @@ private:
 };
 
 }  // namespace vox::physics
-
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_SPHERE_COLLIDER_SHAPE_H_ */

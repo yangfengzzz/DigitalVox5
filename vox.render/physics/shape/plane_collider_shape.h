@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_PLANE_COLLIDER_SHAPE_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_PLANE_COLLIDER_SHAPE_H_
+#pragma once
 
 #include "collider_shape.h"
 
@@ -20,10 +19,9 @@ public:
     /**
      * The local rotation of this plane.
      */
-    Vector3F rotation();
+    Vector3F Rotation();
 
-    void set_rotation(const Vector3F &value);
+    void SetRotation(const Vector3F &value);
 };
 
 }  // namespace vox::physics
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_PLANE_COLLIDER_SHAPE_H_ */

@@ -11,70 +11,68 @@
 
 namespace vox::physics {
 HingeJoint::HingeJoint(Collider *collider_0, Collider *collider_1) : Joint() {
-    auto actor_0 = collider_0 ? collider_0->handle() : nullptr;
-    auto actor_1 = collider_1 ? collider_1->handle() : nullptr;
+    auto actor_0 = collider_0 ? collider_0->Handle() : nullptr;
+    auto actor_1 = collider_1 ? collider_1->Handle() : nullptr;
     native_joint_ = PxRevoluteJointCreate(*PhysicsManager::native_physics_(), actor_0,
                                           PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)), actor_1,
                                           PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)));
 }
 
-float HingeJoint::angle() const { return static_cast<PxRevoluteJoint *>(native_joint_)->getAngle(); }
+float HingeJoint::Angle() const { return static_cast<PxRevoluteJoint *>(native_joint_)->getAngle(); }
 
-float HingeJoint::velocity() const { return static_cast<PxRevoluteJoint *>(native_joint_)->getVelocity(); }
+float HingeJoint::Velocity() const { return static_cast<PxRevoluteJoint *>(native_joint_)->getVelocity(); }
 
-void HingeJoint::set_limit(const PxJointAngularLimitPair &limits) {
+void HingeJoint::SetLimit(const PxJointAngularLimitPair &limits) {
     static_cast<PxRevoluteJoint *>(native_joint_)->setLimit(limits);
 }
 
-PxJointAngularLimitPair HingeJoint::limit() const { return static_cast<PxRevoluteJoint *>(native_joint_)->getLimit(); }
+PxJointAngularLimitPair HingeJoint::Limit() const { return static_cast<PxRevoluteJoint *>(native_joint_)->getLimit(); }
 
-void HingeJoint::set_drive_velocity(float velocity, bool autowake) {
+void HingeJoint::SetDriveVelocity(float velocity, bool autowake) {
     static_cast<PxRevoluteJoint *>(native_joint_)->setDriveVelocity(velocity, autowake);
 }
 
-float HingeJoint::drive_velocity() const { return static_cast<PxRevoluteJoint *>(native_joint_)->getDriveVelocity(); }
+float HingeJoint::DriveVelocity() const { return static_cast<PxRevoluteJoint *>(native_joint_)->getDriveVelocity(); }
 
-void HingeJoint::set_drive_force_limit(float limit) {
+void HingeJoint::SetDriveForceLimit(float limit) {
     static_cast<PxRevoluteJoint *>(native_joint_)->setDriveForceLimit(limit);
 }
 
-float HingeJoint::drive_force_limit() const {
+float HingeJoint::DriveForceLimit() const {
     return static_cast<PxRevoluteJoint *>(native_joint_)->getDriveForceLimit();
 }
 
-void HingeJoint::set_drive_gear_ratio(float ratio) {
+void HingeJoint::SetDriveGearRatio(float ratio) {
     static_cast<PxRevoluteJoint *>(native_joint_)->setDriveGearRatio(ratio);
 }
 
-float HingeJoint::drive_gear_ratio() const {
-    return static_cast<PxRevoluteJoint *>(native_joint_)->getDriveGearRatio();
-}
+float HingeJoint::DriveGearRatio() const { return static_cast<PxRevoluteJoint *>(native_joint_)->getDriveGearRatio(); }
 
-void HingeJoint::set_revolute_joint_flags(const PxRevoluteJointFlags &flags) {
+void HingeJoint::SetRevoluteJointFlags(const PxRevoluteJointFlags &flags) {
     static_cast<PxRevoluteJoint *>(native_joint_)->setRevoluteJointFlags(flags);
 }
 
-void HingeJoint::set_revolute_joint_flag(PxRevoluteJointFlag::Enum flag, bool value) {
+void HingeJoint::SetRevoluteJointFlag(PxRevoluteJointFlag::Enum flag, bool value) {
     static_cast<PxRevoluteJoint *>(native_joint_)->setRevoluteJointFlag(flag, value);
 }
 
-PxRevoluteJointFlags HingeJoint::revolute_joint_flags() const {
+PxRevoluteJointFlags HingeJoint::RevoluteJointFlags() const {
     return static_cast<PxRevoluteJoint *>(native_joint_)->getRevoluteJointFlags();
 }
 
-void HingeJoint::set_projection_linear_tolerance(float tolerance) {
+void HingeJoint::SetProjectionLinearTolerance(float tolerance) {
     static_cast<PxRevoluteJoint *>(native_joint_)->setProjectionLinearTolerance(tolerance);
 }
 
-float HingeJoint::projection_linear_tolerance() const {
+float HingeJoint::ProjectionLinearTolerance() const {
     return static_cast<PxRevoluteJoint *>(native_joint_)->getProjectionLinearTolerance();
 }
 
-void HingeJoint::set_projection_angular_tolerance(float tolerance) {
+void HingeJoint::SetProjectionAngularTolerance(float tolerance) {
     static_cast<PxRevoluteJoint *>(native_joint_)->setProjectionAngularTolerance(tolerance);
 }
 
-float HingeJoint::projection_angular_tolerance() const {
+float HingeJoint::ProjectionAngularTolerance() const {
     return static_cast<PxRevoluteJoint *>(native_joint_)->getProjectionAngularTolerance();
 }
 

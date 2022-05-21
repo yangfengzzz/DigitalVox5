@@ -77,9 +77,9 @@ void EditorActions::save_as() {
 
 //MARK: - SCRIPTING
 void EditorActions::refresh_scripts() {
-    ScriptInterpreter::GetSingleton().refresh_all();
+    ScriptInterpreter::GetSingleton().RefreshAll();
     app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").refresh();
-    if (ScriptInterpreter::GetSingleton().is_ok()) {
+    if (ScriptInterpreter::GetSingleton().IsOk()) {
         LOGI("Scripts interpretation succeeded!")
     }
 }
@@ -183,10 +183,10 @@ void EditorActions::set_editor_mode(EditorMode new_editor_mode) {
 
 void EditorActions::start_playing() {
     if (editor_mode_ == EditorMode::EDIT) {
-        ScriptInterpreter::GetSingleton().refresh_all();
+        ScriptInterpreter::GetSingleton().RefreshAll();
         app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").refresh();
         
-        if (ScriptInterpreter::GetSingleton().is_ok()) {
+        if (ScriptInterpreter::GetSingleton().IsOk()) {
             play_event_.invoke();
             scene_backup_.clear();
             

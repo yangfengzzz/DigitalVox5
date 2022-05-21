@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_SPHERICAL_JOINT_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_SPHERICAL_JOINT_H_
+#pragma once
 
 #include "joint.h"
 
@@ -17,24 +16,23 @@ class SphericalJoint : public Joint {
 public:
     SphericalJoint(Collider *collider_0, Collider *collider_1);
 
-    [[nodiscard]] PxJointLimitCone limit_cone() const;
+    [[nodiscard]] PxJointLimitCone LimitCone() const;
 
-    void set_limit_cone(const PxJointLimitCone &limit);
+    void SetLimitCone(const PxJointLimitCone &limit);
 
-    [[nodiscard]] float swing_y_angle() const;
+    [[nodiscard]] float SwingYAngle() const;
 
-    [[nodiscard]] float swing_z_angle() const;
+    [[nodiscard]] float SwingZAngle() const;
 
-    void set_spherical_joint_flags(const PxSphericalJointFlags &flags);
+    void SetSphericalJointFlags(const PxSphericalJointFlags &flags);
 
-    void set_spherical_joint_flag(PxSphericalJointFlag::Enum flag, bool value);
+    void SetSphericalJointFlag(PxSphericalJointFlag::Enum flag, bool value);
 
-    [[nodiscard]] PxSphericalJointFlags spherical_joint_flags() const;
+    [[nodiscard]] PxSphericalJointFlags SphericalJointFlags() const;
 
-    void set_projection_linear_tolerance(float tolerance);
+    void SetProjectionLinearTolerance(float tolerance);
 
-    [[nodiscard]] float projection_linear_tolerance() const;
+    [[nodiscard]] float ProjectionLinearTolerance() const;
 };
 
 }  // namespace vox::physics
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_SPHERICAL_JOINT_H_ */

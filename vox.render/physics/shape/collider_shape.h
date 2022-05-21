@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_COLLIDER_SHAPE_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_COLLIDER_SHAPE_H_
+#pragma once
 
 #include <vector>
 
@@ -18,53 +17,53 @@ class ColliderShape {
 public:
     ColliderShape();
 
-    Collider *collider();
+    Collider *GetCollider();
 
 public:
-    void set_local_pose(const Transform3F &pose);
+    void SetLocalPose(const Transform3F &pose);
 
-    [[nodiscard]] Transform3F local_pose() const;
+    [[nodiscard]] Transform3F LocalPose() const;
 
-    void set_position(const Vector3F &pos);
+    void SetPosition(const Vector3F &pos);
 
-    [[nodiscard]] Vector3F position() const;
+    [[nodiscard]] Vector3F Position() const;
 
-    virtual void set_world_scale(const Vector3F &scale);
-
-public:
-    void set_material(PxMaterial *materials);
-
-    PxMaterial *material();
+    virtual void SetWorldScale(const Vector3F &scale);
 
 public:
-    void set_query_filter_data(const PxFilterData &data);
+    void SetMaterial(PxMaterial *materials);
 
-    PxFilterData query_filter_data();
-
-    uint32_t unique_id();
+    PxMaterial *Material();
 
 public:
-    void set_flag(PxShapeFlag::Enum flag, bool value);
+    void SetQueryFilterData(const PxFilterData &data);
 
-    void set_flags(const PxShapeFlags &in_flags);
+    PxFilterData QueryFilterData();
 
-    [[nodiscard]] PxShapeFlags get_flags() const;
+    uint32_t UniqueId();
 
-    bool trigger();
+public:
+    void SetFlag(PxShapeFlag::Enum flag, bool value);
 
-    void set_trigger(bool is_trigger);
+    void SetFlags(const PxShapeFlags &in_flags);
 
-    bool scene_query();
+    [[nodiscard]] PxShapeFlags GetFlags() const;
 
-    void set_scene_query(bool is_query);
+    bool Trigger();
+
+    void SetTrigger(bool is_trigger);
+
+    bool SceneQuery();
+
+    void SetSceneQuery(bool is_query);
 
 public:
 #ifdef DEBUG
-    virtual void set_entity(Entity *value);
+    virtual void SetEntity(Entity *value);
 
-    void remove_entity(Entity *value);
+    void RemoveEntity(Entity *value);
 
-    Point3F get_local_translation();
+    Point3F GetLocalTranslation();
 #endif
 
 protected:
@@ -86,4 +85,3 @@ protected:
 };
 
 }  // namespace vox::physics
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_COLLIDER_SHAPE_H_ */

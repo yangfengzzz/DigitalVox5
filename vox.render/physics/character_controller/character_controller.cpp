@@ -13,69 +13,69 @@
 namespace vox::physics {
 CharacterController::CharacterController(Entity *entity) : Component(entity) {}
 
-PxControllerCollisionFlags CharacterController::move(const Vector3F &disp, float min_dist, float elapsed_time) {
+PxControllerCollisionFlags CharacterController::Move(const Vector3F &disp, float min_dist, float elapsed_time) {
     return native_controller_->move(PxVec3(disp.x, disp.y, disp.z), min_dist, elapsed_time, PxControllerFilters());
 }
 
-bool CharacterController::set_position(const Point3F &position) {
+bool CharacterController::SetPosition(const Point3F &position) {
     return native_controller_->setPosition(PxExtendedVec3(position.x, position.y, position.z));
 }
 
-Point3F CharacterController::position() const {
+Point3F CharacterController::Position() const {
     auto pose = native_controller_->getPosition();
     return {pose.x, pose.y, pose.z};
 }
 
-bool CharacterController::set_foot_position(const Vector3F &position) {
+bool CharacterController::SetFootPosition(const Vector3F &position) {
     return native_controller_->setFootPosition(PxExtendedVec3(position.x, position.y, position.z));
 }
 
-Vector3F CharacterController::foot_position() const {
+Vector3F CharacterController::FootPosition() const {
     auto pose = native_controller_->getFootPosition();
     return {pose.x, pose.y, pose.z};
 }
 
-void CharacterController::set_step_offset(const float offset) { native_controller_->setStepOffset(offset); }
+void CharacterController::SetStepOffset(const float offset) { native_controller_->setStepOffset(offset); }
 
-float CharacterController::step_offset() const { return native_controller_->getStepOffset(); }
+float CharacterController::StepOffset() const { return native_controller_->getStepOffset(); }
 
-void CharacterController::set_non_walkable_mode(PxControllerNonWalkableMode::Enum flag) {
+void CharacterController::SetNonWalkableMode(PxControllerNonWalkableMode::Enum flag) {
     native_controller_->setNonWalkableMode(flag);
 }
 
-PxControllerNonWalkableMode::Enum CharacterController::non_walkable_mode() const {
+PxControllerNonWalkableMode::Enum CharacterController::NonWalkableMode() const {
     return native_controller_->getNonWalkableMode();
 }
 
-float CharacterController::contact_offset() const { return native_controller_->getContactOffset(); }
+float CharacterController::ContactOffset() const { return native_controller_->getContactOffset(); }
 
-void CharacterController::set_contact_offset(float offset) { native_controller_->setContactOffset(offset); }
+void CharacterController::SetContactOffset(float offset) { native_controller_->setContactOffset(offset); }
 
-Vector3F CharacterController::up_direction() const {
+Vector3F CharacterController::UpDirection() const {
     auto dir = native_controller_->getUpDirection();
     return {dir.x, dir.y, dir.z};
 }
 
-void CharacterController::set_up_direction(const Vector3F &up) {
+void CharacterController::SetUpDirection(const Vector3F &up) {
     native_controller_->setUpDirection(PxVec3(up.x, up.y, up.z));
 }
 
-float CharacterController::slope_limit() const { return native_controller_->getSlopeLimit(); }
+float CharacterController::SlopeLimit() const { return native_controller_->getSlopeLimit(); }
 
-void CharacterController::set_slope_limit(float slope_limit) { native_controller_->setSlopeLimit(slope_limit); }
+void CharacterController::SetSlopeLimit(float slope_limit) { native_controller_->setSlopeLimit(slope_limit); }
 
-void CharacterController::invalidate_cache() { native_controller_->invalidateCache(); }
+void CharacterController::InvalidateCache() { native_controller_->invalidateCache(); }
 
-void CharacterController::state(PxControllerState &state) const { native_controller_->getState(state); }
+void CharacterController::State(PxControllerState &state) const { native_controller_->getState(state); }
 
-void CharacterController::stats(PxControllerStats &stats) const { native_controller_->getStats(stats); }
+void CharacterController::Stats(PxControllerStats &stats) const { native_controller_->getStats(stats); }
 
-void CharacterController::resize(float height) { native_controller_->resize(height); }
+void CharacterController::Resize(float height) { native_controller_->resize(height); }
 
-void CharacterController::on_late_update() { GetEntity()->transform->SetWorldPosition(position()); }
+void CharacterController::OnLateUpdate() { GetEntity()->transform->SetWorldPosition(Position()); }
 
-void CharacterController::OnEnable() { PhysicsManager::GetSingleton().add_character_controller(this); }
+void CharacterController::OnEnable() { PhysicsManager::GetSingleton().AddCharacterController(this); }
 
-void CharacterController::OnDisable() { PhysicsManager::GetSingleton().remove_character_controller(this); }
+void CharacterController::OnDisable() { PhysicsManager::GetSingleton().RemoveCharacterController(this); }
 
 }  // namespace vox::physics

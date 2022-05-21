@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_CONFIGURABLE_JOINT_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_CONFIGURABLE_JOINT_H_
+#pragma once
 
 #include "joint.h"
 
@@ -17,57 +16,56 @@ class ConfigurableJoint : public Joint {
 public:
     ConfigurableJoint(Collider *collider_0, Collider *collider_1);
 
-    void set_motion(PxD6Axis::Enum axis, PxD6Motion::Enum type);
+    void SetMotion(PxD6Axis::Enum axis, PxD6Motion::Enum type);
 
-    [[nodiscard]] PxD6Motion::Enum motion(PxD6Axis::Enum axis) const;
+    [[nodiscard]] PxD6Motion::Enum Motion(PxD6Axis::Enum axis) const;
 
-    [[nodiscard]] float twist_angle() const;
+    [[nodiscard]] float TwistAngle() const;
 
-    [[nodiscard]] float swing_y_angle() const;
+    [[nodiscard]] float SwingYAngle() const;
 
-    [[nodiscard]] float swing_z_angle() const;
-
-public:
-    void set_distance_limit(const PxJointLinearLimit &limit);
-
-    [[nodiscard]] PxJointLinearLimit distance_limit() const;
-
-    void set_linear_limit(PxD6Axis::Enum axis, const PxJointLinearLimitPair &limit);
-
-    [[nodiscard]] PxJointLinearLimitPair linear_limit(PxD6Axis::Enum axis) const;
-
-    void set_twist_limit(const PxJointAngularLimitPair &limit);
-
-    [[nodiscard]] PxJointAngularLimitPair twist_limit() const;
-
-    void set_swing_limit(const PxJointLimitCone &limit);
-
-    [[nodiscard]] PxJointLimitCone swing_limit() const;
-
-    void pyramid_swing_limit(const PxJointLimitPyramid &limit);
-
-    [[nodiscard]] PxJointLimitPyramid pyramid_swing_limit() const;
+    [[nodiscard]] float SwingZAngle() const;
 
 public:
-    void set_drive(PxD6Drive::Enum index, const PxD6JointDrive &drive);
+    void SetDistanceLimit(const PxJointLinearLimit &limit);
 
-    [[nodiscard]] PxD6JointDrive drive(PxD6Drive::Enum index) const;
+    [[nodiscard]] PxJointLinearLimit DistanceLimit() const;
 
-    void set_drive_position(const Transform3F &pose, bool autowake = true);
+    void SetLinearLimit(PxD6Axis::Enum axis, const PxJointLinearLimitPair &limit);
 
-    [[nodiscard]] Transform3F drive_position() const;
+    [[nodiscard]] PxJointLinearLimitPair LinearLimit(PxD6Axis::Enum axis) const;
 
-    void set_drive_velocity(const Vector3F &linear, const Vector3F &angular, bool autowake = true);
+    void SetTwistLimit(const PxJointAngularLimitPair &limit);
 
-    void drive_velocity(Vector3F &linear, Vector3F &angular) const;
+    [[nodiscard]] PxJointAngularLimitPair TwistLimit() const;
 
-    void set_projection_linear_tolerance(float tolerance);
+    void SetSwingLimit(const PxJointLimitCone &limit);
 
-    [[nodiscard]] float projection_linear_tolerance() const;
+    [[nodiscard]] PxJointLimitCone SwingLimit() const;
 
-    void set_projection_angular_tolerance(float tolerance);
+    void PyramidSwingLimit(const PxJointLimitPyramid &limit);
 
-    [[nodiscard]] float projection_angular_tolerance() const;
+    [[nodiscard]] PxJointLimitPyramid PyramidSwingLimit() const;
+
+public:
+    void SetDrive(PxD6Drive::Enum index, const PxD6JointDrive &drive);
+
+    [[nodiscard]] PxD6JointDrive Drive(PxD6Drive::Enum index) const;
+
+    void SetDrivePosition(const Transform3F &pose, bool autowake = true);
+
+    [[nodiscard]] Transform3F DrivePosition() const;
+
+    void SetDriveVelocity(const Vector3F &linear, const Vector3F &angular, bool autowake = true);
+
+    void DriveVelocity(Vector3F &linear, Vector3F &angular) const;
+
+    void SetProjectionLinearTolerance(float tolerance);
+
+    [[nodiscard]] float ProjectionLinearTolerance() const;
+
+    void SetProjectionAngularTolerance(float tolerance);
+
+    [[nodiscard]] float ProjectionAngularTolerance() const;
 };
 }  // namespace vox::physics
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_CONFIGURABLE_JOINT_H_ */

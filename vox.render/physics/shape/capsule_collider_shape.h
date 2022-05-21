@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_CAPSULE_COLLIDER_SHAPE_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_CAPSULE_COLLIDER_SHAPE_H_
+#pragma once
 
 #include "collider_shape.h"
 
@@ -38,32 +37,32 @@ public:
     /**
      * Radius of capsule.
      */
-    [[nodiscard]] float radius() const;
+    [[nodiscard]] float Radius() const;
 
-    void set_radius(float value);
+    void SetRadius(float value);
 
     /**
      * Height of capsule.
      */
-    [[nodiscard]] float height() const;
+    [[nodiscard]] float Height() const;
 
-    void set_height(float value);
+    void SetHeight(float value);
 
     /**
      * Up axis of capsule.
      */
-    ColliderShapeUpAxis::Enum up_axis();
+    ColliderShapeUpAxis::Enum UpAxis();
 
-    void set_up_axis(ColliderShapeUpAxis::Enum value);
+    void SetUpAxis(ColliderShapeUpAxis::Enum value);
 
-    void set_world_scale(const Vector3F &scale) override;
+    void SetWorldScale(const Vector3F &scale) override;
 
 #ifdef DEBUG
-    void set_entity(Entity *value) override;
+    void SetEntity(Entity *value) override;
 
-    void sync_capsule_geometry();
+    void SyncCapsuleGeometry();
 
-    void sync_capsule_axis(ColliderShapeUpAxis::Enum up_axis);
+    void SyncCapsuleAxis(ColliderShapeUpAxis::Enum up_axis);
 
     MeshRenderer *renderer_{nullptr};
 #endif
@@ -75,4 +74,3 @@ private:
 };
 
 }  // namespace vox::physics
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_SHAPE_CAPSULE_COLLIDER_SHAPE_H_ */

@@ -7,6 +7,6 @@
 #include "lua_global_binder.h"
 
 namespace vox {
-void LuaGlobalsBinder::bind_globals(sol::state &lua_state) {}
+void LuaGlobalsBinder::BindGlobals(sol::state &lua_state) {}
 
 }  // namespace vox

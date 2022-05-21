@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_BOX_CHARACTER_CONTROLLER_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_BOX_CHARACTER_CONTROLLER_H_
+#pragma once
 
 #include "character_controller.h"
 
@@ -22,19 +21,19 @@ public:
 
     explicit BoxCharacterController(Entity *entity);
 
-    void set_desc(const PxBoxControllerDesc &desc);
+    void SetDesc(const PxBoxControllerDesc &desc);
 
-    [[nodiscard]] float half_height() const;
+    [[nodiscard]] float HalfHeight() const;
 
-    [[nodiscard]] float half_side_extent() const;
+    [[nodiscard]] float HalfSideExtent() const;
 
-    [[nodiscard]] float half_forward_extent() const;
+    [[nodiscard]] float HalfForwardExtent() const;
 
-    bool set_half_height(float half_height);
+    bool SetHalfHeight(float half_height);
 
-    bool set_half_side_extent(float half_side_extent);
+    bool SetHalfSideExtent(float half_side_extent);
 
-    bool set_half_forward_extent(float half_forward_extent);
+    bool SetHalfForwardExtent(float half_forward_extent);
 
 public:
     /**
@@ -54,5 +53,3 @@ public:
 };
 
 }  // namespace vox::physics
-
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_BOX_CHARACTER_CONTROLLER_H_ */

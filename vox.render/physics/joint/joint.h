@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_JOINT_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_JOINT_H_
+#pragma once
 
 #include "../physics.h"
 #include "transform3.h"
@@ -16,48 +15,46 @@ namespace vox::physics {
  */
 class Joint {
 public:
-    void set_actors(Collider *actor_0, Collider *actor_1);
+    void SetActors(Collider *actor_0, Collider *actor_1);
 
-    void set_local_pose(PxJointActorIndex::Enum actor, const Transform3F &local_pose);
+    void SetLocalPose(PxJointActorIndex::Enum actor, const Transform3F &local_pose);
 
-    [[nodiscard]] Transform3F local_pose(PxJointActorIndex::Enum actor) const;
+    [[nodiscard]] Transform3F LocalPose(PxJointActorIndex::Enum actor) const;
 
-    [[nodiscard]] Transform3F relative_transform() const;
+    [[nodiscard]] Transform3F RelativeTransform() const;
 
-    [[nodiscard]] Vector3F relative_linear_velocity() const;
+    [[nodiscard]] Vector3F RelativeLinearVelocity() const;
 
-    [[nodiscard]] Vector3F relative_angular_velocity() const;
+    [[nodiscard]] Vector3F RelativeAngularVelocity() const;
 
-    void set_break_force(float force, float torque);
+    void SetBreakForce(float force, float torque);
 
-    void get_break_force(float &force, float &torque) const;
+    void GetBreakForce(float &force, float &torque) const;
 
-    void set_constraint_flags(const PxConstraintFlags &flags);
+    void SetConstraintFlags(const PxConstraintFlags &flags);
 
-    void set_constraint_flag(PxConstraintFlag::Enum flag, bool value);
+    void SetConstraintFlag(PxConstraintFlag::Enum flag, bool value);
 
-    [[nodiscard]] PxConstraintFlags constraint_flags() const;
+    [[nodiscard]] PxConstraintFlags ConstraintFlags() const;
 
-    void set_inv_mass_scale_0(float inv_mass_scale);
+    void SetInvMassScale0(float inv_mass_scale);
 
-    [[nodiscard]] float inv_mass_scale_0() const;
+    [[nodiscard]] float InvMassScale0() const;
 
-    void set_inv_inertia_scale_0(float inv_inertia_scale);
+    void SetInvInertiaScale0(float inv_inertia_scale);
 
-    [[nodiscard]] float inv_inertia_scale_0() const;
+    [[nodiscard]] float InvInertiaScale0() const;
 
-    void set_inv_mass_scale_1(float inv_mass_scale);
+    void SetInvMassScale1(float inv_mass_scale);
 
-    [[nodiscard]] float inv_mass_scale_1() const;
+    [[nodiscard]] float InvMassScale1() const;
 
-    void set_inv_inertia_scale_1(float inv_inertia_scale);
+    void SetInvInertiaScale1(float inv_inertia_scale);
 
-    [[nodiscard]] float inv_inertia_scale_1() const;
+    [[nodiscard]] float InvInertiaScale1() const;
 
 protected:
     PxJoint *native_joint_;
 };
 
 }  // namespace vox::physics
-
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_JOINT_H_ */

@@ -14,55 +14,55 @@
 namespace vox::physics {
 Collider::Collider(Entity *entity) : Component(entity) { update_flag_ = entity->transform->RegisterWorldChangeFlag(); }
 
-Collider::~Collider() { clear_shapes(); }
+Collider::~Collider() { ClearShapes(); }
 
-PxRigidActor *Collider::handle() { return native_actor_; }
+PxRigidActor *Collider::Handle() { return native_actor_; }
 
-void Collider::add_shape(const ColliderShapePtr &shape) {
+void Collider::AddShape(const ColliderShapePtr &shape) {
     const auto &old_collider = shape->collider_;
     if (old_collider != this) {
         if (old_collider != nullptr) {
-            old_collider->remove_shape(shape);
+            old_collider->RemoveShape(shape);
         }
         shapes_.push_back(shape);
-        PhysicsManager::GetSingleton().add_collider_shape(shape);
+        PhysicsManager::GetSingleton().AddColliderShape(shape);
         native_actor_->attachShape(*shape->native_shape_);
         shape->collider_ = this;
     }
 
 #ifdef DEBUG
     if (debug_entity_) {
-        shape->set_entity(debug_entity_);
+        shape->SetEntity(debug_entity_);
     }
 #endif
 }
 
-void Collider::remove_shape(const ColliderShapePtr &shape) {
+void Collider::RemoveShape(const ColliderShapePtr &shape) {
     auto iter = std::find(shapes_.begin(), shapes_.end(), shape);
 
     if (iter != shapes_.end()) {
         shapes_.erase(iter);
         native_actor_->detachShape(*shape->native_shape_);
-        PhysicsManager::GetSingleton().remove_collider_shape(shape);
+        PhysicsManager::GetSingleton().RemoveColliderShape(shape);
         shape->collider_ = nullptr;
     }
 
 #ifdef DEBUG
     if (debug_entity_) {
-        shape->remove_entity(debug_entity_);
+        shape->RemoveEntity(debug_entity_);
     }
 #endif
 }
 
-void Collider::clear_shapes() {
+void Collider::ClearShapes() {
     for (auto &shape : shapes_) {
         native_actor_->detachShape(*shape->native_shape_);
-        PhysicsManager::GetSingleton().remove_collider_shape(shape);
+        PhysicsManager::GetSingleton().RemoveColliderShape(shape);
     }
     shapes_.clear();
 }
 
-void Collider::on_update() {
+void Collider::OnUpdate() {
     if (update_flag_->flag_) {
         const auto &transform = GetEntity()->transform;
         const auto &p = transform->WorldPosition();
@@ -73,7 +73,7 @@ void Collider::on_update() {
 
         const auto kWorldScale = transform->LossyWorldScale();
         for (auto &shape : shapes_) {
-            shape->set_world_scale(kWorldScale);
+            shape->SetWorldScale(kWorldScale);
         }
 
 #ifdef DEBUG
@@ -86,8 +86,8 @@ void Collider::on_update() {
     }
 }
 
-void Collider::OnEnable() { PhysicsManager::GetSingleton().add_collider(this); }
+void Collider::OnEnable() { PhysicsManager::GetSingleton().AddCollider(this); }
 
-void Collider::OnDisable() { PhysicsManager::GetSingleton().remove_collider(this); }
+void Collider::OnDisable() { PhysicsManager::GetSingleton().RemoveCollider(this); }
 
 }  // namespace vox::physics

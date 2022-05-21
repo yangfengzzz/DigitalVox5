@@ -15,17 +15,17 @@ PlaneColliderShape::PlaneColliderShape() {
     native_shape_->setQueryFilterData(PxFilterData(PhysicsManager::id_generator_++, 0, 0, 0));
 
     pose_.setOrientation(QuaternionF(0, 0, ColliderShape::half_sqrt_, ColliderShape::half_sqrt_));
-    set_local_pose(pose_);
+    SetLocalPose(pose_);
 }
 
-Vector3F PlaneColliderShape::rotation() { return pose_.orientation().toEuler(); }
+Vector3F PlaneColliderShape::Rotation() { return pose_.orientation().toEuler(); }
 
-void PlaneColliderShape::set_rotation(const Vector3F &value) {
+void PlaneColliderShape::SetRotation(const Vector3F &value) {
     auto rotation = QuaternionF::makeRotationEuler(value.x, value.y, value.z);
     rotation.rotateZ(M_PI * 0.5);
     rotation.normalize();
     pose_.setOrientation(rotation);
-    set_local_pose(pose_);
+    SetLocalPose(pose_);
 }
 
 }  // namespace vox::physics

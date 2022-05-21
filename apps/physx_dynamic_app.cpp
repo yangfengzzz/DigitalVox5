@@ -104,7 +104,7 @@ void PhysXDynamicApp::LoadScene() {
         
         auto physics_plane = std::make_shared<physics::PlaneColliderShape>();
         auto plane_collider = plane_entity->AddComponent<physics::StaticCollider>();
-        plane_collider->add_shape(physics_plane);
+        plane_collider->AddShape(physics_plane);
         
         return plane_entity;
     };
@@ -121,14 +121,14 @@ void PhysXDynamicApp::LoadScene() {
         box_entity->transform->SetRotationQuaternion(rotation);
         
         auto physics_box = std::make_shared<physics::BoxColliderShape>();
-        physics_box->set_size(Vector3F(size.x, size.y, size.z));
+        physics_box->SetSize(Vector3F(size.x, size.y, size.z));
         physics_box->material()->setStaticFriction(1);
         physics_box->material()->setDynamicFriction(2);
         physics_box->material()->setRestitution(0.1);
-        physics_box->set_trigger(false);
+        physics_box->SetTrigger(false);
         
         auto box_collider = box_entity->AddComponent<physics::DynamicCollider>();
-        box_collider->add_shape(physics_box);
+        box_collider->AddShape(physics_box);
         
         return box_entity;
     };
@@ -151,7 +151,7 @@ void PhysXDynamicApp::LoadScene() {
         character_controller_desc.material = physics::PhysicsManager::native_physics_()->createMaterial(0, 0, 0);
         auto world_pos = capsule_entity->transform->WorldPosition();
         character_controller_desc.position = physx::PxExtendedVec3(world_pos.x, world_pos.y, world_pos.z);
-        character_controller->set_desc(character_controller_desc);
+        character_controller->SetDesc(character_controller_desc);
         
         return capsule_entity;
     };
@@ -178,10 +178,10 @@ void PhysXDynamicApp::LoadScene() {
             Transform3F local_pose;
             local_pose.setTranslation(prev_collider != nullptr ? offset : Vector3F(position.x, position.y, position.z));
             local_pose.setOrientation(prev_collider != nullptr ? QuaternionF() : rotation);
-            joint.set_local_pose(physx::PxJointActorIndex::Enum::eACTOR0, local_pose);
+            joint.SetLocalPose(physx::PxJointActorIndex::Enum::eACTOR0, local_pose);
             local_pose.setTranslation(Vector3F(0, separation / 2, 0));
             local_pose.setOrientation(QuaternionF());
-            joint.set_local_pose(physx::PxJointActorIndex::Enum::eACTOR1, local_pose);
+            joint.SetLocalPose(physx::PxJointActorIndex::Enum::eACTOR1, local_pose);
             prev_collider = current_collider;
         }
     };
@@ -262,16 +262,16 @@ Entity *PhysXDynamicApp::add_sphere(float radius, const Point3F &position,
     sphere_entity->transform->SetRotationQuaternion(rotation);
     
     auto physics_sphere = std::make_shared<physics::SphereColliderShape>();
-    physics_sphere->set_radius(radius);
+    physics_sphere->SetRadius(radius);
     physics_sphere->material()->setStaticFriction(0.1);
     physics_sphere->material()->setDynamicFriction(0.2);
     physics_sphere->material()->setRestitution(1);
     physics_sphere->material()->setRestitutionCombineMode(physx::PxCombineMode::Enum::eMIN);
     
     auto sphere_collider = sphere_entity->AddComponent<physics::DynamicCollider>();
-    sphere_collider->add_shape(physics_sphere);
-    sphere_collider->set_linear_velocity(velocity);
-    sphere_collider->set_angular_damping(0.5);
+    sphere_collider->AddShape(physics_sphere);
+    sphere_collider->SetLinearVelocity(velocity);
+    sphere_collider->SetAngularDamping(0.5);
     
     return sphere_entity;
 }
@@ -289,11 +289,11 @@ Entity *PhysXDynamicApp::add_capsule(float radius, float height,
     capsule_entity->transform->SetRotationQuaternion(rotation);
     
     auto physics_capsule = std::make_shared<physics::CapsuleColliderShape>();
-    physics_capsule->set_radius(radius);
-    physics_capsule->set_height(height);
+    physics_capsule->SetRadius(radius);
+    physics_capsule->SetHeight(height);
     
     auto capsule_collider = capsule_entity->AddComponent<physics::DynamicCollider>();
-    capsule_collider->add_shape(physics_capsule);
+    capsule_collider->AddShape(physics_capsule);
     
     return capsule_entity;
 }

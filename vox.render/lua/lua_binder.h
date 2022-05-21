@@ -17,7 +17,7 @@ public:
     /**
      * Bind engine features to lua
      */
-    static void call_binders(sol::state &lua_state);
+    static void CallBinders(sol::state &lua_state);
 };
 
 }  // namespace vox

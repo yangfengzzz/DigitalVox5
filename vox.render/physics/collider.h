@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_COLLIDER_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_COLLIDER_H_
+#pragma once
 
 #include <vector>
 
@@ -20,18 +19,18 @@ public:
 
     ~Collider() override;
 
-    void add_shape(const ColliderShapePtr &shape);
+    void AddShape(const ColliderShapePtr &shape);
 
-    void remove_shape(const ColliderShapePtr &shape);
+    void RemoveShape(const ColliderShapePtr &shape);
 
-    void clear_shapes();
+    void ClearShapes();
 
-    PxRigidActor *handle();
+    PxRigidActor *Handle();
 
 public:
-    void on_update();
+    void OnUpdate();
 
-    virtual void on_late_update() {}
+    virtual void OnLateUpdate() {}
 
     void OnEnable() override;
 
@@ -40,7 +39,6 @@ public:
 public:
 #ifdef DEBUG
     Entity *debug_entity_{nullptr};
-    ;
 #endif
 
 protected:
@@ -53,4 +51,3 @@ protected:
 };
 
 }  // namespace vox::physics
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_COLLIDER_H_ */

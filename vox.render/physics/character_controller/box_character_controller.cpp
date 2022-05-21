@@ -15,31 +15,31 @@ std::string BoxCharacterController::name() { return "BoxCharacterController"; }
 
 BoxCharacterController::BoxCharacterController(Entity *entity) : CharacterController(entity) {}
 
-void BoxCharacterController::set_desc(const PxBoxControllerDesc &desc) {
+void BoxCharacterController::SetDesc(const PxBoxControllerDesc &desc) {
     native_controller_ = PhysicsManager::GetSingleton().native_character_controller_manager_->createController(desc);
 }
 
-float BoxCharacterController::half_height() const {
+float BoxCharacterController::HalfHeight() const {
     return static_cast<PxBoxController *>(native_controller_)->getHalfHeight();
 }
 
-float BoxCharacterController::half_side_extent() const {
+float BoxCharacterController::HalfSideExtent() const {
     return static_cast<PxBoxController *>(native_controller_)->getHalfSideExtent();
 }
 
-float BoxCharacterController::half_forward_extent() const {
+float BoxCharacterController::HalfForwardExtent() const {
     return static_cast<PxBoxController *>(native_controller_)->getHalfForwardExtent();
 }
 
-bool BoxCharacterController::set_half_height(float half_height) {
+bool BoxCharacterController::SetHalfHeight(float half_height) {
     return static_cast<PxBoxController *>(native_controller_)->setHalfHeight(half_height);
 }
 
-bool BoxCharacterController::set_half_side_extent(float half_side_extent) {
+bool BoxCharacterController::SetHalfSideExtent(float half_side_extent) {
     return static_cast<PxBoxController *>(native_controller_)->setHalfSideExtent(half_side_extent);
 }
 
-bool BoxCharacterController::set_half_forward_extent(float half_forward_extent) {
+bool BoxCharacterController::SetHalfForwardExtent(float half_forward_extent) {
     return static_cast<PxBoxController *>(native_controller_)->setHalfForwardExtent(half_forward_extent);
 }
 

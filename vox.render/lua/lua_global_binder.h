@@ -17,7 +17,7 @@ public:
     /**
      * Bind engine global features to lua
      */
-    static void bind_globals(sol::state &lua_state);
+    static void BindGlobals(sol::state &lua_state);
 };
 
 }  // namespace vox

@@ -94,12 +94,12 @@ PhysicsManager::PhysicsManager() {
         const auto kShape1 = physical_objects_map_[obj1->getQueryFilterData().word0];
         const auto kShape2 = physical_objects_map_[obj2->getQueryFilterData().word0];
 
-        auto scripts = kShape1->collider()->GetEntity()->Scripts();
+        auto scripts = kShape1->GetCollider()->GetEntity()->Scripts();
         for (const auto &script : scripts) {
             script->OnTriggerEnter(kShape2);
         }
 
-        scripts = kShape2->collider()->GetEntity()->Scripts();
+        scripts = kShape2->GetCollider()->GetEntity()->Scripts();
         for (const auto &script : scripts) {
             script->OnTriggerEnter(kShape1);
         }
@@ -108,12 +108,12 @@ PhysicsManager::PhysicsManager() {
         const auto kShape1 = physical_objects_map_[obj1->getQueryFilterData().word0];
         const auto kShape2 = physical_objects_map_[obj2->getQueryFilterData().word0];
 
-        auto scripts = kShape1->collider()->GetEntity()->Scripts();
+        auto scripts = kShape1->GetCollider()->GetEntity()->Scripts();
         for (const auto &script : scripts) {
             script->OnTriggerExit(kShape2);
         }
 
-        scripts = kShape2->collider()->GetEntity()->Scripts();
+        scripts = kShape2->GetCollider()->GetEntity()->Scripts();
         for (const auto &script : scripts) {
             script->OnTriggerExit(kShape1);
         }
@@ -137,16 +137,16 @@ PhysicsManager::PhysicsManager() {
     native_character_controller_manager_ = PxCreateControllerManager(*native_physics_manager_);
 }
 
-Vector3F PhysicsManager::gravity() const {
+Vector3F PhysicsManager::Gravity() const {
     auto g = native_physics_manager_->getGravity();
     return {g.x, g.y, g.z};
 }
 
-void PhysicsManager::set_gravity(const Vector3F &value) {
+void PhysicsManager::SetGravity(const Vector3F &value) {
     native_physics_manager_->setGravity(PxVec3(value.x, value.y, value.z));
 }
 
-void PhysicsManager::update(float delta_time) {
+void PhysicsManager::Update(float delta_time) {
     auto simulate_time = delta_time + rest_time_;
     auto step = static_cast<uint32_t>(std::floor(std::min(max_sum_time_step_, simulate_time) / fixed_time_step_));
     rest_time_ = simulate_time - static_cast<float>(step) * fixed_time_step_;
@@ -154,46 +154,46 @@ void PhysicsManager::update(float delta_time) {
         for (auto &script : on_physics_update_scripts_) {
             script->OnPhysicsUpdate();
         }
-        call_collider_on_update();
+        CallColliderOnUpdate();
         native_physics_manager_->simulate(fixed_time_step_);
         native_physics_manager_->fetchResults(true);
-        call_collider_on_late_update();
-        call_character_controller_on_late_update();
+        CallColliderOnLateUpdate();
+        CallCharacterControllerOnLateUpdate();
     }
 }
 
-void PhysicsManager::call_collider_on_update() {
+void PhysicsManager::CallColliderOnUpdate() {
     for (auto &collider : colliders_) {
-        collider->on_update();
+        collider->OnUpdate();
     }
 }
 
-void PhysicsManager::call_collider_on_late_update() {
+void PhysicsManager::CallColliderOnLateUpdate() {
     for (auto &collider : colliders_) {
-        collider->on_late_update();
+        collider->OnLateUpdate();
     }
 }
 
-void PhysicsManager::call_character_controller_on_late_update() {
+void PhysicsManager::CallCharacterControllerOnLateUpdate() {
     for (auto &controller : controllers_) {
-        controller->on_late_update();
+        controller->OnLateUpdate();
     }
 }
 
-void PhysicsManager::add_collider_shape(const ColliderShapePtr &collider_shape) {
-    physical_objects_map_[collider_shape->unique_id()] = (collider_shape);
+void PhysicsManager::AddColliderShape(const ColliderShapePtr &collider_shape) {
+    physical_objects_map_[collider_shape->UniqueId()] = (collider_shape);
 }
 
-void PhysicsManager::remove_collider_shape(const ColliderShapePtr &collider_shape) {
-    physical_objects_map_.erase(collider_shape->unique_id());
+void PhysicsManager::RemoveColliderShape(const ColliderShapePtr &collider_shape) {
+    physical_objects_map_.erase(collider_shape->UniqueId());
 }
 
-void PhysicsManager::add_collider(Collider *collider) {
+void PhysicsManager::AddCollider(Collider *collider) {
     colliders_.push_back(collider);
     native_physics_manager_->addActor(*collider->native_actor_);
 }
 
-void PhysicsManager::remove_collider(Collider *collider) {
+void PhysicsManager::RemoveCollider(Collider *collider) {
     auto iter = std::find(colliders_.begin(), colliders_.end(), collider);
     if (iter != colliders_.end()) {
         colliders_.erase(iter);
@@ -202,20 +202,20 @@ void PhysicsManager::remove_collider(Collider *collider) {
     native_physics_manager_->removeActor(*collider->native_actor_);
 }
 
-void PhysicsManager::add_character_controller(CharacterController *character_controller) {
+void PhysicsManager::AddCharacterController(CharacterController *character_controller) {
     controllers_.push_back(character_controller);
 }
 
-void PhysicsManager::remove_character_controller(CharacterController *character_controller) {
+void PhysicsManager::RemoveCharacterController(CharacterController *character_controller) {
     auto iter = std::find(controllers_.begin(), controllers_.end(), character_controller);
     if (iter != controllers_.end()) {
         controllers_.erase(iter);
     }
 }
 
-void PhysicsManager::add_on_physics_update_script(Script *script) { on_physics_update_scripts_.emplace_back(script); }
+void PhysicsManager::AddOnPhysicsUpdateScript(Script *script) { on_physics_update_scripts_.emplace_back(script); }
 
-void PhysicsManager::remove_on_physics_update_script(Script *script) {
+void PhysicsManager::RemoveOnPhysicsUpdateScript(Script *script) {
     auto iter = std::find(on_physics_update_scripts_.begin(), on_physics_update_scripts_.end(), script);
     if (iter != on_physics_update_scripts_.end()) {
         on_physics_update_scripts_.erase(iter);
@@ -223,18 +223,18 @@ void PhysicsManager::remove_on_physics_update_script(Script *script) {
 }
 
 // MARK: - Raycast
-bool PhysicsManager::raycast(const Ray3F &ray) { return raycast(ray, std::numeric_limits<float>::infinity(), nullptr); }
+bool PhysicsManager::Raycast(const Ray3F &ray) { return Raycast(ray, std::numeric_limits<float>::infinity(), nullptr); }
 
-bool PhysicsManager::raycast(const Ray3F &ray, HitResult &out_hit_result) {
+bool PhysicsManager::Raycast(const Ray3F &ray, HitResult &out_hit_result) {
     const auto kLayerMask = Layer::EVERYTHING;
 
     bool result = false;
-    raycast(ray, std::numeric_limits<float>::infinity(),
+    Raycast(ray, std::numeric_limits<float>::infinity(),
             [&](uint32_t idx, float distance, const Vector3F &normal, const Point3F &point) {
-                if (physical_objects_map_[idx]->collider()->GetEntity()->layer & kLayerMask) {
+                if (physical_objects_map_[idx]->GetCollider()->GetEntity()->layer & kLayerMask) {
                     result = true;
 
-                    out_hit_result.entity = physical_objects_map_[idx]->collider()->GetEntity();
+                    out_hit_result.entity = physical_objects_map_[idx]->GetCollider()->GetEntity();
                     out_hit_result.distance = distance;
                     out_hit_result.normal = normal;
                     out_hit_result.point = point;
@@ -251,17 +251,17 @@ bool PhysicsManager::raycast(const Ray3F &ray, HitResult &out_hit_result) {
     return result;
 }
 
-bool PhysicsManager::raycast(const Ray3F &ray, float distance) { return raycast(ray, distance, nullptr); }
+bool PhysicsManager::Raycast(const Ray3F &ray, float distance) { return Raycast(ray, distance, nullptr); }
 
-bool PhysicsManager::raycast(const Ray3F &ray, float distance, HitResult &out_hit_result) {
+bool PhysicsManager::Raycast(const Ray3F &ray, float distance, HitResult &out_hit_result) {
     const auto kLayerMask = Layer::EVERYTHING;
 
     bool result = false;
-    raycast(ray, distance, [&](uint32_t idx, float distance, const Vector3F &normal, const Point3F &point) {
-        if (physical_objects_map_[idx]->collider()->GetEntity()->layer & kLayerMask) {
+    Raycast(ray, distance, [&](uint32_t idx, float distance, const Vector3F &normal, const Point3F &point) {
+        if (physical_objects_map_[idx]->GetCollider()->GetEntity()->layer & kLayerMask) {
             result = true;
 
-            out_hit_result.entity = physical_objects_map_[idx]->collider()->GetEntity();
+            out_hit_result.entity = physical_objects_map_[idx]->GetCollider()->GetEntity();
             out_hit_result.distance = distance;
             out_hit_result.normal = normal;
             out_hit_result.point = point;
@@ -278,23 +278,23 @@ bool PhysicsManager::raycast(const Ray3F &ray, float distance, HitResult &out_hi
     return result;
 }
 
-bool PhysicsManager::raycast(const Ray3F &ray, float distance, Layer layer_mask) {
+bool PhysicsManager::Raycast(const Ray3F &ray, float distance, Layer layer_mask) {
     bool result = false;
-    raycast(ray, distance, [&](uint32_t idx, float, const Vector3F &, const Point3F &) {
-        if (physical_objects_map_[idx]->collider()->GetEntity()->layer & layer_mask) {
+    Raycast(ray, distance, [&](uint32_t idx, float, const Vector3F &, const Point3F &) {
+        if (physical_objects_map_[idx]->GetCollider()->GetEntity()->layer & layer_mask) {
             result = true;
         }
     });
     return result;
 }
 
-bool PhysicsManager::raycast(const Ray3F &ray, float distance, Layer layer_mask, HitResult &out_hit_result) {
+bool PhysicsManager::Raycast(const Ray3F &ray, float distance, Layer layer_mask, HitResult &out_hit_result) {
     bool result = false;
-    raycast(ray, distance, [&](uint32_t idx, float distance, const Vector3F &normal, const Point3F &point) {
-        if (physical_objects_map_[idx]->collider()->GetEntity()->layer & layer_mask) {
+    Raycast(ray, distance, [&](uint32_t idx, float distance, const Vector3F &normal, const Point3F &point) {
+        if (physical_objects_map_[idx]->GetCollider()->GetEntity()->layer & layer_mask) {
             result = true;
 
-            out_hit_result.entity = physical_objects_map_[idx]->collider()->GetEntity();
+            out_hit_result.entity = physical_objects_map_[idx]->GetCollider()->GetEntity();
             out_hit_result.distance = distance;
             out_hit_result.normal = normal;
             out_hit_result.point = point;
@@ -311,7 +311,7 @@ bool PhysicsManager::raycast(const Ray3F &ray, float distance, Layer layer_mask,
     return result;
 }
 
-bool PhysicsManager::raycast(
+bool PhysicsManager::Raycast(
         const Ray3F &ray,
         float distance,
         const std::function<void(uint32_t, float, const Vector3F &, const Point3F &)> &out_hit_result) {

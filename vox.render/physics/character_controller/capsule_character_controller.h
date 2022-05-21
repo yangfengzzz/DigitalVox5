@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_CAPSULE_CHARACTER_CONTROLLER_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_CAPSULE_CHARACTER_CONTROLLER_H_
+#pragma once
 
 #include "character_controller.h"
 
@@ -22,19 +21,19 @@ public:
 
     explicit CapsuleCharacterController(Entity *entity);
 
-    void set_desc(const PxCapsuleControllerDesc &desc);
+    void SetDesc(const PxCapsuleControllerDesc &desc);
 
-    [[nodiscard]] float radius() const;
+    [[nodiscard]] float Radius() const;
 
-    bool set_radius(float radius);
+    bool SetRadius(float radius);
 
-    [[nodiscard]] float height() const;
+    [[nodiscard]] float Height() const;
 
-    bool set_height(float height);
+    bool SetHeight(float height);
 
-    [[nodiscard]] PxCapsuleClimbingMode::Enum climbing_mode() const;
+    [[nodiscard]] PxCapsuleClimbingMode::Enum ClimbingMode() const;
 
-    bool set_climbing_mode(PxCapsuleClimbingMode::Enum mode);
+    bool SetClimbingMode(PxCapsuleClimbingMode::Enum mode);
 
 public:
     /**
@@ -54,4 +53,3 @@ public:
 };
 
 }  // namespace vox::physics
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_CAPSULE_CHARACTER_CONTROLLER_H_ */

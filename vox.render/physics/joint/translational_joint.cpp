@@ -11,50 +11,50 @@
 
 namespace vox::physics {
 TranslationalJoint::TranslationalJoint(Collider *collider_0, Collider *collider_1) : Joint() {
-    auto actor_0 = collider_0 ? collider_0->handle() : nullptr;
-    auto actor_1 = collider_1 ? collider_1->handle() : nullptr;
+    auto actor_0 = collider_0 ? collider_0->Handle() : nullptr;
+    auto actor_1 = collider_1 ? collider_1->Handle() : nullptr;
     native_joint_ = PxPrismaticJointCreate(*PhysicsManager::native_physics_(), actor_0,
                                            PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)), actor_1,
                                            PxTransform(PxVec3(), PxQuat(0, 0, 0, 1)));
 }
 
-float TranslationalJoint::position() const { return static_cast<PxPrismaticJoint *>(native_joint_)->getPosition(); }
+float TranslationalJoint::Position() const { return static_cast<PxPrismaticJoint *>(native_joint_)->getPosition(); }
 
-float TranslationalJoint::velocity() const { return static_cast<PxPrismaticJoint *>(native_joint_)->getVelocity(); }
+float TranslationalJoint::Velocity() const { return static_cast<PxPrismaticJoint *>(native_joint_)->getVelocity(); }
 
-void TranslationalJoint::set_limit(const PxJointLinearLimitPair &pair) {
+void TranslationalJoint::SetLimit(const PxJointLinearLimitPair &pair) {
     static_cast<PxPrismaticJoint *>(native_joint_)->setLimit(pair);
 }
 
-PxJointLinearLimitPair TranslationalJoint::limit() const {
+PxJointLinearLimitPair TranslationalJoint::Limit() const {
     return static_cast<PxPrismaticJoint *>(native_joint_)->getLimit();
 }
 
-void TranslationalJoint::set_prismatic_joint_flags(const PxPrismaticJointFlags &flags) {
+void TranslationalJoint::SetPrismaticJointFlags(const PxPrismaticJointFlags &flags) {
     static_cast<PxPrismaticJoint *>(native_joint_)->setPrismaticJointFlags(flags);
 }
 
-void TranslationalJoint::set_prismatic_joint_flag(PxPrismaticJointFlag::Enum flag, bool value) {
+void TranslationalJoint::SetPrismaticJointFlag(PxPrismaticJointFlag::Enum flag, bool value) {
     static_cast<PxPrismaticJoint *>(native_joint_)->setPrismaticJointFlag(flag, value);
 }
 
-PxPrismaticJointFlags TranslationalJoint::translational_joint_flags() const {
+PxPrismaticJointFlags TranslationalJoint::TranslationalJointFlags() const {
     return static_cast<PxPrismaticJoint *>(native_joint_)->getPrismaticJointFlags();
 }
 
-void TranslationalJoint::set_projection_linear_tolerance(float tolerance) {
+void TranslationalJoint::SetProjectionLinearTolerance(float tolerance) {
     static_cast<PxPrismaticJoint *>(native_joint_)->setProjectionLinearTolerance(tolerance);
 }
 
-float TranslationalJoint::projection_linear_tolerance() const {
+float TranslationalJoint::ProjectionLinearTolerance() const {
     return static_cast<PxPrismaticJoint *>(native_joint_)->getProjectionLinearTolerance();
 }
 
-void TranslationalJoint::set_projection_angular_tolerance(float tolerance) {
+void TranslationalJoint::SetProjectionAngularTolerance(float tolerance) {
     static_cast<PxPrismaticJoint *>(native_joint_)->setProjectionAngularTolerance(tolerance);
 }
 
-float TranslationalJoint::projection_angular_tolerance() const {
+float TranslationalJoint::ProjectionAngularTolerance() const {
     return static_cast<PxPrismaticJoint *>(native_joint_)->getProjectionAngularTolerance();
 }
 

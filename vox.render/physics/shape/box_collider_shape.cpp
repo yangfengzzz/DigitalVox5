@@ -21,12 +21,12 @@ BoxColliderShape::BoxColliderShape() : ColliderShape() {
     native_geometry_ = std::make_shared<PxBoxGeometry>(half_extent.x, half_extent.y, half_extent.z);
     native_shape_ = PhysicsManager::native_physics_()->createShape(*native_geometry_, *native_material_, true);
     native_shape_->setQueryFilterData(PxFilterData(PhysicsManager::id_generator_++, 0, 0, 0));
-    set_local_pose(pose_);
+    SetLocalPose(pose_);
 }
 
-Vector3F BoxColliderShape::size() { return half_ * 2.f; }
+Vector3F BoxColliderShape::Size() { return half_ * 2.f; }
 
-void BoxColliderShape::set_size(const Vector3F &value) {
+void BoxColliderShape::SetSize(const Vector3F &value) {
     half_ = value * 0.5f;
     auto half_extent = half_ * scale_;
     static_cast<PxBoxGeometry *>(native_geometry_.get())->halfExtents =
@@ -34,12 +34,12 @@ void BoxColliderShape::set_size(const Vector3F &value) {
     native_shape_->setGeometry(*native_geometry_);
 
 #ifdef DEBUG
-    sync_box_geometry();
+    SyncBoxGeometry();
 #endif
 }
 
-void BoxColliderShape::set_world_scale(const Vector3F &scale) {
-    ColliderShape::set_world_scale(scale);
+void BoxColliderShape::SetWorldScale(const Vector3F &scale) {
+    ColliderShape::SetWorldScale(scale);
 
     scale_ = scale;
     auto half_extent = half_ * scale_;
@@ -48,21 +48,21 @@ void BoxColliderShape::set_world_scale(const Vector3F &scale) {
     native_shape_->setGeometry(*native_geometry_);
 
 #ifdef DEBUG
-    sync_box_geometry();
+    SyncBoxGeometry();
 #endif
 }
 
 #ifdef DEBUG
-void BoxColliderShape::set_entity(Entity *value) {
-    ColliderShape::set_entity(value);
+void BoxColliderShape::SetEntity(Entity *value) {
+    ColliderShape::SetEntity(value);
 
     auto renderer = entity_->AddComponent<MeshRenderer>();
     renderer->SetMaterial(std::make_shared<UnlitMaterial>(value->Scene()->Device()));
     renderer->SetMesh(WireframePrimitiveMesh::CreateCuboidWireFrame(1, 1, 1));
-    sync_box_geometry();
+    SyncBoxGeometry();
 }
 
-void BoxColliderShape::sync_box_geometry() {
+void BoxColliderShape::SyncBoxGeometry() {
     if (entity_) {
         auto half_extents = static_cast<PxBoxGeometry *>(native_geometry_.get())->halfExtents;
         entity_->transform->SetScale(half_extents.x * 2, half_extents.y * 2, half_extents.z * 2);

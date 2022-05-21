@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_DYNAMIC_COLLIDER_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_DYNAMIC_COLLIDER_H_
+#pragma once
 
 #include "collider.h"
 #include "transform3.h"
@@ -23,139 +22,139 @@ public:
     /**
      * The linear damping of the dynamic collider.
      */
-    float linear_damping();
+    float LinearDamping();
 
-    void set_linear_damping(float new_value);
+    void SetLinearDamping(float new_value);
 
     /**
      * The angular damping of the dynamic collider.
      */
-    float angular_damping();
+    float AngularDamping();
 
-    void set_angular_damping(float new_value);
+    void SetAngularDamping(float new_value);
 
     /**
      * The linear velocity vector of the dynamic collider measured in world unit per second.
      */
-    Vector3F linear_velocity();
+    Vector3F LinearVelocity();
 
-    void set_linear_velocity(const Vector3F &new_value);
+    void SetLinearVelocity(const Vector3F &new_value);
 
     /**
      * The angular velocity vector of the dynamic collider measured in radians per second.
      */
-    Vector3F angular_velocity();
+    Vector3F AngularVelocity();
 
-    void set_angular_velocity(const Vector3F &new_value);
+    void SetAngularVelocity(const Vector3F &new_value);
 
     /**
      * The mass of the dynamic collider.
      */
-    float mass();
+    float Mass();
 
-    void set_mass(float new_value);
+    void SetMass(float new_value);
 
     /**
      * The center of mass relative to the transform's origin.
      */
-    Transform3F center_of_mass();
+    Transform3F CenterOfMass();
 
-    void set_center_of_mass(const Transform3F &new_value);
+    void SetCenterOfMass(const Transform3F &new_value);
 
     /**
      * The diagonal inertia tensor of mass relative to the center of mass.
      */
-    Vector3F inertia_tensor();
+    Vector3F InertiaTensor();
 
-    void set_inertia_tensor(const Vector3F &new_value);
+    void SetInertiaTensor(const Vector3F &new_value);
 
     /**
      * The maximum angular velocity of the collider measured in radians per second. (Default 7) range { 0, infinity }.
      */
-    float max_angular_velocity();
+    float MaxAngularVelocity();
 
-    void set_max_angular_velocity(float new_value);
+    void SetMaxAngularVelocity(float new_value);
 
     /**
      * Maximum velocity of a collider when moving out of penetrating state.
      */
-    float max_depenetration_velocity();
+    float MaxDepenetrationVelocity();
 
-    void set_max_depenetration_velocity(float new_value);
+    void SetMaxDepenetrationVelocity(float new_value);
 
     /**
      * The mass-normalized energy threshold, below which objects start going to sleep.
      */
-    float sleep_threshold();
+    float SleepThreshold();
 
-    void set_sleep_threshold(float new_value);
+    void SetSleepThreshold(float new_value);
 
     /**
-     * The solver_iterations determines how accurately collider joints and collision contacts are resolved.
+     * The SolverIterations determines how accurately collider joints and collision contacts are resolved.
      */
-    uint32_t solver_iterations();
+    uint32_t SolverIterations();
 
-    void set_solver_iterations(uint32_t new_value);
+    void SetSolverIterations(uint32_t new_value);
 
 public:
     /**
      * Controls whether physics affects the dynamic collider.
      */
-    bool is_kinematic();
+    bool IsKinematic();
 
-    void set_is_kinematic(bool new_value);
+    void SetIsKinematic(bool new_value);
 
-    [[nodiscard]] PxRigidBodyFlags rigid_body_flags() const;
+    [[nodiscard]] PxRigidBodyFlags RigidBodyFlags() const;
 
-    void set_rigid_body_flag(PxRigidBodyFlag::Enum flag, bool value);
+    void SetRigidBodyFlag(PxRigidBodyFlag::Enum flag, bool value);
 
-    void set_rigid_body_flags(const PxRigidBodyFlags &in_flags);
+    void SetRigidBodyFlags(const PxRigidBodyFlags &in_flags);
 
 public:
     /**
      * Controls whether physics will change the rotation of the object.
      */
-    bool freeze_rotation();
+    bool FreezeRotation();
 
-    void set_freeze_rotation(bool new_value);
+    void SetFreezeRotation(bool new_value);
 
     /**
      * The particular rigid dynamic lock flag.
      */
-    [[nodiscard]] PxRigidDynamicLockFlags rigid_dynamic_lock_flags() const;
+    [[nodiscard]] PxRigidDynamicLockFlags RigidDynamicLockFlags() const;
 
-    void set_rigid_dynamic_lock_flag(PxRigidDynamicLockFlag::Enum flag, bool value);
+    void SetRigidDynamicLockFlag(PxRigidDynamicLockFlag::Enum flag, bool value);
 
-    void set_rigid_dynamic_lock_flags(const PxRigidDynamicLockFlags &flags);
+    void SetRigidDynamicLockFlags(const PxRigidDynamicLockFlags &flags);
 
 public:
     /**
      * Apply a force to the DynamicCollider.
      * @param force - The force make the collider move
      */
-    void apply_force(const Vector3F &force);
+    void ApplyForce(const Vector3F &force);
 
     /**
      * Apply a torque to the DynamicCollider.
      * @param torque - The force make the collider rotate
      */
-    void apply_torque(const Vector3F &torque);
+    void ApplyTorque(const Vector3F &torque);
 
     /**
      * Moves kinematically controlled dynamic actors through the game world.
      * @param pose The desired pose for the kinematic actor
      */
-    void set_kinematic_target(const Transform3F &pose);
+    void SetKinematicTarget(const Transform3F &pose);
 
     /**
      * Forces a collider to sleep at least one frame.
      */
-    void put_to_sleep();
+    void PutToSleep();
 
     /**
      * Forces a collider to wake up.
      */
-    void wake_up();
+    void WakeUp();
 
 public:
     /**
@@ -174,9 +173,7 @@ public:
     void OnInspector(ui::WidgetContainer &p_root) override;
 
 private:
-    void on_late_update() override;
+    void OnLateUpdate() override;
 };
 
 }  // namespace vox::physics
-
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_DYNAMIC_COLLIDER_H_ */

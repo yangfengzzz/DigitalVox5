@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_CHARACTER_CONTROLLER_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_CHARACTER_CONTROLLER_H_
+#pragma once
 
 #include "../../component.h"
 #include "../physics.h"
@@ -17,48 +16,48 @@ class CharacterController : public Component {
 public:
     explicit CharacterController(Entity *entity);
 
-    PxControllerCollisionFlags move(const Vector3F &disp, float min_dist, float elapsed_time);
+    PxControllerCollisionFlags Move(const Vector3F &disp, float min_dist, float elapsed_time);
 
-    bool set_position(const Point3F &position);
+    bool SetPosition(const Point3F &position);
 
-    [[nodiscard]] Point3F position() const;
+    [[nodiscard]] Point3F Position() const;
 
-    bool set_foot_position(const Vector3F &position);
+    bool SetFootPosition(const Vector3F &position);
 
-    [[nodiscard]] Vector3F foot_position() const;
+    [[nodiscard]] Vector3F FootPosition() const;
 
-    void set_step_offset(float offset);
+    void SetStepOffset(float offset);
 
-    [[nodiscard]] float step_offset() const;
+    [[nodiscard]] float StepOffset() const;
 
-    void set_non_walkable_mode(PxControllerNonWalkableMode::Enum flag);
+    void SetNonWalkableMode(PxControllerNonWalkableMode::Enum flag);
 
-    [[nodiscard]] PxControllerNonWalkableMode::Enum non_walkable_mode() const;
+    [[nodiscard]] PxControllerNonWalkableMode::Enum NonWalkableMode() const;
 
-    [[nodiscard]] float contact_offset() const;
+    [[nodiscard]] float ContactOffset() const;
 
-    void set_contact_offset(float offset);
+    void SetContactOffset(float offset);
 
-    [[nodiscard]] Vector3F up_direction() const;
+    [[nodiscard]] Vector3F UpDirection() const;
 
-    void set_up_direction(const Vector3F &up);
+    void SetUpDirection(const Vector3F &up);
 
-    [[nodiscard]] float slope_limit() const;
+    [[nodiscard]] float SlopeLimit() const;
 
-    void set_slope_limit(float slope_limit);
+    void SetSlopeLimit(float slope_limit);
 
-    void invalidate_cache();
+    void InvalidateCache();
 
-    void state(PxControllerState &state) const;
+    void State(PxControllerState &state) const;
 
-    void stats(PxControllerStats &stats) const;
+    void Stats(PxControllerStats &stats) const;
 
-    void resize(float height);
+    void Resize(float height);
 
 private:
     friend class PhysicsManager;
 
-    void on_late_update();
+    void OnLateUpdate();
 
     void OnEnable() override;
 
@@ -69,5 +68,3 @@ protected:
 };
 
 }  // namespace vox::physics
-
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_CHARACTER_CONTROLLER_CHARACTER_CONTROLLER_H_ */

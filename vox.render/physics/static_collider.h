@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_STATIC_COLLIDER_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_STATIC_COLLIDER_H_
+#pragma once
 
 #include "collider.h"
 
@@ -37,5 +36,3 @@ public:
 };
 
 }  // namespace vox::physics
-
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_STATIC_COLLIDER_H_ */

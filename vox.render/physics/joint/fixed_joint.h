@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_FIXED_JOINT_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_FIXED_JOINT_H_
+#pragma once
 
 #include "joint.h"
 
@@ -17,15 +16,13 @@ class FixedJoint : public Joint {
 public:
     FixedJoint(Collider *collider_0, Collider *collider_1);
 
-    void set_projection_linear_tolerance(float tolerance);
+    void SetProjectionLinearTolerance(float tolerance);
 
-    [[nodiscard]] float projection_linear_tolerance() const;
+    [[nodiscard]] float ProjectionLinearTolerance() const;
 
-    void set_projection_angular_tolerance(float tolerance);
+    void SetProjectionAngularTolerance(float tolerance);
 
-    [[nodiscard]] float projection_angular_tolerance() const;
+    [[nodiscard]] float ProjectionAngularTolerance() const;
 };
 
 }  // namespace vox::physics
-
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_FIXED_JOINT_H_ */

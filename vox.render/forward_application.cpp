@@ -70,7 +70,7 @@ void ForwardApplication::Update(float delta_time) {
     {
         components_manager_->CallScriptOnStart();
 
-        physics_manager_->update(delta_time);
+        physics_manager_->Update(delta_time);
 
         components_manager_->CallScriptOnUpdate(delta_time);
         //        _componentsManager->callAnimatorUpdate(deltaTime);

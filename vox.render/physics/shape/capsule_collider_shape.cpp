@@ -20,12 +20,12 @@ CapsuleColliderShape::CapsuleColliderShape() {
     native_shape_ = PhysicsManager::native_physics_()->createShape(*native_geometry_, *native_material_, true);
     native_shape_->setQueryFilterData(PxFilterData(PhysicsManager::id_generator_++, 0, 0, 0));
 
-    set_up_axis(ColliderShapeUpAxis::Enum::Y);
+    SetUpAxis(ColliderShapeUpAxis::Enum::Y);
 }
 
-float CapsuleColliderShape::radius() const { return radius_; }
+float CapsuleColliderShape::Radius() const { return radius_; }
 
-void CapsuleColliderShape::set_radius(float value) {
+void CapsuleColliderShape::SetRadius(float value) {
     radius_ = value;
     switch (up_axis_) {
         case ColliderShapeUpAxis::Enum::X:
@@ -41,13 +41,13 @@ void CapsuleColliderShape::set_radius(float value) {
     native_shape_->setGeometry(*native_geometry_);
 
 #ifdef DEBUG
-    sync_capsule_geometry();
+    SyncCapsuleGeometry();
 #endif
 }
 
-float CapsuleColliderShape::height() const { return height_ * 2.f; }
+float CapsuleColliderShape::Height() const { return height_ * 2.f; }
 
-void CapsuleColliderShape::set_height(float value) {
+void CapsuleColliderShape::SetHeight(float value) {
     height_ = value * 0.5f;
     switch (up_axis_) {
         case ColliderShapeUpAxis::Enum::X:
@@ -63,13 +63,13 @@ void CapsuleColliderShape::set_height(float value) {
     native_shape_->setGeometry(*native_geometry_);
 
 #ifdef DEBUG
-    sync_capsule_geometry();
+    SyncCapsuleGeometry();
 #endif
 }
 
-ColliderShapeUpAxis::Enum CapsuleColliderShape::up_axis() { return up_axis_; }
+ColliderShapeUpAxis::Enum CapsuleColliderShape::UpAxis() { return up_axis_; }
 
-void CapsuleColliderShape::set_up_axis(ColliderShapeUpAxis::Enum value) {
+void CapsuleColliderShape::SetUpAxis(ColliderShapeUpAxis::Enum value) {
     up_axis_ = value;
     switch (up_axis_) {
         case ColliderShapeUpAxis::Enum::X:
@@ -82,15 +82,15 @@ void CapsuleColliderShape::set_up_axis(ColliderShapeUpAxis::Enum value) {
             pose_.setOrientation(QuaternionF(0, ColliderShape::half_sqrt_, 0, ColliderShape::half_sqrt_));
             break;
     }
-    set_local_pose(pose_);
+    SetLocalPose(pose_);
 
 #ifdef DEBUG
-    sync_capsule_axis(value);
+    SyncCapsuleAxis(value);
 #endif
 }
 
-void CapsuleColliderShape::set_world_scale(const Vector3F &scale) {
-    ColliderShape::set_world_scale(scale);
+void CapsuleColliderShape::SetWorldScale(const Vector3F &scale) {
+    ColliderShape::SetWorldScale(scale);
 
     switch (up_axis_) {
         case ColliderShapeUpAxis::Enum::X:
@@ -109,20 +109,20 @@ void CapsuleColliderShape::set_world_scale(const Vector3F &scale) {
     native_shape_->setGeometry(*native_geometry_);
 
 #ifdef DEBUG
-    sync_capsule_geometry();
+    SyncCapsuleGeometry();
 #endif
 }
 
 #ifdef DEBUG
-void CapsuleColliderShape::set_entity(Entity *value) {
-    ColliderShape::set_entity(value);
+void CapsuleColliderShape::SetEntity(Entity *value) {
+    ColliderShape::SetEntity(value);
 
     renderer_ = entity_->AddComponent<MeshRenderer>();
     renderer_->SetMaterial(std::make_shared<UnlitMaterial>(value->Scene()->Device()));
-    sync_capsule_geometry();
+    SyncCapsuleGeometry();
 }
 
-void CapsuleColliderShape::sync_capsule_geometry() {
+void CapsuleColliderShape::SyncCapsuleGeometry() {
     if (entity_) {
         auto radius = static_cast<PxCapsuleGeometry *>(native_geometry_.get())->radius;
         auto half_height = static_cast<PxCapsuleGeometry *>(native_geometry_.get())->halfHeight;
@@ -130,7 +130,7 @@ void CapsuleColliderShape::sync_capsule_geometry() {
     }
 }
 
-void CapsuleColliderShape::sync_capsule_axis(ColliderShapeUpAxis::Enum up_axis) {
+void CapsuleColliderShape::SyncCapsuleAxis(ColliderShapeUpAxis::Enum up_axis) {
     if (entity_) {
         switch (up_axis) {
             case ColliderShapeUpAxis::Enum::X:

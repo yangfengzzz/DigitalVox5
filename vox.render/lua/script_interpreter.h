@@ -35,32 +35,32 @@ public:
     /**
      * Handle the creation of the lua context and bind engine functions to lua
      */
-    void create_lua_context_and_bind_globals();
+    void CreateLuaContextAndBindGlobals();
 
     /**
      * Destroy the lua context
      */
-    void destroy_lua_context();
+    void DestroyLuaContext();
 
     /**
      * Consider a behaviour
      */
-    void consider(Behaviour *to_consider);
+    void Consider(Behaviour *to_consider);
 
     /**
      * Unconsider a behaviour
      */
-    void unconsider(Behaviour *to_unconsider);
+    void Unconsider(Behaviour *to_unconsider);
 
     /**
      * Refresh every scripts
      */
-    void refresh_all();
+    void RefreshAll();
 
     /**
      * Returns true if every scripts are OK
      */
-    bool is_ok() const;
+    bool IsOk() const;
 
 private:
     std::unique_ptr<sol::state> lua_state_{nullptr};

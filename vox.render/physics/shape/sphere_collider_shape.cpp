@@ -20,24 +20,24 @@ SphereColliderShape::SphereColliderShape() {
     native_geometry_ = std::make_shared<PxSphereGeometry>(radius_ * std::max(std::max(scale_.x, scale_.y), scale_.z));
     native_shape_ = PhysicsManager::native_physics_()->createShape(*native_geometry_, *native_material_, true);
     native_shape_->setQueryFilterData(PxFilterData(PhysicsManager::id_generator_++, 0, 0, 0));
-    set_local_pose(pose_);
+    SetLocalPose(pose_);
 }
 
-float SphereColliderShape::radius() const { return radius_; }
+float SphereColliderShape::Radius() const { return radius_; }
 
-void SphereColliderShape::set_radius(float value) {
+void SphereColliderShape::SetRadius(float value) {
     radius_ = value;
     static_cast<PxSphereGeometry *>(native_geometry_.get())->radius =
             value * std::max(std::max(scale_.x, scale_.y), scale_.z);
     native_shape_->setGeometry(*native_geometry_);
 
 #ifdef DEBUG
-    sync_sphere_geometry();
+    SyncSphereGeometry();
 #endif
 }
 
-void SphereColliderShape::set_world_scale(const Vector3F &scale) {
-    ColliderShape::set_world_scale(scale);
+void SphereColliderShape::SetWorldScale(const Vector3F &scale) {
+    ColliderShape::SetWorldScale(scale);
 
     scale_ = scale;
     static_cast<PxSphereGeometry *>(native_geometry_.get())->radius =
@@ -45,21 +45,21 @@ void SphereColliderShape::set_world_scale(const Vector3F &scale) {
     native_shape_->setGeometry(*native_geometry_);
 
 #ifdef DEBUG
-    sync_sphere_geometry();
+    SyncSphereGeometry();
 #endif
 }
 
 #ifdef DEBUG
-void SphereColliderShape::set_entity(Entity *value) {
-    ColliderShape::set_entity(value);
+void SphereColliderShape::SetEntity(Entity *value) {
+    ColliderShape::SetEntity(value);
 
     auto renderer = entity_->AddComponent<MeshRenderer>();
     renderer->SetMaterial(std::make_shared<UnlitMaterial>(value->Scene()->Device()));
     renderer->SetMesh(WireframePrimitiveMesh::CreateSphereWireFrame(1));
-    sync_sphere_geometry();
+    SyncSphereGeometry();
 }
 
-void SphereColliderShape::sync_sphere_geometry() {
+void SphereColliderShape::SyncSphereGeometry() {
     if (entity_) {
         auto radius = static_cast<PxSphereGeometry *>(native_geometry_.get())->radius;
         entity_->transform->SetScale(radius, radius, radius);

@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_TRANSLATIONAL_JOINT_H_
-#define DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_TRANSLATIONAL_JOINT_H_
+#pragma once
 
 #include "joint.h"
 
@@ -18,29 +17,27 @@ class TranslationalJoint : public Joint {
 public:
     TranslationalJoint(Collider *collider_0, Collider *collider_1);
 
-    [[nodiscard]] float position() const;
+    [[nodiscard]] float Position() const;
 
-    [[nodiscard]] float velocity() const;
+    [[nodiscard]] float Velocity() const;
 
-    void set_limit(const PxJointLinearLimitPair &pair);
+    void SetLimit(const PxJointLinearLimitPair &pair);
 
-    [[nodiscard]] PxJointLinearLimitPair limit() const;
+    [[nodiscard]] PxJointLinearLimitPair Limit() const;
 
-    void set_prismatic_joint_flags(const PxPrismaticJointFlags &flags);
+    void SetPrismaticJointFlags(const PxPrismaticJointFlags &flags);
 
-    void set_prismatic_joint_flag(PxPrismaticJointFlag::Enum flag, bool value);
+    void SetPrismaticJointFlag(PxPrismaticJointFlag::Enum flag, bool value);
 
-    [[nodiscard]] PxPrismaticJointFlags translational_joint_flags() const;
+    [[nodiscard]] PxPrismaticJointFlags TranslationalJointFlags() const;
 
-    void set_projection_linear_tolerance(float tolerance);
+    void SetProjectionLinearTolerance(float tolerance);
 
-    [[nodiscard]] float projection_linear_tolerance() const;
+    [[nodiscard]] float ProjectionLinearTolerance() const;
 
-    void set_projection_angular_tolerance(float tolerance);
+    void SetProjectionAngularTolerance(float tolerance);
 
-    [[nodiscard]] float projection_angular_tolerance() const;
+    [[nodiscard]] float ProjectionAngularTolerance() const;
 };
 
 }  // namespace vox::physics
-
-#endif /* DIGITALVOX_VOX_RENDER_PHYSICS_JOINT_TRANSLATIONAL_JOINT_H_ */

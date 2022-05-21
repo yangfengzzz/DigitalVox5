@@ -17,7 +17,7 @@ public:
     /**
      * Bind engine maths-related features to lua
      */
-    static void bind_maths(sol::state &lua_state);
+    static void BindMaths(sol::state &lua_state);
 };
 
 }  // namespace vox

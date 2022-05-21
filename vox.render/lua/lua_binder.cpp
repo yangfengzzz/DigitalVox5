@@ -12,11 +12,11 @@
 #include "lua/lua_math_binder.h"
 
 namespace vox {
-void LuaBinder::call_binders(sol::state &lua_state) {
-    LuaMathsBinder::bind_maths(lua_state);
-    LuaEntityBinder::bind_entity(lua_state);
-    LuaComponentBinder::bind_component(lua_state);
-    LuaGlobalsBinder::bind_globals(lua_state);
+void LuaBinder::CallBinders(sol::state &lua_state) {
+    LuaMathsBinder::BindMaths(lua_state);
+    LuaEntityBinder::BindEntity(lua_state);
+    LuaComponentBinder::BindComponent(lua_state);
+    LuaGlobalsBinder::BindGlobals(lua_state);
 }
 
 }  // namespace vox

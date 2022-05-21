@@ -15,7 +15,7 @@
 #include "vector4.h"
 
 namespace vox {
-void LuaMathsBinder::bind_maths(sol::state &lua_state) {
+void LuaMathsBinder::BindMaths(sol::state &lua_state) {
     // MARK: - Vector2
     lua_state.new_usertype<Vector2F>(
             "Vector2F",
