@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04C3C32D2833E39100B0BE1F"
-               BuildableName = "libarc.base.a"
+               BuildableName = "libvox.base.a"
                BlueprintName = "vox.base"
                ReferencedContainer = "container:DigitalVox5.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04C3C32D2833E39100B0BE1F"
-            BuildableName = "libarc.base.a"
+            BuildableName = "libvox.base.a"
             BlueprintName = "vox.base"
             ReferencedContainer = "container:DigitalVox5.xcodeproj">
          </BuildableReference>

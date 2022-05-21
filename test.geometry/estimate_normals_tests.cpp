@@ -26,7 +26,7 @@
 
 #include "tests.h"
 
-using namespace arc;
+using namespace vox;
 using namespace tests;
 
 TEST(EstimateNormals, DISABLED_FastEigen3x3) { NotImplemented(); }

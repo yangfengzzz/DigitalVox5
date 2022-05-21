@@ -31,7 +31,7 @@
 #include "tetra_mesh.h"
 #include "triangle_mesh.h"
 
-using namespace arc;
+using namespace vox;
 using namespace tests;
 
 TEST(TetraMesh, Constructor) {

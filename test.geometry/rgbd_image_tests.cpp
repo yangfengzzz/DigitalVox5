@@ -33,7 +33,7 @@
 //#include "open3d/io/ImageIO.h"
 #include "tests.h"
 
-using namespace arc;
+using namespace vox;
 using namespace tests;
 
 TEST(RGBDImage, Constructor) {

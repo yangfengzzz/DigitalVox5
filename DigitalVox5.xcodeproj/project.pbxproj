@@ -542,7 +542,7 @@
 		04C3C31D28339EDD00B0BE1F /* line_3d_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C30628339EDD00B0BE1F /* line_3d_tests.cpp */; };
 		04C3C31E28339EDD00B0BE1F /* triangle_mesh_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C30828339EDD00B0BE1F /* triangle_mesh_tests.cpp */; };
 		04C3C31F28339EDD00B0BE1F /* tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C30B28339EDD00B0BE1F /* tests.cpp */; };
-		04C3C32328339F3300B0BE1F /* libarc.geometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DBB3742833132E00D94795 /* libarc.geometry.a */; };
+		04C3C32328339F3300B0BE1F /* libvox.geometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DBB3742833132E00D94795 /* libvox.geometry.a */; };
 		04C3C3272833A01B00B0BE1F /* rgbd_image_factory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C3242833A01B00B0BE1F /* rgbd_image_factory.cpp */; };
 		04C3C3282833A01B00B0BE1F /* rgbd_image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C3252833A01B00B0BE1F /* rgbd_image.cpp */; };
 		04C3C3292833A01B00B0BE1F /* rgbd_image.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C3262833A01B00B0BE1F /* rgbd_image.h */; };
@@ -637,7 +637,7 @@
 		04C3C42E2834923C00B0BE1F /* voxel_grid_io_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C4232834923B00B0BE1F /* voxel_grid_io_tests.cpp */; };
 		04C3C42F2834923C00B0BE1F /* ijson_convertible_io_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C4242834923B00B0BE1F /* ijson_convertible_io_tests.cpp */; };
 		04C3C4372834927B00B0BE1F /* libvox.base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C32E2833E39100B0BE1F /* libvox.base.a */; };
-		04C3C4382834927B00B0BE1F /* libarc.geometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DBB3742833132E00D94795 /* libarc.geometry.a */; };
+		04C3C4382834927B00B0BE1F /* libvox.geometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DBB3742833132E00D94795 /* libvox.geometry.a */; };
 		04C3C4392834927B00B0BE1F /* libarc.io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C3A8283490D800B0BE1F /* libarc.io.a */; };
 		04C3C43A2834938600B0BE1F /* libvox.base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C32E2833E39100B0BE1F /* libvox.base.a */; };
 		04C3C440283496DE00B0BE1F /* rply.c in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C43D283496DD00B0BE1F /* rply.c */; };
@@ -780,7 +780,7 @@
 		04C3C5772835CC3E00B0BE1F /* linalg_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5612835CC3E00B0BE1F /* linalg_tests.cpp */; };
 		04C3C57E2835CCAD00B0BE1F /* libvox.base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C32E2833E39100B0BE1F /* libvox.base.a */; };
 		04C3C57F2835CCAD00B0BE1F /* libarc.core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C4482835C88F00B0BE1F /* libarc.core.a */; };
-		04C3C5802835CCAD00B0BE1F /* libarc.geometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DBB3742833132E00D94795 /* libarc.geometry.a */; };
+		04C3C5802835CCAD00B0BE1F /* libvox.geometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DBB3742833132E00D94795 /* libvox.geometry.a */; };
 		04C3C5942835DF0700B0BE1F /* gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C5922835DF0700B0BE1F /* gui.cpp */; };
 		04C3C5952835DF0700B0BE1F /* gui.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C5932835DF0700B0BE1F /* gui.h */; };
 		04C3C598283660D500B0BE1F /* widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C596283660D500B0BE1F /* widget.cpp */; };
@@ -2343,7 +2343,7 @@
 		04D95DC22814FC4000E54DC2 /* ibl_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ibl_app.h; sourceTree = "<group>"; };
 		04D95DCA28162FCD00E54DC2 /* shadow_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shadow_manager.cpp; sourceTree = "<group>"; };
 		04D95DCB28162FCD00E54DC2 /* shadow_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shadow_manager.h; sourceTree = "<group>"; };
-		04DBB3742833132E00D94795 /* libarc.geometry.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libarc.geometry.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		04DBB3742833132E00D94795 /* libvox.geometry.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.geometry.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		04DBB37F2833134700D94795 /* triangle_mesh_simplification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = triangle_mesh_simplification.cpp; sourceTree = "<group>"; };
 		04DBB3802833134700D94795 /* geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = geometry.h; sourceTree = "<group>"; };
 		04DBB3812833134700D94795 /* line_set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = line_set.h; sourceTree = "<group>"; };
@@ -2451,7 +2451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04C3C43A2834938600B0BE1F /* libvox.base.a in Frameworks */,
-				04C3C32328339F3300B0BE1F /* libarc.geometry.a in Frameworks */,
+				04C3C32328339F3300B0BE1F /* libvox.geometry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2482,7 +2482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04C3C4372834927B00B0BE1F /* libvox.base.a in Frameworks */,
-				04C3C4382834927B00B0BE1F /* libarc.geometry.a in Frameworks */,
+				04C3C4382834927B00B0BE1F /* libvox.geometry.a in Frameworks */,
 				04C3C4392834927B00B0BE1F /* libarc.io.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2500,7 +2500,7 @@
 			files = (
 				04C3C57E2835CCAD00B0BE1F /* libvox.base.a in Frameworks */,
 				04C3C57F2835CCAD00B0BE1F /* libarc.core.a in Frameworks */,
-				04C3C5802835CCAD00B0BE1F /* libarc.geometry.a in Frameworks */,
+				04C3C5802835CCAD00B0BE1F /* libvox.geometry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3170,6 +3170,8 @@
 			children = (
 				04C3C32F2833E39100B0BE1F /* vox.base */,
 				04C3C3782833E4A300B0BE1F /* test.base */,
+				04DBB3752833132E00D94795 /* vox.geometry */,
+				04C3C2EC28339D9D00B0BE1F /* test.geometry */,
 				047BB5E02803A9B700CD5749 /* vox.math */,
 				04B762092832279500FE2C5C /* test.math */,
 				047BB5D12803A99E00CD5749 /* vox.render */,
@@ -3177,8 +3179,6 @@
 				04523E29281CC4920079CC3C /* vox.editor */,
 				04523DC4281BB0C30079CC3C /* editor */,
 				04C3C60F28377B0200B0BE1F /* ========================== */,
-				04DBB3752833132E00D94795 /* arc.geometry */,
-				04C3C2EC28339D9D00B0BE1F /* test.geometry */,
 				04C3C3A9283490D800B0BE1F /* arc.io */,
 				04C3C40D2834922900B0BE1F /* test.io */,
 				04C3C4492835C88F00B0BE1F /* arc.core */,
@@ -3198,7 +3198,7 @@
 				04523DC3281BB0C30079CC3C /* editor */,
 				04523E28281CC4920079CC3C /* libvox.editor.a */,
 				04B762082832279400FE2C5C /* test.math */,
-				04DBB3742833132E00D94795 /* libarc.geometry.a */,
+				04DBB3742833132E00D94795 /* libvox.geometry.a */,
 				04C3C2EB28339D9D00B0BE1F /* test.geometry */,
 				04C3C32E2833E39100B0BE1F /* libvox.base.a */,
 				04C3C3772833E4A300B0BE1F /* test.base */,
@@ -4273,7 +4273,7 @@
 			path = shadow;
 			sourceTree = "<group>";
 		};
-		04DBB3752833132E00D94795 /* arc.geometry */ = {
+		04DBB3752833132E00D94795 /* vox.geometry */ = {
 			isa = PBXGroup;
 			children = (
 				04DBB3802833134700D94795 /* geometry.h */,
@@ -4319,7 +4319,7 @@
 				04DBB39B2833134900D94795 /* voxel_grid.cpp */,
 				04EE7033283323A300353830 /* voxel_grid_factory.cpp */,
 			);
-			path = arc.geometry;
+			path = vox.geometry;
 			sourceTree = "<group>";
 		};
 		04DBB3DD2833148200D94795 /* tomasakeninemoeller */ = {
@@ -5173,9 +5173,9 @@
 			productReference = 04C3C5862835DE8700B0BE1F /* libarc.visual.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		04DBB3732833132E00D94795 /* arc.geometry */ = {
+		04DBB3732833132E00D94795 /* vox.geometry */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 04DBB37E2833132E00D94795 /* Build configuration list for PBXNativeTarget "arc.geometry" */;
+			buildConfigurationList = 04DBB37E2833132E00D94795 /* Build configuration list for PBXNativeTarget "vox.geometry" */;
 			buildPhases = (
 				04DBB3702833132E00D94795 /* Headers */,
 				04DBB3712833132E00D94795 /* Sources */,
@@ -5185,9 +5185,9 @@
 			);
 			dependencies = (
 			);
-			name = arc.geometry;
+			name = vox.geometry;
 			productName = arc.geometry;
-			productReference = 04DBB3742833132E00D94795 /* libarc.geometry.a */;
+			productReference = 04DBB3742833132E00D94795 /* libvox.geometry.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -5261,14 +5261,14 @@
 			targets = (
 				04C3C32D2833E39100B0BE1F /* vox.base */,
 				04C3C3762833E4A300B0BE1F /* test.base */,
+				04DBB3732833132E00D94795 /* vox.geometry */,
+				04C3C2EA28339D9D00B0BE1F /* test.geometry */,
 				047BB5DE2803A9B700CD5749 /* vox.math */,
 				04B762072832279400FE2C5C /* test.math */,
 				047BB5CF2803A99E00CD5749 /* vox.render */,
 				047BB5C12803A96500CD5749 /* apps */,
 				04523E27281CC4920079CC3C /* vox.editor */,
 				04523DC2281BB0C30079CC3C /* editor */,
-				04DBB3732833132E00D94795 /* arc.geometry */,
-				04C3C2EA28339D9D00B0BE1F /* test.geometry */,
 				04C3C3A7283490D800B0BE1F /* arc.io */,
 				04C3C40B2834922900B0BE1F /* test.io */,
 				04C3C4472835C88F00B0BE1F /* arc.core */,
@@ -5961,7 +5961,7 @@
 		};
 		04C3C32228339F2D00B0BE1F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04DBB3732833132E00D94795 /* arc.geometry */;
+			target = 04DBB3732833132E00D94795 /* vox.geometry */;
 			targetProxy = 04C3C32128339F2D00B0BE1F /* PBXContainerItemProxy */;
 		};
 		04C3C3A22833E56000B0BE1F /* PBXTargetDependency */ = {
@@ -5976,7 +5976,7 @@
 		};
 		04C3C4342834927500B0BE1F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04DBB3732833132E00D94795 /* arc.geometry */;
+			target = 04DBB3732833132E00D94795 /* vox.geometry */;
 			targetProxy = 04C3C4332834927500B0BE1F /* PBXContainerItemProxy */;
 		};
 		04C3C4362834927500B0BE1F /* PBXTargetDependency */ = {
@@ -5996,7 +5996,7 @@
 		};
 		04C3C57B2835CCA200B0BE1F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04DBB3732833132E00D94795 /* arc.geometry */;
+			target = 04DBB3732833132E00D94795 /* vox.geometry */;
 			targetProxy = 04C3C57A2835CCA200B0BE1F /* PBXContainerItemProxy */;
 		};
 		04C3C57D2835CCA400B0BE1F /* PBXTargetDependency */ = {
@@ -7006,8 +7006,8 @@
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = (
-					./arc.geometry,
-					./arc.base,
+					./vox.geometry,
+					./vox.base,
 				);
 				LD_RUNPATH_SEARCH_PATHS = ./third_party/json_cpp/build/lib;
 				LIBRARY_SEARCH_PATHS = (
@@ -7047,8 +7047,8 @@
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = (
-					./arc.geometry,
-					./arc.base,
+					./vox.geometry,
+					./vox.base,
 				);
 				LD_RUNPATH_SEARCH_PATHS = ./third_party/json_cpp/build/lib;
 				LIBRARY_SEARCH_PATHS = (
@@ -7727,8 +7727,8 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				HEADER_SEARCH_PATHS = (
-					./arc.base,
-					./arc.geometry,
+					./vox.base,
+					./vox.geometry,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -7753,8 +7753,8 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				HEADER_SEARCH_PATHS = (
-					./arc.base,
-					./arc.geometry,
+					./vox.base,
+					./vox.geometry,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -7908,7 +7908,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04DBB37E2833132E00D94795 /* Build configuration list for PBXNativeTarget "arc.geometry" */ = {
+		04DBB37E2833132E00D94795 /* Build configuration list for PBXNativeTarget "vox.geometry" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04DBB37C2833132E00D94795 /* Debug */,

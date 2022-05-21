@@ -29,11 +29,11 @@
 #include "tests.h"
 #include "triangle_mesh.h"
 
-using namespace arc;
+using namespace vox;
 using namespace tests;
 
-void ExpectMeshEQ(const arc::geometry::TriangleMesh& mesh0,
-                  const arc::geometry::TriangleMesh& mesh1,
+void ExpectMeshEQ(const vox::geometry::TriangleMesh& mesh0,
+                  const vox::geometry::TriangleMesh& mesh1,
                   double threshold = 1e-6) {
     ExpectEQ(mesh0.vertices_, mesh1.vertices_, threshold);
     ExpectEQ(mesh0.vertex_normals_, mesh1.vertex_normals_, threshold);

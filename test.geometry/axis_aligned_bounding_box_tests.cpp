@@ -27,7 +27,7 @@
 #include "bounding_volume.h"
 #include "tests.h"
 
-using namespace arc::geometry;
+using namespace vox::geometry;
 using namespace ::testing;
 
 using Eigen::Vector3d;
@@ -35,7 +35,7 @@ using Eigen::Vector3d;
 using emp_t = std::tuple<Vector3d, Vector3d, bool>;
 using dbl_t = std::tuple<Vector3d, Vector3d, double>;
 
-using namespace arc;
+using namespace vox;
 using namespace tests;
 
 TEST(AxisAlignedBoundingBox, EmptyConstructor) {

@@ -31,7 +31,7 @@
 #include <iostream>
 #include <vector>
 
-namespace arc::tests {
+namespace vox::tests {
 
 // tab size used for formatting ref data.
 static const int TAB_SIZE = 4;
@@ -162,4 +162,4 @@ void Print(const std::vector<T>& v, const int& width = 12) {
     Print(&v[0], v.size(), width);
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

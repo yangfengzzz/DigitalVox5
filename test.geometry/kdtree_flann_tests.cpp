@@ -29,7 +29,7 @@
 #include "tests.h"
 #include "triangle_mesh.h"
 
-using namespace arc;
+using namespace vox;
 using namespace tests;
 
 TEST(KDTreeFlann, DISABLED_Search) { NotImplemented(); }

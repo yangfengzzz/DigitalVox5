@@ -27,7 +27,7 @@
 #include "line_3d.h"
 #include "tests.h"
 
-using namespace arc::geometry;
+using namespace vox::geometry;
 using namespace ::testing;
 using opt_d_t = std::optional<double>;
 
@@ -71,7 +71,7 @@ std::shared_ptr<Line3D> LineFactory(lt_t type, const v_t& v0, const v_t& v1) {
     }
 }
 
-using namespace arc;
+using namespace vox;
 using namespace tests;
 
 // Line Transformation Tests

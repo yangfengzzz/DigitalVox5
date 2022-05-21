@@ -27,7 +27,7 @@
 #include "intersection_test.h"
 #include "tests.h"
 
-using namespace arc;
+using namespace vox;
 using namespace tests;
 
 TEST(IntersectionTest, PointsCoplanar) {

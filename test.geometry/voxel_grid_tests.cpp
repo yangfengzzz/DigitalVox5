@@ -30,7 +30,7 @@
 //#include "utility/DrawGeometry.h"
 #include "tests.h"
 
-using namespace arc;
+using namespace vox;
 using namespace tests;
 
 TEST(VoxelGrid, Bounds) {

@@ -26,7 +26,7 @@
 
 #include "compare.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 std::string LineInfo(const char* file, int line) {
     std::stringstream ss;
@@ -101,4 +101,4 @@ void ExpectEQInternal(const std::string& line_info,
     ExpectEQInternal(line_info, v0.data(), v1.data(), v0.size(), threshold);
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

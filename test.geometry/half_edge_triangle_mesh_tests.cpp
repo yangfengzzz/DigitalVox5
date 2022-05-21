@@ -33,7 +33,7 @@
 #include "helper.h"
 #include "tests.h"
 
-using namespace arc;
+using namespace vox;
 using namespace tests;
 
 // [0: (-1, 2)]__________[1: (1, 2)]

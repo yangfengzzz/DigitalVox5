@@ -53,6 +53,12 @@ find_package(TBB REQUIRED)
 # Add third party libraries
 add_subdirectory(third_party)
 
+add_subdirectory(vox.base)
+add_subdirectory(test.base)
+
+add_subdirectory(vox.geometry)
+add_subdirectory(test.geometry)
+
 # Add math library
 add_subdirectory(vox.math)
 add_subdirectory(test.math)
@@ -66,12 +72,6 @@ add_subdirectory(vox.editor)
 add_subdirectory(editor)
 
 ################## Arche source #################
-add_subdirectory(vox.base)
-add_subdirectory(test.base)
-
-add_subdirectory(arc.geometry)
-add_subdirectory(test.geometry)
-
 add_subdirectory(arc.io)
 add_subdirectory(test.io)
 

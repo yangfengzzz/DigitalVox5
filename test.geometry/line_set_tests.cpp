@@ -28,7 +28,7 @@
 #include "point_cloud.h"
 #include "tests.h"
 
-using namespace arc;
+using namespace vox;
 using namespace tests;
 
 TEST(LineSet, Constructor) {

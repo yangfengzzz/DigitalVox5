@@ -29,7 +29,7 @@
 //#include "open3d/camera/PinholeCameraIntrinsic.h"
 #include "tests.h"
 
-using namespace arc;
+using namespace vox;
 using namespace tests;
 
 using ConversionType = geometry::Image::ColorToIntensityConversionType;
