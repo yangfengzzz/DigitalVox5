@@ -21,22 +21,22 @@ using FpsLoggerTags = vox::PluginBase<vox::tags::Passive>;
 class FpsLogger : public FpsLoggerTags {
 public:
     FpsLogger();
-    
-    virtual ~FpsLogger() = default;
-    
-    virtual bool is_active(const vox::CommandParser &parser) override;
-    
-    virtual void init(const vox::CommandParser &parser) override;
-    
-    void on_update(float delta_time) override;
-    
-    vox::FlagCommand fps_flag = {vox::FlagType::FLAG_ONLY, "log-fps", "", "Log FPS"};
-    
+
+    ~FpsLogger() override = default;
+
+    bool IsActive(const vox::CommandParser &parser) override;
+
+    void Init(const vox::CommandParser &parser) override;
+
+    void OnUpdate(float delta_time) override;
+
+    vox::FlagCommand fps_flag_ = {vox::FlagType::FLAG_ONLY, "log-fps", "", "Log FPS"};
+
 private:
-    vox::Timer timer;
-    
-    size_t frame_count{0};
-    
-    size_t last_frame_count{0};
+    vox::Timer timer_;
+
+    size_t frame_count_{0};
+
+    size_t last_frame_count_{0};
 };
-}        // namespace plugins
+}  // namespace plugins

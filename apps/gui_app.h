@@ -14,10 +14,10 @@ namespace vox {
 class GuiApp : public ForwardApplication {
 public:
     void LoadScene() override;
-    
+
 private:
     ui::Canvas canvas_;
     ui::PanelWindow panel_;
 };
 
-}
+}  // namespace vox

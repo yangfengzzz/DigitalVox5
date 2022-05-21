@@ -5,15 +5,16 @@
 //  property of any third parties.
 
 #include "multi_light_app.h"
-#include "mesh/primitive_mesh.h"
-#include "mesh/mesh_renderer.h"
-#include "camera.h"
-#include "controls/orbit_control.h"
-#include "lighting/point_light.h"
-#include "lighting/debug/sprite_debug.h"
-#include "material/blinn_phong_material.h"
 
 #include <random>
+
+#include "camera.h"
+#include "controls/orbit_control.h"
+#include "lighting/debug/sprite_debug.h"
+#include "lighting/point_light.h"
+#include "material/blinn_phong_material.h"
+#include "mesh/mesh_renderer.h"
+#include "mesh/primitive_mesh.h"
 
 namespace vox {
 namespace {
@@ -21,20 +22,18 @@ class MoveScript : public Script {
     std::random_device rd_;
     std::mt19937 gen_;
     std::uniform_real_distribution<float> dis_;
-    
+
     Point3F pos_;
     float vel_;
     int8_t vel_sign_ = -1;
-    
+
 public:
-    explicit MoveScript(Entity *entity) :
-    Script(entity),
-    gen_(rd_()) {
+    explicit MoveScript(Entity *entity) : Script(entity), gen_(rd_()) {
         dis_ = std::uniform_real_distribution<float>(-1.0, 1.0);
         pos_ = Point3F(10 * dis_(gen_), 0, 10 * dis_(gen_));
         vel_ = std::abs(dis_(gen_) * 4);
     }
-    
+
     void OnUpdate(float delta_time) override {
         if (pos_.y >= 5) {
             vel_sign_ = -1;
@@ -44,26 +43,26 @@ public:
         }
         pos_.y += delta_time * vel_ * float(vel_sign_);
 
-        entity()->transform->SetPosition(pos_);
-        entity()->transform->LookAt(Point3F(0, 0, 0));
+        GetEntity()->transform->SetPosition(pos_);
+        GetEntity()->transform->LookAt(Point3F(0, 0, 0));
     }
 };
 
-}
+}  // namespace
 
 void MultiLightApp::LoadScene() {
     auto scene = scene_manager_->CurrentScene();
     scene->AmbientLight()->SetDiffuseSolidColor(Color(1, 1, 1));
-    
+
     auto root_entity = scene->CreateRootEntity();
     root_entity->AddComponent<SpriteDebug>();
-    
+
     auto camera_entity = root_entity->CreateChild("camera");
     camera_entity->transform->SetPosition(10, 10, 10);
     camera_entity->transform->LookAt(Point3F(0, 0, 0));
     main_camera_ = camera_entity->AddComponent<Camera>();
     camera_entity->AddComponent<control::OrbitControl>();
-    
+
     std::default_random_engine e;
     std::uniform_real_distribution<float> u(0, 1);
     // init point light
@@ -73,7 +72,7 @@ void MultiLightApp::LoadScene() {
         auto point_light = light->AddComponent<PointLight>();
         point_light->color_ = Color(u(e), u(e), u(e), 1);
     }
-    
+
     // init spot light
     for (uint32_t i = 0; i < 50; i++) {
         auto light = root_entity->CreateChild("light");
@@ -81,7 +80,7 @@ void MultiLightApp::LoadScene() {
         auto spot_light = light->AddComponent<SpotLight>();
         spot_light->color_ = Color(u(e), u(e), u(e), 1);
     }
-    
+
     // create box test entity
     float cube_size = 20.0;
     auto box_entity = root_entity->CreateChild("BoxEntity");
@@ -90,8 +89,8 @@ void MultiLightApp::LoadScene() {
     auto box_renderer = box_entity->AddComponent<MeshRenderer>();
     box_renderer->SetMesh(PrimitiveMesh::CreatePlane(cube_size, cube_size, 100, 1000));
     box_renderer->SetMaterial(box_mtl);
-    
-    scene->play();
+
+    scene->Play();
 }
 
-}
+}  // namespace vox

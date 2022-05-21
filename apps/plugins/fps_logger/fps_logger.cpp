@@ -7,35 +7,30 @@
 #include "fps_logger.h"
 
 namespace plugins {
-FpsLogger::FpsLogger() :
-FpsLoggerTags("FPS Logger",
-              "Enable FPS logging.",
-              {vox::Hook::ON_UPDATE, vox::Hook::ON_APP_START}, {&fps_flag}) {
-}
+FpsLogger::FpsLogger()
+    : FpsLoggerTags(
+              "FPS Logger", "Enable FPS logging.", {vox::Hook::ON_UPDATE, vox::Hook::ON_APP_START}, {&fps_flag_}) {}
 
-bool FpsLogger::is_active(const vox::CommandParser &parser) {
-    return parser.contains(&fps_flag);
-}
+bool FpsLogger::IsActive(const vox::CommandParser &parser) { return parser.Contains(&fps_flag_); }
 
-void FpsLogger::init(const vox::CommandParser &parser) {
-}
+void FpsLogger::Init(const vox::CommandParser &parser) {}
 
-void FpsLogger::on_update(float delta_time) {
-    if (!timer.is_running()) {
-        timer.start();
+void FpsLogger::OnUpdate(float delta_time) {
+    if (!timer_.IsRunning()) {
+        timer_.Start();
     }
-    
-    auto elapsed_time = static_cast<float>(timer.elapsed<vox::Timer::Seconds>());
-    
-    frame_count++;
-    
+
+    auto elapsed_time = static_cast<float>(timer_.Elapsed<vox::Timer::Seconds>());
+
+    frame_count_++;
+
     if (elapsed_time > 0.5f) {
-        auto fps = (frame_count - last_frame_count) / elapsed_time;
-        
-        LOGI("FPS: {:.1f}", fps);
-        
-        last_frame_count = frame_count;
-        timer.lap();
+        auto fps = (frame_count_ - last_frame_count_) / elapsed_time;
+
+        LOGI("FPS: {:.1f}", fps)
+
+        last_frame_count_ = frame_count_;
+        timer_.Lap();
     }
-};
-}        // namespace plugins
+}
+}  // namespace plugins

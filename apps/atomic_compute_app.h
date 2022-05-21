@@ -12,16 +12,15 @@
 namespace vox {
 class AtomicComputeApp : public ForwardApplication {
 public:
-    bool prepare(Platform &platform) override;
-    
+    bool Prepare(Platform &platform) override;
+
     void LoadScene() override;
-    
+
     void UpdateGpuTask(CommandBuffer &command_buffer, RenderTarget &render_target) override;
-    
+
 private:
     std::shared_ptr<Material> material_{nullptr};
     std::unique_ptr<PostProcessingPipeline> pipeline_{nullptr};
 };
 
-}
-
+}  // namespace vox

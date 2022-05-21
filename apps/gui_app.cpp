@@ -5,12 +5,13 @@
 //  property of any third parties.
 
 #include "gui_app.h"
-#include "mesh/mesh_renderer.h"
-#include "material/unlit_material.h"
+
 #include "camera.h"
 #include "controls/orbit_control.h"
-#include "ui/widgets/texts/text_labelled.h"
+#include "material/unlit_material.h"
+#include "mesh/mesh_renderer.h"
 #include "ui/widgets/sliders/slider_float.h"
+#include "ui/widgets/texts/text_labelled.h"
 
 namespace vox {
 void GuiApp::LoadScene() {
@@ -29,14 +30,14 @@ void GuiApp::LoadScene() {
 
     auto scene = scene_manager_->CurrentScene();
     auto root_entity = scene->CreateRootEntity();
-    
+
     auto camera_entity = root_entity->CreateChild();
     camera_entity->transform->SetPosition(10, 10, 10);
     camera_entity->transform->LookAt(Point3F(0, 0, 0));
     main_camera_ = camera_entity->AddComponent<Camera>();
     camera_entity->AddComponent<control::OrbitControl>();
-    
-    scene->play();
+
+    scene->Play();
 }
 
-}
+}  // namespace vox

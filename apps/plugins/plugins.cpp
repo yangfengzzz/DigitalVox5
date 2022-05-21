@@ -17,13 +17,12 @@
 
 namespace plugins {
 
-#define ADD_PLUGIN(name) \
-plugins.emplace_back(std::make_unique<name>())
+#define ADD_PLUGIN(name) plugins.emplace_back(std::make_unique<name>())
 
 std::vector<vox::Plugin *> GetAll() {
     static bool once = true;
     static std::vector<std::unique_ptr<vox::Plugin>> plugins;
-    
+
     if (once) {
         once = false;
         ADD_PLUGIN(BenchmarkMode);
@@ -33,14 +32,14 @@ std::vector<vox::Plugin *> GetAll() {
         ADD_PLUGIN(StopAfter);
         ADD_PLUGIN(WindowOptions);
     }
-    
+
     std::vector<vox::Plugin *> ptrs;
     ptrs.reserve(plugins.size());
-    
+
     for (auto &plugin : plugins) {
         ptrs.push_back(plugin.get());
     }
-    
+
     return ptrs;
 }
-}        // namespace plugins
+}  // namespace plugins

@@ -6,15 +6,15 @@
 
 #pragma once
 
-#include "forward_application.h"
 #include "controls/orbit_control.h"
+#include "forward_application.h"
 
 namespace vox {
 class SkyboxApp : public ForwardApplication {
 public:
-    bool prepare(Platform &platform) override;
-    
+    bool Prepare(Platform &platform) override;
+
     void LoadScene() override;
 };
 
-}
+}  // namespace vox

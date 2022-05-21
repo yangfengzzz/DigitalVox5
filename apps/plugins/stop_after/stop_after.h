@@ -24,19 +24,19 @@ using StopAfterTags = vox::PluginBase<vox::tags::Stopping>;
 class StopAfter : public StopAfterTags {
 public:
     StopAfter();
-    
-    virtual ~StopAfter() = default;
-    
-    virtual bool is_active(const vox::CommandParser &parser) override;
-    
-    virtual void init(const vox::CommandParser &parser) override;
-    
-    virtual void on_update(float delta_time) override;
-    
-    vox::FlagCommand
-    stop_after_frame_flag = {vox::FlagType::ONE_VALUE, "stop-after-frame", "", "Stop the application after a certain number of frames"};
-    
+
+    ~StopAfter() override = default;
+
+    bool IsActive(const vox::CommandParser &parser) override;
+
+    void Init(const vox::CommandParser &parser) override;
+
+    void OnUpdate(float delta_time) override;
+
+    vox::FlagCommand stop_after_frame_flag_ = {vox::FlagType::ONE_VALUE, "stop-after-frame", "",
+                                               "Stop the application after a certain number of frames"};
+
 private:
-    uint32_t remaining_frames{0};
+    uint32_t remaining_frames_{0};
 };
-}        // namespace plugins
+}  // namespace plugins

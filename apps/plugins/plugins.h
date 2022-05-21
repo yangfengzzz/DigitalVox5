@@ -10,4 +10,4 @@
 
 namespace plugins {
 extern std::vector<vox::Plugin *> GetAll();
-}        // namespace plugins
+}  // namespace plugins

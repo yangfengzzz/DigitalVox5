@@ -22,13 +22,14 @@ using FileLoggerTags = vox::PluginBase<vox::tags::Passive>;
 class FileLogger : public FileLoggerTags {
 public:
     FileLogger();
-    
-    virtual ~FileLogger() = default;
-    
-    virtual bool is_active(const vox::CommandParser &parser) override;
-    
-    virtual void init(const vox::CommandParser &parser) override;
-    
-    vox::FlagCommand log_file_flag = {vox::FlagType::ONE_VALUE, "log-file", "", "Write log messages to the given file name"};
+
+    ~FileLogger() override = default;
+
+    bool IsActive(const vox::CommandParser &parser) override;
+
+    void Init(const vox::CommandParser &parser) override;
+
+    vox::FlagCommand log_file_flag_ = {vox::FlagType::ONE_VALUE, "log-file", "",
+                                       "Write log messages to the given file name"};
 };
-}        // namespace plugins
+}  // namespace plugins

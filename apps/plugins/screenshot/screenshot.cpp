@@ -12,55 +12,50 @@
 #include "rendering/render_context.h"
 
 namespace plugins {
-Screenshot::Screenshot() :
-ScreenshotTags("Screenshot",
-               "Save a screenshot of a specific frame",
-               {vox::Hook::ON_UPDATE, vox::Hook::ON_APP_START, vox::Hook::POST_DRAW},
-               {&screenshot_flag, &screenshot_output_flag}) {
-}
+Screenshot::Screenshot()
+    : ScreenshotTags("Screenshot",
+                     "Save a screenshot of a specific frame",
+                     {vox::Hook::ON_UPDATE, vox::Hook::ON_APP_START, vox::Hook::POST_DRAW},
+                     {&screenshot_flag_, &screenshot_output_flag_}) {}
 
-bool Screenshot::is_active(const vox::CommandParser &parser) {
-    return parser.contains(&screenshot_flag);
-}
+bool Screenshot::IsActive(const vox::CommandParser &parser) { return parser.Contains(&screenshot_flag_); }
 
-void Screenshot::init(const vox::CommandParser &parser) {
-    if (parser.contains(&screenshot_flag)) {
-        frame_number = parser.as<uint32_t>(&screenshot_flag);
-        
-        if (parser.contains(&screenshot_output_flag)) {
-            output_path = parser.as<std::string>(&screenshot_output_flag);
-            output_path_set = true;
+void Screenshot::Init(const vox::CommandParser &parser) {
+    if (parser.Contains(&screenshot_flag_)) {
+        frame_number_ = parser.As<uint32_t>(&screenshot_flag_);
+
+        if (parser.Contains(&screenshot_output_flag_)) {
+            output_path_ = parser.As<std::string>(&screenshot_output_flag_);
+            output_path_set_ = true;
         }
     }
 }
 
-void Screenshot::on_update(float delta_time) {
-    current_frame++;
+void Screenshot::OnUpdate(float delta_time) { current_frame_++; }
+
+void Screenshot::OnAppStart(const std::string &name) {
+    current_app_name_ = name;
+    current_frame_ = 0;
 }
 
-void Screenshot::on_app_start(const std::string &name) {
-    current_app_name = name;
-    current_frame = 0;
-}
-
-void Screenshot::on_post_draw(vox::RenderContext &context) {
-    if (current_frame == frame_number) {
-        if (!output_path_set) {
+void Screenshot::OnPostDraw(vox::RenderContext &context) {
+    if (current_frame_ == frame_number_) {
+        if (!output_path_set_) {
             // Create generic image path. <app name>-<current timestamp>.png
             auto timestamp = std::chrono::system_clock::now();
             std::time_t now_tt = std::chrono::system_clock::to_time_t(timestamp);
             std::tm tm = *std::localtime(&now_tt);
-            
+
             char buffer[30];
             strftime(buffer, sizeof(buffer), "%G-%m-%d---%H-%M-%S", &tm);
-            
+
             std::stringstream stream;
-            stream << current_app_name << "-" << buffer;
-            
-            output_path = stream.str();
+            stream << current_app_name_ << "-" << buffer;
+
+            output_path_ = stream.str();
         }
 
-        Screenshot(context, output_path);
+        vox::Screenshot(context, output_path_);
     }
 }
-}        // namespace plugins
+}  // namespace plugins

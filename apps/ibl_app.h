@@ -11,20 +11,19 @@
 namespace vox {
 class IBLApp : public ForwardApplication {
 public:
-    bool prepare(Platform &platform) override;
+    bool Prepare(Platform &platform) override;
 
     void LoadScene() override;
-    
+
 private:
     struct Material {
         std::string name;
         Color base_color;
         float roughness;
         float metallic;
-        
-        Material() {
-        };
-        
+
+        Material(){};
+
         Material(std::string n, Color c, float r, float m) : name(n) {
             roughness = r;
             metallic = m;
@@ -34,4 +33,4 @@ private:
     std::vector<Material> materials_;
 };
 
-}
+}  // namespace vox

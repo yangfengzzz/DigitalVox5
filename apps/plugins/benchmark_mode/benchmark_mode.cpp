@@ -9,39 +9,33 @@
 #include "platform/platform.h"
 
 namespace plugins {
-BenchmarkMode::BenchmarkMode() :
-BenchmarkModeTags("Benchmark Mode",
-                  "Log frame averages after running an app.",
-                  {vox::Hook::ON_UPDATE, vox::Hook::ON_APP_START, vox::Hook::ON_APP_CLOSE},
-                  {&benchmark_flag}) {
-}
+BenchmarkMode::BenchmarkMode()
+    : BenchmarkModeTags("Benchmark Mode",
+                        "Log frame averages after running an app.",
+                        {vox::Hook::ON_UPDATE, vox::Hook::ON_APP_START, vox::Hook::ON_APP_CLOSE},
+                        {&benchmark_flag_}) {}
 
-bool BenchmarkMode::is_active(const vox::CommandParser &parser) {
-    return parser.contains(&benchmark_flag);
-}
+bool BenchmarkMode::IsActive(const vox::CommandParser &parser) { return parser.Contains(&benchmark_flag_); }
 
-void BenchmarkMode::init(const vox::CommandParser &parser) {
+void BenchmarkMode::Init(const vox::CommandParser &parser) {
     // Whilst in benchmark mode fix the fps so that separate runs are consistently simulated
-    // This will effect the graph outputs of framerate
+    // This will affect the graph outputs of framerate
     platform_->ForceSimulationFps(60.0f);
 }
 
-void BenchmarkMode::on_update(float delta_time) {
-    elapsed_time += delta_time;
-    total_frames++;
+void BenchmarkMode::OnUpdate(float delta_time) {
+    elapsed_time_ += delta_time;
+    total_frames_++;
 }
 
-void BenchmarkMode::on_app_start(const std::string &app_id) {
-    elapsed_time = 0;
-    total_frames = 0;
-    LOGI("Starting Benchmark for {}", app_id);
+void BenchmarkMode::OnAppStart(const std::string &app_id) {
+    elapsed_time_ = 0;
+    total_frames_ = 0;
+    LOGI("Starting Benchmark for {}", app_id)
 }
 
-void BenchmarkMode::on_app_close(const std::string &app_id) {
-    LOGI("Benchmark for {} completed in {} seconds (ran {} frames, averaged {} fps)",
-         app_id,
-         elapsed_time,
-         total_frames,
-         total_frames / elapsed_time);
+void BenchmarkMode::OnAppClose(const std::string &app_id) {
+    LOGI("Benchmark for {} completed in {} seconds (ran {} frames, averaged {} fps)", app_id, elapsed_time_,
+         total_frames_, total_frames_ / elapsed_time_)
 }
-}        // namespace plugins
+}  // namespace plugins

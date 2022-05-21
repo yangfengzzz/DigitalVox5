@@ -12,50 +12,48 @@
 #include "platform/window.h"
 
 namespace plugins {
-WindowOptions::WindowOptions() :
-WindowOptionsTags("Window Options",
-                  "A collection of flags to configure window used when running the application. Implementation may differ between platforms",
-                  {},
-                  {&window_options_group}) {
-}
+WindowOptions::WindowOptions()
+    : WindowOptionsTags("Window Options",
+                        "A collection of flags to configure window used when running the application. Implementation "
+                        "may differ between platforms",
+                        {},
+                        {&window_options_group_}) {}
 
-bool WindowOptions::is_active(const vox::CommandParser &parser) {
-    return true;
-}
+bool WindowOptions::IsActive(const vox::CommandParser &parser) { return true; }
 
-void WindowOptions::init(const vox::CommandParser &parser) {
+void WindowOptions::Init(const vox::CommandParser &parser) {
     vox::Window::OptionalProperties properties;
-    
-    if (parser.contains(&width_flag)) {
-        auto width = parser.as<uint32_t>(&width_flag);
-        if (width < platform_->min_window_width_) {
-            LOGD("[Window Options] {} is smaller than the minimum width {}, resorting to minimum width", width, platform_->min_window_width_);
-            width = platform_->min_window_width_;
+
+    if (parser.Contains(&width_flag_)) {
+        auto width = parser.As<uint32_t>(&width_flag_);
+        if (width < vox::Platform::min_window_width_) {
+            LOGD("[Window Options] {} is smaller than the minimum width {}, resorting to minimum width", width,
+                 platform_->min_window_width_)
+            width = vox::Platform::min_window_width_;
         }
         properties.extent.width = width;
     }
-    
-    if (parser.contains(&height_flag)) {
-        auto height = parser.as<uint32_t>(&height_flag);
-        if (height < platform_->min_window_height_) {
-            LOGD("[Window Options] {} is smaller than the minimum height {}, resorting to minimum height",
-                 height,
-                 platform_->min_window_height_);
-            height = platform_->min_window_height_;
+
+    if (parser.Contains(&height_flag_)) {
+        auto height = parser.As<uint32_t>(&height_flag_);
+        if (height < vox::Platform::min_window_height_) {
+            LOGD("[Window Options] {} is smaller than the minimum height {}, resorting to minimum height", height,
+                 platform_->min_window_height_)
+            height = vox::Platform::min_window_height_;
         }
         properties.extent.height = height;
     }
-    
-    if (parser.contains(&headless_flag)) {
+
+    if (parser.Contains(&headless_flag_)) {
         properties.mode = vox::Window::Mode::HEADLESS;
-    } else if (parser.contains(&fullscreen_flag)) {
+    } else if (parser.Contains(&fullscreen_flag_)) {
         properties.mode = vox::Window::Mode::FULLSCREEN;
-    } else if (parser.contains(&borderless_flag)) {
+    } else if (parser.Contains(&borderless_flag_)) {
         properties.mode = vox::Window::Mode::FULLSCREEN_BORDERLESS;
     }
-    
-    if (parser.contains(&vsync_flag)) {
-        std::string value = parser.as<std::string>(&vsync_flag);
+
+    if (parser.Contains(&vsync_flag_)) {
+        auto value = parser.As<std::string>(&vsync_flag_);
         std::transform(value.begin(), value.end(), value.begin(), ::tolower);
         if (value == "on") {
             properties.vsync = vox::Window::Vsync::ON;
@@ -66,4 +64,4 @@ void WindowOptions::init(const vox::CommandParser &parser) {
 
     platform_->SetWindowProperties(properties);
 }
-}        // namespace plugins
+}  // namespace plugins

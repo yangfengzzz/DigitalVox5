@@ -24,22 +24,23 @@ using WindowOptionsTags = vox::PluginBase<WindowOptions, vox::tags::Passive>;
 class WindowOptions : public WindowOptionsTags {
 public:
     WindowOptions();
-    
-    virtual ~WindowOptions() = default;
-    
-    virtual bool is_active(const vox::CommandParser &parser) override;
-    
-    virtual void init(const vox::CommandParser &options) override;
-    
-    vox::FlagCommand width_flag = {vox::FlagType::ONE_VALUE, "width", "", "Initial window width"};
-    vox::FlagCommand height_flag = {vox::FlagType::ONE_VALUE, "height", "", "Initial window height"};
-    vox::FlagCommand fullscreen_flag = {vox::FlagType::FLAG_ONLY, "fullscreen", "", "Run in fullscreen mode"};
-    vox::FlagCommand headless_flag = {vox::FlagType::FLAG_ONLY, "headless", "", "Run in headless mode"};
-    vox::FlagCommand borderless_flag = {vox::FlagType::FLAG_ONLY, "borderless", "", "Run in borderless mode"};
-    vox::FlagCommand
-    vsync_flag = {vox::FlagType::ONE_VALUE, "vsync", "", "Force vsync {ON | OFF}. If not set samples decide how vsync is set"};
-    
-    vox::CommandGroup window_options_group =
-    {"Window Options", {&width_flag, &height_flag, &vsync_flag, &fullscreen_flag, &borderless_flag, &headless_flag}};
+
+    ~WindowOptions() override = default;
+
+    bool IsActive(const vox::CommandParser &parser) override;
+
+    void Init(const vox::CommandParser &options) override;
+
+    vox::FlagCommand width_flag_ = {vox::FlagType::ONE_VALUE, "width", "", "Initial window width"};
+    vox::FlagCommand height_flag_ = {vox::FlagType::ONE_VALUE, "height", "", "Initial window height"};
+    vox::FlagCommand fullscreen_flag_ = {vox::FlagType::FLAG_ONLY, "fullscreen", "", "Run in fullscreen mode"};
+    vox::FlagCommand headless_flag_ = {vox::FlagType::FLAG_ONLY, "headless", "", "Run in headless mode"};
+    vox::FlagCommand borderless_flag_ = {vox::FlagType::FLAG_ONLY, "borderless", "", "Run in borderless mode"};
+    vox::FlagCommand vsync_flag_ = {vox::FlagType::ONE_VALUE, "vsync", "",
+                                    "Force vsync {ON | OFF}. If not set samples decide how vsync is set"};
+
+    vox::CommandGroup window_options_group_ = {
+            "Window Options",
+            {&width_flag_, &height_flag_, &vsync_flag_, &fullscreen_flag_, &borderless_flag_, &headless_flag_}};
 };
-}        // namespace plugins
+}  // namespace plugins

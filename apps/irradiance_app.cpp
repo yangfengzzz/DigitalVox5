@@ -7,12 +7,13 @@
 #include "irradiance_app.h"
 
 #include <utility>
-#include "mesh/primitive_mesh.h"
-#include "mesh/mesh_renderer.h"
-#include "material/pbr_material.h"
+
 #include "camera.h"
-#include "image_manager.h"
 #include "controls/orbit_control.h"
+#include "image_manager.h"
+#include "material/pbr_material.h"
+#include "mesh/mesh_renderer.h"
+#include "mesh/primitive_mesh.h"
 
 namespace vox {
 class BakerMaterial : public BaseMaterial {
@@ -21,26 +22,24 @@ public:
         vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/cubemap-debugger.vert");
         fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/cubemap-debugger.frag");
     }
-    
-    void set_base_texture(const core::ImageView &image_view) {
+
+    void SetBaseTexture(const core::ImageView& image_view) {
         shader_data_.SetSampledTexture(
                 base_texture_prop_, image_view,
                 &device_.GetResourceCache().RequestSampler(BaseMaterial::last_sampler_create_info_));
     }
-    
+
     /// Tiling and offset of main textures.
-    uint32_t face_index() {
-        return face_index_;
-    }
-    
-    void set_face_index(uint32_t new_value) {
+    uint32_t FaceIndex() { return face_index_; }
+
+    void SetFaceIndex(uint32_t new_value) {
         face_index_ = new_value;
         shader_data_.SetData(face_index_prop_, new_value);
     }
-    
+
 private:
     const std::string base_texture_prop_ = "baseTexture";
-    
+
     uint32_t face_index_{};
     const std::string face_index_prop_ = "faceIndex";
 };
@@ -48,13 +47,13 @@ private:
 void IrradianceApp::LoadScene() {
     auto scene = scene_manager_->CurrentScene();
     auto root_entity = scene->CreateRootEntity();
-    
+
     auto camera_entity = root_entity->CreateChild();
     camera_entity->transform->SetPosition(0, 0, 10);
     camera_entity->transform->LookAt(Point3F(0, 0, 0));
     main_camera_ = camera_entity->AddComponent<Camera>();
     camera_entity->AddComponent<control::OrbitControl>();
-    
+
     // Create Sphere
     auto sphere_entity = root_entity->CreateChild("box");
     sphere_entity->transform->SetPosition(-1, 2, 0);
@@ -64,11 +63,11 @@ void IrradianceApp::LoadScene() {
     auto renderer = sphere_entity->AddComponent<MeshRenderer>();
     renderer->SetMesh(PrimitiveMesh::CreateSphere(1, 64));
     renderer->SetMaterial(sphere_material);
-    
+
     // Create planes
     std::array<Entity*, 6> planes{};
     std::array<std::shared_ptr<BakerMaterial>, 6> plane_materials{};
-    
+
     for (int i = 0; i < 6; i++) {
         auto baker_entity = root_entity->CreateChild("IBL Baker Entity");
         baker_entity->transform->SetRotation(90, 0, 0);
@@ -80,27 +79,26 @@ void IrradianceApp::LoadScene() {
         plane_materials[i] = baker_material;
     }
 
-    planes[0]->transform->SetPosition(1, 0, 0); // PX
-    planes[1]->transform->SetPosition(-3, 0, 0); // NX
-    planes[2]->transform->SetPosition(1, 2, 0); // PY
-    planes[3]->transform->SetPosition(1, -2, 0); // NY
-    planes[4]->transform->SetPosition(-1, 0, 0); // PZ
-    planes[5]->transform->SetPosition(3, 0, 0); // NZ
-    
+    planes[0]->transform->SetPosition(1, 0, 0);   // PX
+    planes[1]->transform->SetPosition(-3, 0, 0);  // NX
+    planes[2]->transform->SetPosition(1, 2, 0);   // PY
+    planes[3]->transform->SetPosition(1, -2, 0);  // NY
+    planes[4]->transform->SetPosition(-1, 0, 0);  // PZ
+    planes[5]->transform->SetPosition(3, 0, 0);   // NZ
+
     auto ibl_map = ImageManager::GetSingleton().GenerateIBL("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
     scene->AmbientLight()->SetSpecularTexture(ibl_map);
-    
-    auto change_mipmap = [&](uint32_t mipLevel) {
+
+    auto change_mipmap = [&](uint32_t mip_level) {
         for (uint32_t i = 0; i < 6; i++) {
             auto material = plane_materials[i];
-            material->set_base_texture(ibl_map->GetVkImageView(VK_IMAGE_VIEW_TYPE_2D, 0, i, 0, 1));
-            material->set_face_index(i);
+            material->SetBaseTexture(ibl_map->GetVkImageView(VK_IMAGE_VIEW_TYPE_2D, 0, i, 0, 1));
+            material->SetFaceIndex(i);
         }
     };
     change_mipmap(0);
-    
-    scene->play();
+
+    scene->Play();
 }
 
-
-}
+}  // namespace vox

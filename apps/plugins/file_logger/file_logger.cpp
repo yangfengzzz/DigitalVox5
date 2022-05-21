@@ -12,22 +12,17 @@ VKBP_DISABLE_WARNINGS()
 VKBP_ENABLE_WARNINGS()
 
 namespace plugins {
-FileLogger::FileLogger() :
-FileLoggerTags("File Logger",
-               "Enable log output to a file.",
-               {}, {&log_file_flag}) {
-}
+FileLogger::FileLogger() : FileLoggerTags("File Logger", "Enable log output to a file.", {}, {&log_file_flag_}) {}
 
-bool FileLogger::is_active(const vox::CommandParser &parser) {
-    return parser.contains(&log_file_flag);
-}
+bool FileLogger::IsActive(const vox::CommandParser &parser) { return parser.Contains(&log_file_flag_); }
 
-void FileLogger::init(const vox::CommandParser &parser) {
-    if (parser.contains(&log_file_flag)) {
+void FileLogger::Init(const vox::CommandParser &parser) {
+    if (parser.Contains(&log_file_flag_)) {
         if (spdlog::default_logger()) {
-            std::string log_file_name = parser.as<std::string>(&log_file_flag);
-            spdlog::default_logger()->sinks().push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(log_file_name, true));
+            auto log_file_name = parser.As<std::string>(&log_file_flag_);
+            spdlog::default_logger()->sinks().push_back(
+                    std::make_shared<spdlog::sinks::basic_file_sink_mt>(log_file_name, true));
         }
     }
 }
-}        // namespace plugins
+}  // namespace plugins

@@ -5,46 +5,46 @@
 //  property of any third parties.
 
 #include "skybox_app.h"
-#include "mesh/primitive_mesh.h"
-#include "mesh/mesh_renderer.h"
-#include "material/unlit_material.h"
-#include "rendering/subpasses/skybox_subpass.h"
+
 #include "camera.h"
 #include "image_manager.h"
+#include "material/unlit_material.h"
+#include "mesh/mesh_renderer.h"
+#include "mesh/primitive_mesh.h"
+#include "rendering/subpasses/skybox_subpass.h"
 
 namespace vox {
-bool SkyboxApp::prepare(Platform &platform) {
-    ForwardApplication::prepare(platform);
-    
+bool SkyboxApp::Prepare(Platform &platform) {
+    ForwardApplication::Prepare(platform);
+
     auto scene = scene_manager_->CurrentScene();
-    auto skybox = std::make_unique<SkyboxSubpass>(*render_context_,
-                                                  scene, main_camera_);
+    auto skybox = std::make_unique<SkyboxSubpass>(*render_context_, scene, main_camera_);
     skybox->CreateCuboid();
     skybox->FlipVertically();
     skybox->SetTextureCubeMap(ImageManager::GetSingleton().LoadTextureCubemap("Textures/uffizi_rgba16f_cube.ktx"));
     render_pipeline_->AddSubpass(std::move(skybox));
-    
+
     return true;
 }
 
 void SkyboxApp::LoadScene() {
     auto scene = scene_manager_->CurrentScene();
     auto root_entity = scene->CreateRootEntity();
-    
+
     auto camera_entity = root_entity->CreateChild();
     camera_entity->transform->SetPosition(10, 10, 10);
     camera_entity->transform->LookAt(Point3F(0, 0, 0));
     main_camera_ = camera_entity->AddComponent<Camera>();
     camera_entity->AddComponent<control::OrbitControl>();
-    
+
     auto model_entity = root_entity->CreateChild();
     auto renderer = model_entity->AddComponent<MeshRenderer>();
     renderer->SetMesh(PrimitiveMesh::CreateCuboid());
     auto material = std::make_shared<UnlitMaterial>(*device_);
     material->SetBaseColor(Color(0.6, 0.4, 0.7, 1.0));
     renderer->SetMaterial(material);
-    
-    scene->play();
+
+    scene->Play();
 }
 
-}
+}  // namespace vox

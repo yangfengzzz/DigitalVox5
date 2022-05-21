@@ -7,25 +7,23 @@
 #include "stop_after.h"
 
 namespace plugins {
-StopAfter::StopAfter() :
-StopAfterTags("Stop After X",
-              "A collection of flags to stop the running application after a set period.",
-              {vox::Hook::ON_UPDATE}, {&stop_after_frame_flag}) {
+StopAfter::StopAfter()
+    : StopAfterTags("Stop After X",
+                    "A collection of flags to stop the running application after a set period.",
+                    {vox::Hook::ON_UPDATE},
+                    {&stop_after_frame_flag_}) {}
+
+bool StopAfter::IsActive(const vox::CommandParser &parser) { return parser.Contains(&stop_after_frame_flag_); }
+
+void StopAfter::Init(const vox::CommandParser &parser) {
+    remaining_frames_ = parser.As<uint32_t>(&stop_after_frame_flag_);
 }
 
-bool StopAfter::is_active(const vox::CommandParser &parser) {
-    return parser.contains(&stop_after_frame_flag);
-}
+void StopAfter::OnUpdate(float delta_time) {
+    remaining_frames_--;
 
-void StopAfter::init(const vox::CommandParser &parser) {
-    remaining_frames = parser.as<uint32_t>(&stop_after_frame_flag);
-}
-
-void StopAfter::on_update(float delta_time) {
-    remaining_frames--;
-    
-    if (remaining_frames <= 0) {
-        platform_->close();
+    if (remaining_frames_ <= 0) {
+        platform_->Close();
     }
 }
-}        // namespace plugins
+}  // namespace plugins
