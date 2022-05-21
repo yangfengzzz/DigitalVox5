@@ -7,9 +7,10 @@
 #pragma once
 
 #include <variant>
-#include "view.h"
+
 #include "controls/orbit_control.h"
 #include "rendering/subpasses/geometry_subpass.h"
+#include "view.h"
 
 namespace vox {
 using namespace ui;
@@ -20,33 +21,35 @@ namespace editor::ui {
  */
 class AssetView : public View {
 public:
-    AssetView(const std::string &title, bool opened,
+    AssetView(const std::string &title,
+              bool opened,
               const PanelWindowSettings &window_settings,
-              RenderContext &render_context, Scene *scene);
-    
+              RenderContext &render_context,
+              Scene *scene);
+
     /**
      * Update the scene view
      */
-    void update(float delta_time) override;
-    
+    void Update(float delta_time) override;
+
     /**
      * Custom implementation of the render method
      */
-    void render(CommandBuffer &command_buffer) override;
-    
-    void load_scene(Entity *root_entity);
-    
+    void Render(CommandBuffer &command_buffer) override;
+
+    void LoadScene(Entity *root_entity);
+
 public:
-    control::OrbitControl *camera_control();
-    
+    control::OrbitControl *CameraControl();
+
 private:
     Camera *main_camera_{nullptr};
     Scene *scene_{nullptr};
     GeometrySubpass *subpass_{nullptr};
     std::vector<RenderElement> elements_{};
-    
+
     control::OrbitControl *camera_control_{nullptr};
 };
 
-}
-}
+}  // namespace editor::ui
+}  // namespace vox

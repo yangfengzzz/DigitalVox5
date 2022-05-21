@@ -6,66 +6,62 @@
 
 #pragma once
 
-#include "graphics_application.h"
-#include "image_manager.h"
-#include "shader/shader_manager.h"
-#include "mesh/mesh_manager.h"
-
 #include "components_manager.h"
-#include "physics/physics_manager.h"
-#include "shadow/shadow_manager.h"
-#include "lighting/light_manager.h"
-#include "particle/particle_manager.h"
-#include "scene_manager.h"
-
-#include "panels_manager.h"
 #include "editor_actions.h"
 #include "editor_resources.h"
-
+#include "graphics_application.h"
+#include "image_manager.h"
+#include "lighting/light_manager.h"
 #include "lua/script_interpreter.h"
+#include "mesh/mesh_manager.h"
+#include "panels_manager.h"
+#include "particle/particle_manager.h"
+#include "physics/physics_manager.h"
+#include "scene_manager.h"
+#include "shader/shader_manager.h"
+#include "shadow/shadow_manager.h"
 
 namespace vox::editor {
 class EditorApplication : public GraphicsApplication {
 public:
     EditorApplication(const std::string &project_path, const std::string &project_name);
-    
+
     ~EditorApplication() override;
-    
+
     /**
      * @brief Additional sample initialization
      */
-    bool prepare(Platform &platform) override;
-    
+    bool Prepare(Platform &platform) override;
+
     /**
      * @brief Main loop sample events
      */
-    void update(float delta_time) override;
-    
-    bool resize(uint32_t win_width, uint32_t win_height,
-                uint32_t fb_width, uint32_t fb_height) override;
-    
-    void input_event(const InputEvent &input_event) override;
-    
-    void render(CommandBuffer &command_buffer, RenderTarget &render_target) override;
-    
-    void update_gpu_task(CommandBuffer &command_buffer, RenderTarget &render_target);
-    
+    void Update(float delta_time) override;
+
+    bool Resize(uint32_t win_width, uint32_t win_height, uint32_t fb_width, uint32_t fb_height) override;
+
+    void InputEvent(const vox::InputEvent &input_event) override;
+
+    void Render(CommandBuffer &command_buffer, RenderTarget &render_target) override;
+
+    void UpdateGpuTask(CommandBuffer &command_buffer, RenderTarget &render_target);
+
     /**
      * Handle panels creation and canvas binding
      */
-    void setup_ui();
-    
+    void SetupUi();
+
     /**
      * Render every views (Scene View, Game View, Asset View)
      */
-    void render_views(float delta_time, CommandBuffer &command_buffer);
-    
+    void RenderViews(float delta_time, CommandBuffer &command_buffer);
+
     /**
      * Update editor panels
      * @param delta_time deltaTime
      */
-    void update_editor_panels(float delta_time);
-    
+    void UpdateEditorPanels(float delta_time);
+
 private:
     friend class EditorActions;
     const std::string project_path_;
@@ -75,15 +71,15 @@ private:
     const std::string project_assets_path_;
     const std::string project_scripts_path_;
     const std::string editor_assets_path_;
-    
+
     ::vox::ui::Canvas canvas_;
     ui::PanelsManager panels_manager_;
     std::unique_ptr<EditorActions> editor_actions_{nullptr};
     std::unique_ptr<EditorResources> editor_resources_{nullptr};
-    
+
     float delta_time_{};
     Camera *main_camera_{nullptr};
-    
+
     /**
      * @brief Holds all scene information
      */
@@ -100,4 +96,4 @@ private:
     std::unique_ptr<ParticleManager> particle_manager_{nullptr};
 };
 
-}
+}  // namespace vox::editor

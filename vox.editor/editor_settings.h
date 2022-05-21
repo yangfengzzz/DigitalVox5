@@ -14,55 +14,51 @@ namespace vox::editor {
  */
 class EditorSettings {
 public:
-    template<typename T>
+    template <typename T>
     class Property {
     public:
         /**
          * Creates the property with a default value
          */
         Property(T value) : value_(value) {}
-        
+
         /**
          * Event called when the property value changes
          */
         Event<T> on_value_changed_;
-        
+
         /**
          * Assign a new value to the property
          */
         inline T &operator=(T value) {
-            set(value);
+            Set(value);
             return value_;
         }
-        
+
         /**
          * Assign a new value to the property
          */
-        inline void set(T value) {
+        inline void Set(T value) {
             value_ = value;
-            on_value_changed_.invoke(value_);
+            on_value_changed_.Invoke(value_);
         }
-        
-        inline operator T() {
-            return value_;
-        }
-        
+
+        inline operator T() { return value_; }
+
         /**
          * Returns the value of the property
          */
-        [[nodiscard]] inline T get() const {
-            return value_;
-        }
-        
+        [[nodiscard]] inline T Get() const { return value_; }
+
     private:
         T value_;
     };
-    
+
     /**
      * No construction possible
      */
     EditorSettings() = delete;
-    
+
     inline static Property<bool> show_geometry_bounds_ = {false};
     inline static Property<bool> show_light_bounds_ = {false};
     inline static Property<bool> show_geometry_frustum_culling_in_scene_view_ = {false};
@@ -73,4 +69,4 @@ public:
     inline static Property<float> scaling_snap_unit_ = {1.0f};
 };
 
-}
+}  // namespace vox::editor

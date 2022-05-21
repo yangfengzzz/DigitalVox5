@@ -6,11 +6,12 @@
 
 #pragma once
 
-#include "profiling/profiler_report.h"
-#include <unordered_map>
 #include <chrono>
 #include <mutex>
 #include <thread>
+#include <unordered_map>
+
+#include "profiling/profiler_report.h"
 
 namespace vox {
 /* Forward declaration of the profiler spy structure */
@@ -25,55 +26,55 @@ public:
      * Create the profiler
      */
     Profiler();
-    
+
     /**
      * Generate a report containing data about the last profiling session
      */
-    ProfilerReport generate_report();
-    
+    ProfilerReport GenerateReport();
+
     /**
      * Clear any collected data
      */
-    void clear_history();
-    
+    void ClearHistory();
+
     /**
      * Update the profiler
      */
-    static void update(float delta_time);
-    
+    static void Update(float delta_time);
+
     /**
      * Save the given spy collected data to the profiler history
      * @param spy (Spy to collect data from)
      */
-    static void save(ProfilerSpy &spy);
-    
+    static void Save(ProfilerSpy &spy);
+
     /**
      * Verify if the profiler is currently enabled
      */
-    static bool is_enabled();
-    
+    static bool IsEnabled();
+
     /**
      * Enable the profiler if it is currently disabled, and vice-versa
      */
-    static void toggle_enable();
-    
+    static void ToggleEnable();
+
     /**
      * Enable the profiler
      */
-    static void enable();
-    
+    static void Enable();
+
     /**
      * Disable the profiler
      */
-    static void disable();
-    
+    static void Disable();
+
 private:
     /* Time relatives */
     std::chrono::steady_clock::time_point last_time_;
-    
+
     /* Profiler settings */
     static bool enabled_;
-    
+
     /* Collected data */
     static std::mutex save_mutex_;
     static std::unordered_map<std::string, double> elapsed_history_;
@@ -82,4 +83,4 @@ private:
     static uint32_t elapsed_frames_;
 };
 
-}
+}  // namespace vox

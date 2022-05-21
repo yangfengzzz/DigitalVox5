@@ -6,8 +6,9 @@
 
 #pragma once
 
-#include <string>
 #include <chrono>
+#include <string>
+
 #include "profiler.h"
 
 namespace vox {
@@ -16,9 +17,9 @@ namespace vox {
  * Any spy will die and send data to the profiler at
  * the end of the scope where this macro get called
  */
-#define PROFILER_SPY(name)\
-std::unique_ptr<ProfilerSpy> __profiler_spy__ = \
-Profiler::is_enabled() ? std::make_unique<ProfilerSpy>(name) : nullptr
+#define PROFILER_SPY(name)                          \
+    std::unique_ptr<ProfilerSpy> __profiler_spy__ = \
+            Profiler::IsEnabled() ? std::make_unique<ProfilerSpy>(name) : nullptr
 
 /**
  * A little informer that is created when PROFILER_SPY(name) is written.
@@ -30,16 +31,16 @@ struct ProfilerSpy final {
      * Create the profiler spy with the given name.
      */
     explicit ProfilerSpy(std::string name);
-    
+
     /**
      * Destroy the profiler spy.
      * On destruction, his collected data will be saved in the profiler
      */
     ~ProfilerSpy();
-    
+
     const std::string name;
     const std::chrono::steady_clock::time_point start;
     std::chrono::steady_clock::time_point end;
 };
 
-}
+}  // namespace vox

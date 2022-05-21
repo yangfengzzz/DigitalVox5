@@ -14,26 +14,28 @@ using namespace ui;
 namespace editor::ui {
 class GameView : public View {
 public:
-    GameView(const std::string &title, bool opened,
+    GameView(const std::string &title,
+             bool opened,
              const PanelWindowSettings &window_settings,
-             RenderContext &render_context, Scene *scene);
-    
+             RenderContext &render_context,
+             Scene *scene);
+
     /**
      * Update the scene view
      */
-    void update(float delta_time) override;
-    
+    void Update(float delta_time) override;
+
     /**
      * Custom implementation of the render method
      */
-    void render(CommandBuffer &command_buffer) override;
-    
-    void load_scene(Entity *root_entity);
-    
+    void Render(CommandBuffer &command_buffer) override;
+
+    void LoadScene(Entity *root_entity);
+
 private:
     Camera *main_camera_{nullptr};
     Scene *scene_{nullptr};
 };
 
-}
-}
+}  // namespace editor::ui
+}  // namespace vox

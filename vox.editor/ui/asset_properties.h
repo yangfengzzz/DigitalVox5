@@ -8,12 +8,11 @@
 
 #include "event.h"
 #include "ini_file.h"
-
-#include "ui/widgets/texts/text.h"
-#include "ui/widgets/panel_transformables/panel_window.h"
-#include "ui/widgets/layout/group.h"
-#include "ui/widgets/layout/columns.h"
 #include "ui/widgets/buttons/button_simple.h"
+#include "ui/widgets/layout/columns.h"
+#include "ui/widgets/layout/group.h"
+#include "ui/widgets/panel_transformables/panel_window.h"
+#include "ui/widgets/texts/text.h"
 #include "view/asset_view.h"
 
 namespace vox {
@@ -22,45 +21,46 @@ using namespace ui;
 namespace editor::ui {
 class AssetProperties : public PanelWindow {
 public:
-    AssetProperties(const std::string &p_title, bool p_opened,
+    AssetProperties(const std::string &p_title,
+                    bool p_opened,
                     const PanelWindowSettings &p_window_settings,
                     AssetView &view);
-    
+
     /**
      * Defines the target of the asset settings editor
      * @param p_path p_path
      */
-    void set_target(const std::string &p_path);
-    
+    void SetTarget(const std::string &p_path);
+
     /**
      * Refresh the panel to show the current target settings
      */
-    void refresh();
-    
+    void Refresh();
+
     /**
      * Launch the preview of the target asset
      */
-    void preview();
-    
+    void Preview();
+
 private:
-    void create_header_buttons();
-    
-    void create_asset_selector();
-    
-    void create_settings();
-    
-    void create_info();
-    
-    void create_model_settings();
-    
-    void create_texture_settings();
-    
-    void apply();
-    
+    void CreateHeaderButtons();
+
+    void CreateAssetSelector();
+
+    void CreateSettings();
+
+    void CreateInfo();
+
+    void CreateModelSettings();
+
+    void CreateTextureSettings();
+
+    void Apply();
+
 private:
     AssetView &asset_view_;
     std::string resource_;
-    
+
     Event<> target_changed_;
     Group *settings_{nullptr};
     Group *info_{nullptr};
@@ -76,5 +76,5 @@ private:
     std::unique_ptr<fs::IniFile> metadata_{nullptr};
 };
 
-}
-}
+}  // namespace editor::ui
+}  // namespace vox

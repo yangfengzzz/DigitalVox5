@@ -9,29 +9,29 @@
 #include <string>
 
 namespace vox::editor {
-std::string u_char_2_hex(unsigned char c);
+std::string UChar2Hex(unsigned char c);
 
 struct Hash {
     Hash() = default;
-    
+
     Hash(unsigned char *d, int l) {
         length = l;
         data = new unsigned char[length];
         std::memcpy(data, d, length);
     }
-    
+
     ~Hash() = default;
-    
-    [[nodiscard]] std::string to_string() const {
+
+    [[nodiscard]] std::string ToString() const {
         std::string hash;
-        
+
         for (int i = 0; i < length; i++) {
-            hash += u_char_2_hex(data[i]);
+            hash += UChar2Hex(data[i]);
         }
-        
+
         return hash;
     }
-    
+
     int length = 0;
     unsigned char *data{};
 };
@@ -42,65 +42,65 @@ struct Hash {
 std::wstring s2ws(const std::string &s);
 #endif
 
-void open_url(std::string url);
+void OpenUrl(std::string url);
 
-std::string show_save_file_dialog(std::string ext = ".terr3d");
+std::string ShowSaveFileDialog(std::string ext = ".terr3d");
 
-std::string openfilename();
+std::string Openfilename();
 
-std::string show_open_file_dialog(std::string ext = "*.glsl");
+std::string ShowOpenFileDialog(std::string ext = "*.glsl");
 
-std::string read_shader_source_file(std::string path, bool *result);
+std::string ReadShaderSourceFile(std::string path, bool *result);
 
-std::string get_executable_path();
+std::string GetExecutablePath();
 
-std::string get_executable_dir();
+std::string GetExecutableDir();
 
-std::string generate_id(uint32_t length);
+std::string GenerateId(uint32_t length);
 
-std::string fetch_url(std::string base_url, std::string path);
+std::string FetchUrl(std::string base_url, std::string path);
 
-char *u_char_2_char(unsigned char *data, int length);
+char *UChar2Char(unsigned char *data, int length);
 
-bool file_exists(std::string path, bool write_access = false);
+bool FileExists(std::string path, bool write_access = false);
 
-bool path_exist(const std::string &s);
+bool PathExist(const std::string &s);
 
-bool is_net_work_connected();
+bool IsNetWorkConnected();
 
-char *read_binary_file(std::string path, int *size, uint32_t size_to_load = -1);
+char *ReadBinaryFile(std::string path, int *size, uint32_t size_to_load = -1);
 
-char *read_binary_file(std::string path, uint32_t size_to_load = -1);
+char *ReadBinaryFile(std::string path, uint32_t size_to_load = -1);
 
-Hash md_5_file(std::string path);
+Hash Md5File(std::string path);
 
-void download_file(std::string base_url, std::string url_path, std::string path, int size = -1);
+void DownloadFile(std::string base_url, std::string url_path, std::string path, int size = -1);
 
-void save_to_file(std::string filename, std::string content = "");
+void SaveToFile(std::string filename, std::string content = "");
 
-void log(const char *log);
+void Log(const char *log);
 
-void log(std::string log);
+void Log(std::string log);
 
 #ifdef TERR3D_WIN32
 #include <windows.h>
 void regSet(HKEY hkeyHive, const char *pszVar, const char *pszValue);
 #endif
 
-void accoc_file_type();
+void AccocFileType();
 
-void mk_dir(std::string path);
+void MkDir(std::string path);
 
-void copy_file_data(std::string source, std::string destination);
+void CopyFileData(std::string source, std::string destination);
 
-bool delete_file_t(std::string path);
+bool DeleteFileT(std::string path);
 
-bool is_key_down(int key);
+bool IsKeyDown(int key);
 
-bool is_mouse_button_down(int button);
+bool IsMouseButtonDown(int button);
 
-void show_message_box(std::string message, std::string title = "Info");
+void ShowMessageBox(std::string message, std::string title = "Info");
 
-void toggle_system_console();
+void ToggleSystemConsole();
 
-}
+}  // namespace vox::editor

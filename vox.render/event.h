@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef DIGITALVOX_VOX_RENDER_EVENT_H_
-#define DIGITALVOX_VOX_RENDER_EVENT_H_
+#pragma once
 
 #include <functional>
 #include <unordered_map>
@@ -79,5 +78,3 @@ private:
 }  // namespace vox
 
 #include "event-inl.h"
-
-#endif /* DIGITALVOX_VOX_RENDER_EVENT_H_ */

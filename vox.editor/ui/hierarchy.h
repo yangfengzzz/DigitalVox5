@@ -7,9 +7,9 @@
 #pragma once
 
 #include "scene_forward.h"
-#include "ui/widgets/panel_transformables/panel_window.h"
 #include "ui/widgets/layout/group.h"
 #include "ui/widgets/layout/tree_node.h"
+#include "ui/widgets/panel_transformables/panel_window.h"
 
 namespace vox {
 using namespace ui;
@@ -17,59 +17,57 @@ using namespace ui;
 namespace editor::ui {
 class Hierarchy : public PanelWindow {
 public:
-    Hierarchy(const std::string &title,
-              bool opened,
-              const PanelWindowSettings &window_settings);
-    
+    Hierarchy(const std::string &title, bool opened, const PanelWindowSettings &window_settings);
+
     /**
      * Clear hierarchy nodes
      */
-    void clear();
-    
+    void Clear();
+
     /**
      * Unselect every widgets
      */
-    void unselect_entities_widgets();
-    
+    void UnselectEntitiesWidgets();
+
     /**
      * Select the widget corresponding to the given entity
      */
-    void select_entity_by_instance(Entity *entity);
-    
+    void SelectEntityByInstance(Entity *entity);
+
     /**
      * Select the widget
      */
-    void select_entity_by_widget(TreeNode &widget);
-    
+    void SelectEntityByWidget(TreeNode &widget);
+
     /**
      * Attach the given entity linked widget to its parent widget
      */
-    void attach_entity_to_parent(Entity *entity);
-    
+    void AttachEntityToParent(Entity *entity);
+
     /**
      * Detach the given entity linked widget from its parent widget
      */
-    void detach_from_parent(Entity *entity);
-    
+    void DetachFromParent(Entity *entity);
+
     /**
      * Delete the widget referencing the given entity
      */
-    void delete_entity_by_instance(Entity *entity);
-    
+    void DeleteEntityByInstance(Entity *entity);
+
     /**
      * Add a widget referencing the given entity
      */
-    void add_entity_by_instance(Entity *entity);
-    
+    void AddEntityByInstance(Entity *entity);
+
 public:
     Event<Entity *&> entity_selected_event_;
     Event<Entity *&> entity_unselected_event_;
-    
+
 private:
     TreeNode *scene_root_;
-    
+
     std::unordered_map<Entity *, TreeNode *> widget_entity_link_;
 };
 
-}
-}
+}  // namespace editor::ui
+}  // namespace vox

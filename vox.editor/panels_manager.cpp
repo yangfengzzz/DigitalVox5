@@ -7,7 +7,6 @@
 #include "panels_manager.h"
 
 namespace vox::editor::ui {
-PanelsManager::PanelsManager(Canvas &canvas) : canvas_(canvas) {
-}
+PanelsManager::PanelsManager(Canvas &canvas) : canvas_(canvas) {}
 
-}
+}  // namespace vox::editor::ui

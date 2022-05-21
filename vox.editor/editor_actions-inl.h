@@ -10,18 +10,17 @@
 #include "entity.h"
 
 namespace vox::editor {
-template<typename T>
-inline Entity *EditorActions::create_mono_component_entity(bool focus_on_creation, Entity *parent) {
-    auto instance = create_empty_entity(false, parent);
-    
+template <typename T>
+inline Entity *EditorActions::CreateMonoComponentEntity(bool focus_on_creation, Entity *parent) {
+    auto instance = CreateEmptyEntity(false, parent);
+
     T *component = instance->AddComponent<T>();
-    
-    instance->name_ = component->name();
-    
-    if (focus_on_creation)
-        select_entity(instance);
-    
+
+    instance->name = component->Name();
+
+    if (focus_on_creation) SelectEntity(instance);
+
     return instance;
 }
 
-}
+}  // namespace vox::editor

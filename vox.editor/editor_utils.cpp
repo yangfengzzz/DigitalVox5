@@ -8,21 +8,21 @@
 
 namespace vox {
 namespace editor {
-void open_url(std::string url) {
+void OpenUrl(std::string url) {
     std::string op = std::string("open ").append(url);
     system(op.c_str());
 }
 
-std::string generate_id(uint32_t length) {
+std::string GenerateId(uint32_t length) {
     std::string id;
     srand(static_cast<uint32_t>(time(NULL)));
-    
+
     for (int i = 0; i < length; i++) {
         id += std::to_string(rand() % 9);
     }
-    
+
     return id;
 }
 
-}
-}
+}  // namespace editor
+}  // namespace vox

@@ -17,5 +17,5 @@ float CurveValue(float p, int maxpoints, const ImVec2 *points);
 
 float CurveValueSmooth(float p, int maxpoints, const ImVec2 *points);
 
-};
+};     // namespace ImGui
 #endif /* imgui_curve_hpp */

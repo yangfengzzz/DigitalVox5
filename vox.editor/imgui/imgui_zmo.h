@@ -26,11 +26,11 @@
 // -------------------------------------------------------------------------------------------
 // History :
 // 2019/11/03 View gizmo
-// 2016/09/11 Behind camera culling. Scaling Delta matrix not multiplied by source matrix scales. local/world rotation and translation fixed. Display message is incorrect (X: ... Y:...) in local mode.
-// 2016/09/09 Hatched negative axis. Snapping. Documentation update.
-// 2016/09/04 Axis switch and translation plan autohiding. Scale transform stability improved
-// 2016/09/01 Mogwai changed to Manipulate. Draw debug cube. Fixed inverted scale. Mixing scale and translation/rotation gives bad results.
-// 2016/08/31 First version
+// 2016/09/11 Behind camera culling. Scaling Delta matrix not multiplied by source matrix scales. local/world rotation
+// and translation fixed. Display message is incorrect (X: ... Y:...) in local mode. 2016/09/09 Hatched negative axis.
+// Snapping. Documentation update. 2016/09/04 Axis switch and translation plan autohiding. Scale transform stability
+// improved 2016/09/01 Mogwai changed to Manipulate. Draw debug cube. Fixed inverted scale. Mixing scale and
+// translation/rotation gives bad results. 2016/08/31 First version
 //
 // -------------------------------------------------------------------------------------------
 // Future (no order):
@@ -39,9 +39,9 @@
 // - display rotation/translation/scale infos in local/world space and not only local
 // - finish local/world matrix application
 // - OPERATION as bitmask
-// 
+//
 // -------------------------------------------------------------------------------------------
-// Example 
+// Example
 #if 0
 void EditTransform(const Camera& camera, matrix_t& matrix)
 {
@@ -126,7 +126,8 @@ IMGUI_API void BeginFrame();
 
 // this is necessary because when imguizmo is compiled into a dll, and imgui into another
 // globals are not shared between them.
-// More details at https://stackoverflow.com/questions/19373061/what-happens-to-global-and-static-variables-in-a-shared-library-when-it-is-dynam
+// More details at
+// https://stackoverflow.com/questions/19373061/what-happens-to-global-and-static-variables-in-a-shared-library-when-it-is-dynam
 // expose method to set imgui context
 IMGUI_API void SetImGuiContext(ImGuiContext *ctx);
 
@@ -154,7 +155,10 @@ IMGUI_API void Enable(bool enable);
 // These functions have some numerical stability issues for now. Use with caution.
 IMGUI_API void DecomposeMatrixToComponents(const float *matrix, float *translation, float *rotation, float *scale);
 
-IMGUI_API void RecomposeMatrixFromComponents(const float *translation, const float *rotation, const float *scale, float *matrix);
+IMGUI_API void RecomposeMatrixFromComponents(const float *translation,
+                                             const float *rotation,
+                                             const float *scale,
+                                             float *matrix);
 
 IMGUI_API void SetRect(float x, float y, float width, float height);
 // default is false
@@ -185,11 +189,11 @@ enum OPERATION {
     SCALE_XU = (1u << 11),
     SCALE_YU = (1u << 12),
     SCALE_ZU = (1u << 13),
-    
+
     TRANSLATE = TRANSLATE_X | TRANSLATE_Y | TRANSLATE_Z,
     ROTATE = ROTATE_X | ROTATE_Y | ROTATE_Z | ROTATE_SCREEN,
     SCALE = SCALE_X | SCALE_Y | SCALE_Z,
-    SCALEU = SCALE_XU | SCALE_YU | SCALE_ZU, // universal
+    SCALEU = SCALE_XU | SCALE_YU | SCALE_ZU,  // universal
     UNIVERSAL = TRANSLATE | ROTATE | SCALEU
 };
 
@@ -197,14 +201,17 @@ inline OPERATION operator|(OPERATION lhs, OPERATION rhs) {
     return static_cast<OPERATION>(static_cast<int>(lhs) | static_cast<int>(rhs));
 }
 
-enum MODE {
-    LOCAL,
-    WORLD
-};
+enum MODE { LOCAL, WORLD };
 
-IMGUI_API bool Manipulate(const float *view, const float *projection, OPERATION operation, MODE mode,
-                          float *matrix, float *deltaMatrix = NULL, const float *snap = NULL,
-                          const float *localBounds = NULL, const float *boundsSnap = NULL);
+IMGUI_API bool Manipulate(const float *view,
+                          const float *projection,
+                          OPERATION operation,
+                          MODE mode,
+                          float *matrix,
+                          float *deltaMatrix = NULL,
+                          const float *snap = NULL,
+                          const float *localBounds = NULL,
+                          const float *boundsSnap = NULL);
 //
 // Please note that this cubeview is patented by Autodesk : https://patents.google.com/patent/US7782319B2/en
 // It seems to be a defensive patent in the US. I don't think it will bring troubles using it as
@@ -223,4 +230,4 @@ IMGUI_API void SetGizmoSizeClipSpace(float value);
 // When true (default), the guizmo axis flip for better visibility
 // When false, they always stay along the positive world/local axis
 IMGUI_API void AllowAxisFlip(bool value);
-}
+}  // namespace IMGUIZMO_NAMESPACE

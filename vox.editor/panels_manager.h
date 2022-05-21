@@ -8,10 +8,10 @@
 
 #include <unordered_map>
 
+#include "ui/canvas.h"
 #include "ui/menu_bar.h"
 #include "ui/widgets/panel.h"
 #include "ui/widgets/panel_transformables/panel_window.h"
-#include "ui/canvas.h"
 
 namespace vox {
 using namespace ui;
@@ -27,37 +27,37 @@ public:
      * @param canvas canvas
      */
     explicit PanelsManager(Canvas &canvas);
-    
+
     /**
      * Create a panel
      * @param id id
      * @param args args
      */
-    template<typename T, typename... Args>
-    void create_panel(const std::string &id, Args &&... args) {
+    template <typename T, typename... Args>
+    void CreatePanel(const std::string &id, Args &&...args) {
         if constexpr (std::is_base_of<PanelWindow, T>::value) {
             panels_.emplace(id, std::make_unique<T>(id, std::forward<Args>(args)...));
             T &instance = *static_cast<T *>(panels_.at(id).get());
-            get_panel_as<MenuBar>("Menu Bar").register_panel(instance.name_, instance);
+            GetPanelAs<MenuBar>("Menu Bar").RegisterPanel(instance.name_, instance);
         } else {
             panels_.emplace(id, std::make_unique<T>(std::forward<Args>(args)...));
         }
         canvas_.AddPanel(*panels_.at(id));
     }
-    
+
     /**
      * Returns the panel identified by the given id casted in the given type
      * @param id id
      */
-    template<typename T>
-    T &get_panel_as(const std::string &id) {
+    template <typename T>
+    T &GetPanelAs(const std::string &id) {
         return *static_cast<T *>(panels_[id].get());
     }
-    
+
 private:
     std::unordered_map<std::string, std::unique_ptr<Panel>> panels_;
     Canvas &canvas_;
 };
 
-}
-}
+}  // namespace editor::ui
+}  // namespace vox

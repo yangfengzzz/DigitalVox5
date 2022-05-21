@@ -5,23 +5,25 @@
 //  property of any third parties.
 
 #include "game_view.h"
+
 #include "camera.h"
 #include "entity.h"
 #include "rendering/subpasses/geometry_subpass.h"
 
 namespace vox::editor::ui {
-GameView::GameView(const std::string &title, bool opened,
+GameView::GameView(const std::string &title,
+                   bool opened,
                    const PanelWindowSettings &window_settings,
-                   RenderContext &render_context, Scene *scene) :
-View(title, opened, window_settings, render_context),
-scene_(scene) {
-    scene->background_.solid_color = Color(0.2, 0.4, 0.6, 1.0);
+                   RenderContext &render_context,
+                   Scene *scene)
+    : View(title, opened, window_settings, render_context), scene_(scene) {
+    scene->background.solid_color = Color(0.2, 0.4, 0.6, 1.0);
     auto editor_root = scene_->FindEntityByName("GameRoot");
     if (!editor_root) {
         editor_root = scene_->CreateRootEntity("GameRoot");
     }
-    load_scene(editor_root);
-    
+    LoadScene(editor_root);
+
     // default render pipeline
     std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
     scene_subpasses.emplace_back(std::make_unique<GeometrySubpass>(render_context_, scene, main_camera_));
@@ -31,27 +33,27 @@ scene_(scene) {
     render_pipeline_->SetClearValue(clear_value);
 }
 
-void GameView::render(CommandBuffer &command_buffer) {
+void GameView::Render(CommandBuffer &command_buffer) {
     if (render_target_ && IsFocused()) {
-        render_pipeline_->draw(command_buffer, *render_target_);
+        render_pipeline_->Draw(command_buffer, *render_target_);
     }
 }
 
-void GameView::update(float delta_time) {
-    View::update(delta_time);
-    
-    auto [win_width, win_height] = safe_size();
+void GameView::Update(float delta_time) {
+    View::Update(delta_time);
+
+    auto [win_width, win_height] = SafeSize();
     if (win_width > 0) {
         main_camera_->SetAspectRatio(float(win_width) / float(win_height));
-        main_camera_->resize(win_width, win_height, win_width * 2, win_height * 2);
+        main_camera_->Resize(win_width, win_height, win_width * 2, win_height * 2);
     }
 }
 
-void GameView::load_scene(Entity *root_entity) {
+void GameView::LoadScene(Entity *root_entity) {
     auto camera_entity = root_entity->CreateChild("MainCamera");
     camera_entity->transform->SetPosition(10, 0, 0);
     camera_entity->transform->LookAt(Point3F(0, 0, 0));
     main_camera_ = camera_entity->AddComponent<Camera>();
 }
 
-}
+}  // namespace vox::editor::ui

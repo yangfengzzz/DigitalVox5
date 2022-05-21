@@ -5,17 +5,15 @@
 //  property of any third parties.
 
 #include "profiler_spy.h"
+
 #include <utility>
 
 namespace vox {
-ProfilerSpy::ProfilerSpy(std::string name) :
-name(std::move(name)),
-start(std::chrono::steady_clock::now()) {
-}
+ProfilerSpy::ProfilerSpy(std::string name) : name(std::move(name)), start(std::chrono::steady_clock::now()) {}
 
 ProfilerSpy::~ProfilerSpy() {
     end = std::chrono::steady_clock::now();
-    Profiler::save(*this);
+    Profiler::Save(*this);
 }
 
-}
+}  // namespace vox

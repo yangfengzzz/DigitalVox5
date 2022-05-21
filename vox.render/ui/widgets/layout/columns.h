@@ -31,7 +31,7 @@ protected:
         CollectGarbage();
 
         for (auto it = widgets_.begin(); it != widgets_.end();) {
-            it->first->draw();
+            it->first->Draw();
 
             ++it;
 

@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace vox {
 /**
@@ -23,11 +23,11 @@ struct ProfilerReport final {
         double percentage;
         uint64_t calls;
     };
-    
+
     double elapsed_time = 0.0;
     uint16_t working_threads = 0u;
     uint32_t elapsed_frames = 0u;
     std::vector<Action> actions{};
 };
 
-}
+}  // namespace vox

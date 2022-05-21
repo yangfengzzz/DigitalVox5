@@ -7,23 +7,20 @@
 // CREDITS
 //   Written by Michal Cichon
 //------------------------------------------------------------------------------
-# ifndef __IMGUI_NODE_EDITOR_INTERNAL_INL__
-# define __IMGUI_NODE_EDITOR_INTERNAL_INL__
-# pragma once
-
+#ifndef __IMGUI_NODE_EDITOR_INTERNAL_INL__
+#define __IMGUI_NODE_EDITOR_INTERNAL_INL__
+#pragma once
 
 //------------------------------------------------------------------------------
-# include "imgui_node_editor_internal.h"
-
+#include "imgui_node_editor_internal.h"
 
 //------------------------------------------------------------------------------
 namespace vox {
 namespace NodeEditor {
 namespace Detail {
 
-
 //------------------------------------------------------------------------------
-//inline ImRect ToRect(const ax::rectf& rect)
+// inline ImRect ToRect(const ax::rectf& rect)
 //{
 //    return ImRect(
 //        to_imvec(rect.top_left()),
@@ -31,7 +28,7 @@ namespace Detail {
 //    );
 //}
 //
-//inline ImRect ToRect(const ax::rect& rect)
+// inline ImRect ToRect(const ax::rect& rect)
 //{
 //    return ImRect(
 //        to_imvec(rect.top_left()),
@@ -39,16 +36,12 @@ namespace Detail {
 //    );
 //}
 
-inline ImRect ImGui_GetItemRect() {
-    return ImRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
-}
-
+inline ImRect ImGui_GetItemRect() { return ImRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax()); }
 
 //------------------------------------------------------------------------------
-} // namespace Detail
-} // namespace Editor
-} // namespace ax
-
+}  // namespace Detail
+}  // namespace NodeEditor
+}  // namespace vox
 
 //------------------------------------------------------------------------------
-# endif // __IMGUI_NODE_EDITOR_INTERNAL_INL__
+#endif  // __IMGUI_NODE_EDITOR_INTERNAL_INL__

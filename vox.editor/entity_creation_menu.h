@@ -7,8 +7,9 @@
 #pragma once
 
 #include <functional>
-#include "ui/widgets/menu/menu_list.h"
+
 #include "entity.h"
+#include "ui/widgets/menu/menu_list.h"
 
 namespace vox::editor {
 /**
@@ -20,8 +21,9 @@ public:
      * Generates an entity creation menu under the given MenuList item.
      * Also handles custom additional OnClick callback
      */
-    static void generate_entity_creation_menu(::vox::ui::MenuList &menu_list, Entity *parent = nullptr,
-                                              const std::optional<std::function<void()>> &on_item_clicked = {});
+    static void GenerateEntityCreationMenu(::vox::ui::MenuList &menu_list,
+                                           Entity *parent = nullptr,
+                                           const std::optional<std::function<void()>> &on_item_clicked = {});
 };
 
-}
+}  // namespace vox::editor

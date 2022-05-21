@@ -7,13 +7,12 @@
 #pragma once
 
 #include "profiling/profiler.h"
-
-#include "ui/widgets/panel_transformables/panel_window.h"
-#include "ui/widgets/texts/text_colored.h"
-#include "ui/widgets/selection/check_box.h"
-#include "ui/widgets/layout/group.h"
-#include "ui/widgets/layout/columns.h"
 #include "ui/widgets/buttons/button_simple.h"
+#include "ui/widgets/layout/columns.h"
+#include "ui/widgets/layout/group.h"
+#include "ui/widgets/panel_transformables/panel_window.h"
+#include "ui/widgets/selection/check_box.h"
+#include "ui/widgets/texts/text_colored.h"
 
 namespace vox {
 using namespace ui;
@@ -24,39 +23,33 @@ public:
     /**
      * Constructor
      */
-    ProfilerWindow(const std::string &title,
-                   bool opened,
-                   const PanelWindowSettings &window_settings,
-                   float frequency);
-    
+    ProfilerWindow(const std::string &title, bool opened, const PanelWindowSettings &window_settings, float frequency);
+
     /**
      * Update profiling information
      */
-    void update(float delta_time);
-    
+    void Update(float delta_time);
+
     /**
      * Enable or disable the profiler
      */
-    void enable(bool value, bool disable_log = false);
-    
+    void Enable(bool value, bool disable_log = false);
+
 private:
-    [[nodiscard]] static Color calculate_action_color(double percentage);
-    
-    static std::string generate_action_string(ProfilerReport::Action &action);
-    
+    [[nodiscard]] static Color CalculateActionColor(double percentage);
+
+    static std::string GenerateActionString(ProfilerReport::Action &action);
+
 private:
-    enum class ProfilingMode {
-        DEFAULT,
-        CAPTURE
-    };
-    
+    enum class ProfilingMode { DEFAULT, CAPTURE };
+
     float frequency_;
     float timer_ = 0.f;
     float fps_timer_ = 0.f;
     ProfilingMode profiling_mode_ = ProfilingMode::DEFAULT;
-    
+
     Profiler profiler_;
-    
+
     Widget *separator_;
     ButtonSimple *capture_resume_button_;
     TextColored *fps_text_;
@@ -65,5 +58,5 @@ private:
     Columns<5> *action_list_;
 };
 
-}
-}
+}  // namespace editor::ui
+}  // namespace vox

@@ -6,11 +6,11 @@
 
 #pragma once
 
+#include "material/material.h"
+#include "ui/widgets/layout/columns.h"
+#include "ui/widgets/layout/group.h"
 #include "ui/widgets/panel_transformables/panel_window.h"
 #include "ui/widgets/texts/text.h"
-#include "ui/widgets/layout/group.h"
-#include "ui/widgets/layout/columns.h"
-#include "material/material.h"
 
 namespace vox {
 using namespace ui;
@@ -18,76 +18,74 @@ using namespace ui;
 namespace editor::ui {
 class MaterialEditor : public PanelWindow {
 public:
-    MaterialEditor(const std::string &title,
-                   bool opened,
-                   const PanelWindowSettings &window_settings);
-    
+    MaterialEditor(const std::string &title, bool opened, const PanelWindowSettings &window_settings);
+
     /**
      * Refresh the material editor
      */
-    void refresh();
-    
+    void Refresh();
+
     /**
      * Defines the target material of the material editor
      */
-    void set_target(const std::shared_ptr<Material> &new_target);
-    
+    void SetTarget(const std::shared_ptr<Material> &new_target);
+
     /**
      * Returns the target of the material editor
      */
-    [[nodiscard]] std::shared_ptr<Material> get_target() const;
-    
+    [[nodiscard]] std::shared_ptr<Material> GetTarget() const;
+
     /**
      * Remove the target of the material editor (Clear the material editor)
      */
-    void remove_target();
-    
+    void RemoveTarget();
+
     /**
      * Launch the preview of the currently targeted material
      */
-    void preview();
-    
+    void Preview();
+
     /**
      * Reset material
      */
-    void reset();
-    
+    void Reset();
+
 private:
-    void on_material_dropped();
-    
-    void on_shader_dropped();
-    
-    void create_header_buttons();
-    
-    void create_material_selector();
-    
-    void create_shader_selector();
-    
-    void create_material_settings();
-    
-    void create_shader_settings();
-    
-    void generate_shader_settings_content();
-    
-    void generate_material_settings_content();
-    
+    void OnMaterialDropped();
+
+    void OnShaderDropped();
+
+    void CreateHeaderButtons();
+
+    void CreateMaterialSelector();
+
+    void CreateShaderSelector();
+
+    void CreateMaterialSettings();
+
+    void CreateShaderSettings();
+
+    void GenerateShaderSettingsContent();
+
+    void GenerateMaterialSettingsContent();
+
 private:
     std::shared_ptr<Material> target_{nullptr};
     ShaderSource *shader_{nullptr};
-    
+
     Text *target_material_text_{nullptr};
     Text *shader_text_{nullptr};
-    
+
     Event<> material_dropped_event_;
     Event<> shader_dropped_event_;
-    
+
     Group *settings_{nullptr};
     Group *material_settings_{nullptr};
     Group *shader_settings_{nullptr};
-    
+
     Columns<2> *shader_settings_columns_{nullptr};
     Columns<2> *material_settings_columns_{nullptr};
 };
 
-}
-}
+}  // namespace editor::ui
+}  // namespace vox

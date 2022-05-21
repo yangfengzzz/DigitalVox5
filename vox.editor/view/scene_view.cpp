@@ -4,31 +4,33 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "material/unlit_material.h"
 #include "material/blinn_phong_material.h"
+#include "material/unlit_material.h"
+
 #include "scene_view.h"
+
 #include "camera.h"
 #include "entity.h"
-#include "rendering/subpasses/geometry_subpass.h"
-#include "rendering/subpasses/color_picker_subpass.h"
-
 #include "lighting/point_light.h"
-#include "mesh/primitive_mesh.h"
 #include "mesh/mesh_renderer.h"
+#include "mesh/primitive_mesh.h"
+#include "rendering/subpasses/color_picker_subpass.h"
+#include "rendering/subpasses/geometry_subpass.h"
 
 namespace vox::editor::ui {
-SceneView::SceneView(const std::string &title, bool opened,
+SceneView::SceneView(const std::string &title,
+                     bool opened,
                      const PanelWindowSettings &window_settings,
-                     RenderContext &render_context, Scene *scene) :
-View(title, opened, window_settings, render_context),
-scene_(scene) {
-    scene->background_.solid_color = Color(0.2, 0.4, 0.6, 1.0);
+                     RenderContext &render_context,
+                     Scene *scene)
+    : View(title, opened, window_settings, render_context), scene_(scene) {
+    scene->background.solid_color = Color(0.2, 0.4, 0.6, 1.0);
     auto editor_root = scene_->FindEntityByName("SceneRoot");
     if (!editor_root) {
         editor_root = scene_->CreateRootEntity("SceneRoot");
     }
-    load_scene(editor_root);
-    
+    LoadScene(editor_root);
+
     // scene render target
     {
         std::vector<std::unique_ptr<Subpass>> scene_subpasses{};
@@ -38,7 +40,7 @@ scene_(scene) {
         clear_value[0].color = {0.2f, 0.4f, 0.6f, 1.f};
         render_pipeline_->SetClearValue(clear_value);
     }
-    
+
     // color picker render target
     {
         auto subpass = std::make_unique<ColorPickerSubpass>(render_context, scene, main_camera_);
@@ -48,14 +50,14 @@ scene_(scene) {
         auto clear_value = color_picker_render_pipeline_->GetClearValue();
         clear_value[0].color = {1.0f, 1.0f, 1.0f, 1.0f};
         color_picker_render_pipeline_->SetClearValue(clear_value);
-        
+
         // dont't render grid when pick
         color_picker_subpass_->AddExclusiveRenderer(editor_root->GetComponent<MeshRenderer>());
     }
-    
-    stage_buffer_ = std::make_unique<core::Buffer>(render_context.GetDevice(), 4,
-                                                   VK_BUFFER_USAGE_TRANSFER_DST_BIT, VMA_MEMORY_USAGE_GPU_TO_CPU);
-    
+
+    stage_buffer_ = std::make_unique<core::Buffer>(render_context.GetDevice(), 4, VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+                                                   VMA_MEMORY_USAGE_GPU_TO_CPU);
+
     regions_.resize(1);
     regions_[0].imageSubresource.layerCount = 1;
     regions_[0].imageExtent.width = 1;
@@ -63,23 +65,23 @@ scene_(scene) {
     regions_[0].imageExtent.depth = 1;
 }
 
-void SceneView::load_scene(Entity *root_entity) {
+void SceneView::LoadScene(Entity *root_entity) {
     auto camera_entity = root_entity->CreateChild("MainCamera");
     camera_entity->transform->SetPosition(10, 10, 10);
     camera_entity->transform->LookAt(Point3F(0, 0, 0));
     main_camera_ = camera_entity->AddComponent<Camera>();
     camera_control_ = camera_entity->AddComponent<control::OrbitControl>();
-    
+
     auto grid = root_entity->AddComponent<MeshRenderer>();
-    grid->SetMesh(create_plane());
+    grid->SetMesh(CreatePlane());
     grid->SetMaterial(std::make_shared<GridMaterial>(render_context_.GetDevice()));
-    
+
     // init point light
     auto light = root_entity->CreateChild("light");
     light->transform->SetPosition(0, 3, 0);
     auto point_light = light->AddComponent<PointLight>();
     point_light->intensity_ = 0.3;
-    
+
     // create box test entity
     float cube_size = 2.0;
     auto box_entity = root_entity->CreateChild("BoxEntity");
@@ -90,51 +92,52 @@ void SceneView::load_scene(Entity *root_entity) {
     box_renderer->SetMaterial(box_mtl);
 }
 
-void SceneView::update(float delta_time) {
-    View::update(delta_time);
-    
-    auto [win_width, win_height] = safe_size();
-    if (win_width > 0 && (!color_picker_render_target_ || color_picker_render_target_->GetExtent().width != win_width * 2)) {
+void SceneView::Update(float delta_time) {
+    View::Update(delta_time);
+
+    auto [win_width, win_height] = SafeSize();
+    if (win_width > 0 &&
+        (!color_picker_render_target_ || color_picker_render_target_->GetExtent().width != win_width * 2)) {
         main_camera_->SetAspectRatio(float(win_width) / float(win_height));
-        main_camera_->resize(win_width, win_height, win_width * 2, win_height * 2);
-        color_picker_render_target_ = create_render_target(win_width * 2, win_height * 2, VK_FORMAT_R8G8B8A8_UNORM);
+        main_camera_->Resize(win_width, win_height, win_width * 2, win_height * 2);
+        color_picker_render_target_ = CreateRenderTarget(win_width * 2, win_height * 2, VK_FORMAT_R8G8B8A8_UNORM);
     }
 }
 
-void SceneView::render(CommandBuffer &command_buffer) {
+void SceneView::Render(CommandBuffer &command_buffer) {
     if (IsFocused()) {
-        camera_control_->onEnable();
+        camera_control_->OnScriptEnable();
     } else {
-        camera_control_->onDisable();
+        camera_control_->OnScriptDisable();
     }
-    
+
     // Let the first frame happen and then make the scene view the first seen view
     if (elapsed_frames_) {
-        focus();
+        Focus();
     }
-    
+
     if (render_target_ && IsFocused()) {
         elapsed_frames_ = false;
-        
+
         if (need_pick_) {
-            color_picker_render_pipeline_->draw(command_buffer, *color_picker_render_target_);
+            color_picker_render_pipeline_->Draw(command_buffer, *color_picker_render_target_);
             command_buffer.EndRenderPass();
-            copy_render_target_to_buffer(command_buffer);
+            CopyRenderTargetToBuffer(command_buffer);
         }
-        
-        render_pipeline_->draw(command_buffer, *render_target_);
-        
+
+        render_pipeline_->Draw(command_buffer, *render_target_);
+
         if (need_pick_) {
-            read_color_from_render_target();
+            ReadColorFromRenderTarget();
             need_pick_ = false;
         }
     }
 }
 
-void SceneView::draw_impl() {
-    View::draw_impl();
+void SceneView::DrawImpl() {
+    View::DrawImpl();
     int window_flags = ImGuiWindowFlags_None;
-    
+
     if (!resizable_) window_flags |= ImGuiWindowFlags_NoResize;
     if (!movable_) window_flags |= ImGuiWindowFlags_NoMove;
     if (!dockable_) window_flags |= ImGuiWindowFlags_NoDocking;
@@ -147,27 +150,27 @@ void SceneView::draw_impl() {
     if (!allow_inputs_) window_flags |= ImGuiWindowFlags_NoInputs;
     if (!scrollable_) window_flags |= ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar;
     if (!title_bar_) window_flags |= ImGuiWindowFlags_NoTitleBar;
-    
+
     if (ImGui::Begin((name_ + PanelId()).c_str(), nullptr, window_flags)) {
         if (pick_result_.first != nullptr) {
             if (ImGuizmo::IsOver()) {
-                camera_control_->set_enabled(false);
+                camera_control_->SetEnabled(false);
             }
             // camera transform
             auto camera_projection = main_camera_->ProjectionMatrix();
-            camera_projection(1, 1) *= -1; // vulkan flip
+            camera_projection(1, 1) *= -1;  // vulkan flip
             auto camera_view = main_camera_->ViewMatrix();
-            auto& camera_transform = main_camera_->entity()->transform;
-            
+            auto &camera_transform = main_camera_->GetEntity()->transform;
+
             // renderer transform
             auto renderer = pick_result_.first;
-            auto& renderer_transform = renderer->entity()->transform;
+            auto &renderer_transform = renderer->GetEntity()->transform;
             auto model_mat = renderer_transform->LocalMatrix();
-            
+
             // open gizmo
             cam_distance_ = camera_transform->WorldPosition().distanceTo(renderer_transform->WorldPosition());
-            edit_transform(camera_view.data(), camera_projection.data(), model_mat.data());
-            
+            EditTransform(camera_view.data(), camera_projection.data(), model_mat.data());
+
             // data store
             renderer_transform->SetLocalMatrix(model_mat);
             camera_view.invert();
@@ -177,37 +180,37 @@ void SceneView::draw_impl() {
     ImGui::End();
 }
 
-void SceneView::pick(float offset_x, float offset_y) {
+void SceneView::Pick(float offset_x, float offset_y) {
     need_pick_ = true;
     pick_pos_ = Vector2F(offset_x, offset_y);
 }
 
-void SceneView::copy_render_target_to_buffer(CommandBuffer &command_buffer) {
-    uint32_t client_width = main_camera_->width();
-    uint32_t client_height = main_camera_->height();
+void SceneView::CopyRenderTargetToBuffer(CommandBuffer &command_buffer) {
+    uint32_t client_width = main_camera_->Width();
+    uint32_t client_height = main_camera_->Height();
     uint32_t canvas_width = main_camera_->FramebufferWidth();
     uint32_t canvas_height = main_camera_->FramebufferHeight();
-    
+
     const float kPx = (pick_pos_.x / static_cast<float>(client_width)) * static_cast<float>(canvas_width);
     const float kPy = (pick_pos_.y / static_cast<float>(client_height)) * static_cast<float>(canvas_height);
-    
-    const auto kViewport = main_camera_->viewport();
+
+    const auto kViewport = main_camera_->Viewport();
     const auto kViewWidth = (kViewport.z - kViewport.x) * static_cast<float>(canvas_width);
     const auto kViewHeight = (kViewport.w - kViewport.y) * static_cast<float>(canvas_height);
-    
+
     const float kNx = (kPx - kViewport.x) / kViewWidth;
     const float kNy = (kPy - kViewport.y) / kViewHeight;
     const uint32_t kLeft = std::floor(kNx * static_cast<float>(canvas_width - 1));
     const uint32_t kBottom = std::floor((1 - kNy) * static_cast<float>(canvas_height - 1));
-    
+
     regions_[0].imageOffset.x = static_cast<int32_t>(kLeft);
     regions_[0].imageOffset.y = static_cast<int32_t>(canvas_height - kBottom);
     command_buffer.CopyImageToBuffer(color_picker_render_target_->GetViews().at(0).GetImage(),
                                      VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, *stage_buffer_, regions_);
 }
 
-void SceneView::read_color_from_render_target() {
-    uint8_t *raw = stage_buffer_->map();
+void SceneView::ReadColorFromRenderTarget() {
+    uint8_t *raw = stage_buffer_->Map();
     if (raw) {
         memcpy(pixel_.data(), raw, 4);
         auto result = color_picker_subpass_->GetObjectByColor(pixel_);
@@ -215,27 +218,27 @@ void SceneView::read_color_from_render_target() {
             pick_result_ = result;
         }
     }
-    stage_buffer_->unmap();
+    stage_buffer_->Unmap();
 }
 
-void SceneView::input_event(const InputEvent &input_event) {
+void SceneView::InputEvent(const vox::InputEvent &input_event) {
     if (input_event.GetSource() == EventSource::MOUSE) {
         const auto &mouse_button = static_cast<const MouseButtonInputEvent &>(input_event);
         if (mouse_button.GetAction() == MouseAction::DOWN) {
-            auto width = main_camera_->width();
-            auto height = main_camera_->height();
-            
-            auto picker_pos_x = mouse_button.GetPosX() - position().x;
-            auto picker_pos_y = mouse_button.GetPosY() - position().y;
-            
+            auto width = main_camera_->Width();
+            auto height = main_camera_->Height();
+
+            auto picker_pos_x = mouse_button.GetPosX() - Position().x;
+            auto picker_pos_y = mouse_button.GetPosY() - Position().y;
+
             if (picker_pos_x <= width && picker_pos_x > 0 && picker_pos_y <= height && picker_pos_y > 0) {
-                pick(picker_pos_x, picker_pos_y);
+                Pick(picker_pos_x, picker_pos_y);
             }
         }
     }
 }
 
-void SceneView::edit_transform(float *camera_view, float *camera_projection, float *matrix) {
+void SceneView::EditTransform(float *camera_view, float *camera_projection, float *matrix) {
     static ImGuizmo::MODE m_current_gizmo_mode(ImGuizmo::LOCAL);
     static bool use_snap = false;
     static float snap[3] = {1.f, 1.f, 1.f};
@@ -243,33 +246,22 @@ void SceneView::edit_transform(float *camera_view, float *camera_projection, flo
     static float bounds_snap[] = {0.1f, 0.1f, 0.1f};
     static bool bound_sizing = false;
     static bool bound_sizing_snap = false;
-    
-    auto [win_width, win_height] = safe_size();
-    auto viewport_pos = position();
+
+    auto [win_width, win_height] = SafeSize();
+    auto viewport_pos = Position();
     float view_manipulate_right = win_width + viewport_pos.x;
     float view_manipulate_top = viewport_pos.y + 25;
     ImGuizmo::SetRect(viewport_pos.x, viewport_pos.y, win_width, win_height);
     ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
-    
-    ImGuizmo::Manipulate(camera_view,
-                         camera_projection,
-                         current_gizmo_operation_,
-                         m_current_gizmo_mode,
-                         matrix,
-                         nullptr,
-                         use_snap ? &snap[0] : nullptr,
-                         bound_sizing ? bounds : nullptr,
+
+    ImGuizmo::Manipulate(camera_view, camera_projection, current_gizmo_operation_, m_current_gizmo_mode, matrix,
+                         nullptr, use_snap ? &snap[0] : nullptr, bound_sizing ? bounds : nullptr,
                          bound_sizing_snap ? bounds_snap : nullptr);
-    
-    ImGuizmo::ViewManipulate(camera_view,
-                             cam_distance_,
-                             ImVec2(view_manipulate_right - 128, view_manipulate_top),
-                             ImVec2(128, 128),
-                             0x10101010);
+
+    ImGuizmo::ViewManipulate(camera_view, cam_distance_, ImVec2(view_manipulate_right - 128, view_manipulate_top),
+                             ImVec2(128, 128), 0x10101010);
 }
 
-control::OrbitControl *SceneView::camera_control() {
-    return camera_control_;
-}
+control::OrbitControl *SceneView::CameraControl() { return camera_control_; }
 
-}
+}  // namespace vox::editor::ui

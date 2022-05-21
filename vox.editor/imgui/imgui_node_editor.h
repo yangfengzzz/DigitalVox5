@@ -7,27 +7,24 @@
 // CREDITS
 //   Written by Michal Cichon
 //------------------------------------------------------------------------------
-# ifndef __IMGUI_NODE_EDITOR_H__
-# define __IMGUI_NODE_EDITOR_H__
-# pragma once
-
+#ifndef __IMGUI_NODE_EDITOR_H__
+#define __IMGUI_NODE_EDITOR_H__
+#pragma once
 
 //------------------------------------------------------------------------------
-# include <imgui.h>
-# include <cstdint> // std::uintXX_t
-# include <utility> // std::move
+#include <imgui.h>
 
+#include <cstdint>  // std::uintXX_t
+#include <utility>  // std::move
 
 //------------------------------------------------------------------------------
 namespace vox {
 namespace NodeEditor {
 
-
 //------------------------------------------------------------------------------
 struct NodeId;
 struct LinkId;
 struct PinId;
-
 
 //------------------------------------------------------------------------------
 enum class SaveReasonFlags : uint32_t {
@@ -50,7 +47,8 @@ inline SaveReasonFlags operator&(SaveReasonFlags lhs, SaveReasonFlags rhs) {
 using ConfigSaveSettings = bool (*)(const char *data, size_t size, SaveReasonFlags reason, void *userPointer);
 using ConfigLoadSettings = size_t (*)(char *data, void *userPointer);
 
-using ConfigSaveNodeSettings = bool (*)(NodeId nodeId, const char *data, size_t size, SaveReasonFlags reason, void *userPointer);
+using ConfigSaveNodeSettings =
+        bool (*)(NodeId nodeId, const char *data, size_t size, SaveReasonFlags reason, void *userPointer);
 using ConfigLoadNodeSettings = size_t (*)(NodeId nodeId, char *data, void *userPointer);
 
 using ConfigSession = void (*)(void *userPointer);
@@ -64,26 +62,20 @@ struct Config {
     ConfigSaveNodeSettings SaveNodeSettings;
     ConfigLoadNodeSettings LoadNodeSettings;
     void *UserPointer;
-    
-    Config()
-    : SettingsFile("NodeEditor.json"),
-    BeginSaveSession(nullptr),
-    EndSaveSession(nullptr),
-    SaveSettings(nullptr),
-    LoadSettings(nullptr),
-    SaveNodeSettings(nullptr),
-    LoadNodeSettings(nullptr),
-    UserPointer(nullptr) {
-    }
-};
 
+    Config()
+        : SettingsFile("NodeEditor.json"),
+          BeginSaveSession(nullptr),
+          EndSaveSession(nullptr),
+          SaveSettings(nullptr),
+          LoadSettings(nullptr),
+          SaveNodeSettings(nullptr),
+          LoadNodeSettings(nullptr),
+          UserPointer(nullptr) {}
+};
 
 //------------------------------------------------------------------------------
-enum class PinKind {
-    Input,
-    Output
-};
-
+enum class PinKind { Input, Output };
 
 //------------------------------------------------------------------------------
 enum StyleColor {
@@ -105,7 +97,7 @@ enum StyleColor {
     StyleColor_FlowMarker,
     StyleColor_GroupBg,
     StyleColor_GroupBorder,
-    
+
     StyleColor_Count
 };
 
@@ -133,7 +125,7 @@ enum StyleVar {
     StyleVar_PinArrowWidth,
     StyleVar_GroupRounding,
     StyleVar_GroupBorderWidth,
-    
+
     StyleVar_Count
 };
 
@@ -162,7 +154,7 @@ struct Style {
     float GroupRounding;
     float GroupBorderWidth;
     ImVec4 Colors[StyleColor_Count];
-    
+
     Style() {
         NodePadding = ImVec4(8, 8, 8, 8);
         NodeRounding = 12.0f;
@@ -187,7 +179,7 @@ struct Style {
         PinArrowWidth = 0.0f;
         GroupRounding = 6.0f;
         GroupBorderWidth = 1.0f;
-        
+
         Colors[StyleColor_Bg] = ImColor(60, 60, 70, 200);
         Colors[StyleColor_Grid] = ImColor(120, 120, 120, 40);
         Colors[StyleColor_NodeBg] = ImColor(32, 32, 32, 200);
@@ -209,10 +201,8 @@ struct Style {
     }
 };
 
-
 //------------------------------------------------------------------------------
 struct EditorContext;
-
 
 //------------------------------------------------------------------------------
 void SetCurrentEditor(EditorContext *ctx);
@@ -278,7 +268,8 @@ void EndGroupHint();
 // TODO: Add a way to manage node background channels
 ImDrawList *GetNodeBackgroundDrawList(NodeId nodeId);
 
-bool Link(LinkId id, PinId startPinId, PinId endPinId, const ImVec4 &color = ImVec4(1, 1, 1, 1), float thickness = 1.0f);
+bool Link(
+        LinkId id, PinId startPinId, PinId endPinId, const ImVec4 &color = ImVec4(1, 1, 1, 1), float thickness = 1.0f);
 
 void Flow(LinkId linkId);
 
@@ -410,88 +401,62 @@ ImVec2 ScreenToCanvas(const ImVec2 &pos);
 
 ImVec2 CanvasToScreen(const ImVec2 &pos);
 
-
-
-
-
-
-
-
-
-
 //------------------------------------------------------------------------------
 namespace Details {
 
-template<typename T, typename Tag>
+template <typename T, typename Tag>
 struct SafeType {
-    SafeType(T t)
-    : m_Value(std::move(t)) {
-    }
-    
+    SafeType(T t) : m_Value(std::move(t)) {}
+
     SafeType(const SafeType &) = default;
-    
-    template<typename T2, typename Tag2>
-    SafeType(
-             const SafeType
-             <
-             typename std::enable_if<!std::is_same<T, T2>::value, T2>::type,
-             typename std::enable_if<!std::is_same<Tag, Tag2>::value, Tag2>::type
-             > &) = delete;
-    
+
+    template <typename T2, typename Tag2>
+    SafeType(const SafeType<typename std::enable_if<!std::is_same<T, T2>::value, T2>::type,
+                            typename std::enable_if<!std::is_same<Tag, Tag2>::value, Tag2>::type> &) = delete;
+
     SafeType &operator=(const SafeType &) = default;
-    
-    explicit operator T() const {
-        return Get();
-    }
-    
-    T Get() const {
-        return m_Value;
-    }
-    
+
+    explicit operator T() const { return Get(); }
+
+    T Get() const { return m_Value; }
+
 private:
     T m_Value;
 };
 
-
-template<typename Tag>
-struct SafePointerType
-: SafeType<uintptr_t, Tag> {
+template <typename Tag>
+struct SafePointerType : SafeType<uintptr_t, Tag> {
     static const Tag Invalid;
-    
+
     using SafeType<uintptr_t, Tag>::SafeType;
-    
-    SafePointerType()
-    : SafePointerType(Invalid) {
-    }
-    
-    template<typename T = void>
-    explicit SafePointerType(T *ptr): SafePointerType(reinterpret_cast<uintptr_t>(ptr)) {
-    }
-    
-    template<typename T = void>
+
+    SafePointerType() : SafePointerType(Invalid) {}
+
+    template <typename T = void>
+    explicit SafePointerType(T *ptr) : SafePointerType(reinterpret_cast<uintptr_t>(ptr)) {}
+
+    template <typename T = void>
     T *AsPointer() const {
         return reinterpret_cast<T *>(this->Get());
     }
-    
-    explicit operator bool() const {
-        return *this != Invalid;
-    }
+
+    explicit operator bool() const { return *this != Invalid; }
 };
 
-template<typename Tag>
+template <typename Tag>
 const Tag SafePointerType<Tag>::Invalid = {0};
 
-template<typename Tag>
+template <typename Tag>
 inline bool operator==(const SafePointerType<Tag> &lhs, const SafePointerType<Tag> &rhs) {
     return lhs.Get() == rhs.Get();
 }
 
-template<typename Tag>
+template <typename Tag>
 inline bool operator!=(const SafePointerType<Tag> &lhs, const SafePointerType<Tag> &rhs) {
     return lhs.Get() != rhs.Get();
 }
 
-} // namespace Details
+}  // namespace Details
 
 struct NodeId final : Details::SafePointerType<NodeId> {
     using SafePointerType::SafePointerType;
@@ -505,11 +470,9 @@ struct PinId final : Details::SafePointerType<PinId> {
     using SafePointerType::SafePointerType;
 };
 
+//------------------------------------------------------------------------------
+}  // namespace NodeEditor
+}  // namespace vox
 
 //------------------------------------------------------------------------------
-} // namespace Editor
-} // namespace ax
-
-
-//------------------------------------------------------------------------------
-# endif // __IMGUI_NODE_EDITOR_H__
+#endif  // __IMGUI_NODE_EDITOR_H__

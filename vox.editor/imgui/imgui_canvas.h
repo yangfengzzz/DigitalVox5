@@ -42,12 +42,12 @@
 //
 // CREDITS
 //   Written by Michal Cichon
-# ifndef __IMGUI_EX_CANVAS_H__
-# define __IMGUI_EX_CANVAS_H__
-# pragma once
+#ifndef __IMGUI_EX_CANVAS_H__
+#define __IMGUI_EX_CANVAS_H__
+#pragma once
 
-# include <imgui.h>
-# include <imgui_internal.h> // ImRect, ImFloor
+#include <imgui.h>
+#include <imgui_internal.h>  // ImRect, ImFloor
 
 namespace ImGuiEx {
 
@@ -55,16 +55,13 @@ struct CanvasView {
     ImVec2 Origin;
     float Scale = 1.0f;
     float InvScale = 1.0f;
-    
+
     CanvasView() = default;
-    
+
     CanvasView(const ImVec2 &origin, float scale)
-    : Origin(origin), Scale(scale), InvScale(scale ? 1.0f / scale : 0.0f) {
-    }
-    
-    void Set(const ImVec2 &origin, float scale) {
-        *this = CanvasView(origin, scale);
-    }
+        : Origin(origin), Scale(scale), InvScale(scale ? 1.0f / scale : 0.0f) {}
+
+    void Set(const ImVec2 &origin, float scale) { *this = CanvasView(origin, scale); }
 };
 
 // Canvas widget represent view over infinite plane.
@@ -100,14 +97,14 @@ struct Canvas {
     // You can query size of the canvas while it is being drawn
     // by calling Rect().
     bool Begin(const char *id, const ImVec2 &size);
-    
+
     bool Begin(ImGuiID id, const ImVec2 &size);
-    
+
     // Ends interaction with canvas plane.
     //
     // Must be called only when Begin() retuned true.
     void End();
-    
+
     // Sets visible region of canvas plane.
     //
     // Origin is an offset of infinite plane origin from top left
@@ -115,161 +112,148 @@ struct Canvas {
     //
     // Scale greater than 1 make canvas content be bigger, less than 1 smaller.
     void SetView(const ImVec2 &origin, float scale);
-    
+
     void SetView(const CanvasView &view);
-    
+
     // Centers view over specific point on canvas plane.
     //
     // View will be centered on specific point by changing origin
     // but not scale.
     void CenterView(const ImVec2 &canvasPoint);
-    
+
     // Calculates view over specific point on canvas plane.
     CanvasView CalcCenterView(const ImVec2 &canvasPoint) const;
-    
+
     // Centers view over specific rectangle on canvas plane.
     //
     // Whole rectangle will fit in canvas view. This will affect both
     // origin and scale.
     void CenterView(const ImRect &canvasRect);
-    
+
     // Calculates view over specific rectangle on canvas plane.
     CanvasView CalcCenterView(const ImRect &canvasRect) const;
-    
+
     // Suspends canvas by returning to normal ImGui transformation space.
     // While suspended UI will not be drawn on canvas plane.
     //
     // Calls to Suspend()/Resume() are symetrical. Each call to Suspend()
     // must be matched with call to Resume().
     void Suspend();
-    
+
     void Resume();
-    
+
     // Transforms point from canvas plane to ImGui.
     ImVec2 FromLocal(const ImVec2 &point) const;
-    
+
     ImVec2 FromLocal(const ImVec2 &point, const CanvasView &view) const;
-    
+
     // Transforms vector from canvas plant to ImGui.
     ImVec2 FromLocalV(const ImVec2 &vector) const;
-    
+
     ImVec2 FromLocalV(const ImVec2 &vector, const CanvasView &view) const;
-    
+
     // Transforms point from ImGui to canvas plane.
     ImVec2 ToLocal(const ImVec2 &point) const;
-    
+
     ImVec2 ToLocal(const ImVec2 &point, const CanvasView &view) const;
-    
+
     // Transforms vector from ImGui to canvas plane.
     ImVec2 ToLocalV(const ImVec2 &vector) const;
-    
+
     ImVec2 ToLocalV(const ImVec2 &vector, const CanvasView &view) const;
-    
+
     // Returns widget bounds.
     //
     // Note:
     //     Rect is valid after call to Begin().
-    const ImRect &Rect() const {
-        return m_WidgetRect;
-    }
-    
+    const ImRect &Rect() const { return m_WidgetRect; }
+
     // Returns visible region on canvas plane (in canvas plane coordinates).
-    const ImRect &ViewRect() const {
-        return m_ViewRect;
-    }
-    
+    const ImRect &ViewRect() const { return m_ViewRect; }
+
     // Calculates visible region for view.
     ImRect CalcViewRect(const CanvasView &view) const;
-    
+
     // Returns current view.
-    const CanvasView &View() const {
-        return m_View;
-    }
-    
+    const CanvasView &View() const { return m_View; }
+
     // Returns origin of the view.
     //
     // Origin is an offset of infinite plane origin from top left
     // corner of the canvas.
-    const ImVec2 &ViewOrigin() const {
-        return m_View.Origin;
-    }
-    
+    const ImVec2 &ViewOrigin() const { return m_View.Origin; }
+
     // Returns scale of the view.
-    float ViewScale() const {
-        return m_View.Scale;
-    }
-    
+    float ViewScale() const { return m_View.Scale; }
+
     // Returns true if canvas is suspended.
     //
     // See: Suspend()/Resume()
-    bool IsSuspended() const {
-        return m_SuspendCounter > 0;
-    }
-    
+    bool IsSuspended() const { return m_SuspendCounter > 0; }
+
 private:
-# define IMGUI_EX_CANVAS_DEFERED() 0
-    
-# if IMGUI_EX_CANVAS_DEFERED()
-    struct Range
-    {
+#define IMGUI_EX_CANVAS_DEFERED() 0
+
+#if IMGUI_EX_CANVAS_DEFERED()
+    struct Range {
         int BeginVertexIndex = 0;
-        int EndVertexIndex   = 0;
+        int EndVertexIndex = 0;
         int BeginComandIndex = 0;
-        int EndCommandIndex  = 0;
+        int EndCommandIndex = 0;
     };
-# endif
-    
+#endif
+
     void UpdateViewTransformPosition();
-    
+
     void SaveInputState();
-    
+
     void RestoreInputState();
-    
+
     void SaveViewportState();
-    
+
     void RestoreViewportState();
-    
+
     void EnterLocalSpace();
-    
+
     void LeaveLocalSpace();
-    
+
     bool m_InBeginEnd = false;
-    
+
     ImVec2 m_WidgetPosition;
     ImVec2 m_WidgetSize;
     ImRect m_WidgetRect;
-    
+
     ImDrawList *m_DrawList = nullptr;
     int m_ExpectedChannel = 0;
-    
-# if IMGUI_EX_CANVAS_DEFERED()
+
+#if IMGUI_EX_CANVAS_DEFERED()
     ImVector<Range> m_Ranges;
-    Range* m_CurrentRange = nullptr;
-# endif
-    
+    Range *m_CurrentRange = nullptr;
+#endif
+
     int m_DrawListCommadBufferSize = 0;
     int m_DrawListStartVertexIndex = 0;
-    
+
     CanvasView m_View;
     ImRect m_ViewRect;
-    
+
     ImVec2 m_ViewTransformPosition;
-    
+
     int m_SuspendCounter = 0;
-    
+
     float m_LastFringeScale = 1.0f;
-    
+
     ImVec2 m_MousePosBackup;
     ImVec2 m_MousePosPrevBackup;
     ImVec2 m_MouseClickedPosBackup[IM_ARRAYSIZE(ImGuiIO::MouseClickedPos)];
     ImVec2 m_WindowCursorMaxBackup;
-    
-# if defined(IMGUI_HAS_VIEWPORT)
+
+#if defined(IMGUI_HAS_VIEWPORT)
     ImVec2 m_ViewportPosBackup;
     ImVec2 m_ViewportSizeBackup;
-# endif
+#endif
 };
 
-} // namespace ImGuiEx
+}  // namespace ImGuiEx
 
-# endif // __IMGUI_EX_CANVAS_H__
+#endif  // __IMGUI_EX_CANVAS_H__

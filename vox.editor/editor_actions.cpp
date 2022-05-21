@@ -5,19 +5,18 @@
 //  property of any third parties.
 
 #include "editor_actions.h"
+
 #include "editor_application.h"
-#include "scene_manager.h"
 #include "lua/script_interpreter.h"
-#include "view/scene_view.h"
-#include "view/asset_view.h"
-#include "view/game_view.h"
+#include "scene_manager.h"
 #include "ui/inspector.h"
 #include "ui/ui_manager.h"
+#include "view/asset_view.h"
+#include "view/game_view.h"
+#include "view/scene_view.h"
 
 namespace vox {
-editor::EditorActions *editor::EditorActions::GetSingletonPtr() {
-    return ms_singleton;
-}
+editor::EditorActions *editor::EditorActions::GetSingletonPtr() { return ms_singleton; }
 
 editor::EditorActions &editor::EditorActions::GetSingleton() {
     assert(ms_singleton);
@@ -25,200 +24,186 @@ editor::EditorActions &editor::EditorActions::GetSingleton() {
 }
 
 namespace editor {
-EditorActions::EditorActions(EditorApplication &app) :
-app_(app) {
-}
+EditorActions::EditorActions(EditorApplication &app) : app_(app) {}
 
-//MARK: - SCENE
-void EditorActions::load_empty_scene() {
-    if (current_editor_mode() != EditorMode::EDIT)
-        stop_playing();
+// MARK: - SCENE
+void EditorActions::LoadEmptyScene() {
+    if (CurrentEditorMode() != EditorMode::EDIT) StopPlaying();
 
     SceneManager::GetSingleton().LoadEmptyLightedScene();
     LOGI("New scene created")
 }
 
-void EditorActions::save_current_scene_to(const std::string &path) {
+void EditorActions::SaveCurrentSceneTo(const std::string &path) {
     SceneManager::GetSingleton().StoreCurrentSceneSourcePath(path);
     nlohmann::json root;
-    SceneManager::GetSingleton().CurrentScene()->on_serialize(root);
-    
+    SceneManager::GetSingleton().CurrentScene()->OnSerialize(root);
+
     nlohmann::json j = {
-        {"root", root},
+            {"root", root},
     };
     fs::WriteJson(j, path);
 }
 
-void EditorActions::load_scene_from_disk(const std::string &path, bool absolute) {
-    if (current_editor_mode() != EditorMode::EDIT)
-        stop_playing();
+void EditorActions::LoadSceneFromDisk(const std::string &path, bool absolute) {
+    if (CurrentEditorMode() != EditorMode::EDIT) StopPlaying();
 
     SceneManager::GetSingleton().LoadScene(path, absolute);
     LOGI("Scene loaded from disk: {}", SceneManager::GetSingleton().CurrentSceneSourcePath())
-    app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
+    app_.panels_manager_.GetPanelAs<ui::SceneView>("Scene View").Focus();
 }
 
-bool EditorActions::is_current_scene_loaded_from_disk() const {
+bool EditorActions::IsCurrentSceneLoadedFromDisk() const {
     return SceneManager::GetSingleton().IsCurrentSceneLoadedFromDisk();
 }
 
-void EditorActions::save_scene_changes() {
-    if (is_current_scene_loaded_from_disk()) {
-        save_current_scene_to(SceneManager::GetSingleton().CurrentSceneSourcePath());
+void EditorActions::SaveSceneChanges() {
+    if (IsCurrentSceneLoadedFromDisk()) {
+        SaveCurrentSceneTo(SceneManager::GetSingleton().CurrentSceneSourcePath());
         LOGI("Current scene saved to: {}" + SceneManager::GetSingleton().CurrentSceneSourcePath())
     } else {
-        save_as();
+        SaveAs();
     }
 }
 
-void EditorActions::save_as() {
+void EditorActions::SaveAs() {
     // todo
 }
 
-//MARK: - SCRIPTING
-void EditorActions::refresh_scripts() {
+// MARK: - SCRIPTING
+void EditorActions::RefreshScripts() {
     ScriptInterpreter::GetSingleton().RefreshAll();
-    app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").refresh();
+    app_.panels_manager_.GetPanelAs<ui::Inspector>("Inspector").Refresh();
     if (ScriptInterpreter::GetSingleton().IsOk()) {
         LOGI("Scripts interpretation succeeded!")
     }
 }
 
-//MARK: - BUILDING
-std::optional<std::string> EditorActions::select_build_folder() {
+// MARK: - BUILDING
+std::optional<std::string> EditorActions::SelectBuildFolder() {
     // todo
     return std::nullopt;
 }
 
-void EditorActions::build(bool auto_run, bool temp_folder) {
+void EditorActions::Build(bool auto_run, bool temp_folder) {
     // todo
 }
 
-void EditorActions::build_at_location(const std::string &configuration, const std::string &build_path, bool auto_run) {
+void EditorActions::BuildAtLocation(const std::string &configuration, const std::string &build_path, bool auto_run) {
     // todo
 }
 
-//MARK: - ACTION_SYSTEM
-void EditorActions::delay_action(const std::function<void()> &action, uint32_t frames) {
+// MARK: - ACTION_SYSTEM
+void EditorActions::DelayAction(const std::function<void()> &action, uint32_t frames) {
     delayed_actions_.emplace_back(frames + 1, action);
 }
 
-void EditorActions::execute_delayed_actions() {
+void EditorActions::ExecuteDelayedActions() {
     std::for_each(delayed_actions_.begin(), delayed_actions_.end(),
                   [](std::pair<uint32_t, std::function<void()>> &element) {
-        --element.first;
-        
-        if (element.first == 0)
-            element.second();
-    });
-    
-    delayed_actions_.erase(std::remove_if(delayed_actions_.begin(), delayed_actions_.end(),
-                                          [](std::pair<uint32_t, std::function<void()>> &element) {
-        return element.first == 0;
-    }), delayed_actions_.end());
+                      --element.first;
+
+                      if (element.first == 0) element.second();
+                  });
+
+    delayed_actions_.erase(
+            std::remove_if(delayed_actions_.begin(), delayed_actions_.end(),
+                           [](std::pair<uint32_t, std::function<void()>> &element) { return element.first == 0; }),
+            delayed_actions_.end());
 }
 
-//MARK: - TOOLS
-ui::PanelsManager &EditorActions::panels_manager() {
-    return app_.panels_manager_;
-}
+// MARK: - TOOLS
+ui::PanelsManager &EditorActions::PanelsManager() { return app_.panels_manager_; }
 
-//MARK: - SETTINGS
-void EditorActions::set_entity_spawn_at_origin(bool value) {
+// MARK: - SETTINGS
+void EditorActions::SetEntitySpawnAtOrigin(bool value) {
     if (value)
         entity_spawn_mode_ = EntitySpawnMode::ORIGIN;
     else
         entity_spawn_mode_ = EntitySpawnMode::FRONT;
 }
 
-void EditorActions::set_entity_spawn_mode(EntitySpawnMode value) {
-    entity_spawn_mode_ = value;
+void EditorActions::SetEntitySpawnMode(EntitySpawnMode value) { entity_spawn_mode_ = value; }
+
+void EditorActions::ResetLayout() {
+    DelayAction([]() { UiManager::GetSingleton().ResetLayout("Config\\layout.ini"); });
 }
 
-void EditorActions::reset_layout() {
-    delay_action([]() { UiManager::GetSingleton().ResetLayout("Config\\layout.ini");
-    });
-}
-
-void EditorActions::set_scene_view_camera_speed(int speed) {
-    auto orbit_control = app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control();
+void EditorActions::SetSceneViewCameraSpeed(int speed) {
+    auto orbit_control = app_.panels_manager_.GetPanelAs<ui::SceneView>("Scene View").CameraControl();
     orbit_control->rotate_speed_ = speed;
     orbit_control->zoom_speed_ = speed;
 }
 
-int EditorActions::scene_view_camera_speed() {
-    return app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control()->rotate_speed_;
+int EditorActions::SceneViewCameraSpeed() {
+    return app_.panels_manager_.GetPanelAs<ui::SceneView>("Scene View").CameraControl()->rotate_speed_;
 }
 
-void EditorActions::set_asset_view_camera_speed(int speed) {
-    auto orbit_control = app_.panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control();
+void EditorActions::SetAssetViewCameraSpeed(int speed) {
+    auto orbit_control = app_.panels_manager_.GetPanelAs<ui::AssetView>("Asset View").CameraControl();
     orbit_control->rotate_speed_ = speed;
     orbit_control->zoom_speed_ = speed;
 }
 
-int EditorActions::asset_view_camera_speed() {
-    return app_.panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control()->rotate_speed_;
+int EditorActions::AssetViewCameraSpeed() {
+    return app_.panels_manager_.GetPanelAs<ui::AssetView>("Asset View").CameraControl()->rotate_speed_;
 }
 
-void EditorActions::reset_scene_view_camera_position() {
-    auto orbit_control = app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control();
-    orbit_control->entity()->transform->SetPosition({-10.0f, 4.0f, 10.0f});
+void EditorActions::ResetSceneViewCameraPosition() {
+    auto orbit_control = app_.panels_manager_.GetPanelAs<ui::SceneView>("Scene View").CameraControl();
+    orbit_control->GetEntity()->transform->SetPosition({-10.0f, 4.0f, 10.0f});
 }
 
-void EditorActions::reset_asset_view_camera_position() {
-    auto orbit_control = app_.panels_manager_.get_panel_as<ui::AssetView>("Asset View").camera_control();
-    orbit_control->entity()->transform->SetPosition({-10.0f, 4.0f, 10.0f});
+void EditorActions::ResetAssetViewCameraPosition() {
+    auto orbit_control = app_.panels_manager_.GetPanelAs<ui::AssetView>("Asset View").CameraControl();
+    orbit_control->GetEntity()->transform->SetPosition({-10.0f, 4.0f, 10.0f});
 }
 
-//MARK: - GAME
-EditorActions::EditorMode EditorActions::current_editor_mode() const {
-    return editor_mode_;
-}
+// MARK: - GAME
+EditorActions::EditorMode EditorActions::CurrentEditorMode() const { return editor_mode_; }
 
-void EditorActions::set_editor_mode(EditorMode new_editor_mode) {
+void EditorActions::SetEditorMode(EditorMode new_editor_mode) {
     editor_mode_ = new_editor_mode;
-    editor_mode_changed_event_.invoke(editor_mode_);
+    editor_mode_changed_event_.Invoke(editor_mode_);
 }
 
-void EditorActions::start_playing() {
+void EditorActions::StartPlaying() {
     if (editor_mode_ == EditorMode::EDIT) {
         ScriptInterpreter::GetSingleton().RefreshAll();
-        app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").refresh();
-        
+        app_.panels_manager_.GetPanelAs<ui::Inspector>("Inspector").Refresh();
+
         if (ScriptInterpreter::GetSingleton().IsOk()) {
-            play_event_.invoke();
+            play_event_.Invoke();
             scene_backup_.clear();
-            
+
             nlohmann::json root;
-            SceneManager::GetSingleton().CurrentScene()->on_serialize(root);
+            SceneManager::GetSingleton().CurrentScene()->OnSerialize(root);
             scene_backup_.insert(scene_backup_.begin(), {"root", root});
-            
-            app_.panels_manager_.get_panel_as<ui::GameView>("Game View").focus();
-            SceneManager::GetSingleton().CurrentScene()->play();
-            set_editor_mode(EditorMode::PLAY);
+
+            app_.panels_manager_.GetPanelAs<ui::GameView>("Game View").Focus();
+            SceneManager::GetSingleton().CurrentScene()->Play();
+            SetEditorMode(EditorMode::PLAY);
         }
     } else {
         // m_context.audioEngine->Unsuspend();
-        set_editor_mode(EditorMode::PLAY);
+        SetEditorMode(EditorMode::PLAY);
     }
 }
 
-void EditorActions::pause_game() {
-    set_editor_mode(EditorMode::PAUSE);
-}
+void EditorActions::PauseGame() { SetEditorMode(EditorMode::PAUSE); }
 
-void EditorActions::stop_playing() {
+void EditorActions::StopPlaying() {
     if (editor_mode_ != EditorMode::EDIT) {
         // ImGui::GetIO().DisableMouseUpdate = false;
         // m_context.window->SetCursorMode(OvWindowing::Cursor::ECursorMode::NORMAL);
-        set_editor_mode(EditorMode::EDIT);
+        SetEditorMode(EditorMode::EDIT);
         bool loaded_from_disk = SceneManager::GetSingleton().IsCurrentSceneLoadedFromDisk();
         std::string scene_source_path = SceneManager::GetSingleton().CurrentSceneSourcePath();
-        
+
         std::string focused_actor_id;
-        
-        if (auto target_actor = app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").target_entity())
-            focused_actor_id = target_actor->name_;
+
+        if (auto target_actor = app_.panels_manager_.GetPanelAs<ui::Inspector>("Inspector").TargetEntity())
+            focused_actor_id = target_actor->name;
 
         SceneManager::GetSingleton().LoadSceneFromMemory(scene_backup_);
         if (loaded_from_disk) {
@@ -226,100 +211,87 @@ void EditorActions::stop_playing() {
             SceneManager::GetSingleton().StoreCurrentSceneSourcePath(scene_source_path);
         }
         scene_backup_.clear();
-        app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").focus();
+        app_.panels_manager_.GetPanelAs<ui::SceneView>("Scene View").Focus();
         if (auto actor_instance = SceneManager::GetSingleton().CurrentScene()->FindEntityByName(focused_actor_id)) {
-            app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").focus_entity(actor_instance);
+            app_.panels_manager_.GetPanelAs<ui::Inspector>("Inspector").FocusEntity(actor_instance);
         }
     }
 }
 
-void EditorActions::next_frame() {
+void EditorActions::NextFrame() {
     if (editor_mode_ == EditorMode::PLAY || editor_mode_ == EditorMode::PAUSE)
-        set_editor_mode(EditorMode::FRAME_BY_FRAME);
+        SetEditorMode(EditorMode::FRAME_BY_FRAME);
 }
 
-//MARK: - Entity_CREATION_DESTRUCTION
-Point3F EditorActions::calculate_entity_spawn_point(float distance_to_camera) {
-    auto camera_entity = app_.panels_manager_.get_panel_as<ui::SceneView>("Scene View").camera_control()->entity();
-    return camera_entity->transform->WorldPosition() + camera_entity->transform->WorldRotationQuaternion()
-    *
-                                                                camera_entity->transform->WorldForward() * distance_to_camera;
+// MARK: - Entity_CREATION_DESTRUCTION
+Point3F EditorActions::CalculateEntitySpawnPoint(float distance_to_camera) {
+    auto camera_entity = app_.panels_manager_.GetPanelAs<ui::SceneView>("Scene View").CameraControl()->GetEntity();
+    return camera_entity->transform->WorldPosition() + camera_entity->transform->WorldRotationQuaternion() *
+                                                               camera_entity->transform->WorldForward() *
+                                                               distance_to_camera;
 }
 
-Entity *EditorActions::create_empty_entity(bool focus_on_creation, Entity *parent, const std::string &name) {
+Entity *EditorActions::CreateEmptyEntity(bool focus_on_creation, Entity *parent, const std::string &name) {
     const auto kCurrentScene = SceneManager::GetSingleton().CurrentScene();
-    Entity* entity{nullptr};
+    Entity *entity{nullptr};
     if (parent) {
         entity = parent->CreateChild(name);
     } else {
         entity = kCurrentScene->CreateRootEntity(name);
     }
-    
+
     if (entity_spawn_mode_ == EntitySpawnMode::FRONT)
-        entity->transform->SetWorldPosition(calculate_entity_spawn_point(10.0f));
-    
-    if (focus_on_creation)
-        select_entity(entity);
-    
+        entity->transform->SetWorldPosition(CalculateEntitySpawnPoint(10.0f));
+
+    if (focus_on_creation) SelectEntity(entity);
+
     LOGI("Entity created")
-    
+
     return entity;
 }
 
-Entity *EditorActions::create_entity_with_model(const std::string &path, bool focus_on_creation,
-                                                Entity *parent, const std::string &name) {
+Entity *EditorActions::CreateEntityWithModel(const std::string &path,
+                                             bool focus_on_creation,
+                                             Entity *parent,
+                                             const std::string &name) {
     return nullptr;
 }
 
-bool EditorActions::destroy_entity(Entity *entity) {
+bool EditorActions::DestroyEntity(Entity *entity) {
     // entity.MarkAsDestroy();
     LOGI("Entity destroyed")
     return true;
 }
 
-void EditorActions::duplicate_entity(Entity *to_duplicate, Entity *forced_parent, bool focus) {
-    
+void EditorActions::DuplicateEntity(Entity *to_duplicate, Entity *forced_parent, bool focus) {}
+
+// MARK: - ENTITY_MANIPULATION
+void EditorActions::SelectEntity(Entity *target) {
+    app_.panels_manager_.GetPanelAs<ui::Inspector>("Inspector").FocusEntity(target);
 }
 
-//MARK: - ENTITY_MANIPULATION
-void EditorActions::select_entity(Entity *target) {
-    app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").focus_entity(target);
+void EditorActions::UnselectEntity() { app_.panels_manager_.GetPanelAs<ui::Inspector>("Inspector").UnFocus(); }
+
+bool EditorActions::IsAnyEntitySelected() const {
+    return app_.panels_manager_.GetPanelAs<ui::Inspector>("Inspector").TargetEntity();
 }
 
-void EditorActions::unselect_entity() {
-    app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").un_focus();
+Entity *EditorActions::GetSelectedEntity() const {
+    return app_.panels_manager_.GetPanelAs<ui::Inspector>("Inspector").TargetEntity();
 }
 
-bool EditorActions::is_any_entity_selected() const {
-    return app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").target_entity();
-}
+void EditorActions::MoveToTarget(Entity *target) {}
 
-Entity *EditorActions::get_selected_entity() const {
-    return app_.panels_manager_.get_panel_as<ui::Inspector>("Inspector").target_entity();
-}
+// MARK: - RESOURCE_MANAGEMENT
+void EditorActions::CompileShaders() {}
 
-void EditorActions::move_to_target(Entity *target) {
-    
-}
+void EditorActions::SaveMaterials() {}
 
-//MARK: - RESOURCE_MANAGEMENT
-void EditorActions::compile_shaders() {
-    
-}
+bool EditorActions::ImportAsset(const std::string &initial_destination_directory) { return false; }
 
-void EditorActions::save_materials() {
-    
-}
+bool EditorActions::ImportAssetAtLocation(const std::string &destination) { return false; }
 
-bool EditorActions::import_asset(const std::string &initial_destination_directory) {
-    return false;
-}
-
-bool EditorActions::import_asset_at_location(const std::string &destination) {
-    return false;
-}
-
-std::string EditorActions::get_real_path(const std::string &path) {
+std::string EditorActions::GetRealPath(const std::string &path) {
     std::string result;
 
     // The path is an engine path
@@ -333,43 +305,33 @@ std::string EditorActions::get_real_path(const std::string &path) {
     return result;
 }
 
-std::string EditorActions::get_resource_path(const std::string &path, bool is_from_engine) {
+std::string EditorActions::GetResourcePath(const std::string &path, bool is_from_engine) {
     std::string result = path;
 
-    if (replace(result, is_from_engine ? app_.engine_assets_path_ : app_.project_assets_path_, "")) {
-        if (is_from_engine)
-            result = ':' + result;
+    if (Replace(result, is_from_engine ? app_.engine_assets_path_ : app_.project_assets_path_, "")) {
+        if (is_from_engine) result = ':' + result;
     }
     return result;
 }
 
-std::string EditorActions::get_script_path(const std::string &path) {
+std::string EditorActions::GetScriptPath(const std::string &path) {
     std::string result = path;
-    replace(result, app_.project_scripts_path_, "");
-    replace(result, ".lua", "");
+    Replace(result, app_.project_scripts_path_, "");
+    Replace(result, ".lua", "");
     return result;
 }
 
-void EditorActions::propagate_folder_rename(const std::string &previous_name, const std::string &new_name) {
-    
-}
+void EditorActions::PropagateFolderRename(const std::string &previous_name, const std::string &new_name) {}
 
-void EditorActions::propagate_folder_destruction(const std::string &folder_path) {
-    
-}
+void EditorActions::PropagateFolderDestruction(const std::string &folder_path) {}
 
-void EditorActions::propagate_script_rename(const std::string &previous_name, const std::string &new_name) {
-    
-}
+void EditorActions::PropagateScriptRename(const std::string &previous_name, const std::string &new_name) {}
 
-void EditorActions::propagate_file_rename(const std::string &previous_name, const std::string &new_name) {
-    
-}
+void EditorActions::PropagateFileRename(const std::string &previous_name, const std::string &new_name) {}
 
-void EditorActions::propagate_file_rename_through_saved_files_of_type(const std::string &previous_name, const std::string &new_name,
-                                                                      fs::FileType file_type) {
-    
-}
+void EditorActions::PropagateFileRenameThroughSavedFilesOfType(const std::string &previous_name,
+                                                               const std::string &new_name,
+                                                               fs::FileType file_type) {}
 
-}
-}
+}  // namespace editor
+}  // namespace vox

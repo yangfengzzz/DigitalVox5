@@ -18,15 +18,16 @@ class EditorResources;
 namespace ui {
 class Toolbar : public PanelWindow {
 public:
-    Toolbar(const std::string &new_mode, bool opened,
+    Toolbar(const std::string &new_mode,
+            bool opened,
             const PanelWindowSettings &window_settings,
             EditorResources *resource);
-    
+
     /**
      * Custom implementation of the draw method
      */
-    void draw_impl() override;
-    
+    void DrawImpl() override;
+
 private:
     EditorResources *resource_{nullptr};
     ButtonImage *play_button_{nullptr};
@@ -35,6 +36,6 @@ private:
     ButtonImage *next_button_{nullptr};
 };
 
-}
-}
-}
+}  // namespace ui
+}  // namespace editor
+}  // namespace vox

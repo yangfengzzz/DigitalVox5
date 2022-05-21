@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "ui/widgets/panel_transformables/panel_window.h"
-#include "ui/widgets/layout/group.h"
-#include "ui/widgets/texts/text_colored.h"
 #include "logging.h"
 #include "spdlog/sinks/base_sink.h"
+#include "ui/widgets/layout/group.h"
+#include "ui/widgets/panel_transformables/panel_window.h"
+#include "ui/widgets/texts/text_colored.h"
 
 namespace vox {
 using namespace ui;
@@ -18,55 +18,52 @@ using namespace ui;
 namespace editor::ui {
 class Console : public PanelWindow {
 public:
-    Console(const std::string &title,
-            bool opened,
-            const PanelWindowSettings &window_settings);
-    
-    ~Console();
-    
+    Console(const std::string &title, bool opened, const PanelWindowSettings &window_settings);
+
+    ~Console() override;
+
     /**
      * Method called when a log event occurred
      */
-    void on_log_intercepted(spdlog::level::level_enum log_level,
-                            const std::string &message);
-    
+    void OnLogIntercepted(spdlog::level::level_enum log_level, const std::string &message);
+
     /**
      * Called when the scene plays. It will clear the console if the "Clear on play" settings is on
      */
-    void clear_on_play();
-    
+    void ClearOnPlay();
+
     /**
      * Clear the console
      */
-    void clear();
-    
+    void Clear();
+
     /**
      * Filter logs using defined filters
      */
-    void filter_logs();
-    
+    void FilterLogs();
+
     /**
      * Verify if a given log level is allowed by the current filter
      */
-    bool is_allowed_by_filter(spdlog::level::level_enum log_level) const;
-    
+    [[nodiscard]] bool IsAllowedByFilter(spdlog::level::level_enum log_level) const;
+
 private:
-    void set_show_info_logs(bool value);
-    
-    void set_show_warning_logs(bool value);
-    
-    void set_show_error_logs(bool value);
-    
+    void SetShowInfoLogs(bool value);
+
+    void SetShowWarningLogs(bool value);
+
+    void SetShowErrorLogs(bool value);
+
 private:
     Group *log_group_{nullptr};
     std::unordered_map<TextColored *, spdlog::level::level_enum> log_text_widgets_{};
     std::shared_ptr<spdlog::sinks::base_sink<spdlog::details::null_mutex>> console_sink_{nullptr};
-    
+
     bool clear_on_play_ = true;
     bool show_info_log_ = true;
     bool show_warning_log_ = true;
     bool show_error_log_ = true;
 };
 
-}
-}
+}  // namespace editor::ui
+}  // namespace vox

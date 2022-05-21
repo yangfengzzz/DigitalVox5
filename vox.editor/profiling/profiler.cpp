@@ -5,8 +5,10 @@
 //  property of any third parties.
 
 #include "profiler.h"
-#include "profiler_spy.h"
+
 #include <map>
+
+#include "profiler_spy.h"
 
 namespace vox {
 bool Profiler::enabled_;
@@ -21,82 +23,74 @@ Profiler::Profiler() {
     enabled_ = false;
 }
 
-ProfilerReport Profiler::generate_report() {
+ProfilerReport Profiler::GenerateReport() {
     ProfilerReport report;
-    
-    if (elapsed_frames_ == 0)
-        return report;
-    
+
+    if (elapsed_frames_ == 0) return report;
+
     std::chrono::duration<double> elapsed = std::chrono::high_resolution_clock::now() - last_time_;
-    
+
     report.working_threads = static_cast<uint16_t>((working_threads_.size() - 1) / elapsed_frames_);
     report.elapsed_frames = elapsed_frames_;
     report.elapsed_time = elapsed.count();
-    
+
     std::multimap<double, std::string, std::greater<>> sorted_history;
-    
+
     /* Fill the sorted history with the current history (Auto sort) */
-    for (auto &data : elapsed_history_)
-        sorted_history.insert(std::pair<double, std::string>(data.second, data.first));
-    
+    for (auto &data : elapsed_history_) sorted_history.insert(std::pair<double, std::string>(data.second, data.first));
+
     /* Add every action to the report */
     for (auto &data : sorted_history)
-        report.actions.push_back({data.second, data.first, (data.first / elapsed.count()) * 100.0, calls_counter_[data.second]});
-    
+        report.actions.push_back(
+                {data.second, data.first, (data.first / elapsed.count()) * 100.0, calls_counter_[data.second]});
+
     return report;
 }
 
-void Profiler::clear_history() {
+void Profiler::ClearHistory() {
     elapsed_history_.clear();
     calls_counter_.clear();
     working_threads_.clear();
     elapsed_frames_ = 0;
-    
+
     last_time_ = std::chrono::high_resolution_clock::now();
 }
 
-void Profiler::update(float delta_time) {
-    if (is_enabled()) {
+void Profiler::Update(float delta_time) {
+    if (IsEnabled()) {
         ++elapsed_frames_;
     }
 }
 
-void Profiler::save(ProfilerSpy &spy) {
+void Profiler::Save(ProfilerSpy &spy) {
     save_mutex_.lock();
-    
+
     /* Check if this thread is already registered */
-    if (std::find(working_threads_.begin(), working_threads_.end(), std::this_thread::get_id()) == working_threads_.end())
+    if (std::find(working_threads_.begin(), working_threads_.end(), std::this_thread::get_id()) ==
+        working_threads_.end())
         working_threads_.push_back(std::this_thread::get_id());
-    
+
     if (elapsed_history_.find(spy.name) != elapsed_history_.end()) {
         elapsed_history_[spy.name] += std::chrono::duration<double>(spy.end - spy.start).count();
     } else {
         elapsed_history_[spy.name] = std::chrono::duration<double>(spy.end - spy.start).count();
     }
-    
+
     if (calls_counter_.find(spy.name) != calls_counter_.end()) {
         ++calls_counter_[spy.name];
     } else {
         calls_counter_[spy.name] = 1;
     }
-    
+
     save_mutex_.unlock();
 }
 
-bool Profiler::is_enabled() {
-    return enabled_;
-}
+bool Profiler::IsEnabled() { return enabled_; }
 
-void Profiler::toggle_enable() {
-    enabled_ = !enabled_;
-}
+void Profiler::ToggleEnable() { enabled_ = !enabled_; }
 
-void Profiler::enable() {
-    enabled_ = true;
-}
+void Profiler::Enable() { enabled_ = true; }
 
-void Profiler::disable() {
-    enabled_ = false;
-}
+void Profiler::Disable() { enabled_ = false; }
 
-}
+}  // namespace vox

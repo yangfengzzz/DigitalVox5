@@ -6,12 +6,13 @@
 
 #pragma once
 
-#include "ui/widgets/panel_transformables/panel_window.h"
+#include <filesystem>
+#include <queue>
+#include <unordered_map>
+
 #include "ui/widgets/layout/group.h"
 #include "ui/widgets/layout/tree_node.h"
-#include <filesystem>
-#include <unordered_map>
-#include <queue>
+#include "ui/widgets/panel_transformables/panel_window.h"
 
 namespace vox::editor::ui {
 /**
@@ -25,32 +26,37 @@ public:
                  const std::string &engine_asset_folder = "",
                  const std::string &project_asset_folder = "",
                  const std::string &project_script_folder = "");
-    
+
     /**
      * Fill the asset browser panels with widgets corresponding to elements in the asset folder
      */
-    void fill();
-    
+    void Fill();
+
     /**
      * Clear the asset browser widgets
      */
-    void clear();
-    
+    void Clear();
+
     /**
      * Refresh the asset browser widgets (Clear + Fill)
      */
-    void refresh();
-    
+    void Refresh();
+
 private:
-    void parse_folder(::vox::ui::TreeNode &root, const std::filesystem::directory_entry &directory,
-                      bool is_engine_item, bool script_folder = false);
-    
-    void consider_item(::vox::ui::TreeNode *root, const std::filesystem::directory_entry &entry,
-                       bool is_engine_item, bool auto_open = false, bool script_folder = false);
-    
+    void ParseFolder(::vox::ui::TreeNode &root,
+                     const std::filesystem::directory_entry &directory,
+                     bool is_engine_item,
+                     bool script_folder = false);
+
+    void ConsiderItem(::vox::ui::TreeNode *root,
+                      const std::filesystem::directory_entry &entry,
+                      bool is_engine_item,
+                      bool auto_open = false,
+                      bool script_folder = false);
+
 public:
     static const std::string filenames_chars_;
-    
+
 private:
     std::string engine_asset_folder_;
     std::string project_asset_folder_;
@@ -59,4 +65,4 @@ private:
     std::unordered_map<::vox::ui::TreeNode *, std::string> path_update_;
 };
 
-}
+}  // namespace vox::editor::ui

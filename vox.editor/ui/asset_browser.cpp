@@ -12,30 +12,23 @@ AssetBrowser::AssetBrowser(const std::string &title,
                            const ::vox::ui::PanelWindowSettings &window_settings,
                            const std::string &engine_asset_folder,
                            const std::string &project_asset_folder,
-                           const std::string &project_script_folder) {
-    
-}
+                           const std::string &project_script_folder) {}
 
-void AssetBrowser::fill() {
-    
-}
+void AssetBrowser::Fill() {}
 
-void AssetBrowser::clear() {
-    
-}
+void AssetBrowser::Clear() {}
 
-void AssetBrowser::refresh() {
-    
-}
+void AssetBrowser::Refresh() {}
 
-void AssetBrowser::parse_folder(::vox::ui::TreeNode &root, const std::filesystem::directory_entry &directory,
-                                bool is_engine_item, bool script_folder) {
-    
-}
+void AssetBrowser::ParseFolder(::vox::ui::TreeNode &root,
+                               const std::filesystem::directory_entry &directory,
+                               bool is_engine_item,
+                               bool script_folder) {}
 
-void AssetBrowser::consider_item(::vox::ui::TreeNode *root, const std::filesystem::directory_entry &entry,
-                                 bool is_engine_item, bool auto_open, bool script_folder) {
-    
-}
+void AssetBrowser::ConsiderItem(::vox::ui::TreeNode *root,
+                                const std::filesystem::directory_entry &entry,
+                                bool is_engine_item,
+                                bool auto_open,
+                                bool script_folder) {}
 
-}
+}  // namespace vox::editor::ui
