@@ -40,10 +40,10 @@ namespace core {
 
 #define DISPATCH_LINALG_DTYPE_TO_TEMPLATE(DTYPE, ...) \
     [&] {                                             \
-        if (DTYPE == arc::core::Float32) {            \
+        if (DTYPE == vox::core::Float32) {            \
             using scalar_t = float;                   \
             return __VA_ARGS__();                     \
-        } else if (DTYPE == arc::core::Float64) {     \
+        } else if (DTYPE == vox::core::Float64) {     \
             using scalar_t = double;                  \
             return __VA_ARGS__();                     \
         } else {                                      \

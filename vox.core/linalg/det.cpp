@@ -38,13 +38,13 @@ double Det(const Tensor& A) {
 
     double det = 1.0;
 
-    if (A.GetShape() == arc::core::SizeVector({3, 3})) {
+    if (A.GetShape() == vox::core::SizeVector({3, 3})) {
         DISPATCH_FLOAT_DTYPE_TO_TEMPLATE(dtype, [&]() {
             core::Tensor A_3x3 = A.To(core::Device("CPU:0"), false).Contiguous();
             const scalar_t* A_3x3_ptr = A_3x3.GetDataPtr<scalar_t>();
             det = static_cast<double>(linalg::kernel::det3x3(A_3x3_ptr));
         });
-    } else if (A.GetShape() == arc::core::SizeVector({2, 2})) {
+    } else if (A.GetShape() == vox::core::SizeVector({2, 2})) {
         DISPATCH_FLOAT_DTYPE_TO_TEMPLATE(dtype, [&]() {
             core::Tensor A_2x2 = A.To(core::Device("CPU:0"), false).Contiguous();
             const scalar_t* A_2x2_ptr = A_2x2.GetDataPtr<scalar_t>();

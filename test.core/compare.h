@@ -35,7 +35,7 @@
 
 //#include "open3d/Macro.h"
 
-#define ExpectEQ(arg, ...) ExpectEQInternal(::arc::tests::LineInfo(__FILE__, __LINE__), arg, __VA_ARGS__)
+#define ExpectEQ(arg, ...) ExpectEQInternal(::vox::tests::LineInfo(__FILE__, __LINE__), arg, __VA_ARGS__)
 
 namespace vox::tests {
 

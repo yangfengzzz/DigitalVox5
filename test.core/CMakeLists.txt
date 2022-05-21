@@ -7,7 +7,7 @@ file(GLOB sources
 
 add_executable(${PROJECT_NAME} ${sources})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ../arc.base ../arc.geometry ../arc.core
+target_include_directories(${PROJECT_NAME} PUBLIC ../vox.base ../vox.geometry ../vox.core
         ${CMAKE_SOURCE_DIR}/third_party/googletest/googlemock/include
         ${CMAKE_SOURCE_DIR}/third_party/googletest/googletest/include)
 
@@ -29,6 +29,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC TBB::tbb)
 target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/googletest/build/lib
         ${CMAKE_SOURCE_DIR}/third_party/qhull/build
         ${CMAKE_SOURCE_DIR}/third_party/json_cpp/build/lib)
-target_link_libraries(${PROJECT_NAME} PUBLIC spdlog arc.geometry arc.base arc.core
+target_link_libraries(${PROJECT_NAME} PUBLIC spdlog vox.geometry vox.base vox.core
         libgmock.a libgmock_main.a libgtest.a libgtest_main.a
         qhullstatic_r qhullcpp jsoncpp)

@@ -47,7 +47,7 @@ void Rand(std::vector<Eigen::Vector2i>& v, const Eigen::Vector2i& vmin, const Ei
 
 // Initialize an Eigen::Vector2d vector.
 // Output range: [vmin:vmax].
-void Rand(std::vector<Eigen::Vector2d, arc::utility::Vector2d_allocator>& v,
+void Rand(std::vector<Eigen::Vector2d, vox::utility::Vector2d_allocator>& v,
           const Eigen::Vector2d& vmin,
           const Eigen::Vector2d& vmax,
           const int& seed);
@@ -62,14 +62,14 @@ void Rand(std::vector<Eigen::Vector3d>& v, const Eigen::Vector3d& vmin, const Ei
 
 // Initialize an Eigen::Vector4i vector.
 // Output range: [vmin:vmax].
-void Rand(std::vector<Eigen::Vector4i, arc::utility::Vector4i_allocator>& v,
+void Rand(std::vector<Eigen::Vector4i, vox::utility::Vector4i_allocator>& v,
           const int& vmin,
           const int& vmax,
           const int& seed);
 
 // Initialize an Eigen::Vector4i vector.
 // Output range: [vmin:vmax].
-void Rand(std::vector<Eigen::Vector4i, arc::utility::Vector4i_allocator>& v,
+void Rand(std::vector<Eigen::Vector4i, vox::utility::Vector4i_allocator>& v,
           const Eigen::Vector4i& vmin,
           const Eigen::Vector4i& vmax,
           const int& seed);

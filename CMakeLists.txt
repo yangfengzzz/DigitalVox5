@@ -62,6 +62,9 @@ add_subdirectory(test.geometry)
 add_subdirectory(vox.io)
 add_subdirectory(test.io)
 
+add_subdirectory(vox.core)
+add_subdirectory(test.core)
+
 # Add math library
 add_subdirectory(vox.math)
 add_subdirectory(test.math)
@@ -74,10 +77,6 @@ add_subdirectory(apps)
 add_subdirectory(vox.editor)
 add_subdirectory(editor)
 
-################## Arche source #################
-add_subdirectory(arc.core)
-add_subdirectory(test.core)
-
+################## Arche source ################
 add_subdirectory(arc.tensor)
-
 add_subdirectory(arc.visual)

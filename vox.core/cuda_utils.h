@@ -51,7 +51,7 @@
     static_assert(__nv_is_extended_host_device_lambda_closure_type(type), #type \
                   " must be a __host__ __device__ "                             \
                   "lambda")
-#define OPEN3D_CUDA_CHECK(err) arc::core::__OPEN3D_CUDA_CHECK(err, __FILE__, __LINE__)
+#define OPEN3D_CUDA_CHECK(err) vox::core::__OPEN3D_CUDA_CHECK(err, __FILE__, __LINE__)
 #define OPEN3D_GET_LAST_CUDA_ERROR(message) __OPEN3D_GET_LAST_CUDA_ERROR(message, __FILE__, __LINE__)
 #define CUDA_CALL(cuda_function, ...) cuda_function(__VA_ARGS__);
 

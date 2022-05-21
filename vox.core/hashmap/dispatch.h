@@ -64,11 +64,11 @@
 // TODO: dispatch more combinations.
 #define DISPATCH_DTYPE_AND_DIM_TO_TEMPLATE(DTYPE, DIM, ...)                \
     [&] {                                                                  \
-        if (DTYPE == arc::core::Int64) {                                   \
+        if (DTYPE == vox::core::Int64) {                                   \
             DIM_SWITCHER(int64_t, DIM, __VA_ARGS__)                        \
-        } else if (DTYPE == arc::core::Int32) {                            \
+        } else if (DTYPE == vox::core::Int32) {                            \
             DIM_SWITCHER(int, DIM, __VA_ARGS__)                            \
-        } else if (DTYPE == arc::core::Int16) {                            \
+        } else if (DTYPE == vox::core::Int16) {                            \
             DIM_SWITCHER(short, DIM, __VA_ARGS__)                          \
         } else {                                                           \
             LOGE("Unsupported dtype {}, please use integer types (Int64, " \

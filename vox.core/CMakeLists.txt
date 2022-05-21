@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(arc.core LANGUAGES C CXX)
+project(vox.core LANGUAGES C CXX)
 
 file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
@@ -17,8 +17,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC $<TARGET_PROPERTY:MKL::MKL,INT
 target_link_libraries(${PROJECT_NAME} PUBLIC $<LINK_ONLY:MKL::MKL>)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-        ../arc.base
-        ../arc.core
+        ../vox.base
+        ../vox.core
         ../third_party
         ../third_party/eigen
         ../third_party/json_cpp/include)

@@ -127,8 +127,8 @@ protected:
 
 namespace std {
 template <>
-struct hash<arc::core::Device> {
-    std::size_t operator()(const arc::core::Device& device) const {
+struct hash<vox::core::Device> {
+    std::size_t operator()(const vox::core::Device& device) const {
         return std::hash<std::string>{}(device.ToString());
     }
 };

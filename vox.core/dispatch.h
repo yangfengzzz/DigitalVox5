@@ -48,34 +48,34 @@
 ///     https://github.com/pytorch/pytorch/blob/master/aten/src/ATen/Dispatch.h
 #define DISPATCH_DTYPE_TO_TEMPLATE(DTYPE, ...)    \
     [&] {                                         \
-        if (DTYPE == arc::core::Float32) {        \
+        if (DTYPE == vox::core::Float32) {        \
             using scalar_t = float;               \
             return __VA_ARGS__();                 \
-        } else if (DTYPE == arc::core::Float64) { \
+        } else if (DTYPE == vox::core::Float64) { \
             using scalar_t = double;              \
             return __VA_ARGS__();                 \
-        } else if (DTYPE == arc::core::Int8) {    \
+        } else if (DTYPE == vox::core::Int8) {    \
             using scalar_t = int8_t;              \
             return __VA_ARGS__();                 \
-        } else if (DTYPE == arc::core::Int16) {   \
+        } else if (DTYPE == vox::core::Int16) {   \
             using scalar_t = int16_t;             \
             return __VA_ARGS__();                 \
-        } else if (DTYPE == arc::core::Int32) {   \
+        } else if (DTYPE == vox::core::Int32) {   \
             using scalar_t = int32_t;             \
             return __VA_ARGS__();                 \
-        } else if (DTYPE == arc::core::Int64) {   \
+        } else if (DTYPE == vox::core::Int64) {   \
             using scalar_t = int64_t;             \
             return __VA_ARGS__();                 \
-        } else if (DTYPE == arc::core::UInt8) {   \
+        } else if (DTYPE == vox::core::UInt8) {   \
             using scalar_t = uint8_t;             \
             return __VA_ARGS__();                 \
-        } else if (DTYPE == arc::core::UInt16) {  \
+        } else if (DTYPE == vox::core::UInt16) {  \
             using scalar_t = uint16_t;            \
             return __VA_ARGS__();                 \
-        } else if (DTYPE == arc::core::UInt32) {  \
+        } else if (DTYPE == vox::core::UInt32) {  \
             using scalar_t = uint32_t;            \
             return __VA_ARGS__();                 \
-        } else if (DTYPE == arc::core::UInt64) {  \
+        } else if (DTYPE == vox::core::UInt64) {  \
             using scalar_t = uint64_t;            \
             return __VA_ARGS__();                 \
         } else {                                  \
@@ -85,7 +85,7 @@
 
 #define DISPATCH_DTYPE_TO_TEMPLATE_WITH_BOOL(DTYPE, ...)    \
     [&] {                                                   \
-        if (DTYPE == arc::core::Bool) {                     \
+        if (DTYPE == vox::core::Bool) {                     \
             using scalar_t = bool;                          \
             return __VA_ARGS__();                           \
         } else {                                            \
@@ -95,10 +95,10 @@
 
 #define DISPATCH_FLOAT_DTYPE_TO_TEMPLATE(DTYPE, ...) \
     [&] {                                            \
-        if (DTYPE == arc::core::Float32) {           \
+        if (DTYPE == vox::core::Float32) {           \
             using scalar_t = float;                  \
             return __VA_ARGS__();                    \
-        } else if (DTYPE == arc::core::Float64) {    \
+        } else if (DTYPE == vox::core::Float64) {    \
             using scalar_t = double;                 \
             return __VA_ARGS__();                    \
         } else {                                     \
@@ -108,19 +108,19 @@
 
 #define DISPATCH_FLOAT_INT_DTYPE_TO_TEMPLATE(FDTYPE, IDTYPE, ...)                \
     [&] {                                                                        \
-        if (FDTYPE == arc::core::Float32 && IDTYPE == arc::core::Int32) {        \
+        if (FDTYPE == vox::core::Float32 && IDTYPE == vox::core::Int32) {        \
             using scalar_t = float;                                              \
             using int_t = int32_t;                                               \
             return __VA_ARGS__();                                                \
-        } else if (FDTYPE == arc::core::Float32 && IDTYPE == arc::core::Int64) { \
+        } else if (FDTYPE == vox::core::Float32 && IDTYPE == vox::core::Int64) { \
             using scalar_t = float;                                              \
             using int_t = int64_t;                                               \
             return __VA_ARGS__();                                                \
-        } else if (FDTYPE == arc::core::Float64 && IDTYPE == arc::core::Int32) { \
+        } else if (FDTYPE == vox::core::Float64 && IDTYPE == vox::core::Int32) { \
             using scalar_t = double;                                             \
             using int_t = int32_t;                                               \
             return __VA_ARGS__();                                                \
-        } else if (FDTYPE == arc::core::Float64 && IDTYPE == arc::core::Int64) { \
+        } else if (FDTYPE == vox::core::Float64 && IDTYPE == vox::core::Int64) { \
             using scalar_t = double;                                             \
             using int_t = int64_t;                                               \
             return __VA_ARGS__();                                                \
