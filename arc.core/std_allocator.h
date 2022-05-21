@@ -29,7 +29,7 @@
 #include "device.h"
 #include "memory_manager.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// Class satisfying the Allocator requirements defined by the C++ standard.
@@ -90,4 +90,4 @@ private:
 };
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

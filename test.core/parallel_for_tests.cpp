@@ -38,7 +38,7 @@
 #include "ParallelFor_ispc.h"
 #endif
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 TEST(ParallelFor, LambdaCPU) {
@@ -620,4 +620,4 @@ TEST_P(ParallelForPermuteDtypesWithBool, VectorizedTemplateLambda9) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

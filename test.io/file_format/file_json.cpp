@@ -26,7 +26,7 @@
 
 #include "../tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(FileJSON, DISABLED_ReadIJsonConvertibleFromJSONStream) { NotImplemented(); }
 
@@ -40,4 +40,4 @@ TEST(FileJSON, DISABLED_ReadIJsonConvertibleFromJSONString) { NotImplemented(); 
 
 TEST(FileJSON, DISABLED_WriteIJsonConvertibleToJSONString) { NotImplemented(); }
 
-}  // namespace arc
+}  // namespace vox

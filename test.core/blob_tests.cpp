@@ -30,7 +30,7 @@
 #include "memory_manager.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 class BlobPermuteDevices : public PermuteDevices {};
@@ -62,4 +62,4 @@ TEST_P(BlobPermuteDevices, BlobConstructorWithExternalMemory) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

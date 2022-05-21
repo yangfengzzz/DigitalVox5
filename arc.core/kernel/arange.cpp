@@ -29,7 +29,7 @@
 #include "tensor.h"
 #include "tensor_check.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -97,4 +97,4 @@ Tensor Arange(const Tensor& start, const Tensor& stop, const Tensor& step) {
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

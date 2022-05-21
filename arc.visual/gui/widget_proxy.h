@@ -32,7 +32,7 @@
 #include "gui/gui.h"
 #include "gui/widget.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 /// \class WidgetProxy
 ///
@@ -116,4 +116,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

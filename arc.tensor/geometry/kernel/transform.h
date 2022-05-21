@@ -28,7 +28,7 @@
 
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 namespace kernel {
@@ -64,4 +64,4 @@ void RotateNormalsCUDA(const core::Tensor& R, core::Tensor& normals);
 }  // namespace kernel
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

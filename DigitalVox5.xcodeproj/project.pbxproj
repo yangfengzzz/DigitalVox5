@@ -638,7 +638,7 @@
 		04C3C42F2834923C00B0BE1F /* ijson_convertible_io_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C4242834923B00B0BE1F /* ijson_convertible_io_tests.cpp */; };
 		04C3C4372834927B00B0BE1F /* libvox.base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C32E2833E39100B0BE1F /* libvox.base.a */; };
 		04C3C4382834927B00B0BE1F /* libvox.geometry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DBB3742833132E00D94795 /* libvox.geometry.a */; };
-		04C3C4392834927B00B0BE1F /* libarc.io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C3A8283490D800B0BE1F /* libarc.io.a */; };
+		04C3C4392834927B00B0BE1F /* libvox.io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C3A8283490D800B0BE1F /* libvox.io.a */; };
 		04C3C43A2834938600B0BE1F /* libvox.base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C32E2833E39100B0BE1F /* libvox.base.a */; };
 		04C3C440283496DE00B0BE1F /* rply.c in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C43D283496DD00B0BE1F /* rply.c */; };
 		04C3C441283496DE00B0BE1F /* rplyfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C43E283496DD00B0BE1F /* rplyfile.h */; };
@@ -1883,7 +1883,7 @@
 		04C3C3902833E4B700B0BE1F /* eigen_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eigen_tests.cpp; sourceTree = "<group>"; };
 		04C3C3912833E4B700B0BE1F /* helper_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = helper_tests.cpp; sourceTree = "<group>"; };
 		04C3C3A02833E4BA00B0BE1F /* test.base.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = test.base.entitlements; sourceTree = "<group>"; };
-		04C3C3A8283490D800B0BE1F /* libarc.io.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libarc.io.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		04C3C3A8283490D800B0BE1F /* libvox.io.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.io.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C3C3B42834910100B0BE1F /* line_set_io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = line_set_io.h; sourceTree = "<group>"; };
 		04C3C3B52834910100B0BE1F /* voxel_grid_io.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = voxel_grid_io.cpp; sourceTree = "<group>"; };
 		04C3C3B62834910100B0BE1F /* model_io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = model_io.h; sourceTree = "<group>"; };
@@ -2483,7 +2483,7 @@
 			files = (
 				04C3C4372834927B00B0BE1F /* libvox.base.a in Frameworks */,
 				04C3C4382834927B00B0BE1F /* libvox.geometry.a in Frameworks */,
-				04C3C4392834927B00B0BE1F /* libarc.io.a in Frameworks */,
+				04C3C4392834927B00B0BE1F /* libvox.io.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3172,6 +3172,8 @@
 				04C3C3782833E4A300B0BE1F /* test.base */,
 				04DBB3752833132E00D94795 /* vox.geometry */,
 				04C3C2EC28339D9D00B0BE1F /* test.geometry */,
+				04C3C3A9283490D800B0BE1F /* vox.io */,
+				04C3C40D2834922900B0BE1F /* test.io */,
 				047BB5E02803A9B700CD5749 /* vox.math */,
 				04B762092832279500FE2C5C /* test.math */,
 				047BB5D12803A99E00CD5749 /* vox.render */,
@@ -3179,8 +3181,6 @@
 				04523E29281CC4920079CC3C /* vox.editor */,
 				04523DC4281BB0C30079CC3C /* editor */,
 				04C3C60F28377B0200B0BE1F /* ========================== */,
-				04C3C3A9283490D800B0BE1F /* arc.io */,
-				04C3C40D2834922900B0BE1F /* test.io */,
 				04C3C4492835C88F00B0BE1F /* arc.core */,
 				04C3C53F2835CC2200B0BE1F /* test.core */,
 				04C3C5872835DE8700B0BE1F /* arc.visual */,
@@ -3202,7 +3202,7 @@
 				04C3C2EB28339D9D00B0BE1F /* test.geometry */,
 				04C3C32E2833E39100B0BE1F /* libvox.base.a */,
 				04C3C3772833E4A300B0BE1F /* test.base */,
-				04C3C3A8283490D800B0BE1F /* libarc.io.a */,
+				04C3C3A8283490D800B0BE1F /* libvox.io.a */,
 				04C3C40C2834922900B0BE1F /* test.io */,
 				04C3C4482835C88F00B0BE1F /* libarc.core.a */,
 				04C3C53E2835CC2200B0BE1F /* test.core */,
@@ -3586,7 +3586,7 @@
 			path = test.base;
 			sourceTree = "<group>";
 		};
-		04C3C3A9283490D800B0BE1F /* arc.io */ = {
+		04C3C3A9283490D800B0BE1F /* vox.io */ = {
 			isa = PBXGroup;
 			children = (
 				04C3C3BB2834910100B0BE1F /* file_format_io.h */,
@@ -3609,7 +3609,7 @@
 				04C3C3B52834910100B0BE1F /* voxel_grid_io.cpp */,
 				04C3C3C32834910200B0BE1F /* voxel_grid_io.h */,
 			);
-			path = arc.io;
+			path = vox.io;
 			sourceTree = "<group>";
 		};
 		04C3C3B3283490E800B0BE1F /* file_format */ = {
@@ -5082,9 +5082,9 @@
 			productReference = 04C3C3772833E4A300B0BE1F /* test.base */;
 			productType = "com.apple.product-type.tool";
 		};
-		04C3C3A7283490D800B0BE1F /* arc.io */ = {
+		04C3C3A7283490D800B0BE1F /* vox.io */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 04C3C3B0283490D800B0BE1F /* Build configuration list for PBXNativeTarget "arc.io" */;
+			buildConfigurationList = 04C3C3B0283490D800B0BE1F /* Build configuration list for PBXNativeTarget "vox.io" */;
 			buildPhases = (
 				04C3C3A4283490D800B0BE1F /* Headers */,
 				04C3C3A5283490D800B0BE1F /* Sources */,
@@ -5094,9 +5094,9 @@
 			);
 			dependencies = (
 			);
-			name = arc.io;
+			name = vox.io;
 			productName = arc.io;
-			productReference = 04C3C3A8283490D800B0BE1F /* libarc.io.a */;
+			productReference = 04C3C3A8283490D800B0BE1F /* libvox.io.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		04C3C40B2834922900B0BE1F /* test.io */ = {
@@ -5263,14 +5263,14 @@
 				04C3C3762833E4A300B0BE1F /* test.base */,
 				04DBB3732833132E00D94795 /* vox.geometry */,
 				04C3C2EA28339D9D00B0BE1F /* test.geometry */,
+				04C3C3A7283490D800B0BE1F /* vox.io */,
+				04C3C40B2834922900B0BE1F /* test.io */,
 				047BB5DE2803A9B700CD5749 /* vox.math */,
 				04B762072832279400FE2C5C /* test.math */,
 				047BB5CF2803A99E00CD5749 /* vox.render */,
 				047BB5C12803A96500CD5749 /* apps */,
 				04523E27281CC4920079CC3C /* vox.editor */,
 				04523DC2281BB0C30079CC3C /* editor */,
-				04C3C3A7283490D800B0BE1F /* arc.io */,
-				04C3C40B2834922900B0BE1F /* test.io */,
 				04C3C4472835C88F00B0BE1F /* arc.core */,
 				04C3C53D2835CC2200B0BE1F /* test.core */,
 				04C3C5852835DE8700B0BE1F /* arc.visual */,
@@ -5981,7 +5981,7 @@
 		};
 		04C3C4362834927500B0BE1F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04C3C3A7283490D800B0BE1F /* arc.io */;
+			target = 04C3C3A7283490D800B0BE1F /* vox.io */;
 			targetProxy = 04C3C4352834927500B0BE1F /* PBXContainerItemProxy */;
 		};
 		04C3C43C2834938800B0BE1F /* PBXTargetDependency */ = {
@@ -7215,10 +7215,11 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				HEADER_SEARCH_PATHS = (
-					./arc.base,
-					./arc.geometry,
+					./vox.base,
+					./vox.geometry,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REZ_SEARCH_PATHS = "";
 				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					./third_party/eigen,
@@ -7236,6 +7237,7 @@
 					./third_party/libpng/build,
 					./third_party/spdlog/include,
 				);
+				USER_HEADER_SEARCH_PATHS = "";
 				USE_HEADERMAP = NO;
 			};
 			name = Debug;
@@ -7249,10 +7251,11 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				HEADER_SEARCH_PATHS = (
-					./arc.base,
-					./arc.geometry,
+					./vox.base,
+					./vox.geometry,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REZ_SEARCH_PATHS = "";
 				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					./third_party/eigen,
@@ -7270,6 +7273,7 @@
 					./third_party/libpng/build,
 					./third_party/spdlog/include,
 				);
+				USER_HEADER_SEARCH_PATHS = "";
 				USE_HEADERMAP = NO;
 			};
 			name = Release;
@@ -7282,9 +7286,9 @@
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = (
-					./arc.base,
-					./arc.geometry,
-					./arc.io,
+					./vox.base,
+					./vox.geometry,
+					./vox.io,
 				);
 				LD_RUNPATH_SEARCH_PATHS = (
 					./third_party/json_cpp/build/lib,
@@ -7345,9 +7349,9 @@
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = (
-					./arc.base,
-					./arc.geometry,
-					./arc.io,
+					./vox.base,
+					./vox.geometry,
+					./vox.io,
 				);
 				LD_RUNPATH_SEARCH_PATHS = (
 					./third_party/json_cpp/build/lib,
@@ -7863,7 +7867,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04C3C3B0283490D800B0BE1F /* Build configuration list for PBXNativeTarget "arc.io" */ = {
+		04C3C3B0283490D800B0BE1F /* Build configuration list for PBXNativeTarget "vox.io" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04C3C3B1283490D800B0BE1F /* Debug */,

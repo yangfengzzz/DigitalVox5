@@ -28,7 +28,7 @@
 #include "linalg/linalg_utils.h"
 #include "linalg/svd.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void SVDCPU(const void* A_data,
@@ -51,4 +51,4 @@ void SVDCPU(const void* A_data,
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

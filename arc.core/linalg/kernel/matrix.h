@@ -27,7 +27,7 @@
 #pragma once
 #include "cuda_utils.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace linalg {
 namespace kernel {
@@ -226,4 +226,4 @@ OPEN3D_DEVICE OPEN3D_FORCE_INLINE void transpose4x4(const scalar_t* A_4x4, scala
 }  // namespace kernel
 }  // namespace linalg
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

@@ -28,7 +28,7 @@
 #include "linalg/linalg_utils.h"
 #include "linalg/solve.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void SolveCPU(void* A_data, void* B_data, void* ipiv_data, int64_t n, int64_t k, Dtype dtype, const Device& device) {
@@ -41,4 +41,4 @@ void SolveCPU(void* A_data, void* B_data, void* ipiv_data, int64_t n, int64_t k,
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

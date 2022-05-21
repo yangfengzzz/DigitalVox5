@@ -34,7 +34,7 @@
 #include "logging.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace tensor_check {
 
@@ -97,4 +97,4 @@ void AssertTensorShape_(
 
 }  // namespace tensor_check
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

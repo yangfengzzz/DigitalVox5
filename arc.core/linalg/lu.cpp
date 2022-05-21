@@ -30,7 +30,7 @@
 #include "linalg/lu_impl.h"
 #include "linalg/tri.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 // Get column permutation tensor from ipiv (swapping index array).
@@ -149,4 +149,4 @@ void LU(const Tensor& A, Tensor& permutation, Tensor& lower, Tensor& upper, cons
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

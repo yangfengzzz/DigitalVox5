@@ -29,7 +29,7 @@
 #include "linalg/linalg_utils.h"
 #include "logging.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void AddMMCPU(void* A_data,
@@ -55,4 +55,4 @@ void AddMMCPU(void* A_data,
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

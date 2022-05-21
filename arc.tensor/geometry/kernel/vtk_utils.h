@@ -31,7 +31,7 @@
 #include "geometry/point_cloud.h"
 #include "geometry/triangle_mesh.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 namespace kernel {
@@ -47,4 +47,4 @@ TriangleMesh CreateTriangleMeshFromVtkPolyData(vtkPolyData* polyData);
 }  // namespace kernel
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

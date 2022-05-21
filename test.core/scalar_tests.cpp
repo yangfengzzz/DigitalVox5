@@ -27,7 +27,7 @@
 #include "scalar.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 // Implicit conversion constructor.
@@ -119,4 +119,4 @@ TEST(Scalar, Constructor) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

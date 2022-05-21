@@ -31,7 +31,7 @@
 #include "helper.h"
 #include "logging.h"
 
-namespace arc::core {
+namespace vox::core {
 
 /// Device context specifying device type and device id.
 /// For CPU, there is only one device with id 0
@@ -123,7 +123,7 @@ protected:
     int device_id_ = 0;
 };
 
-}  // namespace arc::core
+}  // namespace vox::core
 
 namespace std {
 template <>

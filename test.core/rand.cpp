@@ -30,7 +30,7 @@
 
 #include "raw.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 // ----------------------------------------------------------------------------
 // Initialize an Eigen::Vector3d.
@@ -267,4 +267,4 @@ void Rand(std::vector<double> &v, const double &vmin, const double &vmax, const 
     Rand(&v[0], v.size(), vmin, vmax, seed);
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

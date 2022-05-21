@@ -28,7 +28,7 @@
 
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -42,4 +42,4 @@ Tensor NonZeroCUDA(const Tensor& src);
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

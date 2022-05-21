@@ -36,7 +36,7 @@
 #include "logging.h"
 #include "tensor_map.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 
@@ -360,4 +360,4 @@ protected:
 
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

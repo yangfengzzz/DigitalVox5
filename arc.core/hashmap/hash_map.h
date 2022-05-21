@@ -30,7 +30,7 @@
 #include "hashmap/hash_backend_buffer.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 class DeviceHashBackend;
@@ -220,4 +220,4 @@ private:
 };
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

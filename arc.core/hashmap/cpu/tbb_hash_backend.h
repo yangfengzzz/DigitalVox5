@@ -35,7 +35,7 @@
 #include "hashmap/device_hash_backend.h"
 #include "parallel.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 template <typename Key, typename Hash, typename Eq>
 class TBBHashBackend : public DeviceHashBackend {
@@ -232,4 +232,4 @@ void TBBHashBackend<Key, Hash, Eq>::Allocate(int64_t capacity) {
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

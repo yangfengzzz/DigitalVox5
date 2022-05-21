@@ -35,7 +35,7 @@
 #include "gui/theme.h"
 #include "gui/util.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 namespace {
 const int NO_SELECTION = -1;
@@ -177,4 +177,4 @@ Widget::DrawResult ListView::Draw(const DrawContext &context) {
     return result;
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

@@ -32,7 +32,7 @@
 #include "shape_util.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -74,4 +74,4 @@ void BinaryEW(const Tensor& lhs, const Tensor& rhs, Tensor& dst, BinaryEWOpCode 
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

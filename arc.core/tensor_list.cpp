@@ -30,7 +30,7 @@
 
 #include "size_vector.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// Asserts that the tensor list is resizable.
@@ -194,4 +194,4 @@ std::string TensorList::ToString() const {
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

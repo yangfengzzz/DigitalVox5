@@ -31,7 +31,7 @@
 
 #include "gui/gui.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 class FontDescription {
 public:
@@ -87,4 +87,4 @@ public:  // for internal use, use functions above to set
     int point_size_;
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

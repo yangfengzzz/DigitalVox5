@@ -38,7 +38,7 @@
 #include "size_vector.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 class TensorPermuteDevices : public PermuteDevices {};
@@ -3088,4 +3088,4 @@ TEST_P(TensorPermuteDevices, ConstIterator) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

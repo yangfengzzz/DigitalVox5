@@ -27,7 +27,7 @@
 #include "device.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 TEST(Device, DefaultConstructor) {
@@ -60,4 +60,4 @@ TEST(Device, StringConstructorLower) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

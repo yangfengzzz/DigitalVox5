@@ -30,7 +30,7 @@
 #include "geometry/image.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 namespace npp {
@@ -58,6 +58,6 @@ void FilterSobel(const arc::core::Tensor &srcim,
 }  // namespace npp
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox
 
 #endif  // BUILD_CUDA_MODULE

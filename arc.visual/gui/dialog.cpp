@@ -28,7 +28,7 @@
 
 #include <string>
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 struct Dialog::Impl {
     std::string title;
@@ -62,4 +62,4 @@ void Dialog::OnWillShow() {}
 
 Widget::DrawResult Dialog::Draw(const DrawContext &context) { return Super::Draw(context); }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

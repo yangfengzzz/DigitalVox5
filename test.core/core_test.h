@@ -37,7 +37,7 @@
 #include "CUDAUtils.h"
 #endif
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 class PermuteDtypesWithBool : public testing::TestWithParam<core::Dtype> {
@@ -141,4 +141,4 @@ public:
 };
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

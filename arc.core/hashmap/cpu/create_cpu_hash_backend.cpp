@@ -28,7 +28,7 @@
 #include "hashmap/dispatch.h"
 #include "hashmap/hash_map.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// Non-templated factory.
@@ -63,4 +63,4 @@ std::shared_ptr<DeviceHashBackend> CreateCPUHashBackend(int64_t init_capacity,
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

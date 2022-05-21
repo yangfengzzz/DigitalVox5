@@ -6,7 +6,7 @@
 
 #pragma once
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 struct Point {
     int x;
@@ -77,4 +77,4 @@ public:
     virtual void* GetFont(FontId font_id) = 0;
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

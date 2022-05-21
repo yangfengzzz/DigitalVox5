@@ -32,7 +32,7 @@
 #include "logging.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 class TensorKey::Impl {
@@ -204,4 +204,4 @@ Tensor TensorKey::GetIndexTensor() const {
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

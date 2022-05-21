@@ -29,7 +29,7 @@
 #include "tensor.h"
 #include "tensor_check.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 
@@ -129,4 +129,4 @@ inline core::Tensor InverseTransformation(const core::Tensor& T) {
 }
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

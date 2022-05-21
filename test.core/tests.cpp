@@ -26,7 +26,7 @@
 
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 void NotImplemented() {
     std::cout << "\033[0;32m"
@@ -39,4 +39,4 @@ void NotImplemented() {
     GTEST_NONFATAL_FAILURE_("Not implemented");
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

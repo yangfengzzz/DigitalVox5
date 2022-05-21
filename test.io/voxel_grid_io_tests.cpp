@@ -30,7 +30,7 @@
 //#include "utility/DrawGeometry.h"
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(VoxelGridIO, PLYWriteRead) {
     // Create voxel_grid (two voxels)
@@ -66,4 +66,4 @@ TEST(VoxelGridIO, PLYWriteRead) {
     // visualization::DrawGeometries({dst_voxel_grid});
 }
 
-}  // namespace arc
+}  // namespace vox

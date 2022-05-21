@@ -37,7 +37,7 @@
 
 #include "logging.h"
 
-namespace arc::core {
+namespace vox::core {
 
 DynamicSizeVector::DynamicSizeVector(const std::initializer_list<std::optional<int64_t>>& dim_sizes)
     : std::vector<std::optional<int64_t>>(dim_sizes) {}
@@ -160,4 +160,4 @@ bool SizeVector::IsCompatible(const DynamicSizeVector& dsv) const {
     return true;
 }
 
-}  // namespace arc::core
+}  // namespace vox::core

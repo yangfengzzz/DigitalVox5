@@ -30,7 +30,7 @@
 
 #include "gui/menu_macos.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 struct Menu::Impl {
     std::shared_ptr<MenuBase> menu;
@@ -103,4 +103,4 @@ MenuBase::ItemId Menu::Draw(const DrawContext& context, const char* name, bool i
 
 void* Menu::GetNativePointer() { return impl_->menu->GetNativePointer(); }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

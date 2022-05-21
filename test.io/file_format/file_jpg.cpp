@@ -26,10 +26,10 @@
 
 #include "../tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(FileJPG, DISABLED_ReadImageFromJPG) { NotImplemented(); }
 
 TEST(FileJPG, DISABLED_WriteImageToJPG) { NotImplemented(); }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

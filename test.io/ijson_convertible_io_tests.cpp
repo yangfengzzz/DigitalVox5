@@ -26,7 +26,7 @@
 
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(IJsonConvertibleIO, DISABLED_ReadIJsonConvertible) { NotImplemented(); }
 
@@ -40,4 +40,4 @@ TEST(IJsonConvertibleIO, DISABLED_ReadIJsonConvertibleFromJSONString) { NotImple
 
 TEST(IJsonConvertibleIO, DISABLED_WriteIJsonConvertibleToJSONString) { NotImplemented(); }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

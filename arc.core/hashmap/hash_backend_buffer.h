@@ -35,7 +35,7 @@
 #include "memory_manager.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void CPUResetHeap(Tensor &heap);
@@ -122,4 +122,4 @@ protected:
     std::vector<int64_t> blocks_per_element_;
 };
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

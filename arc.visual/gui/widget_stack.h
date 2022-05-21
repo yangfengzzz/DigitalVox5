@@ -31,7 +31,7 @@
 
 #include "gui/widget_proxy.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 /// \brief WidgetStack manages multiple widgets in a stack.
 ///
@@ -79,4 +79,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

@@ -30,7 +30,7 @@
 #include "helper.h"
 #include "logging.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 std::shared_ptr<DeviceHashBackend> CreateDeviceHashBackend(int64_t init_capacity,
@@ -56,4 +56,4 @@ std::shared_ptr<DeviceHashBackend> CreateDeviceHashBackend(int64_t init_capacity
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

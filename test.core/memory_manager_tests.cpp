@@ -31,7 +31,7 @@
 #include "memory_manager.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 class MemoryManagerPermuteDevices : public PermuteDevices {};
@@ -542,4 +542,4 @@ TEST(MemoryManagerPermuteDevices, CachedFreeOnProgramEnd) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

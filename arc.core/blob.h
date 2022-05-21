@@ -34,7 +34,7 @@
 #include "device.h"
 #include "memory_manager.h"
 
-namespace arc::core {
+namespace vox::core {
 
 /// Blob class refers to a blob of memory in device or host.
 ///
@@ -101,4 +101,4 @@ protected:
     Device device_;
 };
 
-}  // namespace arc::core
+}  // namespace vox::core

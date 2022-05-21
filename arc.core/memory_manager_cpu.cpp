@@ -28,7 +28,7 @@
 
 #include "memory_manager.h"
 
-namespace arc::core {
+namespace vox::core {
 
 void* CPUMemoryManager::Malloc(size_t byte_size, const Device& device) {
     void* ptr;
@@ -50,4 +50,4 @@ void CPUMemoryManager::Memcpy(
     std::memcpy(dst_ptr, src_ptr, num_bytes);
 }
 
-}  // namespace arc
+}  // namespace vox

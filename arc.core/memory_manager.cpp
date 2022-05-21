@@ -34,7 +34,7 @@
 #include "logging.h"
 #include "memory_manager_statistic.h"
 
-namespace arc::core {
+namespace vox::core {
 
 void* MemoryManager::Malloc(size_t byte_size, const Device& device) {
     void* ptr = GetDeviceMemoryManager(device)->Malloc(byte_size, device);
@@ -104,4 +104,4 @@ std::shared_ptr<DeviceMemoryManager> MemoryManager::GetDeviceMemoryManager(const
     return map_device_type_to_memory_manager.at(device.GetType());
 }
 
-}  // namespace arc::core
+}  // namespace vox::core

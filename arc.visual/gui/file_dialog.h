@@ -32,7 +32,7 @@
 
 #define GUI_USE_NATIVE_FILE_DIALOG 1
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 struct Theme;
 
@@ -74,4 +74,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

@@ -32,7 +32,7 @@
 #include "cuda_utils.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 TEST(CUDAUtils, InitState) {
@@ -120,6 +120,6 @@ TEST(CUDAUtils, ScopedStreamAutomaticallyMultiThreaded) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox
 
 #endif

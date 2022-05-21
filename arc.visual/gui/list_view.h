@@ -31,7 +31,7 @@
 
 #include "gui/widget.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 class ListView : public Widget {
     using Super = Widget;
@@ -69,4 +69,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

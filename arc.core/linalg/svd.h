@@ -28,7 +28,7 @@
 
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// Computes SVD decomposition A = U S VT, where A is an m x n, U is an m x m, S
@@ -58,4 +58,4 @@ void SVDCPU(const void* A_data,
             const Device& device);
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

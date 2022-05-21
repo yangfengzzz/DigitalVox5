@@ -29,12 +29,12 @@
 #include "point_cloud_io.h"
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
-using arc::io::ReadPointCloud;
-using arc::io::ReadPointCloudOption;
-using arc::io::WritePointCloud;
-using arc::io::WritePointCloudOption;
+using vox::io::ReadPointCloud;
+using vox::io::ReadPointCloudOption;
+using vox::io::WritePointCloud;
+using vox::io::WritePointCloudOption;
 
 namespace {
 
@@ -417,4 +417,4 @@ TEST_P(ReadWritePC, UpdateProgressCallback) {
 
 TEST(PointCloudIO, DISABLED_CreatePointCloudFromFile) { NotImplemented(); }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

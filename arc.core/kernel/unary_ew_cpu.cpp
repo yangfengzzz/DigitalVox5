@@ -41,7 +41,7 @@
 #include "UnaryEWCPU_ispc.h"
 #endif
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -323,4 +323,4 @@ void UnaryEWCPU(const Tensor& src, Tensor& dst, UnaryEWOpCode op_code) {
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

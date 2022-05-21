@@ -34,7 +34,7 @@
 
 #include "hashmap/hash_backend_buffer.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 class CPUHashBackendBufferAccessor {
@@ -76,4 +76,4 @@ public:
 };
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

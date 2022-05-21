@@ -36,7 +36,7 @@
 #include "gui/theme.h"
 #include "gui/util.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 namespace {
 
@@ -611,4 +611,4 @@ void VGrid::Layout(const LayoutContext& context) {
     Super::Layout(context);
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

@@ -27,7 +27,7 @@
 #include "shape_util.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 TEST(ShapeUtil, IsCompatibleBroadcastShape) {
@@ -168,4 +168,4 @@ TEST(ShapeUtil, ReductionShape) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

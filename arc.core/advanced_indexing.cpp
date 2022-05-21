@@ -30,7 +30,7 @@
 #include "size_vector.h"
 #include "tensor.h"
 
-namespace arc::core {
+namespace vox::core {
 
 bool AdvancedIndexPreprocessor::IsIndexSplittedBySlice(const std::vector<Tensor>& index_tensors) {
     bool index_dim_started = false;
@@ -241,4 +241,4 @@ std::vector<Tensor> AdvancedIndexPreprocessor::ExpandBoolTensors(const std::vect
     return res_index_tensors;
 }
 
-}  // namespace arc::core
+}  // namespace vox::core

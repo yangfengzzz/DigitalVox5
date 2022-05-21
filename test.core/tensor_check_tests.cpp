@@ -28,7 +28,7 @@
 #include "tensor_check.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 class TensorCheckPermuteDevices : public PermuteDevices {};
@@ -196,4 +196,4 @@ TEST_P(TensorCheckPermuteDevices, AssertTensorShape) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

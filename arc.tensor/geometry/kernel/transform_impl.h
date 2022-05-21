@@ -28,7 +28,7 @@
 #include "dispatch.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 namespace kernel {
@@ -157,4 +157,4 @@ void RotateNormalsCPU
 }  // namespace kernel
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

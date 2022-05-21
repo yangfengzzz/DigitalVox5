@@ -29,7 +29,7 @@
 #include "logging.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -75,4 +75,4 @@ void IndexSetCUDA(const Tensor& src,
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

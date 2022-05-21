@@ -28,7 +28,7 @@
 
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// Computes A^{-1} with LU factorization, where A is a N x N square matrix.
@@ -41,4 +41,4 @@ void InverseCUDA(void* A_data, void* ipiv_data, void* output_data, int64_t n, Dt
 #endif
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

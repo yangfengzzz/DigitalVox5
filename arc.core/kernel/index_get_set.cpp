@@ -33,7 +33,7 @@
 #include "size_vector.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -84,4 +84,4 @@ void IndexSet(const Tensor& src,
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

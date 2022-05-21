@@ -35,7 +35,7 @@
 #include "gui/theme.h"
 #include "gui/util.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 namespace {
 int g_next_combobox_id = 1;
@@ -193,4 +193,4 @@ Combobox::DrawResult Combobox::Draw(const DrawContext& context) {
     return ((value_changed || did_open) ? Widget::DrawResult::REDRAW : Widget::DrawResult::NONE);
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

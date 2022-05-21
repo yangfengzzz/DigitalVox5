@@ -33,7 +33,7 @@
 #include "gui/theme.h"
 #include "gui/util.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 namespace {
 float CalcSwitchWidth(float height) { return height * 1.55f; }
@@ -131,4 +131,4 @@ Widget::DrawResult ToggleSwitch::Draw(const DrawContext& context) {
     return result;
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

@@ -31,7 +31,7 @@
 #include "../../arc.io/image_io.h"
 #include "geometry/image.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace io {
 
@@ -85,4 +85,4 @@ bool WriteImageToJPG(const std::string &filename,
 
 }  // namespace io
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

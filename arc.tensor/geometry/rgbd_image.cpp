@@ -26,7 +26,7 @@
 
 #include "rgbd_image.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 
@@ -50,4 +50,4 @@ std::string RGBDImage::ToString() const {
 
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

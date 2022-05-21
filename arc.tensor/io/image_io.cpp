@@ -32,7 +32,7 @@
 #include "file_system.h"
 #include "logging.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace io {
 
@@ -88,4 +88,4 @@ bool WriteImage(const std::string &filename,
 
 }  // namespace io
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

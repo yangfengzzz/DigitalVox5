@@ -28,7 +28,7 @@
 
 #include <unordered_map>
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void SVD(const Tensor &A, Tensor &U, Tensor &S, Tensor &VT) {
@@ -76,4 +76,4 @@ void SVD(const Tensor &A, Tensor &U, Tensor &S, Tensor &VT) {
     VT = VT.T();
 }
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

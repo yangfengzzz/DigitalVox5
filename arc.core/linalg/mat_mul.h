@@ -28,7 +28,7 @@
 
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// Computes matrix multiplication C = AB.
@@ -39,4 +39,4 @@ void MatmulCUDA(void* A_data, void* B_data, void* C_data, int64_t m, int64_t k, 
 #endif
 void MatmulCPU(void* A_data, void* B_data, void* C_data, int64_t m, int64_t k, int64_t n, Dtype dtype);
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

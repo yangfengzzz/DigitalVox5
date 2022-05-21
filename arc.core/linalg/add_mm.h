@@ -28,7 +28,7 @@
 
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// Computes matrix multiplication C = alpha * A @ B + beta * C.
@@ -71,4 +71,4 @@ void AddMMCPU(void* A_data,
               Dtype dtype);
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

@@ -34,7 +34,7 @@
 
 #include "linalg/linalg_headers_cpu.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void Solve(const Tensor &A, const Tensor &B, Tensor &X) {
@@ -100,4 +100,4 @@ void Solve(const Tensor &A, const Tensor &B, Tensor &X) {
     X = X.T();
 }
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

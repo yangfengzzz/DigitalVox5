@@ -30,7 +30,7 @@
 
 #include "linalg/linalg_headers_cpu.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void Inverse(const Tensor &A, Tensor &output) {
@@ -92,4 +92,4 @@ void Inverse(const Tensor &A, Tensor &output) {
     }
 }
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

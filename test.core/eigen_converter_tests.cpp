@@ -32,7 +32,7 @@
 #include "tensor.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 class EigenConverterPermuteDevices : public PermuteDevices {};
@@ -84,4 +84,4 @@ TEST_P(EigenConverterPermuteDevices, EigenVectorToTensor) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

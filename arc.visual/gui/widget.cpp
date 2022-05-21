@@ -9,7 +9,7 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 // This should not be Color(0, 0, 0, 0), since transparent is a valid and
 // common background color to want.
@@ -173,4 +173,4 @@ Widget::DrawResult Widget::Tick(float dt) {
     return result;
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

@@ -29,7 +29,7 @@
 #include "file_system.h"
 #include "io/numpy_io.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace io {
 
@@ -102,4 +102,4 @@ core::HashMap ReadHashMap(const std::string& file_name) {
 }
 }  // namespace io
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

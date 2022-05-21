@@ -34,7 +34,7 @@
 #include "tensor_map.h"
 #include "triangle_mesh.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 
@@ -248,4 +248,4 @@ private:
 };
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

@@ -39,7 +39,7 @@
 #include "tensor.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 class LinalgPermuteDevices : public PermuteDevices {};
@@ -476,4 +476,4 @@ TEST_P(LinalgPermuteDevices, KernelOps) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

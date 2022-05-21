@@ -31,7 +31,7 @@
 #include "../../arc.io/point_cloud_io.h"
 #include "geometry/point_cloud.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace io {
 
@@ -102,4 +102,4 @@ bool WritePointCloudToPTS(const std::string &filename,
 
 }  // namespace io
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

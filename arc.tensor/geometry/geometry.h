@@ -28,7 +28,7 @@
 
 #include <string>
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 
@@ -106,4 +106,4 @@ private:
 
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

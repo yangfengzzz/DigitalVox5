@@ -32,7 +32,7 @@
 #include "Indexer_ispc.h"
 #endif
 
-namespace arc::core {
+namespace vox::core {
 
 #ifdef BUILD_ISPC_MODULE
 ispc::TensorRef TensorRef::ToISPC() const {
@@ -640,4 +640,4 @@ IndexerIterator::Iterator IndexerIterator::begin() const { return IndexerIterato
 
 IndexerIterator::Iterator IndexerIterator::end() { return {}; }
 
-}  // namespace arc
+}  // namespace vox

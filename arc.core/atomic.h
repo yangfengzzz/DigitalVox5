@@ -34,7 +34,7 @@
 #pragma intrinsic(_InterlockedExchangeAdd64)
 #endif
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// Adds \p val to the value stored at \p address and returns the previous
@@ -68,4 +68,4 @@ inline uint64_t AtomicFetchAddRelaxed(uint64_t* address, uint64_t val) {
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

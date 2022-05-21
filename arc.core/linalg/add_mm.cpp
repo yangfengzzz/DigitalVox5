@@ -28,7 +28,7 @@
 
 #include <unordered_map>
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void AddMM(const Tensor& A, const Tensor& B, Tensor& output, double alpha, double beta) {
@@ -109,4 +109,4 @@ void AddMM(const Tensor& A, const Tensor& B, Tensor& output, double alpha, doubl
 };
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

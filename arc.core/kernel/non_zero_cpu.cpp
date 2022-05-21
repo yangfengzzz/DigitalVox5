@@ -31,7 +31,7 @@
 #include "logging.h"
 #include "parallel.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -77,4 +77,4 @@ Tensor NonZeroCPU(const Tensor& src) {
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

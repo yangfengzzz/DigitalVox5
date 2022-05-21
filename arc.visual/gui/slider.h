@@ -30,7 +30,7 @@
 
 #include "gui/widget.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 class Slider : public Widget {
 public:
@@ -66,4 +66,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

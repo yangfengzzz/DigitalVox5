@@ -28,7 +28,7 @@
 
 #include <iostream>
 
-namespace arc::tests {
+namespace vox::tests {
 // ----------------------------------------------------------------------------
 // Raw data with SIZE = 1021 elements.
 // ----------------------------------------------------------------------------
@@ -141,4 +141,4 @@ double Raw::Next() {
     return output;
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

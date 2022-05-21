@@ -73,7 +73,7 @@
 #define AssertTensorShape(tensor, ...) \
     tensor_check::AssertTensorShape_(__FILE__, __LINE__, static_cast<const char*>(OPEN3D_FUNCTION), tensor, __VA_ARGS__)
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace tensor_check {
 
@@ -89,4 +89,4 @@ void AssertTensorShape_(
 
 }  // namespace tensor_check
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

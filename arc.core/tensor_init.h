@@ -31,7 +31,7 @@
 
 #include "size_vector.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace tensor_init {
 
@@ -127,4 +127,4 @@ std::vector<T> ToFlatVector(const SizeVector& shape, const tensor_init::NestedIn
 
 }  // namespace tensor_init
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

@@ -30,7 +30,7 @@
 #include "logging.h"
 #include "size_vector.h"
 
-namespace arc::core {
+namespace vox::core {
 
 class Tensor;
 
@@ -113,4 +113,4 @@ std::pair<bool, SizeVector> Restride(const SizeVector& old_shape,
                                      const SizeVector& new_shape);
 
 }  // namespace shape_util
-}  // namespace arc::core
+}  // namespace vox::core

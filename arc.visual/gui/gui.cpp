@@ -8,7 +8,7 @@
 
 #include <algorithm>
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 Point::Point() : x(0), y(0) {}
 
@@ -52,4 +52,4 @@ bool Rect::operator==(const Rect& other) const {
 
 bool Rect::operator!=(const Rect& other) const { return !operator==(other); }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

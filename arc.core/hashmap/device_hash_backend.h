@@ -31,7 +31,7 @@
 #include "memory_manager.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 enum class HashBackendType;
@@ -142,4 +142,4 @@ std::shared_ptr<DeviceHashBackend> CreateCUDAHashBackend(int64_t init_capacity,
                                                          const HashBackendType& backend);
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

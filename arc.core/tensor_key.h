@@ -30,7 +30,7 @@
 
 #include "logging.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 // Avoids circular include.
@@ -132,4 +132,4 @@ private:
 };
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

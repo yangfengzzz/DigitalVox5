@@ -28,11 +28,11 @@
 
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 // See documentation for `core::Tensor::Det`.
 double Det(const Tensor& A);
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

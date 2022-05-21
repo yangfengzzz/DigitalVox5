@@ -28,7 +28,7 @@
 
 #include "gui/menu_base.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 class MenuMacOS : public MenuBase {
 public:
@@ -68,4 +68,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

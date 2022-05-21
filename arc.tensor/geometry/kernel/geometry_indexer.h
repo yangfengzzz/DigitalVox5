@@ -35,7 +35,7 @@
 #include "tensor_check.h"
 #include "timer.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 namespace kernel {
@@ -320,4 +320,4 @@ using NDArrayIndexer = TArrayIndexer<int64_t>;
 }  // namespace kernel
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

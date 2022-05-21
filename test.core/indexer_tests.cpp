@@ -37,7 +37,7 @@
 #include "Indexer_ispc.h"
 #endif
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 class IndexerPermuteDevices : public PermuteDevices {};
@@ -241,4 +241,4 @@ TEST_P(IndexerPermuteDevices, IsContiguous) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

@@ -26,10 +26,10 @@
 
 #include "../tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(FileXYZRGB, DISABLED_ReadPointCloudFromXYZRGB) { NotImplemented(); }
 
 TEST(FileXYZRGB, DISABLED_WritePointCloudToXYZRGB) { NotImplemented(); }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

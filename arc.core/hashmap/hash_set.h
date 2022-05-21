@@ -31,7 +31,7 @@
 #include "hashmap/hash_map.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 class HashSet {
@@ -142,4 +142,4 @@ private:
 };
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

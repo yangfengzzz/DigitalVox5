@@ -34,7 +34,7 @@
 
 #include "logging.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 
@@ -88,4 +88,4 @@ TensorMap TensorMap::Contiguous() const {
 
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

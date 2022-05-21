@@ -26,7 +26,7 @@
 
 #include "../tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(FilePCD, DISABLED_CheckHeader) { NotImplemented(); }
 
@@ -58,4 +58,4 @@ TEST(FilePCD, DISABLED_ReadPointCloudFromPCD) { NotImplemented(); }
 
 TEST(FilePCD, DISABLED_WritePointCloudToPCD) { NotImplemented(); }
 
-}  // namespace arc
+}  // namespace vox

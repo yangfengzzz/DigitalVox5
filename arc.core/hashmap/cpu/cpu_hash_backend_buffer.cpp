@@ -27,7 +27,7 @@
 #include "hashmap/hash_backend_buffer.h"
 #include "parallel.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 void CPUResetHeap(Tensor& heap) {
     uint32_t* heap_ptr = heap.GetDataPtr<uint32_t>();
@@ -39,4 +39,4 @@ void CPUResetHeap(Tensor& heap) {
     }
 };
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

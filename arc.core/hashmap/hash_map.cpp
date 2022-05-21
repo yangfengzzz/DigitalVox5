@@ -32,7 +32,7 @@
 #include "helper.h"
 #include "logging.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 HashMap::HashMap(int64_t init_capacity,
@@ -413,4 +413,4 @@ void HashMap::PrepareMasksOutput(Tensor& output_masks, int64_t length) const {
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

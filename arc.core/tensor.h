@@ -43,7 +43,7 @@
 #include "tensor_init.h"
 #include "tensor_key.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// A Tensor is a "view" of a data Blob with shape, stride, data_ptr.
@@ -1328,4 +1328,4 @@ inline Tensor operator/(T scalar_lhs, const Tensor& rhs) {
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

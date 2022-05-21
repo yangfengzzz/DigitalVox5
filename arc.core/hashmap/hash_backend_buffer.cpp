@@ -28,7 +28,7 @@
 
 #include "cuda_utils.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 HashBackendBuffer::HashBackendBuffer(int64_t capacity,
@@ -126,4 +126,4 @@ Tensor HashBackendBuffer::GetValueBuffer(size_t i) const {
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

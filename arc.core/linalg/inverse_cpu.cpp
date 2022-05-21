@@ -28,7 +28,7 @@
 #include "linalg/lapack_wrapper.h"
 #include "linalg/linalg_utils.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void InverseCPU(void* A_data, void* ipiv_data, void* output_data, int64_t n, Dtype dtype, const Device& device) {
@@ -43,4 +43,4 @@ void InverseCPU(void* A_data, void* ipiv_data, void* output_data, int64_t n, Dty
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

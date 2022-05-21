@@ -40,7 +40,7 @@
 #include "tensor.h"
 #include "timer.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 namespace kernel {
@@ -1530,4 +1530,4 @@ void ExtractTriangleMeshCPU
 }  // namespace kernel
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

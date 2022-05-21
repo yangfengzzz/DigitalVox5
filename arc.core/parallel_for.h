@@ -42,7 +42,7 @@
 #include "cuda_utils.h"
 #endif
 
-namespace arc::core {
+namespace vox::core {
 
 #ifdef __CUDACC__
 
@@ -262,4 +262,4 @@ void ParallelFor(const Device& device, int64_t n, const func_t& func, const vec_
                           })(T{}, start, end);                                              \
     }
 
-}  // namespace arc::core
+}  // namespace vox::core

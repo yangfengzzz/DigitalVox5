@@ -33,7 +33,7 @@
 #include "gui/theme.h"
 #include "gui/util.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 struct ProgressBar::Impl {
     float value_ = 0.0f;
@@ -66,4 +66,4 @@ Widget::DrawResult ProgressBar::Draw(const DrawContext& context) {
     return DrawResult::NONE;
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

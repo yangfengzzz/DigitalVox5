@@ -34,7 +34,7 @@
 
 #include "gui/theme.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 namespace {
 int g_next_tab_control_id = 1;
@@ -136,4 +136,4 @@ TabControl::DrawResult TabControl::Draw(const DrawContext& context) {
     return result;
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

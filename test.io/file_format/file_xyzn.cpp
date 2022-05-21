@@ -26,10 +26,10 @@
 
 #include "../tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(FileXYZN, DISABLED_ReadPointCloudFromXYZN) { NotImplemented(); }
 
 TEST(FileXYZN, DISABLED_WritePointCloudToXYZN) { NotImplemented(); }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

@@ -29,7 +29,7 @@
 #include "tensor_function.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 class TensorFunctionPermuteDevices : public PermuteDevices {};
@@ -212,4 +212,4 @@ TEST_P(TensorFunctionPermuteDevices, Append) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

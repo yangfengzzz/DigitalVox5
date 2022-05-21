@@ -29,7 +29,7 @@
 #include "../../arc.geometry/rgbd_image.h"
 #include "image.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 
@@ -104,4 +104,4 @@ public:
 
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

@@ -30,7 +30,7 @@
 #include "linalg/linalg_headers_cuda.h"
 #include "logging.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 template <typename scalar_t>
 inline OPEN3D_CPU_LINALG_INT getrf_cpu(int layout,
@@ -534,4 +534,4 @@ inline cusolverStatus_t gesvd_cuda<double>(cusolverDnHandle_t handle,
 
 #endif
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

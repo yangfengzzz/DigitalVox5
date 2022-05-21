@@ -30,7 +30,7 @@
 
 #include "color.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 struct WidgetProxy::Impl {
     std::shared_ptr<Widget> widget_;
     bool need_layout_ = false;
@@ -217,4 +217,4 @@ Widget::DrawResult WidgetProxy::Tick(float dt) {
     return result;
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

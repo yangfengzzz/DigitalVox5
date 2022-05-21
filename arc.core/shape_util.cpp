@@ -30,7 +30,7 @@
 
 #include "size_vector.h"
 
-namespace arc::core::shape_util {
+namespace vox::core::shape_util {
 
 /// Expand a shape with ones in front. Returning a shape with size of ndims.
 /// E.g. ExpandFrontDims({2, 3}, 5) == {1, 1, 1, 2, 3}
@@ -284,4 +284,4 @@ std::pair<bool, SizeVector> Restride(const SizeVector& old_shape,
     return std::make_pair(true, new_strides);
 }
 
-}  // namespace arc
+}  // namespace vox

@@ -31,7 +31,7 @@
 
 #include "eigen.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 // Initialize an Eigen::Vector3d.
 // Output range: [vmin:vmax].
@@ -106,4 +106,4 @@ void Rand(double* v, const size_t& size, const double& vmin, const double& vmax,
 // Output range: [vmin:vmax].
 void Rand(std::vector<double>& v, const double& vmin, const double& vmax, const int& seed);
 
-}  // namespace arc::tests
+}  // namespace vox::tests

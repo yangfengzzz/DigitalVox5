@@ -30,7 +30,7 @@
 #include "parallel_for.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void TriuCPU(const Tensor &A, Tensor &output, const int diagonal) {
@@ -91,4 +91,4 @@ void TriulCPU(const Tensor &A, Tensor &upper, Tensor &lower, const int diagonal)
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

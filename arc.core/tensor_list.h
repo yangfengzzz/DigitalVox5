@@ -38,7 +38,7 @@
 #include "tensor.h"
 #include "tensor_key.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// A tensorlist is a list of Tensors of the same shape, similar to
@@ -323,4 +323,4 @@ protected:
     bool is_resizable_ = true;
 };
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

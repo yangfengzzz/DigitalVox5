@@ -34,7 +34,7 @@
 #include "compare.h"
 #include "logging.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 /// \brief Functor class for comparing Eigen matrices of the same size.
 template <class EigenMatrix>
@@ -129,4 +129,4 @@ std::vector<size_t> GetIndicesAToB(const std::vector<Eigen::Matrix<T, M, N, A>>&
     return indices_a_to_b;
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

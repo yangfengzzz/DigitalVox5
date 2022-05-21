@@ -31,7 +31,7 @@
 #include "hashmap/hash_map.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace io {
 
@@ -49,4 +49,4 @@ void WriteHashMap(const std::string& filename, const core::HashMap& hashmap);
 
 }  // namespace io
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

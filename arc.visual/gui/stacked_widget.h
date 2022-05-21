@@ -28,7 +28,7 @@
 
 #include "gui/widget.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 /// Stacks its children on top of each other, with only the selected child
 /// showing. It is like a tab control without the tabs.
@@ -55,4 +55,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

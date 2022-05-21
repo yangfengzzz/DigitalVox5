@@ -28,7 +28,7 @@
 #include "linalg/least_squares.h"
 #include "linalg/linalg_utils.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void LeastSquaresCPU(void* A_data, void* B_data, int64_t m, int64_t n, int64_t k, Dtype dtype, const Device& device) {
@@ -40,4 +40,4 @@ void LeastSquaresCPU(void* A_data, void* B_data, int64_t m, int64_t n, int64_t k
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

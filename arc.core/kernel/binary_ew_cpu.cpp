@@ -38,7 +38,7 @@
 #include "BinaryEWCPU_ispc.h"
 #endif
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -292,4 +292,4 @@ void BinaryEWCPU(const Tensor& lhs, const Tensor& rhs, Tensor& dst, BinaryEWOpCo
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

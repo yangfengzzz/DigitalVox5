@@ -35,7 +35,7 @@
 #include "gui/theme.h"
 #include "gui/util.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 // If word-wrapping is enabled, there isn't a preferred size, per se.
 // But we don't want to make the preferred width too long, or it gets hard to
@@ -145,4 +145,4 @@ Widget::DrawResult Label::Draw(const DrawContext& context) {
     return Widget::DrawResult::NONE;
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

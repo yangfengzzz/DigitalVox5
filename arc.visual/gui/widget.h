@@ -14,7 +14,7 @@
 #include "gui/gui.h"
 #include "platform/input_events.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 struct Theme;
 
 struct LayoutContext {
@@ -112,4 +112,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

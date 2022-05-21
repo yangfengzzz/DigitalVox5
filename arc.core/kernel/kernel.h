@@ -32,7 +32,7 @@
 #include "kernel/reduction.h"
 #include "kernel/unary_ew.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -40,4 +40,4 @@ void TestLinalgIntegration();
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

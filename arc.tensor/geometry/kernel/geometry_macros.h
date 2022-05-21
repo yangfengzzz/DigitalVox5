@@ -56,7 +56,7 @@ __device__ double atomicAdd(double *address, double val) {
 #define OPEN3D_ATOMIC_ADD(X, Y) (*X).fetch_add(Y)
 #endif
 
-namespace arc {
+namespace vox {
 template <typename scalar_t, typename T>
 OPEN3D_HOST_DEVICE bool IsClose(const scalar_t &x, const T &y, const double rtol = 1e-4) {
     return ((x > (1.0 - rtol) * y) && (x < (1.0 + rtol) * y));
@@ -66,7 +66,7 @@ template <typename scalar_t>
 OPEN3D_HOST_DEVICE scalar_t Square(const scalar_t &x) {
     return x * x;
 }
-}  // namespace arc
+}  // namespace vox
 
 // https://stackoverflow.com/a/51549250
 #ifdef __CUDACC__

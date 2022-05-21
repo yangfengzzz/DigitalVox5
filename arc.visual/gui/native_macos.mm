@@ -36,7 +36,7 @@
 
 #include "helper.h"
 
-namespace arc {
+namespace vox {
 namespace visualization {
 namespace gui {
 
@@ -191,4 +191,4 @@ void ShowNativeFileDialog(FileDialog::Mode type,
 
 }  // namespace gui
 }  // namespace visualization
-}  // namespace arc
+}  // namespace vox

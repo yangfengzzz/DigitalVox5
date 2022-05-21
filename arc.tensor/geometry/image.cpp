@@ -40,7 +40,7 @@
 #include "shape_util.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 
@@ -485,4 +485,4 @@ std::string Image::ToString() const {
 
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

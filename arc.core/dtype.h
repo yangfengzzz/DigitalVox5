@@ -33,7 +33,7 @@
 #include "logging.h"
 #include "macro.h"
 
-namespace arc::core {
+namespace vox::core {
 
 class OPEN3D_API Dtype {
 public:
@@ -158,4 +158,4 @@ inline Dtype Dtype::FromType<bool>() {
     return Dtype::Bool;
 }
 
-}  // namespace arc::core
+}  // namespace vox::core

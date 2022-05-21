@@ -34,7 +34,7 @@
 
 #include "device.h"
 
-namespace arc::core {
+namespace vox::core {
 
 class DeviceMemoryManager;
 
@@ -188,4 +188,4 @@ protected:
 };
 #endif
 
-}  // namespace arc
+}  // namespace vox

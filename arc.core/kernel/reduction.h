@@ -33,7 +33,7 @@
 #include "size_vector.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -73,4 +73,4 @@ void ReductionCUDA(const Tensor& src, Tensor& dst, const SizeVector& dims, bool 
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

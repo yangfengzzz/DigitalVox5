@@ -38,7 +38,7 @@
 #include "size_vector.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 template <typename K, typename V>
@@ -568,4 +568,4 @@ TEST_P(HashMapPermuteDevices, HashMapIO) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

@@ -52,7 +52,7 @@
 }
 @end
 
-namespace arc {
+namespace vox {
 namespace visualization {
 namespace gui {
 
@@ -173,6 +173,6 @@ MenuBase::ItemId MenuMacOS::Draw(const DrawContext &context, const char *name, b
 
 }  // namespace gui
 }  // namespace visualization
-}  // namespace arc
+}  // namespace vox
 
 #endif  // __APPLE__

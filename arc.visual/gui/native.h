@@ -33,7 +33,7 @@
 
 struct GLFWwindow;
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 void* GetNativeDrawable(GLFWwindow* glfw_window);
 // Note that Windows cannot post an expose event so it must draw immediately.
@@ -54,4 +54,4 @@ void ShowNativeFileDialog(FileDialog::Mode mode,
                           std::function<void()> on_cancel);
 #endif  // __APPLE__ || _WIN32
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

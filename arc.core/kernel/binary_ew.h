@@ -32,7 +32,7 @@
 #include "logging.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -72,4 +72,4 @@ inline void Div(const Tensor& lhs, const Tensor& rhs, Tensor& dst) { BinaryEW(lh
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

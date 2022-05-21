@@ -29,7 +29,7 @@
 #include "gui/widget.h"
 #include "vector3.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 class VectorEdit : public Widget {
     using Super = Widget;
@@ -54,4 +54,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

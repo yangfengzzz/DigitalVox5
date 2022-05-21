@@ -31,7 +31,7 @@
 #include "parallel_for.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -88,4 +88,4 @@ void IndexSetCPU(const Tensor& src,
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

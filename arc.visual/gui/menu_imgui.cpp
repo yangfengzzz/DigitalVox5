@@ -36,7 +36,7 @@
 #include "gui/theme.h"
 #include "gui/widget.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 static const float EXTRA_PADDING_Y = 1.0f;
 
@@ -286,4 +286,4 @@ MenuBase::ItemId MenuImgui::Draw(const DrawContext &context, const char *name, b
     return activate_id;
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

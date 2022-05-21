@@ -33,7 +33,7 @@
 #include "indexer.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 namespace kernel {
@@ -326,4 +326,4 @@ void ColorizeDepthCPU
 }  // namespace kernel
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

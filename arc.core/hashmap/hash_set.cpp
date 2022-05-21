@@ -32,7 +32,7 @@
 #include "helper.h"
 #include "logging.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 HashSet::HashSet(int64_t init_capacity,
@@ -120,4 +120,4 @@ std::shared_ptr<DeviceHashBackend> HashSet::GetDeviceHashBackend() const { retur
 HashSet::HashSet(const HashMap& internal_hashmap) { internal_ = std::make_shared<HashMap>(internal_hashmap); }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

@@ -28,7 +28,7 @@
 
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// Solve AX = B with LU decomposition. A is a square matrix.
@@ -41,4 +41,4 @@ void SolveCUDA(void* A_data, void* B_data, void* ipiv_data, int64_t n, int64_t k
 #endif
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

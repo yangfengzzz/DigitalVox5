@@ -31,7 +31,7 @@
 #include "../../arc.io/triangle_mesh_io.h"
 #include "geometry/triangle_mesh.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace io {
 
@@ -64,4 +64,4 @@ bool WriteTriangleMesh(const std::string &filename,
 
 }  // namespace io
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

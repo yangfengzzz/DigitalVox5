@@ -32,7 +32,7 @@
 
 #include "logging.h"
 
-namespace arc::core {
+namespace vox::core {
 
 MemoryManagerStatistic& MemoryManagerStatistic::GetInstance() {
     static MemoryManagerStatistic instance;
@@ -154,4 +154,4 @@ void MemoryManagerStatistic::Reset() {
 
 bool MemoryManagerStatistic::MemoryStatistics::IsBalanced() const { return count_malloc_ == count_free_; }
 
-}  // namespace arc::core
+}  // namespace vox::core

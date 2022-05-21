@@ -26,7 +26,7 @@
 
 #pragma once
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// This class is from: PyTorch's aten/src/ATen/detail/FunctionTraits.h
@@ -101,4 +101,4 @@ struct BinaryFunctionTraits {
 };
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

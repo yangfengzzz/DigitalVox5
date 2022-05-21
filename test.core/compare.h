@@ -37,7 +37,7 @@
 
 #define ExpectEQ(arg, ...) ExpectEQInternal(::arc::tests::LineInfo(__FILE__, __LINE__), arg, __VA_ARGS__)
 
-namespace arc::tests {
+namespace vox::tests {
 
 // Thresholds for comparing floating point values
 const float THRESHOLD_1E_6 = 1e-6f;
@@ -156,4 +156,4 @@ void ExpectEQInternal(const std::string& line_info,
                       const std::vector<double>& v1,
                       double threshold = THRESHOLD_1E_6);
 
-}  // namespace arc::tests
+}  // namespace vox::tests

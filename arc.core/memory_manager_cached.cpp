@@ -40,7 +40,7 @@
 #include "CUDAUtils.h"
 #endif
 
-namespace arc::core {
+namespace vox::core {
 
 // This implementation is insipred by PyTorch's CUDA memory manager.
 // Reference: https://git.io/JUqUA
@@ -476,4 +476,4 @@ void CachedMemoryManager::ReleaseCache(const Device& device) { Cacher::GetInstan
 
 void CachedMemoryManager::ReleaseCache() { Cacher::GetInstance().Clear(); }
 
-}  // namespace arc::core
+}  // namespace vox::core

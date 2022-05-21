@@ -33,7 +33,7 @@
 
 #include "device.h"
 
-namespace arc::core {
+namespace vox::core {
 
 class MemoryManagerStatistic {
 public:
@@ -108,4 +108,4 @@ private:
     std::map<Device, MemoryStatistics> statistics_;
 };
 
-}  // namespace arc
+}  // namespace vox

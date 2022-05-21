@@ -28,7 +28,7 @@
 
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 // See documentation for `core::Tensor::Triu`.
@@ -41,4 +41,4 @@ void Tril(const Tensor& A, Tensor& output, const int diagonal = 0);
 void Triul(const Tensor& A, Tensor& upper, Tensor& lower, const int diagonal = 0);
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

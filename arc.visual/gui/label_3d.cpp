@@ -28,7 +28,7 @@
 
 #include <string>
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 static const vox::Color DEFAULT_COLOR(0, 0, 0, 1);
 
@@ -64,4 +64,4 @@ float Label3D::GetTextScale() const { return impl_->scale_; }
 
 void Label3D::SetTextScale(float scale) { impl_->scale_ = scale; }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

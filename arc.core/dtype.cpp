@@ -26,7 +26,7 @@
 
 #include "dtype.h"
 
-namespace arc::core {
+namespace vox::core {
 
 // clang-format off
 static_assert(sizeof(float   ) == 4, "Unsupported platform: float must be 4 bytes."   );
@@ -85,4 +85,4 @@ bool Dtype::operator==(const Dtype &other) const {
 
 bool Dtype::operator!=(const Dtype &other) const { return !(*this == other); }
 
-}  // namespace arc::core
+}  // namespace vox::core

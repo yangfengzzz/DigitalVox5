@@ -66,7 +66,7 @@
 #include "logging.h"
 #include "size_vector.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace io {
 
@@ -748,4 +748,4 @@ void WriteNpz(const std::string& file_name, const std::unordered_map<std::string
 
 }  // namespace io
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

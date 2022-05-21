@@ -26,7 +26,7 @@
 
 #include "gui/font.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 // assigned in header in constexpr declaration, but still need to be defined
 constexpr const char *FontDescription::SANS_SERIF;
@@ -48,4 +48,4 @@ void FontDescription::AddTypefaceForCodePoints(const char *typeface, const std::
     ranges_.push_back({typeface, "", code_points});
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

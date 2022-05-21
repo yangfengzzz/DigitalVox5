@@ -30,7 +30,7 @@
 
 #include "platform/input_events.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 struct DrawContext;
 struct Theme;
@@ -82,4 +82,4 @@ public:
     virtual void* GetNativePointer() = 0;  // nullptr if not using native menus
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

@@ -31,7 +31,7 @@
 #include "color.h"
 #include "vector3.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 // Label3D is a helper class for labels (like UI Labels) at 3D points as opposed
 // to screen points. It is NOT a UI widget but is instead used via Open3DScene
@@ -68,4 +68,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

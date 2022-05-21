@@ -27,7 +27,7 @@
 #include "tests.h"
 #include "triangle_mesh_io.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(TriangleMeshIO, DISABLED_CreateMeshFromFile) { NotImplemented(); }
 
@@ -66,4 +66,4 @@ TEST(TriangleMeshIO, AddTrianglesByEarClippingNonconvexPoly) {
     EXPECT_TRUE(io::AddTrianglesByEarClipping(*poly, indices));
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

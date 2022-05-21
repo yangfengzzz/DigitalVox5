@@ -29,7 +29,7 @@
 #include "triangle_mesh.h"
 #include "triangle_mesh_io.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(FileGLTF, WriteReadTriangleMeshFromGLTF) {
     geometry::TriangleMesh tm_gt;
@@ -69,4 +69,4 @@ TEST(FileGLTF, WriteReadTriangleMeshFromGLTF) {
 //     ExpectEQ(tm_gt.vertex_normals_, tm_test.vertex_normals_);
 // }
 
-}  // namespace arc
+}  // namespace vox

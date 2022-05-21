@@ -30,7 +30,7 @@
 #include "shape_util.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -86,4 +86,4 @@ void Copy(const Tensor& src, Tensor& dst) {
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

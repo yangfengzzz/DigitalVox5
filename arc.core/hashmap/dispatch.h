@@ -105,7 +105,7 @@
     }()
 #endif
 
-namespace arc {
+namespace vox {
 namespace utility {
 
 template <typename T, int N>
@@ -140,4 +140,4 @@ public:
 };
 
 }  // namespace utility
-}  // namespace arc
+}  // namespace vox

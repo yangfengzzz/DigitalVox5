@@ -26,4 +26,4 @@
 
 #include "gui/theme.h"
 
-namespace arc::visualization::gui {}  // namespace arc::visualization::gui
+namespace vox::visualization::gui {}  // namespace vox::visualization::gui

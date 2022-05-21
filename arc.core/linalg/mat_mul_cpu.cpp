@@ -28,7 +28,7 @@
 #include "linalg/linalg_utils.h"
 #include "linalg/mat_mul.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 void MatmulCPU(void* A_data, void* B_data, void* C_data, int64_t m, int64_t k, int64_t n, Dtype dtype) {
     DISPATCH_LINALG_DTYPE_TO_TEMPLATE(dtype, [&]() {
@@ -40,4 +40,4 @@ void MatmulCPU(void* A_data, void* B_data, void* C_data, int64_t m, int64_t k, i
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

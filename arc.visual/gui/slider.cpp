@@ -34,7 +34,7 @@
 
 #include "gui/theme.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 namespace {
 int g_next_slider_id = 1;
@@ -125,4 +125,4 @@ Widget::DrawResult Slider::Draw(const DrawContext& context) {
     return Widget::DrawResult::NONE;
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

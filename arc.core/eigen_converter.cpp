@@ -32,7 +32,7 @@
 #include "parallel_for.h"
 #include "tensor_check.h"
 
-namespace arc::core::eigen_converter {
+namespace vox::core::eigen_converter {
 
 /// Fills tensor[:][i] with func(i).
 ///
@@ -178,4 +178,4 @@ core::Tensor EigenVector2iVectorToTensor(const std::vector<Eigen::Vector2i> &val
     return EigenVectorNxVectorToTensor(values, dtype, device);
 }
 
-}  // namespace arc::core::eigen_converter
+}  // namespace vox::core::eigen_converter

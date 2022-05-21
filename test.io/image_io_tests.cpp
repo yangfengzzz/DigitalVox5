@@ -26,7 +26,7 @@
 
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(ImageIO, DISABLED_CreateImageFromFile) { NotImplemented(); }
 
@@ -42,4 +42,4 @@ TEST(ImageIO, DISABLED_ReadImageFromJPG) { NotImplemented(); }
 
 TEST(ImageIO, DISABLED_WriteImageToJPG) { NotImplemented(); }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

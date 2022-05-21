@@ -55,7 +55,7 @@
 #define INLINE_DIRS 0
 #endif  // __APPLE__
 
-namespace arc {
+namespace vox {
 namespace visualization {
 namespace gui {
 
@@ -418,6 +418,6 @@ Size FileDialog::CalcPreferredSize(const LayoutContext &context, const Constrain
 
 }  // namespace gui
 }  // namespace visualization
-}  // namespace arc
+}  // namespace vox
 
 #endif  // __APPLE__

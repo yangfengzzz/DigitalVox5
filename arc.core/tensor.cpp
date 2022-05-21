@@ -53,7 +53,7 @@
 //#include "open3d/t/io/NumpyIO.h"
 #include "logging.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 static DLDataTypeCode DtypeToDLDataTypeCode(const Dtype& dtype) {
@@ -1722,4 +1722,4 @@ std::tuple<Tensor, Tensor, Tensor> Tensor::SVD() const {
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

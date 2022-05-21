@@ -28,7 +28,7 @@
 
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 // See documentation for `core::Tensor::LUIpiv`.
@@ -38,4 +38,4 @@ void LUIpiv(const Tensor& A, Tensor& ipiv, Tensor& output);
 void LU(const Tensor& A, Tensor& permutation, Tensor& lower, Tensor& upper, const bool permute_l = false);
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

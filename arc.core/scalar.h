@@ -33,7 +33,7 @@
 #include "dtype.h"
 #include "logging.h"
 
-namespace arc::core {
+namespace vox::core {
 
 /// Scalar is a stores one of {double, int64, bool}. Typically Scalar is used to
 /// accept C++ scalar arguments of different types via implicit conversion
@@ -215,4 +215,4 @@ private:
     } value_{};
 };
 
-}  // namespace arc::core
+}  // namespace vox::core

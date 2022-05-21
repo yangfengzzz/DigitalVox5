@@ -30,7 +30,7 @@
 #include <string>
 #include <vector>
 
-namespace arc::tests {
+namespace vox::tests {
 
 // Class for "generating" data.
 class Raw {
@@ -90,4 +90,4 @@ float Raw::Next();
 template <>
 double Raw::Next();
 
-}  // namespace arc::tests
+}  // namespace vox::tests

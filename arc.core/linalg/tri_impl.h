@@ -29,7 +29,7 @@
 #include "linalg/tri.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void TriuCPU(const Tensor& A, Tensor& output, const int diagonal = 0);
@@ -46,4 +46,4 @@ void TrilCUDA(const Tensor& A, Tensor& output, const int diagonal = 0);
 void TriulCUDA(const Tensor& A, Tensor& upper, Tensor& lower, const int diagonal = 0);
 #endif
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

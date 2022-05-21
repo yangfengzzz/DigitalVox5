@@ -26,7 +26,7 @@
 
 #include "../tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(FilePTS, DISABLED_ReadPointCloudFromPTS) { NotImplemented(); }
 
@@ -38,4 +38,4 @@ TEST(FilePTS, DISABLED_AdvanceConsoleProgress) { NotImplemented(); }
 
 TEST(FilePTS, DISABLED_WritePointCloudToPTS) { NotImplemented(); }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

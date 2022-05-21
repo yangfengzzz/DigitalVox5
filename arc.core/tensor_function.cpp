@@ -26,7 +26,7 @@
 
 #include "tensor_function.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 static Tensor ConcatenateImpl(const std::vector<Tensor>& tensors, const int64_t axis) {
@@ -130,4 +130,4 @@ Tensor Append(const Tensor& self, const Tensor& other, const std::optional<int64
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

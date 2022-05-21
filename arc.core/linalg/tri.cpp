@@ -29,7 +29,7 @@
 #include "linalg/tri_impl.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 static void CheckInput(const Tensor& A, const int diagonal) {
@@ -95,4 +95,4 @@ void Triul(const Tensor& A, Tensor& upper, Tensor& lower, const int diagonal) {
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

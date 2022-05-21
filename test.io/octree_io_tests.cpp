@@ -35,7 +35,7 @@
 #include "point_cloud_io.h"
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 void WriteReadAndAssertEqual(const geometry::Octree& src_octree) {
     // Write to file
@@ -97,4 +97,4 @@ TEST(OctreeIO, JsonFileIOSevenCubes) {
     WriteReadAndAssertEqual(octree);
 }
 
-}  // namespace arc
+}  // namespace vox

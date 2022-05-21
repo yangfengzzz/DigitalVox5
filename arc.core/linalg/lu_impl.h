@@ -30,7 +30,7 @@
 
 #include "linalg/lu.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void LUCPU(void* A_data, void* ipiv_data, int64_t rows, int64_t cols, Dtype dtype, const Device& device);
@@ -39,4 +39,4 @@ void LUCPU(void* A_data, void* ipiv_data, int64_t rows, int64_t cols, Dtype dtyp
 void LUCUDA(void* A_data, void* ipiv_data, int64_t rows, int64_t cols, Dtype dtype, const Device& device);
 #endif
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

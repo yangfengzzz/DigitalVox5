@@ -33,7 +33,7 @@
 #include "size_vector.h"
 #include "tensor.h"
 
-namespace arc::core {
+namespace vox::core {
 
 /// This class is based on PyTorch's aten/src/ATen/native/Indexing.cpp.
 class AdvancedIndexPreprocessor {
@@ -206,4 +206,4 @@ protected:
     int64_t indexed_strides_[MAX_DIMS]{};
 };
 
-}  // namespace arc::core
+}  // namespace vox::core

@@ -38,7 +38,7 @@
 #include "tensor_list.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 class TensorObjectPermuteDevices : public PermuteDevices {};
@@ -281,4 +281,4 @@ TEST_P(TensorObjectPermuteDevices, TensorListFromObjectTensor) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

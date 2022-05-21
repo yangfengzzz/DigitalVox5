@@ -42,7 +42,7 @@
 #include "geometry/utility.h"
 #include "logging.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 namespace kernel {
@@ -798,4 +798,4 @@ void EstimateColorGradientsUsingKNNSearchCPU
 }  // namespace kernel
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox

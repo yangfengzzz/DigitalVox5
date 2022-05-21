@@ -45,7 +45,7 @@ struct Indexer;
 }  // namespace ispc
 #endif
 
-namespace arc::core {
+namespace vox::core {
 
 class Indexer;
 
@@ -638,4 +638,4 @@ private:
     const Indexer& indexer_;
 };
 
-}  // namespace arc::core
+}  // namespace vox::core

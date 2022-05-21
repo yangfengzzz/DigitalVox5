@@ -28,7 +28,7 @@
 
 #include "size_vector.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -96,4 +96,4 @@ void Reduction(const Tensor& src, Tensor& dst, const SizeVector& dims, bool keep
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

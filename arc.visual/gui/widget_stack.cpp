@@ -29,7 +29,7 @@
 #include <stack>
 #include <utility>
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 struct WidgetStack::Impl {
     std::stack<std::shared_ptr<Widget>> widgets_;
     std::function<void(std::shared_ptr<Widget>)> on_top_callback_;
@@ -63,4 +63,4 @@ void WidgetStack::SetOnTop(std::function<void(std::shared_ptr<Widget>)> onTopCal
     impl_->on_top_callback_ = std::move(onTopCallback);
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

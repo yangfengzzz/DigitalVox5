@@ -30,7 +30,7 @@
 
 #include "file_system.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 ImVec4 colorToImgui(const vox::Color &color) { return {color.r, color.g, color.b, color.a}; }
 
@@ -40,7 +40,7 @@ uint32_t colorToImguiRGBA(const vox::Color &color) {
 }
 
 std::string FindFontPath(std::string font, FontStyle style) {
-    using namespace arc::utility::filesystem;
+    using namespace vox::utility::filesystem;
 
     std::vector<std::string> kNormalSuffixes = {
             " Regular.ttf", " Regular.ttc", " Regular.otf", " Normal.ttf", " Normal.ttc", " Normal.otf",
@@ -241,4 +241,4 @@ std::string FindFontPath(std::string font, FontStyle style) {
 #endif  // __APPLE__
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

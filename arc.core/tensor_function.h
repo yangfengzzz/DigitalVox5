@@ -30,7 +30,7 @@
 
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 /// \brief Concatenates the list of tensors in their order, along the given
@@ -109,4 +109,4 @@ Tensor Concatenate(const std::vector<Tensor>& tensors, const std::optional<int64
 Tensor Append(const Tensor& self, const Tensor& other, const std::optional<int64_t>& axis = std::nullopt);
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

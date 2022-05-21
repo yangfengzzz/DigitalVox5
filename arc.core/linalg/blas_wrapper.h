@@ -30,7 +30,7 @@
 #include "linalg/linalg_headers_cuda.h"
 #include "logging.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 template <typename scalar_t>
@@ -204,4 +204,4 @@ inline cublasStatus_t trsm_cuda<double>(cublasHandle_t handle,
 #endif
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

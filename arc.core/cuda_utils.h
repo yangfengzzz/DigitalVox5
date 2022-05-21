@@ -67,7 +67,7 @@
 
 #endif  // #ifdef BUILD_CUDA_MODULE
 
-namespace arc {
+namespace vox {
 namespace core {
 
 #ifdef BUILD_CUDA_MODULE
@@ -267,12 +267,12 @@ cudaStream_t GetDefaultStream();
 
 }  // namespace cuda
 }  // namespace core
-}  // namespace arc
+}  // namespace vox
 
 // Exposed as implementation detail of macros at the end of the file.
 #ifdef BUILD_CUDA_MODULE
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void __OPEN3D_CUDA_CHECK(cudaError_t err, const char* file, const int line);
@@ -280,6 +280,6 @@ void __OPEN3D_CUDA_CHECK(cudaError_t err, const char* file, const int line);
 void __OPEN3D_GET_LAST_CUDA_ERROR(const char* message, const char* file, const int line);
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox
 
 #endif

@@ -28,7 +28,7 @@
 
 #include <algorithm>  // for std::max, std::min
 
-namespace arc {
+namespace vox {
 namespace visualization {
 namespace gui {
 
@@ -74,4 +74,4 @@ Widget::DrawResult StackedWidget::Draw(const DrawContext& context) {
 
 }  // namespace gui
 }  // namespace visualization
-}  // namespace arc
+}  // namespace vox

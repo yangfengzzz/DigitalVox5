@@ -35,7 +35,7 @@
 #include "logging.h"
 #include "memory_manager.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 #define DISPATCH_LINALG_DTYPE_TO_TEMPLATE(DTYPE, ...) \
@@ -119,4 +119,4 @@ private:
 };
 #endif
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

@@ -27,7 +27,7 @@
 #include "size_vector.h"
 #include "tests.h"
 
-namespace arc {
+namespace vox {
 namespace tests {
 
 TEST(DynamicSizeVector, Constructor) {
@@ -44,4 +44,4 @@ TEST(DynamicSizeVector, IsCompatible) {
 }
 
 }  // namespace tests
-}  // namespace arc
+}  // namespace vox

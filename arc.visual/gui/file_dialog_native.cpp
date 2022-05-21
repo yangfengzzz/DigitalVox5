@@ -34,7 +34,7 @@
 
 #include "gui/native.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 struct FileDialog::Impl {
     FileDialog::Mode mode_;
@@ -73,6 +73,6 @@ void FileDialog::OnWillShow() {
 
 void FileDialog::OnDone() {}
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui
 
 #endif  // __APPLE__ && GUI_USE_NATIVE_FILE_DIALOG

@@ -33,7 +33,7 @@
 
 #include "gui/theme.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 namespace {
 int g_next_color_edit_id = 1;
@@ -91,4 +91,4 @@ ColorEdit::DrawResult ColorEdit::Draw(const DrawContext& context) {
     return Widget::DrawResult::NONE;
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

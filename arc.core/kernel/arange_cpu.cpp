@@ -29,7 +29,7 @@
 #include "parallel_for.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -48,4 +48,4 @@ void ArangeCPU(const Tensor& start, const Tensor& stop, const Tensor& step, Tens
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

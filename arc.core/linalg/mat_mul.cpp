@@ -28,7 +28,7 @@
 
 #include <unordered_map>
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void Matmul(const Tensor& A, const Tensor& B, Tensor& output) {
@@ -91,4 +91,4 @@ void Matmul(const Tensor& A, const Tensor& B, Tensor& output) {
 };
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

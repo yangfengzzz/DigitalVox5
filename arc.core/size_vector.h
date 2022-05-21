@@ -31,7 +31,7 @@
 #include <string>
 #include <vector>
 
-namespace arc::core {
+namespace vox::core {
 
 class SizeVector;
 
@@ -102,4 +102,4 @@ public:
     [[nodiscard]] bool IsCompatible(const DynamicSizeVector& dsv) const;
 };
 
-}  // namespace arc::core
+}  // namespace vox::core

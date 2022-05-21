@@ -28,7 +28,7 @@
 
 #include <unordered_map>
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void LeastSquares(const Tensor &A, const Tensor &B, Tensor &X) {
@@ -83,4 +83,4 @@ void LeastSquares(const Tensor &A, const Tensor &B, Tensor &X) {
     X = B_copy.T().Slice(0, 0, n);
 }
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

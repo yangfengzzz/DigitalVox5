@@ -28,7 +28,7 @@
 #include "linalg/linalg_utils.h"
 #include "linalg/lu_impl.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 void LUCPU(void* A_data, void* ipiv_data, int64_t rows, int64_t cols, Dtype dtype, const Device& device) {
@@ -40,4 +40,4 @@ void LUCPU(void* A_data, void* ipiv_data, int64_t rows, int64_t cols, Dtype dtyp
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

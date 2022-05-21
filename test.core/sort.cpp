@@ -30,7 +30,7 @@
 
 #include "logging.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(Sort, Sort) {
     std::vector<Eigen::Vector3d> points{
@@ -105,4 +105,4 @@ TEST(Sort, GetIndicesAToBClose) {
     ExpectEQ(ApplyIndices(b, GetIndicesAToB(b, a, threshold)), a, threshold);
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

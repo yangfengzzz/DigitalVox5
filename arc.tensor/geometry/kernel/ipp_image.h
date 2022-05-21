@@ -37,7 +37,7 @@
 #include "Tensor.h"
 #include "open3d/t/geometry/Image.h"
 
-namespace arc {
+namespace vox {
 namespace t {
 namespace geometry {
 namespace ipp {
@@ -87,7 +87,7 @@ void FilterSobel(const arc::core::Tensor &srcim,
 }  // namespace ipp
 }  // namespace geometry
 }  // namespace t
-}  // namespace arc
+}  // namespace vox
 
 #else
 #define IPP_CALL(ipp_function, ...) LOGE("Not built with IPP-IW, cannot call " #ipp_function);

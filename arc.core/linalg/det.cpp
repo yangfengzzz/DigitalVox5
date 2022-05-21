@@ -29,7 +29,7 @@
 #include "linalg/kernel/matrix.h"
 #include "linalg/lu.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 
 double Det(const Tensor& A) {
@@ -75,4 +75,4 @@ double Det(const Tensor& A) {
 }
 
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

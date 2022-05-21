@@ -26,7 +26,7 @@
 
 #include "../tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(FilePLY, DISABLED_ReadVertexCallback) { NotImplemented(); }
 
@@ -48,4 +48,4 @@ TEST(FilePLY, DISABLED_WriteTriangleMeshToPLY) { NotImplemented(); }
 
 TEST(FilePLY, DISABLED_ResetConsoleProgress) { NotImplemented(); }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

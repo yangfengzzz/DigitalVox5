@@ -35,7 +35,7 @@
 #include "gui/theme.h"
 #include "gui/util.h"
 
-namespace arc::visualization::gui {
+namespace vox::visualization::gui {
 
 namespace {
 int g_next_checkbox_id = 1;
@@ -103,4 +103,4 @@ Widget::DrawResult Checkbox::Draw(const DrawContext& context) {
     return result;
 }
 
-}  // namespace arc::visualization::gui
+}  // namespace vox::visualization::gui

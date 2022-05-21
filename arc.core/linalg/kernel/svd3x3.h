@@ -91,7 +91,7 @@ using std::sqrt;
 #define __rsqrt_rn(x) (1.0 / sqrt(x))
 #endif
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace linalg {
 namespace kernel {
@@ -2219,4 +2219,4 @@ OPEN3D_DEVICE OPEN3D_FORCE_INLINE void solve_svd3x3(const scalar_t *A_3x3,  // i
 }  // namespace kernel
 }  // namespace linalg
 }  // namespace core
-}  // namespace arc
+}  // namespace vox

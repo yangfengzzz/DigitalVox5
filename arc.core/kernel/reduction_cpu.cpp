@@ -33,7 +33,7 @@
 #include "parallel.h"
 #include "tensor.h"
 
-namespace arc {
+namespace vox {
 namespace core {
 namespace kernel {
 
@@ -318,4 +318,4 @@ void ReductionCPU(const Tensor& src, Tensor& dst, const SizeVector& dims, bool k
 
 }  // namespace kernel
 }  // namespace core
-}  // namespace arc
+}  // namespace vox
