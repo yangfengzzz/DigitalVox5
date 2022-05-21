@@ -32,7 +32,7 @@
 #include "parallel.h"
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(ProgressBar, ProgressBar) {
     int iterations = 1000;
@@ -57,4 +57,4 @@ TEST(ProgressBar, OMPProgressBar) {
     EXPECT_TRUE(static_cast<int>(progress_bar.GetCurrentCount()) >= iterations);
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

@@ -30,7 +30,7 @@
 #include "file_system.h"
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(Dataset, DatasetBase) {
     data::Dataset ds("some_prefix");
@@ -875,4 +875,4 @@ TEST(Dataset, DISABLED_RedwoodOfficePointClouds) {
     EXPECT_EQ(dataset.GetExtractDir(), extract_dir);
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

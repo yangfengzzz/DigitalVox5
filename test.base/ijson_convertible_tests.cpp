@@ -29,7 +29,7 @@
 #include "ijson_convertible.h"
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 // ----------------------------------------------------------------------------
 // Test the conversion of Eigen::Vector3d to and from JsonArray.
@@ -194,4 +194,4 @@ TEST(IJsonConvertible, EigenMatrix6d_uToFromJsonArray) {
     }
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

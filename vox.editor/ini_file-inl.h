@@ -37,7 +37,7 @@ inline T IniFile::Get(const std::string &p_key) {
 
 template <typename T>
 inline T IniFile::GetOrDefault(const std::string &p_key, T p_default) {
-    return IsKeyExisting(p_key) ? get<T>(p_key) : p_default;
+    return IsKeyExisting(p_key) ? Get<T>(p_key) : p_default;
 }
 
 template <typename T>

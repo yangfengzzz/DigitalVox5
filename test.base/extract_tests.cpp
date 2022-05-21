@@ -30,7 +30,7 @@
 #include "file_system.h"
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(Extract, ExtractFromZIP) {
     // Directory relative to `data_root`, where files will be temp. downloaded
@@ -63,4 +63,4 @@ TEST(Extract, ExtractFromZIP) {
     EXPECT_TRUE(utility::filesystem::DeleteDirectory(extract_dir));
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

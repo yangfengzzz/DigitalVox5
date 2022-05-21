@@ -26,7 +26,7 @@
 
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(Timer, DISABLED_Constructor) { NotImplemented(); }
 
@@ -50,4 +50,4 @@ TEST(Timer, DISABLED_FPSTimer) { NotImplemented(); }
 
 TEST(Timer, DISABLED_Signal) { NotImplemented(); }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

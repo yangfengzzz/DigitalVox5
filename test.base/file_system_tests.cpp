@@ -30,7 +30,7 @@
 #include "logging.h"
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 // ----------------------------------------------------------------------------
 // Get the file extension and convert to lower case.
@@ -547,4 +547,4 @@ TEST(FileSystem, GetPathComponents) {
     EXPECT_EQ(result, expected);
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

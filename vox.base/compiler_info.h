@@ -23,71 +23,36 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
-
 #pragma once
 
-#include <iostream>
+#include <memory>
 #include <string>
-#include <vector>
 
-namespace vox::tests {
+namespace vox::utility {
 
-// Class for "generating" data.
-class Raw {
+/// \brief Compiler information.
+class CompilerInfo {
+    // This does not need to be a class. It is a class just for the sake of
+    // consistency with CPUInfo.
 public:
-    Raw() : step(1), index(0) {}
-    explicit Raw(const int &seed) : step((seed <= 0) ? 1 : seed), index(abs(seed) % SIZE) {}
+    static CompilerInfo& GetInstance();
+
+    ~CompilerInfo() = default;
+    CompilerInfo(const CompilerInfo&) = delete;
+    void operator=(const CompilerInfo&) = delete;
+
+    static std::string CXXStandard();
+
+    static std::string CXXCompilerId();
+    static std::string CXXCompilerVersion();
+
+    static std::string CUDACompilerId();
+    static std::string CUDACompilerVersion();
+
+    void Print() const;
 
 private:
-    // size of the raw data
-    static const int SIZE = 1021;
-
-    // raw data
-    static std::vector<uint8_t> data_;
-
-public:
-    // low end of the range
-    static const uint8_t VMIN = 0;
-
-    // high end of the range
-    static const uint8_t VMAX = 255;
-
-private:
-    // step through the raw data
-    int step;
-
-    // index into the raw data
-    int index;
-
-public:
-    // Get the next value.
-    template <class T>
-    T Next();
+    CompilerInfo();
 };
 
-// Get the next uint8_t value.
-// Output range: [0, 255].
-template <>
-uint8_t Raw::Next();
-
-// Get the next int value.
-// Output range: [0, 255].
-template <>
-int Raw::Next();
-
-// Get the next size_t value.
-// Output range: [0, 255].
-template <>
-size_t Raw::Next();
-
-// Get the next float value.
-// Output range: [0, 1].
-template <>
-float Raw::Next();
-
-// Get the next double value.
-// Output range: [0, 1].
-template <>
-double Raw::Next();
-
-}  // namespace vox::tests
+}  // namespace vox::utility

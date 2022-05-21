@@ -24,70 +24,38 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#pragma once
+#include "compiler_info.h"
 
-#include <iostream>
-#include <string>
-#include <vector>
+#include <memory>
 
-namespace vox::tests {
+#include "logging.h"
 
-// Class for "generating" data.
-class Raw {
-public:
-    Raw() : step(1), index(0) {}
-    explicit Raw(const int &seed) : step((seed <= 0) ? 1 : seed), index(abs(seed) % SIZE) {}
+namespace vox::utility {
 
-private:
-    // size of the raw data
-    static const int SIZE = 1021;
+CompilerInfo::CompilerInfo() = default;
 
-    // raw data
-    static std::vector<uint8_t> data_;
+CompilerInfo& CompilerInfo::GetInstance() {
+    static CompilerInfo instance;
+    return instance;
+}
 
-public:
-    // low end of the range
-    static const uint8_t VMIN = 0;
+std::string CompilerInfo::CXXStandard() { return {OPEN3D_CXX_STANDARD}; }
 
-    // high end of the range
-    static const uint8_t VMAX = 255;
+std::string CompilerInfo::CXXCompilerId() { return {OPEN3D_CXX_COMPILER_ID}; }
 
-private:
-    // step through the raw data
-    int step;
+std::string CompilerInfo::CXXCompilerVersion() { return {OPEN3D_CXX_COMPILER_VERSION}; }
 
-    // index into the raw data
-    int index;
+std::string CompilerInfo::CUDACompilerId() { return {OPEN3D_CUDA_COMPILER_ID}; }
 
-public:
-    // Get the next value.
-    template <class T>
-    T Next();
-};
+std::string CompilerInfo::CUDACompilerVersion() { return {OPEN3D_CUDA_COMPILER_VERSION}; }
 
-// Get the next uint8_t value.
-// Output range: [0, 255].
-template <>
-uint8_t Raw::Next();
+void CompilerInfo::Print() const {
+#ifdef BUILD_CUDA_MODULE
+    LOGI("CompilerInfo: C++ {}, {} {}, {} {}.", CXXStandard(), CXXCompilerId(), CXXCompilerVersion(), CUDACompilerId(),
+         CUDACompilerVersion())
+#else
+    LOGI("CompilerInfo: C++ {}, {} {}, CUDA disabled.", CXXStandard(), CXXCompilerId(), CXXCompilerVersion())
+#endif
+}
 
-// Get the next int value.
-// Output range: [0, 255].
-template <>
-int Raw::Next();
-
-// Get the next size_t value.
-// Output range: [0, 255].
-template <>
-size_t Raw::Next();
-
-// Get the next float value.
-// Output range: [0, 1].
-template <>
-float Raw::Next();
-
-// Get the next double value.
-// Output range: [0, 1].
-template <>
-double Raw::Next();
-
-}  // namespace vox::tests
+}  // namespace vox::utility

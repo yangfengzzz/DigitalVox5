@@ -31,7 +31,7 @@
 #include "Helper_ispc.h"
 #endif
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(Helper, JoinStrings) {
     std::vector<std::string> strings;
@@ -109,4 +109,4 @@ TEST(Helper, ENSURE_EXPORTED) {
 #endif
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

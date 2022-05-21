@@ -27,7 +27,7 @@
 #include "eigen.h"
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(Eigen, TransformVector6dToMatrix4d) {
     Eigen::Matrix4d ref_matrix4d;
@@ -267,4 +267,4 @@ TEST(Eigen, ColorToUint8ToDouble) {
     }
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests

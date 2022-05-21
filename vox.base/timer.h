@@ -26,68 +26,57 @@
 
 #pragma once
 
-#include <iostream>
 #include <string>
-#include <vector>
 
-namespace vox::tests {
+namespace vox::utility {
 
-// Class for "generating" data.
-class Raw {
+class Timer {
 public:
-    Raw() : step(1), index(0) {}
-    explicit Raw(const int &seed) : step((seed <= 0) ? 1 : seed), index(abs(seed) % SIZE) {}
+    Timer();
+    ~Timer();
+
+public:
+    static double GetSystemTimeInMilliseconds();
+
+public:
+    void Start();
+    void Stop();
+    void Print(const std::string &timer_info) const;
+    [[nodiscard]] double GetDuration() const;
 
 private:
-    // size of the raw data
-    static const int SIZE = 1021;
-
-    // raw data
-    static std::vector<uint8_t> data_;
-
-public:
-    // low end of the range
-    static const uint8_t VMIN = 0;
-
-    // high end of the range
-    static const uint8_t VMAX = 255;
-
-private:
-    // step through the raw data
-    int step;
-
-    // index into the raw data
-    int index;
-
-public:
-    // Get the next value.
-    template <class T>
-    T Next();
+    double start_time_in_milliseconds_;
+    double end_time_in_milliseconds_;
 };
 
-// Get the next uint8_t value.
-// Output range: [0, 255].
-template <>
-uint8_t Raw::Next();
+class ScopeTimer : public Timer {
+public:
+    explicit ScopeTimer(std::string scope_timer_info = "");
+    ~ScopeTimer();
 
-// Get the next int value.
-// Output range: [0, 255].
-template <>
-int Raw::Next();
+private:
+    std::string scope_timer_info_;
+};
 
-// Get the next size_t value.
-// Output range: [0, 255].
-template <>
-size_t Raw::Next();
+class FPSTimer : public Timer {
+public:
+    explicit FPSTimer(std::string fps_timer_info = "",
+                      int expectation = -1,
+                      double time_to_print = 3000.0,
+                      int events_to_print = 100);
 
-// Get the next float value.
-// Output range: [0, 1].
-template <>
-float Raw::Next();
+    /// Function to signal an event
+    /// It automatically prints FPS information when duration is more than
+    /// time_to_print_, or event has been signaled events_to_print_ times.
+    void Signal();
 
-// Get the next double value.
-// Output range: [0, 1].
-template <>
-double Raw::Next();
+private:
+    std::string fps_timer_info_;
+    int expectation_;
+    double time_to_print_;
+    int events_to_print_;
+    int event_fragment_count_;
+    int event_total_count_;
+};
 
-}  // namespace vox::tests
+}  // namespace vox::utility

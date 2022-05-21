@@ -29,7 +29,7 @@
 #include "file_system.h"
 #include "tests.h"
 
-namespace arc::tests {
+namespace vox::tests {
 
 TEST(Downloader, DownloadAndVerify) {
     std::string url =
@@ -59,4 +59,4 @@ TEST(Downloader, DownloadAndVerify) {
     EXPECT_TRUE(utility::filesystem::DeleteDirectory(file_dir));
 }
 
-}  // namespace arc::tests
+}  // namespace vox::tests
