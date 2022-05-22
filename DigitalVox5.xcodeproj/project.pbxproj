@@ -6997,10 +6997,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = (
-					./vox.geometry,
-					./vox.base,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LD_RUNPATH_SEARCH_PATHS = ./third_party/json_cpp/build/lib;
 				LIBRARY_SEARCH_PATHS = (
 					./third_party/googletest/build/lib,
@@ -7038,10 +7035,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = (
-					./vox.geometry,
-					./vox.base,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LD_RUNPATH_SEARCH_PATHS = ./third_party/json_cpp/build/lib;
 				LIBRARY_SEARCH_PATHS = (
 					./third_party/googletest/build/lib,
@@ -7722,10 +7716,7 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
-				HEADER_SEARCH_PATHS = (
-					./vox.base,
-					./vox.geometry,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (
@@ -7748,10 +7739,7 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
-				HEADER_SEARCH_PATHS = (
-					./vox.base,
-					./vox.geometry,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (

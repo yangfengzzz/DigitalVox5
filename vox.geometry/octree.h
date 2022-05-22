@@ -65,7 +65,7 @@ public:
     /// \brief Default Constructor.
     ///
     OctreeNode() = default;
-    ~OctreeNode() override {}
+    ~OctreeNode() override = default;
 
     /// Factory function to construct an OctreeNode by parsing the json value.
     static std::shared_ptr<OctreeNode> ConstructFromJsonValue(const Json::Value& value);

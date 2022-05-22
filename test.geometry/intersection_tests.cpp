@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "intersection_test.h"
 #include "tests.h"
+#include "vox.geometry/intersection_test.h"
 
 using namespace vox;
 using namespace tests;

@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "line_3d.h"
 #include "tests.h"
+#include "vox.geometry/line_3d.h"
 
 using namespace vox::geometry;
 using namespace ::testing;

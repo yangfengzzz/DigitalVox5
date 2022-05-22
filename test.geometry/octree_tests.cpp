@@ -8,11 +8,11 @@
 
 #include <memory>
 
-#include "octree.h"
+#include "vox.geometry/octree.h"
 
 //#include "open3d/data/Dataset.h"
-#include "point_cloud.h"
-#include "voxel_grid.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.geometry/voxel_grid.h"
 //#include "open3d/io/PointCloudIO.h"
 //#include "utility/DrawGeometry.h"
 #include "tests.h"

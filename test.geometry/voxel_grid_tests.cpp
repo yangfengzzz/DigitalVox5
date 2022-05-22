@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "line_set.h"
-#include "triangle_mesh.h"
-#include "voxel_grid.h"
+#include "vox.geometry/line_set.h"
+#include "vox.geometry/triangle_mesh.h"
+#include "vox.geometry/voxel_grid.h"
 //#include "utility/DrawGeometry.h"
 #include "tests.h"
 

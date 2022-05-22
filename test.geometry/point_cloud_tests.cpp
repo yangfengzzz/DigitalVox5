@@ -6,14 +6,14 @@
 
 #include <algorithm>
 
-#include "point_cloud.h"
+#include "vox.geometry/point_cloud.h"
 
 //#include "open3d/camera/PinholeCameraIntrinsic.h"
 //#include "open3d/data/Dataset.h"
-#include "bounding_volume.h"
-#include "image.h"
-#include "rgbd_image.h"
-#include "triangle_mesh.h"
+#include "vox.geometry/bounding_volume.h"
+#include "vox.geometry/image.h"
+#include "vox.geometry/rgbd_image.h"
+#include "vox.geometry/triangle_mesh.h"
 //#include "open3d/io/ImageIO.h"
 //#include "open3d/io/PinholeCameraTrajectoryIO.h"
 //#include "open3d/io/PointCloudIO.h"

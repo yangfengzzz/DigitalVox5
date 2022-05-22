@@ -6,10 +6,10 @@
 
 #include <vector>
 
-#include "rgbd_image.h"
+#include "vox.geometry/rgbd_image.h"
 
 //#include "open3d/data/Dataset.h"
-#include "image.h"
+#include "vox.geometry/image.h"
 //#include "open3d/io/ImageIO.h"
 #include "tests.h"
 

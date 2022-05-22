@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "bounding_volume.h"
 #include "tests.h"
+#include "vox.geometry/bounding_volume.h"
 
 using namespace vox::geometry;
 using namespace ::testing;

@@ -9,7 +9,7 @@
 #include <Eigen/Core>
 #include <vector>
 
-#include "eigen.h"
+#include "vox.base/eigen.h"
 
 namespace vox::tests {
 

@@ -8,7 +8,7 @@
 
 #include <algorithm>
 
-#include "logging.h"
+#include "vox.base/logging.h"
 
 namespace vox::tests {
 

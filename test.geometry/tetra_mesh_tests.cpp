@@ -6,10 +6,10 @@
 
 #include <Eigen/Geometry>
 
-#include "point_cloud.h"
 #include "tests.h"
-#include "tetra_mesh.h"
-#include "triangle_mesh.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.geometry/tetra_mesh.h"
+#include "vox.geometry/triangle_mesh.h"
 
 using namespace vox;
 using namespace tests;

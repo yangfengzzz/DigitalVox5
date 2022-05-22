@@ -23,7 +23,7 @@ class TriangleMesh;
 
 /// \class TetraMesh
 ///
-/// \brief Tetra mesh contains vertices and tetrahedra represented by the
+/// \brief Tetra mesh contains vertices and tetrahedral represented by the
 /// indices to the vertices.
 class TetraMesh : public MeshBase {
 public:
@@ -50,8 +50,8 @@ public:
     /// have identical coordinates.
     TetraMesh &RemoveDuplicatedVertices();
 
-    /// \brief Function that removes duplicated tetrahedra, i.e., removes
-    /// tetrahedra that reference the same four vertices, independent of their
+    /// \brief Function that removes duplicated tetrahedral, i.e., removes
+    /// tetrahedral that reference the same four vertices, independent of their
     /// order.
     TetraMesh &RemoveDuplicatedTetras();
 
@@ -59,7 +59,7 @@ public:
     /// referenced in any tetrahedron of the mesh.
     TetraMesh &RemoveUnreferencedVertices();
 
-    /// \brief Function that removes degenerate tetrahedra, i.e., tetrahedra
+    /// \brief Function that removes degenerate tetrahedral, i.e., tetrahedral
     /// that reference a single vertex multiple times in a single tetrahedron.
     /// They are usually the product of removing duplicated vertices.
     TetraMesh &RemoveDegenerateTetras();
@@ -84,7 +84,7 @@ public:
             const PointCloud &point_cloud);
 
 protected:
-    // Forward child class type to avoid indirect nonvirtual base
+    // Forward child class type to avoid indirect non-virtual base
     explicit TetraMesh(Geometry::GeometryType type) : MeshBase(type) {}
 
 public:

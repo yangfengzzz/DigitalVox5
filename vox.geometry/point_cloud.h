@@ -10,6 +10,7 @@
 #include <memory>
 #include <optional>
 #include <tuple>
+#include <utility>
 #include <vector>
 
 #include "vox.geometry/geometry_3d.h"
@@ -39,8 +40,8 @@ public:
     /// \brief Parameterized Constructor.
     ///
     /// \param points Points coordinates.
-    explicit PointCloud(const std::vector<Eigen::Vector3d> &points)
-        : Geometry3D(Geometry::GeometryType::POINT_CLOUD), points_(points) {}
+    explicit PointCloud(std::vector<Eigen::Vector3d> points)
+        : Geometry3D(Geometry::GeometryType::POINT_CLOUD), points_(std::move(points)) {}
     ~PointCloud() override = default;
 
 public:
@@ -60,13 +61,13 @@ public:
     PointCloud operator+(const PointCloud &cloud) const;
 
     /// Returns 'true' if the point cloud contains points.
-    [[nodiscard]] bool HasPoints() const { return points_.size() > 0; }
+    [[nodiscard]] bool HasPoints() const { return !points_.empty(); }
 
     /// Returns `true` if the point cloud contains point normals.
-    [[nodiscard]] bool HasNormals() const { return points_.size() > 0 && normals_.size() == points_.size(); }
+    [[nodiscard]] bool HasNormals() const { return !points_.empty() && normals_.size() == points_.size(); }
 
     /// Returns `true` if the point cloud contains point colors.
-    [[nodiscard]] bool HasColors() const { return points_.size() > 0 && colors_.size() == points_.size(); }
+    [[nodiscard]] bool HasColors() const { return !points_.empty() && colors_.size() == points_.size(); }
 
     /// Returns 'true' if the point cloud contains per-point covariance matrix.
     [[nodiscard]] bool HasCovariances() const { return !points_.empty() && covariances_.size() == points_.size(); }
@@ -315,7 +316,7 @@ public:
     /// \return Returns the plane model ax + by + cz + d = 0 and the indices of
     /// the plane inliers.
     [[nodiscard]] std::tuple<Eigen::Vector4d, std::vector<size_t>> SegmentPlane(
-            const double distance_threshold = 0.01,
+            double distance_threshold = 0.01,
             int ransac_n = 3,
             int num_iterations = 100,
             double probability = 0.99999999,

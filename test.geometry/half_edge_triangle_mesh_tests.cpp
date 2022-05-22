@@ -6,12 +6,12 @@
 
 #include <string>
 
-#include "half_edge_triangle_mesh.h"
-#include "triangle_mesh.h"
+#include "vox.geometry/half_edge_triangle_mesh.h"
+#include "vox.geometry/triangle_mesh.h"
 
 //#include "open3d/io/TriangleMeshIO.h"
-#include "helper.h"
 #include "tests.h"
+#include "vox.base/helper.h"
 
 using namespace vox;
 using namespace tests;
