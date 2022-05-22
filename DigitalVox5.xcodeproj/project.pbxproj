@@ -7127,7 +7127,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = ./vox.base;
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LD_RUNPATH_SEARCH_PATHS = ./third_party/json_cpp/build/lib;
 				LIBRARY_SEARCH_PATHS = (
 					./third_party/googletest/build/lib,
@@ -7166,7 +7166,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = ./vox.base;
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LD_RUNPATH_SEARCH_PATHS = ./third_party/json_cpp/build/lib;
 				LIBRARY_SEARCH_PATHS = (
 					./third_party/googletest/build/lib,

@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "dataset.h"
-#include "download.h"
-#include "extract.h"
-#include "file_system.h"
 #include "tests.h"
+#include "vox.base/dataset.h"
+#include "vox.base/download.h"
+#include "vox.base/extract.h"
+#include "vox.base/file_system.h"
 
 namespace vox::tests {
 

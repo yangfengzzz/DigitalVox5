@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "eigen.h"
 #include "tests.h"
+#include "vox.base/eigen.h"
 
 namespace vox::tests {
 

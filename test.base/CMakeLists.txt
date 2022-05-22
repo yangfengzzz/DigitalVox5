@@ -7,7 +7,7 @@ file(GLOB sources
 
 add_executable(${PROJECT_NAME} ${sources})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ../vox.base
+target_include_directories(${PROJECT_NAME} PUBLIC ../
         ${CMAKE_SOURCE_DIR}/third_party/googletest/googlemock/include
         ${CMAKE_SOURCE_DIR}/third_party/googletest/googletest/include)
 
@@ -19,9 +19,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 # OpenMP
 find_package(OpenMP)
-if(OpenMP_CXX_FOUND)
+if (OpenMP_CXX_FOUND)
     target_link_libraries(${PROJECT_NAME} PUBLIC OpenMP::OpenMP_CXX ${OpenCV_LIBS})
-endif()
+endif ()
 
 
 # Link third party libraries

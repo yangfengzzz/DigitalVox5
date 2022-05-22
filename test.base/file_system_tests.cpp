@@ -6,9 +6,9 @@
 
 #include <algorithm>
 
-#include "file_system.h"
-#include "logging.h"
 #include "tests.h"
+#include "vox.base/file_system.h"
+#include "vox.base/logging.h"
 
 namespace vox::tests {
 

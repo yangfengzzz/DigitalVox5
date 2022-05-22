@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "helper.h"
 #include "tests.h"
+#include "vox.base/helper.h"
 
 #ifdef BUILD_ISPC_MODULE
 #include "Helper_ispc.h"

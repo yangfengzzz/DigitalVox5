@@ -6,8 +6,8 @@
 
 #include <json/json.h>
 
-#include "ijson_convertible.h"
 #include "tests.h"
+#include "vox.base/ijson_convertible.h"
 
 namespace vox::tests {
 

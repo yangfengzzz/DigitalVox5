@@ -7,10 +7,9 @@
 #include <chrono>
 #include <thread>
 
-#include "progress_bar.h"
-
-#include "parallel.h"
 #include "tests.h"
+#include "vox.base/parallel.h"
+#include "vox.base/progress_bar.h"
 
 namespace vox::tests {
 
