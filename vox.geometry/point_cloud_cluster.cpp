@@ -6,11 +6,11 @@
 
 #include <unordered_set>
 
-#include "kdtree_flann.h"
-#include "logging.h"
-#include "point_cloud.h"
-#include "parallel.h"
-#include "progress_bar.h"
+#include "vox.base/logging.h"
+#include "vox.base/parallel.h"
+#include "vox.base/progress_bar.h"
+#include "vox.geometry/kdtree_flann.h"
+#include "vox.geometry/point_cloud.h"
 
 namespace vox::geometry {
 
@@ -21,7 +21,8 @@ std::vector<int> PointCloud::ClusterDBSCAN(double eps, size_t min_points, bool p
     LOGD("Precompute neighbors.")
     utility::ProgressBar progress_bar(points_.size(), "Precompute neighbors.", print_progress);
     std::vector<std::vector<int>> nbs(points_.size());
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) \
+        shared(kdtree, eps, nbs, progress_bar) default(none)
     for (int idx = 0; idx < int(points_.size()); ++idx) {
         std::vector<double> dists2;
         kdtree.SearchRadius(points_[idx], eps, nbs[idx], dists2);

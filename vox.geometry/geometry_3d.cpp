@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "geometry_3d.h"
+#include "vox.geometry/geometry_3d.h"
 
 #include <numeric>
 
-#include "logging.h"
+#include "vox.base/logging.h"
 
 namespace vox::geometry {
 
@@ -147,9 +147,9 @@ Eigen::Matrix3d Geometry3D::GetRotationMatrixFromYXZ(const Eigen::Vector3d& rota
 }
 
 Eigen::Matrix3d Geometry3D::GetRotationMatrixFromAxisAngle(const Eigen::Vector3d& rotation) {
-    const double phi = rotation.norm();
-    if (phi > 0) {
-        return Eigen::AngleAxisd(phi, rotation / phi).toRotationMatrix();
+    const double kPhi = rotation.norm();
+    if (kPhi > 0) {
+        return Eigen::AngleAxisd(kPhi, rotation / kPhi).toRotationMatrix();
     }
     return Eigen::Matrix3d::Identity();
 }

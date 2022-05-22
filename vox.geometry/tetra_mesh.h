@@ -12,9 +12,9 @@
 #include <utility>
 #include <vector>
 
-#include "eigen.h"
-#include "helper.h"
-#include "mesh_base.h"
+#include "vox.base/eigen.h"
+#include "vox.base/helper.h"
+#include "vox.geometry/mesh_base.h"
 
 namespace vox::geometry {
 

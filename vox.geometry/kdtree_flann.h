@@ -10,9 +10,9 @@
 #include <memory>
 #include <vector>
 
-#include "geometry.h"
-#include "kdtree_search_param.h"
-//#include "open3d/pipelines/registration/Feature.h"
+#include "vox.geometry/geometry.h"
+#include "vox.geometry/kdtree_search_param.h"
+//#include "vox.geometry/open3d/pipelines/registration/Feature.h"
 
 /// @cond
 namespace nanoflann {

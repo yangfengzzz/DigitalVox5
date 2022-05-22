@@ -10,8 +10,8 @@
 #include <memory>
 #include <vector>
 
-#include "geometry_2d.h"
-#include "logging.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/geometry_2d.h"
 
 namespace vox {
 

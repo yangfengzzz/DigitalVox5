@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "intersection_test.h"
+#include "vox.geometry/intersection_test.h"
 
 #include <cmath>
 
-#include "opttritri.h"
-#include "tribox3.h"
+#include "vox.geometry/opttritri.h"
+#include "vox.geometry/tribox3.h"
 
 namespace vox::geometry {
 

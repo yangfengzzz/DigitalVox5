@@ -14,11 +14,11 @@
 #include <memory>
 #include <vector>
 
-#include "eigen.h"
-#include "kdtree_flann.h"
-#include "key_point.h"
-#include "logging.h"
-#include "point_cloud.h"
+#include "vox.base/eigen.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/kdtree_flann.h"
+#include "vox.geometry/key_point.h"
+#include "vox.geometry/point_cloud.h"
 
 namespace vox {
 
@@ -73,7 +73,8 @@ std::shared_ptr<PointCloud> ComputeISSKeypoints(const PointCloud& input,
     }
 
     std::vector<double> third_eigen_values(points.size());
-#pragma omp parallel for schedule(static) shared(third_eigen_values)
+#pragma omp parallel for schedule(static) shared(third_eigen_values) \
+        shared(points, kdtree, salient_radius, min_neighbors, gamma_21, gamma_32) default(none)
     for (int i = 0; i < (int)points.size(); i++) {
         std::vector<int> indices;
         std::vector<double> dist;
@@ -99,7 +100,8 @@ std::shared_ptr<PointCloud> ComputeISSKeypoints(const PointCloud& input,
 
     std::vector<size_t> kp_indices;
     kp_indices.reserve(points.size());
-#pragma omp parallel for schedule(static) shared(kp_indices)
+#pragma omp parallel for schedule(static) shared(kp_indices) \
+        shared(points, kdtree, min_neighbors, third_eigen_values, non_max_radius) default(none)
     for (int i = 0; i < (int)points.size(); i++) {
         if (third_eigen_values[i] > 0.0) {
             std::vector<int> nn_indices;

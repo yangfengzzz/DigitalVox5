@@ -8,8 +8,8 @@
 
 #include <Eigen/Dense>
 
-#include "bounding_volume.h"
-#include "line_3d.h"
+#include "vox.geometry/bounding_volume.h"
+#include "vox.geometry/line_3d.h"
 
 namespace vox::geometry {
 

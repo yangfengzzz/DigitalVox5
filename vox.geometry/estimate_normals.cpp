@@ -8,12 +8,12 @@
 #include <queue>
 #include <tuple>
 
-#include "eigen.h"
-#include "kdtree_flann.h"
-#include "logging.h"
-#include "point_cloud.h"
-#include "tetra_mesh.h"
-#include "parallel.h"
+#include "vox.base/eigen.h"
+#include "vox.base/logging.h"
+#include "vox.base/parallel.h"
+#include "vox.geometry/kdtree_flann.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.geometry/tetra_mesh.h"
 
 namespace vox {
 
@@ -285,7 +285,8 @@ void PointCloud::EstimateNormals(const KDTreeSearchParam &search_param /* = KDTr
     } else {
         covariances = covariances_;
     }
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) \
+        shared(covariances, fast_normal_computation, has_normal) default(none)
     for (int i = 0; i < (int)covariances.size(); i++) {
         auto normal = ComputeNormal(covariances[i], fast_normal_computation);
         if (normal.norm() == 0.0) {
@@ -307,7 +308,8 @@ void PointCloud::OrientNormalsToAlignWithDirection(const Eigen::Vector3d &orient
     if (!HasNormals()) {
         LOGE("No normals in the PointCloud. Call EstimateNormals() first.")
     }
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) \
+        shared(orientation_reference) default(none)
     for (int i = 0; i < (int)points_.size(); i++) {
         auto &normal = normals_[i];
         if (normal.norm() == 0.0) {
@@ -323,7 +325,8 @@ void PointCloud::OrientNormalsTowardsCameraLocation(
     if (!HasNormals()) {
         LOGE("No normals in the PointCloud. Call EstimateNormals() first.")
     }
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) \
+        shared(camera_location) default(none)
     for (int i = 0; i < (int)points_.size(); i++) {
         Eigen::Vector3d orientation_reference = camera_location - points_[i];
         auto &normal = normals_[i];

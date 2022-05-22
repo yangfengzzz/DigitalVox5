@@ -9,7 +9,7 @@
 #include <Eigen/Core>
 #include <utility>
 
-#include "geometry_3d.h"
+#include "vox.geometry/geometry_3d.h"
 
 namespace vox::geometry {
 

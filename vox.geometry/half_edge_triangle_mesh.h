@@ -9,8 +9,8 @@
 #include <Eigen/Core>
 #include <unordered_map>
 
-#include "geometry_3d.h"
-#include "mesh_base.h"
+#include "vox.geometry/geometry_3d.h"
+#include "vox.geometry/mesh_base.h"
 
 namespace vox::geometry {
 

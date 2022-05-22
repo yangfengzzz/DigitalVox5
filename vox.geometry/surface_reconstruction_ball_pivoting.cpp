@@ -7,11 +7,11 @@
 #include <list>
 #include <utility>
 
-#include "intersection_test.h"
-#include "kdtree_flann.h"
-#include "logging.h"
-#include "point_cloud.h"
-#include "triangle_mesh.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/intersection_test.h"
+#include "vox.geometry/kdtree_flann.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.geometry/triangle_mesh.h"
 
 namespace vox::geometry {
 

@@ -11,9 +11,9 @@
 #include <random>
 #include <unordered_set>
 
-#include "logging.h"
-#include "point_cloud.h"
-#include "triangle_mesh.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.geometry/triangle_mesh.h"
 
 namespace {
 
@@ -181,7 +181,9 @@ std::tuple<Eigen::Vector4d, std::vector<size_t>> PointCloud::SegmentPlane(
     size_t break_iteration = std::numeric_limits<size_t>::max();
     int iteration_count = 0;
 
-#pragma omp parallel for schedule(static)
+#pragma omp parallel for schedule(static) default(none)                                                 \
+        shared(num_iterations, iteration_count, break_iteration, sampler, ransac_n, distance_threshold, \
+               best_plane_model, probability, result)
     for (int itr = 0; itr < num_iterations; itr++) {
         if ((size_t)iteration_count > break_iteration) {
             continue;

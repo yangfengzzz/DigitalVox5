@@ -4,23 +4,22 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "point_cloud.h"
+#include "vox.geometry/point_cloud.h"
 
 #include <algorithm>
 #include <numeric>
 #include <random>
 
-#include "bounding_volume.h"
-#include "eigen.h"
-#include "kdtree_flann.h"
-#include "logging.h"
-#include "qhull.h"
-#include "triangle_mesh.h"
-#include "parallel.h"
-#include "progress_bar.h"
+#include "vox.base/eigen.h"
+#include "vox.base/logging.h"
+#include "vox.base/parallel.h"
+#include "vox.base/progress_bar.h"
+#include "vox.geometry/bounding_volume.h"
+#include "vox.geometry/kdtree_flann.h"
+#include "vox.geometry/qhull.h"
+#include "vox.geometry/triangle_mesh.h"
 
-namespace vox {
-namespace geometry {
+namespace vox::geometry {
 
 PointCloud &PointCloud::Clear() {
     points_.clear();
@@ -106,7 +105,8 @@ std::vector<double> PointCloud::ComputePointCloudDistance(const PointCloud &targ
     std::vector<double> distances(points_.size());
     KDTreeFlann kdtree;
     kdtree.SetGeometry(target);
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) \
+        shared(kdtree, distances) default(none)
     for (int i = 0; i < (int)points_.size(); i++) {
         std::vector<int> indices(1);
         std::vector<double> dists(1);
@@ -193,16 +193,16 @@ public:
         num_of_points_++;
     }
 
-    Eigen::Vector3d GetAveragePoint() const { return point_ / double(num_of_points_); }
+    [[nodiscard]] Eigen::Vector3d GetAveragePoint() const { return point_ / double(num_of_points_); }
 
-    Eigen::Vector3d GetAverageNormal() const {
+    [[nodiscard]] Eigen::Vector3d GetAverageNormal() const {
         // Call NormalizeNormals() afterwards if necessary
         return normal_ / double(num_of_points_);
     }
 
-    Eigen::Vector3d GetAverageColor() const { return color_ / double(num_of_points_); }
+    [[nodiscard]] Eigen::Vector3d GetAverageColor() const { return color_ / double(num_of_points_); }
 
-    Eigen::Matrix3d GetAverageCovariance() const { return covariance_ / double(num_of_points_); }
+    [[nodiscard]] Eigen::Matrix3d GetAverageCovariance() const { return covariance_ / double(num_of_points_); }
 
 public:
     int num_of_points_ = 0;
@@ -252,10 +252,10 @@ public:
     Eigen::Vector3d GetMaxClass() {
         int max_class = -1;
         int max_count = -1;
-        for (auto it = classes.begin(); it != classes.end(); it++) {
-            if (it->second > max_count) {
-                max_count = it->second;
-                max_class = it->first;
+        for (auto &classe : classes) {
+            if (classe.second > max_count) {
+                max_count = classe.second;
+                max_class = classe.first;
             }
         }
         return Eigen::Vector3d(max_class, max_class, max_class);
@@ -293,7 +293,7 @@ std::shared_ptr<PointCloud> PointCloud::VoxelDownSample(double voxel_size) const
     bool has_normals = HasNormals();
     bool has_colors = HasColors();
     bool has_covariances = HasCovariances();
-    for (auto accpoint : voxelindex_to_accpoint) {
+    for (const auto &accpoint : voxelindex_to_accpoint) {
         output->points_.push_back(accpoint.second.GetAveragePoint());
         if (has_normals) {
             output->normals_.push_back(accpoint.second.GetAverageNormal());
@@ -321,8 +321,8 @@ PointCloud::VoxelDownSampleAndTrace(double voxel_size,
     }
     // Note: this is different from VoxelDownSample.
     // It is for fixing coordinate for multiscale voxel space
-    auto voxel_min_bound = min_bound;
-    auto voxel_max_bound = max_bound;
+    const auto &voxel_min_bound = min_bound;
+    const auto &voxel_max_bound = max_bound;
     if (voxel_size * std::numeric_limits<int>::max() < (voxel_max_bound - voxel_min_bound).maxCoeff()) {
         LOGE("voxel_size is too small.")
     }
@@ -364,9 +364,9 @@ PointCloud::VoxelDownSampleAndTrace(double voxel_size,
             output->covariances_.emplace_back(accpoint.second.GetAverageCovariance());
         }
         auto original_id = accpoint.second.GetOriginalID();
-        for (int i = 0; i < (int)original_id.size(); i++) {
-            size_t pid = original_id[i].point_id;
-            int cid = original_id[i].cubic_id;
+        for (auto &i : original_id) {
+            size_t pid = i.point_id;
+            int cid = i.cubic_id;
             cubic_id(cnt, cid) = int(pid);
             original_indices[cnt].push_back(int(pid));
         }
@@ -457,7 +457,8 @@ std::tuple<std::shared_ptr<PointCloud>, std::vector<size_t>> PointCloud::RemoveR
     kdtree.SetGeometry(*this);
     std::vector<bool> mask = std::vector<bool>(points_.size());
     utility::OMPProgressBar progress_bar(points_.size(), "Remove radius outliers: ", print_progress);
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) default(none) \
+        shared(kdtree, search_radius, mask, progress_bar, nb_points)
     for (int i = 0; i < int(points_.size()); i++) {
         std::vector<int> tmp_indices;
         std::vector<double> dist;
@@ -480,7 +481,7 @@ std::tuple<std::shared_ptr<PointCloud>, std::vector<size_t>> PointCloud::RemoveS
         LOGE("Illegal input parameters, the number of neighbors and "
              "standard deviation ratio must be positive.")
     }
-    if (points_.size() == 0) {
+    if (points_.empty()) {
         return std::make_tuple(std::make_shared<PointCloud>(), std::vector<size_t>());
     }
     KDTreeFlann kdtree;
@@ -490,13 +491,13 @@ std::tuple<std::shared_ptr<PointCloud>, std::vector<size_t>> PointCloud::RemoveS
     size_t valid_distances = 0;
     utility::OMPProgressBar progress_bar(points_.size(), "Remove statistical outliers: ", print_progress);
 
-#pragma omp parallel for reduction(+ : valid_distances) schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for reduction(+ : valid_distances) schedule(static) num_threads(utility::EstimateMaxThreads()) default(none) shared(kdtree, nb_neighbors, avg_distances, progress_bar)
     for (int i = 0; i < int(points_.size()); i++) {
         std::vector<int> tmp_indices;
         std::vector<double> dist;
         kdtree.SearchKNN(points_[i], int(nb_neighbors), tmp_indices, dist);
         double mean = -1.0;
-        if (dist.size() > 0u) {
+        if (!dist.empty()) {
             valid_distances++;
             std::for_each(dist.begin(), dist.end(), [](double &d) { d = std::sqrt(d); });
             mean = std::accumulate(dist.begin(), dist.end(), 0.0) / dist.size();
@@ -533,7 +534,7 @@ std::vector<Eigen::Matrix3d> PointCloud::EstimatePerPointCovariances(
 
     KDTreeFlann kdtree;
     kdtree.SetGeometry(input);
-#pragma omp parallel for schedule(static)
+#pragma omp parallel for schedule(static) default(none) shared(kdtree, points, search_param, input, covariances)
     for (int i = 0; i < (int)points.size(); i++) {
         std::vector<int> indices;
         std::vector<double> distance2;
@@ -569,7 +570,8 @@ std::vector<double> PointCloud::ComputeMahalanobisDistance() const {
     Eigen::Matrix3d covariance;
     std::tie(mean, covariance) = ComputeMeanAndCovariance();
     Eigen::Matrix3d cov_inv = covariance.inverse();
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) default(none) \
+        shared(mahalanobis, mean, cov_inv)
     for (int i = 0; i < (int)points_.size(); i++) {
         Eigen::Vector3d p = points_[i] - mean;
         mahalanobis[i] = std::sqrt(p.transpose() * cov_inv * p);
@@ -584,7 +586,8 @@ std::vector<double> PointCloud::ComputeNearestNeighborDistance() const {
 
     std::vector<double> nn_dis(points_.size());
     KDTreeFlann kdtree(*this);
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) default(none) \
+        shared(kdtree, nn_dis)
     for (int i = 0; i < (int)points_.size(); i++) {
         std::vector<int> indices(2);
         std::vector<double> dists(2);
@@ -611,15 +614,15 @@ std::tuple<std::shared_ptr<TriangleMesh>, std::vector<size_t>> PointCloud::Hidde
 
     // perform spherical projection
     std::vector<Eigen::Vector3d> spherical_projection;
-    for (size_t pidx = 0; pidx < points_.size(); ++pidx) {
-        Eigen::Vector3d projected_point = points_[pidx] - camera_location;
+    for (const auto &point : points_) {
+        Eigen::Vector3d projected_point = point - camera_location;
         double norm = projected_point.norm();
-        spherical_projection.push_back(projected_point + 2 * (radius - norm) * projected_point / norm);
+        spherical_projection.emplace_back(projected_point + 2 * (radius - norm) * projected_point / norm);
     }
 
     // add origin
     size_t origin_pidx = spherical_projection.size();
-    spherical_projection.push_back(Eigen::Vector3d(0, 0, 0));
+    spherical_projection.emplace_back(0, 0, 0);
 
     // calculate convex hull of spherical projection
     std::shared_ptr<TriangleMesh> visible_mesh;
@@ -657,5 +660,4 @@ std::tuple<std::shared_ptr<TriangleMesh>, std::vector<size_t>> PointCloud::Hidde
     return std::make_tuple(visible_mesh, pt_map);
 }
 
-}  // namespace geometry
-}  // namespace vox
+}  // namespace vox::geometry

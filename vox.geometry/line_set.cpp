@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "line_set.h"
+#include "vox.geometry/line_set.h"
 
 #include <numeric>
 
-#include "bounding_volume.h"
+#include "vox.geometry/bounding_volume.h"
 
 namespace vox::geometry {
 

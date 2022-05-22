@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-//#include "open3d/camera/PinholeCameraIntrinsic.h"
-#include "image.h"
+//#include "vox.geometry/open3d/camera/PinholeCameraIntrinsic.h"
+#include "vox.geometry/image.h"
 
 namespace vox::geometry {
 

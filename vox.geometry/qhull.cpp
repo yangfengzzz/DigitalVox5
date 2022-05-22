@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "qhull.h"
+#include "vox.geometry/qhull.h"
 
 #include <libqhullcpp/PointCoordinates.h>
 #include <libqhullcpp/Qhull.h>
@@ -12,9 +12,9 @@
 #include <libqhullcpp/QhullFacetList.h>
 #include <libqhullcpp/QhullVertexSet.h>
 
-#include "logging.h"
-#include "tetra_mesh.h"
-#include "triangle_mesh.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/tetra_mesh.h"
+#include "vox.geometry/triangle_mesh.h"
 
 namespace vox::geometry {
 

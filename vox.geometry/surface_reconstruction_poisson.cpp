@@ -5,9 +5,9 @@
 //  property of any third parties.
 #include <utility>
 
-#include "logging.h"
-#include "point_cloud.h"
-#include "triangle_mesh.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.geometry/triangle_mesh.h"
 
 // clang-format off
 #ifdef _MSC_VER

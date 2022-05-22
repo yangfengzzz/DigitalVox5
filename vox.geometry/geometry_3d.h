@@ -10,8 +10,8 @@
 #include <Eigen/Geometry>
 #include <vector>
 
-#include "eigen.h"
-#include "geometry.h"
+#include "vox.base/eigen.h"
+#include "vox.geometry/geometry.h"
 
 namespace vox::geometry {
 

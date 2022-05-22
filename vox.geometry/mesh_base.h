@@ -14,8 +14,8 @@
 #include <utility>
 #include <vector>
 
-#include "geometry_3d.h"
-#include "helper.h"
+#include "vox.base/helper.h"
+#include "vox.geometry/geometry_3d.h"
 
 namespace vox::geometry {
 

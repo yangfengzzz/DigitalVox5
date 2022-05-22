@@ -11,8 +11,8 @@
 #include <utility>
 #include <vector>
 
-#include "geometry_3d.h"
-#include "ijson_convertible.h"
+#include "vox.base/ijson_convertible.h"
+#include "vox.geometry/geometry_3d.h"
 
 namespace vox::geometry {
 

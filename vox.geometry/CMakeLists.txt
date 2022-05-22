@@ -9,12 +9,12 @@ add_library(${PROJECT_NAME} STATIC ${sources})
 
 # OpenMP
 find_package(OpenMP)
-if(OpenMP_CXX_FOUND)
+if (OpenMP_CXX_FOUND)
     target_link_libraries(${PROJECT_NAME} PUBLIC OpenMP::OpenMP_CXX ${OpenCV_LIBS})
-endif()
+endif ()
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-        ../vox.base
+        ../
         ../third_party
         ../third_party/eigen
         ../third_party/json_cpp/include

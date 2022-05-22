@@ -4,20 +4,20 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "triangle_mesh.h"
+#include "vox.geometry/triangle_mesh.h"
 
 #include <numeric>
 #include <queue>
 #include <random>
 #include <tuple>
 
-#include "bounding_volume.h"
-#include "intersection_test.h"
-#include "kdtree_flann.h"
-#include "logging.h"
-#include "point_cloud.h"
-#include "qhull.h"
-#include "parallel.h"
+#include "vox.base/logging.h"
+#include "vox.base/parallel.h"
+#include "vox.geometry/bounding_volume.h"
+#include "vox.geometry/intersection_test.h"
+#include "vox.geometry/kdtree_flann.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.geometry/qhull.h"
 
 namespace vox::geometry {
 
@@ -830,7 +830,8 @@ TriangleMesh &TriangleMesh::MergeCloseVertices(double eps) {
     // precompute all neighbours
     LOGD("Precompute Neighbours")
     std::vector<std::vector<int>> nbs(vertices_.size());
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) default(none) \
+        shared(kdtree, eps, nbs)
     for (int idx = 0; idx < int(vertices_.size()); ++idx) {
         std::vector<double> dists2;
         kdtree.SearchRadius(vertices_[idx], eps, nbs[idx], dists2);
@@ -1104,7 +1105,7 @@ double TriangleMesh::GetVolume() const {
 
     double volume = 0;
     int64_t num_triangles = triangles_.size();
-#pragma omp parallel for reduction(+ : volume) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for reduction(+ : volume) num_threads(utility::EstimateMaxThreads()) default(none) shared(num_triangles, GetSignedVolumeOfTriangle)
     for (int64_t tidx = 0; tidx < num_triangles; ++tidx) {
         volume += GetSignedVolumeOfTriangle(tidx);
     }
@@ -1301,7 +1302,8 @@ std::tuple<std::vector<int>, std::vector<size_t>, std::vector<double>> TriangleM
     LOGD("[ClusterConnectedTriangles] Compute triangle adjacency")
     auto edges_to_triangles = GetEdgeToTrianglesMap();
     std::vector<std::unordered_set<int>> adjacency_list(triangles_.size());
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) default(none) \
+        shared(edges_to_triangles, adjacency_list)
     for (int tidx = 0; tidx < int(triangles_.size()); ++tidx) {
         const auto &triangle = triangles_[tidx];
         for (auto tnb : edges_to_triangles[GetOrderedEdge(triangle(0), triangle(1))]) {

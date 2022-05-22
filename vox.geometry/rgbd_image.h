@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "geometry_2d.h"
-#include "image.h"
+#include "vox.geometry/geometry_2d.h"
+#include "vox.geometry/image.h"
 
 namespace vox::geometry {
 

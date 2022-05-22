@@ -7,12 +7,12 @@
 #include <Eigen/Dense>
 #include <limits>
 
-//#include "open3d/camera/PinholeCameraIntrinsic.h"
-#include "image.h"
-#include "point_cloud.h"
-//#include "../../arc.geometry//RGBDImage.h"
-#include "logging.h"
-#include "voxel_grid.h"
+//#include "vox.geometry/open3d/camera/PinholeCameraIntrinsic.h"
+#include "vox.geometry/image.h"
+#include "vox.geometry/point_cloud.h"
+//#include "vox.geometry/../../arc.geometry//RGBDImage.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/voxel_grid.h"
 
 namespace vox {
 

@@ -8,7 +8,7 @@
 
 #include <Eigen/Core>
 
-#include "geometry.h"
+#include "vox.geometry/geometry.h"
 
 namespace vox::geometry {
 

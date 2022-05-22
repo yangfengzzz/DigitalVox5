@@ -4,17 +4,17 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "voxel_grid.h"
+#include "vox.geometry/voxel_grid.h"
 
 #include <numeric>
 #include <unordered_map>
 
-//#include "open3d/camera/PinholeCameraParameters.h"
-#include "bounding_volume.h"
-#include "helper.h"
-#include "image.h"
-#include "logging.h"
-#include "octree.h"
+//#include "vox.geometry/open3d/camera/PinholeCameraParameters.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/bounding_volume.h"
+#include "vox.geometry/image.h"
+#include "vox.geometry/octree.h"
 
 namespace vox::geometry {
 

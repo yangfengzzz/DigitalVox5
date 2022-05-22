@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "rgbd_image.h"
+#include "vox.geometry/rgbd_image.h"
 
 namespace vox::geometry {
 

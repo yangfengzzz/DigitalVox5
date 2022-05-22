@@ -4,17 +4,17 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "octree.h"
+#include "vox.geometry/octree.h"
 
 #include <json/json.h>
 
 #include <algorithm>
 #include <unordered_map>
 
-#include "bounding_volume.h"
-#include "logging.h"
-#include "point_cloud.h"
-#include "voxel_grid.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/bounding_volume.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.geometry/voxel_grid.h"
 
 namespace vox::geometry {
 

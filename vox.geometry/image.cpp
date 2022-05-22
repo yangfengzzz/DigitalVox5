@@ -4,18 +4,18 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "image.h"
+#include "vox.geometry/image.h"
 
-#include "parallel.h"
+#include "vox.base/parallel.h"
 
 namespace {
 /// Isotropic 2D kernels are separable:
 /// two 1D kernels are applied in x and y direction.
-const std::vector<double> Gaussian3 = {0.25, 0.5, 0.25};
-const std::vector<double> Gaussian5 = {0.0625, 0.25, 0.375, 0.25, 0.0625};
-const std::vector<double> Gaussian7 = {0.03125, 0.109375, 0.21875, 0.28125, 0.21875, 0.109375, 0.03125};
-const std::vector<double> Sobel31 = {-1.0, 0.0, 1.0};
-const std::vector<double> Sobel32 = {1.0, 2.0, 1.0};
+const std::vector<double> kGaussian3 = {0.25, 0.5, 0.25};
+const std::vector<double> kGaussian5 = {0.0625, 0.25, 0.375, 0.25, 0.0625};
+const std::vector<double> kGaussian7 = {0.03125, 0.109375, 0.21875, 0.28125, 0.21875, 0.109375, 0.03125};
+const std::vector<double> kSobel31 = {-1.0, 0.0, 1.0};
+const std::vector<double> kSobel32 = {1.0, 2.0, 1.0};
 }  // unnamed namespace
 
 namespace vox::geometry {
@@ -128,7 +128,8 @@ std::shared_ptr<Image> Image::Downsample() const {
 #ifdef _WIN32
 #pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
 #else
-#pragma omp parallel for collapse(2) schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for collapse(2) schedule(static) num_threads(utility::EstimateMaxThreads()) \
+        shared(output) default(none)
 #endif
     for (int y = 0; y < output->height_; y++) {
         for (int x = 0; x < output->width_; x++) {
@@ -151,23 +152,24 @@ std::shared_ptr<Image> Image::FilterHorizontal(const std::vector<double> &kernel
     }
     output->Prepare(width_, height_, 1, 4);
 
-    const int half_kernel_size = (int)(floor((double)kernel.size() / 2.0));
+    const int kHalfKernelSize = (int)(floor((double)kernel.size() / 2.0));
 
 #ifdef _WIN32
 #pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
 #else
-#pragma omp parallel for collapse(2) schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for collapse(2) schedule(static) num_threads(utility::EstimateMaxThreads()) \
+        shared(output, kHalfKernelSize, kernel) default(none)
 #endif
     for (int y = 0; y < height_; y++) {
         for (int x = 0; x < width_; x++) {
             auto *po = output->PointerAt<float>(x, y, 0);
             double temp = 0;
-            for (int i = -half_kernel_size; i <= half_kernel_size; i++) {
+            for (int i = -kHalfKernelSize; i <= kHalfKernelSize; i++) {
                 int x_shift = x + i;
                 if (x_shift < 0) x_shift = 0;
                 if (x_shift > width_ - 1) x_shift = width_ - 1;
                 auto *pi = PointerAt<float>(x_shift, y, 0);
-                temp += (*pi * (float)kernel[i + half_kernel_size]);
+                temp += (*pi * (float)kernel[i + kHalfKernelSize]);
             }
             *po = (float)temp;
         }
@@ -183,19 +185,19 @@ std::shared_ptr<Image> Image::Filter(Image::FilterType type) const {
 
     switch (type) {
         case Image::FilterType::Gaussian3:
-            output = Filter(Gaussian3, Gaussian3);
+            output = Filter(kGaussian3, kGaussian3);
             break;
         case Image::FilterType::Gaussian5:
-            output = Filter(Gaussian5, Gaussian5);
+            output = Filter(kGaussian5, kGaussian5);
             break;
         case Image::FilterType::Gaussian7:
-            output = Filter(Gaussian7, Gaussian7);
+            output = Filter(kGaussian7, kGaussian7);
             break;
         case Image::FilterType::Sobel3Dx:
-            output = Filter(Sobel31, Sobel32);
+            output = Filter(kSobel31, kSobel32);
             break;
         case Image::FilterType::Sobel3Dy:
-            output = Filter(Sobel32, Sobel31);
+            output = Filter(kSobel32, kSobel31);
             break;
         default:
             LOGE("Unsupported filter type.")
@@ -237,7 +239,8 @@ std::shared_ptr<Image> Image::Transpose() const {
 #ifdef _WIN32
 #pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
 #else
-#pragma omp parallel for collapse(2) schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for collapse(2) schedule(static) num_threads(utility::EstimateMaxThreads()) \
+        shared(output, in_bytes_per_line, bytes_per_pixel, out_bytes_per_line) default(none)
 #endif
     for (int y = 0; y < height_; y++) {
         for (int x = 0; x < width_; x++) {
@@ -255,7 +258,8 @@ std::shared_ptr<Image> Image::FlipVertical() const {
     output->Prepare(width_, height_, num_of_channels_, bytes_per_channel_);
 
     int bytes_per_line = BytesPerLine();
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) \
+        shared(output, bytes_per_line) default(none)
     for (int y = 0; y < height_; y++) {
         std::copy(data_.data() + y * bytes_per_line, data_.data() + (y + 1) * bytes_per_line,
                   output->data_.data() + (height_ - y - 1) * bytes_per_line);
@@ -272,7 +276,8 @@ std::shared_ptr<Image> Image::FlipHorizontal() const {
 #ifdef _WIN32
 #pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
 #else
-#pragma omp parallel for collapse(2) schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for collapse(2) schedule(static) num_threads(utility::EstimateMaxThreads()) \
+        shared(output, bytes_per_line, bytes_per_pixel) default(none)
 #endif
     for (int y = 0; y < height_; y++) {
         for (int x = 0; x < width_; x++) {
@@ -295,7 +300,8 @@ std::shared_ptr<Image> Image::Dilate(int half_kernel_size /* = 1 */) const {
 #ifdef _WIN32
 #pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
 #else
-#pragma omp parallel for collapse(2) schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for collapse(2) schedule(static) num_threads(utility::EstimateMaxThreads()) \
+        shared(output, half_kernel_size) default(none)
 #endif
     for (int y = 0; y < height_; y++) {
         for (int x = 0; x < width_; x++) {
@@ -330,7 +336,9 @@ std::shared_ptr<Image> Image::CreateDepthBoundaryMask(double depth_threshold_for
 #ifdef _WIN32
 #pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
 #else
-#pragma omp parallel for collapse(2) schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for collapse(2) schedule(static) num_threads(utility::EstimateMaxThreads()) \
+        shared(height, width, depth_image_gradient_dx, depth_image_gradient_dy,                  \
+               depth_threshold_for_discontinuity_check, mask) default(none)
 #endif
     for (int v = 0; v < height; v++) {
         for (int u = 0; u < width; u++) {

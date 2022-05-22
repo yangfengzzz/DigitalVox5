@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "line_3d.h"
+#include "vox.geometry/line_3d.h"
 
 #include <cmath>
 
@@ -165,11 +165,11 @@ std::pair<double, double> Line3D::ClosestParameters(const Line3D& other) const {
      *   * The line-line solution is valid for segments when the parameters it
      *     produces are valid on both segments
      *
-     *   * If just one of the closest points between lines is outside of its
+     *   * If just one of the closest points between lines is outside its
      *     segment, the point can be clamped to the segment and the result will
      *     be valid
      *
-     *   * If both points are outside of their respective segments, the clamping
+     *   * If both points are outside their respective segments, the clamping
      *     procedure ust be repeated twice. First, one of the points is clamped
      *     to its segment. Then it is projected onto the second segment, which
      *     may return an out-of-bound value as well. If it does, it must be
@@ -179,7 +179,7 @@ std::pair<double, double> Line3D::ClosestParameters(const Line3D& other) const {
      *
      * Lines and rays in this case can be seen as a special case of a segment
      * in which the validity of parameters are unbounded in one or more
-     * directions. Thus the same algorithm will account for lines and rays as
+     * directions. Thus, the same algorithm will account for lines and rays as
      * well as segments.
      *
      * The last edge case is the case of parallel lines. In such a case an
@@ -228,7 +228,7 @@ std::pair<double, double> Line3D::ClosestParameters(const Line3D& other) const {
 
     /* To avoid an edge case when two segments are parallel and disjoint and
      * the origin of the first segment is further from `other` than its
-     * endpoint, we cannot take advantage of a single valid parameter. Instead
+     * endpoint, we cannot take advantage of a single valid parameter. Instead,
      * we must clamp, project to the other line, clamp, and project back to
      * this line.
      *

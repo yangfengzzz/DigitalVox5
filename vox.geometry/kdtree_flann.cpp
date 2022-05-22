@@ -9,14 +9,14 @@
 #pragma warning(disable : 4267)
 #endif
 
-#include "kdtree_flann.h"
+#include "vox.geometry/kdtree_flann.h"
 
 #include <memory>
 #include <nanoflann.hpp>
 
-#include "logging.h"
-#include "point_cloud.h"
-#include "triangle_mesh.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.geometry/triangle_mesh.h"
 
 namespace vox::geometry {
 
@@ -75,7 +75,6 @@ int KDTreeFlann::Search(const T &query,
         default:
             return -1;
     }
-    return -1;
 }
 
 template <typename T>

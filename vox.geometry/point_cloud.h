@@ -12,8 +12,8 @@
 #include <tuple>
 #include <vector>
 
-#include "geometry_3d.h"
-#include "kdtree_search_param.h"
+#include "vox.geometry/geometry_3d.h"
+#include "vox.geometry/kdtree_search_param.h"
 
 namespace vox {
 

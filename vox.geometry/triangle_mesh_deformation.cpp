@@ -8,9 +8,9 @@
 #include <Eigen/Sparse>
 #include <algorithm>
 
-#include "logging.h"
-#include "triangle_mesh.h"
-#include "parallel.h"
+#include "vox.base/logging.h"
+#include "vox.base/parallel.h"
+#include "vox.geometry/triangle_mesh.h"
 
 namespace vox::geometry {
 
@@ -84,7 +84,8 @@ std::shared_ptr<TriangleMesh> TriangleMesh::DeformAsRigidAsPossible(
             std::swap(Rs, Rs_old);
         }
 
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) default(none) \
+        shared(edge_weights, Rs_old, Rs, iter, smoothed_alpha, surface_area, prime, energy_model)
         for (int i = 0; i < int(vertices_.size()); ++i) {
             // Update rotations
             Eigen::Matrix3d S = Eigen::Matrix3d::Zero();
@@ -116,7 +117,8 @@ std::shared_ptr<TriangleMesh> TriangleMesh::DeformAsRigidAsPossible(
             }
         }
 
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) default(none) \
+        shared(constraints, prime, edge_weights, Rs, b)
         for (int i = 0; i < int(vertices_.size()); ++i) {
             // Update Positions
             Eigen::Vector3d bi(0, 0, 0);
@@ -132,7 +134,8 @@ std::shared_ptr<TriangleMesh> TriangleMesh::DeformAsRigidAsPossible(
             b[1](i) = bi(1);
             b[2](i) = bi(2);
         }
-#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads())
+#pragma omp parallel for schedule(static) num_threads(utility::EstimateMaxThreads()) default(none) \
+        shared(solver, prime, b)
         for (int comp = 0; comp < 3; ++comp) {
             Eigen::VectorXd p_prime = solver.solve(b[comp]);
             if (solver.info() != Eigen::Success) {

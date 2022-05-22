@@ -4,17 +4,17 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "tetra_mesh.h"
+#include "vox.geometry/tetra_mesh.h"
 
 #include <Eigen/Dense>
 #include <array>
 #include <numeric>
 #include <tuple>
 
-#include "bounding_volume.h"
-#include "logging.h"
-#include "point_cloud.h"
-#include "triangle_mesh.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/bounding_volume.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.geometry/triangle_mesh.h"
 
 namespace vox::geometry {
 

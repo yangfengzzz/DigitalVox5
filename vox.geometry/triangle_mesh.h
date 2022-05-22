@@ -15,9 +15,9 @@
 #include <utility>
 #include <vector>
 
-#include "helper.h"
-#include "image.h"
-#include "mesh_base.h"
+#include "vox.base/helper.h"
+#include "vox.geometry/image.h"
+#include "vox.geometry/mesh_base.h"
 
 namespace vox::geometry {
 

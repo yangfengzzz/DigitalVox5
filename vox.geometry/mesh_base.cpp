@@ -4,17 +4,17 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "mesh_base.h"
+#include "vox.geometry/mesh_base.h"
 
 #include <numeric>
 #include <queue>
 #include <tuple>
 
-#include "bounding_volume.h"
-#include "kdtree_flann.h"
-#include "point_cloud.h"
-#include "qhull.h"
-#include "triangle_mesh.h"
+#include "vox.geometry/bounding_volume.h"
+#include "vox.geometry/kdtree_flann.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.geometry/qhull.h"
+#include "vox.geometry/triangle_mesh.h"
 
 namespace vox::geometry {
 

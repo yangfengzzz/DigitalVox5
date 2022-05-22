@@ -7,12 +7,12 @@
 #include <numeric>
 #include <unordered_map>
 
-#include "helper.h"
-#include "intersection_test.h"
-#include "logging.h"
-#include "point_cloud.h"
-#include "triangle_mesh.h"
-#include "voxel_grid.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/intersection_test.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.geometry/triangle_mesh.h"
+#include "vox.geometry/voxel_grid.h"
 
 namespace vox::geometry {
 

@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "half_edge_triangle_mesh.h"
+#include "vox.geometry/half_edge_triangle_mesh.h"
 
 #include <numeric>
 #include <utility>
 
-#include "helper.h"
-#include "logging.h"
-#include "triangle_mesh.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
+#include "vox.geometry/triangle_mesh.h"
 
 namespace vox::geometry {
 

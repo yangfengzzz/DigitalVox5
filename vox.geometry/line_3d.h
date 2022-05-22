@@ -11,8 +11,8 @@
 #include <limits>
 #include <optional>
 
-#include "bounding_volume.h"
-#include "geometry.h"
+#include "vox.geometry/bounding_volume.h"
+#include "vox.geometry/geometry.h"
 
 namespace vox::geometry {
 
