@@ -4,9 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "progress_bar.h"
-#include <iostream>
+#include "vox.base/progress_bar.h"
+
 #include <spdlog/fmt/fmt.h>
+
+#include <iostream>
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -45,7 +47,8 @@ void ProgressBar::SetCurrentCount(size_t n) {
             progress_pixel_ = new_progress_pixel;
             int percent = int(current_count_ * 100 / expected_count_);
             std::cout << fmt::format("{}[{}>{}] {:d}%\r", progress_info_, std::string(progress_pixel_, '='),
-                                    std::string(resolution_ - 1 - progress_pixel_, ' '), percent) << std::endl;
+                                     std::string(resolution_ - 1 - progress_pixel_, ' '), percent)
+                      << std::endl;
         }
     }
 }

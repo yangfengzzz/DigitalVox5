@@ -10,7 +10,7 @@
 #include <string>
 #include <utility>
 
-#include "progress_bar.h"
+#include "vox.base/progress_bar.h"
 
 namespace vox::utility {
 
@@ -56,16 +56,16 @@ struct ConsoleProgressUpdater {
     explicit ConsoleProgressUpdater(const std::string &progress_info, bool active = false)
         : progress_bar_(100, progress_info, active) {}
     bool operator()(double pct) {
-        while (last_pct_ < pct) {
-            ++last_pct_;
-            ++progress_bar_;
+        while (last_pct < pct) {
+            ++last_pct;
+            ++progress_bar;
         }
         return true;
     }
 
 private:
-    utility::ProgressBar progress_bar_;
-    int last_pct_ = 0;
+    utility::ProgressBar progress_bar{};
+    int last_pct = 0;
 };
 
 }  // namespace vox::utility

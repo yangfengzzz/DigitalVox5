@@ -14,4 +14,4 @@ int EstimateMaxThreads();
 /// Returns true if in an parallel section.
 bool InParallel();
 
-}  // namespace vox
+}  // namespace vox::utility

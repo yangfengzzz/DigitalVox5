@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "eigen.h"
+#include "vox.base/eigen.h"
 
 #include <Eigen/Geometry>
 #include <Eigen/Sparse>
 
-#include "logging.h"
+#include "vox.base/logging.h"
 
 namespace vox::utility {
 

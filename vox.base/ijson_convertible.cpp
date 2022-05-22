@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "ijson_convertible.h"
+#include "vox.base/ijson_convertible.h"
 
 #include <json/json.h>
 
 #include <string>
 
-#include "logging.h"
+#include "vox.base/logging.h"
 
 namespace vox::utility {
 
@@ -18,8 +18,8 @@ Json::Value StringToJson(const std::string &json_str) {
     Json::Value json;
     std::string err;
     Json::CharReaderBuilder builder;
-    const std::unique_ptr<Json::CharReader> reader(builder.newCharReader());
-    if (!reader->parse(json_str.c_str(), json_str.c_str() + json_str.length(), &json, &err)) {
+    const std::unique_ptr<Json::CharReader> kReader(builder.newCharReader());
+    if (!kReader->parse(json_str.c_str(), json_str.c_str() + json_str.length(), &json, &err)) {
         LOGE("Failed to parse string to json, error: {}", err)
     }
     return json;

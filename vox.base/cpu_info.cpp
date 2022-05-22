@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "cpu_info.h"
+#include "vox.base/cpu_info.h"
 
 #include <memory>
 #include <thread>
@@ -17,7 +17,7 @@
 #include <Windows.h>
 #endif
 
-#include "logging.h"
+#include "vox.base/logging.h"
 
 namespace vox::utility {
 

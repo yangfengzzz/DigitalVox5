@@ -6,8 +6,7 @@
 
 #pragma once
 
-namespace vox {
-namespace utility {
+namespace vox::utility {
 
 /// Generic functor for overloading (lambda) functions.
 /// See Overload(...) function on how to use it.
@@ -55,5 +54,4 @@ Overloaded<Ts...> Overload(Ts... ts) {
     return Overloaded<Ts...>(ts...);
 }
 
-}  // namespace utility
-}  // namespace vox
+}  // namespace vox::utility

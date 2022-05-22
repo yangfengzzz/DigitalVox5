@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "download.h"
+#include "vox.base/download.h"
 
 // clang-format off
 // Must include openssl before curl to build on Windows.
@@ -30,9 +30,9 @@
 #include <sstream>
 #include <string>
 
-#include "dataset.h"
-#include "file_system.h"
-#include "logging.h"
+#include "vox.base/dataset.h"
+#include "vox.base/file_system.h"
+#include "vox.base/logging.h"
 
 namespace vox::utility {
 
@@ -48,15 +48,15 @@ std::string GetMD5(const std::string& file_path) {
         LOGE("Cannot open {}", file_path)
     }
 
-    constexpr const std::size_t buffer_size{1 << 12};  // 4 KiB
-    char buffer[buffer_size];
+    constexpr const std::size_t kBufferSize{1 << 12};  // 4 KiB
+    char buffer[kBufferSize];
     unsigned char hash[MD5_DIGEST_LENGTH] = {0};
 
     MD5_CTX ctx;
     MD5_Init(&ctx);
 
     while (fp.good()) {
-        fp.read(buffer, buffer_size);
+        fp.read(buffer, kBufferSize);
         MD5_Update(&ctx, buffer, fp.gcount());
     }
 
@@ -96,18 +96,18 @@ std::string DownloadFromURL(const std::string& url,
     }
 
     // Resolve path.
-    const std::string resolved_data_root = data_root.empty() ? data::LocateDataRoot() : data_root;
-    const std::string file_dir = resolved_data_root + "/" + prefix;
-    const std::string file_name = utility::filesystem::GetFileNameWithoutDirectory(url);
-    const std::string file_path = file_dir + "/" + file_name;
-    if (!utility::filesystem::DirectoryExists(file_dir)) {
-        utility::filesystem::MakeDirectoryHierarchy(file_dir);
+    const std::string kResolvedDataRoot = data_root.empty() ? data::LocateDataRoot() : data_root;
+    const std::string kFileDir = kResolvedDataRoot + "/" + prefix;
+    const std::string kFileName = utility::filesystem::GetFileNameWithoutDirectory(url);
+    const std::string kFilePath = kFileDir + "/" + kFileName;
+    if (!utility::filesystem::DirectoryExists(kFileDir)) {
+        utility::filesystem::MakeDirectoryHierarchy(kFileDir);
     }
 
     // Check if the file exists.
-    if (utility::filesystem::FileExists(file_path) && GetMD5(file_path) == md5) {
-        LOGI("{} exists and md5 matches. Skipped downloading.", file_path)
-        return file_path;
+    if (utility::filesystem::FileExists(kFilePath) && GetMD5(kFilePath) == md5) {
+        LOGI("{} exists and md5 matches. Skipped downloading.", kFilePath)
+        return kFilePath;
     }
 
     // Download.
@@ -118,9 +118,9 @@ std::string DownloadFromURL(const std::string& url,
     if (!curl) {
         LOGE("Failed to initialize CURL.")
     }
-    fp = fopen(file_path.c_str(), "wb");
+    fp = fopen(kFilePath.c_str(), "wb");
     if (!fp) {
-        LOGE("Failed to open file {}.", file_path)
+        LOGE("Failed to open file {}.", kFilePath)
     }
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);  // -L redirection.
@@ -133,17 +133,17 @@ std::string DownloadFromURL(const std::string& url,
     fclose(fp);
 
     if (res == CURLE_OK) {
-        const std::string actual_md5 = GetMD5(file_path);
-        if (actual_md5 == md5) {
-            LOGI("Downloaded to {}", file_path)
+        const std::string kActualMd5 = GetMD5(kFilePath);
+        if (kActualMd5 == md5) {
+            LOGI("Downloaded to {}", kFilePath)
         } else {
-            LOGE("MD5 mismatch for {}.\n- Expected: {}\n- Actual  : {}", file_path, md5, actual_md5)
+            LOGE("MD5 mismatch for {}.\n- Expected: {}\n- Actual  : {}", kFilePath, md5, kActualMd5)
         }
     } else {
         LOGE("Download failed with error code: {}.", curl_easy_strerror(res))
     }
 
-    return file_path;
+    return kFilePath;
 }
 
 std::string DownloadFromURL(const std::vector<std::string>& mirror_urls,

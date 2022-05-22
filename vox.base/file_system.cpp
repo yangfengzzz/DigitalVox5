@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "file_system.h"
+#include "vox.base/file_system.h"
 
 #include <fcntl.h>
 
@@ -38,7 +38,7 @@
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
 
-#include "logging.h"
+#include "vox.base/logging.h"
 
 namespace vox::utility::filesystem {
 

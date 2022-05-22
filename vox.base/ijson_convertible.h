@@ -8,7 +8,7 @@
 
 #include <Eigen/Core>
 
-#include "eigen.h"
+#include "vox.base/eigen.h"
 
 /// @cond
 namespace Json {

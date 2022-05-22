@@ -4,18 +4,18 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "extract_zip.h"
+#include "vox.base/extract_zip.h"
 
 // Reference:
 // https://github.com/madler/zlib/blob/master/contrib/minizip/miniunz.c
 
 #include <minizip/unzip.h>
-#include <cstdio>
 
+#include <cstdio>
 #include <string>
 
-#include "file_system.h"
-#include "logging.h"
+#include "vox.base/file_system.h"
+#include "vox.base/logging.h"
 
 #ifdef __APPLE__
 // In darwin and perhaps other BSD variants off_t is a 64 bit value, hence no
@@ -64,9 +64,9 @@ static int ExtractCurrentFile(unzFile uf, const std::string &extract_dir, const 
     }
 
     if ((*filename_withoutpath) == '\0') {
-        const std::string dir_path = extract_dir + "/" + filename_inzip;
-        LOGD("Creating directory: {}", dir_path)
-        utility::filesystem::MakeDirectoryHierarchy(dir_path);
+        const std::string kDirPath = extract_dir + "/" + filename_inzip;
+        LOGD("Creating directory: {}", kDirPath)
+        utility::filesystem::MakeDirectoryHierarchy(kDirPath);
     } else {
         const char *write_filename;
         write_filename = filename_inzip;
@@ -159,11 +159,11 @@ void ExtractFromZIP(const std::string &file_path, const std::string &extract_dir
         LOGE("Extraction failed in unzGetGlobalInfo with error code: {}.", err)
     }
 
-    // ExtractFromZIP supports password. Can be exposed if required in future.
-    const std::string password;
+    // ExtractFromZIP supports password. Can be exposed if required in the future.
+    const std::string kPassword;
 
     for (uLong i = 0; i < gi.number_entry; ++i) {
-        err = ExtractCurrentFile(uf, extract_dir, password);
+        err = ExtractCurrentFile(uf, extract_dir, kPassword);
         if (err != UNZ_OK) {
             // Close file, before throwing exception.
             unzClose(uf);
@@ -188,4 +188,4 @@ void ExtractFromZIP(const std::string &file_path, const std::string &extract_dir
     unzClose(uf);
 }
 
-}  // namespace vox
+}  // namespace vox::utility

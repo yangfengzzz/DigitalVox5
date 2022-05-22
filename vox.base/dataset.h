@@ -340,7 +340,7 @@ private:
 /// \class SampleRedwoodRGBDImages
 /// \brief Data class for `SampleRedwoodRGBDImages` contains a sample set of 5
 /// color and depth images from Redwood RGBD dataset living-room1.
-// Additionally it also contains camera trajectory log, camera odometry log,
+// Additionally, it also contains camera trajectory log, camera odometry log,
 // rgbd match, and point cloud reconstruction obtained using TSDF.
 class SampleRedwoodRGBDImages : public SingleDownloadDataset {
 public:

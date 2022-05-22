@@ -14,8 +14,7 @@
 #define FN_SPECIFIERS inline
 #endif
 
-namespace vox {
-namespace utility {
+namespace vox::utility {
 
 /// Small vector class with some basic arithmetic operations that can be used
 /// within cuda kernels
@@ -23,7 +22,7 @@ template <class T, int N>
 struct MiniVec {
     typedef T Scalar_t;
 
-    FN_SPECIFIERS MiniVec() {}
+    FN_SPECIFIERS MiniVec() = default;
 
     template <class... TInit>
     FN_SPECIFIERS explicit MiniVec(TInit... as) : arr{as...} {}
@@ -32,7 +31,7 @@ struct MiniVec {
         for (int i = 0; i < N; ++i) operator[](i) = ptr[i];
     }
 
-    FN_SPECIFIERS const T operator[](size_t i) const { return arr[i]; }
+    FN_SPECIFIERS T operator[](size_t i) const { return arr[i]; }
 
     FN_SPECIFIERS T& operator[](size_t i) { return arr[i]; }
 
@@ -55,13 +54,13 @@ struct MiniVec {
         return r;
     }
 
-    FN_SPECIFIERS bool all() const {
+    [[nodiscard]] FN_SPECIFIERS bool all() const {
         bool result = true;
         for (int i = 0; i < N && result; ++i) result = result && operator[](i);
         return result;
     }
 
-    FN_SPECIFIERS bool any() const {
+    [[nodiscard]] FN_SPECIFIERS bool any() const {
         for (int i = 0; i < N; ++i)
             if (operator[](i)) return true;
         return false;
@@ -183,5 +182,4 @@ DEFINE_OPERATOR(||)
 #undef DEFINE_OPERATOR
 #undef FN_SPECIFIERS
 
-}  // namespace utility
-}  // namespace vox
+}  // namespace vox::utility

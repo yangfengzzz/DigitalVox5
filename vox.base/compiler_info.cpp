@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "compiler_info.h"
+#include "vox.base/compiler_info.h"
 
 #include <memory>
 
-#include "logging.h"
+#include "vox.base/logging.h"
 
 namespace vox::utility {
 

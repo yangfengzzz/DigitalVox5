@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "console.h"
+#include "vox.base/console.h"
 
 #include <Eigen/Core>
 #include <vector>
 
-#include "helper.h"
+#include "vox.base/helper.h"
 
 namespace vox::utility {
 

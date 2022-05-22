@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "parallel.h"
+#include "vox.base/parallel.h"
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -12,7 +12,7 @@
 
 #include <string>
 
-#include "cpu_info.h"
+#include "vox.base/cpu_info.h"
 
 namespace vox::utility {
 

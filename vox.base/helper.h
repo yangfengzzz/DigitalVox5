@@ -16,8 +16,7 @@
 #include <tuple>
 #include <vector>
 
-namespace vox {
-namespace utility {
+namespace vox::utility {
 
 /// hash_tuple defines a general hash function for std::tuple
 /// See this post for details:
@@ -136,9 +135,8 @@ inline std::string FormatString(const std::string& format, Args... args) {
     auto size = static_cast<size_t>(size_s);
     auto buf = std::make_unique<char[]>(size);
     std::snprintf(buf.get(), size, format.c_str(), args...);
-    return std::string(buf.get(),
-                       buf.get() + size - 1);  // We don't want the '\0' inside
-};
+    return {buf.get(), buf.get() + size - 1};  // We don't want the '\0' inside
+}
 
 void Sleep(int milliseconds);
 
@@ -166,5 +164,4 @@ protected:
 /// Returns current time stamp.
 std::string GetCurrentTimeStamp();
 
-}  // namespace utility
-}  // namespace vox
+}  // namespace vox::utility
