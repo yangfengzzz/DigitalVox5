@@ -4,11 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "size_vector.h"
 #include "tests.h"
+#include "vox.core/size_vector.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 TEST(DynamicSizeVector, Constructor) {
     core::DynamicSizeVector dsv{std::nullopt, 3};
@@ -23,5 +22,4 @@ TEST(DynamicSizeVector, IsCompatible) {
     EXPECT_FALSE(core::SizeVector({10, 3}).IsCompatible({std::nullopt, 5}));
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

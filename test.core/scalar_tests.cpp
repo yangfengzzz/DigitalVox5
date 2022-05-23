@@ -4,11 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "scalar.h"
 #include "tests.h"
+#include "vox.core/scalar.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 // Implicit conversion constructor.
 static core::Scalar ToScalar(const core::Scalar& s) { return s; }
@@ -98,5 +97,4 @@ TEST(Scalar, Constructor) {
     EXPECT_EQ(b.GetInt64(), 9223372036854775807);
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

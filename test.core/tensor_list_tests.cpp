@@ -7,11 +7,10 @@
 #include <vector>
 
 #include "core_test.h"
-#include "tensor_list.h"
 #include "tests.h"
+#include "vox.core/tensor_list.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 class TensorListPermuteDevices : public PermuteDevices {};
 INSTANTIATE_TEST_SUITE_P(TensorList, TensorListPermuteDevices, testing::ValuesIn(PermuteDevices::TestCases()));
@@ -148,7 +147,7 @@ TEST_P(TensorListPermuteDevices, CopyConstructor) {
     core::Tensor t = core::Tensor::Ones({3, 4, 5}, dtype, device);
 
     core::TensorList tl = core::TensorList::FromTensor(t, false);
-    core::TensorList tl_copy(tl);
+    const core::TensorList& tl_copy(tl);
     EXPECT_TRUE(tl.AsTensor().IsSame(tl_copy.AsTensor()));
 }
 
@@ -409,5 +408,4 @@ TEST_P(TensorListPermuteDevices, Clear) {
     EXPECT_ANY_THROW(tl_inplace.Clear());
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

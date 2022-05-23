@@ -7,19 +7,18 @@
 #include <vector>
 
 #include "core_test.h"
-#include "dispatch.h"
-#include "dtype.h"
-#include "macro.h"
-#include "parallel_for.h"
-#include "tensor.h"
 #include "tests.h"
+#include "vox.base/macro.h"
+#include "vox.core/dispatch.h"
+#include "vox.core/dtype.h"
+#include "vox.core/parallel_for.h"
+#include "vox.core/tensor.h"
 
 #ifdef BUILD_ISPC_MODULE
 #include "ParallelFor_ispc.h"
 #endif
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 TEST(ParallelFor, LambdaCPU) {
     const core::Device device("CPU:0");
@@ -599,5 +598,4 @@ TEST_P(ParallelForPermuteDtypesWithBool, VectorizedTemplateLambda9) {
     });
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

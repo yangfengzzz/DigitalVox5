@@ -12,7 +12,7 @@
 #include <vector>
 
 #include "compare.h"
-#include "logging.h"
+#include "vox.base/logging.h"
 
 namespace vox::tests {
 

@@ -5,12 +5,11 @@
 //  property of any third parties.
 
 #include "core_test.h"
-#include "helper.h"
-#include "tensor_function.h"
 #include "tests.h"
+#include "vox.base/helper.h"
+#include "vox.core/tensor_function.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 class TensorFunctionPermuteDevices : public PermuteDevices {};
 INSTANTIATE_TEST_SUITE_P(Tensor, TensorFunctionPermuteDevices, testing::ValuesIn(PermuteDevices::TestCases()));
@@ -191,5 +190,4 @@ TEST_P(TensorFunctionPermuteDevices, Append) {
     EXPECT_TRUE(core::Append(self, other).AllClose(self.Append(other)));
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

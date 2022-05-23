@@ -9,8 +9,8 @@
 #include <thread>
 #include <vector>
 
-#include "cuda_utils.h"
 #include "tests.h"
+#include "vox.core/cuda_utils.h"
 
 namespace vox {
 namespace tests {

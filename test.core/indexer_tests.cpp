@@ -7,18 +7,17 @@
 #include <unordered_map>
 
 #include "core_test.h"
-#include "device.h"
-#include "indexer.h"
-#include "parallel_for.h"
-#include "size_vector.h"
 #include "tests.h"
+#include "vox.core/device.h"
+#include "vox.core/indexer.h"
+#include "vox.core/parallel_for.h"
+#include "vox.core/size_vector.h"
 
 #ifdef BUILD_ISPC_MODULE
 #include "Indexer_ispc.h"
 #endif
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 class IndexerPermuteDevices : public PermuteDevices {};
 INSTANTIATE_TEST_SUITE_P(Indexer, IndexerPermuteDevices, testing::ValuesIn(PermuteDevices::TestCases()));
@@ -220,5 +219,4 @@ TEST_P(IndexerPermuteDevices, IsContiguous) {
     EXPECT_TRUE(output.IsContiguous());
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

@@ -9,17 +9,16 @@
 #include <unordered_map>
 
 #include "core_test.h"
-#include "device.h"
-#include "file_system.h"
-#include "hashmap/hash_map.h"
-#include "hashmap/hash_set.h"
-#include "indexer.h"
-#include "memory_manager.h"
-#include "size_vector.h"
 #include "tests.h"
+#include "vox.base/file_system.h"
+#include "vox.core/device.h"
+#include "vox.core/hashmap/hash_map.h"
+#include "vox.core/hashmap/hash_set.h"
+#include "vox.core/indexer.h"
+#include "vox.core/memory_manager.h"
+#include "vox.core/size_vector.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 template <typename K, typename V>
 class HashData {
@@ -530,22 +529,21 @@ TEST_P(HashMapPermuteDevices, HashMapIO) {
     hashmap.Insert(keys, values, buf_indices, masks);
     EXPECT_EQ(masks.To(core::Int64).Sum({0}).Item<int64_t>(), slots);
 
-//    hashmap.Save(file_name_noext);
-//    core::HashMap hashmap_loaded = core::HashMap::Load(file_name_ext);
-//    EXPECT_EQ(hashmap_loaded.Size(), hashmap.Size());
-//
-//    core::Tensor active_indices;
-//    hashmap_loaded.GetActiveIndices(active_indices);
-//
-//    // Check found results
-//    std::vector<core::Tensor> ai({active_indices.To(core::Int64)});
-//    core::Tensor valid_keys = hashmap_loaded.GetKeyTensor().IndexGet(ai);
-//    core::Tensor valid_values = hashmap_loaded.GetValueTensor().IndexGet(ai);
-//    EXPECT_TRUE(valid_keys.T()[0].AllClose(valid_values.T()[0] * data.k_factor_));
-//
-//    EXPECT_TRUE(utility::filesystem::FileExists(file_name_ext));
-//    utility::filesystem::RemoveFile(file_name_ext);
+    //    hashmap.Save(file_name_noext);
+    //    core::HashMap hashmap_loaded = core::HashMap::Load(file_name_ext);
+    //    EXPECT_EQ(hashmap_loaded.Size(), hashmap.Size());
+    //
+    //    core::Tensor active_indices;
+    //    hashmap_loaded.GetActiveIndices(active_indices);
+    //
+    //    // Check found results
+    //    std::vector<core::Tensor> ai({active_indices.To(core::Int64)});
+    //    core::Tensor valid_keys = hashmap_loaded.GetKeyTensor().IndexGet(ai);
+    //    core::Tensor valid_values = hashmap_loaded.GetValueTensor().IndexGet(ai);
+    //    EXPECT_TRUE(valid_keys.T()[0].AllClose(valid_values.T()[0] * data.k_factor_));
+    //
+    //    EXPECT_TRUE(utility::filesystem::FileExists(file_name_ext));
+    //    utility::filesystem::RemoveFile(file_name_ext);
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

@@ -5,11 +5,10 @@
 //  property of any third parties.
 
 #include "core_test.h"
-#include "tensor_check.h"
 #include "tests.h"
+#include "vox.core/tensor_check.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 class TensorCheckPermuteDevices : public PermuteDevices {};
 INSTANTIATE_TEST_SUITE_P(Tensor, TensorCheckPermuteDevices, testing::ValuesIn(PermuteDevices::TestCases()));
@@ -175,5 +174,4 @@ TEST_P(TensorCheckPermuteDevices, AssertTensorShape) {
     }
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

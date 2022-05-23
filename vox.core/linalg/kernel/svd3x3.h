@@ -33,7 +33,7 @@
 #endif
 
 #include "vox.core/linalg/kernel/matrix.h"
-#include "vox.core/math.h"
+#include <cmath>
 
 #define gone 1065353216
 #define gsine_pi_over_eight 1053028117

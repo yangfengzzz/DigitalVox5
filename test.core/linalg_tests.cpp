@@ -7,20 +7,19 @@
 #include <cmath>
 #include <limits>
 
-#include "advanced_indexing.h"
 #include "core_test.h"
-#include "dtype.h"
-#include "helper.h"
-#include "kernel/kernel.h"
-#include "linalg/add_mm.h"
-#include "linalg/kernel/svd3x3.h"
-#include "memory_manager.h"
-#include "size_vector.h"
-#include "tensor.h"
 #include "tests.h"
+#include "vox.base/helper.h"
+#include "vox.core/advanced_indexing.h"
+#include "vox.core/dtype.h"
+#include "vox.core/kernel/kernel.h"
+#include "vox.core/linalg/add_mm.h"
+#include "vox.core/linalg/kernel/svd3x3.h"
+#include "vox.core/memory_manager.h"
+#include "vox.core/size_vector.h"
+#include "vox.core/tensor.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 class LinalgPermuteDevices : public PermuteDevices {};
 INSTANTIATE_TEST_SUITE_P(Linalg, LinalgPermuteDevices, testing::ValuesIn(PermuteDevices::TestCases()));
@@ -445,7 +444,7 @@ TEST_P(LinalgPermuteDevices, KernelOps) {
 
     // Det 3x3
     double det_expected = A_3x3.Det();
-    double det_output = static_cast<double>(core::linalg::kernel::det3x3(A_3x3.GetDataPtr<float>()));
+    auto det_output = static_cast<double>(core::linalg::kernel::det3x3(A_3x3.GetDataPtr<float>()));
     EXPECT_EQ(det_output, det_expected);
 
     // SVD Solver 3x3.
@@ -455,5 +454,4 @@ TEST_P(LinalgPermuteDevices, KernelOps) {
     EXPECT_TRUE(output3x1.AllClose(Solve_Expected));
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

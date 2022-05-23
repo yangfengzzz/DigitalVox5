@@ -4,14 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "blob.h"
 #include "core_test.h"
-#include "device.h"
-#include "memory_manager.h"
 #include "tests.h"
+#include "vox.core/blob.h"
+#include "vox.core/device.h"
+#include "vox.core/memory_manager.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 class BlobPermuteDevices : public PermuteDevices {};
 INSTANTIATE_TEST_SUITE_P(Blob, BlobPermuteDevices, testing::ValuesIn(PermuteDevices::TestCases()));
@@ -41,5 +40,4 @@ TEST_P(BlobPermuteDevices, BlobConstructorWithExternalMemory) {
     EXPECT_TRUE(deleter_called);
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

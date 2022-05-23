@@ -4,11 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "device.h"
 #include "tests.h"
+#include "vox.core/device.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 TEST(Device, DefaultConstructor) {
     core::Device ctx;
@@ -39,5 +38,4 @@ TEST(Device, StringConstructorLower) {
     EXPECT_EQ(ctx.GetID(), 1);
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

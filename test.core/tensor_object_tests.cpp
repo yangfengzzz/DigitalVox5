@@ -7,19 +7,18 @@
 #include <cmath>
 #include <limits>
 
-#include "advanced_indexing.h"
 #include "core_test.h"
-#include "dtype.h"
-#include "helper.h"
-#include "kernel/kernel.h"
-#include "memory_manager.h"
-#include "size_vector.h"
-#include "tensor.h"
-#include "tensor_list.h"
 #include "tests.h"
+#include "vox.base/helper.h"
+#include "vox.core/advanced_indexing.h"
+#include "vox.core/dtype.h"
+#include "vox.core/kernel/kernel.h"
+#include "vox.core/memory_manager.h"
+#include "vox.core/size_vector.h"
+#include "vox.core/tensor.h"
+#include "vox.core/tensor_list.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 class TensorObjectPermuteDevices : public PermuteDevices {};
 INSTANTIATE_TEST_SUITE_P(TensorObject, TensorObjectPermuteDevices, testing::ValuesIn(PermuteDevices::TestCases()));
@@ -175,12 +174,12 @@ TEST_P(TensorObjectPermuteDevices, IsSameObject) {
 
     // "Shallow" copy.
     core::Tensor t0 = core::Tensor::Empty({6, 8}, dtype, device);
-    core::Tensor t1 = t0;  // "Shallow" copy
+    const core::Tensor &t1 = t0;  // "Shallow" copy
     EXPECT_TRUE(t0.IsSame(t1));
     EXPECT_TRUE(t1.IsSame(t0));
 
     // Copy constructor copies view.
-    core::Tensor t0_copy_construct(t0);
+    const core::Tensor &t0_copy_construct(t0);
     EXPECT_TRUE(t0.IsSame(t0_copy_construct));
     EXPECT_TRUE(t0_copy_construct.IsSame(t0));
 
@@ -260,5 +259,4 @@ TEST_P(TensorObjectPermuteDevices, TensorListFromObjectTensor) {
     EXPECT_TRUE(tl_inplace.AsTensor().IsSame(t));
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

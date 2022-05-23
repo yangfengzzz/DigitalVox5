@@ -4,11 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "shape_util.h"
 #include "tests.h"
+#include "vox.core/shape_util.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 TEST(ShapeUtil, IsCompatibleBroadcastShape) {
     // A 0-dim tensor is compatible with any shape.
@@ -147,5 +146,4 @@ TEST(ShapeUtil, ReductionShape) {
     EXPECT_EQ(core::shape_util::ReductionShape({2, 3, 4}, {0, -1}, true), core::SizeVector({1, 3, 1}));
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

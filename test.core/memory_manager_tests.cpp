@@ -7,12 +7,11 @@
 #include <map>
 
 #include "core_test.h"
-#include "device.h"
-#include "memory_manager.h"
 #include "tests.h"
+#include "vox.core/device.h"
+#include "vox.core/memory_manager.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 class MemoryManagerPermuteDevices : public PermuteDevices {};
 INSTANTIATE_TEST_SUITE_P(MemoryManager, MemoryManagerPermuteDevices, testing::ValuesIn(PermuteDevices::TestCases()));
@@ -24,19 +23,19 @@ INSTANTIATE_TEST_SUITE_P(MemoryManager,
 
 class DummyMemoryManager : public core::DeviceMemoryManager {
 public:
-    DummyMemoryManager(const core::Device& device, size_t limit = std::numeric_limits<size_t>::max())
+    explicit DummyMemoryManager(const core::Device& device, size_t limit = std::numeric_limits<size_t>::max())
         : device_(device), limit_(limit) {}
 
-    virtual ~DummyMemoryManager() {
+    ~DummyMemoryManager() override {
         if (count_malloc_ != count_free_) {
-            LOGE("Found memory leaks: {} {} --> {}", count_malloc_, count_free_, count_malloc_ - count_free_);
+            LOGE("Found memory leaks: {} {} --> {}", count_malloc_, count_free_, count_malloc_ - count_free_)
         }
     }
 
     void* Malloc(size_t byte_size, const core::Device& device) override {
         if (GetAllocatedSize() + byte_size > limit_) {
             LOGE("This should be caught: Limit {} reached via {} + {} = {}", limit_, GetAllocatedSize(), byte_size,
-                 GetAllocatedSize() + byte_size);
+                 GetAllocatedSize() + byte_size)
             return nullptr;
         }
 
@@ -50,7 +49,7 @@ public:
     void Free(void* ptr, const core::Device& device) override {
         auto it = allocations_.find(ptr);
         if (it == allocations_.end()) {
-            LOGE("Untracked pointer {}", fmt::ptr(ptr));
+            LOGE("Untracked pointer {}", fmt::ptr(ptr))
         }
         allocations_.erase(it);
         ++count_free_;
@@ -61,17 +60,17 @@ public:
                 const void* src_ptr,
                 const core::Device& src_device,
                 size_t num_bytes) override {
-        LOGE("Unimplemented.");
+        LOGE("Unimplemented.")
     }
 
-    size_t GetAllocatedSize() const {
+    [[nodiscard]] size_t GetAllocatedSize() const {
         return std::accumulate(allocations_.begin(), allocations_.end(), 0,
                                [](size_t count, auto ptr_byte_size) -> size_t { return count + ptr_byte_size.second; });
     }
 
-    int64_t GetMallocCount() const { return count_malloc_; }
+    [[nodiscard]] int64_t GetMallocCount() const { return count_malloc_; }
 
-    int64_t GetFreeCount() const { return count_free_; }
+    [[nodiscard]] int64_t GetFreeCount() const { return count_free_; }
 
 protected:
     int64_t count_malloc_ = 0;
@@ -521,5 +520,4 @@ TEST(MemoryManagerPermuteDevices, CachedFreeOnProgramEnd) {
     // No cache release to test free on program end.
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

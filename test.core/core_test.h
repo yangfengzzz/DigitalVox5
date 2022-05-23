@@ -8,17 +8,16 @@
 
 #include <vector>
 
-#include "device.h"
-#include "dtype.h"
-#include "size_vector.h"
 #include "tests.h"
+#include "vox.core/device.h"
+#include "vox.core/dtype.h"
+#include "vox.core/size_vector.h"
 
 #ifdef BUILD_CUDA_MODULE
 #include "CUDAUtils.h"
 #endif
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 class PermuteDtypesWithBool : public testing::TestWithParam<core::Dtype> {
 public:
@@ -120,5 +119,4 @@ public:
     }
 };
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests

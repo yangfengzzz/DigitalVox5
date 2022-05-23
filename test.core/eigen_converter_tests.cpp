@@ -8,12 +8,11 @@
 #include <limits>
 
 #include "core_test.h"
-#include "eigen_converter.h"
-#include "tensor.h"
 #include "tests.h"
+#include "vox.core/eigen_converter.h"
+#include "vox.core/tensor.h"
 
-namespace vox {
-namespace tests {
+namespace vox::tests {
 
 class EigenConverterPermuteDevices : public PermuteDevices {};
 INSTANTIATE_TEST_SUITE_P(EigenConverter, EigenConverterPermuteDevices, testing::ValuesIn(PermuteDevices::TestCases()));
@@ -63,5 +62,4 @@ TEST_P(EigenConverterPermuteDevices, EigenVectorToTensor) {
     EXPECT_TRUE(t_vector4d.AllClose(core::Tensor::Init<double>({{0.25}, {1.00}, {2.50}, {3.75}})));
 }
 
-}  // namespace tests
-}  // namespace vox
+}  // namespace vox::tests
