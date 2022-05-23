@@ -8,12 +8,9 @@
 
 #include <unordered_map>
 
-#include "file_system.h"
-#include "logging.h"
-#include "progress_bar.h"
+#include "vox.base/progress_bar.h"
 
-namespace vox {
-namespace io {
+namespace vox::io {
 
 bool ReadModelUsingAssimp(const std::string& filename,
                           visualization::rendering::TriangleMeshModel& model,
@@ -33,5 +30,4 @@ bool ReadTriangleModel(const std::string& filename,
     return ReadModelUsingAssimp(filename, model, params);
 }
 
-}  // namespace io
-}  // namespace vox
+}  // namespace vox::io

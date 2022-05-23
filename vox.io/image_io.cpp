@@ -8,8 +8,8 @@
 
 #include <unordered_map>
 
-#include "file_system.h"
-#include "logging.h"
+#include "vox.base/file_system.h"
+#include "vox.base/logging.h"
 
 namespace vox {
 
@@ -17,14 +17,14 @@ namespace {
 using namespace io;
 
 const std::unordered_map<std::string, std::function<bool(const std::string &, geometry::Image &)>>
-        file_extension_to_image_read_function{
+        kFileExtensionToImageReadFunction{
                 {"png", ReadImageFromPNG},
                 {"jpg", ReadImageFromJPG},
                 {"jpeg", ReadImageFromJPG},
         };
 
 const std::unordered_map<std::string, std::function<bool(const std::string &, const geometry::Image &, int)>>
-        file_extension_to_image_write_function{
+        kFileExtensionToImageWriteFunction{
                 {"png", WriteImageToPNG},
                 {"jpg", WriteImageToJPG},
                 {"jpeg", WriteImageToJPG},
@@ -46,8 +46,8 @@ bool ReadImage(const std::string &filename, geometry::Image &image) {
         LOGW("Read geometry::Image failed: missing file extension.")
         return false;
     }
-    auto map_itr = file_extension_to_image_read_function.find(filename_ext);
-    if (map_itr == file_extension_to_image_read_function.end()) {
+    auto map_itr = kFileExtensionToImageReadFunction.find(filename_ext);
+    if (map_itr == kFileExtensionToImageReadFunction.end()) {
         LOGW("Read geometry::Image failed: file extension {} unknown", filename_ext)
         return false;
     }
@@ -62,8 +62,8 @@ bool WriteImage(const std::string &filename,
         LOGW("Write geometry::Image failed: unknown file extension.")
         return false;
     }
-    auto map_itr = file_extension_to_image_write_function.find(filename_ext);
-    if (map_itr == file_extension_to_image_write_function.end()) {
+    auto map_itr = kFileExtensionToImageWriteFunction.find(filename_ext);
+    if (map_itr == kFileExtensionToImageWriteFunction.end()) {
         LOGW("Write geometry::Image failed: unknown file extension.")
         return false;
     }

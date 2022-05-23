@@ -8,7 +8,7 @@
 
 #include <map>
 
-#include "file_system.h"
+#include "vox.base/file_system.h"
 
 namespace vox::io {
 

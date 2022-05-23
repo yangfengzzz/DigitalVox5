@@ -8,8 +8,8 @@
 
 #include <fstream>
 
-#include "../ijson_convertible_io.h"
-#include "logging.h"
+#include "vox.base/logging.h"
+#include "vox.io/ijson_convertible_io.h"
 
 namespace vox {
 

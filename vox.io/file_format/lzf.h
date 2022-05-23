@@ -78,9 +78,7 @@
  * and lzf_c.c.
  *
  */
-unsigned int
-lzf_compress (const void *const in_data,  unsigned int in_len,
-              void             *out_data, unsigned int out_len);
+unsigned int lzf_compress(const void *const in_data, unsigned int in_len, void *out_data, unsigned int out_len);
 
 /*
  * The maximum out_len that needs to be allocated to make sure
@@ -91,7 +89,7 @@ lzf_compress (const void *const in_data,  unsigned int in_len,
  * guaranteeed to be big enough.
  * This macro can be used at preprocessing time.
  */
-#define LZF_MAX_COMPRESSED_SIZE(n) ((((n) * 33) >> 5 ) + 1)
+#define LZF_MAX_COMPRESSED_SIZE(n) ((((n)*33) >> 5) + 1)
 
 /*
  * Decompress data compressed with some version of the lzf_compress
@@ -108,9 +106,6 @@ lzf_compress (const void *const in_data,  unsigned int in_len,
  *
  * This function is very fast, about as fast as a copying loop.
  */
-unsigned int
-lzf_decompress (const void *const in_data,  unsigned int in_len,
-                void             *out_data, unsigned int out_len);
+unsigned int lzf_decompress(const void *const in_data, unsigned int in_len, void *out_data, unsigned int out_len);
 
 #endif
-

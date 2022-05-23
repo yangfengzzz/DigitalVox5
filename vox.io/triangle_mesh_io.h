@@ -8,10 +8,9 @@
 
 #include <string>
 
-#include "triangle_mesh.h"
+#include "vox.geometry/triangle_mesh.h"
 
-namespace vox {
-namespace io {
+namespace vox::io {
 
 /// Factory function to create a mesh from a file (TriangleMeshFactory.cpp)
 /// Return an empty mesh if fail to read the file.
@@ -129,5 +128,4 @@ bool WriteTriangleMeshToGLTF(const std::string &filename,
 /// \return return true if triangulation is successful, false otherwise.
 bool AddTrianglesByEarClipping(geometry::TriangleMesh &mesh, std::vector<unsigned int> &indices);
 
-}  // namespace io
-}  // namespace vox
+}  // namespace vox::io

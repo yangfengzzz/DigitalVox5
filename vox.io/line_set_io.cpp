@@ -8,8 +8,8 @@
 
 #include <unordered_map>
 
-#include "file_system.h"
-#include "logging.h"
+#include "vox.base/file_system.h"
+#include "vox.base/logging.h"
 
 namespace vox {
 
@@ -17,14 +17,14 @@ namespace {
 using namespace io;
 
 const std::unordered_map<std::string, std::function<bool(const std::string &, geometry::LineSet &, bool)>>
-        file_extension_to_lineset_read_function{
+        kFileExtensionToLinesetReadFunction{
                 {"ply", ReadLineSetFromPLY},
         };
 
 const std::unordered_map<
         std::string,
         std::function<bool(const std::string &, const geometry::LineSet &, const bool, const bool, const bool)>>
-        file_extension_to_lineset_write_function{
+        kFileExtensionToLinesetWriteFunction{
                 {"ply", WriteLineSetToPLY},
         };
 }  // unnamed namespace
@@ -53,8 +53,8 @@ bool ReadLineSet(const std::string &filename,
         LOGW("Read geometry::LineSet failed: unknown file extension.")
         return false;
     }
-    auto map_itr = file_extension_to_lineset_read_function.find(filename_ext);
-    if (map_itr == file_extension_to_lineset_read_function.end()) {
+    auto map_itr = kFileExtensionToLinesetReadFunction.find(filename_ext);
+    if (map_itr == kFileExtensionToLinesetReadFunction.end()) {
         LOGW("Read geometry::LineSet failed: unknown file extension.")
         return false;
     }
@@ -73,8 +73,8 @@ bool WriteLineSet(const std::string &filename,
         LOGW("Write geometry::LineSet failed: unknown file extension.")
         return false;
     }
-    auto map_itr = file_extension_to_lineset_write_function.find(filename_ext);
-    if (map_itr == file_extension_to_lineset_write_function.end()) {
+    auto map_itr = kFileExtensionToLinesetWriteFunction.find(filename_ext);
+    if (map_itr == kFileExtensionToLinesetWriteFunction.end()) {
         LOGW("Write geometry::LineSet failed: unknown file extension.")
         return false;
     }

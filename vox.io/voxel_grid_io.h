@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include "voxel_grid.h"
+#include "vox.geometry/voxel_grid.h"
 
 namespace vox::io {
 

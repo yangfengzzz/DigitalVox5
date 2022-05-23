@@ -6,8 +6,8 @@
 
 #include <png.h>
 
-#include "../image_io.h"
-#include "logging.h"
+#include "vox.base/logging.h"
+#include "vox.io/image_io.h"
 
 namespace vox {
 

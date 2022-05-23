@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include "octree.h"
+#include "vox.geometry/octree.h"
 
 namespace vox::io {
 
@@ -32,4 +32,4 @@ bool ReadOctreeFromJson(const std::string &filename, geometry::Octree &octree);
 
 bool WriteOctreeToJson(const std::string &filename, const geometry::Octree &octree);
 
-}  // namespace vox
+}  // namespace vox::io

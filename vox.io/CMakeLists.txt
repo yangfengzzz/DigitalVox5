@@ -17,14 +17,13 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE OPEN3D_CUDA_COMPILER_VERSION=
 
 # OpenMP
 find_package(OpenMP)
-if(OpenMP_CXX_FOUND)
+if (OpenMP_CXX_FOUND)
     target_link_libraries(${PROJECT_NAME} PUBLIC OpenMP::OpenMP_CXX ${OpenCV_LIBS})
-endif()
+endif ()
 
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-        ../vox.base
-        ../vox.geometry
+        ../
         ../third_party/eigen
         ../third_party/json_cpp/include
         ../third_party/zlib/contrib/

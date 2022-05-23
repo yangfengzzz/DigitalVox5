@@ -8,17 +8,17 @@
 
 #include <unordered_map>
 
-#include "file_system.h"
-#include "helper.h"
-#include "logging.h"
-#include "progress_reporters.h"
+#include "vox.base/file_system.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
+#include "vox.base/progress_reporters.h"
 
 namespace vox::io {
 
 static const std::unordered_map<
         std::string,
         std::function<bool(const std::string &, geometry::PointCloud &, const ReadPointCloudOption &)>>
-        file_extension_to_pointcloud_read_function{
+        kFileExtensionToPointcloudReadFunction{
                 {"xyz", ReadPointCloudFromXYZ}, {"xyzn", ReadPointCloudFromXYZN}, {"xyzrgb", ReadPointCloudFromXYZRGB},
                 {"ply", ReadPointCloudFromPLY}, {"pcd", ReadPointCloudFromPCD},   {"pts", ReadPointCloudFromPTS},
         };
@@ -26,7 +26,7 @@ static const std::unordered_map<
 static const std::unordered_map<
         std::string,
         std::function<bool(const std::string &, const geometry::PointCloud &, const WritePointCloudOption &)>>
-        file_extension_to_pointcloud_write_function{
+        kFileExtensionToPointcloudWriteFunction{
                 {"xyz", WritePointCloudToXYZ}, {"xyzn", WritePointCloudToXYZN}, {"xyzrgb", WritePointCloudToXYZRGB},
                 {"ply", WritePointCloudToPLY}, {"pcd", WritePointCloudToPCD},   {"pts", WritePointCloudToPTS},
         };
@@ -47,8 +47,8 @@ bool ReadPointCloud(const std::string &filename, geometry::PointCloud &pointclou
 
     LOGD("Format {} File {}", params.format, filename)
 
-    auto map_itr = file_extension_to_pointcloud_read_function.find(format);
-    if (map_itr == file_extension_to_pointcloud_read_function.end()) {
+    auto map_itr = kFileExtensionToPointcloudReadFunction.find(format);
+    if (map_itr == kFileExtensionToPointcloudReadFunction.end()) {
         LOGW("Read geometry::PointCloud failed: unknown file extension for "
              "{} (format: {}).",
              filename, params.format)
@@ -86,8 +86,8 @@ bool WritePointCloud(const std::string &filename,
                      const geometry::PointCloud &pointcloud,
                      const WritePointCloudOption &params) {
     std::string format = utility::filesystem::GetFileExtensionInLowerCase(filename);
-    auto map_itr = file_extension_to_pointcloud_write_function.find(format);
-    if (map_itr == file_extension_to_pointcloud_write_function.end()) {
+    auto map_itr = kFileExtensionToPointcloudWriteFunction.find(format);
+    if (map_itr == kFileExtensionToPointcloudWriteFunction.end()) {
         LOGW("Write geometry::PointCloud failed: unknown file extension {} "
              "for file {}.",
              format, filename)

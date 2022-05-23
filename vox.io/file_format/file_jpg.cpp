@@ -10,9 +10,9 @@
 #include <jpeglib.h>  // Include after cstddef to define size_t
 // clang-format on
 
-#include "../image_io.h"
-#include "file_system.h"
-#include "logging.h"
+#include "vox.base/file_system.h"
+#include "vox.base/logging.h"
+#include "vox.io/image_io.h"
 
 namespace vox::io {
 

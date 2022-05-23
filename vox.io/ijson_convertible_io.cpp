@@ -8,8 +8,8 @@
 
 #include <unordered_map>
 
-#include "file_system.h"
-#include "logging.h"
+#include "vox.base/file_system.h"
+#include "vox.base/logging.h"
 
 namespace vox {
 
@@ -17,12 +17,12 @@ namespace {
 using namespace io;
 
 const std::unordered_map<std::string, std::function<bool(const std::string &, utility::IJsonConvertible &)>>
-        file_extension_to_ijsonconvertible_read_function{
+        kFileExtensionToIjsonconvertibleReadFunction{
                 {"json", ReadIJsonConvertibleFromJSON},
         };
 
 const std::unordered_map<std::string, std::function<bool(const std::string &, const utility::IJsonConvertible &)>>
-        file_extension_to_ijsonconvertible_write_function{
+        kFileExtensionToIjsonconvertibleWriteFunction{
                 {"json", WriteIJsonConvertibleToJSON},
         };
 
@@ -37,8 +37,8 @@ bool ReadIJsonConvertible(const std::string &filename, utility::IJsonConvertible
              "extension.")
         return false;
     }
-    auto map_itr = file_extension_to_ijsonconvertible_read_function.find(filename_ext);
-    if (map_itr == file_extension_to_ijsonconvertible_read_function.end()) {
+    auto map_itr = kFileExtensionToIjsonconvertibleReadFunction.find(filename_ext);
+    if (map_itr == kFileExtensionToIjsonconvertibleReadFunction.end()) {
         LOGW("Read utility::IJsonConvertible failed: unknown file "
              "extension.")
         return false;
@@ -53,8 +53,8 @@ bool WriteIJsonConvertible(const std::string &filename, const utility::IJsonConv
              "extension.")
         return false;
     }
-    auto map_itr = file_extension_to_ijsonconvertible_write_function.find(filename_ext);
-    if (map_itr == file_extension_to_ijsonconvertible_write_function.end()) {
+    auto map_itr = kFileExtensionToIjsonconvertibleWriteFunction.find(filename_ext);
+    if (map_itr == kFileExtensionToIjsonconvertibleWriteFunction.end()) {
         LOGW("Write utility::IJsonConvertible failed: unknown file "
              "extension.")
         return false;

@@ -5,15 +5,14 @@
 //  property of any third parties.
 
 #include "rply.h"
-
-#include "../file_format_io.h"
-#include "../line_set_io.h"
-#include "../point_cloud_io.h"
-#include "../triangle_mesh_io.h"
-#include "../voxel_grid_io.h"
-#include "logging.h"
-#include "progress_bar.h"
-#include "progress_reporters.h"
+#include "vox.base/logging.h"
+#include "vox.base/progress_bar.h"
+#include "vox.base/progress_reporters.h"
+#include "vox.io/file_format_io.h"
+#include "vox.io/line_set_io.h"
+#include "vox.io/point_cloud_io.h"
+#include "vox.io/triangle_mesh_io.h"
+#include "vox.io/voxel_grid_io.h"
 
 namespace vox::io {
 

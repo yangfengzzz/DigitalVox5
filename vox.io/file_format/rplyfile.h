@@ -22,8 +22,7 @@ extern "C" {
  *
  * Returns 1 if successful, 0 otherwise
  * ---------------------------------------------------------------------- */
-p_ply ply_open_from_file(FILE *file_pointer, p_ply_error_cb error_cb,
-    long idata, void *pdata);
+p_ply ply_open_from_file(FILE *file_pointer, p_ply_error_cb error_cb, long idata, void *pdata);
 
 /* ----------------------------------------------------------------------
  * Creates new PLY file
@@ -35,8 +34,8 @@ p_ply ply_open_from_file(FILE *file_pointer, p_ply_error_cb error_cb,
  *
  * Returns handle to PLY file if successfull, NULL otherwise
  * ---------------------------------------------------------------------- */
-p_ply ply_create_to_file(FILE *file_pointer, e_ply_storage_mode storage_mode,
-        p_ply_error_cb error_cb, long idata, void *pdata);
+p_ply ply_create_to_file(
+        FILE *file_pointer, e_ply_storage_mode storage_mode, p_ply_error_cb error_cb, long idata, void *pdata);
 
 #ifdef __cplusplus
 }

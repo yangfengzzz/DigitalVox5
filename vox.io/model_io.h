@@ -10,11 +10,9 @@
 #include <string>
 
 namespace vox {
-namespace visualization {
-namespace rendering {
+namespace visualization::rendering {
 struct TriangleMeshModel;
-}
-}  // namespace visualization
+}  // namespace visualization::rendering
 
 namespace io {
 

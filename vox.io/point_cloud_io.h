@@ -9,7 +9,7 @@
 #include <string>
 #include <utility>
 
-#include "point_cloud.h"
+#include "vox.geometry/point_cloud.h"
 
 namespace vox::io {
 

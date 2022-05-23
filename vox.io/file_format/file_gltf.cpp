@@ -13,10 +13,10 @@
 #include <memory>
 #include <vector>
 
-#include "../file_format_io.h"
-#include "../triangle_mesh_io.h"
-#include "file_system.h"
-#include "logging.h"
+#include "vox.base/file_system.h"
+#include "vox.base/logging.h"
+#include "vox.io/file_format_io.h"
+#include "vox.io/triangle_mesh_io.h"
 
 namespace vox::io {
 

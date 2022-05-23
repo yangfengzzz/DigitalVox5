@@ -4,17 +4,16 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "lzf.h"
-
 #include <cstdio>
 #include <sstream>
 
-#include "../file_format_io.h"
-#include "../point_cloud_io.h"
-#include "file_system.h"
-#include "helper.h"
-#include "logging.h"
-#include "progress_reporters.h"
+#include "lzf.h"
+#include "vox.base/file_system.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
+#include "vox.base/progress_reporters.h"
+#include "vox.io/file_format_io.h"
+#include "vox.io/point_cloud_io.h"
 
 // References for PCD file IO
 // http://pointclouds.org/documentation/tutorials/pcd_file_format.html

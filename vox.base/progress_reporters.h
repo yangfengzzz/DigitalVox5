@@ -54,7 +54,7 @@ private:
 /// update_progress(double percent) functor for ProgressBar
 struct ConsoleProgressUpdater {
     explicit ConsoleProgressUpdater(const std::string &progress_info, bool active = false)
-        : progress_bar_(100, progress_info, active) {}
+        : progress_bar(100, progress_info, active) {}
     bool operator()(double pct) {
         while (last_pct < pct) {
             ++last_pct;
@@ -64,7 +64,7 @@ struct ConsoleProgressUpdater {
     }
 
 private:
-    utility::ProgressBar progress_bar{};
+    utility::ProgressBar progress_bar;
     int last_pct = 0;
 };
 

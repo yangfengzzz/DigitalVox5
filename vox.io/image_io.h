@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include "../vox.geometry/image.h"
+#include "vox.geometry/image.h"
 
 namespace vox::io {
 

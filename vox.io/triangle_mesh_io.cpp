@@ -8,35 +8,35 @@
 
 #include <unordered_map>
 
-#include "file_system.h"
-#include "logging.h"
-#include "progress_bar.h"
+#include "vox.base/file_system.h"
+#include "vox.base/logging.h"
+#include "vox.base/progress_bar.h"
 
 namespace vox {
 
 namespace {
 using namespace io;
 
-static const std::unordered_map<
+const std::unordered_map<
         std::string,
         std::function<bool(const std::string &, geometry::TriangleMesh &, const ReadTriangleMeshOptions &)>>
-        file_extension_to_trianglemesh_read_function{
+        kFileExtensionToTrianglemeshReadFunction{
                 {"ply", ReadTriangleMeshFromPLY},      {"stl", ReadTriangleMeshUsingASSIMP},
                 {"obj", ReadTriangleMeshUsingASSIMP},  {"off", ReadTriangleMeshFromOFF},
                 {"gltf", ReadTriangleMeshUsingASSIMP}, {"glb", ReadTriangleMeshUsingASSIMP},
                 {"fbx", ReadTriangleMeshUsingASSIMP},
         };
 
-static const std::unordered_map<std::string,
-                                std::function<bool(const std::string &,
-                                                   const geometry::TriangleMesh &,
-                                                   const bool,
-                                                   const bool,
-                                                   const bool,
-                                                   const bool,
-                                                   const bool,
-                                                   const bool)>>
-        file_extension_to_trianglemesh_write_function{
+const std::unordered_map<std::string,
+                         std::function<bool(const std::string &,
+                                            const geometry::TriangleMesh &,
+                                            const bool,
+                                            const bool,
+                                            const bool,
+                                            const bool,
+                                            const bool,
+                                            const bool)>>
+        kFileExtensionToTrianglemeshWriteFunction{
                 {"ply", WriteTriangleMeshToPLY}, {"stl", WriteTriangleMeshToSTL},   {"obj", WriteTriangleMeshToOBJ},
                 {"off", WriteTriangleMeshToOFF}, {"gltf", WriteTriangleMeshToGLTF}, {"glb", WriteTriangleMeshToGLTF},
         };
@@ -59,13 +59,13 @@ bool ReadTriangleMesh(const std::string &filename,
     std::string filename_ext = utility::filesystem::GetFileExtensionInLowerCase(filename);
     if (filename_ext.empty()) {
         LOGW("Read geometry::TriangleMesh failed: unknown file "
-             "extension.");
+             "extension.")
         return false;
     }
-    auto map_itr = file_extension_to_trianglemesh_read_function.find(filename_ext);
-    if (map_itr == file_extension_to_trianglemesh_read_function.end()) {
+    auto map_itr = kFileExtensionToTrianglemeshReadFunction.find(filename_ext);
+    if (map_itr == kFileExtensionToTrianglemeshReadFunction.end()) {
         LOGW("Read geometry::TriangleMesh failed: unknown file "
-             "extension.");
+             "extension.")
         return false;
     }
 
@@ -80,10 +80,10 @@ bool ReadTriangleMesh(const std::string &filename,
 
     bool success = map_itr->second(filename, mesh, params);
     LOGD("Read geometry::TriangleMesh: {:d} triangles and {:d} vertices.", (int)mesh.triangles_.size(),
-         (int)mesh.vertices_.size());
+         (int)mesh.vertices_.size())
     if (mesh.HasVertices() && !mesh.HasTriangles()) {
         LOGW("geometry::TriangleMesh appears to be a geometry::PointCloud "
-             "(only contains vertices, but no triangles).");
+             "(only contains vertices, but no triangles).")
     }
     return success;
 }
@@ -99,19 +99,19 @@ bool WriteTriangleMesh(const std::string &filename,
     std::string filename_ext = utility::filesystem::GetFileExtensionInLowerCase(filename);
     if (filename_ext.empty()) {
         LOGW("Write geometry::TriangleMesh failed: unknown file "
-             "extension.");
+             "extension.")
         return false;
     }
-    auto map_itr = file_extension_to_trianglemesh_write_function.find(filename_ext);
-    if (map_itr == file_extension_to_trianglemesh_write_function.end()) {
+    auto map_itr = kFileExtensionToTrianglemeshWriteFunction.find(filename_ext);
+    if (map_itr == kFileExtensionToTrianglemeshWriteFunction.end()) {
         LOGW("Write geometry::TriangleMesh failed: unknown file "
-             "extension.");
+             "extension.")
         return false;
     }
     bool success = map_itr->second(filename, mesh, write_ascii, compressed, write_vertex_normals, write_vertex_colors,
                                    write_triangle_uvs, print_progress);
     LOGD("Write geometry::TriangleMesh: {:d} triangles and {:d} vertices.", (int)mesh.triangles_.size(),
-         (int)mesh.vertices_.size());
+         (int)mesh.vertices_.size())
     return success;
 }
 
@@ -191,7 +191,7 @@ bool AddTrianglesByEarClipping(geometry::TriangleMesh &mesh, std::vector<unsigne
 
                 if (is_ear) {
                     found_ear = true;
-                    mesh.triangles_.push_back(Eigen::Vector3i(indices[i - 1], indices[i], indices[i + 1]));
+                    mesh.triangles_.emplace_back(indices[i - 1], indices[i], indices[i + 1]);
                     indices.erase(indices.begin() + i);
                     n = int(indices.size());
                     break;
@@ -199,7 +199,7 @@ bool AddTrianglesByEarClipping(geometry::TriangleMesh &mesh, std::vector<unsigne
             }
         }
     }
-    mesh.triangles_.push_back(Eigen::Vector3i(indices[0], indices[1], indices[2]));
+    mesh.triangles_.emplace_back(indices[0], indices[1], indices[2]);
 
     return true;
 }

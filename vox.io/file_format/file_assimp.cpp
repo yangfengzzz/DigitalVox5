@@ -14,13 +14,13 @@
 #include <numeric>
 #include <vector>
 
-#include "../file_format_io.h"
-#include "../image_io.h"
-#include "../model_io.h"
-#include "../triangle_mesh_io.h"
-#include "file_system.h"
-#include "logging.h"
-#include "progress_reporters.h"
+#include "vox.base/file_system.h"
+#include "vox.base/logging.h"
+#include "vox.base/progress_reporters.h"
+#include "vox.io/file_format_io.h"
+#include "vox.io/image_io.h"
+#include "vox.io/model_io.h"
+#include "vox.io/triangle_mesh_io.h"
 //#include "rendering/MaterialRecord.h"
 //#include "rendering/Model.h"
 
@@ -29,17 +29,16 @@
 #define AI_MATKEY_SHEEN "$mat.sheen", 0, 0
 #define AI_MATKEY_ANISOTROPY "$mat.anisotropy", 0, 0
 
-namespace vox {
-namespace io {
+namespace vox::io {
 
 FileGeometry ReadFileGeometryTypeFBX(const std::string& path) {
     return FileGeometry(CONTAINS_TRIANGLES | CONTAINS_POINTS);
 }
 
-const unsigned int kPostProcessFlags_compulsory = aiProcess_JoinIdenticalVertices;
+const unsigned int kPostProcessFlagsCompulsory = aiProcess_JoinIdenticalVertices;
 
-const unsigned int kPostProcessFlags_fast = aiProcessPreset_TargetRealtime_Fast | aiProcess_RemoveRedundantMaterials |
-                                            aiProcess_OptimizeMeshes | aiProcess_PreTransformVertices;
+const unsigned int kPostProcessFlagsFast = aiProcessPreset_TargetRealtime_Fast | aiProcess_RemoveRedundantMaterials |
+                                           aiProcess_OptimizeMeshes | aiProcess_PreTransformVertices;
 
 struct TextureImages {
     std::shared_ptr<geometry::Image> albedo;
@@ -64,10 +63,10 @@ void LoadTextures(const std::string& filename, aiMaterial* mat, TextureImages& m
             mat->GetTexture(type, 0, &path);
             std::string strpath(path.C_Str());
             // normalize path separators
-            auto p_win = strpath.find("\\");
+            auto p_win = strpath.find('\\');
             while (p_win != std::string::npos) {
                 strpath[p_win] = '/';
-                p_win = strpath.find("\\", p_win + 1);
+                p_win = strpath.find('\\', p_win + 1);
             }
             // if absolute path convert to relative to base path
             if (strpath.length() > 1 && (strpath[0] == '/' || strpath[1] == ':')) {
@@ -99,7 +98,7 @@ void LoadTextures(const std::string& filename, aiMaterial* mat, TextureImages& m
         texture_loader(aiTextureType_SHININESS, maps.roughness);
     }
     // NOTE: Assimp doesn't have a texture type for GLTF's combined
-    // roughness/metallic texture so it puts it in the 'unknown' texture slot
+    // roughness/metallic texture, so it puts it in the 'unknown' texture slot
     texture_loader(aiTextureType_UNKNOWN, maps.gltf_rough_metal);
     // NOTE: the following may be non-standard. We are using REFLECTION texture
     // type to store OBJ map_Ps 'sheen' PBR map
@@ -116,15 +115,15 @@ bool ReadTriangleMeshUsingASSIMP(const std::string& filename,
                                  const ReadTriangleMeshOptions& params /*={}*/) {
     Assimp::Importer importer;
 
-    unsigned int post_process_flags = kPostProcessFlags_compulsory;
+    unsigned int post_process_flags = kPostProcessFlagsCompulsory;
 
     if (params.enable_post_processing) {
-        post_process_flags = kPostProcessFlags_fast;
+        post_process_flags = kPostProcessFlagsFast;
     }
 
     const auto* scene = importer.ReadFile(filename.c_str(), post_process_flags);
     if (!scene) {
-        LOGW("Unable to load file {} with ASSIMP", filename);
+        LOGW("Unable to load file {} with ASSIMP", filename)
         return false;
     }
 
@@ -138,14 +137,14 @@ bool ReadTriangleMeshUsingASSIMP(const std::string& filename,
         if (assimp_mesh->mPrimitiveTypes != aiPrimitiveType_TRIANGLE) {
             LOGI("Skipping non-triangle primitive geometry of type: "
                  "{}",
-                 assimp_mesh->mPrimitiveTypes);
+                 assimp_mesh->mPrimitiveTypes)
             continue;
         }
 
         // copy vertex data
         for (size_t vidx = 0; vidx < assimp_mesh->mNumVertices; ++vidx) {
             auto& vertex = assimp_mesh->mVertices[vidx];
-            mesh.vertices_.push_back(Eigen::Vector3d(vertex.x, vertex.y, vertex.z));
+            mesh.vertices_.emplace_back(vertex.x, vertex.y, vertex.z);
         }
 
         // copy face indices data
@@ -161,7 +160,7 @@ bool ReadTriangleMeshUsingASSIMP(const std::string& filename,
         if (assimp_mesh->mNormals) {
             for (size_t nidx = 0; nidx < assimp_mesh->mNumVertices; ++nidx) {
                 auto& normal = assimp_mesh->mNormals[nidx];
-                mesh.vertex_normals_.push_back({normal.x, normal.y, normal.z});
+                mesh.vertex_normals_.emplace_back(normal.x, normal.y, normal.z);
             }
         }
 
@@ -172,9 +171,9 @@ bool ReadTriangleMeshUsingASSIMP(const std::string& filename,
                 auto& uv1 = assimp_mesh->mTextureCoords[0][face.mIndices[0]];
                 auto& uv2 = assimp_mesh->mTextureCoords[0][face.mIndices[1]];
                 auto& uv3 = assimp_mesh->mTextureCoords[0][face.mIndices[2]];
-                mesh.triangle_uvs_.push_back(Eigen::Vector2d(uv1.x, uv1.y));
-                mesh.triangle_uvs_.push_back(Eigen::Vector2d(uv2.x, uv2.y));
-                mesh.triangle_uvs_.push_back(Eigen::Vector2d(uv3.x, uv3.y));
+                mesh.triangle_uvs_.emplace_back(uv1.x, uv1.y);
+                mesh.triangle_uvs_.emplace_back(uv2.x, uv2.y);
+                mesh.triangle_uvs_.emplace_back(uv3.x, uv3.y);
             }
         }
 
@@ -182,7 +181,7 @@ bool ReadTriangleMeshUsingASSIMP(const std::string& filename,
         if (assimp_mesh->HasVertexColors(0)) {
             for (size_t cidx = 0; cidx < assimp_mesh->mNumVertices; ++cidx) {
                 auto& c = assimp_mesh->mColors[0][cidx];
-                mesh.vertex_colors_.push_back({c.r, c.g, c.b});
+                mesh.vertex_colors_.emplace_back(c.r, c.g, c.b);
             }
         }
 
@@ -229,7 +228,7 @@ bool ReadTriangleMeshUsingASSIMP(const std::string& filename,
         if (mesh_material.albedo) {
             mesh.textures_.push_back(*mesh_material.albedo->FlipVertical());
         } else {
-            mesh.textures_.push_back(geometry::Image());
+            mesh.textures_.emplace_back();
         }
     }
 
@@ -392,5 +391,4 @@ bool ReadTriangleMeshUsingASSIMP(const std::string& filename,
 //     return true;
 // }
 
-}  // namespace io
-}  // namespace vox
+}  // namespace vox::io

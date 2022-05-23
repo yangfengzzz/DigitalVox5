@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include "line_set.h"
+#include "vox.geometry/line_set.h"
 
 namespace vox::io {
 

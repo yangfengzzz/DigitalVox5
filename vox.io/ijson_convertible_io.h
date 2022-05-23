@@ -10,7 +10,7 @@
 #include <iterator>
 #include <string>
 
-#include "ijson_convertible.h"
+#include "vox.base/ijson_convertible.h"
 
 namespace vox::io {
 
@@ -51,7 +51,7 @@ bool WriteIJsonConvertibleToJSONString(std::string &json_string, const utility::
 /// to the first specified option in the macro.
 #define DECLARE_STRINGIFY_ENUM(ENUM_TYPE)    \
     std::string enum_to_string(ENUM_TYPE e); \
-    void enum_from_string(const std::string &str, (ENUM_TYPE) &e);
+    void enum_from_string(const std::string &str, (ENUM_TYPE)&e);
 
 #define STRINGIFY_ENUM(ENUM_TYPE, ...)                                                                               \
     std::string enum_to_string(ENUM_TYPE e) {                                                                        \
@@ -69,7 +69,7 @@ bool WriteIJsonConvertibleToJSONString(std::string &json_string, const utility::
                 std::begin(m), std::end(m),                                                                          \
                 [&str](const std::pair<ENUM_TYPE, std::string> &es_pair) -> bool { return es_pair.second == str; }); \
         e = ((it != std::end(m)) ? it : std::begin(m))->first;                                                       \
-        LOGD("{} -> {}", str, e);                                                                       \
+        LOGD("{} -> {}", str, e);                                                                                    \
     }
 
-}  // namespace vox
+}  // namespace vox::io

@@ -7,11 +7,11 @@
 #include <fstream>
 #include <vector>
 
-#include "../file_format_io.h"
-#include "../triangle_mesh_io.h"
-#include "logging.h"
-#include "progress_bar.h"
-#include "progress_reporters.h"
+#include "vox.base/logging.h"
+#include "vox.base/progress_bar.h"
+#include "vox.base/progress_reporters.h"
+#include "vox.io/file_format_io.h"
+#include "vox.io/triangle_mesh_io.h"
 
 namespace vox::io {
 

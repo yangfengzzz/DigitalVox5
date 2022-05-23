@@ -8,19 +8,19 @@
 
 #include <unordered_map>
 
-#include "file_system.h"
 #include "ijson_convertible_io.h"
-#include "logging.h"
+#include "vox.base/file_system.h"
+#include "vox.base/logging.h"
 
 namespace vox::io {
 
 static const std::unordered_map<std::string, std::function<bool(const std::string &, geometry::Octree &)>>
-        file_extension_to_octree_read_function{
+        kFileExtensionToOctreeReadFunction{
                 {"json", ReadOctreeFromJson},
         };
 
 static const std::unordered_map<std::string, std::function<bool(const std::string &, const geometry::Octree &)>>
-        file_extension_to_octree_write_function{
+        kFileExtensionToOctreeWriteFunction{
                 {"json", WriteOctreeToJson},
         };
 
@@ -41,8 +41,8 @@ bool ReadOctree(const std::string &filename, geometry::Octree &octree, const std
         LOGW("Read geometry::Octree failed: unknown file extension.")
         return false;
     }
-    auto map_itr = file_extension_to_octree_read_function.find(filename_ext);
-    if (map_itr == file_extension_to_octree_read_function.end()) {
+    auto map_itr = kFileExtensionToOctreeReadFunction.find(filename_ext);
+    if (map_itr == kFileExtensionToOctreeReadFunction.end()) {
         LOGW("Read geometry::Octree failed: unknown file extension.")
         return false;
     }
@@ -57,8 +57,8 @@ bool WriteOctree(const std::string &filename, const geometry::Octree &octree) {
         LOGW("Write geometry::Octree failed: unknown file extension.")
         return false;
     }
-    auto map_itr = file_extension_to_octree_write_function.find(filename_ext);
-    if (map_itr == file_extension_to_octree_write_function.end()) {
+    auto map_itr = kFileExtensionToOctreeWriteFunction.find(filename_ext);
+    if (map_itr == kFileExtensionToOctreeWriteFunction.end()) {
         LOGW("Write geometry::Octree failed: unknown file extension.")
         return false;
     }
@@ -74,4 +74,4 @@ bool ReadOctreeFromJson(const std::string &filename, geometry::Octree &octree) {
 bool WriteOctreeToJson(const std::string &filename, const geometry::Octree &octree) {
     return WriteIJsonConvertibleToJSON(filename, octree);
 }
-}  // namespace vox
+}  // namespace vox::io

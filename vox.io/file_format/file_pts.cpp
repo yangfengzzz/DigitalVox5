@@ -6,12 +6,12 @@
 
 #include <cstdio>
 
-#include "../file_format_io.h"
-#include "../point_cloud_io.h"
-#include "file_system.h"
-#include "helper.h"
-#include "logging.h"
-#include "progress_reporters.h"
+#include "vox.base/file_system.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
+#include "vox.base/progress_reporters.h"
+#include "vox.io/file_format_io.h"
+#include "vox.io/point_cloud_io.h"
 
 namespace vox::io {
 

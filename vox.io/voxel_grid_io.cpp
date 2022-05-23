@@ -8,8 +8,8 @@
 
 #include <unordered_map>
 
-#include "file_system.h"
-#include "logging.h"
+#include "vox.base/file_system.h"
+#include "vox.base/logging.h"
 
 namespace vox {
 
@@ -17,14 +17,14 @@ namespace {
 using namespace io;
 
 const std::unordered_map<std::string, std::function<bool(const std::string &, geometry::VoxelGrid &, bool)>>
-        file_extension_to_voxelgrid_read_function{
+        kFileExtensionToVoxelgridReadFunction{
                 {"ply", ReadVoxelGridFromPLY},
         };
 
 const std::unordered_map<
         std::string,
         std::function<bool(const std::string &, const geometry::VoxelGrid &, const bool, const bool, const bool)>>
-        file_extension_to_voxelgrid_write_function{
+        kFileExtensionToVoxelgridWriteFunction{
                 {"ply", WriteVoxelGridToPLY},
         };
 }  // unnamed namespace
@@ -53,8 +53,8 @@ bool ReadVoxelGrid(const std::string &filename,
         LOGW("Read geometry::VoxelGrid failed: unknown file extension.")
         return false;
     }
-    auto map_itr = file_extension_to_voxelgrid_read_function.find(filename_ext);
-    if (map_itr == file_extension_to_voxelgrid_read_function.end()) {
+    auto map_itr = kFileExtensionToVoxelgridReadFunction.find(filename_ext);
+    if (map_itr == kFileExtensionToVoxelgridReadFunction.end()) {
         LOGW("Read geometry::VoxelGrid failed: unknown file extension.")
         return false;
     }
@@ -73,8 +73,8 @@ bool WriteVoxelGrid(const std::string &filename,
         LOGW("Write geometry::VoxelGrid failed: unknown file extension.")
         return false;
     }
-    auto map_itr = file_extension_to_voxelgrid_write_function.find(filename_ext);
-    if (map_itr == file_extension_to_voxelgrid_write_function.end()) {
+    auto map_itr = kFileExtensionToVoxelgridWriteFunction.find(filename_ext);
+    if (map_itr == kFileExtensionToVoxelgridWriteFunction.end()) {
         LOGW("Write geometry::VoxelGrid failed: unknown file extension.")
         return false;
     }
