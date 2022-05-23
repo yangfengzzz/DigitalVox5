@@ -7200,10 +7200,7 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
-				HEADER_SEARCH_PATHS = (
-					./vox.base,
-					./vox.geometry,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REZ_SEARCH_PATHS = "";
 				SKIP_INSTALL = YES;
@@ -7236,10 +7233,7 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
-				HEADER_SEARCH_PATHS = (
-					./vox.base,
-					./vox.geometry,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REZ_SEARCH_PATHS = "";
 				SKIP_INSTALL = YES;
@@ -7271,11 +7265,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = (
-					./vox.base,
-					./vox.geometry,
-					./vox.io,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					./third_party/json_cpp/build/lib,
 					./third_party/libjpeg/build,
@@ -7334,11 +7324,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = (
-					./vox.base,
-					./vox.geometry,
-					./vox.io,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					./third_party/json_cpp/build/lib,
 					./third_party/libjpeg/build,
@@ -7402,11 +7388,7 @@
 					"DEBUG=1",
 					MKL_ILP64,
 				);
-				HEADER_SEARCH_PATHS = (
-					./vox.base,
-					./vox.geometry,
-					./vox.core,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (
@@ -7428,11 +7410,7 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = MKL_ILP64;
-				HEADER_SEARCH_PATHS = (
-					./vox.base,
-					./vox.geometry,
-					./vox.core,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (
@@ -7452,11 +7430,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = (
-					./vox.base,
-					./vox.geometry,
-					./vox.core,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					./third_party/json_cpp/build/lib,
 					/opt/intel/oneapi/mkl/latest/lib,
@@ -7502,11 +7476,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = (
-					./vox.base,
-					./vox.geometry,
-					./vox.core,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					./third_party/json_cpp/build/lib,
 					/opt/intel/oneapi/mkl/latest/lib,
