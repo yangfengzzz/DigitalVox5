@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "file_system.h"
-#include "voxel_grid.h"
-#include "voxel_grid_io.h"
+#include "vox.base/file_system.h"
+#include "vox.geometry/voxel_grid.h"
+#include "vox.io/voxel_grid_io.h"
 //#include "utility/DrawGeometry.h"
 #include "tests.h"
 
@@ -46,4 +46,4 @@ TEST(VoxelGridIO, PLYWriteRead) {
     // visualization::DrawGeometries({dst_voxel_grid});
 }
 
-}  // namespace vox
+}  // namespace vox::tests

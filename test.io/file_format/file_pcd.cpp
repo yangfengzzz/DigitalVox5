@@ -38,4 +38,4 @@ TEST(FilePCD, DISABLED_ReadPointCloudFromPCD) { NotImplemented(); }
 
 TEST(FilePCD, DISABLED_WritePointCloudToPCD) { NotImplemented(); }
 
-}  // namespace vox
+}  // namespace vox::tests

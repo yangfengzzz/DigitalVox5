@@ -6,14 +6,14 @@
 
 #include <json/json.h>
 
-#include "dataset.h"
-#include "file_system.h"
-#include "ijson_convertible.h"
-#include "octree.h"
-#include "octree_io.h"
-#include "point_cloud.h"
-#include "point_cloud_io.h"
 #include "tests.h"
+#include "vox.base/dataset.h"
+#include "vox.base/file_system.h"
+#include "vox.base/ijson_convertible.h"
+#include "vox.geometry/octree.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.io/octree_io.h"
+#include "vox.io/point_cloud_io.h"
 
 namespace vox::tests {
 
@@ -77,4 +77,4 @@ TEST(OctreeIO, JsonFileIOSevenCubes) {
     WriteReadAndAssertEqual(octree);
 }
 
-}  // namespace vox
+}  // namespace vox::tests

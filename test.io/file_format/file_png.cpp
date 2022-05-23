@@ -14,4 +14,4 @@ TEST(FilePNG, DISABLED_ReadImageFromPNG) { NotImplemented(); }
 
 TEST(FilePNG, DISABLED_WriteImageToPNG) { NotImplemented(); }
 
-}  // namespace vox
+}  // namespace vox::tests

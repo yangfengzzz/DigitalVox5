@@ -5,9 +5,9 @@
 //  property of any third parties.
 
 #include "../tests.h"
-#include "file_system.h"
-#include "triangle_mesh.h"
-#include "triangle_mesh_io.h"
+#include "vox.base/file_system.h"
+#include "vox.geometry/triangle_mesh.h"
+#include "vox.io/triangle_mesh_io.h"
 
 namespace vox::tests {
 
@@ -49,4 +49,4 @@ TEST(FileGLTF, WriteReadTriangleMeshFromGLTF) {
 //     ExpectEQ(tm_gt.vertex_normals_, tm_test.vertex_normals_);
 // }
 
-}  // namespace vox
+}  // namespace vox::tests

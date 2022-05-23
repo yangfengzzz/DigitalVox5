@@ -5,7 +5,7 @@
 //  property of any third parties.
 
 #include "tests.h"
-#include "triangle_mesh_io.h"
+#include "vox.io/triangle_mesh_io.h"
 
 namespace vox::tests {
 

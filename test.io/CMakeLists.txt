@@ -21,9 +21,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 # OpenMP
 find_package(OpenMP)
-if(OpenMP_CXX_FOUND)
+if (OpenMP_CXX_FOUND)
     target_link_libraries(${PROJECT_NAME} PUBLIC OpenMP::OpenMP_CXX ${OpenCV_LIBS})
-endif()
+endif ()
 
 # Link third party libraries
 target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/googletest/build/lib

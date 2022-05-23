@@ -24,10 +24,10 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "file_system.h"
-#include "point_cloud.h"
-#include "point_cloud_io.h"
 #include "tests.h"
+#include "vox.base/file_system.h"
+#include "vox.geometry/point_cloud.h"
+#include "vox.io/point_cloud_io.h"
 
 namespace vox::tests {
 
