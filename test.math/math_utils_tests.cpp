@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 
-#include "math_utils.h"
+#include "vox.math/math_utils.h"
 
 using namespace vox;
 

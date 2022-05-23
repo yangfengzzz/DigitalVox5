@@ -9,8 +9,8 @@
 #include <array>
 #include <type_traits>
 
-#include "macros.h"
-#include "matrix_expression.h"
+#include "vox.math/macros.h"
+#include "vox.math/matrix_expression.h"
 
 namespace vox {
 
@@ -439,4 +439,4 @@ private:
 
 }  // namespace vox
 
-#include "matrix-inl.h"
+#include "vox.math/matrix-inl.h"

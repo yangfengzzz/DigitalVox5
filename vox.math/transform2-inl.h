@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <cmath>
 
-#include "transform2.h"
+#include "vox.math/transform2.h"
 
 namespace vox {
 template <typename T>

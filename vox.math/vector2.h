@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <limits>
 
-#include "vector.h"
+#include "vox.math/vector.h"
 
 namespace vox {
 
@@ -357,4 +357,4 @@ Vector2<T> monotonicCatmullRom(
 
 }  // namespace vox
 
-#include "vector2-inl.h"
+#include "vox.math/vector2-inl.h"

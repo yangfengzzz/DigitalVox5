@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "matrix4x4.h"
-#include "matrix_utils.h"
 #include "unit_tests_utils.h"
+#include "vox.math/matrix4x4.h"
+#include "vox.math/matrix_utils.h"
 
 using namespace vox;
 

@@ -29,4 +29,4 @@ struct RDivides {
 };
 }  // namespace vox
 
-#include "functors-inl.h"
+#include "vox.math/functors-inl.h"

@@ -7,7 +7,7 @@ file(GLOB sources
 
 add_executable(${PROJECT_NAME} ${sources})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ../vox.math
+target_include_directories(${PROJECT_NAME} PUBLIC ../
         ${CMAKE_SOURCE_DIR}/third_party/googletest/googlemock/include
         ${CMAKE_SOURCE_DIR}/third_party/googletest/googletest/include)
 

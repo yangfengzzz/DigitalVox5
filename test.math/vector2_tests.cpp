@@ -7,7 +7,7 @@
 #include <algorithm>
 
 #include "unit_tests_utils.h"
-#include "vector3.h"
+#include "vox.math/vector3.h"
 
 using namespace vox;
 

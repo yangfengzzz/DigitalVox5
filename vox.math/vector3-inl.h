@@ -10,8 +10,8 @@
 #include <limits>
 #include <tuple>
 
-#include "macros.h"
-#include "math_utils.h"
+#include "vox.math/macros.h"
+#include "vox.math/math_utils.h"
 
 namespace vox {
 

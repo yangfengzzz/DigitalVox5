@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "quaternion.h"
 #include "unit_tests_utils.h"
+#include "vox.math/quaternion.h"
 
 using namespace vox;
 

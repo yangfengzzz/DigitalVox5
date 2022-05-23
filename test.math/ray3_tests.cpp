@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 
-#include "ray3.h"
+#include "vox.math/ray3.h"
 
 using namespace vox;
 

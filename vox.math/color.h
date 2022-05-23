@@ -10,7 +10,7 @@
 #include <cassert>
 #include <cmath>
 
-#include "constants.h"
+#include "vox.math/constants.h"
 
 namespace vox {
 /**

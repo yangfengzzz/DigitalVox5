@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 
-#include "ray2.h"
+#include "vox.math/ray2.h"
 
 using namespace vox;
 

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "point.h"
+#include "vox.math/point.h"
 
 namespace vox {
 //! \brief N-D size type.
@@ -15,4 +15,4 @@ using Size = Point<size_t, N>;
 
 }  // namespace vox
 
-// #include "size-inl.h"
+// #include "vox.math/size-inl.h"

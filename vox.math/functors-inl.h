@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "functors.h"
+#include "vox.math/functors.h"
 
 namespace vox {
 

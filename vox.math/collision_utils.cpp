@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "collision_utils.h"
+#include "vox.math/collision_utils.h"
 
-#include "ray.h"
+#include "vox.math/ray.h"
 
 namespace vox {
 

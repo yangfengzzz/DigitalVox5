@@ -10,8 +10,8 @@
 #include <cmath>
 #include <optional>
 
-#include "bounding_box3.h"
-#include "bounding_plane3.h"
+#include "vox.math/bounding_box3.h"
+#include "vox.math/bounding_plane3.h"
 
 namespace vox {
 

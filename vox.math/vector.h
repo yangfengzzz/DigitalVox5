@@ -9,9 +9,9 @@
 #include <array>
 #include <type_traits>
 
-#include "constants.h"
-#include "type_helpers.h"
-#include "vector_expression.h"
+#include "vox.math/constants.h"
+#include "vox.math/type_helpers.h"
+#include "vox.math/vector_expression.h"
 
 namespace vox {
 //!
@@ -340,4 +340,4 @@ struct ScalarType<Vector<T, N>> {
 
 }  // namespace vox
 
-#include "vector-inl.h"
+#include "vox.math/vector-inl.h"

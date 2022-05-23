@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 
-#include "point3.h"
+#include "vox.math/point3.h"
 
 using namespace vox;
 

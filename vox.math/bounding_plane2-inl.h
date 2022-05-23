@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "bounding_plane2.h"
+#include "vox.math/bounding_plane2.h"
 
 namespace vox {
 template <typename T>

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "matrix4x4.h"
+#include "vox.math/matrix4x4.h"
 
 namespace vox {
 
@@ -352,4 +352,4 @@ using QuaternionD = Quaternion<double>;
 
 }  // namespace vox
 
-#include "quaternion-inl.h"
+#include "vox.math/quaternion-inl.h"

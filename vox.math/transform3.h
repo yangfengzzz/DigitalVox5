@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "bounding_box3.h"
-#include "quaternion.h"
-#include "ray3.h"
-#include "vector3.h"
+#include "vox.math/bounding_box3.h"
+#include "vox.math/quaternion.h"
+#include "vox.math/ray3.h"
+#include "vox.math/vector3.h"
 
 namespace vox {
 
@@ -76,4 +76,4 @@ using Transform3D = Transform3<double>;
 
 }  // namespace vox
 
-#include "transform3-inl.h"
+#include "vox.math/transform3-inl.h"

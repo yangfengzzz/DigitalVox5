@@ -10,10 +10,10 @@
 #include <cassert>
 #include <cmath>
 
-#include "bounding_box3.h"
-#include "bounding_frustum.h"
-#include "bounding_plane3.h"
-#include "ray3.h"
+#include "vox.math/bounding_box3.h"
+#include "vox.math/bounding_frustum.h"
+#include "vox.math/bounding_plane3.h"
+#include "vox.math/ray3.h"
 
 namespace vox {
 /**

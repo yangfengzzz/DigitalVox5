@@ -8,10 +8,10 @@
 
 #include <limits>
 
-#include "bounding_box.h"
-#include "point2.h"
-#include "ray2.h"
-#include "vector2.h"
+#include "vox.math/bounding_box.h"
+#include "vox.math/point2.h"
+#include "vox.math/ray2.h"
+#include "vox.math/vector2.h"
 
 namespace vox {
 
@@ -130,4 +130,4 @@ using BoundingBoxRayIntersection2D = BoundingBoxRayIntersection2<double>;
 
 }  // namespace vox
 
-#include "bounding_box2-inl.h"
+#include "vox.math/bounding_box2-inl.h"

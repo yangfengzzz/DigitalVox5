@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "point3.h"
-#include "ray.h"
-#include "vector3.h"
+#include "vox.math/point3.h"
+#include "vox.math/ray.h"
+#include "vox.math/vector3.h"
 
 namespace vox {
 
@@ -53,4 +53,4 @@ using Ray3D = Ray3<double>;
 
 }  // namespace vox
 
-#include "ray3-inl.h"
+#include "vox.math/ray3-inl.h"

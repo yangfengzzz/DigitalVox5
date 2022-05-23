@@ -8,7 +8,7 @@
 
 #include <random>
 
-#include "algorithm.h"
+#include "vox.math/algorithm.h"
 
 namespace vox {
 class Random {

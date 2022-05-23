@@ -8,7 +8,7 @@
 
 #include <cassert>
 
-#include "size.h"
+#include "vox.math/size.h"
 
 namespace vox {
 

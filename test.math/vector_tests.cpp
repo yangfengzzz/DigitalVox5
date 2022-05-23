@@ -6,8 +6,8 @@
 
 #include <gtest/gtest.h>
 
-#include "vector.h"
-#include "vector4.h"
+#include "vox.math/vector.h"
+#include "vox.math/vector4.h"
 
 using namespace vox;
 

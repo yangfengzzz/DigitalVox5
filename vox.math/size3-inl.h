@@ -9,8 +9,8 @@
 #include <algorithm>
 #include <cassert>
 
-#include "math_utils.h"
-#include "size3.h"
+#include "vox.math/math_utils.h"
+#include "vox.math/size3.h"
 
 namespace vox {
 

@@ -9,7 +9,7 @@
 #include <array>
 #include <type_traits>
 
-#include "macros.h"
+#include "vox.math/macros.h"
 
 namespace vox {
 //!
@@ -69,4 +69,4 @@ private:
 
 }  // namespace vox
 
-#include "point-inl.h"
+#include "vox.math/point-inl.h"

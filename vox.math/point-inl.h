@@ -8,7 +8,7 @@
 
 #include <cassert>
 
-#include "macros.h"
+#include "vox.math/macros.h"
 
 namespace vox {
 

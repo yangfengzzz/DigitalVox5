@@ -9,7 +9,7 @@
 #include <cmath>
 #include <limits>
 
-#include "macros.h"
+#include "vox.math/macros.h"
 
 namespace vox {
 

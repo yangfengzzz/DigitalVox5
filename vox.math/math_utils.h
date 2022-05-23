@@ -9,7 +9,7 @@
 #include <cstddef>
 #include <limits>
 
-#include "macros.h"
+#include "vox.math/macros.h"
 
 namespace vox {
 
@@ -240,4 +240,4 @@ inline T monotonicCatmullRom(const T &f0, const T &f1, const T &f2, const T &f3,
 
 }  // namespace vox
 
-#include "math_utils-inl.h"
+#include "vox.math/math_utils-inl.h"

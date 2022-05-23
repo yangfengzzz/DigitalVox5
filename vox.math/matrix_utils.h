@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "math_utils.h"
-#include "matrix4x4.h"
-#include "quaternion.h"
+#include "vox.math/math_utils.h"
+#include "vox.math/matrix4x4.h"
+#include "vox.math/quaternion.h"
 
 namespace vox {
 //! Makes scale matrix.

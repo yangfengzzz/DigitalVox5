@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "size2.h"
+#include "vox.math/size2.h"
 
 namespace vox {
 //!
@@ -264,4 +264,4 @@ Size3 floor(const Size3 &a);
 
 }  // namespace vox
 
-#include "size3-inl.h"
+#include "vox.math/size3-inl.h"

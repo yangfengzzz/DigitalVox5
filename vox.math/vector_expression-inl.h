@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "vector_expression.h"
+#include "vox.math/vector_expression.h"
 
 namespace vox {
 

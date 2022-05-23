@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "bounding_box3.h"
 #include "unit_tests_utils.h"
+#include "vox.math/bounding_box3.h"
 
 using namespace vox;
 

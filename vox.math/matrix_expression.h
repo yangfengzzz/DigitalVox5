@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "size2.h"
-#include "vector_expression.h"
+#include "vox.math/size2.h"
+#include "vox.math/vector_expression.h"
 
 namespace vox {
 
@@ -428,4 +428,4 @@ MatrixScalarRDiv<T, E> operator/(T a, const MatrixExpression<T, E> &b);
 
 }  // namespace vox
 
-#include "matrix_expression-inl.h"
+#include "vox.math/matrix_expression-inl.h"

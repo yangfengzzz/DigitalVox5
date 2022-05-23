@@ -6,9 +6,9 @@
 
 #include <gtest/gtest.h>
 
-#include "matrix3x3.h"
-#include "matrix4x4.h"
-#include "quaternion.h"
+#include "vox.math/matrix3x3.h"
+#include "vox.math/matrix4x4.h"
+#include "vox.math/quaternion.h"
 
 using namespace vox;
 

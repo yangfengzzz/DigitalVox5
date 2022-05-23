@@ -6,8 +6,8 @@
 
 #include <gtest/gtest.h>
 
-#include "transform3.h"
 #include "unit_tests_utils.h"
+#include "vox.math/transform3.h"
 
 using namespace vox;
 

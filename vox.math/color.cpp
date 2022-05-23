@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "color.h"
+#include "vox.math/color.h"
 
 namespace vox {
 const Color Color::red = {1.f, 0.f, 0.f};

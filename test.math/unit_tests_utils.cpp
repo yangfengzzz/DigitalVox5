@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "point2.h"
-#include "point3.h"
-#include "vector2.h"
-#include "vector3.h"
+#include "vox.math/point2.h"
+#include "vox.math/point3.h"
+#include "vox.math/vector2.h"
+#include "vox.math/vector3.h"
 
 #define STR(s) #s
 

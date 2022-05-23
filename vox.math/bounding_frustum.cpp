@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "bounding_frustum.h"
+#include "vox.math/bounding_frustum.h"
 
-#include "collision_utils.h"
+#include "vox.math/collision_utils.h"
 
 namespace vox {
 BoundingFrustum::BoundingFrustum() = default;

@@ -10,7 +10,7 @@
 #include <cstring>
 #include <utility>
 
-#include "math_utils.h"
+#include "vox.math/math_utils.h"
 
 namespace vox {
 

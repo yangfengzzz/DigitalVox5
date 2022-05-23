@@ -10,7 +10,7 @@
 #include <limits>
 #include <tuple>
 
-#include "vector2.h"
+#include "vox.math/vector2.h"
 
 namespace vox {
 
@@ -365,4 +365,4 @@ Vector3<T> monotonicCatmullRom(
 
 }  // namespace vox
 
-#include "vector3-inl.h"
+#include "vox.math/vector3-inl.h"

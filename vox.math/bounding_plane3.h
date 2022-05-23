@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "bounding_plane.h"
-#include "point3.h"
-#include "vector3.h"
+#include "vox.math/bounding_plane.h"
+#include "vox.math/point3.h"
+#include "vox.math/vector3.h"
 
 namespace vox {
 
@@ -69,4 +69,4 @@ using BoundingPlane3D = BoundingPlane3<double>;
 
 }  // namespace vox
 
-#include "bounding_plane3-inl.h"
+#include "vox.math/bounding_plane3-inl.h"

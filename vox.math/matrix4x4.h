@@ -9,9 +9,9 @@
 #include <array>
 #include <limits>
 
-#include "matrix3x3.h"
-#include "point3.h"
-#include "vector4.h"
+#include "vox.math/matrix3x3.h"
+#include "vox.math/point3.h"
+#include "vox.math/vector4.h"
 
 namespace vox {
 
@@ -524,4 +524,4 @@ using Matrix4x4D = Matrix4x4<double>;
 
 }  // namespace vox
 
-#include "matrix4x4-inl.h"
+#include "vox.math/matrix4x4-inl.h"

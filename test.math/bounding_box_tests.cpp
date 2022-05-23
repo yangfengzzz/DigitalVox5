@@ -8,7 +8,7 @@
 
 #include <limits>
 
-#include "bounding_box2.h"
+#include "vox.math/bounding_box2.h"
 
 using namespace vox;
 

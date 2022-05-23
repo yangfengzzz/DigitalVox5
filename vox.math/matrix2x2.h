@@ -9,8 +9,8 @@
 #include <array>
 #include <limits>
 
-#include "matrix.h"
-#include "vector2.h"
+#include "vox.math/matrix.h"
+#include "vox.math/vector2.h"
 
 namespace vox {
 
@@ -397,4 +397,4 @@ using Matrix2x2D = Matrix2x2<double>;
 
 }  // namespace vox
 
-#include "matrix2x2-inl.h"
+#include "vox.math/matrix2x2-inl.h"

@@ -8,9 +8,9 @@
 
 #include <iostream>
 
-#include "matrix.h"
-#include "vector.h"
-#include "vector2.h"
+#include "vox.math/matrix.h"
+#include "vox.math/vector.h"
+#include "vox.math/vector2.h"
 
 using namespace vox;
 

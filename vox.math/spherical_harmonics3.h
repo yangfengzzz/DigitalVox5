@@ -8,8 +8,8 @@
 
 #include <array>
 
-#include "color.h"
-#include "vector3.h"
+#include "vox.math/color.h"
+#include "vox.math/vector3.h"
 
 namespace vox {
 /**

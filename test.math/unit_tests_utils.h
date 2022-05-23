@@ -9,8 +9,8 @@
 
 #include <gtest/gtest.h>
 
-#include "point3.h"
-#include "vector3.h"
+#include "vox.math/point3.h"
+#include "vox.math/vector3.h"
 
 #define EXPECT_VECTOR2_EQ(expected, actual)     \
     EXPECT_DOUBLE_EQ((expected).x, (actual).x); \
@@ -54,19 +54,19 @@
     EXPECT_NEAR((expected).b, (actual).b, eps);  \
     EXPECT_NEAR((expected).a, (actual).a, eps);
 
-#define EXPECT_BOUNDING_BOX2_EQ(expected, actual)                    \
+#define EXPECT_BOUNDING_BOX2_EQ(expected, actual)                      \
     EXPECT_VECTOR2_EQ((expected).lower_corner, (actual).lower_corner); \
     EXPECT_VECTOR2_EQ((expected).upper_corner, (actual).upper_corner);
 
-#define EXPECT_BOUNDING_BOX2_NEAR(expected, actual, eps)                    \
+#define EXPECT_BOUNDING_BOX2_NEAR(expected, actual, eps)                      \
     EXPECT_VECTOR2_NEAR((expected).lower_corner, (actual).lower_corner, eps); \
     EXPECT_VECTOR2_NEAR((expected).upper_corner, (actual).upper_corner, eps);
 
-#define EXPECT_BOUNDING_BOX3_EQ(expected, actual)                    \
+#define EXPECT_BOUNDING_BOX3_EQ(expected, actual)                      \
     EXPECT_VECTOR3_EQ((expected).lower_corner, (actual).lower_corner); \
     EXPECT_VECTOR3_EQ((expected).upper_corner, (actual).upper_corner);
 
-#define EXPECT_BOUNDING_BOX3_NEAR(expected, actual, eps)                    \
+#define EXPECT_BOUNDING_BOX3_NEAR(expected, actual, eps)                      \
     EXPECT_VECTOR3_NEAR((expected).lower_corner, (actual).lower_corner, eps); \
     EXPECT_VECTOR3_NEAR((expected).upper_corner, (actual).upper_corner, eps);
 

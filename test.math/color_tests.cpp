@@ -6,8 +6,8 @@
 
 #include <random>
 
-#include "color.h"
 #include "unit_tests_utils.h"
+#include "vox.math/color.h"
 
 using namespace vox;
 

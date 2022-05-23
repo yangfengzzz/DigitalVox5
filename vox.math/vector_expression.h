@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "functors.h"
+#include "vox.math/functors.h"
 
 namespace vox {
 
@@ -219,4 +219,4 @@ VectorDiv<T, E1, E2> operator/(const VectorExpression<T, E1> &a, const VectorExp
 
 }  // namespace vox
 
-#include "vector_expression-inl.h"
+#include "vox.math/vector_expression-inl.h"

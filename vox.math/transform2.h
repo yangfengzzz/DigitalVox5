@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "bounding_box2.h"
-#include "ray2.h"
-#include "vector2.h"
+#include "vox.math/bounding_box2.h"
+#include "vox.math/ray2.h"
+#include "vox.math/vector2.h"
 
 namespace vox {
 
@@ -75,4 +75,4 @@ using Transform2D = Transform2<double>;
 
 }  // namespace vox
 
-#include "transform2-inl.h"
+#include "vox.math/transform2-inl.h"

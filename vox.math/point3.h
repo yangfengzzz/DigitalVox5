@@ -8,8 +8,8 @@
 
 #include <algorithm>
 
-#include "point2.h"
-#include "vector3.h"
+#include "vox.math/point2.h"
+#include "vox.math/vector3.h"
 
 namespace vox {
 //!
@@ -344,4 +344,4 @@ using Point3UI = Point3<size_t>;
 
 }  // namespace vox
 
-#include "point3-inl.h"
+#include "vox.math/point3-inl.h"

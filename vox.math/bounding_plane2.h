@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "bounding_plane.h"
-#include "vector2.h"
+#include "vox.math/bounding_plane.h"
+#include "vox.math/vector2.h"
 
 namespace vox {
 
@@ -68,4 +68,4 @@ using BoundingPlane2D = BoundingPlane2<double>;
 
 }  // namespace vox
 
-#include "bounding_plane2-inl.h"
+#include "vox.math/bounding_plane2-inl.h"

@@ -5,7 +5,7 @@
 //  property of any third parties.
 
 #include "unit_tests_utils.h"
-#include "vector4.h"
+#include "vox.math/vector4.h"
 
 using namespace vox;
 

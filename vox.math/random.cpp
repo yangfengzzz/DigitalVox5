@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "random.h"
+#include "vox.math/random.h"
 
 namespace vox {
 Random::Random() : Random(0) {}

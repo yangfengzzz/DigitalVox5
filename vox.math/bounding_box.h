@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "vector.h"
+#include "vox.math/vector.h"
 
 namespace vox {
 
@@ -70,4 +70,4 @@ public:
 
 }  // namespace vox
 
-#include "bounding_box-inl.h"
+#include "vox.math/bounding_box-inl.h"

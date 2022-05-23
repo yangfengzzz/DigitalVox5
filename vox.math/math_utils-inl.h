@@ -10,7 +10,7 @@
 #include <cmath>
 #include <limits>
 
-#include "constants.h"
+#include "vox.math/constants.h"
 
 namespace vox {
 
