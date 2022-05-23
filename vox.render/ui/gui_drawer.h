@@ -8,15 +8,15 @@
 
 #include "vox.math/color.h"
 #include "vox.math/quaternion.h"
+#include "vox.math/vector2.h"
+#include "vox.math/vector3.h"
+#include "vox.math/vector4.h"
 #include "vox.render/ui/widgets/drags/drag_multiple_scalars.h"
 #include "vox.render/ui/widgets/drags/drag_single_scalar.h"
 #include "vox.render/ui/widgets/input_fields/input_text.h"
 #include "vox.render/ui/widgets/texts/text.h"
 #include "vox.render/ui/widgets/visual/image.h"
 #include "vox.render/ui/widgets/widget_container.h"
-#include "vox.math/vector2.h"
-#include "vox.math/vector3.h"
-#include "vox.math/vector4.h"
 
 namespace vox::ui {
 /**

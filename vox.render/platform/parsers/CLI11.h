@@ -9,8 +9,8 @@
 #include <CLI/CLI.hpp>
 #include <unordered_map>
 
-#include "vox.render/platform/parsers/help_formatter.h"
 #include "vox.render/platform/parser.h"
+#include "vox.render/platform/parsers/help_formatter.h"
 #include "vox.render/platform/plugins/plugin.h"
 
 namespace vox {

@@ -4,21 +4,21 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "physx_app.h"
+#include "apps/physx_app.h"
 
 #include <random>
 
-#include "camera.h"
-#include "controls/orbit_control.h"
-#include "lighting/point_light.h"
-#include "material/blinn_phong_material.h"
-#include "material/unlit_material.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/primitive_mesh.h"
-#include "physics/dynamic_collider.h"
-#include "physics/shape/box_collider_shape.h"
-#include "physics/shape/sphere_collider_shape.h"
-#include "physics/static_collider.h"
+#include "vox.render/camera.h"
+#include "vox.render/controls/orbit_control.h"
+#include "vox.render/lighting/point_light.h"
+#include "vox.render/material/blinn_phong_material.h"
+#include "vox.render/material/unlit_material.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/mesh/primitive_mesh.h"
+#include "vox.render/physics/dynamic_collider.h"
+#include "vox.render/physics/shape/box_collider_shape.h"
+#include "vox.render/physics/shape/sphere_collider_shape.h"
+#include "vox.render/physics/static_collider.h"
 
 namespace vox {
 namespace {

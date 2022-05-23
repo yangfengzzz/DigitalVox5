@@ -8,11 +8,11 @@
 
 #include "vox.render/lighting/direct_light.h"
 #include "vox.render/lighting/point_light.h"
+#include "vox.render/lighting/spot_light.h"
 #include "vox.render/rendering/postprocessing_computepass.h"
 #include "vox.render/rendering/postprocessing_pipeline.h"
 #include "vox.render/shader/shader_data.h"
 #include "vox.render/singleton.h"
-#include "vox.render/lighting/spot_light.h"
 
 namespace vox {
 /**

@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "stop_after.h"
+#include "apps/plugins/stop_after/stop_after.h"
 
 namespace plugins {
 StopAfter::StopAfter()

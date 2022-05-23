@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "skybox_app.h"
+#include "apps/skybox_app.h"
 
-#include "camera.h"
-#include "image_manager.h"
-#include "material/unlit_material.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/primitive_mesh.h"
-#include "rendering/subpasses/skybox_subpass.h"
+#include "vox.render/camera.h"
+#include "vox.render/image_manager.h"
+#include "vox.render/material/unlit_material.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/mesh/primitive_mesh.h"
+#include "vox.render/rendering/subpasses/skybox_subpass.h"
 
 namespace vox {
 bool SkyboxApp::Prepare(Platform &platform) {

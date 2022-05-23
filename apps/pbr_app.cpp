@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "pbr_app.h"
+#include "apps/pbr_app.h"
 
-#include "camera.h"
-#include "controls/orbit_control.h"
-#include "lighting/direct_light.h"
-#include "material/pbr_material.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/primitive_mesh.h"
+#include "vox.render/camera.h"
+#include "vox.render/controls/orbit_control.h"
+#include "vox.render/lighting/direct_light.h"
+#include "vox.render/material/pbr_material.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/mesh/primitive_mesh.h"
 
 namespace vox {
 void PbrApp::LoadScene() {

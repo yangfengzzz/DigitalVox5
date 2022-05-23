@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "fps_logger.h"
+#include "apps/plugins/fps_logger/fps_logger.h"
 
 namespace plugins {
 FpsLogger::FpsLogger()

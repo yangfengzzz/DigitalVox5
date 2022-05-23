@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "platform/filesystem.h"
-#include "platform/plugins/plugin_base.h"
+#include "vox.render/platform/filesystem.h"
+#include "vox.render/platform/plugins/plugin_base.h"
 
 namespace plugins {
 class Screenshot;

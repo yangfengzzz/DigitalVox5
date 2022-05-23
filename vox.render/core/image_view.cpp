@@ -6,8 +6,8 @@
 
 #include "vox.render/core/image_view.h"
 
-#include "vox.render/core/image.h"
 #include "vox.render/core/device.h"
+#include "vox.render/core/image.h"
 
 namespace vox::core {
 ImageView::ImageView(Image &img,

@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "gui_app.h"
+#include "apps/gui_app.h"
 
-#include "camera.h"
-#include "controls/orbit_control.h"
-#include "material/unlit_material.h"
-#include "mesh/mesh_renderer.h"
-#include "ui/widgets/sliders/slider_float.h"
-#include "ui/widgets/texts/text_labelled.h"
+#include "vox.render/camera.h"
+#include "vox.render/controls/orbit_control.h"
+#include "vox.render/material/unlit_material.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/ui/widgets/sliders/slider_float.h"
+#include "vox.render/ui/widgets/texts/text_labelled.h"
 
 namespace vox {
 void GuiApp::LoadScene() {

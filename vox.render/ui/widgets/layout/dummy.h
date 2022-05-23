@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "vox.render/ui/widgets/widget.h"
 #include "vox.math/vector2.h"
+#include "vox.render/ui/widgets/widget.h"
 
 namespace vox::ui {
 /**

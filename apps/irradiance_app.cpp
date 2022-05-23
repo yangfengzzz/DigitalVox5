@@ -4,16 +4,16 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "irradiance_app.h"
+#include "apps/irradiance_app.h"
 
 #include <utility>
 
-#include "camera.h"
-#include "controls/orbit_control.h"
-#include "image_manager.h"
-#include "material/pbr_material.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/primitive_mesh.h"
+#include "vox.render/camera.h"
+#include "vox.render/controls/orbit_control.h"
+#include "vox.render/image_manager.h"
+#include "vox.render/material/pbr_material.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/mesh/primitive_mesh.h"
 
 namespace vox {
 class BakerMaterial : public BaseMaterial {

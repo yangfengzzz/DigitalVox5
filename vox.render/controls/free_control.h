@@ -8,9 +8,9 @@
 
 #include <array>
 
-#include "vox.render/script.h"
-#include "vox.render/controls/spherical.h"
 #include "vox.math/vector3.h"
+#include "vox.render/controls/spherical.h"
+#include "vox.render/script.h"
 
 namespace vox::control {
 /**

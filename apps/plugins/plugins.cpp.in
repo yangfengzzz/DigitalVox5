@@ -6,7 +6,7 @@
 
 // Generated file by CMake. Don't edit.
 
-#include "plugins.h"
+#include "apps/plugins/plugins.h"
 
 #include <memory>
 

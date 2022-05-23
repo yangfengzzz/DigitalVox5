@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "forward_application.h"
-#include "ui/canvas.h"
-#include "ui/widgets/panel_transformables/panel_window.h"
+#include "vox.render/forward_application.h"
+#include "vox.render/ui/canvas.h"
+#include "vox.render/ui/widgets/panel_transformables/panel_window.h"
 
 namespace vox {
 class GuiApp : public ForwardApplication {

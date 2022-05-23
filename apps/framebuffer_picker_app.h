@@ -8,8 +8,8 @@
 
 #include <random>
 
-#include "forward_application.h"
-#include "rendering/subpasses/color_picker_subpass.h"
+#include "vox.render/forward_application.h"
+#include "vox.render/rendering/subpasses/color_picker_subpass.h"
 
 namespace vox {
 class FramebufferPickerApp : public ForwardApplication {

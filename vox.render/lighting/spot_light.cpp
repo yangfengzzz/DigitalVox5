@@ -6,9 +6,9 @@
 
 #include "vox.render/lighting/spot_light.h"
 
+#include "vox.math/matrix_utils.h"
 #include "vox.render/entity.h"
 #include "vox.render/lighting/light_manager.h"
-#include "vox.math/matrix_utils.h"
 
 namespace vox {
 std::string SpotLight::name() { return "SpotLight"; }

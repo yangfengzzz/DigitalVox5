@@ -4,17 +4,17 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "cluster_forward_app.h"
+#include "apps/cluster_forward_app.h"
 
 #include <random>
 
-#include "camera.h"
-#include "controls/orbit_control.h"
-#include "lighting/debug/cluster_debug_material.h"
-#include "lighting/debug/sprite_debug.h"
-#include "lighting/point_light.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/primitive_mesh.h"
+#include "vox.render/camera.h"
+#include "vox.render/controls/orbit_control.h"
+#include "vox.render/lighting/debug/cluster_debug_material.h"
+#include "vox.render/lighting/debug/sprite_debug.h"
+#include "vox.render/lighting/point_light.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/mesh/primitive_mesh.h"
 
 namespace vox {
 void ClusterForwardApp::LoadScene() {

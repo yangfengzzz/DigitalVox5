@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "framebuffer_picker_app.h"
+#include "apps/framebuffer_picker_app.h"
 
-#include "camera.h"
-#include "material/blinn_phong_material.h"
-#include "material/unlit_material.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/primitive_mesh.h"
-#include "platform/platform.h"
+#include "vox.render/camera.h"
+#include "vox.render/material/blinn_phong_material.h"
+#include "vox.render/material/unlit_material.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/mesh/primitive_mesh.h"
+#include "vox.render/platform/platform.h"
 
 namespace vox {
 void FramebufferPickerApp::LoadScene() {

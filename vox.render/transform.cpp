@@ -6,9 +6,9 @@
 
 #include "vox.render/transform.h"
 
-#include "vox.render/entity.h"
 #include "vox.math/math_utils.h"
 #include "vox.math/matrix_utils.h"
+#include "vox.render/entity.h"
 
 namespace vox {
 std::string Transform::name() { return "Transform"; }

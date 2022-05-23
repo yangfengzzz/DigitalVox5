@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "screenshot.h"
+#include "apps/plugins/screenshot/screenshot.h"
 
 #include <chrono>
 #include <iomanip>
 
-#include "rendering/render_context.h"
+#include "vox.render/rendering/render_context.h"
 
 namespace plugins {
 Screenshot::Screenshot()

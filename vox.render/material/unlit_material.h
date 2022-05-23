@@ -6,9 +6,9 @@
 
 #pragma once
 
+#include "vox.math/color.h"
 #include "vox.render/image.h"
 #include "vox.render/material/base_material.h"
-#include "vox.math/color.h"
 
 namespace vox {
 /**

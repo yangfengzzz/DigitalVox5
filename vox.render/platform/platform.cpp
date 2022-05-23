@@ -14,10 +14,10 @@
 #include <algorithm>
 #include <vector>
 
-#include "vox.render/plugins/force_close.h"
 #include "vox.render/logging.h"
 #include "vox.render/platform/parsers/CLI11.h"
 #include "vox.render/platform/plugins/plugin.h"
+#include "vox.render/plugins/force_close.h"
 
 namespace vox {
 const uint32_t Platform::min_window_width_ = 420;

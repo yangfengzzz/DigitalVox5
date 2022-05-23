@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "file_logger.h"
+#include "apps/plugins/file_logger/file_logger.h"
 
 VKBP_DISABLE_WARNINGS()
 #include <spdlog/sinks/basic_file_sink.h>

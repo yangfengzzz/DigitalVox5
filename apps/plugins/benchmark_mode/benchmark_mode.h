@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "platform/plugins/plugin_base.h"
+#include "vox.render/platform/plugins/plugin_base.h"
 
 namespace plugins {
 class BenchmarkMode;

@@ -8,7 +8,7 @@
 
 #include <random>
 
-#include "forward_application.h"
+#include "vox.render/forward_application.h"
 
 namespace vox {
 class PhysXDynamicApp : public ForwardApplication {

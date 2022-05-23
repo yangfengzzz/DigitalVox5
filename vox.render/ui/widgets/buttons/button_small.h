@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "vox.render/ui/widgets/buttons/button.h"
 #include "vox.math/color.h"
 #include "vox.math/vector2.h"
+#include "vox.render/ui/widgets/buttons/button.h"
 
 namespace vox::ui {
 /**

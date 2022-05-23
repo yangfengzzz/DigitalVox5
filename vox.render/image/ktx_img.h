@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "vox.render/image.h"
 #include "vox.render/error.h"
+#include "vox.render/image.h"
 
 namespace vox {
 class Ktx : public Image {

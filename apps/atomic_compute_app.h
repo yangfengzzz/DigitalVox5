@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "forward_application.h"
-#include "rendering/postprocessing_pipeline.h"
+#include "vox.render/forward_application.h"
+#include "vox.render/rendering/postprocessing_pipeline.h"
 
 namespace vox {
 class AtomicComputeApp : public ForwardApplication {

@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "assimp_app.h"
+#include "apps/assimp_app.h"
 
 #include <assimp/postprocess.h>
 
-#include "assimp_parser.h"
-#include "camera.h"
-#include "controls/orbit_control.h"
-#include "mesh/mesh_renderer.h"
+#include "vox.render/assimp_parser.h"
+#include "vox.render/camera.h"
+#include "vox.render/controls/orbit_control.h"
+#include "vox.render/mesh/mesh_renderer.h"
 
 namespace vox {
 void AssimpApp::LoadScene() {

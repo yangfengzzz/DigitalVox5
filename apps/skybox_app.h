@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "controls/orbit_control.h"
-#include "forward_application.h"
+#include "vox.render/controls/orbit_control.h"
+#include "vox.render/forward_application.h"
 
 namespace vox {
 class SkyboxApp : public ForwardApplication {

@@ -46,10 +46,9 @@ else ()
 endif ()
 
 target_include_directories(${PROJECT_NAME} PUBLIC
+        ../
         ../third_party/nlohmann/include
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/../vox.render
-        ${CMAKE_CURRENT_SOURCE_DIR}/../vox.math)
+        ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE vox.render vox.math plugins spdlog)
 

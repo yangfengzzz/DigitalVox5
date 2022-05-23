@@ -6,10 +6,10 @@
 
 #pragma once
 
+#include "vox.math/vector4.h"
 #include "vox.render/material/enums/blend_mode.h"
 #include "vox.render/material/enums/render_face.h"
 #include "vox.render/material/material.h"
-#include "vox.math/vector4.h"
 
 namespace vox {
 class BaseMaterial : public Material {

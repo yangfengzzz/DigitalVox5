@@ -4,16 +4,16 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "plugins.h"
+#include "apps/plugins/plugins.h"
 
 #include <memory>
 
-#include "benchmark_mode/benchmark_mode.h"
-#include "file_logger/file_logger.h"
-#include "fps_logger/fps_logger.h"
-#include "screenshot/screenshot.h"
-#include "stop_after/stop_after.h"
-#include "window_options/window_options.h"
+#include "apps/plugins/benchmark_mode/benchmark_mode.h"
+#include "apps/plugins/file_logger/file_logger.h"
+#include "apps/plugins/fps_logger/fps_logger.h"
+#include "apps/plugins/screenshot/screenshot.h"
+#include "apps/plugins/stop_after/stop_after.h"
+#include "apps/plugins/window_options/window_options.h"
 
 namespace plugins {
 

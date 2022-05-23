@@ -8,8 +8,8 @@
 
 #include "vox.render/entity.h"
 #include "vox.render/physics/physics_manager.h"
-#include "vox.render/scene.h"
 #include "vox.render/physics/shape/collider_shape.h"
+#include "vox.render/scene.h"
 
 namespace vox::physics {
 Collider::Collider(Entity *entity) : Component(entity) { update_flag_ = entity->transform->RegisterWorldChangeFlag(); }

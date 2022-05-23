@@ -7,8 +7,8 @@
 #pragma once
 
 #include "vox.math/bounding_box3.h"
-#include "vox.render/component.h"
 #include "vox.math/matrix4x4.h"
+#include "vox.render/component.h"
 #include "vox.render/rendering/render_element.h"
 #include "vox.render/shader/shader_data.h"
 #include "vox.render/update_flag.h"

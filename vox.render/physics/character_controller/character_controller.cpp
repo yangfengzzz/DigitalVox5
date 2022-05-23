@@ -6,8 +6,8 @@
 
 #include "vox.render/physics/character_controller/character_controller.h"
 
-#include "vox.render/physics/physics_manager.h"
 #include "vox.render/entity.h"
+#include "vox.render/physics/physics_manager.h"
 #include "vox.render/scene.h"
 
 namespace vox::physics {

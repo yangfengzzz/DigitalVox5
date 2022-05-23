@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "benchmark_mode.h"
+#include "apps/plugins/benchmark_mode/benchmark_mode.h"
 
-#include "platform/platform.h"
+#include "vox.render/platform/platform.h"
 
 namespace plugins {
 BenchmarkMode::BenchmarkMode()

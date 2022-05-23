@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include <vector>
-
 #include <volk.h>
+
+#include <vector>
 
 namespace vox::initializers {
 inline VkMemoryAllocateInfo MemoryAllocateInfo() {

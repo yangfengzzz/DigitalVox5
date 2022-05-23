@@ -4,24 +4,24 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "physx_dynamic_app.h"
+#include "apps/physx_dynamic_app.h"
 
-#include "camera.h"
-#include "controls/orbit_control.h"
-#include "lighting/direct_light.h"
-#include "lighting/point_light.h"
-#include "material/blinn_phong_material.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/primitive_mesh.h"
-#include "physics/character_controller/capsule_character_controller.h"
-#include "physics/dynamic_collider.h"
-#include "physics/joint/fixed_joint.h"
-#include "physics/physics_manager.h"
-#include "physics/shape/box_collider_shape.h"
-#include "physics/shape/capsule_collider_shape.h"
-#include "physics/shape/plane_collider_shape.h"
-#include "physics/shape/sphere_collider_shape.h"
-#include "physics/static_collider.h"
+#include "vox.render/camera.h"
+#include "vox.render/controls/orbit_control.h"
+#include "vox.render/lighting/direct_light.h"
+#include "vox.render/lighting/point_light.h"
+#include "vox.render/material/blinn_phong_material.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/mesh/primitive_mesh.h"
+#include "vox.render/physics/character_controller/capsule_character_controller.h"
+#include "vox.render/physics/dynamic_collider.h"
+#include "vox.render/physics/joint/fixed_joint.h"
+#include "vox.render/physics/physics_manager.h"
+#include "vox.render/physics/shape/box_collider_shape.h"
+#include "vox.render/physics/shape/capsule_collider_shape.h"
+#include "vox.render/physics/shape/plane_collider_shape.h"
+#include "vox.render/physics/shape/sphere_collider_shape.h"
+#include "vox.render/physics/static_collider.h"
 
 namespace vox {
 namespace {

@@ -4,17 +4,17 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "multi_light_app.h"
+#include "apps/multi_light_app.h"
 
 #include <random>
 
-#include "camera.h"
-#include "controls/orbit_control.h"
-#include "lighting/debug/sprite_debug.h"
-#include "lighting/point_light.h"
-#include "material/blinn_phong_material.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/primitive_mesh.h"
+#include "vox.render/camera.h"
+#include "vox.render/controls/orbit_control.h"
+#include "vox.render/lighting/debug/sprite_debug.h"
+#include "vox.render/lighting/point_light.h"
+#include "vox.render/material/blinn_phong_material.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/mesh/primitive_mesh.h"
 
 namespace vox {
 namespace {

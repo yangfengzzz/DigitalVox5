@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "window_options.h"
+#include "apps/plugins/window_options/window_options.h"
 
 #include <algorithm>
 
-#include "platform/platform.h"
-#include "platform/window.h"
+#include "vox.render/platform/platform.h"
+#include "vox.render/platform/window.h"
 
 namespace plugins {
 WindowOptions::WindowOptions()

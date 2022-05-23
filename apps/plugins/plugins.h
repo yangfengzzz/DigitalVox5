@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "platform/plugins/plugin.h"
+#include "vox.render/platform/plugins/plugin.h"
 
 namespace plugins {
 extern std::vector<vox::Plugin *> GetAll();

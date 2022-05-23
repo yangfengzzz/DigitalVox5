@@ -6,8 +6,8 @@
 
 #include "vox.render/controls/free_control.h"
 
-#include "vox.render/entity.h"
 #include "vox.math/math_utils.h"
+#include "vox.render/entity.h"
 
 namespace vox::control {
 std::string FreeControl::name() { return "FreeControl"; }

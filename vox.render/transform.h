@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "vox.render/component.h"
 #include "vox.math/matrix4x4.h"
 #include "vox.math/quaternion.h"
-#include "vox.render/update_flag_manager.h"
 #include "vox.math/vector3.h"
+#include "vox.render/component.h"
+#include "vox.render/update_flag_manager.h"
 
 namespace vox {
 /**

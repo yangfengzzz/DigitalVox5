@@ -8,10 +8,10 @@
 
 #include <utility>
 
-#include "vox.render/script.h"
 #include "vox.render/physics/character_controller/character_controller.h"
 #include "vox.render/physics/collider.h"
 #include "vox.render/physics/shape/collider_shape.h"
+#include "vox.render/script.h"
 
 namespace vox {
 physics::PhysicsManager *physics::PhysicsManager::GetSingletonPtr() { return ms_singleton; }
