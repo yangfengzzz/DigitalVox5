@@ -8,9 +8,9 @@
 
 #include <vector>
 
+#include "vox.editor/raw_icon.h"
 #include "vox.render/core/device.h"
 #include "vox.render/platform/filesystem.h"
-#include "vox.editor/raw_icon.h"
 #include "vox.render/ui/imgui_impl_vulkan.h"
 
 namespace vox::editor {

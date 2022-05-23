@@ -6,15 +6,15 @@
 
 #pragma once
 
-#include "vox.render/components_manager.h"
 #include "vox.editor/editor_actions.h"
 #include "vox.editor/editor_resources.h"
+#include "vox.editor/panels_manager.h"
+#include "vox.render/components_manager.h"
 #include "vox.render/graphics_application.h"
 #include "vox.render/image_manager.h"
 #include "vox.render/lighting/light_manager.h"
 #include "vox.render/lua/script_interpreter.h"
 #include "vox.render/mesh/mesh_manager.h"
-#include "vox.editor/panels_manager.h"
 #include "vox.render/particle/particle_manager.h"
 #include "vox.render/physics/physics_manager.h"
 #include "vox.render/scene_manager.h"

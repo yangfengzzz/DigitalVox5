@@ -8,8 +8,8 @@
 
 #include <unordered_map>
 
-#include "vox.render/ui/canvas.h"
 #include "vox.editor/ui/menu_bar.h"
+#include "vox.render/ui/canvas.h"
 #include "vox.render/ui/widgets/panel.h"
 #include "vox.render/ui/widgets/panel_transformables/panel_window.h"
 

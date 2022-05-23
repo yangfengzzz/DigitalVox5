@@ -7,13 +7,13 @@
 #include "vox.editor/editor_actions.h"
 
 #include "vox.editor/editor_application.h"
-#include "vox.render/lua/script_interpreter.h"
-#include "vox.render/scene_manager.h"
 #include "vox.editor/ui/inspector.h"
-#include "vox.render/ui/ui_manager.h"
 #include "vox.editor/view/asset_view.h"
 #include "vox.editor/view/game_view.h"
 #include "vox.editor/view/scene_view.h"
+#include "vox.render/lua/script_interpreter.h"
+#include "vox.render/scene_manager.h"
+#include "vox.render/ui/ui_manager.h"
 
 namespace vox {
 editor::EditorActions *editor::EditorActions::GetSingletonPtr() { return ms_singleton; }
