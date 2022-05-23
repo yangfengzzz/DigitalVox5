@@ -9,7 +9,7 @@
 #include <chrono>
 #include <string>
 
-#include "profiler.h"
+#include "vox.editor/profiling/profiler.h"
 
 namespace vox {
 /**

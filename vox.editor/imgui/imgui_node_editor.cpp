@@ -17,7 +17,7 @@
 #include <string>
 #include <type_traits>
 
-#include "imgui_node_editor_internal.h"
+#include "vox.editor/imgui/imgui_node_editor_internal.h"
 
 // https://stackoverflow.com/a/8597498
 #define DECLARE_HAS_NESTED(Name, Member)                             \

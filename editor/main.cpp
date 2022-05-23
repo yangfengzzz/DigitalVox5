@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "logging.h"
-#include "platform/platform.h"
+#include "vox.render/logging.h"
+#include "vox.render/platform/platform.h"
 
-#include "editor_application.h"
+#include "vox.editor/editor_application.h"
 
 // MARK: - Entry
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)

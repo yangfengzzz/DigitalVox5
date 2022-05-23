@@ -4,16 +4,16 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "material_editor.h"
+#include "vox.editor/ui/material_editor.h"
 
-#include "ui/gui_drawer.h"
-#include "ui/widgets/buttons/button_simple.h"
-#include "ui/widgets/buttons/button_small.h"
-#include "ui/widgets/layout/columns.h"
-#include "ui/widgets/layout/group_collapsable.h"
-#include "ui/widgets/selection/color_edit.h"
-#include "ui/widgets/texts/text_colored.h"
-#include "ui/widgets/visual/separator.h"
+#include "vox.render/ui/gui_drawer.h"
+#include "vox.render/ui/widgets/buttons/button_simple.h"
+#include "vox.render/ui/widgets/buttons/button_small.h"
+#include "vox.render/ui/widgets/layout/columns.h"
+#include "vox.render/ui/widgets/layout/group_collapsable.h"
+#include "vox.render/ui/widgets/selection/color_edit.h"
+#include "vox.render/ui/widgets/texts/text_colored.h"
+#include "vox.render/ui/widgets/visual/separator.h"
 
 namespace vox::editor::ui {
 namespace {

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "view.h"
+#include "vox.editor/view/view.h"
 
 namespace vox {
 using namespace ui;

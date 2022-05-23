@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "profiler_spy.h"
+#include "vox.editor/profiling/profiler_spy.h"
 
 #include <utility>
 

@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "game_view.h"
+#include "vox.editor/view/game_view.h"
 
-#include "camera.h"
-#include "entity.h"
-#include "rendering/subpasses/geometry_subpass.h"
+#include "vox.render/camera.h"
+#include "vox.render/entity.h"
+#include "vox.render/rendering/subpasses/geometry_subpass.h"
 
 namespace vox::editor::ui {
 GameView::GameView(const std::string &title,

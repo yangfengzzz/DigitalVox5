@@ -6,14 +6,14 @@
 
 #pragma once
 
-#include "event.h"
-#include "ini_file.h"
-#include "ui/widgets/buttons/button_simple.h"
-#include "ui/widgets/layout/columns.h"
-#include "ui/widgets/layout/group.h"
-#include "ui/widgets/panel_transformables/panel_window.h"
-#include "ui/widgets/texts/text.h"
-#include "view/asset_view.h"
+#include "vox.render/event.h"
+#include "vox.editor/ini_file.h"
+#include "vox.render/ui/widgets/buttons/button_simple.h"
+#include "vox.render/ui/widgets/layout/columns.h"
+#include "vox.render/ui/widgets/layout/group.h"
+#include "vox.render/ui/widgets/panel_transformables/panel_window.h"
+#include "vox.render/ui/widgets/texts/text.h"
+#include "vox.editor/view/asset_view.h"
 
 namespace vox {
 using namespace ui;

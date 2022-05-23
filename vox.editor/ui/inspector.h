@@ -6,15 +6,15 @@
 
 #pragma once
 
-#include "asset_browser.h"
-#include "hierarchy.h"
-#include "ui/widgets/buttons/button.h"
-#include "ui/widgets/input_fields/input_text.h"
-#include "ui/widgets/layout/group_collapsable.h"
-#include "ui/widgets/panel_transformables/panel_window.h"
-#include "ui/widgets/selection/check_box.h"
-#include "ui/widgets/selection/combo_box.h"
-#include "ui/widgets/visual/separator.h"
+#include "vox.editor/ui/asset_browser.h"
+#include "vox.editor/ui/hierarchy.h"
+#include "vox.render/ui/widgets/buttons/button.h"
+#include "vox.render/ui/widgets/input_fields/input_text.h"
+#include "vox.render/ui/widgets/layout/group_collapsable.h"
+#include "vox.render/ui/widgets/panel_transformables/panel_window.h"
+#include "vox.render/ui/widgets/selection/check_box.h"
+#include "vox.render/ui/widgets/selection/combo_box.h"
+#include "vox.render/ui/widgets/visual/separator.h"
 
 namespace vox {
 using namespace ui;

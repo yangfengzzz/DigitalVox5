@@ -4,16 +4,16 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "editor_actions.h"
+#include "vox.editor/editor_actions.h"
 
-#include "editor_application.h"
-#include "lua/script_interpreter.h"
-#include "scene_manager.h"
-#include "ui/inspector.h"
-#include "ui/ui_manager.h"
-#include "view/asset_view.h"
-#include "view/game_view.h"
-#include "view/scene_view.h"
+#include "vox.editor/editor_application.h"
+#include "vox.render/lua/script_interpreter.h"
+#include "vox.render/scene_manager.h"
+#include "vox.editor/ui/inspector.h"
+#include "vox.render/ui/ui_manager.h"
+#include "vox.editor/view/asset_view.h"
+#include "vox.editor/view/game_view.h"
+#include "vox.editor/view/scene_view.h"
 
 namespace vox {
 editor::EditorActions *editor::EditorActions::GetSingletonPtr() { return ms_singleton; }

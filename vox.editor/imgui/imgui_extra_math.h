@@ -67,7 +67,7 @@ inline V EaseOutQuad(V b, V c, T t) {
 }  // namespace ImEasing
 
 //------------------------------------------------------------------------------
-#include "imgui_extra_math.inl"
+#include "vox.editor/imgui/imgui_extra_math.inl"
 
 //------------------------------------------------------------------------------
 #endif  // __IMGUI_EXTRA_MATH_H__

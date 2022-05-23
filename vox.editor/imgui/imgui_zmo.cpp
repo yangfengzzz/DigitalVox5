@@ -32,7 +32,7 @@
 
 #include <imgui_internal.h>
 
-#include "imgui_zmo.h"
+#include "vox.editor/imgui/imgui_zmo.h"
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #include <malloc.h>

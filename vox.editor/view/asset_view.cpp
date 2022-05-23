@@ -4,15 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "material/blinn_phong_material.h"
+#include "vox.render/material/blinn_phong_material.h"
 
-#include "asset_view.h"
+#include "vox.editor/view/asset_view.h"
 
-#include "camera.h"
-#include "entity.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/primitive_mesh.h"
-#include "shader/internal_variant_name.h"
+#include "vox.render/camera.h"
+#include "vox.render/entity.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/mesh/primitive_mesh.h"
+#include "vox.render/shader/internal_variant_name.h"
 
 namespace vox::editor::ui {
 AssetView::AssetView(const std::string &title,

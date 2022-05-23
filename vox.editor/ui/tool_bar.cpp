@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "tool_bar.h"
+#include "vox.editor/ui/tool_bar.h"
 
-#include "editor_actions.h"
-#include "editor_resources.h"
-#include "ui/widgets/layout/spacing.h"
+#include "vox.editor/editor_actions.h"
+#include "vox.editor/editor_resources.h"
+#include "vox.render/ui/widgets/layout/spacing.h"
 
 namespace vox::editor::ui {
 

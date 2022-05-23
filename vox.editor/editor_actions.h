@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "panels_manager.h"
-#include "platform/filesystem.h"
-#include "point3.h"
-#include "scene_forward.h"
-#include "singleton.h"
+#include "vox.editor/panels_manager.h"
+#include "vox.render/platform/filesystem.h"
+#include "vox.math/point3.h"
+#include "vox.render/scene_forward.h"
+#include "vox.render/singleton.h"
 
 namespace vox {
 namespace editor {
@@ -342,4 +342,4 @@ private:
 template <>
 inline editor::EditorActions *Singleton<editor::EditorActions>::ms_singleton{nullptr};
 }  // namespace vox
-#include "editor_actions-inl.h"
+#include "vox.editor/editor_actions-inl.h"

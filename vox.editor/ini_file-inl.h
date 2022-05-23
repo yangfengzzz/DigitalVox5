@@ -8,7 +8,7 @@
 
 #include <cassert>
 
-#include "ini_file.h"
+#include "vox.editor/ini_file.h"
 
 namespace vox::fs {
 template <typename T>

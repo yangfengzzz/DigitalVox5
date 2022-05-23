@@ -178,7 +178,7 @@ if (${VKB_WARNINGS_AS_ERRORS})
     endif ()
 endif ()
 
-target_include_directories(${PROJECT_NAME} PUBLIC ../vox.math ../vox.render ./vox.editor
+target_include_directories(${PROJECT_NAME} PUBLIC ../
         ${CMAKE_CURRENT_SOURCE_DIR} ${PHYSX_SOURCE} ${LOADER_SOURCE} ${LUA_SOURCE}
         ../third_party/nlohmann/include)
 

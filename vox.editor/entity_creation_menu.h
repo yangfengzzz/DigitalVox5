@@ -8,8 +8,8 @@
 
 #include <functional>
 
-#include "entity.h"
-#include "ui/widgets/menu/menu_list.h"
+#include "vox.render/entity.h"
+#include "vox.render/ui/widgets/menu/menu_list.h"
 
 namespace vox::editor {
 /**

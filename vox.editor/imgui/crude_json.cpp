@@ -7,7 +7,7 @@
 //
 // CREDITS
 //   Written by Michal Cichon
-#include "crude_json.h"
+#include "vox.editor/imgui/crude_json.h"
 
 #include <clocale>
 #include <cmath>

@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "console.h"
+#include "vox.editor/ui/console.h"
 
-#include "editor_actions.h"
-#include "ui/widgets/buttons/button_simple.h"
-#include "ui/widgets/layout/spacing.h"
-#include "ui/widgets/selection/check_box.h"
-#include "ui/widgets/visual/separator.h"
+#include "vox.editor/editor_actions.h"
+#include "vox.render/ui/widgets/buttons/button_simple.h"
+#include "vox.render/ui/widgets/layout/spacing.h"
+#include "vox.render/ui/widgets/selection/check_box.h"
+#include "vox.render/ui/widgets/visual/separator.h"
 
 namespace vox::editor::ui {
 namespace {

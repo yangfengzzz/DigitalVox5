@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "entity_creation_menu.h"
+#include "vox.editor/entity_creation_menu.h"
 
 #include <utility>
 
-#include "editor_actions.h"
+#include "vox.editor/editor_actions.h"
 
 namespace vox::editor {
 std::function<void()> Combine(std::function<void()> p_a, const std::optional<std::function<void()>> &p_b) {

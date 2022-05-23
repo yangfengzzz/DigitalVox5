@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "view.h"
+#include "vox.editor/view/view.h"
 
-#include "mesh/mesh_manager.h"
-#include "mesh/mesh_renderer.h"
-#include "shader/shader_manager.h"
-#include "ui/imgui_impl_vulkan.h"
+#include "vox.render/mesh/mesh_manager.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/shader/shader_manager.h"
+#include "vox.render/ui/imgui_impl_vulkan.h"
 
 namespace vox::editor::ui {
 View::View(const std::string &p_title,

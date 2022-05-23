@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "editor_resources.h"
+#include "vox.editor/editor_resources.h"
 
 #include <vector>
 
-#include "core/device.h"
-#include "platform/filesystem.h"
-#include "raw_icon.h"
-#include "ui/imgui_impl_vulkan.h"
+#include "vox.render/core/device.h"
+#include "vox.render/platform/filesystem.h"
+#include "vox.editor/raw_icon.h"
+#include "vox.render/ui/imgui_impl_vulkan.h"
 
 namespace vox::editor {
 EditorResources::EditorResources(Device &device, const std::string &editor_assets_path)

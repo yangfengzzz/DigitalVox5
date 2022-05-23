@@ -8,10 +8,10 @@
 
 #include <unordered_map>
 
-#include "ui/canvas.h"
-#include "ui/menu_bar.h"
-#include "ui/widgets/panel.h"
-#include "ui/widgets/panel_transformables/panel_window.h"
+#include "vox.render/ui/canvas.h"
+#include "vox.editor/ui/menu_bar.h"
+#include "vox.render/ui/widgets/panel.h"
+#include "vox.render/ui/widgets/panel_transformables/panel_window.h"
 
 namespace vox {
 using namespace ui;

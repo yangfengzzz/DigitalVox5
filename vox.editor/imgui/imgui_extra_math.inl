@@ -12,7 +12,7 @@
 #pragma once
 
 //------------------------------------------------------------------------------
-#include "imgui_extra_math.h"
+#include "vox.editor/imgui/imgui_extra_math.h"
 
 //------------------------------------------------------------------------------
 inline bool operator==(const ImVec2 &lhs, const ImVec2 &rhs) { return lhs.x == rhs.x && lhs.y == rhs.y; }

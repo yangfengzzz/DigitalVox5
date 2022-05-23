@@ -8,9 +8,9 @@
 
 #include <variant>
 
-#include "controls/orbit_control.h"
-#include "rendering/subpasses/geometry_subpass.h"
-#include "view.h"
+#include "vox.render/controls/orbit_control.h"
+#include "vox.render/rendering/subpasses/geometry_subpass.h"
+#include "vox.editor/view/view.h"
 
 namespace vox {
 using namespace ui;

@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "panels_manager.h"
+#include "vox.editor/panels_manager.h"
 
 namespace vox::editor::ui {
 PanelsManager::PanelsManager(Canvas &canvas) : canvas_(canvas) {}

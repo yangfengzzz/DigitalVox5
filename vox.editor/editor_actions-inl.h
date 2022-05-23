@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "editor_actions.h"
-#include "entity.h"
+#include "vox.editor/editor_actions.h"
+#include "vox.render/entity.h"
 
 namespace vox::editor {
 template <typename T>

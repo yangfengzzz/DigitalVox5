@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "event.h"
+#include "vox.render/event.h"
 
 namespace vox::editor {
 /**

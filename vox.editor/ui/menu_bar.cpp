@@ -4,17 +4,17 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "menu_bar.h"
+#include "vox.editor/ui/menu_bar.h"
 
-#include "editor_actions.h"
-#include "editor_settings.h"
-#include "editor_utils.h"
-#include "entity_creation_menu.h"
-#include "ui/widgets/drags/drag_float.h"
-#include "ui/widgets/selection/color_edit.h"
-#include "ui/widgets/sliders/slider_int.h"
-#include "ui/widgets/texts/text.h"
-#include "ui/widgets/visual/separator.h"
+#include "vox.editor/editor_actions.h"
+#include "vox.editor/editor_settings.h"
+#include "vox.editor/editor_utils.h"
+#include "vox.editor/entity_creation_menu.h"
+#include "vox.render/ui/widgets/drags/drag_float.h"
+#include "vox.render/ui/widgets/selection/color_edit.h"
+#include "vox.render/ui/widgets/sliders/slider_int.h"
+#include "vox.render/ui/widgets/texts/text.h"
+#include "vox.render/ui/widgets/visual/separator.h"
 
 namespace vox::editor::ui {
 MenuBar::MenuBar() {

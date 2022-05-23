@@ -27,11 +27,7 @@ else ()
     add_executable(${PROJECT_NAME} WIN32 ${SRC})
 endif ()
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/../vox.editor
-        ${CMAKE_CURRENT_SOURCE_DIR}/../vox.render
-        ${CMAKE_CURRENT_SOURCE_DIR}/../vox.math)
+target_include_directories(${PROJECT_NAME} PUBLIC ../)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE vox.render vox.math vox.editor spdlog)
 

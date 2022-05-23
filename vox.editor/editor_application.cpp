@@ -4,23 +4,23 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "platform/platform.h"
+#include "vox.render/platform/platform.h"
 
-#include "editor_application.h"
+#include "vox.editor/editor_application.h"
 
-#include "camera.h"
-#include "profiling/profiler_spy.h"
-#include "rendering/subpasses/geometry_subpass.h"
-#include "ui/console.h"
-#include "ui/hierarchy.h"
-#include "ui/inspector.h"
-#include "ui/menu_bar.h"
-#include "ui/profiler_window.h"
-#include "ui/project_settings.h"
-#include "ui/tool_bar.h"
-#include "view/asset_view.h"
-#include "view/game_view.h"
-#include "view/scene_view.h"
+#include "vox.render/camera.h"
+#include "vox.editor/profiling/profiler_spy.h"
+#include "vox.render/rendering/subpasses/geometry_subpass.h"
+#include "vox.editor/ui/console.h"
+#include "vox.editor/ui/hierarchy.h"
+#include "vox.editor/ui/inspector.h"
+#include "vox.editor/ui/menu_bar.h"
+#include "vox.editor/ui/profiler_window.h"
+#include "vox.editor/ui/project_settings.h"
+#include "vox.editor/ui/tool_bar.h"
+#include "vox.editor/view/asset_view.h"
+#include "vox.editor/view/game_view.h"
+#include "vox.editor/view/scene_view.h"
 
 namespace vox::editor {
 EditorApplication::EditorApplication(const std::string &project_path, const std::string &project_name)

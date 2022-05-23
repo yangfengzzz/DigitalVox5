@@ -12,7 +12,7 @@
 #pragma once
 
 //------------------------------------------------------------------------------
-#include "imgui_node_editor.h"
+#include "vox.editor/imgui/imgui_node_editor.h"
 
 //------------------------------------------------------------------------------
 #include <imgui.h>
@@ -24,10 +24,10 @@
 #include <string>
 #include <vector>
 
-#include "crude_json.h"
-#include "imgui_bezier_math.h"
-#include "imgui_canvas.h"
-#include "imgui_extra_math.h"
+#include "vox.editor/imgui/crude_json.h"
+#include "vox.editor/imgui/imgui_bezier_math.h"
+#include "vox.editor/imgui/imgui_canvas.h"
+#include "vox.editor/imgui/imgui_extra_math.h"
 
 //------------------------------------------------------------------------------
 namespace vox {
@@ -1507,7 +1507,7 @@ private:
 }  // namespace vox
 
 //------------------------------------------------------------------------------
-#include "imgui_node_editor_internal.inl"
+#include "vox.editor/imgui/imgui_node_editor_internal.inl"
 
 //------------------------------------------------------------------------------
 #endif  // __IMGUI_NODE_EDITOR_INTERNAL_H__

@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "project_settings.h"
+#include "vox.editor/ui/project_settings.h"
 
-#include "ui/gui_drawer.h"
-#include "ui/widgets/buttons/button_simple.h"
-#include "ui/widgets/layout/columns.h"
-#include "ui/widgets/layout/group_collapsable.h"
-#include "ui/widgets/visual/separator.h"
+#include "vox.render/ui/gui_drawer.h"
+#include "vox.render/ui/widgets/buttons/button_simple.h"
+#include "vox.render/ui/widgets/layout/columns.h"
+#include "vox.render/ui/widgets/layout/group_collapsable.h"
+#include "vox.render/ui/widgets/visual/separator.h"
 
 namespace vox::editor::ui {
 ProjectSettings::ProjectSettings(const std::string &title,

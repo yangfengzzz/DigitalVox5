@@ -6,12 +6,12 @@
 
 #pragma once
 
-#include "material/base_material.h"
-#include "quaternion.h"
-#include "rendering/render_pipeline.h"
-#include "ui/widgets/panel_transformables/panel_window.h"
-#include "ui/widgets/visual/image.h"
-#include "vector3.h"
+#include "vox.render/material/base_material.h"
+#include "vox.math/quaternion.h"
+#include "vox.render/rendering/render_pipeline.h"
+#include "vox.render/ui/widgets/panel_transformables/panel_window.h"
+#include "vox.render/ui/widgets/visual/image.h"
+#include "vox.math/vector3.h"
 
 namespace vox {
 using namespace ui;

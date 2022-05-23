@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "material/material.h"
-#include "ui/widgets/layout/columns.h"
-#include "ui/widgets/layout/group.h"
-#include "ui/widgets/panel_transformables/panel_window.h"
-#include "ui/widgets/texts/text.h"
+#include "vox.render/material/material.h"
+#include "vox.render/ui/widgets/layout/columns.h"
+#include "vox.render/ui/widgets/layout/group.h"
+#include "vox.render/ui/widgets/panel_transformables/panel_window.h"
+#include "vox.render/ui/widgets/texts/text.h"
 
 namespace vox {
 using namespace ui;

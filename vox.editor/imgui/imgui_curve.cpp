@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "imgui_curve.h"
+#include "vox.editor/imgui/imgui_curve.h"
 
 // [src] https://github.com/ocornut/imgui/issues/123
 // [src] https://github.com/ocornut/imgui/issues/55

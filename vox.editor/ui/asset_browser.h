@@ -10,9 +10,9 @@
 #include <queue>
 #include <unordered_map>
 
-#include "ui/widgets/layout/group.h"
-#include "ui/widgets/layout/tree_node.h"
-#include "ui/widgets/panel_transformables/panel_window.h"
+#include "vox.render/ui/widgets/layout/group.h"
+#include "vox.render/ui/widgets/layout/tree_node.h"
+#include "vox.render/ui/widgets/panel_transformables/panel_window.h"
 
 namespace vox::editor::ui {
 /**

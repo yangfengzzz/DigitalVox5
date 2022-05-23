@@ -4,18 +4,18 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "material/blinn_phong_material.h"
-#include "material/unlit_material.h"
+#include "vox.render/material/blinn_phong_material.h"
+#include "vox.render/material/unlit_material.h"
 
-#include "scene_view.h"
+#include "vox.editor/view/scene_view.h"
 
-#include "camera.h"
-#include "entity.h"
-#include "lighting/point_light.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/primitive_mesh.h"
-#include "rendering/subpasses/color_picker_subpass.h"
-#include "rendering/subpasses/geometry_subpass.h"
+#include "vox.render/camera.h"
+#include "vox.render/entity.h"
+#include "vox.render/lighting/point_light.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/mesh/primitive_mesh.h"
+#include "vox.render/rendering/subpasses/color_picker_subpass.h"
+#include "vox.render/rendering/subpasses/geometry_subpass.h"
 
 namespace vox::editor::ui {
 SceneView::SceneView(const std::string &title,

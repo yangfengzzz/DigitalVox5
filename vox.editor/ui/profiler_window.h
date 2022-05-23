@@ -6,13 +6,13 @@
 
 #pragma once
 
-#include "profiling/profiler.h"
-#include "ui/widgets/buttons/button_simple.h"
-#include "ui/widgets/layout/columns.h"
-#include "ui/widgets/layout/group.h"
-#include "ui/widgets/panel_transformables/panel_window.h"
-#include "ui/widgets/selection/check_box.h"
-#include "ui/widgets/texts/text_colored.h"
+#include "vox.editor/profiling/profiler.h"
+#include "vox.render/ui/widgets/buttons/button_simple.h"
+#include "vox.render/ui/widgets/layout/columns.h"
+#include "vox.render/ui/widgets/layout/group.h"
+#include "vox.render/ui/widgets/panel_transformables/panel_window.h"
+#include "vox.render/ui/widgets/selection/check_box.h"
+#include "vox.render/ui/widgets/texts/text_colored.h"
 
 namespace vox {
 using namespace ui;

@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "ui/widgets/buttons/button_image.h"
-#include "ui/widgets/panel_transformables/panel_window.h"
+#include "vox.render/ui/widgets/buttons/button_image.h"
+#include "vox.render/ui/widgets/panel_transformables/panel_window.h"
 
 namespace vox {
 using namespace ui;

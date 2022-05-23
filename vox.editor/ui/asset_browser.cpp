@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "asset_browser.h"
+#include "vox.editor/ui/asset_browser.h"
 
 namespace vox::editor::ui {
 AssetBrowser::AssetBrowser(const std::string &title,

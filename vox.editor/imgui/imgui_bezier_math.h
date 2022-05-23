@@ -12,7 +12,7 @@
 #pragma once
 
 //------------------------------------------------------------------------------
-#include "imgui_extra_math.h"
+#include "vox.editor/imgui/imgui_extra_math.h"
 
 //------------------------------------------------------------------------------
 template <typename T>
@@ -203,7 +203,7 @@ inline void ImCubicBezierFixedStep(F &callback,
                                    float max_t_error = 1e-5f);
 
 //------------------------------------------------------------------------------
-#include "imgui_bezier_math.inl"
+#include "vox.editor/imgui/imgui_bezier_math.inl"
 
 //------------------------------------------------------------------------------
 #endif  // __IMGUI_BEZIER_MATH_H__

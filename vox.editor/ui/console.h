@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "logging.h"
-#include "spdlog/sinks/base_sink.h"
-#include "ui/widgets/layout/group.h"
-#include "ui/widgets/panel_transformables/panel_window.h"
-#include "ui/widgets/texts/text_colored.h"
+#include "vox.render/logging.h"
+#include <spdlog/sinks/base_sink.h>
+#include "vox.render/ui/widgets/layout/group.h"
+#include "vox.render/ui/widgets/panel_transformables/panel_window.h"
+#include "vox.render/ui/widgets/texts/text_colored.h"
 
 namespace vox {
 using namespace ui;

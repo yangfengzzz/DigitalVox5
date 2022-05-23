@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "profiler_window.h"
+#include "vox.editor/ui/profiler_window.h"
 
-#include "logging.h"
-#include "ui/widgets/visual/separator.h"
+#include "vox.render/logging.h"
+#include "vox.render/ui/widgets/visual/separator.h"
 
 namespace vox::editor::ui {
 ProfilerWindow::ProfilerWindow(const std::string &title,

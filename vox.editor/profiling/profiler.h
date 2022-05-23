@@ -11,7 +11,7 @@
 #include <thread>
 #include <unordered_map>
 
-#include "profiling/profiler_report.h"
+#include "vox.editor/profiling/profiler_report.h"
 
 namespace vox {
 /* Forward declaration of the profiler spy structure */

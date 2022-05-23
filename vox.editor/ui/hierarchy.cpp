@@ -4,17 +4,17 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "hierarchy.h"
+#include "vox.editor/ui/hierarchy.h"
 
-#include "editor_actions.h"
-#include "entity_creation_menu.h"
-#include "ui/plugins/contextual_menu.h"
-#include "ui/plugins/drag_drop_source.h"
-#include "ui/plugins/drag_drop_target.h"
-#include "ui/widgets/buttons/button_simple.h"
-#include "ui/widgets/input_fields/input_text.h"
-#include "ui/widgets/selection/check_box.h"
-#include "ui/widgets/visual/separator.h"
+#include "vox.editor/editor_actions.h"
+#include "vox.editor/entity_creation_menu.h"
+#include "vox.render/ui/plugins/contextual_menu.h"
+#include "vox.render/ui/plugins/drag_drop_source.h"
+#include "vox.render/ui/plugins/drag_drop_target.h"
+#include "vox.render/ui/widgets/buttons/button_simple.h"
+#include "vox.render/ui/widgets/input_fields/input_text.h"
+#include "vox.render/ui/widgets/selection/check_box.h"
+#include "vox.render/ui/widgets/visual/separator.h"
 
 namespace vox::editor::ui {
 namespace {

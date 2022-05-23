@@ -4,17 +4,17 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "asset_properties.h"
+#include "vox.editor/ui/asset_properties.h"
 
-#include "editor_actions.h"
-#include "platform/filesystem.h"
-#include "size_converter.h"
-#include "ui/gui_drawer.h"
-#include "ui/widgets/layout/group.h"
-#include "ui/widgets/layout/group_collapsable.h"
-#include "ui/widgets/layout/new_line.h"
-#include "ui/widgets/selection/combo_box.h"
-#include "ui/widgets/visual/separator.h"
+#include "vox.editor/editor_actions.h"
+#include "vox.render/platform/filesystem.h"
+#include "vox.editor/size_converter.h"
+#include "vox.render/ui/gui_drawer.h"
+#include "vox.render/ui/widgets/layout/group.h"
+#include "vox.render/ui/widgets/layout/group_collapsable.h"
+#include "vox.render/ui/widgets/layout/new_line.h"
+#include "vox.render/ui/widgets/selection/combo_box.h"
+#include "vox.render/ui/widgets/visual/separator.h"
 
 namespace vox::editor::ui {
 AssetProperties::AssetProperties(const std::string &p_title,

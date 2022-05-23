@@ -9,8 +9,8 @@
 #include <string>
 #include <unordered_map>
 
-#include "core/sampler.h"
-#include "image_manager.h"
+#include "vox.render/core/sampler.h"
+#include "vox.render/image_manager.h"
 
 namespace vox::editor {
 /**
