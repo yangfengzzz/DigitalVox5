@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "input_float.h"
+#include "vox.render/ui/widgets/input_fields/input_float.h"
 
 namespace vox::ui {
 InputFloat::InputFloat(float default_value,

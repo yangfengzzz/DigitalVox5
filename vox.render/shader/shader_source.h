@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "helpers.h"
+#include "vox.render/helpers.h"
 
 namespace vox {
 class ShaderSource {

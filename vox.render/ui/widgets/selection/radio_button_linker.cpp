@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "radio_button_linker.h"
+#include "vox.render/ui/widgets/selection/radio_button_linker.h"
 
 namespace vox::ui {
 RadioButtonLinker::RadioButtonLinker() : DataWidget<int>(selected_) {}

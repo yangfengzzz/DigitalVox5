@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "components_manager.h"
+#include "vox.render/components_manager.h"
 
-#include "camera.h"
-#include "renderer.h"
-#include "script.h"
-//#include "animator.h"
-#include "logging.h"
-#include "scene_animator.h"
+#include "vox.render/camera.h"
+#include "vox.render/renderer.h"
+#include "vox.render/script.h"
+//#include "vox.render/animator.h"
+#include "vox.render/logging.h"
+#include "vox.render/scene_animator.h"
 
 namespace vox {
 ComponentsManager *ComponentsManager::GetSingletonPtr() { return ms_singleton; }

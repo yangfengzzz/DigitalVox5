@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "pbr_base_material.h"
+#include "vox.render/material/pbr_base_material.h"
 
-#include "shader/internal_variant_name.h"
+#include "vox.render/shader/internal_variant_name.h"
 
 namespace vox {
 const Color &PbrBaseMaterial::BaseColor() const { return pbr_base_data_.base_color; }

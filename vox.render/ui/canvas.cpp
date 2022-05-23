@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "canvas.h"
+#include "vox.render/ui/canvas.h"
 
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_vulkan.h"
+#include "vox.render/ui/imgui_impl_glfw.h"
+#include "vox.render/ui/imgui_impl_vulkan.h"
 
 namespace vox::ui {
 void Canvas::Draw() {

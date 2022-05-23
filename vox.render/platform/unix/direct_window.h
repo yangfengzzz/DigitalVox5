@@ -9,9 +9,9 @@
 #include <termios.h>
 #include <unistd.h>
 
-#include "platform/platform.h"
-#include "platform/window.h"
-#include "vk_common.h"
+#include "vox.render/platform/platform.h"
+#include "vox.render/platform/window.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 /**

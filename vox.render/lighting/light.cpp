@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "light.h"
+#include "vox.render/lighting/light.h"
 
-#include "entity.h"
+#include "vox.render/entity.h"
 
 namespace vox {
 Light::Light(Entity *entity) : Component(entity) {}

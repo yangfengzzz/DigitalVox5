@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "postprocessing_renderpass.h"
+#include "vox.render/rendering/postprocessing_renderpass.h"
 
-#include "postprocessing_pipeline.h"
+#include "vox.render/rendering/postprocessing_pipeline.h"
 
 namespace vox {
 constexpr uint32_t kDepthResolveBitmask = 0x80000000;

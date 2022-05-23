@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "slider_float.h"
+#include "vox.render/ui/widgets/sliders/slider_float.h"
 
 namespace vox::ui {
 SliderFloat::SliderFloat(float min,

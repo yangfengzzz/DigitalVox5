@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "shader_source.h"
-#include "shader_variant.h"
-#include "vk_common.h"
+#include "vox.render/shader/shader_source.h"
+#include "vox.render/shader/shader_variant.h"
+#include "vox.render/vk_common.h"
 
 #if defined(VK_USE_PLATFORM_XLIB_KHR)
 #undef None

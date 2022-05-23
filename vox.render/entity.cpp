@@ -4,16 +4,16 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "entity.h"
+#include "vox.render/entity.h"
 
 #include <utility>
 
-#include "component.h"
-#include "components_manager.h"
-#include "scene.h"
-#include "script.h"
-//#include "serializer.h"
-#include "logging.h"
+#include "vox.render/component.h"
+#include "vox.render/components_manager.h"
+#include "vox.render/scene.h"
+#include "vox.render/script.h"
+//#include "vox.render/serializer.h"
+#include "vox.render/logging.h"
 
 namespace vox {
 Event<Entity *> Entity::destroyed_event;

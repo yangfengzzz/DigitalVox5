@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "pipeline_layout.h"
+#include "vox.render/core/pipeline_layout.h"
 
-#include "descriptor_set_layout.h"
-#include "device.h"
-#include "shader/shader_module.h"
+#include "vox.render/core/descriptor_set_layout.h"
+#include "vox.render/core/device.h"
+#include "vox.render/shader/shader_module.h"
 
 namespace vox {
 PipelineLayout::PipelineLayout(Device &device, const std::vector<ShaderModule *> &shader_modules)

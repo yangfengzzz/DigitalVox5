@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "descriptor_pool.h"
+#include "vox.render/core/descriptor_pool.h"
 
-#include "descriptor_set_layout.h"
-#include "device.h"
-#include "error.h"
+#include "vox.render/core/descriptor_set_layout.h"
+#include "vox.render/core/device.h"
+#include "vox.render/error.h"
 
 namespace vox {
 DescriptorPool::DescriptorPool(Device &device, const DescriptorSetLayout &descriptor_set_layout, uint32_t pool_size)

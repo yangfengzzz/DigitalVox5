@@ -9,9 +9,9 @@
 #include <string>
 #include <unordered_map>
 
-#include "rendering/render_context.h"
-#include "singleton.h"
-#include "ui/canvas.h"
+#include "vox.render/rendering/render_context.h"
+#include "vox.render/singleton.h"
+#include "vox.render/ui/canvas.h"
 
 struct GLFWwindow;
 

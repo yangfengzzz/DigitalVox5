@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "plot_histogram.h"
+#include "vox.render/ui/widgets/plot/plot_histogram.h"
 
-#include "ui/widgets/converter.h"
+#include "vox.render/ui/widgets/converter.h"
 
 namespace vox::ui {
 PlotHistogram::PlotHistogram(const std::vector<float> &data,

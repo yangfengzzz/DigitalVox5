@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "update_flag_manager.h"
+#include "vox.render/update_flag_manager.h"
 
 namespace vox {
 std::unique_ptr<UpdateFlag> UpdateFlagManager::Registration() { return std::make_unique<UpdateFlag>(this); }

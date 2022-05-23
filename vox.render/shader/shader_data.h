@@ -6,12 +6,12 @@
 
 #pragma once
 
-#include "../image.h"
-#include "buffer_pool.h"
-#include "core/buffer.h"
-#include "core/command_buffer.h"
-#include "core/sampled_image.h"
-#include "shader_variant.h"
+#include "vox.render/image.h"
+#include "vox.render/buffer_pool.h"
+#include "vox.render/core/buffer.h"
+#include "vox.render/core/command_buffer.h"
+#include "vox.render/core/sampled_image.h"
+#include "vox.render/shader/shader_variant.h"
 
 namespace vox {
 /**

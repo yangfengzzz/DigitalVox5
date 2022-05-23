@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "progress_bar.h"
+#include "vox.render/ui/widgets/visual/progress_bar.h"
 
 #include <utility>
 
-#include "ui/widgets/converter.h"
+#include "vox.render/ui/widgets/converter.h"
 
 namespace vox::ui {
 ProgressBar::ProgressBar(float fraction, const Vector2F &size, std::string overlay)

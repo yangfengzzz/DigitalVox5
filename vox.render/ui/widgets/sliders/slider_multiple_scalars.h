@@ -9,8 +9,8 @@
 #include <array>
 #include <utility>
 
-#include "event.h"
-#include "ui/widgets/data_widget.h"
+#include "vox.render/event.h"
+#include "vox.render/ui/widgets/data_widget.h"
 
 namespace vox::ui {
 /**

@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "strings.h"
+#include "vox.render/strings.h"
 
 #include <spdlog/fmt/fmt.h>
 
-#include "shader/shader_module.h"
+#include "vox.render/shader/shader_module.h"
 
 namespace vox {
 std::vector<std::string> Split(const std::string &str, const std::string &delimiter) {

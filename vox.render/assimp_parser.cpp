@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "assimp_parser.h"
+#include "vox.render/assimp_parser.h"
 
 #include <assimp/matrix4x4.h>
 #include <assimp/postprocess.h>
@@ -12,16 +12,16 @@
 
 #include <assimp/Importer.hpp>
 
-#include "entity.h"
-#include "image_manager.h"
-#include "logging.h"
-#include "material/blinn_phong_material.h"
-#include "material/pbr_material.h"
-#include "material/pbr_specular_material.h"
-#include "material/unlit_material.h"
-#include "mesh/mesh_manager.h"
-#include "mesh/mesh_renderer.h"
-#include "platform/filesystem.h"
+#include "vox.render/entity.h"
+#include "vox.render/image_manager.h"
+#include "vox.render/logging.h"
+#include "vox.render/material/blinn_phong_material.h"
+#include "vox.render/material/pbr_material.h"
+#include "vox.render/material/pbr_specular_material.h"
+#include "vox.render/material/unlit_material.h"
+#include "vox.render/mesh/mesh_manager.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/platform/filesystem.h"
 
 namespace vox {
 AssimpParser::AssimpParser(Device &device) : device_(device) {}

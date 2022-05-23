@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "event.h"
-#include "ui/widgets/data_widget.h"
-#include "ui/widgets/widget_container.h"
+#include "vox.render/event.h"
+#include "vox.render/ui/widgets/data_widget.h"
+#include "vox.render/ui/widgets/widget_container.h"
 
 namespace vox::ui {
 /**

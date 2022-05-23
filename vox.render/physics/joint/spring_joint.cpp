@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "spring_joint.h"
+#include "vox.render/physics/joint/spring_joint.h"
 
-#include "../collider.h"
-#include "../physics_manager.h"
+#include "vox.render/physics/collider.h"
+#include "vox.render/physics/physics_manager.h"
 
 namespace vox::physics {
 SpringJoint::SpringJoint(Collider *collider_0, Collider *collider_1) : Joint() {

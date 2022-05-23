@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "component.h"
+#include "vox.render/component.h"
 
-#include "entity.h"
+#include "vox.render/entity.h"
 
 namespace vox {
 Component::Component(vox::Entity *entity) : entity_(entity) {}

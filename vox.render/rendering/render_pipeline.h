@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "core/buffer.h"
-#include "helpers.h"
-#include "rendering/render_frame.h"
-#include "rendering/subpass.h"
-#include "utils.h"
+#include "vox.render/core/buffer.h"
+#include "vox.render/helpers.h"
+#include "vox.render/rendering/render_frame.h"
+#include "vox.render/rendering/subpass.h"
+#include "vox.render/utils.h"
 
 namespace vox {
 /**

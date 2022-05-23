@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "color.h"
-#include "light.h"
+#include "vox.math/color.h"
+#include "vox.render/lighting/light.h"
 
 namespace vox {
 /**

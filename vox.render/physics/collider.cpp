@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "collider.h"
+#include "vox.render/physics/collider.h"
 
-#include "entity.h"
-#include "physics_manager.h"
-#include "scene.h"
-#include "shape/collider_shape.h"
+#include "vox.render/entity.h"
+#include "vox.render/physics/physics_manager.h"
+#include "vox.render/scene.h"
+#include "vox.render/physics/shape/collider_shape.h"
 
 namespace vox::physics {
 Collider::Collider(Entity *entity) : Component(entity) { update_flag_ = entity->transform->RegisterWorldChangeFlag(); }

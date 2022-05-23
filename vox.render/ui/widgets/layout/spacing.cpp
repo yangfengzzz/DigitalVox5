@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "spacing.h"
+#include "vox.render/ui/widgets/layout/spacing.h"
 
 namespace vox::ui {
 Spacing::Spacing(uint16_t spaces) : spaces_(spaces) {}

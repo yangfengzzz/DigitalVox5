@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "queue.h"
+#include "vox.render/core/queue.h"
 
-#include "command_buffer.h"
-#include "device.h"
+#include "vox.render/core/command_buffer.h"
+#include "vox.render/core/device.h"
 
 namespace vox {
 Queue::Queue(

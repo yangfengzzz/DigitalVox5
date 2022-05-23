@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "core/vulkan_resource.h"
+#include "vox.render/core/vulkan_resource.h"
 
-#include "core/device.h"
+#include "vox.render/core/device.h"
 
 namespace vox::core::detail {
 void SetDebugName(const Device *device, VkObjectType object_type, uint64_t handle, const char *debug_name) {

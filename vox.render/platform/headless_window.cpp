@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "headless_window.h"
+#include "vox.render/platform/headless_window.h"
 
 namespace vox {
 HeadlessWindow::HeadlessWindow(const Window::Properties &properties) : Window(properties) {}

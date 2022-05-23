@@ -9,9 +9,9 @@
 #include <CLI/CLI.hpp>
 #include <unordered_map>
 
-#include "help_formatter.h"
-#include "platform/parser.h"
-#include "platform/plugins/plugin.h"
+#include "vox.render/platform/parsers/help_formatter.h"
+#include "vox.render/platform/parser.h"
+#include "vox.render/platform/plugins/plugin.h"
 
 namespace vox {
 struct CLI11CommandContextState {

@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "core/buffer.h"
-#include "core/image_view.h"
-#include "core/sampler.h"
-#include "vk_common.h"
+#include "vox.render/core/buffer.h"
+#include "vox.render/core/image_view.h"
+#include "vox.render/core/sampler.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 /**

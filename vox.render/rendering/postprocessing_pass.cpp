@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "postprocessing_pass.h"
+#include "vox.render/rendering/postprocessing_pass.h"
 
-#include "postprocessing_pipeline.h"
+#include "vox.render/rendering/postprocessing_pipeline.h"
 
 namespace vox {
 PostProcessingPassBase::PostProcessingPassBase(PostProcessingPipeline *parent) : parent_{parent} {}

@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "pipeline_state.h"
+#include "vox.render/rendering/pipeline_state.h"
 
 bool operator==(const VkVertexInputAttributeDescription &lhs, const VkVertexInputAttributeDescription &rhs) {
     return std::tie(lhs.binding, lhs.format, lhs.location, lhs.offset) ==

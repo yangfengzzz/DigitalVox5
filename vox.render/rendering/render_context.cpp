@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "render_context.h"
+#include "vox.render/rendering/render_context.h"
 
 namespace vox {
 VkFormat RenderContext::default_vk_format_ = VK_FORMAT_R8G8B8A8_SRGB;

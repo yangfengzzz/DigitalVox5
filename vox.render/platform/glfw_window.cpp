@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "glfw_window.h"
+#include "vox.render/platform/glfw_window.h"
 
 #include <unordered_map>
 
-#include "error.h"
+#include "vox.render/error.h"
 
 VKBP_DISABLE_WARNINGS()
 
@@ -20,7 +20,7 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "platform/platform.h"
+#include "vox.render/platform/platform.h"
 
 namespace vox {
 namespace {

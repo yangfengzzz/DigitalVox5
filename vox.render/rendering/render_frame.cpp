@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "render_frame.h"
+#include "vox.render/rendering/render_frame.h"
 
-#include "logging.h"
-#include "utils.h"
+#include "vox.render/logging.h"
+#include "vox.render/utils.h"
 
 namespace vox {
 RenderFrame::RenderFrame(Device &device, std::unique_ptr<RenderTarget> &&render_target, size_t thread_count)

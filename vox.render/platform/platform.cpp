@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "platform.h"
+#include "vox.render/platform/platform.h"
 
 #include <spdlog/async_logger.h>
 #include <spdlog/sinks/basic_file_sink.h>
@@ -14,10 +14,10 @@
 #include <algorithm>
 #include <vector>
 
-#include "../plugins/force_close.h"
-#include "logging.h"
-#include "platform/parsers/CLI11.h"
-#include "platform/plugins/plugin.h"
+#include "vox.render/plugins/force_close.h"
+#include "vox.render/logging.h"
+#include "vox.render/platform/parsers/CLI11.h"
+#include "vox.render/platform/plugins/plugin.h"
 
 namespace vox {
 const uint32_t Platform::min_window_width_ = 420;

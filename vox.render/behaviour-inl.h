@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "behaviour.h"
-#include "logging.h"
+#include "vox.render/behaviour.h"
+#include "vox.render/logging.h"
 
 namespace vox {
 template <typename... Args>

@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "collider_shape.h"
+#include "vox.render/physics/shape/collider_shape.h"
 
 #ifdef DEBUG
-#include "mesh/mesh_renderer.h"
+#include "vox.render/mesh/mesh_renderer.h"
 #endif
 
 namespace vox::physics {

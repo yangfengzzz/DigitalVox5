@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "skybox_subpass.h"
+#include "vox.render/rendering/subpasses/skybox_subpass.h"
 
-#include "camera.h"
-#include "mesh/mesh_manager.h"
+#include "vox.render/camera.h"
+#include "vox.render/mesh/mesh_manager.h"
 
 namespace vox {
 SkyboxSubpass::SkyboxSubpass(RenderContext &render_context, Scene *scene, Camera *camera)

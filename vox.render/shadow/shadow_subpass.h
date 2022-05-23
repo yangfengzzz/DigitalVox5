@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "rendering/subpass.h"
+#include "vox.render/rendering/subpass.h"
 
 namespace vox {
 class ShadowSubpass : public Subpass {

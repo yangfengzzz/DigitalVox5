@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "shader_variant.h"
+#include "vox.render/shader/shader_variant.h"
 
 namespace vox {
 ShaderVariant::ShaderVariant(std::string &&preamble, std::vector<std::string> &&processes)

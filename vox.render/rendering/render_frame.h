@@ -6,20 +6,20 @@
 
 #pragma once
 
-#include "buffer_pool.h"
-#include "core/buffer.h"
-#include "core/command_buffer.h"
-#include "core/command_pool.h"
-#include "core/device.h"
-#include "core/image.h"
-#include "core/query_pool.h"
-#include "core/queue.h"
-#include "fence_pool.h"
-#include "helpers.h"
-#include "rendering/render_target.h"
-#include "resource_caching.h"
-#include "semaphore_pool.h"
-#include "vk_common.h"
+#include "vox.render/buffer_pool.h"
+#include "vox.render/core/buffer.h"
+#include "vox.render/core/command_buffer.h"
+#include "vox.render/core/command_pool.h"
+#include "vox.render/core/device.h"
+#include "vox.render/core/image.h"
+#include "vox.render/core/query_pool.h"
+#include "vox.render/core/queue.h"
+#include "vox.render/fence_pool.h"
+#include "vox.render/helpers.h"
+#include "vox.render/rendering/render_target.h"
+#include "vox.render/resource_caching.h"
+#include "vox.render/semaphore_pool.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 enum BufferAllocationStrategy { ONE_ALLOCATION_PER_BUFFER, MULTIPLE_ALLOCATIONS_PER_BUFFER };

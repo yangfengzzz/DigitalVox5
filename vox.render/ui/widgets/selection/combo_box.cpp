@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "combo_box.h"
+#include "vox.render/ui/widgets/selection/combo_box.h"
 
 namespace vox::ui {
 ComboBox::ComboBox(int current_choice) : DataWidget<int>(current_choice_), current_choice_(current_choice) {}

@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "../../component.h"
-#include "../physics.h"
-#include "point3.h"
+#include "vox.render/component.h"
+#include "vox.render/physics/physics.h"
+#include "vox.math/point3.h"
 
 namespace vox::physics {
 

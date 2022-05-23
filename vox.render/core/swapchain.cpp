@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "core/swapchain.h"
+#include "vox.render/core/swapchain.h"
 
-#include "device.h"
-#include "logging.h"
+#include "vox.render/core/device.h"
+#include "vox.render/logging.h"
 
 namespace vox {
 namespace {

@@ -10,7 +10,7 @@
 
 #include <memory>
 
-#include "vector3.h"
+#include "vox.math/vector3.h"
 
 namespace vox::physics {
 // MARK: - Forward Declare

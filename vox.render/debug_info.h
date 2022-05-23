@@ -10,9 +10,9 @@
 #include <utility>
 #include <vector>
 
-#include "error.h"
-#include "helpers.h"
-#include "vector3.h"
+#include "vox.render/error.h"
+#include "vox.render/helpers.h"
+#include "vox.math/vector3.h"
 
 namespace vox {
 namespace field {

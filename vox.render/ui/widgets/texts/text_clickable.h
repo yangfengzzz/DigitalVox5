@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "event.h"
-#include "text.h"
+#include "vox.render/event.h"
+#include "vox.render/ui/widgets/texts/text.h"
 
 namespace vox::ui {
 /**

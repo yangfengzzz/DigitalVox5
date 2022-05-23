@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "button_small.h"
+#include "vox.render/ui/widgets/buttons/button_small.h"
 
 #include <utility>
 
-#include "ui/widgets/converter.h"
+#include "vox.render/ui/widgets/converter.h"
 
 namespace vox::ui {
 ButtonSmall::ButtonSmall(std::string label) : label_(std::move(label)) {

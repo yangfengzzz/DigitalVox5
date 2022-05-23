@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "collider_shape.h"
+#include "vox.render/physics/shape/collider_shape.h"
 
-#include "../physics_manager.h"
+#include "vox.render/physics/physics_manager.h"
 
 namespace vox::physics {
 ColliderShape::ColliderShape() : native_material_(PhysicsManager::native_physics_()->createMaterial(0, 0, 0)) {}

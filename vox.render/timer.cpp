@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "timer.h"
+#include "vox.render/timer.h"
 
 namespace vox {
 Timer::Timer() : start_time_{Clock::now()}, previous_tick_{Clock::now()} {}

@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "slider_double.h"
+#include "vox.render/ui/widgets/sliders/slider_double.h"
 
 namespace vox::ui {
 SliderDouble::SliderDouble(double min,

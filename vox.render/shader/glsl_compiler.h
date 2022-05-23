@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "error.h"
+#include "vox.render/error.h"
 
 VKBP_DISABLE_WARNINGS()
 
@@ -17,8 +17,8 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "shader/shader_module.h"
-#include "vk_common.h"
+#include "vox.render/shader/shader_module.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 /// Helper class to generate SPIRV code from GLSL source

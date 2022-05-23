@@ -8,9 +8,9 @@
 
 #include <vector>
 
-#include "component.h"
-#include "physics.h"
-#include "update_flag.h"
+#include "vox.render/component.h"
+#include "vox.render/physics/physics.h"
+#include "vox.render/update_flag.h"
 
 namespace vox::physics {
 class Collider : public Component {

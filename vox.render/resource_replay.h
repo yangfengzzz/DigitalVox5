@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "resource_record.h"
+#include "vox.render/resource_record.h"
 
 namespace vox {
 class ResourceCache;

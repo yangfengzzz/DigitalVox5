@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "command_buffer.h"
+#include "vox.render/core/command_buffer.h"
 
-#include "command_pool.h"
-#include "device.h"
-#include "error.h"
-#include "rendering/subpass.h"
+#include "vox.render/core/command_pool.h"
+#include "vox.render/core/device.h"
+#include "vox.render/error.h"
+#include "vox.render/rendering/subpass.h"
 
 namespace vox {
 CommandBuffer::CommandBuffer(CommandPool &command_pool, VkCommandBufferLevel level)

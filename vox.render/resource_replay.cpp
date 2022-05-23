@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "resource_replay.h"
+#include "vox.render/resource_replay.h"
 
-#include "logging.h"
-#include "rendering/pipeline_state.h"
-#include "resource_cache.h"
-#include "vk_common.h"
+#include "vox.render/logging.h"
+#include "vox.render/rendering/pipeline_state.h"
+#include "vox.render/resource_cache.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 namespace {

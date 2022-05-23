@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "direct_window.h"
+#include "vox.render/platform/unix/direct_window.h"
 
-#include "core/instance.h"
-#include "platform/headless_window.h"
-#include "platform/unix/direct_window.h"
+#include "vox.render/core/instance.h"
+#include "vox.render/platform/headless_window.h"
+#include "vox.render/platform/unix/direct_window.h"
 
 namespace vox {
 namespace {

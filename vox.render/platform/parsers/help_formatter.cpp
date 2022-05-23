@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "help_formatter.h"
+#include "vox.render/platform/parsers/help_formatter.h"
 
-#include "CLI11.h"
-#include "strings.h"
+#include "vox.render/platform/parsers/CLI11.h"
+#include "vox.render/strings.h"
 
 namespace vox {
 const std::string kSpacer = "  ";

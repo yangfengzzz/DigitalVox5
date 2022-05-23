@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "frame_time_stats_provider.h"
+#include "vox.render/stats/frame_time_stats_provider.h"
 
 namespace vox {
 FrameTimeStatsProvider::FrameTimeStatsProvider(std::set<StatIndex> &requested_stats) {

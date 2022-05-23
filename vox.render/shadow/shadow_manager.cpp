@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "shadow_manager.h"
+#include "vox.render/shadow/shadow_manager.h"
 
-#include "camera.h"
-#include "entity.h"
-#include "image_manager.h"
-#include "lighting/light_manager.h"
-#include "matrix_utils.h"
+#include "vox.render/camera.h"
+#include "vox.render/entity.h"
+#include "vox.render/image_manager.h"
+#include "vox.render/lighting/light_manager.h"
+#include "vox.math/matrix_utils.h"
 
 namespace vox {
 uint32_t ShadowManager::cube_shadow_count_ = 0;

@@ -8,9 +8,9 @@
 
 #include <random>
 
-#include "mesh/buffer_mesh.h"
-#include "particle_material.h"
-#include "renderer.h"
+#include "vox.render/mesh/buffer_mesh.h"
+#include "vox.render/particle/particle_material.h"
+#include "vox.render/renderer.h"
 
 namespace vox {
 class ParticleRenderer : public Renderer {

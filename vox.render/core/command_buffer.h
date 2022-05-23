@@ -8,17 +8,17 @@
 
 #include <list>
 
-#include "core/buffer.h"
-#include "core/image.h"
-#include "core/image_view.h"
-#include "core/query_pool.h"
-#include "core/sampler.h"
-#include "core/vulkan_resource.h"
-#include "helpers.h"
-#include "rendering/pipeline_state.h"
-#include "rendering/render_target.h"
-#include "resource_binding_state.h"
-#include "vk_common.h"
+#include "vox.render/core/buffer.h"
+#include "vox.render/core/image.h"
+#include "vox.render/core/image_view.h"
+#include "vox.render/core/query_pool.h"
+#include "vox.render/core/sampler.h"
+#include "vox.render/core/vulkan_resource.h"
+#include "vox.render/helpers.h"
+#include "vox.render/rendering/pipeline_state.h"
+#include "vox.render/rendering/render_target.h"
+#include "vox.render/resource_binding_state.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 class CommandPool;

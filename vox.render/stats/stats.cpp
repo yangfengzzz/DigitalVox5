@@ -4,15 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "stats/stats.h"
+#include "vox.render/stats/stats.h"
 
 #include <utility>
 
-#include "core/device.h"
-#include "error.h"
-#include "frame_time_stats_provider.h"
-#include "hwcpipe_stats_provider.h"
-#include "vulkan_stats_provider.h"
+#include "vox.render/core/device.h"
+#include "vox.render/error.h"
+#include "vox.render/stats/frame_time_stats_provider.h"
+#include "vox.render/stats/hwcpipe_stats_provider.h"
+#include "vox.render/stats/vulkan_stats_provider.h"
 
 namespace vox {
 Stats::Stats(RenderContext &render_context, size_t buffer_size)

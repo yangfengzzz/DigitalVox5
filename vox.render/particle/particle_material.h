@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "material/base_material.h"
-#include "vector3.h"
+#include "vox.render/material/base_material.h"
+#include "vox.math/vector3.h"
 
 namespace vox {
 class ParticleMaterial : public BaseMaterial {

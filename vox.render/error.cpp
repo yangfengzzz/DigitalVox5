@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "error.h"
+#include "vox.render/error.h"
 
 namespace vox {
 VulkanException::VulkanException(const VkResult result, const std::string &msg)

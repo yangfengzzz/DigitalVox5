@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "slider_int.h"
+#include "vox.render/ui/widgets/sliders/slider_int.h"
 
 namespace vox::ui {
 SliderInt::SliderInt(

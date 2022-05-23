@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "physics_manager.h"
+#include "vox.render/physics/physics_manager.h"
 
 #include <utility>
 
-#include "../script.h"
-#include "character_controller/character_controller.h"
-#include "collider.h"
-#include "shape/collider_shape.h"
+#include "vox.render/script.h"
+#include "vox.render/physics/character_controller/character_controller.h"
+#include "vox.render/physics/collider.h"
+#include "vox.render/physics/shape/collider_shape.h"
 
 namespace vox {
 physics::PhysicsManager *physics::PhysicsManager::GetSingletonPtr() { return ms_singleton; }

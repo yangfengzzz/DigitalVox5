@@ -8,7 +8,7 @@
 
 #include <functional>
 
-#include "ui/plugins/plugin.h"
+#include "vox.render/ui/plugins/plugin.h"
 
 namespace vox::ui {
 #define TRY_GATHER(type, output) \

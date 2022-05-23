@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "model_mesh.h"
-#include "vector3.h"
+#include "vox.render/mesh/model_mesh.h"
+#include "vox.math/vector3.h"
 
 namespace vox {
 /**

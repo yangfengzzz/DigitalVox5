@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "scene.h"
+#include "vox.render/scene.h"
 
 #include <queue>
 
-#include "camera.h"
-#include "entity.h"
-#include "logging.h"
+#include "vox.render/camera.h"
+#include "vox.render/entity.h"
+#include "vox.render/logging.h"
 
 namespace vox {
 Scene::Scene(vox::Device &device) : device(device), shader_data(device) {

@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "script_interpreter.h"
+#include "vox.render/lua/script_interpreter.h"
 
 #include <utility>
 
-#include "lua_binder.h"
+#include "vox.render/lua/lua_binder.h"
 
 namespace vox {
 ScriptInterpreter *ScriptInterpreter::GetSingletonPtr() { return ms_singleton; }

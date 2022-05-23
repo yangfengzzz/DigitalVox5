@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "button_simple.h"
+#include "vox.render/ui/widgets/buttons/button_simple.h"
 
 #include <imgui_internal.h>
 
 #include <utility>
 
-#include "ui/widgets/converter.h"
+#include "vox.render/ui/widgets/converter.h"
 
 namespace vox::ui {
 ButtonSimple::ButtonSimple(std::string label, const Vector2F &size, bool disabled)

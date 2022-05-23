@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "point_light.h"
+#include "vox.render/lighting/point_light.h"
 
-#include "entity.h"
-#include "light_manager.h"
-#include "matrix_utils.h"
+#include "vox.render/entity.h"
+#include "vox.render/lighting/light_manager.h"
+#include "vox.math/matrix_utils.h"
 
 namespace vox {
 std::string PointLight::name() { return "PointLight"; }

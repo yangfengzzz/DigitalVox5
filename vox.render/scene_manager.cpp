@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "scene_manager.h"
+#include "vox.render/scene_manager.h"
 
 #include <utility>
 
-#include "camera.h"
-#include "entity.h"
-#include "lighting/direct_light.h"
+#include "vox.render/camera.h"
+#include "vox.render/entity.h"
+#include "vox.render/lighting/direct_light.h"
 
 namespace vox {
 SceneManager *SceneManager::GetSingletonPtr() { return ms_singleton; }

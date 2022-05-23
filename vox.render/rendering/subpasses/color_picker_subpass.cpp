@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "color_picker_subpass.h"
+#include "vox.render/rendering/subpasses/color_picker_subpass.h"
 
-#include "camera.h"
-#include "components_manager.h"
-#include "logging.h"
-#include "mesh/mesh.h"
-#include "renderer.h"
-#include "shader/shader_manager.h"
+#include "vox.render/camera.h"
+#include "vox.render/components_manager.h"
+#include "vox.render/logging.h"
+#include "vox.render/mesh/mesh.h"
+#include "vox.render/renderer.h"
+#include "vox.render/shader/shader_manager.h"
 
 namespace vox {
 ColorPickerMaterial::ColorPickerMaterial(Device &device) : BaseMaterial(device) {

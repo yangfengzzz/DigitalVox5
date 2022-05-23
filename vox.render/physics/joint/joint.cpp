@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "joint.h"
+#include "vox.render/physics/joint/joint.h"
 
-#include "../collider.h"
+#include "vox.render/physics/collider.h"
 
 namespace vox::physics {
 void Joint::SetActors(Collider *actor_0, Collider *actor_1) {

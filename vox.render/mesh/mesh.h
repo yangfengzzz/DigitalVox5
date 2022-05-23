@@ -8,12 +8,12 @@
 
 #include <string>
 
-#include "../vk_initializers.h"
-#include "bounding_box3.h"
-#include "index_buffer_binding.h"
-#include "rendering/pipeline_state.h"
-#include "sub_mesh.h"
-#include "update_flag_manager.h"
+#include "vox.render/vk_initializers.h"
+#include "vox.math/bounding_box3.h"
+#include "vox.render/mesh/index_buffer_binding.h"
+#include "vox.render/rendering/pipeline_state.h"
+#include "vox.render/mesh/sub_mesh.h"
+#include "vox.render/update_flag_manager.h"
 
 namespace vox {
 class Mesh {

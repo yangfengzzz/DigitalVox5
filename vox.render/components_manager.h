@@ -9,12 +9,12 @@
 #include <unordered_map>
 #include <vector>
 
-#include "bounding_frustum.h"
-#include "matrix4x4.h"
-#include "platform/input_events.h"
-#include "rendering/render_element.h"
-#include "scene_forward.h"
-#include "singleton.h"
+#include "vox.math/bounding_frustum.h"
+#include "vox.math/matrix4x4.h"
+#include "vox.render/platform/input_events.h"
+#include "vox.render/rendering/render_element.h"
+#include "vox.render/scene_forward.h"
+#include "vox.render/singleton.h"
 
 namespace vox {
 /**

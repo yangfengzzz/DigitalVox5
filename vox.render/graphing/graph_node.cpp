@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "graphing/graph_node.h"
+#include "vox.render/graphing/graph_node.h"
 
 namespace vox::graphing {
 Node::Node(size_t id, const char *title, const char *style, const nlohmann::json &data) {

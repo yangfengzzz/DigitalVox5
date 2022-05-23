@@ -74,7 +74,7 @@
 //  as in/out in glsl, update embedded spv (produced with glslangValidator -x). Null the released resources. 2016-08-27:
 //  Vulkan: Fix Vulkan example for use when a depth buffer is active.
 
-#include "imgui_impl_vulkan.h"
+#include "vox.render/ui/imgui_impl_vulkan.h"
 
 #include <stdio.h>
 

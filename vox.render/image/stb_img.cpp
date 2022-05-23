@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "image/stb_img.h"
+#include "vox.render/image/stb_img.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_NO_PSD

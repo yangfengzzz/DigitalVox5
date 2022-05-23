@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "panel.h"
+#include "vox.render/ui/widgets/panel.h"
 
 namespace vox::ui {
 uint64_t Panel::panel_id_increment_ = 0;

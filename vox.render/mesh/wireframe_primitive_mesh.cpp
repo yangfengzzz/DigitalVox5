@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "wireframe_primitive_mesh.h"
+#include "vox.render/mesh/wireframe_primitive_mesh.h"
 
-#include "mesh_manager.h"
+#include "vox.render/mesh/mesh_manager.h"
 
 namespace vox {
 ModelMeshPtr WireframePrimitiveMesh::CreateCuboidWireFrame(float width, float height, float depth) {

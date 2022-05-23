@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "vector3.h"
+#include "vox.math/vector3.h"
 
 namespace vox::control {
 // Spherical.

@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "dummy.h"
+#include "vox.render/ui/widgets/layout/dummy.h"
 
-#include "ui/widgets/converter.h"
+#include "vox.render/ui/widgets/converter.h"
 
 namespace vox::ui {
 Dummy::Dummy(const Vector2F &size) : size_(size) {}

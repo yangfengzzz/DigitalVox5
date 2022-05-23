@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "menu_item.h"
+#include "vox.render/ui/widgets/menu/menu_item.h"
 
 #include <utility>
 

@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "button_colored.h"
+#include "vox.render/ui/widgets/buttons/button_colored.h"
 
 #include <utility>
 
-#include "ui/widgets/converter.h"
+#include "vox.render/ui/widgets/converter.h"
 
 namespace vox::ui {
 ButtonColored::ButtonColored(std::string label, const Color &color, const Vector2F &size, bool enable_alpha)

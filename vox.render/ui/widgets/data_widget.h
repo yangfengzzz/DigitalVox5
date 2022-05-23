@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "../plugins/data_dispatcher.h"
-#include "buttons/button.h"
+#include "vox.render/ui/plugins/data_dispatcher.h"
+#include "vox.render/ui/widgets/buttons/button.h"
 
 namespace vox::ui {
 /**

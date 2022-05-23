@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "vulkan_stats_provider.h"
+#include "vox.render/stats/vulkan_stats_provider.h"
 
 #include <regex>
 
-#include "core/command_buffer.h"
-#include "core/device.h"
-#include "error.h"
-#include "rendering/render_context.h"
+#include "vox.render/core/command_buffer.h"
+#include "vox.render/core/device.h"
+#include "vox.render/error.h"
+#include "vox.render/rendering/render_context.h"
 
 namespace vox {
 VulkanStatsProvider::VulkanStatsProvider(std::set<StatIndex> &requested_stats,

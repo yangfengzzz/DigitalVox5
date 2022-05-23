@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "pipeline.h"
+#include "vox.render/core/pipeline.h"
 
-#include "device.h"
-#include "shader/shader_module.h"
+#include "vox.render/core/device.h"
+#include "vox.render/shader/shader_module.h"
 
 namespace vox {
 Pipeline::Pipeline(Device &device) : device_{device} {}

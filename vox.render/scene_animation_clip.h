@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include "entity.h"
+#include "vox.render/entity.h"
 
 namespace vox {
 class SceneAnimationClip {

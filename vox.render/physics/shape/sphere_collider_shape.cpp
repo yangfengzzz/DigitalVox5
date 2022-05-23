@@ -4,15 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "sphere_collider_shape.h"
+#include "vox.render/physics/shape/sphere_collider_shape.h"
 
-#include "../physics_manager.h"
+#include "vox.render/physics/physics_manager.h"
 
 #ifdef DEBUG
-#include "material/unlit_material.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/wireframe_primitive_mesh.h"
-#include "scene.h"
+#include "vox.render/material/unlit_material.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/mesh/wireframe_primitive_mesh.h"
+#include "vox.render/scene.h"
 #endif
 
 namespace vox::physics {

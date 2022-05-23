@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "collider.h"
+#include "vox.render/physics/collider.h"
 
 namespace vox::physics {
 class StaticCollider : public Collider {

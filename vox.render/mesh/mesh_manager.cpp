@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "mesh_manager.h"
+#include "vox.render/mesh/mesh_manager.h"
 
 namespace vox {
 MeshManager::MeshManager(Device &device) : device_(device) {}

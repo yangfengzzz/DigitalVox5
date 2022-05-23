@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "inspector_item.h"
+#include "vox.render/inspector_item.h"
 
 namespace vox {
 // TODO

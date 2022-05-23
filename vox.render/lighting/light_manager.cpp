@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "light_manager.h"
+#include "vox.render/lighting/light_manager.h"
 
-#include "camera.h"
-#include "logging.h"
-#include "scene.h"
-#include "shader/internal_variant_name.h"
-#include "shader/shader_manager.h"
+#include "vox.render/camera.h"
+#include "vox.render/logging.h"
+#include "vox.render/scene.h"
+#include "vox.render/shader/internal_variant_name.h"
+#include "vox.render/shader/shader_manager.h"
 
 namespace vox {
 LightManager *LightManager::GetSingletonPtr() { return ms_singleton; }

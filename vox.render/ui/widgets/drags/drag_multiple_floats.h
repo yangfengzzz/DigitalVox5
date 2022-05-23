@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "drag_multiple_scalars.h"
+#include "vox.render/ui/widgets/drags/drag_multiple_scalars.h"
 
 namespace vox::ui {
 /**

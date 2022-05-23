@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "model_mesh.h"
+#include "vox.render/mesh/model_mesh.h"
 
-#include "../core/device.h"
-#include "../shader/shader_common.h"
+#include "vox.render/core/device.h"
+#include "vox.render/shader/shader_common.h"
 
 namespace vox {
 bool ModelMesh::Accessible() const { return accessible_; }

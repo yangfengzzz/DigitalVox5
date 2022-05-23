@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "query_pool.h"
+#include "vox.render/core/query_pool.h"
 
-#include "device.h"
+#include "vox.render/core/device.h"
 
 namespace vox {
 QueryPool::QueryPool(Device &d, const VkQueryPoolCreateInfo &info) : device_{d} {

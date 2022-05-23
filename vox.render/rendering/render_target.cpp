@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "rendering/render_target.h"
+#include "vox.render/rendering/render_target.h"
 
-#include "core/device.h"
+#include "vox.render/core/device.h"
 
 namespace vox {
 namespace {

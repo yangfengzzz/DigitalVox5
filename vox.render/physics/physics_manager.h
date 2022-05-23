@@ -9,11 +9,11 @@
 #include <unordered_map>
 #include <vector>
 
-#include "hit_result.h"
-#include "layer.h"
-#include "physics.h"
-#include "ray3.h"
-#include "singleton.h"
+#include "vox.render/physics/hit_result.h"
+#include "vox.render/layer.h"
+#include "vox.render/physics/physics.h"
+#include "vox.math/ray3.h"
+#include "vox.render/singleton.h"
 
 namespace vox {
 namespace physics {

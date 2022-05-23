@@ -10,9 +10,9 @@
 
 #include <string>
 
-#include "ui/drawable.h"
-#include "ui/plugins/data_dispatcher.h"
-#include "ui/plugins/pluginable.h"
+#include "vox.render/ui/drawable.h"
+#include "vox.render/ui/plugins/data_dispatcher.h"
+#include "vox.render/ui/plugins/pluginable.h"
 
 namespace vox::ui {
 class WidgetContainer;

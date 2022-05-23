@@ -4,15 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "ui_manager.h"
+#include "vox.render/ui/ui_manager.h"
 
 #include <GLFW/glfw3.h>
 
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_vulkan.h"
-#include "matrix4x4.h"
-#include "platform/filesystem.h"
-#include "vk_initializers.h"
+#include "vox.render/ui/imgui_impl_glfw.h"
+#include "vox.render/ui/imgui_impl_vulkan.h"
+#include "vox.math/matrix4x4.h"
+#include "vox.render/platform/filesystem.h"
+#include "vox.render/vk_initializers.h"
 
 namespace vox {
 ui::UiManager *ui::UiManager::GetSingletonPtr() { return ms_singleton; }

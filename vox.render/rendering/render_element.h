@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "scene_forward.h"
+#include "vox.render/scene_forward.h"
 
 namespace vox {
 /**

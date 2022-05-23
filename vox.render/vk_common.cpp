@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "vk_common.h"
+#include "vox.render/vk_common.h"
 
 #include <spdlog/fmt/fmt.h>
 
-#include "logging.h"
-#include "platform/filesystem.h"
-#include "shader/glsl_compiler.h"
-#include "strings.h"
+#include "vox.render/logging.h"
+#include "vox.render/platform/filesystem.h"
+#include "vox.render/shader/glsl_compiler.h"
+#include "vox.render/strings.h"
 
 std::ostream &operator<<(std::ostream &os, const VkResult result) {
 #define WRITE_VK_ENUM(r) \

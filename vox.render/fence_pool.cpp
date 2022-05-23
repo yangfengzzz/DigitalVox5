@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "fence_pool.h"
+#include "vox.render/fence_pool.h"
 
-#include "core/device.h"
+#include "vox.render/core/device.h"
 
 namespace vox {
 FencePool::FencePool(Device &device) : device_{device} {}

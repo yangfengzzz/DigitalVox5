@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "../image.h"
+#include "vox.render/image.h"
 
 namespace vox {
 class Stb : public Image {

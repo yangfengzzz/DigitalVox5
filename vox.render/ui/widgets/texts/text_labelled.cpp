@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "text_labelled.h"
+#include "vox.render/ui/widgets/texts/text_labelled.h"
 
 #include <utility>
 

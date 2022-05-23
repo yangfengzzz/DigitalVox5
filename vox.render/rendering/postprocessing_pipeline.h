@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "postprocessing_pass.h"
+#include "vox.render/rendering/postprocessing_pass.h"
 
 namespace vox {
 class PostProcessingRenderPass;

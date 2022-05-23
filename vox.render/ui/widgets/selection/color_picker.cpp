@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "color_picker.h"
+#include "vox.render/ui/widgets/selection/color_picker.h"
 
 namespace vox::ui {
 ColorPicker::ColorPicker(bool enable_alpha, const Color &default_color)

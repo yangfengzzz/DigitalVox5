@@ -10,9 +10,9 @@
 
 #include <string>
 
-#include "core/device.h"
-#include "image.h"
-#include "scene_forward.h"
+#include "vox.render/core/device.h"
+#include "vox.render/image.h"
+#include "vox.render/scene_forward.h"
 
 namespace vox {
 class AssimpParser {

@@ -23,7 +23,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "error.h"
+#include "vox.render/error.h"
 
 namespace vox {
 template <typename T>

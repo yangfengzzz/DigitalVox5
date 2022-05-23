@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "image.h"
+#include "vox.render/image.h"
 
 #include <mutex>
 #include <utility>
 
-#include "error.h"
+#include "vox.render/error.h"
 
 VKBP_DISABLE_WARNINGS()
 
@@ -19,11 +19,11 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "image/astc_img.h"
-#include "image/ktx_img.h"
-#include "image/stb_img.h"
-#include "platform/filesystem.h"
-#include "utils.h"
+#include "vox.render/image/astc_img.h"
+#include "vox.render/image/ktx_img.h"
+#include "vox.render/image/stb_img.h"
+#include "vox.render/platform/filesystem.h"
+#include "vox.render/utils.h"
 
 namespace vox {
 bool IsAstc(VkFormat format) {

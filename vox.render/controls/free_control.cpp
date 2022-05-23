@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "free_control.h"
+#include "vox.render/controls/free_control.h"
 
-#include "../entity.h"
-#include "math_utils.h"
+#include "vox.render/entity.h"
+#include "vox.math/math_utils.h"
 
 namespace vox::control {
 std::string FreeControl::name() { return "FreeControl"; }

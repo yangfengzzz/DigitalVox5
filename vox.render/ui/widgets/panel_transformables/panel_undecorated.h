@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "ui/widgets/panel_transformable.h"
+#include "vox.render/ui/widgets/panel_transformable.h"
 
 namespace vox::ui {
 /**

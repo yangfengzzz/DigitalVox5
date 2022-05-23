@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "text_selectable.h"
+#include "vox.render/ui/widgets/texts/text_selectable.h"
 
 namespace vox::ui {
 TextSelectable::TextSelectable(const std::string &content, bool selected, bool disabled)

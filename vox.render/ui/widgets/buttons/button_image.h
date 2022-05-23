@@ -8,9 +8,9 @@
 
 #include <volk.h>
 
-#include "button.h"
-#include "color.h"
-#include "vector2.h"
+#include "vox.render/ui/widgets/buttons/button.h"
+#include "vox.math/color.h"
+#include "vox.math/vector2.h"
 
 namespace vox::ui {
 /**

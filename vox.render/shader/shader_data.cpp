@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "shader_data.h"
+#include "vox.render/shader/shader_data.h"
 
 namespace vox {
 ShaderData::ShaderData(Device &device) : device_(device) {}

@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "../image.h"
-#include "base_material.h"
-#include "color.h"
-#include "vector4.h"
+#include "vox.render/image.h"
+#include "vox.render/material/base_material.h"
+#include "vox.math/color.h"
+#include "vox.math/vector4.h"
 
 namespace vox {
 /**

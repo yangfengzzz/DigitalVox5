@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "gpu_skinned_mesh_renderer.h"
+#include "vox.render/mesh/gpu_skinned_mesh_renderer.h"
 
-#include "entity.h"
-#include "scene.h"
-#include "shader/internal_variant_name.h"
+#include "vox.render/entity.h"
+#include "vox.render/scene.h"
+#include "vox.render/shader/internal_variant_name.h"
 
 namespace vox {
 std::string GpuSkinnedMeshRenderer::name() { return "GPUSkinnedMeshRenderer"; }

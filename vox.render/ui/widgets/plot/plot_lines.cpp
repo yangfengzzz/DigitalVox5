@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "plot_lines.h"
+#include "vox.render/ui/widgets/plot/plot_lines.h"
 
-#include "ui/widgets/converter.h"
+#include "vox.render/ui/widgets/converter.h"
 
 namespace vox::ui {
 PlotLines::PlotLines(const std::vector<float> &data,

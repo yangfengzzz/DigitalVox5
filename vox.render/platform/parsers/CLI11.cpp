@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "CLI11.h"
+#include "vox.render/platform/parsers/CLI11.h"
 
 #include <utility>
 
-#include "logging.h"
-#include "strings.h"
+#include "vox.render/logging.h"
+#include "vox.render/strings.h"
 
 namespace vox {
 Cli11CommandContext::Cli11CommandContext(CLI::App *cli, CLI11CommandContextState state)

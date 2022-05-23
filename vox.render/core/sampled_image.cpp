@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "sampled_image.h"
+#include "vox.render/core/sampled_image.h"
 
-#include "rendering/render_target.h"
+#include "vox.render/rendering/render_target.h"
 
 namespace vox::core {
 SampledImage::SampledImage(const core::ImageView &image_view, Sampler *sampler)

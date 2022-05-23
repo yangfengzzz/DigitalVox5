@@ -13,10 +13,10 @@
 #include <set>
 #include <vector>
 
-#include "error.h"
-#include "stats_common.h"
-#include "stats_provider.h"
-#include "timer.h"
+#include "vox.render/error.h"
+#include "vox.render/stats/stats_common.h"
+#include "vox.render/stats/stats_provider.h"
+#include "vox.render/timer.h"
 
 namespace vox {
 class Device;

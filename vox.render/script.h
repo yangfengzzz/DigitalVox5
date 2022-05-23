@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "component.h"
-#include "platform/input_events.h"
+#include "vox.render/component.h"
+#include "vox.render/platform/input_events.h"
 
 namespace vox {
 namespace physics {

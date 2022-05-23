@@ -9,8 +9,8 @@
 #include <string>
 #include <vector>
 
-#include "component.h"
-#include "scene_animation_clip.h"
+#include "vox.render/component.h"
+#include "vox.render/scene_animation_clip.h"
 
 namespace vox {
 class SceneAnimator : public Component {

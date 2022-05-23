@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "ui/plugins/plugin.h"
-#include "ui/widgets/menu/menu_item.h"
-#include "ui/widgets/menu/menu_list.h"
-#include "ui/widgets/widget_container.h"
+#include "vox.render/ui/plugins/plugin.h"
+#include "vox.render/ui/widgets/menu/menu_item.h"
+#include "vox.render/ui/widgets/menu/menu_list.h"
+#include "vox.render/ui/widgets/widget_container.h"
 
 namespace vox::ui {
 /**

@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "rendering/subpass.h"
-#include "shader/shader_source.h"
+#include "vox.render/rendering/subpass.h"
+#include "vox.render/shader/shader_source.h"
 
 namespace vox {
 /**

@@ -11,8 +11,8 @@
 #include <string>
 #include <utility>
 
-#include "event.h"
-#include "plugin.h"
+#include "vox.render/event.h"
+#include "vox.render/ui/plugins/plugin.h"
 
 namespace vox::ui {
 /**

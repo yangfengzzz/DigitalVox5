@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "transform.h"
+#include "vox.render/transform.h"
 
-#include "entity.h"
-#include "math_utils.h"
-#include "matrix_utils.h"
+#include "vox.render/entity.h"
+#include "vox.math/math_utils.h"
+#include "vox.math/matrix_utils.h"
 
 namespace vox {
 std::string Transform::name() { return "Transform"; }

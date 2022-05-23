@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "core/swapchain.h"
-#include "helpers.h"
-#include "vk_common.h"
+#include "vox.render/core/swapchain.h"
+#include "vox.render/helpers.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 class Device;

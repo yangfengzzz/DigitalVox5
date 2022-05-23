@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "buffer.h"
+#include "vox.render/core/buffer.h"
 
-#include "device.h"
+#include "vox.render/core/device.h"
 
 namespace vox::core {
 Buffer::Buffer(Device const &device,

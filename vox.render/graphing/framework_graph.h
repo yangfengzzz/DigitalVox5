@@ -6,18 +6,18 @@
 
 #pragma once
 
-#include "core/device.h"
-#include "core/image_view.h"
-#include "core/swapchain.h"
-#include "fence_pool.h"
-#include "graphing/graph.h"
-#include "graphing/graph_node.h"
-#include "rendering/render_context.h"
-#include "rendering/render_frame.h"
-#include "rendering/render_target.h"
-#include "resource_cache.h"
-#include "semaphore_pool.h"
-#include "shader/shader_module.h"
+#include "vox.render/core/device.h"
+#include "vox.render/core/image_view.h"
+#include "vox.render/core/swapchain.h"
+#include "vox.render/fence_pool.h"
+#include "vox.render/graphing/graph.h"
+#include "vox.render/graphing/graph_node.h"
+#include "vox.render/rendering/render_context.h"
+#include "vox.render/rendering/render_frame.h"
+#include "vox.render/rendering/render_target.h"
+#include "vox.render/resource_cache.h"
+#include "vox.render/semaphore_pool.h"
+#include "vox.render/shader/shader_module.h"
 
 namespace vox::graphing::framework_graph {
 bool Generate(RenderContext &context);

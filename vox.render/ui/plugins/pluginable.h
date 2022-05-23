@@ -8,7 +8,7 @@
 
 #include <vector>
 
-#include "plugin.h"
+#include "vox.render/ui/plugins/plugin.h"
 
 namespace vox::ui {
 /**

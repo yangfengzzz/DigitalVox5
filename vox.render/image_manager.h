@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "image.h"
-#include "rendering/postprocessing_computepass.h"
-#include "rendering/postprocessing_pipeline.h"
-#include "singleton.h"
-#include "spherical_harmonics3.h"
+#include "vox.render/image.h"
+#include "vox.render/rendering/postprocessing_computepass.h"
+#include "vox.render/rendering/postprocessing_pipeline.h"
+#include "vox.render/singleton.h"
+#include "vox.math/spherical_harmonics3.h"
 
 namespace vox {
 class ImageManager : public Singleton<ImageManager> {

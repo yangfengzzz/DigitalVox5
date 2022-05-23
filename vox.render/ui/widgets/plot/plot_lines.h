@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "plot.h"
+#include "vox.render/ui/widgets/plot/plot.h"
 
 namespace vox::ui {
 /**

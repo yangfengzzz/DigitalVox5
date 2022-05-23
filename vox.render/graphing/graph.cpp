@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "graph.h"
+#include "vox.render/graphing/graph.h"
 
-#include "platform/filesystem.h"
+#include "vox.render/platform/filesystem.h"
 
 namespace vox::graphing {
 Graph::Graph(const char *new_name) : name_(new_name) {}

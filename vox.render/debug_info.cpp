@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "debug_info.h"
+#include "vox.render/debug_info.h"
 
 namespace vox {
 std::vector<std::unique_ptr<field::Base>> &DebugInfo::get_fields() { return fields_; }

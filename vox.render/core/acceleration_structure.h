@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "core/buffer.h"
-#include "core/scratch_buffer.h"
-#include "helpers.h"
-#include "vk_common.h"
+#include "vox.render/core/buffer.h"
+#include "vox.render/core/scratch_buffer.h"
+#include "vox.render/helpers.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 class Device;

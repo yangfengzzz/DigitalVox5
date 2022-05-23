@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "application.h"
+#include "vox.render/platform/application.h"
 
-#include "logging.h"
-#include "platform/platform.h"
+#include "vox.render/logging.h"
+#include "vox.render/platform/platform.h"
 
 namespace vox {
 Application::Application() : name_{"Sample Name"} {}

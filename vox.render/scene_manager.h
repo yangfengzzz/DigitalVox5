@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "event.h"
-#include "scene.h"
-#include "singleton.h"
+#include "vox.render/event.h"
+#include "vox.render/scene.h"
+#include "vox.render/singleton.h"
 
 namespace vox {
 /**

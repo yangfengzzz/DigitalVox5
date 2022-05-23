@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "resource_binding_state.h"
+#include "vox.render/resource_binding_state.h"
 
 namespace vox {
 void ResourceBindingState::Reset() {

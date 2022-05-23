@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "input_events.h"
+#include "vox.render/platform/input_events.h"
 
 namespace vox {
 InputEvent::InputEvent(EventSource source) : source_{source} {}

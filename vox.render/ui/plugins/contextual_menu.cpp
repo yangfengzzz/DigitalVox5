@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "contextual_menu.h"
+#include "vox.render/ui/plugins/contextual_menu.h"
 
 namespace vox::ui {
 void ContextualMenu::Execute() {

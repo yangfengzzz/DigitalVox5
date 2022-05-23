@@ -8,9 +8,9 @@
 
 #include <vector>
 
-#include "core/pipeline_layout.h"
-#include "core/render_pass.h"
-#include "vk_common.h"
+#include "vox.render/core/pipeline_layout.h"
+#include "vox.render/core/render_pass.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 struct VertexInputState {

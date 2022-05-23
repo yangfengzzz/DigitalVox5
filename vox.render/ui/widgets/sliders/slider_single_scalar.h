@@ -8,10 +8,10 @@
 
 #include <utility>
 
-#include "event.h"
-#include "ui/widgets/converter.h"
-#include "ui/widgets/data_widget.h"
-#include "vector2.h"
+#include "vox.render/event.h"
+#include "vox.render/ui/widgets/converter.h"
+#include "vox.render/ui/widgets/data_widget.h"
+#include "vox.math/vector2.h"
 
 namespace vox::ui {
 /**

@@ -8,9 +8,9 @@
 
 #include <functional>
 
-#include "core/command_buffer.h"
-#include "render_context.h"
-#include "render_target.h"
+#include "vox.render/core/command_buffer.h"
+#include "vox.render/rendering/render_context.h"
+#include "vox.render/rendering/render_target.h"
 
 namespace vox {
 class PostProcessingPipeline;

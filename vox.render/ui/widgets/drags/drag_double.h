@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "drag_single_scalar.h"
+#include "vox.render/ui/widgets/drags/drag_single_scalar.h"
 
 namespace vox::ui {
 /**

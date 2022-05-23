@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "button.h"
+#include "vox.render/ui/widgets/buttons/button.h"
 
 namespace vox::ui {
 /**

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "pbr_base_material.h"
+#include "vox.render/material/pbr_base_material.h"
 
 namespace vox {
 /**

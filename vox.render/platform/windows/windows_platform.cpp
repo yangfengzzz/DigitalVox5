@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "windows_platform.h"
+#include "vox.render/platform/windows/windows_platform.h"
 
 #include <Windows.h>
 #include <shellapi.h>
@@ -12,9 +12,9 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "error.h"
-#include "platform/glfw_window.h"
-#include "platform/headless_window.h"
+#include "vox.render/error.h"
+#include "vox.render/platform/glfw_window.h"
+#include "vox.render/platform/headless_window.h"
 
 VKBP_DISABLE_WARNINGS()
 

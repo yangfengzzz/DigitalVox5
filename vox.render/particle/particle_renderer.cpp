@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "particle_renderer.h"
+#include "vox.render/particle/particle_renderer.h"
 
-#include "entity.h"
-#include "mesh/mesh_manager.h"
-#include "mesh/mesh_renderer.h"
-#include "particle_manager.h"
-#include "scene.h"
-#include "shader/internal_variant_name.h"
+#include "vox.render/entity.h"
+#include "vox.render/mesh/mesh_manager.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/particle/particle_manager.h"
+#include "vox.render/scene.h"
+#include "vox.render/shader/internal_variant_name.h"
 
 namespace vox {
 namespace {

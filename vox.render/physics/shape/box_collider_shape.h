@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "collider_shape.h"
+#include "vox.render/physics/shape/collider_shape.h"
 
 namespace vox::physics {
 class BoxColliderShape : public ColliderShape {

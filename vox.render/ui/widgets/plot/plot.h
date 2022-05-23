@@ -9,9 +9,9 @@
 #include <limits>
 #include <vector>
 
-#include "ui/widgets/data_widget.h"
-#include "ui/widgets/widget.h"
-#include "vector2.h"
+#include "vox.render/ui/widgets/data_widget.h"
+#include "vox.render/ui/widgets/widget.h"
+#include "vox.math/vector2.h"
 
 namespace vox::ui {
 /**

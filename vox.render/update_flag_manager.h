@@ -9,7 +9,7 @@
 #include <memory>
 #include <vector>
 
-#include "update_flag.h"
+#include "vox.render/update_flag.h"
 
 namespace vox {
 class UpdateFlagManager {

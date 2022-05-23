@@ -7,9 +7,9 @@
 #ifndef DIGITALVOX_VOX_RENDER_PHYSICS_HIT_RESULT_H_
 #define DIGITALVOX_VOX_RENDER_PHYSICS_HIT_RESULT_H_
 
-#include "../entity.h"
-#include "point3.h"
-#include "vector3.h"
+#include "vox.render/entity.h"
+#include "vox.math/point3.h"
+#include "vox.math/vector3.h"
 
 namespace vox::physics {
 

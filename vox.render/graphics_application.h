@@ -6,15 +6,15 @@
 
 #pragma once
 
-#include "core/instance.h"
-#include "error.h"
-#include "platform/application.h"
-#include "rendering/render_context.h"
-#include "rendering/render_pipeline.h"
-#include "stats/stats.h"
-#include "ui/ui_manager.h"
-#include "utils.h"
-#include "vk_common.h"
+#include "vox.render/core/instance.h"
+#include "vox.render/error.h"
+#include "vox.render/platform/application.h"
+#include "vox.render/rendering/render_context.h"
+#include "vox.render/rendering/render_pipeline.h"
+#include "vox.render/stats/stats.h"
+#include "vox.render/ui/ui_manager.h"
+#include "vox.render/utils.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 /**

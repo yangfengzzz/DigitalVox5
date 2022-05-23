@@ -8,9 +8,9 @@
 
 #include <unordered_set>
 
-#include "core/vulkan_resource.h"
-#include "helpers.h"
-#include "vk_common.h"
+#include "vox.render/core/vulkan_resource.h"
+#include "vox.render/helpers.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 class Device;

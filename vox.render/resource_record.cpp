@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "resource_record.h"
+#include "vox.render/resource_record.h"
 
-#include "core/pipeline.h"
-#include "core/pipeline_layout.h"
-#include "core/render_pass.h"
-#include "resource_cache.h"
-#include "shader/shader_module.h"
+#include "vox.render/core/pipeline.h"
+#include "vox.render/core/pipeline_layout.h"
+#include "vox.render/core/render_pass.h"
+#include "vox.render/resource_cache.h"
+#include "vox.render/shader/shader_module.h"
 
 namespace vox {
 namespace {

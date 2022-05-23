@@ -8,8 +8,8 @@
 
 #include <memory>
 
-#include "core/image.h"
-#include "core/sampler.h"
+#include "vox.render/core/image.h"
+#include "vox.render/core/sampler.h"
 
 namespace vox {
 class RenderTarget;

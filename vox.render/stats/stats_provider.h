@@ -10,7 +10,7 @@
 #include <set>
 #include <unordered_map>
 
-#include "stats_common.h"
+#include "vox.render/stats/stats_common.h"
 
 namespace vox {
 class CommandBuffer;

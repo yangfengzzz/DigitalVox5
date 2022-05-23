@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "text_clickable.h"
+#include "vox.render/ui/widgets/texts/text_clickable.h"
 
 namespace vox::ui {
 TextClickable::TextClickable(const std::string &content) : Text(content) {}

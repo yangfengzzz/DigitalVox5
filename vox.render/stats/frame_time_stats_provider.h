@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "stats_provider.h"
+#include "vox.render/stats/stats_provider.h"
 
 namespace vox {
 class FrameTimeStatsProvider : public StatsProvider {

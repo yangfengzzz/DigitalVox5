@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "mesh.h"
+#include "vox.render/mesh/mesh.h"
 
 namespace vox {
 uint32_t Mesh::InstanceCount() const { return instance_count_; }

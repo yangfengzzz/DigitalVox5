@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "android_platform.h"
+#include "vox.render/platform/android/android_platform.h"
 
 #include <unistd.h>
 
 #include <chrono>
 #include <unordered_map>
 
-#include "error.h"
+#include "vox.render/error.h"
 
 VKBP_DISABLE_WARNINGS()
 
@@ -23,11 +23,11 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "apps.h"
-#include "logging.h"
-#include "platform/android/android_window.h"
-#include "platform/input_events.h"
-#include "strings.h"
+#include "vox.render/apps.h"
+#include "vox.render/logging.h"
+#include "vox.render/platform/android/android_window.h"
+#include "vox.render/platform/input_events.h"
+#include "vox.render/strings.h"
 
 extern "C" {
 JNIEXPORT void JNICALL Java_com_khronos_vulkan_1samples_SampleLauncherActivity_initFilePath(JNIEnv *env,

@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "unix_d2d_platform.h"
+#include "vox.render/platform/unix/unix_d2d_platform.h"
 
-#include "error.h"
+#include "vox.render/error.h"
 
 VKBP_DISABLE_WARNINGS()
 
@@ -15,8 +15,8 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "platform/headless_window.h"
-#include "platform/unix/direct_window.h"
+#include "vox.render/platform/headless_window.h"
+#include "vox.render/platform/unix/direct_window.h"
 
 namespace vox {
 namespace {

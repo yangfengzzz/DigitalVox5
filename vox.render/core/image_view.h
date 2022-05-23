@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "core/image.h"
-#include "core/vulkan_resource.h"
-#include "helpers.h"
-#include "vk_common.h"
+#include "vox.render/core/image.h"
+#include "vox.render/core/vulkan_resource.h"
+#include "vox.render/helpers.h"
+#include "vox.render/vk_common.h"
 
 namespace vox::core {
 class ImageView : public VulkanResource<VkImageView, VK_OBJECT_TYPE_IMAGE_VIEW, const Device> {

@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "descriptor_set.h"
+#include "vox.render/core/descriptor_set.h"
 
-#include "descriptor_pool.h"
-#include "descriptor_set_layout.h"
-#include "device.h"
-#include "logging.h"
-#include "resource_caching.h"
+#include "vox.render/core/descriptor_pool.h"
+#include "vox.render/core/descriptor_set_layout.h"
+#include "vox.render/core/device.h"
+#include "vox.render/logging.h"
+#include "vox.render/resource_caching.h"
 
 namespace vox {
 DescriptorSet::DescriptorSet(Device &device,

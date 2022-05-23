@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "render_pass.h"
+#include "vox.render/core/render_pass.h"
 
 #include <numeric>
 
-#include "device.h"
-#include "rendering/render_target.h"
+#include "vox.render/core/device.h"
+#include "vox.render/rendering/render_target.h"
 
 namespace vox {
 namespace {

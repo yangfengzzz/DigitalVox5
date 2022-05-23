@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "scratch_buffer.h"
+#include "vox.render/core/scratch_buffer.h"
 
-#include "device.h"
+#include "vox.render/core/device.h"
 
 namespace vox::core {
 ScratchBuffer::ScratchBuffer(Device &device, VkDeviceSize size) : device_{device}, size_{size} {

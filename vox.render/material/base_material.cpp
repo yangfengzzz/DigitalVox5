@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "base_material.h"
+#include "vox.render/material/base_material.h"
 
-#include "core/device.h"
-#include "shader/internal_variant_name.h"
+#include "vox.render/core/device.h"
+#include "vox.render/shader/internal_variant_name.h"
 
 namespace vox {
 bool BaseMaterial::IsTransparent() const { return is_transparent_; }

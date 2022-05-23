@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "ui/widgets/sliders/slider_multiple_scalars.h"
+#include "vox.render/ui/widgets/sliders/slider_multiple_scalars.h"
 
 namespace vox::ui {
 /**

@@ -8,10 +8,10 @@
 
 #include <string>
 
-#include "debug_info.h"
-#include "platform/configuration.h"
-#include "platform/input_events.h"
-#include "timer.h"
+#include "vox.render/debug_info.h"
+#include "vox.render/platform/configuration.h"
+#include "vox.render/platform/input_events.h"
+#include "vox.render/timer.h"
 
 namespace vox {
 class Window;

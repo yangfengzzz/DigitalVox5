@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "color.h"
-#include "mesh.h"
+#include "vox.math/color.h"
+#include "vox.render/mesh/mesh.h"
 
 namespace vox {
 struct ValueChanged {

@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "stats_provider.h"
+#include "vox.render/stats/stats_provider.h"
 
 namespace vox {
 // Default graphing values for stats. May be overridden by individual providers.

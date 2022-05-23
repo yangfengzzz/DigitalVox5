@@ -4,18 +4,18 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "gui_drawer.h"
+#include "vox.render/ui/gui_drawer.h"
 
 #include <utility>
 
-#include "ui/plugins/drag_drop_target.h"
-#include "ui/widgets/buttons/button_small.h"
-#include "ui/widgets/drags/drag_multiple_scalars.h"
-#include "ui/widgets/input_fields/input_text.h"
-#include "ui/widgets/layout/group.h"
-#include "ui/widgets/selection/check_box.h"
-#include "ui/widgets/selection/color_edit.h"
-#include "ui/widgets/texts/text_colored.h"
+#include "vox.render/ui/plugins/drag_drop_target.h"
+#include "vox.render/ui/widgets/buttons/button_small.h"
+#include "vox.render/ui/widgets/drags/drag_multiple_scalars.h"
+#include "vox.render/ui/widgets/input_fields/input_text.h"
+#include "vox.render/ui/widgets/layout/group.h"
+#include "vox.render/ui/widgets/selection/check_box.h"
+#include "vox.render/ui/widgets/selection/color_edit.h"
+#include "vox.render/ui/widgets/texts/text_colored.h"
 
 namespace vox::ui {
 const Color GuiDrawer::title_color_ = {0.85f, 0.65f, 0.0f};

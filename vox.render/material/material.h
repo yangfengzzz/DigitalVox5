@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "core/device.h"
-#include "enums/render_queue_type.h"
-#include "rendering/pipeline_state.h"
-#include "shader/shader_data.h"
+#include "vox.render/core/device.h"
+#include "vox.render/material/enums/render_queue_type.h"
+#include "vox.render/rendering/pipeline_state.h"
+#include "vox.render/shader/shader_data.h"
 
 namespace vox {
 /**

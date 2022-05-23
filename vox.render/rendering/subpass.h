@@ -6,13 +6,13 @@
 
 #pragma once
 
-#include "buffer_pool.h"
-#include "helpers.h"
-#include "rendering/pipeline_state.h"
-#include "rendering/render_context.h"
-#include "rendering/render_element.h"
-#include "rendering/render_frame.h"
-#include "scene.h"
+#include "vox.render/buffer_pool.h"
+#include "vox.render/helpers.h"
+#include "vox.render/rendering/pipeline_state.h"
+#include "vox.render/rendering/render_context.h"
+#include "vox.render/rendering/render_element.h"
+#include "vox.render/rendering/render_frame.h"
+#include "vox.render/scene.h"
 
 namespace vox {
 class CommandBuffer;

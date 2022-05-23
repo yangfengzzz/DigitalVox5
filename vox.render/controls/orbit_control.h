@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "../script.h"
-#include "matrix4x4.h"
-#include "spherical.h"
-#include "vector2.h"
-#include "vector3.h"
+#include "vox.render/script.h"
+#include "vox.math/matrix4x4.h"
+#include "vox.render/controls/spherical.h"
+#include "vox.math/vector2.h"
+#include "vox.math/vector3.h"
 
 namespace vox::control {
 /**

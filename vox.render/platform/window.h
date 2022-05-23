@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "core/instance.h"
-#include "vk_common.h"
+#include "vox.render/core/instance.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 /**

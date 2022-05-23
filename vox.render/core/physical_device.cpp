@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "physical_device.h"
+#include "vox.render/core/physical_device.h"
 
 namespace vox {
 PhysicalDevice::PhysicalDevice(Instance &instance, VkPhysicalDevice physical_device)

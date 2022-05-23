@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "renderer.h"
+#include "vox.render/renderer.h"
 
-#include "components_manager.h"
-#include "entity.h"
-#include "material/material.h"
-#include "scene.h"
+#include "vox.render/components_manager.h"
+#include "vox.render/entity.h"
+#include "vox.render/material/material.h"
+#include "vox.render/scene.h"
 
 namespace vox {
 size_t Renderer::MaterialCount() { return materials_.size(); }

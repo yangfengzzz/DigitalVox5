@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "resource_cache.h"
+#include "vox.render/resource_cache.h"
 
-#include "core/device.h"
-#include "resource_caching.h"
+#include "vox.render/core/device.h"
+#include "vox.render/resource_caching.h"
 
 namespace vox {
 namespace {

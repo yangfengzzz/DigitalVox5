@@ -12,8 +12,8 @@
 #include <utility>
 #include <vector>
 
-#include "platform/parser.h"
-#include "tags.h"
+#include "vox.render/platform/parser.h"
+#include "vox.render/tags.h"
 
 namespace vox {
 class Platform;

@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "dynamic_collider.h"
+#include "vox.render/physics/dynamic_collider.h"
 
-#include "physics_manager.h"
+#include "vox.render/physics/physics_manager.h"
 
 namespace vox::physics {
 std::string DynamicCollider::name() { return "DynamicCollider"; }

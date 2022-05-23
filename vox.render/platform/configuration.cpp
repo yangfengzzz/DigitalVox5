@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "configuration.h"
+#include "vox.render/platform/configuration.h"
 
 namespace vox {
 BoolSetting::BoolSetting(bool &handle, bool value) : handle_{handle}, value_{value} {}

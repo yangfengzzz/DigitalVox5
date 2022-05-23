@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "buffer_mesh.h"
+#include "vox.render/mesh/buffer_mesh.h"
 
 namespace vox {
 void BufferMesh::SetVertexBufferBinding(size_t index, core::Buffer *binding) {

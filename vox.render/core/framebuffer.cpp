@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "framebuffer.h"
+#include "vox.render/core/framebuffer.h"
 
-#include "device.h"
+#include "vox.render/core/device.h"
 
 namespace vox {
 VkFramebuffer Framebuffer::GetHandle() const { return handle_; }

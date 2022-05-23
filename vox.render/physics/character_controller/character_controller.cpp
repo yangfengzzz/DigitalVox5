@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "character_controller.h"
+#include "vox.render/physics/character_controller/character_controller.h"
 
-#include "../physics_manager.h"
-#include "entity.h"
-#include "scene.h"
+#include "vox.render/physics/physics_manager.h"
+#include "vox.render/entity.h"
+#include "vox.render/scene.h"
 
 namespace vox::physics {
 CharacterController::CharacterController(Entity *entity) : Component(entity) {}

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "input_single_scalar.h"
+#include "vox.render/ui/widgets/input_fields/input_single_scalar.h"
 
 namespace vox::ui {
 /**

@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "instance.h"
+#include "vox.render/core/instance.h"
 
 #include <algorithm>
 #include <functional>
 
-#include "physical_device.h"
+#include "vox.render/core/physical_device.h"
 
 namespace vox {
 namespace {

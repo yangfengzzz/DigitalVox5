@@ -6,12 +6,12 @@
 
 #pragma once
 
-#include "bounding_box3.h"
-#include "component.h"
-#include "matrix4x4.h"
-#include "rendering/render_element.h"
-#include "shader/shader_data.h"
-#include "update_flag.h"
+#include "vox.math/bounding_box3.h"
+#include "vox.render/component.h"
+#include "vox.math/matrix4x4.h"
+#include "vox.render/rendering/render_element.h"
+#include "vox.render/shader/shader_data.h"
+#include "vox.render/update_flag.h"
 
 namespace vox {
 /**

@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "pbr_material.h"
+#include "vox.render/material/pbr_material.h"
 
-#include "shader/internal_variant_name.h"
-#include "shader/shader_manager.h"
+#include "vox.render/shader/internal_variant_name.h"
+#include "vox.render/shader/shader_manager.h"
 
 namespace vox {
 float PbrMaterial::Metallic() const { return pbr_data_.metallic; }

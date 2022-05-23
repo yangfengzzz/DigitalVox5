@@ -8,9 +8,9 @@
 
 #include <imgui.h>
 
-#include "color.h"
-#include "vector2.h"
-#include "vector4.h"
+#include "vox.math/color.h"
+#include "vox.math/vector2.h"
+#include "vox.math/vector4.h"
 
 namespace vox::ui {
 /**

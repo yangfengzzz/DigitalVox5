@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "ui/widgets/widget.h"
+#include "vox.render/ui/widgets/widget.h"
 
 namespace vox::ui {
 /**

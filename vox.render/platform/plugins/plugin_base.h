@@ -10,10 +10,10 @@
 
 #include <utility>
 
-#include "platform/parser.h"
-#include "platform/platform.h"
-#include "plugin.h"
-#include "tags.h"
+#include "vox.render/platform/parser.h"
+#include "vox.render/platform/platform.h"
+#include "vox.render/platform/plugins/plugin.h"
+#include "vox.render/tags.h"
 
 namespace vox {
 /**

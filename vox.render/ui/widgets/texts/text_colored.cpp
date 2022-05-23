@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "text_colored.h"
+#include "vox.render/ui/widgets/texts/text_colored.h"
 
-#include "ui/widgets/converter.h"
+#include "vox.render/ui/widgets/converter.h"
 
 namespace vox::ui {
 TextColored::TextColored(const std::string &content, const Color &color) : Text(content), color_(color) {}

@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "particle_renderer.h"
-#include "rendering/postprocessing_computepass.h"
-#include "rendering/postprocessing_pipeline.h"
-#include "singleton.h"
+#include "vox.render/particle/particle_renderer.h"
+#include "vox.render/rendering/postprocessing_computepass.h"
+#include "vox.render/rendering/postprocessing_pipeline.h"
+#include "vox.render/singleton.h"
 
 namespace vox {
 class ParticleManager : public Singleton<ParticleManager> {

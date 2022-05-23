@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "character_controller.h"
+#include "vox.render/physics/character_controller/character_controller.h"
 
 namespace vox::physics {
 /**

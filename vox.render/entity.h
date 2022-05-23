@@ -12,10 +12,10 @@
 #include <unordered_map>
 #include <vector>
 
-#include "event.h"
-#include "layer.h"
-#include "transform.h"
-#include "vobject.h"
+#include "vox.render/event.h"
+#include "vox.render/layer.h"
+#include "vox.render/transform.h"
+#include "vox.render/vobject.h"
 
 namespace vox {
 class Component;

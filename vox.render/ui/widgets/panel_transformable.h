@@ -9,10 +9,10 @@
 #include <memory>
 #include <vector>
 
-#include "event.h"
-#include "ui/widgets/alignment.h"
-#include "ui/widgets/panel.h"
-#include "vector2.h"
+#include "vox.render/event.h"
+#include "vox.render/ui/widgets/alignment.h"
+#include "vox.render/ui/widgets/panel.h"
+#include "vox.math/vector2.h"
 
 namespace vox::ui {
 /**

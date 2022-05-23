@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "../image.h"
-#include "vk_common.h"
+#include "vox.render/image.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 struct BlockDim {

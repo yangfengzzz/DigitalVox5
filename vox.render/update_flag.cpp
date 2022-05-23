@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "update_flag.h"
+#include "vox.render/update_flag.h"
 
-#include "update_flag_manager.h"
+#include "vox.render/update_flag_manager.h"
 
 namespace vox {
 UpdateFlag::UpdateFlag(UpdateFlagManager *flags) : flags_(flags) { flags->update_flags_.push_back(this); }

@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "sprite_debug.h"
+#include "vox.render/lighting/debug/sprite_debug.h"
 
-#include "entity.h"
-#include "lighting/light_manager.h"
-#include "mesh/mesh_manager.h"
-#include "mesh/mesh_renderer.h"
-#include "scene.h"
-#include "shader/shader_manager.h"
+#include "vox.render/entity.h"
+#include "vox.render/lighting/light_manager.h"
+#include "vox.render/mesh/mesh_manager.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/scene.h"
+#include "vox.render/shader/shader_manager.h"
 
 namespace vox {
 SpriteDebugMaterial::SpriteDebugMaterial(Device &device) : BaseMaterial(device) {

@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "bullet.h"
+#include "vox.render/ui/widgets/visual/bullet.h"
 
 namespace vox::ui {
 void Bullet::DrawImpl() { ImGui::Bullet(); }

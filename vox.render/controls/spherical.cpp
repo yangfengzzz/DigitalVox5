@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "spherical.h"
+#include "vox.render/controls/spherical.h"
 
-#include "constants.h"
+#include "vox.math/constants.h"
 
 namespace vox::control {
 Spherical::Spherical(float radius, float phi, float theta) : radius_(radius), phi_(phi), theta_(theta) {}

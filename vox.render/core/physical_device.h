@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "core/instance.h"
+#include "vox.render/core/instance.h"
 
 namespace vox {
 class Instance;

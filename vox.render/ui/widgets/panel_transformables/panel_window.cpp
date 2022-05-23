@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "panel_window.h"
+#include "vox.render/ui/widgets/panel_transformables/panel_window.h"
 
 #include <imgui_internal.h>
 
 #include <utility>
 
-#include "ui/widgets/converter.h"
+#include "vox.render/ui/widgets/converter.h"
 
 namespace vox::ui {
 PanelWindow::PanelWindow(std::string name, bool opened, const PanelWindowSettings &panel_settings)

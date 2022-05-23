@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "acceleration_structure.h"
+#include "vox.render/core/acceleration_structure.h"
 
-#include "device.h"
+#include "vox.render/core/device.h"
 
 namespace vox::core {
 AccelerationStructure::AccelerationStructure(Device &device, VkAccelerationStructureTypeKHR type)

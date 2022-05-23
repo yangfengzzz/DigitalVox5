@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "shader_source.h"
+#include "vox.render/shader/shader_source.h"
 
-#include "platform/filesystem.h"
+#include "vox.render/platform/filesystem.h"
 
 namespace vox {
 ShaderSource::ShaderSource(const std::string &filename) : filename_{filename}, source_{fs::ReadShader(filename)} {

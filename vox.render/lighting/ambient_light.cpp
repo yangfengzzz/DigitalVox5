@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "ambient_light.h"
+#include "vox.render/lighting/ambient_light.h"
 
-#include "scene.h"
-#include "shader/internal_variant_name.h"
+#include "vox.render/scene.h"
+#include "vox.render/shader/internal_variant_name.h"
 
 namespace vox {
 AmbientLight::AmbientLight()

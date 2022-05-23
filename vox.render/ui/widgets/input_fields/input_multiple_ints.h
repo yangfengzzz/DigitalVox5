@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "input_multiple_scalars.h"
+#include "vox.render/ui/widgets/input_fields/input_multiple_scalars.h"
 
 namespace vox::ui {
 /**

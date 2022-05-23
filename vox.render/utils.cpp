@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "utils.h"
+#include "vox.render/utils.h"
 
 #include <queue>
 #include <stdexcept>

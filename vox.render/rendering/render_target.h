@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "core/image.h"
-#include "core/image_view.h"
-#include "helpers.h"
-#include "vk_common.h"
+#include "vox.render/core/image.h"
+#include "vox.render/core/image_view.h"
+#include "vox.render/helpers.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 class Device;

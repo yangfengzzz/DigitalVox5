@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "material/base_material.h"
+#include "vox.render/material/base_material.h"
 
 namespace vox {
 class ClusterDebugMaterial : public BaseMaterial {

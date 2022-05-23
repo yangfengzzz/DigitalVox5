@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "postprocessing_pipeline.h"
+#include "vox.render/rendering/postprocessing_pipeline.h"
 
 namespace vox {
 PostProcessingPipeline::PostProcessingPipeline(RenderContext &render_context, ShaderSource triangle_vs)

@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "render_pipeline.h"
+#include "vox.render/rendering/render_pipeline.h"
 
 namespace vox {
 RenderPipeline::RenderPipeline(std::vector<std::unique_ptr<Subpass>> &&subpasses) : subpasses_{std::move(subpasses)} {

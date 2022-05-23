@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "command_pool.h"
+#include "vox.render/core/command_pool.h"
 
-#include "device.h"
-#include "rendering/render_frame.h"
+#include "vox.render/core/device.h"
+#include "vox.render/rendering/render_frame.h"
 
 namespace vox {
 CommandPool::CommandPool(Device &d,

@@ -8,8 +8,8 @@
 
 #include <sol/sol.hpp>
 
-#include "event.h"
-#include "script.h"
+#include "vox.render/event.h"
+#include "vox.render/script.h"
 
 namespace vox {
 /**
@@ -142,4 +142,4 @@ private:
 
 }  // namespace vox
 
-#include "behaviour-inl.h"
+#include "vox.render/behaviour-inl.h"

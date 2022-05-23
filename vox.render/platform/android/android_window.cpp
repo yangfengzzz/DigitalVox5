@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "android_window.h"
+#include "vox.render/platform/android/android_window.h"
 
-#include "platform/android/android_platform.h"
+#include "vox.render/platform/android/android_platform.h"
 
 namespace vox {
 AndroidWindow::AndroidWindow(AndroidPlatform *platform, ANativeWindow *&window, const Window::Properties &properties)

@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "sampler.h"
+#include "vox.render/core/sampler.h"
 
-#include "device.h"
+#include "vox.render/core/device.h"
 
 namespace vox::core {
 Sampler::Sampler(Device const &d, const VkSamplerCreateInfo &info) : VulkanResource{VK_NULL_HANDLE, &d} {

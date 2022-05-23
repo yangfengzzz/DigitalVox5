@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "plugin.h"
+#include "vox.render/platform/plugins/plugin.h"
 
-#include "platform/platform.h"
+#include "vox.render/platform/platform.h"
 
 namespace vox {
 std::vector<Plugin *> AssociatePlugins(const std::vector<Plugin *> &plugins) {

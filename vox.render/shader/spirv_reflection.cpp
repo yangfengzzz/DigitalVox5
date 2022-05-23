@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "spirv_reflection.h"
+#include "vox.render/shader/spirv_reflection.h"
 
 namespace vox {
 namespace {

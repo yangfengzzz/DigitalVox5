@@ -6,15 +6,15 @@
 
 #pragma once
 
-#include "core/descriptor_pool.h"
-#include "core/descriptor_set.h"
-#include "core/descriptor_set_layout.h"
-#include "core/framebuffer.h"
-#include "core/pipeline.h"
-#include "helpers.h"
-#include "rendering/pipeline_state.h"
-#include "rendering/render_target.h"
-#include "resource_record.h"
+#include "vox.render/core/descriptor_pool.h"
+#include "vox.render/core/descriptor_set.h"
+#include "vox.render/core/descriptor_set_layout.h"
+#include "vox.render/core/framebuffer.h"
+#include "vox.render/core/pipeline.h"
+#include "vox.render/helpers.h"
+#include "vox.render/rendering/pipeline_state.h"
+#include "vox.render/rendering/render_target.h"
+#include "vox.render/resource_record.h"
 
 inline bool operator==(const VkSamplerCreateInfo &x, const VkSamplerCreateInfo &y) {
     return x.magFilter == y.magFilter && x.minFilter == y.minFilter && x.mipmapMode == y.mipmapMode &&

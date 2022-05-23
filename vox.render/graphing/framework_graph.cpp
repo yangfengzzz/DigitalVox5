@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "graphing/framework_graph.h"
+#include "vox.render/graphing/framework_graph.h"
 
-#include "strings.h"
+#include "vox.render/strings.h"
 
 namespace vox::graphing::framework_graph {
 bool Generate(RenderContext &context) {

@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "shadow_subpass.h"
+#include "vox.render/shadow/shadow_subpass.h"
 
-#include "camera.h"
-#include "components_manager.h"
-#include "mesh/mesh.h"
-#include "renderer.h"
-#include "shader/shader_manager.h"
-#include "shadow_manager.h"
+#include "vox.render/camera.h"
+#include "vox.render/components_manager.h"
+#include "vox.render/mesh/mesh.h"
+#include "vox.render/renderer.h"
+#include "vox.render/shader/shader_manager.h"
+#include "vox.render/shadow/shadow_manager.h"
 
 namespace vox {
 ShadowSubpass::ShadowSubpass(RenderContext &render_context, Scene *scene, Camera *camera)

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "platform/platform.h"
+#include "vox.render/platform/platform.h"
 
 namespace vox {
 class UnixD2DPlatform : public Platform {

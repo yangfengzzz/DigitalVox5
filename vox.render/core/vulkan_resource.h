@@ -10,7 +10,7 @@
 #include <cstdint>
 #include <type_traits>
 
-#include "vk_common.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 class Device;

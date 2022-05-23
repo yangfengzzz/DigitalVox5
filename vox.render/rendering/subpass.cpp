@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "subpass.h"
+#include "vox.render/rendering/subpass.h"
 
 #include <utility>
 
-#include "material/material.h"
-#include "render_context.h"
-#include "renderer.h"
+#include "vox.render/material/material.h"
+#include "vox.render/rendering/render_context.h"
+#include "vox.render/renderer.h"
 
 namespace vox {
 

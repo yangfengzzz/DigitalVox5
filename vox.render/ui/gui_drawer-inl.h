@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "gui_drawer.h"
+#include "vox.render/ui/gui_drawer.h"
 
 namespace vox::ui {
 template <typename T>

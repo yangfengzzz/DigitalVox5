@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "group_collapsable.h"
+#include "vox.render/ui/widgets/layout/group_collapsable.h"
 
 #include <utility>
 

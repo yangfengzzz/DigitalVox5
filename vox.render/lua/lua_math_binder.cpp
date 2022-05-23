@@ -4,15 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "lua_math_binder.h"
+#include "vox.render/lua/lua_math_binder.h"
 
-#include "matrix3x3.h"
-#include "matrix4x4.h"
-#include "point3.h"
-#include "quaternion.h"
-#include "vector2.h"
-#include "vector3.h"
-#include "vector4.h"
+#include "vox.math/matrix3x3.h"
+#include "vox.math/matrix4x4.h"
+#include "vox.math/point3.h"
+#include "vox.math/quaternion.h"
+#include "vox.math/vector2.h"
+#include "vox.math/vector3.h"
+#include "vox.math/vector4.h"
 
 namespace vox {
 void LuaMathsBinder::BindMaths(sol::state &lua_state) {

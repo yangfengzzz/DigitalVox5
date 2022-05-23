@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "drag_int.h"
+#include "vox.render/ui/widgets/drags/drag_int.h"
 
 namespace vox::ui {
 DragInt::DragInt(int min, int max, int value, float speed, const std::string &label, const std::string &format)

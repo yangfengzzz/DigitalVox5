@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "platform/filesystem.h"
+#include "vox.render/platform/filesystem.h"
 
-#include "error.h"
+#include "vox.render/error.h"
 
 VKBP_DISABLE_WARNINGS()
 
@@ -16,7 +16,7 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "platform/platform.h"
+#include "vox.render/platform/platform.h"
 
 namespace vox::fs {
 namespace path {

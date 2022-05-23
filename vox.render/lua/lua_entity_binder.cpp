@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "lua_entity_binder.h"
+#include "vox.render/lua/lua_entity_binder.h"
 
-#include "entity.h"
+#include "vox.render/entity.h"
 
 namespace vox {
 void LuaEntityBinder::BindEntity(sol::state &lua_state) { lua_state.new_usertype<Entity>("entity"); }

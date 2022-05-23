@@ -7,7 +7,7 @@
 #ifndef DIGITALVOX_VOX_RENDER_EVENT_INL_H_
 #define DIGITALVOX_VOX_RENDER_EVENT_INL_H_
 
-#include "event.h"
+#include "vox.render/event.h"
 
 namespace vox {
 template <class... ArgTypes>

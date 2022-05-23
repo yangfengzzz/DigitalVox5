@@ -10,15 +10,15 @@
 #include <unordered_map>
 #include <vector>
 
-#include "core/descriptor_pool.h"
-#include "core/descriptor_set.h"
-#include "core/descriptor_set_layout.h"
-#include "core/framebuffer.h"
-#include "core/pipeline.h"
-#include "core/sampler.h"
-#include "helpers.h"
-#include "resource_record.h"
-#include "resource_replay.h"
+#include "vox.render/core/descriptor_pool.h"
+#include "vox.render/core/descriptor_set.h"
+#include "vox.render/core/descriptor_set_layout.h"
+#include "vox.render/core/framebuffer.h"
+#include "vox.render/core/pipeline.h"
+#include "vox.render/core/sampler.h"
+#include "vox.render/helpers.h"
+#include "vox.render/resource_record.h"
+#include "vox.render/resource_replay.h"
 
 namespace vox {
 class Device;

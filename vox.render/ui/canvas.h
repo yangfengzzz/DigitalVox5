@@ -8,9 +8,9 @@
 
 #include <algorithm>
 
-#include "event.h"
-#include "ui/drawable.h"
-#include "ui/widgets/panel.h"
+#include "vox.render/event.h"
+#include "vox.render/ui/drawable.h"
+#include "vox.render/ui/widgets/panel.h"
 
 namespace vox::ui {
 /**

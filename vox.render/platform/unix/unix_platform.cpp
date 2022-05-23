@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "unix_platform.h"
+#include "vox.render/platform/unix/unix_platform.h"
 
-#include "error.h"
-#include "platform/glfw_window.h"
-#include "platform/headless_window.h"
+#include "vox.render/error.h"
+#include "vox.render/platform/glfw_window.h"
+#include "vox.render/platform/headless_window.h"
 
 VKBP_DISABLE_WARNINGS()
 

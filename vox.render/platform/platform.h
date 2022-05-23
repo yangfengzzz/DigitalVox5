@@ -10,15 +10,15 @@
 #include <string>
 #include <vector>
 
-#include "core/device.h"
-#include "platform/application.h"
-#include "platform/filesystem.h"
-#include "platform/parser.h"
-#include "platform/plugins/plugin.h"
-#include "platform/window.h"
-#include "rendering/render_context.h"
-#include "utils.h"
-#include "vk_common.h"
+#include "vox.render/core/device.h"
+#include "vox.render/platform/application.h"
+#include "vox.render/platform/filesystem.h"
+#include "vox.render/platform/parser.h"
+#include "vox.render/platform/plugins/plugin.h"
+#include "vox.render/platform/window.h"
+#include "vox.render/rendering/render_context.h"
+#include "vox.render/utils.h"
+#include "vox.render/vk_common.h"
 
 #if defined(VK_USE_PLATFORM_XLIB_KHR)
 #undef Success

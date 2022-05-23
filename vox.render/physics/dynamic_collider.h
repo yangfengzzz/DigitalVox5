@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "collider.h"
-#include "transform3.h"
+#include "vox.render/physics/collider.h"
+#include "vox.math/transform3.h"
 
 namespace vox::physics {
 class DynamicCollider : public Collider {

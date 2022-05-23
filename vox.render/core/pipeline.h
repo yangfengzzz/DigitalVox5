@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "helpers.h"
-#include "rendering/pipeline_state.h"
-#include "vk_common.h"
+#include "vox.render/helpers.h"
+#include "vox.render/rendering/pipeline_state.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 class Device;

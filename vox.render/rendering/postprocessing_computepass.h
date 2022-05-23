@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "postprocessing_pass.h"
-#include "shader/shader_data.h"
-#include "shader/shader_module.h"
+#include "vox.render/rendering/postprocessing_pass.h"
+#include "vox.render/shader/shader_data.h"
+#include "vox.render/shader/shader_module.h"
 
 namespace vox {
 /**

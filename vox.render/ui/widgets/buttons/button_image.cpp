@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "button_image.h"
+#include "vox.render/ui/widgets/buttons/button_image.h"
 
-#include "ui/widgets/converter.h"
+#include "vox.render/ui/widgets/converter.h"
 
 namespace vox::ui {
 ButtonImage::ButtonImage(VkDescriptorSet texture_id, const Vector2F &size) : texture_id_{texture_id}, size_(size) {}

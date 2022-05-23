@@ -8,7 +8,7 @@
 
 #include <android_native_app_glue.h>
 
-#include "platform/platform.h"
+#include "vox.render/platform/platform.h"
 
 namespace vox {
 /**

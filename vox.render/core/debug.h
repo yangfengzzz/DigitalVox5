@@ -8,8 +8,8 @@
 
 #include <cassert>
 
-#include "color.h"
-#include "vk_common.h"
+#include "vox.math/color.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 /**

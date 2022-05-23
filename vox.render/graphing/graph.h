@@ -12,8 +12,8 @@
 #include <nlohmann/json.hpp>
 #include <vector>
 
-#include "error.h"
-#include "graph_node.h"
+#include "vox.render/error.h"
+#include "vox.render/graphing/graph_node.h"
 
 namespace vox::graphing {
 struct Edge {

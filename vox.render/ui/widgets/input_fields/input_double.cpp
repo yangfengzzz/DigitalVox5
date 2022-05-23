@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "input_double.h"
+#include "vox.render/ui/widgets/input_fields/input_double.h"
 
 namespace vox::ui {
 InputDouble::InputDouble(double default_value,

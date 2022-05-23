@@ -13,13 +13,13 @@
 #include <string>
 #include <vector>
 
-#include "background.h"
-#include "core/device.h"
-#include "lighting/ambient_light.h"
-#include "platform/input_events.h"
-#include "scene_forward.h"
-#include "shader/shader_data.h"
-#include "vobject.h"
+#include "vox.render/background.h"
+#include "vox.render/core/device.h"
+#include "vox.render/lighting/ambient_light.h"
+#include "vox.render/platform/input_events.h"
+#include "vox.render/scene_forward.h"
+#include "vox.render/shader/shader_data.h"
+#include "vox.render/vobject.h"
 
 namespace vox {
 /// @brief A collection of entities organized in a tree structure.

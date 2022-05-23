@@ -6,16 +6,16 @@
 
 #pragma once
 
-#include "components_manager.h"
-#include "graphics_application.h"
-#include "image_manager.h"
-#include "lighting/light_manager.h"
-#include "mesh/mesh_manager.h"
-#include "particle/particle_manager.h"
-#include "physics/physics_manager.h"
-#include "scene_manager.h"
-#include "shader/shader_manager.h"
-#include "shadow/shadow_manager.h"
+#include "vox.render/components_manager.h"
+#include "vox.render/graphics_application.h"
+#include "vox.render/image_manager.h"
+#include "vox.render/lighting/light_manager.h"
+#include "vox.render/mesh/mesh_manager.h"
+#include "vox.render/particle/particle_manager.h"
+#include "vox.render/physics/physics_manager.h"
+#include "vox.render/scene_manager.h"
+#include "vox.render/shader/shader_manager.h"
+#include "vox.render/shadow/shadow_manager.h"
 
 namespace vox {
 class ForwardApplication : public GraphicsApplication {

@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "panel_menu_bar.h"
+#include "vox.render/ui/widgets/panels/panel_menu_bar.h"
 
 namespace vox::ui {
 void PanelMenuBar::DrawImpl() {

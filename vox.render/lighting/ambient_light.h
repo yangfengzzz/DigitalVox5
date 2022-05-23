@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "../image.h"
-#include "core/sampler.h"
-#include "matrix4x4.h"
-#include "scene_forward.h"
-#include "spherical_harmonics3.h"
+#include "vox.render/image.h"
+#include "vox.render/core/sampler.h"
+#include "vox.math/matrix4x4.h"
+#include "vox.render/scene_forward.h"
+#include "vox.math/spherical_harmonics3.h"
 
 namespace vox {
 /**

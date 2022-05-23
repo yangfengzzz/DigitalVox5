@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "input_int.h"
+#include "vox.render/ui/widgets/input_fields/input_int.h"
 
 namespace vox::ui {
 InputInt::InputInt(int default_value,

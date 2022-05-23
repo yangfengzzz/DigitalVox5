@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "index_buffer_binding.h"
+#include "vox.render/mesh/index_buffer_binding.h"
 
 namespace vox {
 IndexBufferBinding::IndexBufferBinding(core::Buffer&& buffer, VkIndexType index_type)

@@ -8,8 +8,8 @@
 
 #include <utility>
 
-#include "core/query_pool.h"
-#include "stats_provider.h"
+#include "vox.render/core/query_pool.h"
+#include "vox.render/stats/stats_provider.h"
 
 namespace vox {
 class RenderContext;

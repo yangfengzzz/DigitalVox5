@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "shader_binding_table.h"
+#include "vox.render/core/shader_binding_table.h"
 
-#include "device.h"
+#include "vox.render/core/device.h"
 
 namespace vox::core {
 ShaderBindingTable::ShaderBindingTable(Device &device,

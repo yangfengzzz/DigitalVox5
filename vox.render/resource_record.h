@@ -8,7 +8,7 @@
 
 #include <vector>
 
-#include "rendering/pipeline_state.h"
+#include "vox.render/rendering/pipeline_state.h"
 
 namespace vox {
 class GraphicsPipeline;

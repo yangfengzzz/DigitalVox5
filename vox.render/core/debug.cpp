@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "debug.h"
+#include "vox.render/core/debug.h"
 
 #include <unordered_map>
 
-#include "core/command_buffer.h"
-#include "core/device.h"
+#include "vox.render/core/command_buffer.h"
+#include "vox.render/core/device.h"
 
 namespace vox {
 void DebugUtilsExtDebugUtils::SetDebugName(VkDevice device,

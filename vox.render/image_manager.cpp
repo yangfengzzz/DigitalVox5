@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "image_manager.h"
+#include "vox.render/image_manager.h"
 
-#include "core/device.h"
-#include "shader/shader_manager.h"
+#include "vox.render/core/device.h"
+#include "vox.render/shader/shader_manager.h"
 
 namespace vox {
 ImageManager *ImageManager::GetSingletonPtr() { return ms_singleton; }

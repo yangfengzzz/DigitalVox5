@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "mesh_renderer.h"
+#include "vox.render/mesh/mesh_renderer.h"
 
-#include "entity.h"
-#include "mesh.h"
-#include "shader/internal_variant_name.h"
-#include "shader/shader_common.h"
+#include "vox.render/entity.h"
+#include "vox.render/mesh/mesh.h"
+#include "vox.render/shader/internal_variant_name.h"
+#include "vox.render/shader/shader_common.h"
 
 namespace vox {
 std::string MeshRenderer::name() { return "MeshRenderer"; }

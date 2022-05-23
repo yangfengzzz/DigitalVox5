@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "check_box.h"
+#include "vox.render/ui/widgets/selection/check_box.h"
 
 #include <utility>
 

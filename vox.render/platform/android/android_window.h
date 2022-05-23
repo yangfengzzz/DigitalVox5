@@ -8,8 +8,8 @@
 
 #include <android_native_app_glue.h>
 
-#include "platform/window.h"
-#include "vk_common.h"
+#include "vox.render/platform/window.h"
+#include "vox.render/vk_common.h"
 
 namespace vox {
 class AndroidPlatform;

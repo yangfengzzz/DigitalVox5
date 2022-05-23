@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "shader_source.h"
-#include "singleton.h"
+#include "vox.render/shader/shader_source.h"
+#include "vox.render/singleton.h"
 
 namespace vox {
 class ShaderManager : public Singleton<ShaderManager> {

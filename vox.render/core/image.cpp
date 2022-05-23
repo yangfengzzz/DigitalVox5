@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "image.h"
+#include "vox.render/core/image.h"
 
-#include "device.h"
-#include "image_view.h"
+#include "vox.render/core/device.h"
+#include "vox.render/core/image_view.h"
 
 namespace vox {
 namespace {

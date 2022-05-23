@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "core/sampled_image.h"
-#include "postprocessing_pass.h"
-#include "render_pipeline.h"
-#include "subpass.h"
+#include "vox.render/core/sampled_image.h"
+#include "vox.render/rendering/postprocessing_pass.h"
+#include "vox.render/rendering/render_pipeline.h"
+#include "vox.render/rendering/subpass.h"
 
 namespace vox {
 /**

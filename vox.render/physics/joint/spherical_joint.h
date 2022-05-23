@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "joint.h"
+#include "vox.render/physics/joint/joint.h"
 
 namespace vox::physics {
 /**

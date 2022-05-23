@@ -8,7 +8,7 @@
 
 #include <vector>
 
-#include "volk.h"
+#include <volk.h>
 
 namespace vox::initializers {
 inline VkMemoryAllocateInfo MemoryAllocateInfo() {

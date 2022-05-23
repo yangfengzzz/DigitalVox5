@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "error.h"
-#include "vk_common.h"
+#include "vox.render/error.h"
+#include "vox.render/vk_common.h"
 
 VKBP_DISABLE_WARNINGS()
 
@@ -15,7 +15,7 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "stats_provider.h"
+#include "vox.render/stats/stats_provider.h"
 
 namespace vox {
 class HWCPipeStatsProvider : public StatsProvider {

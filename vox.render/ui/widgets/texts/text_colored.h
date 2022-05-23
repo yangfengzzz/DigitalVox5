@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "color.h"
-#include "text.h"
+#include "vox.math/color.h"
+#include "vox.render/ui/widgets/texts/text.h"
 
 namespace vox::ui {
 /**

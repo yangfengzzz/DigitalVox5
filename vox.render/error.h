@@ -10,9 +10,9 @@
 #include <stdexcept>
 #include <string>
 
-#include "logging.h"
-#include "strings.h"
-#include "vk_common.h"
+#include "vox.render/logging.h"
+#include "vox.render/strings.h"
+#include "vox.render/vk_common.h"
 
 #if defined(__clang__)
 // CLANG ENABLE/DISABLE WARNING DEFINITION

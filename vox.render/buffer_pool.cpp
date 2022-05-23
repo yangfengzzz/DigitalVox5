@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "buffer_pool.h"
+#include "vox.render/buffer_pool.h"
 
-#include "core/device.h"
-#include "error.h"
-#include "logging.h"
+#include "vox.render/core/device.h"
+#include "vox.render/error.h"
+#include "vox.render/logging.h"
 
 namespace vox {
 BufferBlock::BufferBlock(Device &device, VkDeviceSize size, VkBufferUsageFlags usage, VmaMemoryUsage memory_usage)

@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "spherical_joint.h"
+#include "vox.render/physics/joint/spherical_joint.h"
 
-#include "../collider.h"
-#include "../physics_manager.h"
+#include "vox.render/physics/collider.h"
+#include "vox.render/physics/physics_manager.h"
 
 namespace vox::physics {
 SphericalJoint::SphericalJoint(Collider *collider_0, Collider *collider_1) {

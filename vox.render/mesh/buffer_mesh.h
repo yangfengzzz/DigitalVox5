@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "mesh.h"
+#include "vox.render/mesh/mesh.h"
 
 namespace vox {
 class BufferMesh : public Mesh {

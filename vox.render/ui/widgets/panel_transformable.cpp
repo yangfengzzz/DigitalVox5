@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "panel_transformable.h"
+#include "vox.render/ui/widgets/panel_transformable.h"
 
-#include "ui/widgets/converter.h"
+#include "vox.render/ui/widgets/converter.h"
 
 namespace vox::ui {
 PanelTransformable::PanelTransformable(const Vector2F &default_position,

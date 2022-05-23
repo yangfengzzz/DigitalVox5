@@ -11,8 +11,8 @@
 #include <typeindex>
 #include <vector>
 
-#include "inspector_item.h"
-#include "scene_forward.h"
+#include "vox.render/inspector_item.h"
+#include "vox.render/scene_forward.h"
 
 namespace vox {
 /**

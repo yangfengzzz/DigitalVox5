@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "hwcpipe_stats_provider.h"
+#include "vox.render/stats/hwcpipe_stats_provider.h"
 
-#include "error.h"
+#include "vox.render/error.h"
 
 namespace vox {
 HWCPipeStatsProvider::HWCPipeStatsProvider(std::set<StatIndex> &requested_stats) {

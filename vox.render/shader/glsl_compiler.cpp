@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "glsl_compiler.h"
+#include "vox.render/shader/glsl_compiler.h"
 
 VKBP_DISABLE_WARNINGS()
 

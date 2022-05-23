@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "platform/window.h"
+#include "vox.render/platform/window.h"
 
 namespace vox {
 /**

@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "shader_manager.h"
+#include "vox.render/shader/shader_manager.h"
 
 namespace vox {
 ShaderManager *ShaderManager::GetSingletonPtr() { return ms_singleton; }

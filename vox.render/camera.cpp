@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "camera.h"
+#include "vox.render/camera.h"
 
-#include "entity.h"
-#include "matrix_utils.h"
-#include "scene.h"
+#include "vox.render/entity.h"
+#include "vox.math/matrix_utils.h"
+#include "vox.render/scene.h"
 
 namespace vox {
 std::string Camera::name() { return "Camera"; }

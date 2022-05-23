@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "mesh_renderer.h"
+#include "vox.render/mesh/mesh_renderer.h"
 
 namespace vox {
 

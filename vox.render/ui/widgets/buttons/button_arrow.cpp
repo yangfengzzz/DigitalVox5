@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "button_arrow.h"
+#include "vox.render/ui/widgets/buttons/button_arrow.h"
 
 namespace vox::ui {
 ButtonArrow::ButtonArrow(ImGuiDir direction) : direction_(direction) {}

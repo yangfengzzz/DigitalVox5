@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "graphics_application.h"
+#include "vox.render/graphics_application.h"
 
-#include "error.h"
+#include "vox.render/error.h"
 
 VKBP_DISABLE_WARNINGS()
 
@@ -14,18 +14,18 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "helpers.h"
-#include "logging.h"
-#include "platform/glfw_window.h"
-#include "platform/platform.h"
-#include "platform/window.h"
-#include "rendering/render_context.h"
-#include "strings.h"
-#include "utils.h"
-#include "vk_common.h"
+#include "vox.render/helpers.h"
+#include "vox.render/logging.h"
+#include "vox.render/platform/glfw_window.h"
+#include "vox.render/platform/platform.h"
+#include "vox.render/platform/window.h"
+#include "vox.render/rendering/render_context.h"
+#include "vox.render/strings.h"
+#include "vox.render/utils.h"
+#include "vox.render/vk_common.h"
 
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
-#include "platform/android/android_platform.h"
+#include "vox.render/platform/android/android_platform.h"
 #endif
 
 namespace vox {

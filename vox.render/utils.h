@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "error.h"
-#include "platform/filesystem.h"
-#include "rendering/pipeline_state.h"
-#include "rendering/render_context.h"
+#include "vox.render/error.h"
+#include "vox.render/platform/filesystem.h"
+#include "vox.render/rendering/pipeline_state.h"
+#include "vox.render/rendering/render_context.h"
 
 namespace vox {
 /**

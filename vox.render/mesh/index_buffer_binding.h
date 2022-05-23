@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "core/buffer.h"
+#include "vox.render/core/buffer.h"
 
 namespace vox {
 /**

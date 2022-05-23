@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "shader/shader_module.h"
+#include "vox.render/shader/shader_module.h"
 
-#include "core/device.h"
-#include "glsl_compiler.h"
-#include "logging.h"
-#include "platform/filesystem.h"
-#include "spirv_reflection.h"
+#include "vox.render/core/device.h"
+#include "vox.render/shader/glsl_compiler.h"
+#include "vox.render/logging.h"
+#include "vox.render/platform/filesystem.h"
+#include "vox.render/shader/spirv_reflection.h"
 
 namespace vox {
 /**
