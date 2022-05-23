@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "linalg/inverse.h"
-#include "linalg/lapack_wrapper.h"
-#include "linalg/linalg_utils.h"
+#include "vox.core/linalg/inverse.h"
+#include "vox.core/linalg/lapack_wrapper.h"
+#include "vox.core/linalg/linalg_utils.h"
 
 namespace vox {
 namespace core {

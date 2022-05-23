@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "device.h"
-#include "dtype.h"
-#include "macro.h"
-#include "tensor.h"
+#include "vox.base/macro.h"
+#include "vox.core/device.h"
+#include "vox.core/dtype.h"
+#include "vox.core/tensor.h"
 
 /// Assert Tensor's dtype is the same as the expected dtype. When an error
 /// occurs, the corresponding file name, line number and function name will be

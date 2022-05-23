@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "shape_util.h"
+#include "vox.core/shape_util.h"
 
 #include <numeric>
 
-#include "size_vector.h"
+#include "vox.core/size_vector.h"
 
 namespace vox::core::shape_util {
 
@@ -175,7 +175,8 @@ SizeVector InferShape(SizeVector shape, int64_t num_elements) {
         return inferred_shape;
     }
 
-    throw std::runtime_error(fmt::format("Shape {} is invalid for {} number of elements.", shape.ToString(), num_elements));
+    throw std::runtime_error(
+            fmt::format("Shape {} is invalid for {} number of elements.", shape.ToString(), num_elements));
 }
 
 SizeVector Concat(const SizeVector& l_shape, const SizeVector& r_shape) {
@@ -264,4 +265,4 @@ std::pair<bool, SizeVector> Restride(const SizeVector& old_shape,
     return std::make_pair(true, new_strides);
 }
 
-}  // namespace vox
+}  // namespace vox::core::shape_util

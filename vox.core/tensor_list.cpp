@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "tensor_list.h"
+#include "vox.core/tensor_list.h"
 
 #include <string>
 
-#include "size_vector.h"
+#include "vox.core/size_vector.h"
 
 namespace vox {
 namespace core {

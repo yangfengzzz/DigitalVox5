@@ -25,15 +25,15 @@
 
 #include <cmath>
 
-#include "cuda_utils.h"
-//#include "open3d/t/geometry/kernel/GeometryMacros.h"
+#include "vox.core/cuda_utils.h"
+//#include "vox.core/open3d/t/geometry/kernel/GeometryMacros.h"
 
 #if defined(BUILD_CUDA_MODULE) && defined(__CUDACC__)
 #include <cuda.h>
 #endif
 
-#include "linalg/kernel/matrix.h"
-#include "math.h"
+#include "vox.core/linalg/kernel/matrix.h"
+#include "vox.core/math.h"
 
 #define gone 1065353216
 #define gsine_pi_over_eight 1053028117

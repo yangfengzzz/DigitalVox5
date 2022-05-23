@@ -9,9 +9,9 @@
 #include <Eigen/Core>
 #include <vector>
 
-#include "device.h"
-#include "dtype.h"
-#include "tensor.h"
+#include "vox.core/device.h"
+#include "vox.core/dtype.h"
+#include "vox.core/tensor.h"
 
 namespace vox::core::eigen_converter {
 

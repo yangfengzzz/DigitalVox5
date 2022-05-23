@@ -12,7 +12,7 @@
 #include <memory>
 #include <vector>
 
-#include "hashmap/hash_backend_buffer.h"
+#include "vox.core/hashmap/hash_backend_buffer.h"
 
 namespace vox {
 namespace core {

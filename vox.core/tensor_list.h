@@ -10,13 +10,13 @@
 #include <memory>
 #include <string>
 
-#include "blob.h"
-#include "device.h"
-#include "dtype.h"
-#include "shape_util.h"
-#include "size_vector.h"
-#include "tensor.h"
-#include "tensor_key.h"
+#include "vox.core/blob.h"
+#include "vox.core/device.h"
+#include "vox.core/dtype.h"
+#include "vox.core/shape_util.h"
+#include "vox.core/size_vector.h"
+#include "vox.core/tensor.h"
+#include "vox.core/tensor_key.h"
 
 namespace vox {
 namespace core {

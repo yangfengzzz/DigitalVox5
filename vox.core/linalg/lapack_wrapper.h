@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "linalg/linalg_headers_cpu.h"
-#include "linalg/linalg_headers_cuda.h"
-#include "logging.h"
+#include "vox.base/logging.h"
+#include "vox.core/linalg/linalg_headers_cpu.h"
+#include "vox.core/linalg/linalg_headers_cuda.h"
 
 namespace vox {
 namespace core {

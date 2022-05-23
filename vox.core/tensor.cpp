@@ -4,34 +4,34 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "tensor.h"
+#include "vox.core/tensor.h"
 
 #include <numeric>
 #include <sstream>
 
-#include "advanced_indexing.h"
-#include "blob.h"
-#include "cuda_utils.h"
-#include "device.h"
-#include "dispatch.h"
-#include "dtype.h"
-#include "kernel/arange.h"
-#include "kernel/kernel.h"
-#include "linalg/det.h"
-#include "linalg/inverse.h"
-#include "linalg/least_squares.h"
-#include "linalg/lu.h"
-#include "linalg/mat_mul.h"
-#include "linalg/solve.h"
-#include "linalg/svd.h"
-#include "linalg/tri.h"
-#include "shape_util.h"
-#include "size_vector.h"
-#include "tensor_check.h"
-#include "tensor_function.h"
-#include "tensor_key.h"
-//#include "open3d/t/io/NumpyIO.h"
-#include "logging.h"
+#include "vox.core/advanced_indexing.h"
+#include "vox.core/blob.h"
+#include "vox.core/cuda_utils.h"
+#include "vox.core/device.h"
+#include "vox.core/dispatch.h"
+#include "vox.core/dtype.h"
+#include "vox.core/kernel/arange.h"
+#include "vox.core/kernel/kernel.h"
+#include "vox.core/linalg/det.h"
+#include "vox.core/linalg/inverse.h"
+#include "vox.core/linalg/least_squares.h"
+#include "vox.core/linalg/lu.h"
+#include "vox.core/linalg/mat_mul.h"
+#include "vox.core/linalg/solve.h"
+#include "vox.core/linalg/svd.h"
+#include "vox.core/linalg/tri.h"
+#include "vox.core/shape_util.h"
+#include "vox.core/size_vector.h"
+#include "vox.core/tensor_check.h"
+#include "vox.core/tensor_function.h"
+#include "vox.core/tensor_key.h"
+//#include "vox.core/open3d/t/io/NumpyIO.h"
+#include "vox.base/logging.h"
 
 namespace vox {
 namespace core {

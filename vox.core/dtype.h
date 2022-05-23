@@ -9,9 +9,9 @@
 #include <cstring>
 #include <string>
 
-#include "dispatch.h"
-#include "logging.h"
-#include "macro.h"
+#include "vox.base/logging.h"
+#include "vox.base/macro.h"
+#include "vox.core/dispatch.h"
 
 namespace vox::core {
 

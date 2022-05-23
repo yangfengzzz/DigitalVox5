@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "linalg/blas_wrapper.h"
-#include "linalg/linalg_utils.h"
-#include "linalg/mat_mul.h"
+#include "vox.core/linalg/blas_wrapper.h"
+#include "vox.core/linalg/linalg_utils.h"
+#include "vox.core/linalg/mat_mul.h"
 
 namespace vox {
 namespace core {

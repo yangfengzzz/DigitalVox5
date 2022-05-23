@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "dispatch.h"
-#include "indexer.h"
-#include "linalg/tri_impl.h"
-#include "parallel_for.h"
-#include "tensor.h"
+#include "vox.core/dispatch.h"
+#include "vox.core/indexer.h"
+#include "vox.core/linalg/tri_impl.h"
+#include "vox.core/parallel_for.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

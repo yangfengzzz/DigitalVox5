@@ -12,7 +12,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "device.h"
+#include "vox.core/device.h"
 
 namespace vox::core {
 
@@ -94,7 +94,7 @@ class CachedMemoryManager : public DeviceMemoryManager {
 public:
     /// Constructs a cached memory manager instance that wraps the existing
     /// direct memory manager \p device_mm.
-    explicit CachedMemoryManager(std::shared_ptr<DeviceMemoryManager>  device_mm);
+    explicit CachedMemoryManager(std::shared_ptr<DeviceMemoryManager> device_mm);
 
     /// Allocates memory of \p byte_size bytes on device \p device and returns a
     /// pointer to the beginning of the allocated memory block.
@@ -168,4 +168,4 @@ protected:
 };
 #endif
 
-}  // namespace vox
+}  // namespace vox::core

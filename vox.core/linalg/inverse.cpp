@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "linalg/inverse.h"
+#include "vox.core/linalg/inverse.h"
 
 #include <unordered_map>
 
-#include "linalg/linalg_headers_cpu.h"
+#include "vox.core/linalg/linalg_headers_cpu.h"
 
 namespace vox {
 namespace core {

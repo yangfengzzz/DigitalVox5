@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "linalg/solve.h"
+#include "vox.core/linalg/solve.h"
 
 #ifdef BUILD_CUDA_MODULE
 #include <cuda_runtime_api.h>
@@ -12,7 +12,7 @@
 
 #include <unordered_map>
 
-#include "linalg/linalg_headers_cpu.h"
+#include "vox.core/linalg/linalg_headers_cpu.h"
 
 namespace vox {
 namespace core {

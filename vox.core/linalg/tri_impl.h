@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "linalg/tri.h"
-#include "tensor.h"
+#include "vox.core/linalg/tri.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

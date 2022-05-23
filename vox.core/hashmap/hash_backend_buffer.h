@@ -12,8 +12,8 @@
 #include <memory>
 #include <vector>
 
-#include "memory_manager.h"
-#include "tensor.h"
+#include "vox.core/memory_manager.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

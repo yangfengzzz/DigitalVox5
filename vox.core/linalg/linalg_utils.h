@@ -9,11 +9,11 @@
 #include <memory>
 #include <string>
 
-#include "dtype.h"
-#include "linalg/linalg_headers_cpu.h"
-#include "linalg/linalg_headers_cuda.h"
-#include "logging.h"
-#include "memory_manager.h"
+#include "vox.base/logging.h"
+#include "vox.core/dtype.h"
+#include "vox.core/linalg/linalg_headers_cpu.h"
+#include "vox.core/linalg/linalg_headers_cuda.h"
+#include "vox.core/memory_manager.h"
 
 namespace vox {
 namespace core {

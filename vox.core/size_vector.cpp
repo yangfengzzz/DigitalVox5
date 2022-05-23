@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "size_vector.h"
+#include "vox.core/size_vector.h"
 
 #include <spdlog/fmt/fmt.h>
 
@@ -15,7 +15,7 @@
 #include <sstream>
 #include <vector>
 
-#include "logging.h"
+#include "vox.base/logging.h"
 
 namespace vox::core {
 

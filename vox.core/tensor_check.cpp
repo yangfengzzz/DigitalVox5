@@ -4,15 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "tensor_check.h"
+#include "vox.core/tensor_check.h"
 
 #include <string>
 
-#include "device.h"
-#include "dtype.h"
-#include "helper.h"
-#include "logging.h"
-#include "tensor.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
+#include "vox.core/device.h"
+#include "vox.core/dtype.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "kernel/binary_ew.h"
+#include "vox.core/kernel/binary_ew.h"
 
 #include <vector>
 
-#include "logging.h"
-#include "shape_util.h"
-#include "tensor.h"
+#include "vox.base/logging.h"
+#include "vox.core/shape_util.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

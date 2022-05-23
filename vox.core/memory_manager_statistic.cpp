@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "memory_manager_statistic.h"
+#include "vox.core/memory_manager_statistic.h"
 
 #include <algorithm>
 #include <cstdlib>
 #include <numeric>
 
-#include "logging.h"
+#include "vox.base/logging.h"
 
 namespace vox::core {
 

@@ -8,13 +8,13 @@
 
 #include <sstream>
 
-#include "cuda_utils.h"
-#include "dtype.h"
-#include "logging.h"
-#include "mini_vec.h"
-#include "shape_util.h"
-#include "size_vector.h"
-#include "tensor.h"
+#include "vox.base/logging.h"
+#include "vox.base/mini_vec.h"
+#include "vox.core/cuda_utils.h"
+#include "vox.core/dtype.h"
+#include "vox.core/shape_util.h"
+#include "vox.core/size_vector.h"
+#include "vox.core/tensor.h"
 
 // The generated "Indexer_ispc.h" header will not be available outside the
 // library. Therefore, forward declare all exported ISPC classes.
@@ -612,7 +612,7 @@ public:
     explicit IndexerIterator(const Indexer& indexer);
 
     [[nodiscard]] Iterator begin() const;
-    [[nodiscard]] static Iterator end() ;
+    [[nodiscard]] static Iterator end();
 
 private:
     const Indexer& indexer_;

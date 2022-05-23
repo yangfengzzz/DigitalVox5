@@ -5,7 +5,7 @@
 //  property of any third parties.
 
 #pragma once
-#include "cuda_utils.h"
+#include "vox.core/cuda_utils.h"
 
 namespace vox {
 namespace core {

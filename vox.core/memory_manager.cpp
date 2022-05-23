@@ -4,15 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "memory_manager.h"
+#include "vox.core/memory_manager.h"
 
 #include <numeric>
 #include <unordered_map>
 
-#include "device.h"
-#include "helper.h"
-#include "logging.h"
-#include "memory_manager_statistic.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
+#include "vox.core/device.h"
+#include "vox.core/memory_manager_statistic.h"
 
 namespace vox::core {
 

@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "linalg/mat_mul.h"
+#include "vox.core/linalg/mat_mul.h"
 
 #include <unordered_map>
 

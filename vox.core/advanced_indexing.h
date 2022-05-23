@@ -9,9 +9,9 @@
 #include <utility>
 #include <vector>
 
-#include "indexer.h"
-#include "size_vector.h"
-#include "tensor.h"
+#include "vox.core/indexer.h"
+#include "vox.core/size_vector.h"
+#include "vox.core/tensor.h"
 
 namespace vox::core {
 

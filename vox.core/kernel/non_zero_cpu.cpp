@@ -6,10 +6,10 @@
 
 #include <numeric>
 
-#include "indexer.h"
-#include "kernel/non_zero.h"
-#include "logging.h"
-#include "parallel.h"
+#include "vox.base/logging.h"
+#include "vox.base/parallel.h"
+#include "vox.core/indexer.h"
+#include "vox.core/kernel/non_zero.h"
 
 namespace vox {
 namespace core {

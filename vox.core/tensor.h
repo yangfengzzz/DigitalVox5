@@ -12,16 +12,16 @@
 #include <string>
 #include <type_traits>
 
-#include "blob.h"
-#include "device.h"
-#include "dl_pack.h"
-#include "dtype.h"
-#include "scalar.h"
-#include "shape_util.h"
-#include "size_vector.h"
-#include "tensor_check.h"
-#include "tensor_init.h"
-#include "tensor_key.h"
+#include "vox.core/blob.h"
+#include "vox.core/device.h"
+#include "vox.core/dl_pack.h"
+#include "vox.core/dtype.h"
+#include "vox.core/scalar.h"
+#include "vox.core/shape_util.h"
+#include "vox.core/size_vector.h"
+#include "vox.core/tensor_check.h"
+#include "vox.core/tensor_init.h"
+#include "vox.core/tensor_key.h"
 
 namespace vox {
 namespace core {

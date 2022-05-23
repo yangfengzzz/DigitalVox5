@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "eigen_converter.h"
+#include "vox.core/eigen_converter.h"
 
 #include <type_traits>
 
-#include "indexer.h"
-#include "parallel_for.h"
-#include "tensor_check.h"
+#include "vox.core/indexer.h"
+#include "vox.core/parallel_for.h"
+#include "vox.core/tensor_check.h"
 
 namespace vox::core::eigen_converter {
 

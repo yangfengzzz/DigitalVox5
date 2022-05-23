@@ -9,7 +9,7 @@
 #include <initializer_list>
 #include <utility>
 
-#include "size_vector.h"
+#include "vox.core/size_vector.h"
 
 namespace vox {
 namespace core {

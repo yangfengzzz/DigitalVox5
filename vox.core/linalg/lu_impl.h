@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "linalg/lu.h"
+#include "vox.core/linalg/lu.h"
 
 namespace vox {
 namespace core {

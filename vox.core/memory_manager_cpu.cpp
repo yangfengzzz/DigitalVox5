@@ -6,7 +6,7 @@
 
 #include <cstdlib>
 
-#include "memory_manager.h"
+#include "vox.core/memory_manager.h"
 
 namespace vox::core {
 
@@ -30,4 +30,4 @@ void CPUMemoryManager::Memcpy(
     std::memcpy(dst_ptr, src_ptr, num_bytes);
 }
 
-}  // namespace vox
+}  // namespace vox::core

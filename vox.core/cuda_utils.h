@@ -12,8 +12,8 @@
 
 #pragma once
 
-#include "device.h"
-#include "logging.h"
+#include "vox.base/logging.h"
+#include "vox.core/device.h"
 
 #ifdef BUILD_CUDA_MODULE
 
@@ -21,8 +21,8 @@
 #include <cuda_runtime.h>
 
 #include <memory>
-#include <vector>
 #include <optional>
+#include <vector>
 
 #define OPEN3D_FORCE_INLINE __forceinline__
 #define OPEN3D_HOST_DEVICE __host__ __device__

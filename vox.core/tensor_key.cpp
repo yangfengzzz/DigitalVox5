@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "tensor_key.h"
+#include "vox.core/tensor_key.h"
 
 #include <memory>
 #include <sstream>
 
-#include "logging.h"
-#include "tensor.h"
+#include "vox.base/logging.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {
@@ -49,7 +49,7 @@ public:
                                            stop_.has_value() ? stop_.value() : dim_size,
                                            step_.has_value() ? step_.value() : 1);
     }
-    
+
     int64_t GetStart() const {
         if (start_.has_value()) {
             return start_.value();
@@ -57,7 +57,7 @@ public:
             throw std::runtime_error("TensorKeyMode::Slice: start is None.");
         }
     }
-    
+
     int64_t GetStop() const {
         if (stop_.has_value()) {
             return stop_.value();
@@ -65,7 +65,7 @@ public:
             throw std::runtime_error("TensorKeyMode::Slice: stop is None.");
         }
     }
-    
+
     int64_t GetStep() const {
         if (step_.has_value()) {
             return step_.value();
@@ -73,7 +73,7 @@ public:
             throw std::runtime_error("TensorKeyMode::Slice: step is None.");
         }
     }
-    
+
     std::string ToString() const override {
         std::stringstream ss;
         ss << "TensorKey::Slice(";

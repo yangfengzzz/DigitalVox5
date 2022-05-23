@@ -11,9 +11,9 @@
 #include <limits>
 #include <unordered_map>
 
-#include "hashmap/cpu/cpu_hash_backend_buffer_accessor.hpp"
-#include "hashmap/device_hash_backend.h"
-#include "parallel.h"
+#include "vox.base/parallel.h"
+#include "vox.core/hashmap/cpu/cpu_hash_backend_buffer_accessor.hpp"
+#include "vox.core/hashmap/device_hash_backend.h"
 
 namespace vox {
 namespace core {

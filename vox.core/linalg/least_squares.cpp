@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "linalg/least_squares.h"
+#include "vox.core/linalg/least_squares.h"
 
 #include <unordered_map>
 

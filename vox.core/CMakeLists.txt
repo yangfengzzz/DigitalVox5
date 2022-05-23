@@ -17,8 +17,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC $<TARGET_PROPERTY:MKL::MKL,INT
 target_link_libraries(${PROJECT_NAME} PUBLIC $<LINK_ONLY:MKL::MKL>)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-        ../vox.base
-        ../vox.core
+        ../
         ../third_party
         ../third_party/eigen
         ../third_party/json_cpp/include)

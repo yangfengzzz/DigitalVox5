@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "advanced_indexing.h"
-#include "dispatch.h"
-#include "kernel/index_get_set.h"
-#include "logging.h"
-#include "parallel_for.h"
-#include "tensor.h"
+#include "vox.base/logging.h"
+#include "vox.core/advanced_indexing.h"
+#include "vox.core/dispatch.h"
+#include "vox.core/kernel/index_get_set.h"
+#include "vox.core/parallel_for.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

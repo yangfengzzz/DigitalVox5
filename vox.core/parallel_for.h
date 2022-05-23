@@ -9,17 +9,17 @@
 #include <cstdint>
 #include <type_traits>
 
-#include "device.h"
-#include "logging.h"
-#include "overload.h"
-#include "parallel.h"
-#include "preprocessor.h"
+#include "vox.base/logging.h"
+#include "vox.base/overload.h"
+#include "vox.base/parallel.h"
+#include "vox.base/preprocessor.h"
+#include "vox.core/device.h"
 
 #ifdef __CUDACC__
 #include <cuda.h>
 #include <cuda_runtime.h>
 
-#include "cuda_utils.h"
+#include "vox.core/cuda_utils.h"
 #endif
 
 namespace vox::core {
@@ -124,7 +124,7 @@ void ParallelFor(const Device& device, int64_t n, const func_t& func) {
 /// \code
 /// /* MyFile.cpp */
 /// #ifdef BUILD_ISPC_MODULE
-/// #include "MyFile_ispc.h"
+/// #include "vox.core/MyFile_ispc.h"
 /// #endif
 ///
 /// std::vector<float> v(1000);
@@ -136,7 +136,7 @@ void ParallelFor(const Device& device, int64_t n, const func_t& func) {
 ///         OPEN3D_VECTORIZED(MyFillKernel, v.data(), fill_value));
 ///
 /// /* MyFile.ispc */
-/// #include "ParallelFor.isph"
+/// #include "vox.core/ParallelFor.isph"
 ///
 /// static inline void MyFillFunction(int64_t idx,
 ///                                   float* uniform v,

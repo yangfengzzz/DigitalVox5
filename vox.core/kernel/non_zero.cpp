@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "kernel/non_zero.h"
+#include "vox.core/kernel/non_zero.h"
 
-#include "device.h"
-#include "logging.h"
-#include "tensor.h"
+#include "vox.base/logging.h"
+#include "vox.core/device.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

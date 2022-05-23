@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "dtype.h"
-#include "hashmap/hash_backend_buffer.h"
-#include "hashmap/hash_map.h"
-#include "tensor.h"
+#include "vox.core/dtype.h"
+#include "vox.core/hashmap/hash_backend_buffer.h"
+#include "vox.core/hashmap/hash_map.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

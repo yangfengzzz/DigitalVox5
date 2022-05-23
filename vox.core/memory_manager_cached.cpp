@@ -13,11 +13,11 @@
 #include <utility>
 #include <vector>
 
-#include "logging.h"
-#include "memory_manager.h"
+#include "vox.base/logging.h"
+#include "vox.core/memory_manager.h"
 
 #ifdef BUILD_CUDA_MODULE
-#include "CUDAUtils.h"
+#include "vox.core/CUDAUtils.h"
 #endif
 
 namespace vox::core {

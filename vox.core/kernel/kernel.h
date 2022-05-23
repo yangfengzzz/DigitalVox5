@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "kernel/binary_ew.h"
-#include "kernel/index_get_set.h"
-#include "kernel/non_zero.h"
-#include "kernel/reduction.h"
-#include "kernel/unary_ew.h"
+#include "vox.core/kernel/binary_ew.h"
+#include "vox.core/kernel/index_get_set.h"
+#include "vox.core/kernel/non_zero.h"
+#include "vox.core/kernel/reduction.h"
+#include "vox.core/kernel/unary_ew.h"
 
 namespace vox {
 namespace core {

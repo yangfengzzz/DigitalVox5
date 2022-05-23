@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "linalg/lu.h"
+#include "vox.core/linalg/lu.h"
 
-#include "linalg/linalg_headers_cpu.h"
-#include "linalg/lu_impl.h"
-#include "linalg/tri.h"
+#include "vox.core/linalg/linalg_headers_cpu.h"
+#include "vox.core/linalg/lu_impl.h"
+#include "vox.core/linalg/tri.h"
 
 namespace vox {
 namespace core {

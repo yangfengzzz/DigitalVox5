@@ -6,12 +6,12 @@
 
 #include <limits>
 
-#include "dispatch.h"
-#include "indexer.h"
-#include "kernel/reduction.h"
-#include "logging.h"
-#include "parallel.h"
-#include "tensor.h"
+#include "vox.base/logging.h"
+#include "vox.base/parallel.h"
+#include "vox.core/dispatch.h"
+#include "vox.core/indexer.h"
+#include "vox.core/kernel/reduction.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

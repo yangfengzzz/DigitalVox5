@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "tensor.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

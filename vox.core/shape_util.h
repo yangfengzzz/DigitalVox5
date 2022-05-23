@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "dispatch.h"
-#include "logging.h"
-#include "size_vector.h"
+#include "vox.base/logging.h"
+#include "vox.core/dispatch.h"
+#include "vox.core/size_vector.h"
 
 namespace vox::core {
 

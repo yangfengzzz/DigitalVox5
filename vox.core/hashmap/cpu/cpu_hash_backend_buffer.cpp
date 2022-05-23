@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "hashmap/hash_backend_buffer.h"
-#include "parallel.h"
+#include "vox.base/parallel.h"
+#include "vox.core/hashmap/hash_backend_buffer.h"
 
 namespace vox {
 namespace core {

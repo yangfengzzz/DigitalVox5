@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "dtype.h"
+#include "vox.core/dtype.h"
 
 namespace vox::core {
 

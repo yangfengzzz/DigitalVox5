@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "linalg/tri.h"
+#include "vox.core/linalg/tri.h"
 
-#include "linalg/tri_impl.h"
-#include "tensor.h"
+#include "vox.core/linalg/tri_impl.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

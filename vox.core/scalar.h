@@ -10,8 +10,8 @@
 #include <limits>
 #include <string>
 
-#include "dtype.h"
-#include "logging.h"
+#include "vox.base/logging.h"
+#include "vox.core/dtype.h"
 
 namespace vox::core {
 

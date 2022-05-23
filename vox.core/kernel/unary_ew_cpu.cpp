@@ -7,18 +7,18 @@
 #include <cmath>
 #include <cstring>
 
-#include "dispatch.h"
-#include "dtype.h"
-#include "indexer.h"
-#include "kernel/unary_ew.h"
-#include "logging.h"
-#include "memory_manager.h"
-#include "parallel_for.h"
-#include "size_vector.h"
-#include "tensor.h"
+#include "vox.base/logging.h"
+#include "vox.core/dispatch.h"
+#include "vox.core/dtype.h"
+#include "vox.core/indexer.h"
+#include "vox.core/kernel/unary_ew.h"
+#include "vox.core/memory_manager.h"
+#include "vox.core/parallel_for.h"
+#include "vox.core/size_vector.h"
+#include "vox.core/tensor.h"
 
 #ifdef BUILD_ISPC_MODULE
-#include "UnaryEWCPU_ispc.h"
+#include "vox.core/UnaryEWCPU_ispc.h"
 #endif
 
 namespace vox {

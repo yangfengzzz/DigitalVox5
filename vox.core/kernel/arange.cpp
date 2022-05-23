@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "kernel/arange.h"
+#include "vox.core/kernel/arange.h"
 
-#include "tensor.h"
-#include "tensor_check.h"
+#include "vox.core/tensor.h"
+#include "vox.core/tensor_check.h"
 
 namespace vox {
 namespace core {

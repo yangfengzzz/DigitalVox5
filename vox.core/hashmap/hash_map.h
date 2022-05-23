@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "dtype.h"
-#include "hashmap/hash_backend_buffer.h"
-#include "tensor.h"
+#include "vox.core/dtype.h"
+#include "vox.core/hashmap/hash_backend_buffer.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {
@@ -118,15 +118,15 @@ public:
     /// Clear stored map without reallocating the buffers.
     void Clear();
 
-//    /// Save active keys and values to a npz file at 'key' and 'value_{:03d}'.
-//    /// The number of values is stored in 'n_values'.
-//    /// The file name should end with 'npz', otherwise 'npz' will be added as an
-//    /// extension.
-//    void Save(const std::string& file_name);
-//
-//    /// Load active keys and values from a npz file that contains 'key',
-//    /// 'n_values', 'value_{:03d}'.
-//    static HashMap Load(const std::string& file_name);
+    //    /// Save active keys and values to a npz file at 'key' and 'value_{:03d}'.
+    //    /// The number of values is stored in 'n_values'.
+    //    /// The file name should end with 'npz', otherwise 'npz' will be added as an
+    //    /// extension.
+    //    void Save(const std::string& file_name);
+    //
+    //    /// Load active keys and values from a npz file that contains 'key',
+    //    /// 'n_values', 'value_{:03d}'.
+    //    static HashMap Load(const std::string& file_name);
 
     /// Clone the hash map with buffers.
     HashMap Clone() const;

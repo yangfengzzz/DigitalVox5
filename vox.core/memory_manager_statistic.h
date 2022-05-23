@@ -11,7 +11,7 @@
 #include <mutex>
 #include <unordered_map>
 
-#include "device.h"
+#include "vox.core/device.h"
 
 namespace vox::core {
 
@@ -88,4 +88,4 @@ private:
     std::map<Device, MemoryStatistics> statistics_;
 };
 
-}  // namespace vox
+}  // namespace vox::core

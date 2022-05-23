@@ -4,13 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "hashmap/hash_map.h"
+#include "vox.core/hashmap/hash_map.h"
 
-#include "hashmap/device_hash_backend.h"
-#include "tensor.h"
-//#include "open3d/t/io/HashMapIO.h"
-#include "helper.h"
-#include "logging.h"
+#include "vox.core/hashmap/device_hash_backend.h"
+#include "vox.core/tensor.h"
+//#include "vox.core/open3d/t/io/HashMapIO.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
 
 namespace vox {
 namespace core {

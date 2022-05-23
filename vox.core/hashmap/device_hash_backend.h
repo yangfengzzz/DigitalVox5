@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "cuda_utils.h"
-#include "hashmap/hash_backend_buffer.h"
-#include "memory_manager.h"
-#include "tensor.h"
+#include "vox.core/cuda_utils.h"
+#include "vox.core/hashmap/hash_backend_buffer.h"
+#include "vox.core/memory_manager.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

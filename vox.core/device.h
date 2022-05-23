@@ -8,8 +8,8 @@
 #include <string>
 #include <vector>
 
-#include "helper.h"
-#include "logging.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
 
 namespace vox::core {
 

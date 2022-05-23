@@ -4,12 +4,12 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "indexer.h"
+#include "vox.core/indexer.h"
 
 #include <numeric>
 
 #ifdef BUILD_ISPC_MODULE
-#include "Indexer_ispc.h"
+#include "vox.core/Indexer_ispc.h"
 #endif
 
 namespace vox::core {
@@ -620,4 +620,4 @@ IndexerIterator::Iterator IndexerIterator::begin() const { return IndexerIterato
 
 IndexerIterator::Iterator IndexerIterator::end() { return {}; }
 
-}  // namespace vox
+}  // namespace vox::core

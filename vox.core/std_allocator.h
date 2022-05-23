@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "device.h"
-#include "memory_manager.h"
+#include "vox.core/device.h"
+#include "vox.core/memory_manager.h"
 
 namespace vox {
 namespace core {

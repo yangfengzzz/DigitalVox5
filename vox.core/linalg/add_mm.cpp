@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "linalg/add_mm.h"
+#include "vox.core/linalg/add_mm.h"
 
 #include <unordered_map>
 

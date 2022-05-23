@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "kernel/reduction.h"
+#include "vox.core/kernel/reduction.h"
 
-#include "size_vector.h"
+#include "vox.core/size_vector.h"
 
 namespace vox {
 namespace core {

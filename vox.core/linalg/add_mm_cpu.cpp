@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "linalg/add_mm.h"
-#include "linalg/blas_wrapper.h"
-#include "linalg/linalg_utils.h"
-#include "logging.h"
+#include "vox.base/logging.h"
+#include "vox.core/linalg/add_mm.h"
+#include "vox.core/linalg/blas_wrapper.h"
+#include "vox.core/linalg/linalg_utils.h"
 
 namespace vox {
 namespace core {

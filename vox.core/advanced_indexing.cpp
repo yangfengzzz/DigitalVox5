@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "advanced_indexing.h"
+#include "vox.core/advanced_indexing.h"
 
-#include "shape_util.h"
-#include "size_vector.h"
-#include "tensor.h"
+#include "vox.core/shape_util.h"
+#include "vox.core/size_vector.h"
+#include "vox.core/tensor.h"
 
 namespace vox::core {
 

@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "tensor_function.h"
+#include "vox.core/tensor_function.h"
 
 namespace vox {
 namespace core {

@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "hashmap/cpu/tbb_hash_backend.h"
-#include "hashmap/dispatch.h"
-#include "hashmap/hash_map.h"
+#include "vox.core/hashmap/cpu/tbb_hash_backend.h"
+#include "vox.core/hashmap/dispatch.h"
+#include "vox.core/hashmap/hash_map.h"
 
 namespace vox {
 namespace core {

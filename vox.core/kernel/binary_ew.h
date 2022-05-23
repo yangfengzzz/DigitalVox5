@@ -8,9 +8,9 @@
 
 #include <unordered_set>
 
-#include "helper.h"
-#include "logging.h"
-#include "tensor.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

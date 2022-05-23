@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "dtype.h"
-#include "logging.h"
-#include "mini_vec.h"
-#include "cuda_utils.h"
+#include "vox.base/logging.h"
+#include "vox.base/mini_vec.h"
+#include "vox.core/cuda_utils.h"
+#include "vox.core/dtype.h"
 
 #define INSTANTIATE_TYPES(DTYPE, DIM)                \
     using key_t = utility::MiniVec<DTYPE, DIM>;      \

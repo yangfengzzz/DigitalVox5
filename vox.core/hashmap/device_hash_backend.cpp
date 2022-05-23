@@ -4,11 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "hashmap/device_hash_backend.h"
+#include "vox.core/hashmap/device_hash_backend.h"
 
-#include "hashmap/hash_map.h"
-#include "helper.h"
-#include "logging.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
+#include "vox.core/hashmap/hash_map.h"
 
 namespace vox {
 namespace core {

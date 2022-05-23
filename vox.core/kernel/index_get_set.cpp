@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "kernel/index_get_set.h"
+#include "vox.core/kernel/index_get_set.h"
 
-#include "dtype.h"
-#include "kernel/unary_ew.h"
-#include "logging.h"
-#include "memory_manager.h"
-#include "size_vector.h"
-#include "tensor.h"
+#include "vox.base/logging.h"
+#include "vox.core/dtype.h"
+#include "vox.core/kernel/unary_ew.h"
+#include "vox.core/memory_manager.h"
+#include "vox.core/size_vector.h"
+#include "vox.core/tensor.h"
 
 namespace vox {
 namespace core {

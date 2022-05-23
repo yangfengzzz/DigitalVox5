@@ -4,9 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "hashmap/hash_backend_buffer.h"
+#include "vox.core/hashmap/hash_backend_buffer.h"
 
-#include "cuda_utils.h"
+#include "vox.core/cuda_utils.h"
 
 namespace vox {
 namespace core {

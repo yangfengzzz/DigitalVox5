@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "dtype.h"
-#include "logging.h"
+#include "vox.base/logging.h"
+#include "vox.core/dtype.h"
 
 /// Call a numerical templated function based on Dtype. Wrap the function to
 /// a lambda function to use DISPATCH_DTYPE_TO_TEMPLATE.

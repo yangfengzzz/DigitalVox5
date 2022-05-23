@@ -4,10 +4,10 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "linalg/det.h"
+#include "vox.core/linalg/det.h"
 
-#include "linalg/kernel/matrix.h"
-#include "linalg/lu.h"
+#include "vox.core/linalg/kernel/matrix.h"
+#include "vox.core/linalg/lu.h"
 
 namespace vox {
 namespace core {
