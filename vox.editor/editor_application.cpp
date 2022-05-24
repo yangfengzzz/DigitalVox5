@@ -8,9 +8,7 @@
 
 #include "vox.editor/editor_application.h"
 
-#include "vox.render/camera.h"
 #include "vox.editor/profiling/profiler_spy.h"
-#include "vox.render/rendering/subpasses/geometry_subpass.h"
 #include "vox.editor/ui/console.h"
 #include "vox.editor/ui/hierarchy.h"
 #include "vox.editor/ui/inspector.h"
@@ -21,6 +19,8 @@
 #include "vox.editor/view/asset_view.h"
 #include "vox.editor/view/game_view.h"
 #include "vox.editor/view/scene_view.h"
+#include "vox.render/camera.h"
+#include "vox.render/rendering/subpasses/geometry_subpass.h"
 
 namespace vox::editor {
 EditorApplication::EditorApplication(const std::string &project_path, const std::string &project_name)

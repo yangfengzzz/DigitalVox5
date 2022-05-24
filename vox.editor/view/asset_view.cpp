@@ -4,12 +4,11 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "vox.render/material/blinn_phong_material.h"
-
 #include "vox.editor/view/asset_view.h"
 
 #include "vox.render/camera.h"
 #include "vox.render/entity.h"
+#include "vox.render/material/blinn_phong_material.h"
 #include "vox.render/mesh/mesh_renderer.h"
 #include "vox.render/mesh/primitive_mesh.h"
 #include "vox.render/shader/internal_variant_name.h"
