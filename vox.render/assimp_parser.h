@@ -11,8 +11,8 @@
 #include <string>
 
 #include "vox.render/core/device.h"
-#include "vox.render/image.h"
 #include "vox.render/scene_forward.h"
+#include "vox.render/texture.h"
 
 namespace vox {
 class AssimpParser {
@@ -35,7 +35,7 @@ public:
 
     std::shared_ptr<Material> ProcessMaterial(aiMaterial *material);
 
-    std::shared_ptr<Image> ProcessTextures(aiMaterial *mat, aiTextureType type);
+    std::shared_ptr<Texture> ProcessTextures(aiMaterial *mat, aiTextureType type);
 
 private:
     static std::string ToString(aiShadingMode mode);

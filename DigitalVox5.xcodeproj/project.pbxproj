@@ -207,14 +207,14 @@
 		0444EA1228056E2700C6F279 /* vulkan_stats_provider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA0628056E2600C6F279 /* vulkan_stats_provider.cpp */; };
 		0444EA1328056E2700C6F279 /* hwcpipe_stats_provider.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA0728056E2600C6F279 /* hwcpipe_stats_provider.h */; };
 		0444EA1528056E2700C6F279 /* vulkan_stats_provider.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA0928056E2600C6F279 /* vulkan_stats_provider.h */; };
-		0444EA2A280571FA00C6F279 /* astc_img.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA24280571FA00C6F279 /* astc_img.cpp */; };
-		0444EA2B280571FA00C6F279 /* stb_img.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA25280571FA00C6F279 /* stb_img.cpp */; };
-		0444EA2C280571FA00C6F279 /* stb_img.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA26280571FA00C6F279 /* stb_img.h */; };
-		0444EA2D280571FA00C6F279 /* astc_img.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA27280571FA00C6F279 /* astc_img.h */; };
-		0444EA2E280571FA00C6F279 /* ktx_img.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA28280571FA00C6F279 /* ktx_img.h */; };
-		0444EA2F280571FA00C6F279 /* ktx_img.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA29280571FA00C6F279 /* ktx_img.cpp */; };
-		0444EA372805720800C6F279 /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA312805720800C6F279 /* image.cpp */; };
-		0444EA382805720800C6F279 /* image.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA322805720800C6F279 /* image.h */; };
+		0444EA2A280571FA00C6F279 /* astc_tex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA24280571FA00C6F279 /* astc_tex.cpp */; };
+		0444EA2B280571FA00C6F279 /* stb_tex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA25280571FA00C6F279 /* stb_tex.cpp */; };
+		0444EA2C280571FA00C6F279 /* stb_tex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA26280571FA00C6F279 /* stb_tex.h */; };
+		0444EA2D280571FA00C6F279 /* astc_tex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA27280571FA00C6F279 /* astc_tex.h */; };
+		0444EA2E280571FA00C6F279 /* ktx_tex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA28280571FA00C6F279 /* ktx_tex.h */; };
+		0444EA2F280571FA00C6F279 /* ktx_tex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA29280571FA00C6F279 /* ktx_tex.cpp */; };
+		0444EA372805720800C6F279 /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA312805720800C6F279 /* texture.cpp */; };
+		0444EA382805720800C6F279 /* texture.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA322805720800C6F279 /* texture.h */; };
 		0444EA462805741800C6F279 /* material.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA442805741800C6F279 /* material.h */; };
 		0444EA472805741800C6F279 /* material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA452805741800C6F279 /* material.cpp */; };
 		0444EA4D2805766F00C6F279 /* libvox.math.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 047BB5DF2803A9B700CD5749 /* libvox.math.a */; };
@@ -912,8 +912,8 @@
 		04D95CA3280A8C7D00E54DC2 /* collider_shape.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C99280A8C7C00E54DC2 /* collider_shape.h */; };
 		04D95CA7280AAE2400E54DC2 /* index_buffer_binding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CA5280AAE2400E54DC2 /* index_buffer_binding.cpp */; };
 		04D95CA8280AAE2400E54DC2 /* index_buffer_binding.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CA6280AAE2400E54DC2 /* index_buffer_binding.h */; };
-		04D95CAF280ACD0400E54DC2 /* image_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CAD280ACD0400E54DC2 /* image_manager.cpp */; };
-		04D95CB0280ACD0400E54DC2 /* image_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CAE280ACD0400E54DC2 /* image_manager.h */; };
+		04D95CAF280ACD0400E54DC2 /* texture_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CAD280ACD0400E54DC2 /* texture_manager.cpp */; };
+		04D95CB0280ACD0400E54DC2 /* texture_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CAE280ACD0400E54DC2 /* texture_manager.h */; };
 		04D95CB3280AE52900E54DC2 /* sub_mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CB1280AE52900E54DC2 /* sub_mesh.cpp */; };
 		04D95CB4280AE52900E54DC2 /* sub_mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95CB2280AE52900E54DC2 /* sub_mesh.h */; };
 		04D95CB7280AF6A700E54DC2 /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95CB5280AF6A700E54DC2 /* mesh.cpp */; };
@@ -1466,14 +1466,14 @@
 		0444EA0628056E2600C6F279 /* vulkan_stats_provider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vulkan_stats_provider.cpp; sourceTree = "<group>"; };
 		0444EA0728056E2600C6F279 /* hwcpipe_stats_provider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hwcpipe_stats_provider.h; sourceTree = "<group>"; };
 		0444EA0928056E2600C6F279 /* vulkan_stats_provider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vulkan_stats_provider.h; sourceTree = "<group>"; };
-		0444EA24280571FA00C6F279 /* astc_img.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = astc_img.cpp; sourceTree = "<group>"; };
-		0444EA25280571FA00C6F279 /* stb_img.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stb_img.cpp; sourceTree = "<group>"; };
-		0444EA26280571FA00C6F279 /* stb_img.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_img.h; sourceTree = "<group>"; };
-		0444EA27280571FA00C6F279 /* astc_img.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = astc_img.h; sourceTree = "<group>"; };
-		0444EA28280571FA00C6F279 /* ktx_img.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ktx_img.h; sourceTree = "<group>"; };
-		0444EA29280571FA00C6F279 /* ktx_img.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ktx_img.cpp; sourceTree = "<group>"; };
-		0444EA312805720800C6F279 /* image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
-		0444EA322805720800C6F279 /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
+		0444EA24280571FA00C6F279 /* astc_tex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = astc_tex.cpp; sourceTree = "<group>"; };
+		0444EA25280571FA00C6F279 /* stb_tex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stb_tex.cpp; sourceTree = "<group>"; };
+		0444EA26280571FA00C6F279 /* stb_tex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_tex.h; sourceTree = "<group>"; };
+		0444EA27280571FA00C6F279 /* astc_tex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = astc_tex.h; sourceTree = "<group>"; };
+		0444EA28280571FA00C6F279 /* ktx_tex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ktx_tex.h; sourceTree = "<group>"; };
+		0444EA29280571FA00C6F279 /* ktx_tex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ktx_tex.cpp; sourceTree = "<group>"; };
+		0444EA312805720800C6F279 /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = texture.cpp; sourceTree = "<group>"; };
+		0444EA322805720800C6F279 /* texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = texture.h; sourceTree = "<group>"; };
 		0444EA442805741800C6F279 /* material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
 		0444EA452805741800C6F279 /* material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = material.cpp; sourceTree = "<group>"; };
 		0444EA532805767600C6F279 /* apps.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = apps.entitlements; sourceTree = "<group>"; };
@@ -2219,8 +2219,8 @@
 		04D95C99280A8C7C00E54DC2 /* collider_shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = collider_shape.h; sourceTree = "<group>"; };
 		04D95CA5280AAE2400E54DC2 /* index_buffer_binding.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index_buffer_binding.cpp; sourceTree = "<group>"; };
 		04D95CA6280AAE2400E54DC2 /* index_buffer_binding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index_buffer_binding.h; sourceTree = "<group>"; };
-		04D95CAD280ACD0400E54DC2 /* image_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = image_manager.cpp; sourceTree = "<group>"; };
-		04D95CAE280ACD0400E54DC2 /* image_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image_manager.h; sourceTree = "<group>"; };
+		04D95CAD280ACD0400E54DC2 /* texture_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = texture_manager.cpp; sourceTree = "<group>"; };
+		04D95CAE280ACD0400E54DC2 /* texture_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = texture_manager.h; sourceTree = "<group>"; };
 		04D95CB1280AE52900E54DC2 /* sub_mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sub_mesh.cpp; sourceTree = "<group>"; };
 		04D95CB2280AE52900E54DC2 /* sub_mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sub_mesh.h; sourceTree = "<group>"; };
 		04D95CB5280AF6A700E54DC2 /* mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mesh.cpp; sourceTree = "<group>"; };
@@ -2710,17 +2710,17 @@
 			path = stats;
 			sourceTree = "<group>";
 		};
-		0444EA23280571CC00C6F279 /* image */ = {
+		0444EA23280571CC00C6F279 /* texture */ = {
 			isa = PBXGroup;
 			children = (
-				0444EA27280571FA00C6F279 /* astc_img.h */,
-				0444EA24280571FA00C6F279 /* astc_img.cpp */,
-				0444EA28280571FA00C6F279 /* ktx_img.h */,
-				0444EA29280571FA00C6F279 /* ktx_img.cpp */,
-				0444EA26280571FA00C6F279 /* stb_img.h */,
-				0444EA25280571FA00C6F279 /* stb_img.cpp */,
+				0444EA27280571FA00C6F279 /* astc_tex.h */,
+				0444EA24280571FA00C6F279 /* astc_tex.cpp */,
+				0444EA28280571FA00C6F279 /* ktx_tex.h */,
+				0444EA29280571FA00C6F279 /* ktx_tex.cpp */,
+				0444EA26280571FA00C6F279 /* stb_tex.h */,
+				0444EA25280571FA00C6F279 /* stb_tex.cpp */,
 			);
-			path = image;
+			path = texture;
 			sourceTree = "<group>";
 		};
 		0444EA4C2805766F00C6F279 /* Frameworks */ = {
@@ -3297,11 +3297,11 @@
 				04D95D32280E351E00E54DC2 /* lighting */,
 				04D95DC928162FB300E54DC2 /* shadow */,
 				04698839281988E600EF1EE1 /* particle */,
-				0444EA322805720800C6F279 /* image.h */,
-				0444EA312805720800C6F279 /* image.cpp */,
-				0444EA23280571CC00C6F279 /* image */,
-				04D95CAE280ACD0400E54DC2 /* image_manager.h */,
-				04D95CAD280ACD0400E54DC2 /* image_manager.cpp */,
+				0444EA322805720800C6F279 /* texture.h */,
+				0444EA312805720800C6F279 /* texture.cpp */,
+				0444EA23280571CC00C6F279 /* texture */,
+				04D95CAE280ACD0400E54DC2 /* texture_manager.h */,
+				04D95CAD280ACD0400E54DC2 /* texture_manager.cpp */,
 				04D95CC1280B110900E54DC2 /* shader */,
 				04D95CDE280BEA7300E54DC2 /* material */,
 				04D95CA4280AADFA00E54DC2 /* mesh */,
@@ -4407,7 +4407,7 @@
 				04D95CC0280B068D00E54DC2 /* model_mesh.h in Headers */,
 				0444EB1528084B8700C6F279 /* panel_undecorated.h in Headers */,
 				04D95C7D280A8C6E00E54DC2 /* translational_joint.h in Headers */,
-				0444EA382805720800C6F279 /* image.h in Headers */,
+				0444EA382805720800C6F279 /* texture.h in Headers */,
 				0444E8B52805567000C6F279 /* logging.h in Headers */,
 				0444E9C5280569C500C6F279 /* subpass.h in Headers */,
 				04D95CFF280C3DD000E54DC2 /* render_element.h in Headers */,
@@ -4447,7 +4447,7 @@
 				0444EBC928084BD600C6F279 /* drag_single_scalar.h in Headers */,
 				04D95C61280A8C6600E54DC2 /* physics_manager.h in Headers */,
 				0444EBE928084BDE00C6F279 /* button_small.h in Headers */,
-				0444EA2D280571FA00C6F279 /* astc_img.h in Headers */,
+				0444EA2D280571FA00C6F279 /* astc_tex.h in Headers */,
 				0444EA5B2805772200C6F279 /* render_frame.h in Headers */,
 				04D95D53280EB57A00E54DC2 /* forward_application.h in Headers */,
 				0444EB5928084BA600C6F279 /* slider_multiple_doubles.h in Headers */,
@@ -4510,7 +4510,7 @@
 				0444E9AD2805689000C6F279 /* sampled_image.h in Headers */,
 				0444E960280563DB00C6F279 /* parser.h in Headers */,
 				04D95DA52810EEC900E54DC2 /* graph.h in Headers */,
-				0444EA2E280571FA00C6F279 /* ktx_img.h in Headers */,
+				0444EA2E280571FA00C6F279 /* ktx_tex.h in Headers */,
 				0444E95D280563DB00C6F279 /* plugin_base.h in Headers */,
 				0444EBD228084BD600C6F279 /* drag_int.h in Headers */,
 				0444EBE328084BDE00C6F279 /* button_simple.h in Headers */,
@@ -4550,7 +4550,7 @@
 				0444EBDF28084BDE00C6F279 /* button_arrow.h in Headers */,
 				04D95CEE280C0DFB00E54DC2 /* blinn_phong_material.h in Headers */,
 				0444EB6E28084BAF00C6F279 /* color_edit.h in Headers */,
-				04D95CB0280ACD0400E54DC2 /* image_manager.h in Headers */,
+				04D95CB0280ACD0400E54DC2 /* texture_manager.h in Headers */,
 				04D95C27280993DC00E54DC2 /* scene.h in Headers */,
 				04D95D3E280E36E500E54DC2 /* point_light.h in Headers */,
 				04D95D25280CF6AC00E54DC2 /* geometry_subpass.h in Headers */,
@@ -4596,7 +4596,7 @@
 				0444E94A2805618000C6F279 /* buffer.h in Headers */,
 				0444EBCF28084BD600C6F279 /* drag_multiple_floats.h in Headers */,
 				04D95D4F280E447700E54DC2 /* gpu_skinned_mesh_renderer.h in Headers */,
-				0444EA2C280571FA00C6F279 /* stb_img.h in Headers */,
+				0444EA2C280571FA00C6F279 /* stb_tex.h in Headers */,
 				0444EB9928084BC500C6F279 /* tree_node.h in Headers */,
 				0444EB0E28084B8000C6F279 /* panel_transformable.h in Headers */,
 				0444EBB728084BCE00C6F279 /* input_float.h in Headers */,
@@ -5360,7 +5360,7 @@
 				0444E9DF28056A1900C6F279 /* semaphore_pool.cpp in Sources */,
 				0444E92028055CE400C6F279 /* physical_device.cpp in Sources */,
 				04D95C2C280993DC00E54DC2 /* scene.cpp in Sources */,
-				0444EA2B280571FA00C6F279 /* stb_img.cpp in Sources */,
+				0444EA2B280571FA00C6F279 /* stb_tex.cpp in Sources */,
 				04D95CA2280A8C7D00E54DC2 /* sphere_collider_shape.cpp in Sources */,
 				0444EB3C28084B9E00C6F279 /* text_disabled.cpp in Sources */,
 				0444EAE128084B5E00C6F279 /* canvas.cpp in Sources */,
@@ -5431,12 +5431,12 @@
 				04D95C2A280993DC00E54DC2 /* scene_manager.cpp in Sources */,
 				04D95C9C280A8C7D00E54DC2 /* plane_collider_shape.cpp in Sources */,
 				0444EBE428084BDE00C6F279 /* button_small.cpp in Sources */,
-				0444EA372805720800C6F279 /* image.cpp in Sources */,
+				0444EA372805720800C6F279 /* texture.cpp in Sources */,
 				0444E96D280563E600C6F279 /* input_events.cpp in Sources */,
 				04D95C5D280A8C6600E54DC2 /* static_collider.cpp in Sources */,
 				04D95CA0280A8C7D00E54DC2 /* collider_shape.cpp in Sources */,
 				0444EB0528084B8000C6F279 /* panel.cpp in Sources */,
-				0444EA2A280571FA00C6F279 /* astc_img.cpp in Sources */,
+				0444EA2A280571FA00C6F279 /* astc_tex.cpp in Sources */,
 				0444EBB128084BCE00C6F279 /* input_int.cpp in Sources */,
 				04D95D5F2810508300E54DC2 /* shader_manager.cpp in Sources */,
 				04D95DB32812A0DB00E54DC2 /* mesh_manager.cpp in Sources */,
@@ -5523,7 +5523,7 @@
 				0444EB7F28084BB600C6F279 /* plot.cpp in Sources */,
 				0444EB9F28084BC500C6F279 /* group_collapsable.cpp in Sources */,
 				04D95C8B280A8C7500E54DC2 /* character_controller.cpp in Sources */,
-				04D95CAF280ACD0400E54DC2 /* image_manager.cpp in Sources */,
+				04D95CAF280ACD0400E54DC2 /* texture_manager.cpp in Sources */,
 				04523EBF281E68600079CC3C /* lua_binder.cpp in Sources */,
 				0444E953280562C700C6F279 /* image_view.cpp in Sources */,
 				0444EBEE2808534A00C6F279 /* inspector_item.cpp in Sources */,
@@ -5555,7 +5555,7 @@
 				0444EA582805772200C6F279 /* render_frame.cpp in Sources */,
 				04D95C80280A8C6E00E54DC2 /* translational_joint.cpp in Sources */,
 				0444EB8928084BBD00C6F279 /* menu_list.cpp in Sources */,
-				0444EA2F280571FA00C6F279 /* ktx_img.cpp in Sources */,
+				0444EA2F280571FA00C6F279 /* ktx_tex.cpp in Sources */,
 				0444E9E128056AFA00C6F279 /* pipeline.cpp in Sources */,
 				04D95D2C280E327E00E54DC2 /* scene_animation_clip.cpp in Sources */,
 				04D95D672810E3B300E54DC2 /* force_close.cpp in Sources */,
@@ -6027,11 +6027,7 @@
 					"'PX_NVTX=0'",
 					"'PX_SUPPORT_PVD=1'",
 				);
-				HEADER_SEARCH_PATHS = (
-					./vox.render,
-					./vox.math,
-					./editor,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LD_RUNPATH_SEARCH_PATHS = ./third_party/assimp/build_debug/bin;
 				LIBRARY_SEARCH_PATHS = (
 					"./cmake-build-debug/third_party/lib/Debug/x86_64",
@@ -6147,11 +6143,7 @@
 					NDEBUG,
 					"'PX_SUPPORT_PVD=0'",
 				);
-				HEADER_SEARCH_PATHS = (
-					./vox.render,
-					./vox.math,
-					./editor,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LD_RUNPATH_SEARCH_PATHS = ./third_party/assimp/build_release/bin;
 				LIBRARY_SEARCH_PATHS = (
 					"./cmake-build-release/third_party/lib/Release/x86_64",
@@ -6271,11 +6263,7 @@
 					"'PX_NVTX=0'",
 					"'PX_SUPPORT_PVD=1'",
 				);
-				HEADER_SEARCH_PATHS = (
-					./vox.render,
-					./vox.math,
-					./vox.editor,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (
@@ -6350,11 +6338,7 @@
 					NDEBUG,
 					"'PX_SUPPORT_PVD=0'",
 				);
-				HEADER_SEARCH_PATHS = (
-					./vox.render,
-					./vox.math,
-					./vox.editor,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SYSTEM_HEADER_SEARCH_PATHS = (
@@ -6541,10 +6525,7 @@
 					"'PX_NVTX=0'",
 					"'PX_SUPPORT_PVD=1'",
 				);
-				HEADER_SEARCH_PATHS = (
-					./vox.render,
-					./vox.math,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LD_RUNPATH_SEARCH_PATHS = ./third_party/assimp/build_debug/bin;
 				LIBRARY_SEARCH_PATHS = (
 					"./cmake-build-debug/third_party/lib/Debug/x86_64",
@@ -6661,10 +6642,7 @@
 					NDEBUG,
 					"'PX_SUPPORT_PVD=0'",
 				);
-				HEADER_SEARCH_PATHS = (
-					./vox.render,
-					./vox.math,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LD_RUNPATH_SEARCH_PATHS = ./third_party/assimp/build_release/bin;
 				LIBRARY_SEARCH_PATHS = (
 					"./cmake-build-release/third_party/lib/Release/x86_64",
@@ -6785,10 +6763,7 @@
 					"'PX_NVTX=0'",
 					"'PX_SUPPORT_PVD=1'",
 				);
-				HEADER_SEARCH_PATHS = (
-					./vox.render,
-					./vox.math,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				OTHER_CPLUSPLUSFLAGS = "-fexceptions";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -6864,10 +6839,7 @@
 					NDEBUG,
 					"'PX_SUPPORT_PVD=0'",
 				);
-				HEADER_SEARCH_PATHS = (
-					./vox.render,
-					./vox.math,
-				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				OTHER_CPLUSPLUSFLAGS = "-fexceptions";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -6927,6 +6899,7 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -6941,6 +6914,7 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -6953,7 +6927,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = ./vox.math;
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LIBRARY_SEARCH_PATHS = ./third_party/googletest/build/lib;
 				OTHER_LDFLAGS = (
 					"-lgtest",
@@ -6975,7 +6949,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SL5L673UU;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = ./vox.math;
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				LIBRARY_SEARCH_PATHS = ./third_party/googletest/build/lib;
 				OTHER_LDFLAGS = (
 					"-lgtest",

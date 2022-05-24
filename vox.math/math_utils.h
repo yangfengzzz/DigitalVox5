@@ -190,7 +190,7 @@ inline T radiansToDegrees(T angle_in_radians);
 //! \param[in]  i_low  The lowest index.
 //! \param[in]  i_high The highest index.
 //! \param      i     The output index.
-//! \param      t     The offset from \p i.
+//! \param      f     The offset from \p i.
 //!
 //! \tparam     T     Value type.
 //!
@@ -200,9 +200,9 @@ inline void getBarycentric(T x, ssize_t i_low, ssize_t i_high, ssize_t *i, T *f)
 //!
 //! \brief      Computes linear interpolation.
 //!
-//! \param[in]  f0    The first value.
-//! \param[in]  f1    The second value.
-//! \param[in]  t     Relative offset [0, 1] from the first value.
+//! \param[in]  value_0    The first value.
+//! \param[in]  value_1    The second value.
+//! \param[in]  f     Relative offset [0, 1] from the first value.
 //!
 //! \tparam     S     Input value type.
 //! \tparam     T     Offset type.

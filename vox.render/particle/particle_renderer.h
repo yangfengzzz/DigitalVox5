@@ -96,9 +96,9 @@ public:
 
     void SetVectorFieldFactor(float factor);
 
-    [[nodiscard]] std::shared_ptr<Image> VectorFieldTexture() const;
+    [[nodiscard]] std::shared_ptr<Texture> VectorFieldTexture() const;
 
-    void SetVectorFieldTexture(const std::shared_ptr<Image> &field);
+    void SetVectorFieldTexture(const std::shared_ptr<Texture> &field);
 
     [[nodiscard]] float CurlNoiseFactor() const;
 
@@ -185,7 +185,7 @@ private:
     ParticleEmitterData emitter_data_;
     const std::string emitter_data_prop_;
 
-    std::shared_ptr<Image> vector_field_texture_{nullptr};
+    std::shared_ptr<Texture> vector_field_texture_{nullptr};
     const std::string vector_field_texture_prop_;
 
 private:

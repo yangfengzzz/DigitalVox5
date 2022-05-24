@@ -90,18 +90,18 @@ set(RENDERING_FILES
 set(SCENE_RESOURCE_FILES
         # Header Files
         renderer.h
-        image_manager.h
-        image.h
-        image/astc_img.h
-        image/ktx_img.h
-        image/stb_img.h
+        texture_manager.h
+        texture.h
+        texture/astc_tex.h
+        texture/ktx_tex.h
+        texture/stb_tex.h
         # Source Files
         renderer.cpp
-        image_manager.cpp
-        image.cpp
-        image/astc_img.cpp
-        image/ktx_img.cpp
-        image/stb_img.cpp)
+        texture_manager.cpp
+        texture.cpp
+        texture/astc_tex.cpp
+        texture/ktx_tex.cpp
+        texture/stb_tex.cpp)
 
 set(RENDERING_SUBPASSES_FILES
         # Header files

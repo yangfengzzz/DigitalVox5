@@ -40,14 +40,14 @@ public:
     /**
      * Texture cube map of the sky box material.
      */
-    [[nodiscard]] const std::shared_ptr<Image> &TextureCubeMap() const;
+    [[nodiscard]] const std::shared_ptr<Texture> &TextureCubeMap() const;
 
-    void SetTextureCubeMap(const std::shared_ptr<Image> &v);
+    void SetTextureCubeMap(const std::shared_ptr<Texture> &v);
 
 private:
     bool is_flip_vertically_{false};
     ModelMeshPtr mesh_{nullptr};
-    std::shared_ptr<Image> cube_map_{nullptr};
+    std::shared_ptr<Texture> cube_map_{nullptr};
     std::unique_ptr<core::Sampler> cube_sampler_{nullptr};
     std::unique_ptr<core::Buffer> vp_matrix_{nullptr};
 

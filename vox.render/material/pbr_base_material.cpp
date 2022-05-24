@@ -16,16 +16,16 @@ void PbrBaseMaterial::SetBaseColor(const Color &new_value) {
     shader_data_.SetData(pbr_base_prop_, pbr_base_data_);
 }
 
-std::shared_ptr<Image> PbrBaseMaterial::BaseTexture() const { return base_texture_; }
+std::shared_ptr<Texture> PbrBaseMaterial::BaseTexture() const { return base_texture_; }
 
-void PbrBaseMaterial::SetBaseTexture(const std::shared_ptr<Image> &new_value) {
+void PbrBaseMaterial::SetBaseTexture(const std::shared_ptr<Texture> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         SetBaseTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void PbrBaseMaterial::SetBaseTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void PbrBaseMaterial::SetBaseTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(base_texture_prop_, new_value->GetVkImageView(),
@@ -36,16 +36,16 @@ void PbrBaseMaterial::SetBaseTexture(const std::shared_ptr<Image> &new_value, co
     }
 }
 
-std::shared_ptr<Image> PbrBaseMaterial::NormalTexture() const { return normal_texture_; }
+std::shared_ptr<Texture> PbrBaseMaterial::NormalTexture() const { return normal_texture_; }
 
-void PbrBaseMaterial::SetNormalTexture(const std::shared_ptr<Image> &new_value) {
+void PbrBaseMaterial::SetNormalTexture(const std::shared_ptr<Texture> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         SetNormalTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void PbrBaseMaterial::SetNormalTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void PbrBaseMaterial::SetNormalTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info) {
     normal_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(normal_texture_prop_, new_value->GetVkImageView(),
@@ -70,16 +70,16 @@ void PbrBaseMaterial::SetEmissiveColor(const Color &new_value) {
     shader_data_.SetData(pbr_base_prop_, pbr_base_data_);
 }
 
-std::shared_ptr<Image> PbrBaseMaterial::EmissiveTexture() const { return emissive_texture_; }
+std::shared_ptr<Texture> PbrBaseMaterial::EmissiveTexture() const { return emissive_texture_; }
 
-void PbrBaseMaterial::SetEmissiveTexture(const std::shared_ptr<Image> &new_value) {
+void PbrBaseMaterial::SetEmissiveTexture(const std::shared_ptr<Texture> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         SetEmissiveTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void PbrBaseMaterial::SetEmissiveTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void PbrBaseMaterial::SetEmissiveTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info) {
     emissive_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(emissive_texture_prop_, new_value->GetVkImageView(),
@@ -90,16 +90,16 @@ void PbrBaseMaterial::SetEmissiveTexture(const std::shared_ptr<Image> &new_value
     }
 }
 
-std::shared_ptr<Image> PbrBaseMaterial::OcclusionTexture() const { return occlusion_texture_; }
+std::shared_ptr<Texture> PbrBaseMaterial::OcclusionTexture() const { return occlusion_texture_; }
 
-void PbrBaseMaterial::SetOcclusionTexture(const std::shared_ptr<Image> &new_value) {
+void PbrBaseMaterial::SetOcclusionTexture(const std::shared_ptr<Texture> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         SetOcclusionTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void PbrBaseMaterial::SetOcclusionTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void PbrBaseMaterial::SetOcclusionTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info) {
     occlusion_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(occlusion_texture_prop_, new_value->GetVkImageView(),

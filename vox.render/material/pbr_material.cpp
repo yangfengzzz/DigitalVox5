@@ -24,16 +24,16 @@ void PbrMaterial::SetRoughness(float new_value) {
     shader_data_.SetData(pbr_prop_, pbr_data_);
 }
 
-std::shared_ptr<Image> PbrMaterial::MetallicRoughnessTexture() { return metallic_roughness_texture_; }
+std::shared_ptr<Texture> PbrMaterial::MetallicRoughnessTexture() { return metallic_roughness_texture_; }
 
-void PbrMaterial::SetMetallicRoughnessTexture(const std::shared_ptr<Image> &new_value) {
+void PbrMaterial::SetMetallicRoughnessTexture(const std::shared_ptr<Texture> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         SetMetallicRoughnessTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void PbrMaterial::SetMetallicRoughnessTexture(const std::shared_ptr<Image> &new_value,
+void PbrMaterial::SetMetallicRoughnessTexture(const std::shared_ptr<Texture> &new_value,
                                               const VkSamplerCreateInfo &info) {
     metallic_roughness_texture_ = new_value;
     if (new_value) {

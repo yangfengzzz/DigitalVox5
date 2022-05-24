@@ -9,8 +9,8 @@
 #include "vox.math/matrix_utils.h"
 #include "vox.render/camera.h"
 #include "vox.render/entity.h"
-#include "vox.render/image_manager.h"
 #include "vox.render/lighting/light_manager.h"
+#include "vox.render/texture_manager.h"
 
 namespace vox {
 uint32_t ShadowManager::cube_shadow_count_ = 0;
@@ -81,7 +81,8 @@ void ShadowManager::Draw(CommandBuffer &command_buffer) {
     DrawSpotShadowMap(command_buffer);
     DrawDirectShadowMap(command_buffer);
     if (!used_shadow_.empty()) {
-        auto image = ImageManager::GetSingleton().PackedShadowMap(command_buffer, used_shadow_, shadow_map_resolution_);
+        auto image =
+                TextureManager::GetSingleton().PackedShadowMap(command_buffer, used_shadow_, shadow_map_resolution_);
         scene_->shader_data.SetSampledTexture(shadow_map_prop_, image->GetVkImageView(VK_IMAGE_VIEW_TYPE_2D_ARRAY),
                                               sampler_.get());
         scene_->shader_data.SetData(shadow_data_prop_, shadow_datas_);

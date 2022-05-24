@@ -38,11 +38,11 @@ public:
      * Specular glossiness texture.
      * @remarks RGB is specular, A is glossiness
      */
-    [[nodiscard]] std::shared_ptr<Image> SpecularGlossinessTexture() const;
+    [[nodiscard]] std::shared_ptr<Texture> SpecularGlossinessTexture() const;
 
-    void SetSpecularGlossinessTexture(const std::shared_ptr<Image> &new_value);
+    void SetSpecularGlossinessTexture(const std::shared_ptr<Texture> &new_value);
 
-    void SetSpecularGlossinessTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+    void SetSpecularGlossinessTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info);
 
     /**
      * Create a pbr specular-glossiness workflow material instance.
@@ -53,7 +53,7 @@ private:
     PBRSpecularData pbr_specular_data_;
     const std::string pbr_specular_prop_;
 
-    std::shared_ptr<Image> specular_glossiness_texture_{nullptr};
+    std::shared_ptr<Texture> specular_glossiness_texture_{nullptr};
     const std::string specular_glossiness_texture_prop_;
 };
 

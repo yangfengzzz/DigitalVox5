@@ -13,7 +13,6 @@
 #include <assimp/Importer.hpp>
 
 #include "vox.render/entity.h"
-#include "vox.render/image_manager.h"
 #include "vox.render/logging.h"
 #include "vox.render/material/blinn_phong_material.h"
 #include "vox.render/material/pbr_material.h"
@@ -22,6 +21,7 @@
 #include "vox.render/mesh/mesh_manager.h"
 #include "vox.render/mesh/mesh_renderer.h"
 #include "vox.render/platform/filesystem.h"
+#include "vox.render/texture_manager.h"
 
 namespace vox {
 AssimpParser::AssimpParser(Device &device) : device_(device) {}
@@ -254,14 +254,14 @@ std::shared_ptr<Material> AssimpParser::ProcessMaterial(aiMaterial *material) {
     return result;
 }
 
-std::shared_ptr<Image> AssimpParser::ProcessTextures(aiMaterial *mat, aiTextureType type) {
+std::shared_ptr<Texture> AssimpParser::ProcessTextures(aiMaterial *mat, aiTextureType type) {
     auto count = mat->GetTextureCount(type);
     if (count > 0) {
         aiString str;
         mat->GetTexture(type, 0, &str);
         std::string filename(str.C_Str());
         filename = directory_ + '/' + filename;
-        return ImageManager::GetSingleton().LoadTexture(filename);
+        return TextureManager::GetSingleton().LoadTexture(filename);
     }
     return nullptr;
 }

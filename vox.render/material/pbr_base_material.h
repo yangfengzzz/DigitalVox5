@@ -8,8 +8,8 @@
 
 #include "vox.math/color.h"
 #include "vox.math/vector4.h"
-#include "vox.render/image.h"
 #include "vox.render/material/base_material.h"
+#include "vox.render/texture.h"
 
 namespace vox {
 /**
@@ -34,20 +34,20 @@ public:
     /**
      * Base texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> BaseTexture() const;
+    [[nodiscard]] std::shared_ptr<Texture> BaseTexture() const;
 
-    void SetBaseTexture(const std::shared_ptr<Image> &new_value);
+    void SetBaseTexture(const std::shared_ptr<Texture> &new_value);
 
-    void SetBaseTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+    void SetBaseTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info);
 
     /**
      * Normal texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> NormalTexture() const;
+    [[nodiscard]] std::shared_ptr<Texture> NormalTexture() const;
 
-    void SetNormalTexture(const std::shared_ptr<Image> &new_value);
+    void SetNormalTexture(const std::shared_ptr<Texture> &new_value);
 
-    void SetNormalTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+    void SetNormalTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info);
 
     /**
      * Normal texture intensity.
@@ -66,20 +66,20 @@ public:
     /**
      * Emissive texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> EmissiveTexture() const;
+    [[nodiscard]] std::shared_ptr<Texture> EmissiveTexture() const;
 
-    void SetEmissiveTexture(const std::shared_ptr<Image> &new_value);
+    void SetEmissiveTexture(const std::shared_ptr<Texture> &new_value);
 
-    void SetEmissiveTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+    void SetEmissiveTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info);
 
     /**
      * Occlusion texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> OcclusionTexture() const;
+    [[nodiscard]] std::shared_ptr<Texture> OcclusionTexture() const;
 
-    void SetOcclusionTexture(const std::shared_ptr<Image> &new_value);
+    void SetOcclusionTexture(const std::shared_ptr<Texture> &new_value);
 
-    void SetOcclusionTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+    void SetOcclusionTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info);
 
     /**
      * Occlusion texture intensity.
@@ -98,16 +98,16 @@ private:
     PBRBaseData pbr_base_data_;
     const std::string pbr_base_prop_;
 
-    std::shared_ptr<Image> base_texture_{nullptr};
+    std::shared_ptr<Texture> base_texture_{nullptr};
     const std::string base_texture_prop_;
 
-    std::shared_ptr<Image> normal_texture_{nullptr};
+    std::shared_ptr<Texture> normal_texture_{nullptr};
     const std::string normal_texture_prop_;
 
-    std::shared_ptr<Image> emissive_texture_{nullptr};
+    std::shared_ptr<Texture> emissive_texture_{nullptr};
     const std::string emissive_texture_prop_;
 
-    std::shared_ptr<Image> occlusion_texture_{nullptr};
+    std::shared_ptr<Texture> occlusion_texture_{nullptr};
     const std::string occlusion_texture_prop_;
 };
 

@@ -44,8 +44,8 @@ EditorApplication::~EditorApplication() {
     shadow_manager_.reset();
     particle_manager_.reset();
 
-    image_manager_->CollectGarbage();
-    image_manager_.reset();
+    texture_manager_->CollectGarbage();
+    texture_manager_.reset();
     shader_manager_->CollectGarbage();
     shader_manager_.reset();
     mesh_manager_->CollectGarbage();
@@ -64,7 +64,7 @@ bool EditorApplication::Prepare(Platform &platform) {
     gui_->EnableDocking(true);
 
     // resource loader
-    image_manager_ = std::make_unique<ImageManager>(*device_);
+    texture_manager_ = std::make_unique<TextureManager>(*device_);
     shader_manager_ = std::make_unique<ShaderManager>();
     mesh_manager_ = std::make_unique<MeshManager>(*device_);
     script_interpreter_ = std::make_unique<ScriptInterpreter>("");
@@ -150,7 +150,7 @@ void EditorApplication::Update(float delta_time) {
     //    }
 
     PROFILER_SPY("Scene garbage collection");
-    image_manager_->CollectGarbage();
+    texture_manager_->CollectGarbage();
     mesh_manager_->CollectGarbage();
     shader_manager_->CollectGarbage();
 

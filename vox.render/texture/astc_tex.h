@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "vox.render/image.h"
+#include "vox.render/texture.h"
 #include "vox.render/vk_common.h"
 
 namespace vox {
@@ -16,13 +16,13 @@ struct BlockDim {
     uint8_t z;
 };
 
-class Astc : public Image {
+class Astc : public Texture {
 public:
     /**
      * @brief Decodes an ASTC image
      * @param image Image to decode
      */
-    explicit Astc(const Image &image);
+    explicit Astc(const Texture &image);
 
     /**
      * @brief Decodes ASTC data with an ASTC header

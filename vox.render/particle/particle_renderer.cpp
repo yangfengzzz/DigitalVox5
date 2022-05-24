@@ -177,9 +177,9 @@ void ParticleRenderer::SetScatteringFactor(float factor) {
     shader_data_.AddDefine(NEED_PARTICLE_SCATTERING);
 }
 
-std::shared_ptr<Image> ParticleRenderer::VectorFieldTexture() const { return vector_field_texture_; }
+std::shared_ptr<Texture> ParticleRenderer::VectorFieldTexture() const { return vector_field_texture_; }
 
-void ParticleRenderer::SetVectorFieldTexture(const std::shared_ptr<Image> &field) {
+void ParticleRenderer::SetVectorFieldTexture(const std::shared_ptr<Texture> &field) {
     vector_field_texture_ = field;
     shader_data_.AddDefine(NEED_PARTICLE_VECTOR_FIELD);
     shader_data_.SetSampledTexture(vector_field_texture_prop_, field->GetVkImageView(VK_IMAGE_VIEW_TYPE_3D), nullptr);

@@ -9,8 +9,8 @@
 #include "vox.math/matrix4x4.h"
 #include "vox.math/spherical_harmonics3.h"
 #include "vox.render/core/sampler.h"
-#include "vox.render/image.h"
 #include "vox.render/scene_forward.h"
+#include "vox.render/texture.h"
 
 namespace vox {
 /**
@@ -90,9 +90,9 @@ public:
      * Specular reflection texture.
      * @remarks This texture must be baked from MetalLoader::createSpecularTexture
      */
-    std::shared_ptr<Image> SpecularTexture();
+    std::shared_ptr<Texture> SpecularTexture();
 
-    void SetSpecularTexture(const std::shared_ptr<Image> &value);
+    void SetSpecularTexture(const std::shared_ptr<Texture> &value);
 
     /**
      * Specular reflection intensity.
@@ -115,7 +115,7 @@ private:
     const std::string diffuse_sh_property_;
 
     bool specular_texture_decode_rgbm_{false};
-    std::shared_ptr<Image> specular_reflection_{nullptr};
+    std::shared_ptr<Texture> specular_reflection_{nullptr};
     const std::string specular_texture_property_;
 
     Scene *scene_{nullptr};

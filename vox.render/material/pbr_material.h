@@ -37,11 +37,11 @@ public:
      * Roughness metallic texture.
      * @remarks G channel is roughness, B channel is metallic
      */
-    std::shared_ptr<Image> MetallicRoughnessTexture();
+    std::shared_ptr<Texture> MetallicRoughnessTexture();
 
-    void SetMetallicRoughnessTexture(const std::shared_ptr<Image> &new_value);
+    void SetMetallicRoughnessTexture(const std::shared_ptr<Texture> &new_value);
 
-    void SetMetallicRoughnessTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+    void SetMetallicRoughnessTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info);
 
     /**
      * Create a pbr metallic-roughness workflow material instance.
@@ -52,7 +52,7 @@ private:
     PBRData pbr_data_;
     const std::string pbr_prop_;
 
-    std::shared_ptr<Image> metallic_roughness_texture_{nullptr};
+    std::shared_ptr<Texture> metallic_roughness_texture_{nullptr};
     const std::string metallic_roughness_texture_prop_;
 };
 

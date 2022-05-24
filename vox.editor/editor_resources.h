@@ -10,7 +10,7 @@
 #include <unordered_map>
 
 #include "vox.render/core/sampler.h"
-#include "vox.render/image_manager.h"
+#include "vox.render/texture_manager.h"
 
 namespace vox::editor {
 /**
@@ -38,7 +38,7 @@ public:
 private:
     Device &device_;
     std::unordered_map<std::string, VkDescriptorSet> texture_ids_;
-    std::vector<std::unique_ptr<::vox::Image>> images_;
+    std::vector<std::unique_ptr<Texture>> images_;
     VkSamplerCreateInfo sampler_create_info_;
     std::unique_ptr<core::Sampler> sampler_{nullptr};
 

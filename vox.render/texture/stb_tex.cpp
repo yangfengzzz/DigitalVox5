@@ -4,14 +4,14 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "vox.render/image/stb_img.h"
+#include "vox.render/texture/stb_tex.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_NO_PSD
 #include <stb_image.h>
 
 namespace vox {
-Stb::Stb(const std::string &name, const std::vector<uint8_t> &data) : Image{name} {
+Stb::Stb(const std::string &name, const std::vector<uint8_t> &data) : Texture{name} {
     int width;
     int height;
     int comp;

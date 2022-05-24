@@ -10,7 +10,6 @@
 
 #include "vox.render/camera.h"
 #include "vox.render/controls/orbit_control.h"
-#include "vox.render/image_manager.h"
 #include "vox.render/material/pbr_material.h"
 #include "vox.render/mesh/mesh_renderer.h"
 #include "vox.render/mesh/primitive_mesh.h"
@@ -86,7 +85,7 @@ void IrradianceApp::LoadScene() {
     planes[4]->transform->SetPosition(-1, 0, 0);  // PZ
     planes[5]->transform->SetPosition(3, 0, 0);   // NZ
 
-    auto ibl_map = ImageManager::GetSingleton().GenerateIBL("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
+    auto ibl_map = TextureManager::GetSingleton().GenerateIBL("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
     scene->AmbientLight()->SetSpecularTexture(ibl_map);
 
     auto change_mipmap = [&](uint32_t mip_level) {

@@ -7,8 +7,8 @@
 #pragma once
 
 #include "vox.math/color.h"
-#include "vox.render/image.h"
 #include "vox.render/material/base_material.h"
+#include "vox.render/texture.h"
 
 namespace vox {
 /**
@@ -26,11 +26,11 @@ public:
     /**
      * Base texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> BaseTexture() const;
+    [[nodiscard]] std::shared_ptr<Texture> BaseTexture() const;
 
-    void SetBaseTexture(const std::shared_ptr<Image> &new_value);
+    void SetBaseTexture(const std::shared_ptr<Texture> &new_value);
 
-    void SetBaseTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+    void SetBaseTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info);
 
     /**
      * Create a unlit material instance.
@@ -41,7 +41,7 @@ private:
     Color base_color_ = Color(1, 1, 1, 1);
     const std::string base_color_prop_;
 
-    std::shared_ptr<Image> base_texture_{nullptr};
+    std::shared_ptr<Texture> base_texture_{nullptr};
     const std::string base_texture_prop_;
 };
 

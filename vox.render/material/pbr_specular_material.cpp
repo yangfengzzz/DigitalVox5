@@ -24,16 +24,16 @@ void PbrSpecularMaterial::SetGlossiness(float new_value) {
     shader_data_.SetData(pbr_specular_prop_, pbr_specular_data_);
 }
 
-std::shared_ptr<Image> PbrSpecularMaterial::SpecularGlossinessTexture() const { return specular_glossiness_texture_; }
+std::shared_ptr<Texture> PbrSpecularMaterial::SpecularGlossinessTexture() const { return specular_glossiness_texture_; }
 
-void PbrSpecularMaterial::SetSpecularGlossinessTexture(const std::shared_ptr<Image> &new_value) {
+void PbrSpecularMaterial::SetSpecularGlossinessTexture(const std::shared_ptr<Texture> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         SetSpecularGlossinessTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void PbrSpecularMaterial::SetSpecularGlossinessTexture(const std::shared_ptr<Image> &new_value,
+void PbrSpecularMaterial::SetSpecularGlossinessTexture(const std::shared_ptr<Texture> &new_value,
                                                        const VkSamplerCreateInfo &info) {
     specular_glossiness_texture_ = new_value;
     if (new_value) {

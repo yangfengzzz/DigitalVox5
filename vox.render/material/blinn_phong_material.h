@@ -8,8 +8,8 @@
 
 #include "vox.math/color.h"
 #include "vox.math/vector4.h"
-#include "vox.render/image.h"
 #include "vox.render/material/base_material.h"
+#include "vox.render/texture.h"
 
 namespace vox {
 /**
@@ -35,11 +35,11 @@ public:
     /**
      * Base texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> BaseTexture() const;
+    [[nodiscard]] std::shared_ptr<Texture> BaseTexture() const;
 
-    void SetBaseTexture(const std::shared_ptr<Image> &new_value);
+    void SetBaseTexture(const std::shared_ptr<Texture> &new_value);
 
-    void SetBaseTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+    void SetBaseTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info);
 
     /**
      * Specular color.
@@ -51,11 +51,11 @@ public:
     /**
      * Specular texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> SpecularTexture() const;
+    [[nodiscard]] std::shared_ptr<Texture> SpecularTexture() const;
 
-    void SetSpecularTexture(const std::shared_ptr<Image> &new_value);
+    void SetSpecularTexture(const std::shared_ptr<Texture> &new_value);
 
-    void SetSpecularTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+    void SetSpecularTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info);
 
     /**
      * Emissive color.
@@ -67,20 +67,20 @@ public:
     /**
      * Emissive texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> EmissiveTexture() const;
+    [[nodiscard]] std::shared_ptr<Texture> EmissiveTexture() const;
 
-    void SetEmissiveTexture(const std::shared_ptr<Image> &new_value);
+    void SetEmissiveTexture(const std::shared_ptr<Texture> &new_value);
 
-    void SetEmissiveTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+    void SetEmissiveTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info);
 
     /**
      * Normal texture.
      */
-    [[nodiscard]] std::shared_ptr<Image> NormalTexture() const;
+    [[nodiscard]] std::shared_ptr<Texture> NormalTexture() const;
 
-    void SetNormalTexture(const std::shared_ptr<Image> &new_value);
+    void SetNormalTexture(const std::shared_ptr<Texture> &new_value);
 
-    void SetNormalTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info);
+    void SetNormalTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info);
 
     /**
      * Normal texture intensity.
@@ -103,16 +103,16 @@ private:
     BlinnPhongData blinn_phong_data_;
     const std::string blinn_phong_prop_;
 
-    std::shared_ptr<Image> base_texture_{nullptr};
+    std::shared_ptr<Texture> base_texture_{nullptr};
     const std::string base_texture_prop_;
 
-    std::shared_ptr<Image> specular_texture_{nullptr};
+    std::shared_ptr<Texture> specular_texture_{nullptr};
     const std::string specular_texture_prop_;
 
-    std::shared_ptr<Image> emissive_texture_{nullptr};
+    std::shared_ptr<Texture> emissive_texture_{nullptr};
     const std::string emissive_texture_prop_;
 
-    std::shared_ptr<Image> normal_texture_{nullptr};
+    std::shared_ptr<Texture> normal_texture_{nullptr};
     const std::string normal_texture_prop_;
 };
 

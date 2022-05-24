@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "vox.render/image.h"
+#include "vox.render/texture.h"
 
 #include <mutex>
 #include <utility>
@@ -19,10 +19,10 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "vox.render/image/astc_img.h"
-#include "vox.render/image/ktx_img.h"
-#include "vox.render/image/stb_img.h"
 #include "vox.render/platform/filesystem.h"
+#include "vox.render/texture/astc_tex.h"
+#include "vox.render/texture/ktx_tex.h"
+#include "vox.render/texture/stb_tex.h"
 #include "vox.render/utils.h"
 
 namespace vox {
@@ -43,27 +43,27 @@ bool IsAstc(VkFormat format) {
             format == VK_FORMAT_ASTC_12x12_UNORM_BLOCK || format == VK_FORMAT_ASTC_12x12_SRGB_BLOCK);
 }
 
-Image::Image(std::string name, std::vector<uint8_t> &&d, std::vector<Mipmap> &&m)
+Texture::Texture(std::string name, std::vector<uint8_t> &&d, std::vector<Mipmap> &&m)
     : name_{std::move(name)}, data_{std::move(d)}, format_{VK_FORMAT_R8G8B8A8_UNORM}, mipmaps_{std::move(m)} {}
 
-const std::vector<uint8_t> &Image::GetData() const { return data_; }
+const std::vector<uint8_t> &Texture::GetData() const { return data_; }
 
-void Image::ClearData() {
+void Texture::ClearData() {
     data_.clear();
     data_.shrink_to_fit();
 }
 
-VkFormat Image::GetFormat() const { return format_; }
+VkFormat Texture::GetFormat() const { return format_; }
 
-const VkExtent3D &Image::GetExtent() const { return mipmaps_.at(0).extent; }
+const VkExtent3D &Texture::GetExtent() const { return mipmaps_.at(0).extent; }
 
-uint32_t Image::GetLayers() const { return layers_; }
+uint32_t Texture::GetLayers() const { return layers_; }
 
-const std::vector<Mipmap> &Image::GetMipmaps() const { return mipmaps_; }
+const std::vector<Mipmap> &Texture::GetMipmaps() const { return mipmaps_; }
 
-const std::vector<std::vector<VkDeviceSize>> &Image::GetOffsets() const { return offsets_; }
+const std::vector<std::vector<VkDeviceSize>> &Texture::GetOffsets() const { return offsets_; }
 
-void Image::CreateVkImage(Device const &device, VkImageCreateFlags flags, VkImageUsageFlags image_usage) {
+void Texture::CreateVkImage(Device const &device, VkImageCreateFlags flags, VkImageUsageFlags image_usage) {
     assert(!vk_image_ && vk_image_views_.empty() && "Vulkan image already constructed");
 
     vk_image_ = std::make_unique<core::Image>(device, GetExtent(), format_, image_usage, VMA_MEMORY_USAGE_GPU_ONLY,
@@ -72,16 +72,16 @@ void Image::CreateVkImage(Device const &device, VkImageCreateFlags flags, VkImag
     vk_image_->SetDebugName(name_);
 }
 
-const core::Image &Image::GetVkImage() const {
+const core::Image &Texture::GetVkImage() const {
     assert(vk_image_ && "Vulkan image was not created");
     return *vk_image_;
 }
 
-const core::ImageView &Image::GetVkImageView(VkImageViewType view_type,
-                                             uint32_t base_mip_level,
-                                             uint32_t base_array_layer,
-                                             uint32_t n_mip_levels,
-                                             uint32_t n_array_layers) {
+const core::ImageView &Texture::GetVkImageView(VkImageViewType view_type,
+                                               uint32_t base_mip_level,
+                                               uint32_t base_array_layer,
+                                               uint32_t n_mip_levels,
+                                               uint32_t n_array_layers) {
     std::size_t key = 0;
     vox::HashCombine(key, view_type);
     vox::HashCombine(key, base_mip_level);
@@ -98,9 +98,9 @@ const core::ImageView &Image::GetVkImageView(VkImageViewType view_type,
     return *vk_image_views_.find(key)->second.get();
 }
 
-Mipmap &Image::GetMipmap(size_t index) { return mipmaps_.at(index); }
+Mipmap &Texture::GetMipmap(size_t index) { return mipmaps_.at(index); }
 
-void Image::GenerateMipmaps() {
+void Texture::GenerateMipmaps() {
     assert(mipmaps_.size() == 1 && "Mipmaps already generated");
 
     if (mipmaps_.size() > 1) {
@@ -143,29 +143,29 @@ void Image::GenerateMipmaps() {
     }
 }
 
-std::vector<Mipmap> &Image::GetMutMipmaps() { return mipmaps_; }
+std::vector<Mipmap> &Texture::GetMutMipmaps() { return mipmaps_; }
 
-std::vector<uint8_t> &Image::GetMutData() { return data_; }
+std::vector<uint8_t> &Texture::GetMutData() { return data_; }
 
-void Image::SetData(const uint8_t *raw_data, size_t size) {
+void Texture::SetData(const uint8_t *raw_data, size_t size) {
     assert(data_.empty() && "Image data already set");
     data_ = {raw_data, raw_data + size};
 }
 
-void Image::SetFormat(VkFormat format) { format_ = format; }
+void Texture::SetFormat(VkFormat format) { format_ = format; }
 
-void Image::SetWidth(uint32_t width) { mipmaps_.at(0).extent.width = width; }
+void Texture::SetWidth(uint32_t width) { mipmaps_.at(0).extent.width = width; }
 
-void Image::SetHeight(uint32_t height) { mipmaps_.at(0).extent.height = height; }
+void Texture::SetHeight(uint32_t height) { mipmaps_.at(0).extent.height = height; }
 
-void Image::SetDepth(uint32_t depth) { mipmaps_.at(0).extent.depth = depth; }
+void Texture::SetDepth(uint32_t depth) { mipmaps_.at(0).extent.depth = depth; }
 
-void Image::SetLayers(uint32_t layers) { layers_ = layers; }
+void Texture::SetLayers(uint32_t layers) { layers_ = layers; }
 
-void Image::SetOffsets(const std::vector<std::vector<VkDeviceSize>> &offsets) { offsets_ = offsets; }
+void Texture::SetOffsets(const std::vector<std::vector<VkDeviceSize>> &offsets) { offsets_ = offsets; }
 
-std::shared_ptr<Image> Image::Load(const std::string &name, const std::string &uri) {
-    std::shared_ptr<Image> image{nullptr};
+std::shared_ptr<Texture> Texture::Load(const std::string &name, const std::string &uri) {
+    std::shared_ptr<Texture> image{nullptr};
 
     auto data = fs::ReadAsset(uri);
 

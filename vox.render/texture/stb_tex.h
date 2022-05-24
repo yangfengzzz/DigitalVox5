@@ -6,15 +6,14 @@
 
 #pragma once
 
-#include "vox.render/error.h"
-#include "vox.render/image.h"
+#include "vox.render/texture.h"
 
 namespace vox {
-class Ktx : public Image {
+class Stb : public Texture {
 public:
-    Ktx(const std::string &name, const std::vector<uint8_t> &data);
+    Stb(const std::string &name, const std::vector<uint8_t> &data);
 
-    ~Ktx() override = default;
+    ~Stb() override = default;
 };
 
 }  // namespace vox

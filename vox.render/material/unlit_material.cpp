@@ -17,16 +17,16 @@ void UnlitMaterial::SetBaseColor(const Color &new_value) {
     shader_data_.SetData(UnlitMaterial::base_color_prop_, base_color_);
 }
 
-std::shared_ptr<Image> UnlitMaterial::BaseTexture() const { return base_texture_; }
+std::shared_ptr<Texture> UnlitMaterial::BaseTexture() const { return base_texture_; }
 
-void UnlitMaterial::SetBaseTexture(const std::shared_ptr<Image> &new_value) {
+void UnlitMaterial::SetBaseTexture(const std::shared_ptr<Texture> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         SetBaseTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void UnlitMaterial::SetBaseTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void UnlitMaterial::SetBaseTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(base_texture_prop_, new_value->GetVkImageView(),

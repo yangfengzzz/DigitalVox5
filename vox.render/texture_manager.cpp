@@ -4,20 +4,20 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "vox.render/image_manager.h"
+#include "vox.render/texture_manager.h"
 
 #include "vox.render/core/device.h"
 #include "vox.render/shader/shader_manager.h"
 
 namespace vox {
-ImageManager *ImageManager::GetSingletonPtr() { return ms_singleton; }
+TextureManager *TextureManager::GetSingletonPtr() { return ms_singleton; }
 
-ImageManager &ImageManager::GetSingleton() {
+TextureManager &TextureManager::GetSingleton() {
     assert(ms_singleton);
     return (*ms_singleton);
 }
 
-ImageManager::ImageManager(Device &device)
+TextureManager::TextureManager(Device &device)
     : device_(device), shader_data_(device), sampler_create_info_{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO} {
     // Create a default sampler
     sampler_create_info_.magFilter = VK_FILTER_LINEAR;
@@ -45,46 +45,46 @@ ImageManager::ImageManager(Device &device)
     sampler_ = std::make_unique<core::Sampler>(device, sampler_create_info_);
 }
 
-std::shared_ptr<Image> ImageManager::LoadTexture(const std::string &file) {
+std::shared_ptr<Texture> TextureManager::LoadTexture(const std::string &file) {
     auto iter = image_pool_.find(file);
     if (iter != image_pool_.end()) {
         return iter->second;
     } else {
-        auto image = vox::Image::Load(file, file);
+        auto image = vox::Texture::Load(file, file);
         image->CreateVkImage(device_);
-        UploadImage(image.get());
+        UploadTexture(image.get());
         image_pool_.insert(std::make_pair(file, image));
         return image;
     }
 }
 
-std::shared_ptr<Image> ImageManager::LoadTextureArray(const std::string &file) {
+std::shared_ptr<Texture> TextureManager::LoadTextureArray(const std::string &file) {
     auto iter = image_pool_.find(file);
     if (iter != image_pool_.end()) {
         return iter->second;
     } else {
-        auto image = vox::Image::Load(file, file);
+        auto image = vox::Texture::Load(file, file);
         image->CreateVkImage(device_, VK_IMAGE_VIEW_TYPE_2D_ARRAY);
-        UploadImage(image.get());
+        UploadTexture(image.get());
         image_pool_.insert(std::make_pair(file, image));
         return image;
     }
 }
 
-std::shared_ptr<Image> ImageManager::LoadTextureCubemap(const std::string &file) {
+std::shared_ptr<Texture> TextureManager::LoadTextureCubemap(const std::string &file) {
     auto iter = image_pool_.find(file);
     if (iter != image_pool_.end()) {
         return iter->second;
     } else {
-        auto image = vox::Image::Load(file, file);
+        auto image = vox::Texture::Load(file, file);
         image->CreateVkImage(device_, VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
-        UploadImage(image.get());
+        UploadTexture(image.get());
         image_pool_.insert(std::make_pair(file, image));
         return image;
     }
 }
 
-void ImageManager::UploadImage(Image *image) {
+void TextureManager::UploadTexture(Texture *image) {
     const auto &queue = device_.GetQueueByFlags(VK_QUEUE_GRAPHICS_BIT, 0);
 
     VkCommandBuffer command_buffer = device_.CreateCommandBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
@@ -141,7 +141,7 @@ void ImageManager::UploadImage(Image *image) {
     device_.FlushCommandBuffer(command_buffer, queue.GetHandle());
 }
 
-void ImageManager::CollectGarbage() {
+void TextureManager::CollectGarbage() {
     for (auto &image : image_pool_) {
         if (image.second.use_count() == 1) {
             image.second.reset();
@@ -150,7 +150,7 @@ void ImageManager::CollectGarbage() {
 }
 
 // MARK: - PBR
-std::shared_ptr<Image> ImageManager::GenerateIBL(const std::string &file, RenderContext &render_context) {
+std::shared_ptr<Texture> TextureManager::GenerateIBL(const std::string &file, RenderContext &render_context) {
     auto iter = image_pool_.find(file + "ibl");
     if (iter != image_pool_.end()) {
         return iter->second;
@@ -162,7 +162,7 @@ std::shared_ptr<Image> ImageManager::GenerateIBL(const std::string &file, Render
         auto baker_mipmap_count = static_cast<uint32_t>(source->GetMipmaps().size());
         std::vector<Mipmap> mipmap = source->GetMipmaps();
 
-        auto target = std::make_shared<Image>(file + "ibl", std::vector<uint8_t>(), std::move(mipmap));
+        auto target = std::make_shared<Texture>(file + "ibl", std::vector<uint8_t>(), std::move(mipmap));
         target->SetLayers(source->GetLayers());
         target->SetFormat(source->GetFormat());
         target->CreateVkImage(device_, 0, VK_IMAGE_USAGE_STORAGE_BIT | VK_IMAGE_USAGE_SAMPLED_BIT);
@@ -198,7 +198,7 @@ std::shared_ptr<Image> ImageManager::GenerateIBL(const std::string &file, Render
     }
 }
 
-SphericalHarmonics3 ImageManager::GenerateSH(const std::string &file) {
+SphericalHarmonics3 TextureManager::GenerateSH(const std::string &file) {
     auto source = LoadTextureCubemap(file);
     const auto &layers = source->GetLayers();
     auto &offsets = source->GetOffsets();
@@ -275,13 +275,13 @@ SphericalHarmonics3 ImageManager::GenerateSH(const std::string &file) {
 }
 
 // MARK: - Shadow
-std::shared_ptr<Image> ImageManager::PackedShadowMap(CommandBuffer &command_buffer,
-                                                     std::vector<RenderTarget *> used_shadow,
-                                                     uint32_t shadow_map_resolution) {
+std::shared_ptr<Texture> TextureManager::PackedShadowMap(CommandBuffer &command_buffer,
+                                                         std::vector<RenderTarget *> used_shadow,
+                                                         uint32_t shadow_map_resolution) {
     if (!packed_shadow_map_ || packed_shadow_map_->GetLayers() != used_shadow.size()) {
         std::vector<Mipmap> mipmap(1);
         mipmap[0].extent = {shadow_map_resolution, shadow_map_resolution, 1};
-        packed_shadow_map_ = std::make_shared<Image>("shadowmap", std::vector<uint8_t>(), std::move(mipmap));
+        packed_shadow_map_ = std::make_shared<Texture>("shadowmap", std::vector<uint8_t>(), std::move(mipmap));
         packed_shadow_map_->SetLayers(static_cast<uint32_t>(used_shadow.size()));
         packed_shadow_map_->SetFormat(GetSuitableDepthFormat(command_buffer.GetDevice().GetGpu().GetHandle()));
         packed_shadow_map_->CreateVkImage(command_buffer.GetDevice());

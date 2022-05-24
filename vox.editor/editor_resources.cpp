@@ -88,9 +88,9 @@ VkDescriptorSet EditorResources::CreateFromPixelBuffer(const std::vector<uint64_
     mip_map[0].extent.width = width;
     mip_map[0].extent.height = width;
     mip_map[0].extent.depth = 1;
-    auto image = std::make_unique<Image>("icon", std::move(raw_data), std::move(mip_map));
+    auto image = std::make_unique<Texture>("icon", std::move(raw_data), std::move(mip_map));
     image->CreateVkImage(device_);
-    ImageManager::GetSingleton().UploadImage(image.get());
+    TextureManager::GetSingleton().UploadTexture(image.get());
 
     auto descriptor = ImGui_ImplVulkan_AddTexture(sampler_->GetHandle(), image->GetVkImageView().GetHandle(),
                                                   VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);

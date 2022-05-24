@@ -103,9 +103,9 @@ void SkyboxSubpass::CreateCuboid() {
     mesh_->AddSubMesh(0, static_cast<uint32_t>(indices.size()));
 }
 
-const std::shared_ptr<Image> &SkyboxSubpass::TextureCubeMap() const { return cube_map_; }
+const std::shared_ptr<Texture> &SkyboxSubpass::TextureCubeMap() const { return cube_map_; }
 
-void SkyboxSubpass::SetTextureCubeMap(const std::shared_ptr<Image> &v) { cube_map_ = v; }
+void SkyboxSubpass::SetTextureCubeMap(const std::shared_ptr<Texture> &v) { cube_map_ = v; }
 
 void SkyboxSubpass::FlipVertically() { is_flip_vertically_ = true; }
 

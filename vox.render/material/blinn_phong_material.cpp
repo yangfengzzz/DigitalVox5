@@ -17,16 +17,16 @@ void BlinnPhongMaterial::SetBaseColor(const Color &new_value) {
     shader_data_.SetData(blinn_phong_prop_, blinn_phong_data_);
 }
 
-std::shared_ptr<Image> BlinnPhongMaterial::BaseTexture() const { return base_texture_; }
+std::shared_ptr<Texture> BlinnPhongMaterial::BaseTexture() const { return base_texture_; }
 
-void BlinnPhongMaterial::SetBaseTexture(const std::shared_ptr<Image> &new_value) {
+void BlinnPhongMaterial::SetBaseTexture(const std::shared_ptr<Texture> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         SetBaseTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void BlinnPhongMaterial::SetBaseTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void BlinnPhongMaterial::SetBaseTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info) {
     base_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(base_texture_prop_, new_value->GetVkImageView(),
@@ -44,16 +44,17 @@ void BlinnPhongMaterial::SetSpecularColor(const Color &new_value) {
     shader_data_.SetData(blinn_phong_prop_, blinn_phong_data_);
 }
 
-std::shared_ptr<Image> BlinnPhongMaterial::SpecularTexture() const { return specular_texture_; }
+std::shared_ptr<Texture> BlinnPhongMaterial::SpecularTexture() const { return specular_texture_; }
 
-void BlinnPhongMaterial::SetSpecularTexture(const std::shared_ptr<Image> &new_value) {
+void BlinnPhongMaterial::SetSpecularTexture(const std::shared_ptr<Texture> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         SetSpecularTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void BlinnPhongMaterial::SetSpecularTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void BlinnPhongMaterial::SetSpecularTexture(const std::shared_ptr<Texture> &new_value,
+                                            const VkSamplerCreateInfo &info) {
     specular_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(specular_texture_prop_, new_value->GetVkImageView(),
@@ -71,16 +72,17 @@ void BlinnPhongMaterial::SetEmissiveColor(const Color &new_value) {
     shader_data_.SetData(blinn_phong_prop_, blinn_phong_data_);
 }
 
-std::shared_ptr<Image> BlinnPhongMaterial::EmissiveTexture() const { return emissive_texture_; }
+std::shared_ptr<Texture> BlinnPhongMaterial::EmissiveTexture() const { return emissive_texture_; }
 
-void BlinnPhongMaterial::BlinnPhongMaterial::SetEmissiveTexture(const std::shared_ptr<Image> &new_value) {
+void BlinnPhongMaterial::BlinnPhongMaterial::SetEmissiveTexture(const std::shared_ptr<Texture> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         SetEmissiveTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void BlinnPhongMaterial::SetEmissiveTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void BlinnPhongMaterial::SetEmissiveTexture(const std::shared_ptr<Texture> &new_value,
+                                            const VkSamplerCreateInfo &info) {
     emissive_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(emissive_texture_prop_, new_value->GetVkImageView(),
@@ -91,16 +93,16 @@ void BlinnPhongMaterial::SetEmissiveTexture(const std::shared_ptr<Image> &new_va
     }
 }
 
-std::shared_ptr<Image> BlinnPhongMaterial::NormalTexture() const { return normal_texture_; }
+std::shared_ptr<Texture> BlinnPhongMaterial::NormalTexture() const { return normal_texture_; }
 
-void BlinnPhongMaterial::SetNormalTexture(const std::shared_ptr<Image> &new_value) {
+void BlinnPhongMaterial::SetNormalTexture(const std::shared_ptr<Texture> &new_value) {
     if (new_value) {
         BaseMaterial::last_sampler_create_info_.maxLod = static_cast<float>(new_value->GetMipmaps().size());
         SetNormalTexture(new_value, BaseMaterial::last_sampler_create_info_);
     }
 }
 
-void BlinnPhongMaterial::SetNormalTexture(const std::shared_ptr<Image> &new_value, const VkSamplerCreateInfo &info) {
+void BlinnPhongMaterial::SetNormalTexture(const std::shared_ptr<Texture> &new_value, const VkSamplerCreateInfo &info) {
     normal_texture_ = new_value;
     if (new_value) {
         shader_data_.SetSampledTexture(normal_texture_prop_, new_value->GetVkImageView(),

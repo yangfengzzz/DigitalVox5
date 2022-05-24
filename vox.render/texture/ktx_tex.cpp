@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "vox.render/image/ktx_img.h"
+#include "vox.render/texture/ktx_tex.h"
 
 #include "vox.render/error.h"
 
@@ -48,7 +48,7 @@ OptimalTilingCallback(int mip_level,
     return KTX_SUCCESS;
 }
 
-Ktx::Ktx(const std::string &name, const std::vector<uint8_t> &data) : Image{name} {
+Ktx::Ktx(const std::string &name, const std::vector<uint8_t> &data) : Texture{name} {
     auto data_buffer = reinterpret_cast<const ktx_uint8_t *>(data.data());
     auto data_size = static_cast<ktx_size_t>(data.size());
 

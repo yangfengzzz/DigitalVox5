@@ -8,7 +8,6 @@
 
 #include "vox.render/camera.h"
 #include "vox.render/controls/orbit_control.h"
-#include "vox.render/image_manager.h"
 #include "vox.render/material/pbr_material.h"
 #include "vox.render/mesh/mesh_renderer.h"
 #include "vox.render/mesh/primitive_mesh.h"
@@ -22,7 +21,7 @@ bool IBLApp::Prepare(Platform &platform) {
     auto skybox = std::make_unique<SkyboxSubpass>(*render_context_, scene, main_camera_);
     skybox->CreateCuboid();
     skybox->FlipVertically();
-    skybox->SetTextureCubeMap(ImageManager::GetSingleton().LoadTextureCubemap("Textures/uffizi_rgba16f_cube.ktx"));
+    skybox->SetTextureCubeMap(TextureManager::GetSingleton().LoadTextureCubemap("Textures/uffizi_rgba16f_cube.ktx"));
     render_pipeline_->AddSubpass(std::move(skybox));
 
     return true;
@@ -47,8 +46,8 @@ void IBLApp::LoadScene() {
     Material mat = materials_[kMaterialIndex];
 
     auto scene = scene_manager_->CurrentScene();
-    auto ibl_map = ImageManager::GetSingleton().GenerateIBL("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
-    auto sh = ImageManager::GetSingleton().GenerateSH("Textures/uffizi_rgba16f_cube.ktx");
+    auto ibl_map = TextureManager::GetSingleton().GenerateIBL("Textures/uffizi_rgba16f_cube.ktx", *render_context_);
+    auto sh = TextureManager::GetSingleton().GenerateSH("Textures/uffizi_rgba16f_cube.ktx");
     scene->AmbientLight()->SetSpecularTexture(ibl_map);
     scene->AmbientLight()->SetDiffuseMode(DiffuseMode::SPHERICAL_HARMONICS);
     scene->AmbientLight()->SetDiffuseSphericalHarmonics(sh);

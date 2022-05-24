@@ -37,15 +37,15 @@ struct Mipmap {
     VkExtent3D extent = {0, 0, 0};
 };
 
-class Image {
+class Texture {
 public:
     std::string name_;
 
-    explicit Image(std::string name, std::vector<uint8_t> &&data = {}, std::vector<Mipmap> &&mipmaps = {{}});
+    explicit Texture(std::string name, std::vector<uint8_t> &&data = {}, std::vector<Mipmap> &&mipmaps = {{}});
 
-    static std::shared_ptr<Image> Load(const std::string &name, const std::string &uri);
+    static std::shared_ptr<Texture> Load(const std::string &name, const std::string &uri);
 
-    virtual ~Image() = default;
+    virtual ~Texture() = default;
 
     [[nodiscard]] const std::vector<uint8_t> &GetData() const;
 
@@ -76,7 +76,7 @@ public:
                                                         uint32_t n_array_layers = 0);
 
 protected:
-    friend class ImageManager;
+    friend class TextureManager;
 
     std::vector<uint8_t> &GetMutData();
 

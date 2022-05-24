@@ -98,9 +98,9 @@ bool AmbientLight::SpecularTextureDecodeRgbm() const { return specular_texture_d
 
 void AmbientLight::SetSpecularTextureDecodeRgbm(bool value) {}
 
-std::shared_ptr<Image> AmbientLight::SpecularTexture() { return specular_reflection_; }
+std::shared_ptr<Texture> AmbientLight::SpecularTexture() { return specular_reflection_; }
 
-void AmbientLight::SetSpecularTexture(const std::shared_ptr<Image> &value) {
+void AmbientLight::SetSpecularTexture(const std::shared_ptr<Texture> &value) {
     specular_reflection_ = value;
     if (!scene_) return;
 
