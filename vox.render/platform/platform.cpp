@@ -104,7 +104,7 @@ ExitCode Platform::MainLoop() {
     }
 
     // Compensate for load times of the app by rendering the first frame pre-emptively
-    timer_.Tick<Timer::Seconds>();
+    timer_.Tick<utility::Timer::Seconds>();
     active_app_->Update(0.01667f);
 
     while (!window_->ShouldClose() && !close_requested_) {
@@ -125,7 +125,7 @@ ExitCode Platform::MainLoop() {
 }
 
 void Platform::Update() {
-    auto delta_time = static_cast<float>(timer_.Tick<Timer::Seconds>());
+    auto delta_time = static_cast<float>(timer_.Tick<utility::Timer::Seconds>());
 
     if (focused_) {
         OnUpdate(delta_time);

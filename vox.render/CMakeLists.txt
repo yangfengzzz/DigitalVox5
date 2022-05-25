@@ -20,7 +20,6 @@ set(FRAMEWORK_FILES
         resource_replay.h
         graphics_application.h
         forward_application.h
-        timer.h
         camera.h
         scene_animator.h
         scene_animation_clip.h
@@ -35,7 +34,6 @@ set(FRAMEWORK_FILES
         resource_replay.cpp
         graphics_application.cpp
         forward_application.cpp
-        timer.cpp
         camera.cpp
         scene_animator.cpp
         scene_animation_clip.cpp

@@ -13,35 +13,33 @@
 
 namespace vox::utility {
 
-Timer::Timer() : start_time_in_milliseconds_(0.0), end_time_in_milliseconds_(0.0) {}
+Timer::Timer() : start_time_{Clock::now()}, previous_tick_{Clock::now()} {}
 
-Timer::~Timer() = default;
-
-double Timer::GetSystemTimeInMilliseconds() {
-    std::chrono::duration<double, std::milli> current_time =
-            std::chrono::high_resolution_clock::now().time_since_epoch();
-    return current_time.count();
+void Timer::Start() {
+    if (!running_) {
+        running_ = true;
+        start_time_ = Clock::now();
+    }
 }
 
-void Timer::Start() { start_time_in_milliseconds_ = GetSystemTimeInMilliseconds(); }
+void Timer::Lap() {
+    lapping_ = true;
+    lap_time_ = Clock::now();
+}
 
-void Timer::Stop() { end_time_in_milliseconds_ = GetSystemTimeInMilliseconds(); }
+bool Timer::IsRunning() const { return running_; }
 
-double Timer::GetDuration() const { return end_time_in_milliseconds_ - start_time_in_milliseconds_; }
-
-void Timer::Print(const std::string &timer_info) const {
-        LOGI("{} {:.2f} ms.", timer_info, end_time_in_milliseconds_ - start_time_in_milliseconds_)}
-
-ScopeTimer::ScopeTimer(std::string scope_timer_info /* = ""*/)
-    : scope_timer_info_(std::move(scope_timer_info)) {
+// MARK: - ScopeTimer
+ScopeTimer::ScopeTimer(std::string scope_timer_info /* = ""*/) : scope_timer_info_(std::move(scope_timer_info)) {
     Timer::Start();
 }
 
 ScopeTimer::~ScopeTimer() {
-    Timer::Stop();
-    Timer::Print(scope_timer_info_ + " took");
+    auto duration = Timer::Stop();
+    LOGI("{} {:.2f} ms.", scope_timer_info_ + " took", duration)
 }
 
+// MARK: - FPSTimer
 FPSTimer::FPSTimer(std::string fps_timer_info /* = ""*/,
                    int expectation /* = -1*/,
                    double time_to_print /* = 3000.0*/,
@@ -58,14 +56,14 @@ FPSTimer::FPSTimer(std::string fps_timer_info /* = ""*/,
 void FPSTimer::Signal() {
     event_fragment_count_++;
     event_total_count_++;
-    Stop();
-    if (GetDuration() >= time_to_print_ || event_fragment_count_ >= events_to_print_) {
+    auto duration = Stop();
+    if (duration >= time_to_print_ || event_fragment_count_ >= events_to_print_) {
         // print and reset
         if (expectation_ == -1) {
-            LOGI("{} at {:.2f} fps.", fps_timer_info_, double(event_fragment_count_ + 1) / GetDuration() * 1000.0)
+            LOGI("{} at {:.2f} fps.", fps_timer_info_, double(event_fragment_count_ + 1) / duration * 1000.0)
         } else {
             LOGI("{} at {:.2f} fps (progress {:.2f}%).", fps_timer_info_.c_str(),
-                 double(event_fragment_count_ + 1) / GetDuration() * 1000.0,
+                 double(event_fragment_count_ + 1) / duration * 1000.0,
                  (double)event_total_count_ * 100.0 / (double)expectation_)
         }
         Start();

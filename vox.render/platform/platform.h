@@ -171,7 +171,7 @@ protected:
     bool close_requested_{false};          /* Close requested */
 
 private:
-    Timer timer_;
+    utility::Timer timer_;
 
     std::vector<Plugin *> plugins_;
 

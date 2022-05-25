@@ -99,8 +99,6 @@
 		0444E92028055CE400C6F279 /* physical_device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E91728055C6D00C6F279 /* physical_device.cpp */; };
 		0444E92128055CE400C6F279 /* physical_device.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E91628055C6D00C6F279 /* physical_device.h */; };
 		0444E92228055CE400C6F279 /* instance.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E91528055C6D00C6F279 /* instance.h */; };
-		0444E92D28055D5D00C6F279 /* timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E92B28055D5D00C6F279 /* timer.cpp */; };
-		0444E92E28055D5D00C6F279 /* timer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E92C28055D5D00C6F279 /* timer.h */; };
 		0444E93128055D9300C6F279 /* debug_info.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E92F28055D9300C6F279 /* debug_info.h */; };
 		0444E93228055D9300C6F279 /* debug_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E93028055D9300C6F279 /* debug_info.cpp */; };
 		0444E93328055F4900C6F279 /* vulkan_resource.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E8352805559F00C6F279 /* vulkan_resource.h */; };
@@ -841,6 +839,8 @@
 		04C3C60C28372F2C00B0BE1F /* text_edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C60028372F2C00B0BE1F /* text_edit.cpp */; };
 		04C3C60D28372F2C00B0BE1F /* widget_proxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C60128372F2C00B0BE1F /* widget_proxy.cpp */; };
 		04C3C60E28372F2C00B0BE1F /* tree_view.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C60228372F2C00B0BE1F /* tree_view.cpp */; };
+		04C3C612283DC69400B0BE1F /* libvox.base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C32E2833E39100B0BE1F /* libvox.base.a */; };
+		04C3C615283DC69F00B0BE1F /* libvox.base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C32E2833E39100B0BE1F /* libvox.base.a */; };
 		04D95C192808EE0500E54DC2 /* device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C152808EE0500E54DC2 /* device.cpp */; };
 		04D95C1A2808EE0500E54DC2 /* scratch_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */; };
 		04D95C1B2808EE0500E54DC2 /* scratch_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C172808EE0500E54DC2 /* scratch_buffer.h */; };
@@ -1189,6 +1189,20 @@
 			remoteGlobalIDString = 04C3C4472835C88F00B0BE1F;
 			remoteInfo = arc.core;
 		};
+		04C3C610283DC68D00B0BE1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04C3C32D2833E39100B0BE1F;
+			remoteInfo = vox.base;
+		};
+		04C3C613283DC69A00B0BE1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04C3C32D2833E39100B0BE1F;
+			remoteInfo = vox.base;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1382,8 +1396,6 @@
 		0444E91628055C6D00C6F279 /* physical_device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = physical_device.h; sourceTree = "<group>"; };
 		0444E91728055C6D00C6F279 /* physical_device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = physical_device.cpp; sourceTree = "<group>"; };
 		0444E91828055C6D00C6F279 /* instance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = instance.cpp; sourceTree = "<group>"; };
-		0444E92B28055D5D00C6F279 /* timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timer.cpp; sourceTree = "<group>"; };
-		0444E92C28055D5D00C6F279 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
 		0444E92F28055D9300C6F279 /* debug_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debug_info.h; sourceTree = "<group>"; };
 		0444E93028055D9300C6F279 /* debug_info.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debug_info.cpp; sourceTree = "<group>"; };
 		0444E93728055F8100C6F279 /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = queue.h; sourceTree = "<group>"; };
@@ -2395,6 +2407,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C3C615283DC69F00B0BE1F /* libvox.base.a in Frameworks */,
 				04523EA3281D78CA0079CC3C /* libvox.editor.a in Frameworks */,
 				04523DD5281BB3FD0079CC3C /* Cocoa.framework in Frameworks */,
 				04523DD4281BB3F90079CC3C /* IOKit.framework in Frameworks */,
@@ -2414,6 +2427,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C3C612283DC69400B0BE1F /* libvox.base.a in Frameworks */,
 				0444EA572805771000C6F279 /* IOKit.framework in Frameworks */,
 				0444EA55280576F800C6F279 /* Cocoa.framework in Frameworks */,
 				0444EA4D2805766F00C6F279 /* libvox.math.a in Frameworks */,
@@ -3253,8 +3267,6 @@
 			isa = PBXGroup;
 			children = (
 				0444E7F72805552B00C6F279 /* helpers.h */,
-				0444E92C28055D5D00C6F279 /* timer.h */,
-				0444E92B28055D5D00C6F279 /* timer.cpp */,
 				04D95D59280F9C9100E54DC2 /* shaders */,
 				0444E7FC2805552B00C6F279 /* tags.h */,
 				0444E8002805552B00C6F279 /* strings.h */,
@@ -4480,7 +4492,6 @@
 				04D95D42280E36FC00E54DC2 /* direct_light.h in Headers */,
 				0444E9F128056AFA00C6F279 /* descriptor_set_layout.h in Headers */,
 				0444E9FA28056B0500C6F279 /* query_pool.h in Headers */,
-				0444E92E28055D5D00C6F279 /* timer.h in Headers */,
 				0444EBEC28084D3000C6F279 /* event.h in Headers */,
 				04D95CA8280AAE2400E54DC2 /* index_buffer_binding.h in Headers */,
 				0444EB9C28084BC500C6F279 /* spacing.h in Headers */,
@@ -4914,6 +4925,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				04C3C614283DC69A00B0BE1F /* PBXTargetDependency */,
 				04523EA2281D78C60079CC3C /* PBXTargetDependency */,
 				04523DCF281BB3E90079CC3C /* PBXTargetDependency */,
 				04523DD1281BB3E90079CC3C /* PBXTargetDependency */,
@@ -4953,6 +4965,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				04C3C611283DC68D00B0BE1F /* PBXTargetDependency */,
 				0444EA502805767300C6F279 /* PBXTargetDependency */,
 				0444EA522805767300C6F279 /* PBXTargetDependency */,
 			);
@@ -5472,7 +5485,6 @@
 				0444E952280562C700C6F279 /* image.cpp in Sources */,
 				04D95C62280A8C6600E54DC2 /* physics_manager.cpp in Sources */,
 				04D95C81280A8C6E00E54DC2 /* joint.cpp in Sources */,
-				0444E92D28055D5D00C6F279 /* timer.cpp in Sources */,
 				0444EB5D28084BA600C6F279 /* slider_float.cpp in Sources */,
 				046988442819DCD500EF1EE1 /* particle_renderer.cpp in Sources */,
 				0444E9F528056B0500C6F279 /* shader_binding_table.cpp in Sources */,
@@ -5989,6 +6001,16 @@
 			isa = PBXTargetDependency;
 			target = 04C3C4472835C88F00B0BE1F /* vox.core */;
 			targetProxy = 04C3C57C2835CCA400B0BE1F /* PBXContainerItemProxy */;
+		};
+		04C3C611283DC68D00B0BE1F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04C3C32D2833E39100B0BE1F /* vox.base */;
+			targetProxy = 04C3C610283DC68D00B0BE1F /* PBXContainerItemProxy */;
+		};
+		04C3C614283DC69A00B0BE1F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04C3C32D2833E39100B0BE1F /* vox.base */;
+			targetProxy = 04C3C613283DC69A00B0BE1F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -50,7 +50,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ../third_party/nlohmann/include
         ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE vox.render vox.math plugins spdlog)
+target_link_libraries(${PROJECT_NAME} PRIVATE vox.base vox.render vox.math plugins spdlog)
 
 if (CMAKE_BUILD_TYPE MATCHES "Release")
     target_compile_definitions(${PROJECT_NAME} PUBLIC DISABLE_CUDA_PHYSX PX_PHYSX_CORE_EXPORTS NDEBUG PX_SUPPORT_PVD=0)

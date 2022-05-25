@@ -16,7 +16,7 @@
 #include "vox.render/error.h"
 #include "vox.render/stats/stats_common.h"
 #include "vox.render/stats/stats_provider.h"
-#include "vox.render/timer.h"
+#include "vox.base/timer.h"
 
 namespace vox {
 class Device;
@@ -136,10 +136,10 @@ private:
     size_t buffer_size_;
 
     /// Timer used in the main thread to compute delta time
-    Timer main_timer_;
+    utility::Timer main_timer_;
 
     /// Timer used by the worker thread to throttle counter sampling
-    Timer worker_timer_;
+    utility::Timer worker_timer_;
 
     /// Alpha smoothing for running average
     float alpha_smoothing_{0.2f};
