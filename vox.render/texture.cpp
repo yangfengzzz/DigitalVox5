@@ -67,7 +67,7 @@ void Texture::CreateVkImage(Device const &device, VkImageCreateFlags flags, VkIm
     assert(!vk_image_ && vk_image_views_.empty() && "Vulkan image already constructed");
 
     vk_image_ = std::make_unique<core::Image>(device, GetExtent(), format_, image_usage, VMA_MEMORY_USAGE_GPU_ONLY,
-                                              VK_SAMPLE_COUNT_1_BIT, ToU32(mipmaps_.size()), layers_,
+                                              VK_SAMPLE_COUNT_1_BIT, utility::ToU32(mipmaps_.size()), layers_,
                                               VK_IMAGE_TILING_OPTIMAL, flags);
     vk_image_->SetDebugName(name_);
 }
@@ -83,11 +83,11 @@ const core::ImageView &Texture::GetVkImageView(VkImageViewType view_type,
                                                uint32_t n_mip_levels,
                                                uint32_t n_array_layers) {
     std::size_t key = 0;
-    vox::HashCombine(key, view_type);
-    vox::HashCombine(key, base_mip_level);
-    vox::HashCombine(key, base_array_layer);
-    vox::HashCombine(key, n_mip_levels);
-    vox::HashCombine(key, n_array_layers);
+    vox::utility::hash_combine(key, view_type);
+    vox::utility::hash_combine(key, base_mip_level);
+    vox::utility::hash_combine(key, base_array_layer);
+    vox::utility::hash_combine(key, n_mip_levels);
+    vox::utility::hash_combine(key, n_array_layers);
     auto iter = vk_image_views_.find(key);
     if (iter == vk_image_views_.end()) {
         vk_image_views_.insert(std::make_pair(
@@ -115,7 +115,7 @@ void Texture::GenerateMipmaps() {
 
     while (true) {
         // Make space for next mipmap
-        auto old_size = ToU32(data_.size());
+        auto old_size = utility::ToU32(data_.size());
         data_.resize(old_size + next_size);
 
         auto &prev_mipmap = mipmaps_.back();

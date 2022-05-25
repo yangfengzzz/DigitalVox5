@@ -6,10 +6,10 @@
 
 #include "vox.render/core/descriptor_set.h"
 
+#include "vox.base/logging.h"
 #include "vox.render/core/descriptor_pool.h"
 #include "vox.render/core/descriptor_set_layout.h"
 #include "vox.render/core/device.h"
-#include "vox.base/logging.h"
 #include "vox.render/resource_caching.h"
 
 namespace vox {
@@ -166,7 +166,7 @@ void DescriptorSet::Update(const std::vector<uint32_t> &bindings_to_update) {
 
     // Perform the Vulkan call to update the DescriptorSet by executing the write operations
     if (!write_operations.empty()) {
-        vkUpdateDescriptorSets(device_.GetHandle(), ToU32(write_operations.size()), write_operations.data(), 0,
+        vkUpdateDescriptorSets(device_.GetHandle(), utility::ToU32(write_operations.size()), write_operations.data(), 0,
                                nullptr);
     }
 

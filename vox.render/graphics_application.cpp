@@ -14,7 +14,7 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "vox.render/helpers.h"
+#include "vox.base/helper.h"
 #include "vox.base/logging.h"
 #include "vox.render/platform/glfw_window.h"
 #include "vox.render/platform/platform.h"

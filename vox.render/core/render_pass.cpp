@@ -208,7 +208,7 @@ std::vector<T> GetSubpassDependencies(const size_t subpass_count) {
     std::vector<T> dependencies(subpass_count - 1);
 
     if (subpass_count > 1) {
-        for (uint32_t i = 0; i < ToU32(dependencies.size()); ++i) {
+        for (uint32_t i = 0; i < utility::ToU32(dependencies.size()); ++i) {
             // Transition input attachments from color attachment to shader read
             dependencies[i].srcSubpass = i;
             dependencies[i].dstSubpass = i + 1;
@@ -300,7 +300,7 @@ void RenderPass::CreateRenderpass(const std::vector<Attachment> &attachments,
             auto it = find_if(attachments.begin(), attachments.end(),
                               [](const Attachment attachment) { return IsDepthStencilFormat(attachment.format); });
             if (it != attachments.end()) {
-                auto i_depth_stencil = vox::ToU32(std::distance(attachments.begin(), it));
+                auto i_depth_stencil = vox::utility::ToU32(std::distance(attachments.begin(), it));
                 auto initial_layout = it->initial_layout == VK_IMAGE_LAYOUT_UNDEFINED
                                               ? VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL
                                               : it->initial_layout;
@@ -330,10 +330,10 @@ void RenderPass::CreateRenderpass(const std::vector<Attachment> &attachments,
         subpass_description.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 
         subpass_description.pInputAttachments = input_attachments[i].empty() ? nullptr : input_attachments[i].data();
-        subpass_description.inputAttachmentCount = ToU32(input_attachments[i].size());
+        subpass_description.inputAttachmentCount = utility::ToU32(input_attachments[i].size());
 
         subpass_description.pColorAttachments = color_attachments[i].empty() ? nullptr : color_attachments[i].data();
-        subpass_description.colorAttachmentCount = ToU32(color_attachments[i].size());
+        subpass_description.colorAttachmentCount = utility::ToU32(color_attachments[i].size());
 
         subpass_description.pResolveAttachments =
                 color_resolve_attachments[i].empty() ? nullptr : color_resolve_attachments[i].data();
@@ -368,7 +368,7 @@ void RenderPass::CreateRenderpass(const std::vector<Attachment> &attachments,
         subpass_description.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
         uint32_t default_depth_stencil_attachment{VK_ATTACHMENT_UNUSED};
 
-        for (uint32_t k = 0U; k < ToU32(attachment_descriptions.size()); ++k) {
+        for (uint32_t k = 0U; k < utility::ToU32(attachment_descriptions.size()); ++k) {
             if (IsDepthStencilFormat(attachments[k].format)) {
                 if (default_depth_stencil_attachment == VK_ATTACHMENT_UNUSED) {
                     default_depth_stencil_attachment = k;
@@ -396,18 +396,18 @@ void RenderPass::CreateRenderpass(const std::vector<Attachment> &attachments,
 
     color_output_count_.reserve(subpass_count_);
     for (size_t i = 0; i < subpass_count_; i++) {
-        color_output_count_.push_back(ToU32(color_attachments[i].size()));
+        color_output_count_.push_back(utility::ToU32(color_attachments[i].size()));
     }
 
     const auto &subpass_dependencies = GetSubpassDependencies<T_SubpassDependency>(subpass_count_);
 
     T_RenderPassCreateInfo create_info{};
     SetStructureType(create_info);
-    create_info.attachmentCount = ToU32(attachment_descriptions.size());
+    create_info.attachmentCount = utility::ToU32(attachment_descriptions.size());
     create_info.pAttachments = attachment_descriptions.data();
-    create_info.subpassCount = ToU32(subpass_descriptions.size());
+    create_info.subpassCount = utility::ToU32(subpass_descriptions.size());
     create_info.pSubpasses = subpass_descriptions.data();
-    create_info.dependencyCount = ToU32(subpass_dependencies.size());
+    create_info.dependencyCount = utility::ToU32(subpass_dependencies.size());
     create_info.pDependencies = subpass_dependencies.data();
 
     auto result = CreateVkRenderpass(device_->GetHandle(), create_info, &handle_);

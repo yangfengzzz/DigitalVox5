@@ -30,8 +30,8 @@ Stb::Stb(const std::string &name, const std::vector<uint8_t> &data) : Texture{na
     stbi_image_free(raw_data);
 
     SetFormat(VK_FORMAT_R8G8B8A8_UNORM);
-    SetWidth(ToU32(width));
-    SetHeight(ToU32(height));
+    SetWidth(utility::ToU32(width));
+    SetHeight(utility::ToU32(height));
     SetDepth(1u);
 }
 

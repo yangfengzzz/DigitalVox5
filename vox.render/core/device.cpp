@@ -26,7 +26,7 @@ Device::Device(PhysicalDevice &gpu,
     LOGI("Selected GPU: {}", gpu.GetProperties().deviceName)
 
     // Prepare the device queues
-    uint32_t queue_family_properties_count = ToU32(gpu.GetQueueFamilyProperties().size());
+    uint32_t queue_family_properties_count = utility::ToU32(gpu.GetQueueFamilyProperties().size());
     std::vector<VkDeviceQueueCreateInfo> queue_create_infos(queue_family_properties_count,
                                                             {VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO});
     std::vector<std::vector<float>> queue_priorities(queue_family_properties_count);
@@ -136,8 +136,8 @@ Device::Device(PhysicalDevice &gpu,
     create_info.pNext = gpu.GetExtensionFeatureChain();
 
     create_info.pQueueCreateInfos = queue_create_infos.data();
-    create_info.queueCreateInfoCount = ToU32(queue_create_infos.size());
-    create_info.enabledExtensionCount = ToU32(enabled_extensions_.size());
+    create_info.queueCreateInfoCount = utility::ToU32(queue_create_infos.size());
+    create_info.enabledExtensionCount = utility::ToU32(enabled_extensions_.size());
     create_info.ppEnabledExtensionNames = enabled_extensions_.data();
 
     const auto kRequestedGpuFeatures = gpu.GetRequestedFeatures();

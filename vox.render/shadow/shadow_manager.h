@@ -6,10 +6,10 @@
 
 #pragma once
 
+#include "vox.base/singleton.h"
 #include "vox.render/lighting/point_light.h"
 #include "vox.render/rendering/render_pipeline.h"
 #include "vox.render/shadow/shadow_subpass.h"
-#include "vox.base/singleton.h"
 
 namespace vox {
 class ShadowManager : public Singleton<ShadowManager> {

@@ -300,7 +300,7 @@ VkSemaphore RenderContext::Submit(const Queue &queue,
 
     VkSubmitInfo submit_info{VK_STRUCTURE_TYPE_SUBMIT_INFO};
 
-    submit_info.commandBufferCount = ToU32(cmd_buf_handles.size());
+    submit_info.commandBufferCount = utility::ToU32(cmd_buf_handles.size());
     submit_info.pCommandBuffers = cmd_buf_handles.data();
 
     if (wait_semaphore != VK_NULL_HANDLE) {
@@ -328,7 +328,7 @@ void RenderContext::Submit(const Queue &queue, const std::vector<CommandBuffer *
 
     VkSubmitInfo submit_info{VK_STRUCTURE_TYPE_SUBMIT_INFO};
 
-    submit_info.commandBufferCount = ToU32(cmd_buf_handles.size());
+    submit_info.commandBufferCount = utility::ToU32(cmd_buf_handles.size());
     submit_info.pCommandBuffers = cmd_buf_handles.data();
 
     VkFence fence = frame.RequestFence();

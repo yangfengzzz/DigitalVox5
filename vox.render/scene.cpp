@@ -8,9 +8,9 @@
 
 #include <queue>
 
+#include "vox.base/logging.h"
 #include "vox.render/camera.h"
 #include "vox.render/entity.h"
-#include "vox.base/logging.h"
 
 namespace vox {
 Scene::Scene(vox::Device &device) : device(device), shader_data(device) {

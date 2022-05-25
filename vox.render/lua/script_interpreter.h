@@ -9,8 +9,8 @@
 #include <sol/sol.hpp>
 #include <vector>
 
-#include "vox.render/behaviour.h"
 #include "vox.base/singleton.h"
+#include "vox.render/behaviour.h"
 
 namespace vox {
 /**

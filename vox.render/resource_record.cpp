@@ -15,17 +15,17 @@
 namespace vox {
 namespace {
 inline void WriteSubpassInfo(std::ostringstream &os, const std::vector<SubpassInfo> &value) {
-    Write(os, value.size());
+    utility::Write(os, value.size());
     for (const SubpassInfo &item : value) {
-        Write(os, item.input_attachments);
-        Write(os, item.output_attachments);
+        utility::Write(os, item.input_attachments);
+        utility::Write(os, item.output_attachments);
     }
 }
 
 inline void WriteProcesses(std::ostringstream &os, const std::vector<std::string> &value) {
-    Write(os, value.size());
+    utility::Write(os, value.size());
     for (const std::string &item : value) {
-        Write(os, item);
+        utility::Write(os, item);
     }
 }
 }  // namespace
@@ -46,8 +46,8 @@ size_t ResourceRecord::RegisterShaderModule(VkShaderStageFlagBits stage,
                                             const ShaderVariant &shader_variant) {
     shader_module_indices_.push_back(shader_module_indices_.size());
 
-    Write(stream_, ResourceType::SHADER_MODULE, stage, glsl_source.GetSource(), entry_point,
-          shader_variant.GetPreamble());
+    utility::Write(stream_, ResourceType::SHADER_MODULE, stage, glsl_source.GetSource(), entry_point,
+                   shader_variant.GetPreamble());
 
     WriteProcesses(stream_, shader_variant.GetProcesses());
 
@@ -61,7 +61,7 @@ size_t ResourceRecord::RegisterPipelineLayout(const std::vector<ShaderModule *> 
     std::transform(shader_modules.begin(), shader_modules.end(), shader_indices.begin(),
                    [this](ShaderModule *shader_module) { return shader_module_to_index_.at(shader_module); });
 
-    Write(stream_, ResourceType::PIPELINE_LAYOUT, shader_indices);
+    utility::Write(stream_, ResourceType::PIPELINE_LAYOUT, shader_indices);
 
     return pipeline_layout_indices_.back();
 }
@@ -71,7 +71,7 @@ size_t ResourceRecord::RegisterRenderPass(const std::vector<Attachment> &attachm
                                           const std::vector<SubpassInfo> &subpasses) {
     render_pass_indices_.push_back(render_pass_indices_.size());
 
-    Write(stream_, ResourceType::RENDER_PASS, attachments, load_store_infos);
+    utility::Write(stream_, ResourceType::RENDER_PASS, attachments, load_store_infos);
 
     WriteSubpassInfo(stream_, subpasses);
 
@@ -85,25 +85,26 @@ size_t ResourceRecord::RegisterGraphicsPipeline(VkPipelineCache /*pipeline_cache
     auto &pipeline_layout = pipeline_state.GetPipelineLayout();
     auto render_pass = pipeline_state.GetRenderPass();
 
-    Write(stream_, ResourceType::GRAPHICS_PIPELINE, pipeline_layout_to_index_.at(&pipeline_layout),
-          render_pass_to_index_.at(render_pass), pipeline_state.GetSubpassIndex());
+    utility::Write(stream_, ResourceType::GRAPHICS_PIPELINE, pipeline_layout_to_index_.at(&pipeline_layout),
+                   render_pass_to_index_.at(render_pass), pipeline_state.GetSubpassIndex());
 
     auto &specialization_constant_state =
             pipeline_state.GetSpecializationConstantState().GetSpecializationConstantState();
 
-    Write(stream_, specialization_constant_state);
+    utility::Write(stream_, specialization_constant_state);
 
     auto &vertex_input_state = pipeline_state.GetVertexInputState();
 
-    Write(stream_, vertex_input_state.attributes, vertex_input_state.bindings);
+    utility::Write(stream_, vertex_input_state.attributes, vertex_input_state.bindings);
 
-    Write(stream_, pipeline_state.GetInputAssemblyState(), pipeline_state.GetRasterizationState(),
-          pipeline_state.GetViewportState(), pipeline_state.GetMultisampleState(),
-          pipeline_state.GetDepthStencilState());
+    utility::Write(stream_, pipeline_state.GetInputAssemblyState(), pipeline_state.GetRasterizationState(),
+                   pipeline_state.GetViewportState(), pipeline_state.GetMultisampleState(),
+                   pipeline_state.GetDepthStencilState());
 
     auto &color_blend_state = pipeline_state.GetColorBlendState();
 
-    Write(stream_, color_blend_state.logic_op, color_blend_state.logic_op_enable, color_blend_state.attachments);
+    utility::Write(stream_, color_blend_state.logic_op, color_blend_state.logic_op_enable,
+                   color_blend_state.attachments);
 
     return graphics_pipeline_indices_.back();
 }

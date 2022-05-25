@@ -87,7 +87,6 @@
 		0444E8BA280556B100C6F279 /* vk_common.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E7F42805552A00C6F279 /* vk_common.h */; };
 		0444E8BB2805570600C6F279 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E7FA2805552B00C6F279 /* error.h */; };
 		0444E8BC2805570600C6F279 /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E7F92805552B00C6F279 /* error.cpp */; };
-		0444E8BD2805579F00C6F279 /* helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E7F72805552B00C6F279 /* helpers.h */; };
 		0444E8BF280557ED00C6F279 /* tags.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E7FC2805552B00C6F279 /* tags.h */; };
 		0444E8C0280557ED00C6F279 /* resource_caching.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E8052805552B00C6F279 /* resource_caching.h */; };
 		0444E8C62805585800C6F279 /* shader_module.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E8C42805585800C6F279 /* shader_module.h */; };
@@ -1348,7 +1347,6 @@
 		0444E7F42805552A00C6F279 /* vk_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vk_common.h; sourceTree = "<group>"; };
 		0444E7F52805552B00C6F279 /* vk_initializers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vk_initializers.h; sourceTree = "<group>"; };
 		0444E7F62805552B00C6F279 /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
-		0444E7F72805552B00C6F279 /* helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helpers.h; sourceTree = "<group>"; };
 		0444E7F92805552B00C6F279 /* error.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = error.cpp; sourceTree = "<group>"; };
 		0444E7FA2805552B00C6F279 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
 		0444E7FB2805552B00C6F279 /* strings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = strings.cpp; sourceTree = "<group>"; };
@@ -3266,7 +3264,6 @@
 		047BB5D12803A99E00CD5749 /* vox.render */ = {
 			isa = PBXGroup;
 			children = (
-				0444E7F72805552B00C6F279 /* helpers.h */,
 				04D95D59280F9C9100E54DC2 /* shaders */,
 				0444E7FC2805552B00C6F279 /* tags.h */,
 				0444E8002805552B00C6F279 /* strings.h */,
@@ -4498,7 +4495,6 @@
 				0444EBCC28084BD600C6F279 /* drag_multiple_doubles.h in Headers */,
 				0444EB9E28084BC500C6F279 /* dummy.h in Headers */,
 				04523EC1281E68600079CC3C /* lua_binder.h in Headers */,
-				0444E8BD2805579F00C6F279 /* helpers.h in Headers */,
 				04523E22281CBC8A0079CC3C /* behaviour.h in Headers */,
 				0444E92128055CE400C6F279 /* physical_device.h in Headers */,
 				0444E9F228056B0500C6F279 /* render_pass.h in Headers */,

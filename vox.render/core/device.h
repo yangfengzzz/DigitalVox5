@@ -5,6 +5,8 @@
 //  property of any third parties.
 #pragma once
 
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
 #include "vox.render/core/command_buffer.h"
 #include "vox.render/core/command_pool.h"
 #include "vox.render/core/debug.h"
@@ -20,8 +22,6 @@
 #include "vox.render/core/swapchain.h"
 #include "vox.render/core/vulkan_resource.h"
 #include "vox.render/fence_pool.h"
-#include "vox.render/helpers.h"
-#include "vox.base/logging.h"
 #include "vox.render/rendering/pipeline_state.h"
 #include "vox.render/rendering/render_target.h"
 #include "vox.render/resource_cache.h"

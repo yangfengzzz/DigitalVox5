@@ -6,9 +6,9 @@
 
 #include "vox.render/buffer_pool.h"
 
+#include "vox.base/logging.h"
 #include "vox.render/core/device.h"
 #include "vox.render/error.h"
-#include "vox.base/logging.h"
 
 namespace vox {
 BufferBlock::BufferBlock(Device &device, VkDeviceSize size, VkBufferUsageFlags usage, VmaMemoryUsage memory_usage)
@@ -89,7 +89,7 @@ void BufferAllocation::Update(const std::vector<uint8_t> &data, uint32_t offset)
     assert(buffer_ && "Invalid buffer pointer");
 
     if (offset + data.size() <= size_) {
-        buffer_->Update(data, ToU32(base_offset_) + offset);
+        buffer_->Update(data, utility::ToU32(base_offset_) + offset);
     } else {
         LOGE("Ignore buffer allocation update")
     }

@@ -155,7 +155,7 @@ void CommandBuffer::BeginRenderPass(const RenderTarget &render_target,
     begin_info.renderPass = current_render_pass_.render_pass->GetHandle();
     begin_info.framebuffer = current_render_pass_.framebuffer->GetHandle();
     begin_info.renderArea.extent = render_target.GetExtent();
-    begin_info.clearValueCount = ToU32(clear_values.size());
+    begin_info.clearValueCount = utility::ToU32(clear_values.size());
     begin_info.pClearValues = clear_values.data();
 
     const auto &framebuffer_extent = current_render_pass_.framebuffer->GetExtent();
@@ -212,7 +212,7 @@ void CommandBuffer::ExecuteCommands(std::vector<CommandBuffer *> &secondary_comm
     std::vector<VkCommandBuffer> sec_cmd_buf_handles(secondary_command_buffers.size(), VK_NULL_HANDLE);
     std::transform(secondary_command_buffers.begin(), secondary_command_buffers.end(), sec_cmd_buf_handles.begin(),
                    [](const vox::CommandBuffer *sec_cmd_buf) { return sec_cmd_buf->GetHandle(); });
-    vkCmdExecuteCommands(GetHandle(), ToU32(sec_cmd_buf_handles.size()), sec_cmd_buf_handles.data());
+    vkCmdExecuteCommands(GetHandle(), utility::ToU32(sec_cmd_buf_handles.size()), sec_cmd_buf_handles.data());
 }
 
 void CommandBuffer::EndRenderPass() { vkCmdEndRenderPass(GetHandle()); }
@@ -226,7 +226,7 @@ void CommandBuffer::SetSpecializationConstant(uint32_t constant_id, const std::v
 }
 
 void CommandBuffer::PushConstants(const std::vector<uint8_t> &values) {
-    uint32_t push_constant_size = ToU32(stored_push_constants_.size() + values.size());
+    uint32_t push_constant_size = utility::ToU32(stored_push_constants_.size() + values.size());
 
     if (push_constant_size > max_push_constants_size_) {
         LOGE("Push constant limit of {} exceeded (pushing {} bytes for a total of {} bytes)", max_push_constants_size_,
@@ -274,7 +274,7 @@ void CommandBuffer::BindVertexBuffers(uint32_t first_binding,
     std::vector<VkBuffer> buffer_handles(buffers.size(), VK_NULL_HANDLE);
     std::transform(buffers.begin(), buffers.end(), buffer_handles.begin(),
                    [](const core::Buffer &buffer) { return buffer.GetHandle(); });
-    vkCmdBindVertexBuffers(GetHandle(), first_binding, ToU32(buffer_handles.size()), buffer_handles.data(),
+    vkCmdBindVertexBuffers(GetHandle(), first_binding, utility::ToU32(buffer_handles.size()), buffer_handles.data(),
                            offsets.data());
 }
 
@@ -309,11 +309,11 @@ void CommandBuffer::SetColorBlendState(const ColorBlendState &state_info) {
 }
 
 void CommandBuffer::SetViewport(uint32_t first_viewport, const std::vector<VkViewport> &viewports) {
-    vkCmdSetViewport(GetHandle(), first_viewport, ToU32(viewports.size()), viewports.data());
+    vkCmdSetViewport(GetHandle(), first_viewport, utility::ToU32(viewports.size()), viewports.data());
 }
 
 void CommandBuffer::SetScissor(uint32_t first_scissor, const std::vector<VkRect2D> &scissors) {
-    vkCmdSetScissor(GetHandle(), first_scissor, ToU32(scissors.size()), scissors.data());
+    vkCmdSetScissor(GetHandle(), first_scissor, utility::ToU32(scissors.size()), scissors.data());
 }
 
 void CommandBuffer::SetLineWidth(float line_width) { vkCmdSetLineWidth(GetHandle(), line_width); }
@@ -380,14 +380,15 @@ void CommandBuffer::BlitImage(const core::Image &src_img,
                               const core::Image &dst_img,
                               const std::vector<VkImageBlit> &regions) {
     vkCmdBlitImage(GetHandle(), src_img.GetHandle(), VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, dst_img.GetHandle(),
-                   VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, ToU32(regions.size()), regions.data(), VK_FILTER_NEAREST);
+                   VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, utility::ToU32(regions.size()), regions.data(),
+                   VK_FILTER_NEAREST);
 }
 
 void CommandBuffer::ResolveImage(const core::Image &src_img,
                                  const core::Image &dst_img,
                                  const std::vector<VkImageResolve> &regions) {
     vkCmdResolveImage(GetHandle(), src_img.GetHandle(), VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, dst_img.GetHandle(),
-                      VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, ToU32(regions.size()), regions.data());
+                      VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, utility::ToU32(regions.size()), regions.data());
 }
 
 void CommandBuffer::CopyBuffer(const core::Buffer &src_buffer, const core::Buffer &dst_buffer, VkDeviceSize size) {
@@ -400,22 +401,22 @@ void CommandBuffer::CopyImage(const core::Image &src_img,
                               const core::Image &dst_img,
                               const std::vector<VkImageCopy> &regions) {
     vkCmdCopyImage(GetHandle(), src_img.GetHandle(), VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, dst_img.GetHandle(),
-                   VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, ToU32(regions.size()), regions.data());
+                   VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, utility::ToU32(regions.size()), regions.data());
 }
 
 void CommandBuffer::CopyBufferToImage(const core::Buffer &buffer,
                                       const core::Image &image,
                                       const std::vector<VkBufferImageCopy> &regions) {
     vkCmdCopyBufferToImage(GetHandle(), buffer.GetHandle(), image.GetHandle(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                           ToU32(regions.size()), regions.data());
+                           utility::ToU32(regions.size()), regions.data());
 }
 
 void CommandBuffer::CopyImageToBuffer(const core::Image &image,
                                       VkImageLayout image_layout,
                                       const core::Buffer &buffer,
                                       const std::vector<VkBufferImageCopy> &regions) {
-    vkCmdCopyImageToBuffer(GetHandle(), image.GetHandle(), image_layout, buffer.GetHandle(), ToU32(regions.size()),
-                           regions.data());
+    vkCmdCopyImageToBuffer(GetHandle(), image.GetHandle(), image_layout, buffer.GetHandle(),
+                           utility::ToU32(regions.size()), regions.data());
 }
 
 void CommandBuffer::ImageMemoryBarrier(const core::ImageView &image_view,
@@ -588,7 +589,7 @@ void CommandBuffer::FlushDescriptorState(VkPipelineBindPoint pipeline_bind_point
                             buffer_info.range = resource_info.range;
 
                             if (IsDynamicBufferDescriptorType(binding_info->descriptorType)) {
-                                dynamic_offsets.push_back(ToU32(buffer_info.offset));
+                                dynamic_offsets.push_back(utility::ToU32(buffer_info.offset));
 
                                 buffer_info.offset = 0;
                             }
@@ -641,7 +642,8 @@ void CommandBuffer::FlushDescriptorState(VkPipelineBindPoint pipeline_bind_point
 
             // Bind descriptor set
             vkCmdBindDescriptorSets(GetHandle(), pipeline_bind_point, pipeline_layout.GetHandle(), descriptor_set_id, 1,
-                                    &descriptor_set_handle, ToU32(dynamic_offsets.size()), dynamic_offsets.data());
+                                    &descriptor_set_handle, utility::ToU32(dynamic_offsets.size()),
+                                    dynamic_offsets.data());
         }
     }
 }
@@ -653,11 +655,12 @@ void CommandBuffer::FlushPushConstants() {
 
     const PipelineLayout &pipeline_layout = pipeline_state_.GetPipelineLayout();
 
-    VkShaderStageFlags shader_stage = pipeline_layout.GetPushConstantRangeStage(ToU32(stored_push_constants_.size()));
+    VkShaderStageFlags shader_stage =
+            pipeline_layout.GetPushConstantRangeStage(utility::ToU32(stored_push_constants_.size()));
 
     if (shader_stage) {
         vkCmdPushConstants(GetHandle(), pipeline_layout.GetHandle(), shader_stage, 0,
-                           ToU32(stored_push_constants_.size()), stored_push_constants_.data());
+                           utility::ToU32(stored_push_constants_.size()), stored_push_constants_.data());
     } else {
         LOGW("Push constant range [{}, {}] not found", 0, stored_push_constants_.size())
     }

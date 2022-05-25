@@ -6,6 +6,8 @@
 
 #include "vox.render/core/physical_device.h"
 
+#include "vox.render/error.h"
+
 namespace vox {
 PhysicalDevice::PhysicalDevice(Instance &instance, VkPhysicalDevice physical_device)
     : instance_{instance}, handle_{physical_device} {

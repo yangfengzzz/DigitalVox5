@@ -6,8 +6,8 @@
 
 #pragma once
 
+#include "vox.base/helper.h"
 #include "vox.render/buffer_pool.h"
-#include "vox.render/helpers.h"
 #include "vox.render/rendering/pipeline_state.h"
 #include "vox.render/rendering/render_context.h"
 #include "vox.render/rendering/render_element.h"

@@ -117,7 +117,7 @@ DescriptorSetLayout::DescriptorSetLayout(Device &device,
 
     VkDescriptorSetLayoutCreateInfo create_info{VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO};
     create_info.flags = 0;
-    create_info.bindingCount = ToU32(bindings_.size());
+    create_info.bindingCount = utility::ToU32(bindings_.size());
     create_info.pBindings = bindings_.data();
 
     // Handle update-after-bind extensions
@@ -139,7 +139,7 @@ DescriptorSetLayout::DescriptorSetLayout(Device &device,
 
         VkDescriptorSetLayoutBindingFlagsCreateInfoEXT binding_flags_create_info{
                 VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_BINDING_FLAGS_CREATE_INFO_EXT};
-        binding_flags_create_info.bindingCount = ToU32(binding_flags_.size());
+        binding_flags_create_info.bindingCount = utility::ToU32(binding_flags_.size());
         binding_flags_create_info.pBindingFlags = binding_flags_.data();
 
         create_info.pNext = &binding_flags_create_info;

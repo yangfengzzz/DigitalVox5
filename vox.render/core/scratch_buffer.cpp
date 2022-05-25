@@ -7,6 +7,7 @@
 #include "vox.render/core/scratch_buffer.h"
 
 #include "vox.render/core/device.h"
+#include "vox.render/error.h"
 
 namespace vox::core {
 ScratchBuffer::ScratchBuffer(Device &device, VkDeviceSize size) : device_{device}, size_{size} {

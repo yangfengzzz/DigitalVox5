@@ -6,6 +6,8 @@
 
 #include "vox.render/shader/shader_variant.h"
 
+#include "vox.render/strings.h"
+
 namespace vox {
 ShaderVariant::ShaderVariant(std::string &&preamble, std::vector<std::string> &&processes)
     : processes_{std::move(processes)} {
@@ -107,7 +109,7 @@ void ShaderVariant::Clear() {
 void ShaderVariant::UpdateId() {
     id_ = 0;
     std::for_each(preambles_.begin(), preambles_.end(),
-                  [&](const std::string &preamble) { HashCombine(id_, preamble); });
+                  [&](const std::string &preamble) { utility::hash_combine(id_, preamble); });
 }
 
 }  // namespace vox

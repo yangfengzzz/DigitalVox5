@@ -106,7 +106,7 @@ void TextureManager::UploadTexture(Texture *image) {
         for (size_t i = 0; i < mipmaps.size(); i++) {
             VkBufferImageCopy buffer_copy_region = {};
             buffer_copy_region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-            buffer_copy_region.imageSubresource.mipLevel = vox::ToU32(i);
+            buffer_copy_region.imageSubresource.mipLevel = utility::ToU32(i);
             buffer_copy_region.imageSubresource.baseArrayLayer = layer;
             buffer_copy_region.imageSubresource.layerCount = 1;
             buffer_copy_region.imageExtent.width = image->GetExtent().width >> i;
@@ -121,7 +121,7 @@ void TextureManager::UploadTexture(Texture *image) {
     VkImageSubresourceRange subresource_range = {};
     subresource_range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
     subresource_range.baseMipLevel = 0;
-    subresource_range.levelCount = vox::ToU32(mipmaps.size());
+    subresource_range.levelCount = utility::ToU32(mipmaps.size());
     subresource_range.layerCount = layers;
 
     // Image barrier for optimal image (target)

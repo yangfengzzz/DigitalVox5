@@ -6,12 +6,12 @@
 
 #pragma once
 
+#include "vox.base/helper.h"
 #include "vox.render/core/descriptor_pool.h"
 #include "vox.render/core/descriptor_set.h"
 #include "vox.render/core/descriptor_set_layout.h"
 #include "vox.render/core/framebuffer.h"
 #include "vox.render/core/pipeline.h"
-#include "vox.render/helpers.h"
 #include "vox.render/rendering/pipeline_state.h"
 #include "vox.render/rendering/render_target.h"
 #include "vox.render/resource_record.h"
@@ -30,20 +30,20 @@ struct hash<VkSamplerCreateInfo> {
     std::size_t operator()(const VkSamplerCreateInfo &sampler) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, sampler.magFilter);
-        vox::HashCombine(result, sampler.minFilter);
-        vox::HashCombine(result, sampler.mipmapMode);
-        vox::HashCombine(result, sampler.addressModeU);
-        vox::HashCombine(result, sampler.addressModeV);
-        vox::HashCombine(result, sampler.addressModeW);
-        vox::HashCombine(result, sampler.mipLodBias);
-        vox::HashCombine(result, sampler.anisotropyEnable);
-        vox::HashCombine(result, sampler.maxAnisotropy);
-        vox::HashCombine(result, sampler.compareEnable);
-        vox::HashCombine(result, sampler.compareOp);
-        vox::HashCombine(result, sampler.minLod);
-        vox::HashCombine(result, sampler.maxLod);
-        vox::HashCombine(result, sampler.borderColor);
+        vox::utility::hash_combine(result, sampler.magFilter);
+        vox::utility::hash_combine(result, sampler.minFilter);
+        vox::utility::hash_combine(result, sampler.mipmapMode);
+        vox::utility::hash_combine(result, sampler.addressModeU);
+        vox::utility::hash_combine(result, sampler.addressModeV);
+        vox::utility::hash_combine(result, sampler.addressModeW);
+        vox::utility::hash_combine(result, sampler.mipLodBias);
+        vox::utility::hash_combine(result, sampler.anisotropyEnable);
+        vox::utility::hash_combine(result, sampler.maxAnisotropy);
+        vox::utility::hash_combine(result, sampler.compareEnable);
+        vox::utility::hash_combine(result, sampler.compareOp);
+        vox::utility::hash_combine(result, sampler.minLod);
+        vox::utility::hash_combine(result, sampler.maxLod);
+        vox::utility::hash_combine(result, sampler.borderColor);
         return result;
     }
 };
@@ -53,7 +53,7 @@ struct hash<vox::ShaderSource> {
     std::size_t operator()(const vox::ShaderSource &shader_source) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, shader_source.GetId());
+        vox::utility::hash_combine(result, shader_source.GetId());
 
         return result;
     }
@@ -64,7 +64,7 @@ struct hash<vox::ShaderVariant> {
     std::size_t operator()(const vox::ShaderVariant &shader_variant) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, shader_variant.GetId());
+        vox::utility::hash_combine(result, shader_variant.GetId());
 
         return result;
     }
@@ -75,7 +75,7 @@ struct hash<vox::ShaderModule> {
     std::size_t operator()(const vox::ShaderModule &shader_module) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, shader_module.GetId());
+        vox::utility::hash_combine(result, shader_module.GetId());
 
         return result;
     }
@@ -86,7 +86,7 @@ struct hash<vox::DescriptorSetLayout> {
     std::size_t operator()(const vox::DescriptorSetLayout &descriptor_set_layout) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, descriptor_set_layout.GetHandle());
+        vox::utility::hash_combine(result, descriptor_set_layout.GetHandle());
 
         return result;
     }
@@ -97,7 +97,7 @@ struct hash<vox::DescriptorPool> {
     std::size_t operator()(const vox::DescriptorPool &descriptor_pool) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, descriptor_pool.GetDescriptorSetLayout());
+        vox::utility::hash_combine(result, descriptor_pool.GetDescriptorSetLayout());
 
         return result;
     }
@@ -108,7 +108,7 @@ struct hash<vox::PipelineLayout> {
     std::size_t operator()(const vox::PipelineLayout &pipeline_layout) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, pipeline_layout.GetHandle());
+        vox::utility::hash_combine(result, pipeline_layout.GetHandle());
 
         return result;
     }
@@ -119,7 +119,7 @@ struct hash<vox::RenderPass> {
     std::size_t operator()(const vox::RenderPass &render_pass) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, render_pass.GetHandle());
+        vox::utility::hash_combine(result, render_pass.GetHandle());
 
         return result;
     }
@@ -130,10 +130,12 @@ struct hash<vox::Attachment> {
     std::size_t operator()(const vox::Attachment &attachment) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, static_cast<std::underlying_type<VkFormat>::type>(attachment.format));
-        vox::HashCombine(result, static_cast<std::underlying_type<VkSampleCountFlagBits>::type>(attachment.samples));
-        vox::HashCombine(result, attachment.usage);
-        vox::HashCombine(result, static_cast<std::underlying_type<VkImageLayout>::type>(attachment.initial_layout));
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkFormat>::type>(attachment.format));
+        vox::utility::hash_combine(result,
+                                   static_cast<std::underlying_type<VkSampleCountFlagBits>::type>(attachment.samples));
+        vox::utility::hash_combine(result, attachment.usage);
+        vox::utility::hash_combine(result,
+                                   static_cast<std::underlying_type<VkImageLayout>::type>(attachment.initial_layout));
 
         return result;
     }
@@ -144,9 +146,10 @@ struct hash<vox::LoadStoreInfo> {
     std::size_t operator()(const vox::LoadStoreInfo &load_store_info) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, static_cast<std::underlying_type<VkAttachmentLoadOp>::type>(load_store_info.load_op));
-        vox::HashCombine(result,
-                         static_cast<std::underlying_type<VkAttachmentStoreOp>::type>(load_store_info.store_op));
+        vox::utility::hash_combine(
+                result, static_cast<std::underlying_type<VkAttachmentLoadOp>::type>(load_store_info.load_op));
+        vox::utility::hash_combine(
+                result, static_cast<std::underlying_type<VkAttachmentStoreOp>::type>(load_store_info.store_op));
 
         return result;
     }
@@ -158,20 +161,20 @@ struct hash<vox::SubpassInfo> {
         std::size_t result = 0;
 
         for (uint32_t output_attachment : subpass_info.output_attachments) {
-            vox::HashCombine(result, output_attachment);
+            vox::utility::hash_combine(result, output_attachment);
         }
 
         for (uint32_t input_attachment : subpass_info.input_attachments) {
-            vox::HashCombine(result, input_attachment);
+            vox::utility::hash_combine(result, input_attachment);
         }
 
         for (uint32_t resolve_attachment : subpass_info.color_resolve_attachments) {
-            vox::HashCombine(result, resolve_attachment);
+            vox::utility::hash_combine(result, resolve_attachment);
         }
 
-        vox::HashCombine(result, subpass_info.disable_depth_stencil_attachment);
-        vox::HashCombine(result, subpass_info.depth_stencil_resolve_attachment);
-        vox::HashCombine(result, subpass_info.depth_stencil_resolve_mode);
+        vox::utility::hash_combine(result, subpass_info.disable_depth_stencil_attachment);
+        vox::utility::hash_combine(result, subpass_info.depth_stencil_resolve_attachment);
+        vox::utility::hash_combine(result, subpass_info.depth_stencil_resolve_mode);
 
         return result;
     }
@@ -183,9 +186,9 @@ struct hash<vox::SpecializationConstantState> {
         std::size_t result = 0;
 
         for (const auto &constants : specialization_constant_state.GetSpecializationConstantState()) {
-            vox::HashCombine(result, constants.first);
+            vox::utility::hash_combine(result, constants.first);
             for (const auto kData : constants.second) {
-                vox::HashCombine(result, kData);
+                vox::utility::hash_combine(result, kData);
             }
         }
 
@@ -205,11 +208,11 @@ struct hash<vox::ShaderResource> {
             return result;
         }
 
-        vox::HashCombine(result, shader_resource.set);
-        vox::HashCombine(result, shader_resource.binding);
-        vox::HashCombine(result,
-                         static_cast<std::underlying_type<vox::ShaderResourceType>::type>(shader_resource.type));
-        vox::HashCombine(result, shader_resource.mode);
+        vox::utility::hash_combine(result, shader_resource.set);
+        vox::utility::hash_combine(result, shader_resource.binding);
+        vox::utility::hash_combine(
+                result, static_cast<std::underlying_type<vox::ShaderResourceType>::type>(shader_resource.type));
+        vox::utility::hash_combine(result, shader_resource.mode);
 
         return result;
     }
@@ -220,9 +223,9 @@ struct hash<VkDescriptorBufferInfo> {
     std::size_t operator()(const VkDescriptorBufferInfo &descriptor_buffer_info) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, descriptor_buffer_info.buffer);
-        vox::HashCombine(result, descriptor_buffer_info.range);
-        vox::HashCombine(result, descriptor_buffer_info.offset);
+        vox::utility::hash_combine(result, descriptor_buffer_info.buffer);
+        vox::utility::hash_combine(result, descriptor_buffer_info.range);
+        vox::utility::hash_combine(result, descriptor_buffer_info.offset);
 
         return result;
     }
@@ -233,10 +236,10 @@ struct hash<VkDescriptorImageInfo> {
     std::size_t operator()(const VkDescriptorImageInfo &descriptor_image_info) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, descriptor_image_info.imageView);
-        vox::HashCombine(result,
-                         static_cast<std::underlying_type<VkImageLayout>::type>(descriptor_image_info.imageLayout));
-        vox::HashCombine(result, descriptor_image_info.sampler);
+        vox::utility::hash_combine(result, descriptor_image_info.imageView);
+        vox::utility::hash_combine(
+                result, static_cast<std::underlying_type<VkImageLayout>::type>(descriptor_image_info.imageLayout));
+        vox::utility::hash_combine(result, descriptor_image_info.sampler);
 
         return result;
     }
@@ -247,11 +250,11 @@ struct hash<VkWriteDescriptorSet> {
     std::size_t operator()(const VkWriteDescriptorSet &write_descriptor_set) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, write_descriptor_set.dstSet);
-        vox::HashCombine(result, write_descriptor_set.dstBinding);
-        vox::HashCombine(result, write_descriptor_set.dstArrayElement);
-        vox::HashCombine(result, write_descriptor_set.descriptorCount);
-        vox::HashCombine(result, write_descriptor_set.descriptorType);
+        vox::utility::hash_combine(result, write_descriptor_set.dstSet);
+        vox::utility::hash_combine(result, write_descriptor_set.dstBinding);
+        vox::utility::hash_combine(result, write_descriptor_set.dstArrayElement);
+        vox::utility::hash_combine(result, write_descriptor_set.descriptorCount);
+        vox::utility::hash_combine(result, write_descriptor_set.descriptorType);
 
         switch (write_descriptor_set.descriptorType) {
             case VK_DESCRIPTOR_TYPE_SAMPLER:
@@ -260,14 +263,14 @@ struct hash<VkWriteDescriptorSet> {
             case VK_DESCRIPTOR_TYPE_STORAGE_IMAGE:
             case VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT:
                 for (uint32_t i = 0; i < write_descriptor_set.descriptorCount; i++) {
-                    vox::HashCombine(result, write_descriptor_set.pImageInfo[i]);
+                    vox::utility::hash_combine(result, write_descriptor_set.pImageInfo[i]);
                 }
                 break;
 
             case VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER:
             case VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER:
                 for (uint32_t i = 0; i < write_descriptor_set.descriptorCount; i++) {
-                    vox::HashCombine(result, write_descriptor_set.pTexelBufferView[i]);
+                    vox::utility::hash_combine(result, write_descriptor_set.pTexelBufferView[i]);
                 }
                 break;
 
@@ -276,7 +279,7 @@ struct hash<VkWriteDescriptorSet> {
             case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC:
             case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC:
                 for (uint32_t i = 0; i < write_descriptor_set.descriptorCount; i++) {
-                    vox::HashCombine(result, write_descriptor_set.pBufferInfo[i]);
+                    vox::utility::hash_combine(result, write_descriptor_set.pBufferInfo[i]);
                 }
                 break;
 
@@ -294,10 +297,10 @@ struct hash<VkVertexInputAttributeDescription> {
     std::size_t operator()(const VkVertexInputAttributeDescription &vertex_attrib) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, vertex_attrib.binding);
-        vox::HashCombine(result, static_cast<std::underlying_type<VkFormat>::type>(vertex_attrib.format));
-        vox::HashCombine(result, vertex_attrib.location);
-        vox::HashCombine(result, vertex_attrib.offset);
+        vox::utility::hash_combine(result, vertex_attrib.binding);
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkFormat>::type>(vertex_attrib.format));
+        vox::utility::hash_combine(result, vertex_attrib.location);
+        vox::utility::hash_combine(result, vertex_attrib.offset);
 
         return result;
     }
@@ -308,9 +311,10 @@ struct hash<VkVertexInputBindingDescription> {
     std::size_t operator()(const VkVertexInputBindingDescription &vertex_binding) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, vertex_binding.binding);
-        vox::HashCombine(result, static_cast<std::underlying_type<VkVertexInputRate>::type>(vertex_binding.inputRate));
-        vox::HashCombine(result, vertex_binding.stride);
+        vox::utility::hash_combine(result, vertex_binding.binding);
+        vox::utility::hash_combine(
+                result, static_cast<std::underlying_type<VkVertexInputRate>::type>(vertex_binding.inputRate));
+        vox::utility::hash_combine(result, vertex_binding.stride);
 
         return result;
     }
@@ -321,10 +325,10 @@ struct hash<vox::StencilOpState> {
     std::size_t operator()(const vox::StencilOpState &stencil) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, static_cast<std::underlying_type<VkCompareOp>::type>(stencil.compare_op));
-        vox::HashCombine(result, static_cast<std::underlying_type<VkStencilOp>::type>(stencil.depth_fail_op));
-        vox::HashCombine(result, static_cast<std::underlying_type<VkStencilOp>::type>(stencil.fail_op));
-        vox::HashCombine(result, static_cast<std::underlying_type<VkStencilOp>::type>(stencil.pass_op));
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkCompareOp>::type>(stencil.compare_op));
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkStencilOp>::type>(stencil.depth_fail_op));
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkStencilOp>::type>(stencil.fail_op));
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkStencilOp>::type>(stencil.pass_op));
 
         return result;
     }
@@ -335,8 +339,8 @@ struct hash<VkExtent2D> {
     size_t operator()(const VkExtent2D &extent) const {
         size_t result = 0;
 
-        vox::HashCombine(result, extent.width);
-        vox::HashCombine(result, extent.height);
+        vox::utility::hash_combine(result, extent.width);
+        vox::utility::hash_combine(result, extent.height);
 
         return result;
     }
@@ -347,8 +351,8 @@ struct hash<VkOffset2D> {
     size_t operator()(const VkOffset2D &offset) const {
         size_t result = 0;
 
-        vox::HashCombine(result, offset.x);
-        vox::HashCombine(result, offset.y);
+        vox::utility::hash_combine(result, offset.x);
+        vox::utility::hash_combine(result, offset.y);
 
         return result;
     }
@@ -359,8 +363,8 @@ struct hash<VkRect2D> {
     size_t operator()(const VkRect2D &rect) const {
         size_t result = 0;
 
-        vox::HashCombine(result, rect.extent);
-        vox::HashCombine(result, rect.offset);
+        vox::utility::hash_combine(result, rect.extent);
+        vox::utility::hash_combine(result, rect.offset);
 
         return result;
     }
@@ -371,12 +375,12 @@ struct hash<VkViewport> {
     size_t operator()(const VkViewport &viewport) const {
         size_t result = 0;
 
-        vox::HashCombine(result, viewport.width);
-        vox::HashCombine(result, viewport.height);
-        vox::HashCombine(result, viewport.maxDepth);
-        vox::HashCombine(result, viewport.minDepth);
-        vox::HashCombine(result, viewport.x);
-        vox::HashCombine(result, viewport.y);
+        vox::utility::hash_combine(result, viewport.width);
+        vox::utility::hash_combine(result, viewport.height);
+        vox::utility::hash_combine(result, viewport.maxDepth);
+        vox::utility::hash_combine(result, viewport.minDepth);
+        vox::utility::hash_combine(result, viewport.x);
+        vox::utility::hash_combine(result, viewport.y);
 
         return result;
     }
@@ -387,20 +391,20 @@ struct hash<vox::ColorBlendAttachmentState> {
     std::size_t operator()(const vox::ColorBlendAttachmentState &color_blend_attachment) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result,
-                         static_cast<std::underlying_type<VkBlendOp>::type>(color_blend_attachment.alpha_blend_op));
-        vox::HashCombine(result, color_blend_attachment.blend_enable);
-        vox::HashCombine(result,
-                         static_cast<std::underlying_type<VkBlendOp>::type>(color_blend_attachment.color_blend_op));
-        vox::HashCombine(result, color_blend_attachment.color_write_mask);
-        vox::HashCombine(result, static_cast<std::underlying_type<VkBlendFactor>::type>(
-                                         color_blend_attachment.dst_alpha_blend_factor));
-        vox::HashCombine(result, static_cast<std::underlying_type<VkBlendFactor>::type>(
-                                         color_blend_attachment.dst_color_blend_factor));
-        vox::HashCombine(result, static_cast<std::underlying_type<VkBlendFactor>::type>(
-                                         color_blend_attachment.src_alpha_blend_factor));
-        vox::HashCombine(result, static_cast<std::underlying_type<VkBlendFactor>::type>(
-                                         color_blend_attachment.src_color_blend_factor));
+        vox::utility::hash_combine(
+                result, static_cast<std::underlying_type<VkBlendOp>::type>(color_blend_attachment.alpha_blend_op));
+        vox::utility::hash_combine(result, color_blend_attachment.blend_enable);
+        vox::utility::hash_combine(
+                result, static_cast<std::underlying_type<VkBlendOp>::type>(color_blend_attachment.color_blend_op));
+        vox::utility::hash_combine(result, color_blend_attachment.color_write_mask);
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkBlendFactor>::type>(
+                                                   color_blend_attachment.dst_alpha_blend_factor));
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkBlendFactor>::type>(
+                                                   color_blend_attachment.dst_color_blend_factor));
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkBlendFactor>::type>(
+                                                   color_blend_attachment.src_alpha_blend_factor));
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkBlendFactor>::type>(
+                                                   color_blend_attachment.src_color_blend_factor));
 
         return result;
     }
@@ -412,8 +416,8 @@ struct hash<vox::RenderTarget> {
         std::size_t result = 0;
 
         for (auto &view : render_target.GetViews()) {
-            vox::HashCombine(result, view.GetHandle());
-            vox::HashCombine(result, view.GetImage().GetHandle());
+            vox::utility::hash_combine(result, view.GetHandle());
+            vox::utility::hash_combine(result, view.GetImage().GetHandle());
         }
 
         return result;
@@ -425,75 +429,75 @@ struct hash<vox::PipelineState> {
     std::size_t operator()(const vox::PipelineState &pipeline_state) const {
         std::size_t result = 0;
 
-        vox::HashCombine(result, pipeline_state.GetPipelineLayout().GetHandle());
+        vox::utility::hash_combine(result, pipeline_state.GetPipelineLayout().GetHandle());
 
         // For graphics only
         if (auto render_pass = pipeline_state.GetRenderPass()) {
-            vox::HashCombine(result, render_pass->GetHandle());
+            vox::utility::hash_combine(result, render_pass->GetHandle());
         }
 
-        vox::HashCombine(result, pipeline_state.GetSpecializationConstantState());
+        vox::utility::hash_combine(result, pipeline_state.GetSpecializationConstantState());
 
-        vox::HashCombine(result, pipeline_state.GetSubpassIndex());
+        vox::utility::hash_combine(result, pipeline_state.GetSubpassIndex());
 
         for (auto shader_module : pipeline_state.GetPipelineLayout().GetShaderModules()) {
-            vox::HashCombine(result, shader_module->GetId());
+            vox::utility::hash_combine(result, shader_module->GetId());
         }
 
         // VkPipelineVertexInputStateCreateInfo
         for (auto &attribute : pipeline_state.GetVertexInputState().attributes) {
-            vox::HashCombine(result, attribute);
+            vox::utility::hash_combine(result, attribute);
         }
 
         for (auto &binding : pipeline_state.GetVertexInputState().bindings) {
-            vox::HashCombine(result, binding);
+            vox::utility::hash_combine(result, binding);
         }
 
         // VkPipelineInputAssemblyStateCreateInfo
-        vox::HashCombine(result, pipeline_state.GetInputAssemblyState().primitive_restart_enable);
-        vox::HashCombine(result, static_cast<std::underlying_type<VkPrimitiveTopology>::type>(
-                                         pipeline_state.GetInputAssemblyState().topology));
+        vox::utility::hash_combine(result, pipeline_state.GetInputAssemblyState().primitive_restart_enable);
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkPrimitiveTopology>::type>(
+                                                   pipeline_state.GetInputAssemblyState().topology));
 
         // VkPipelineViewportStateCreateInfo
-        vox::HashCombine(result, pipeline_state.GetViewportState().viewport_count);
-        vox::HashCombine(result, pipeline_state.GetViewportState().scissor_count);
+        vox::utility::hash_combine(result, pipeline_state.GetViewportState().viewport_count);
+        vox::utility::hash_combine(result, pipeline_state.GetViewportState().scissor_count);
 
         // VkPipelineRasterizationStateCreateInfo
-        vox::HashCombine(result, pipeline_state.GetRasterizationState().cull_mode);
-        vox::HashCombine(result, pipeline_state.GetRasterizationState().depth_bias_enable);
-        vox::HashCombine(result, pipeline_state.GetRasterizationState().depth_clamp_enable);
-        vox::HashCombine(result, static_cast<std::underlying_type<VkFrontFace>::type>(
-                                         pipeline_state.GetRasterizationState().front_face));
-        vox::HashCombine(result, static_cast<std::underlying_type<VkPolygonMode>::type>(
-                                         pipeline_state.GetRasterizationState().polygon_mode));
-        vox::HashCombine(result, pipeline_state.GetRasterizationState().rasterizer_discard_enable);
+        vox::utility::hash_combine(result, pipeline_state.GetRasterizationState().cull_mode);
+        vox::utility::hash_combine(result, pipeline_state.GetRasterizationState().depth_bias_enable);
+        vox::utility::hash_combine(result, pipeline_state.GetRasterizationState().depth_clamp_enable);
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkFrontFace>::type>(
+                                                   pipeline_state.GetRasterizationState().front_face));
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkPolygonMode>::type>(
+                                                   pipeline_state.GetRasterizationState().polygon_mode));
+        vox::utility::hash_combine(result, pipeline_state.GetRasterizationState().rasterizer_discard_enable);
 
         // VkPipelineMultisampleStateCreateInfo
-        vox::HashCombine(result, pipeline_state.GetMultisampleState().alpha_to_coverage_enable);
-        vox::HashCombine(result, pipeline_state.GetMultisampleState().alpha_to_one_enable);
-        vox::HashCombine(result, pipeline_state.GetMultisampleState().min_sample_shading);
-        vox::HashCombine(result, static_cast<std::underlying_type<VkSampleCountFlagBits>::type>(
-                                         pipeline_state.GetMultisampleState().rasterization_samples));
-        vox::HashCombine(result, pipeline_state.GetMultisampleState().sample_shading_enable);
-        vox::HashCombine(result, pipeline_state.GetMultisampleState().sample_mask);
+        vox::utility::hash_combine(result, pipeline_state.GetMultisampleState().alpha_to_coverage_enable);
+        vox::utility::hash_combine(result, pipeline_state.GetMultisampleState().alpha_to_one_enable);
+        vox::utility::hash_combine(result, pipeline_state.GetMultisampleState().min_sample_shading);
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkSampleCountFlagBits>::type>(
+                                                   pipeline_state.GetMultisampleState().rasterization_samples));
+        vox::utility::hash_combine(result, pipeline_state.GetMultisampleState().sample_shading_enable);
+        vox::utility::hash_combine(result, pipeline_state.GetMultisampleState().sample_mask);
 
         // VkPipelineDepthStencilStateCreateInfo
-        vox::HashCombine(result, pipeline_state.GetDepthStencilState().back);
-        vox::HashCombine(result, pipeline_state.GetDepthStencilState().depth_bounds_test_enable);
-        vox::HashCombine(result, static_cast<std::underlying_type<VkCompareOp>::type>(
-                                         pipeline_state.GetDepthStencilState().depth_compare_op));
-        vox::HashCombine(result, pipeline_state.GetDepthStencilState().depth_test_enable);
-        vox::HashCombine(result, pipeline_state.GetDepthStencilState().depth_write_enable);
-        vox::HashCombine(result, pipeline_state.GetDepthStencilState().front);
-        vox::HashCombine(result, pipeline_state.GetDepthStencilState().stencil_test_enable);
+        vox::utility::hash_combine(result, pipeline_state.GetDepthStencilState().back);
+        vox::utility::hash_combine(result, pipeline_state.GetDepthStencilState().depth_bounds_test_enable);
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkCompareOp>::type>(
+                                                   pipeline_state.GetDepthStencilState().depth_compare_op));
+        vox::utility::hash_combine(result, pipeline_state.GetDepthStencilState().depth_test_enable);
+        vox::utility::hash_combine(result, pipeline_state.GetDepthStencilState().depth_write_enable);
+        vox::utility::hash_combine(result, pipeline_state.GetDepthStencilState().front);
+        vox::utility::hash_combine(result, pipeline_state.GetDepthStencilState().stencil_test_enable);
 
         // VkPipelineColorBlendStateCreateInfo
-        vox::HashCombine(result, static_cast<std::underlying_type<VkLogicOp>::type>(
-                                         pipeline_state.GetColorBlendState().logic_op));
-        vox::HashCombine(result, pipeline_state.GetColorBlendState().logic_op_enable);
+        vox::utility::hash_combine(result, static_cast<std::underlying_type<VkLogicOp>::type>(
+                                                   pipeline_state.GetColorBlendState().logic_op));
+        vox::utility::hash_combine(result, pipeline_state.GetColorBlendState().logic_op_enable);
 
         for (auto &attachment : pipeline_state.GetColorBlendState().attachments) {
-            vox::HashCombine(result, attachment);
+            vox::utility::hash_combine(result, attachment);
         }
 
         return result;
@@ -505,7 +509,7 @@ namespace vox {
 namespace {
 template <typename T>
 inline void HashParam(size_t &seed, const T &value) {
-    HashCombine(seed, value);
+    utility::hash_combine(seed, value);
 }
 
 template <>
@@ -513,41 +517,41 @@ inline void HashParam(size_t & /*seed*/, const VkPipelineCache & /*value*/) {}
 
 template <>
 inline void HashParam<std::vector<uint8_t>>(size_t &seed, const std::vector<uint8_t> &value) {
-    HashCombine(seed, std::string{value.begin(), value.end()});
+    utility::hash_combine(seed, std::string{value.begin(), value.end()});
 }
 
 template <>
 inline void HashParam<std::vector<Attachment>>(size_t &seed, const std::vector<Attachment> &value) {
     for (auto &attachment : value) {
-        HashCombine(seed, attachment);
+        utility::hash_combine(seed, attachment);
     }
 }
 
 template <>
 inline void HashParam<std::vector<LoadStoreInfo>>(size_t &seed, const std::vector<LoadStoreInfo> &value) {
     for (auto &load_store_info : value) {
-        HashCombine(seed, load_store_info);
+        utility::hash_combine(seed, load_store_info);
     }
 }
 
 template <>
 inline void HashParam<std::vector<SubpassInfo>>(size_t &seed, const std::vector<SubpassInfo> &value) {
     for (auto &subpass_info : value) {
-        HashCombine(seed, subpass_info);
+        utility::hash_combine(seed, subpass_info);
     }
 }
 
 template <>
 inline void HashParam<std::vector<ShaderModule *>>(size_t &seed, const std::vector<ShaderModule *> &value) {
     for (auto &shader_module : value) {
-        HashCombine(seed, shader_module->GetId());
+        utility::hash_combine(seed, shader_module->GetId());
     }
 }
 
 template <>
 inline void HashParam<std::vector<ShaderResource>>(size_t &seed, const std::vector<ShaderResource> &value) {
     for (auto &resource : value) {
-        HashCombine(seed, resource);
+        utility::hash_combine(seed, resource);
     }
 }
 
@@ -555,11 +559,11 @@ template <>
 inline void HashParam<std::map<uint32_t, std::map<uint32_t, VkDescriptorBufferInfo>>>(
         size_t &seed, const std::map<uint32_t, std::map<uint32_t, VkDescriptorBufferInfo>> &value) {
     for (auto &binding_set : value) {
-        HashCombine(seed, binding_set.first);
+        utility::hash_combine(seed, binding_set.first);
 
         for (auto &binding_element : binding_set.second) {
-            HashCombine(seed, binding_element.first);
-            HashCombine(seed, binding_element.second);
+            utility::hash_combine(seed, binding_element.first);
+            utility::hash_combine(seed, binding_element.second);
         }
     }
 }
@@ -568,11 +572,11 @@ template <>
 inline void HashParam<std::map<uint32_t, std::map<uint32_t, VkDescriptorImageInfo>>>(
         size_t &seed, const std::map<uint32_t, std::map<uint32_t, VkDescriptorImageInfo>> &value) {
     for (auto &binding_set : value) {
-        HashCombine(seed, binding_set.first);
+        utility::hash_combine(seed, binding_set.first);
 
         for (auto &binding_element : binding_set.second) {
-            HashCombine(seed, binding_element.first);
-            HashCombine(seed, binding_element.second);
+            utility::hash_combine(seed, binding_element.first);
+            utility::hash_combine(seed, binding_element.second);
         }
     }
 }

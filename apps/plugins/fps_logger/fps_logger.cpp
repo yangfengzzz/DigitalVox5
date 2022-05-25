@@ -20,7 +20,7 @@ void FpsLogger::OnUpdate(float delta_time) {
         timer_.Start();
     }
 
-    auto elapsed_time = static_cast<float>(timer_.Elapsed<vox::Timer::Seconds>());
+    auto elapsed_time = static_cast<float>(timer_.Elapsed<vox::utility::Timer::Seconds>());
 
     frame_count_++;
 

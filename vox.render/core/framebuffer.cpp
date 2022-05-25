@@ -24,7 +24,7 @@ Framebuffer::Framebuffer(Device &device, const RenderTarget &render_target, cons
     VkFramebufferCreateInfo create_info{VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO};
 
     create_info.renderPass = render_pass.GetHandle();
-    create_info.attachmentCount = ToU32(attachments.size());
+    create_info.attachmentCount = utility::ToU32(attachments.size());
     create_info.pAttachments = attachments.data();
     create_info.width = extent_.width;
     create_info.height = extent_.height;

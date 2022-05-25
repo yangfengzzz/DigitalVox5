@@ -6,8 +6,8 @@
 
 #include "vox.render/shader/shader_module.h"
 
-#include "vox.render/core/device.h"
 #include "vox.base/logging.h"
+#include "vox.render/core/device.h"
 #include "vox.render/platform/filesystem.h"
 #include "vox.render/shader/glsl_compiler.h"
 #include "vox.render/shader/spirv_reflection.h"

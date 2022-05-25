@@ -10,13 +10,13 @@
 #include <unordered_map>
 #include <vector>
 
+#include "vox.base/helper.h"
 #include "vox.render/core/descriptor_pool.h"
 #include "vox.render/core/descriptor_set.h"
 #include "vox.render/core/descriptor_set_layout.h"
 #include "vox.render/core/framebuffer.h"
 #include "vox.render/core/pipeline.h"
 #include "vox.render/core/sampler.h"
-#include "vox.render/helpers.h"
 #include "vox.render/resource_record.h"
 #include "vox.render/resource_replay.h"
 

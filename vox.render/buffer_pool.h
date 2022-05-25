@@ -6,8 +6,8 @@
 
 #pragma once
 
+#include "vox.base/helper.h"
 #include "vox.render/core/buffer.h"
-#include "vox.render/helpers.h"
 
 namespace vox {
 class Device;
@@ -34,7 +34,7 @@ public:
 
     template <class T>
     void Update(const T &value, uint32_t offset = 0) {
-        Update(ToBytes(value), offset);
+        Update(utility::ToBytes(value), offset);
     }
 
     [[nodiscard]] bool Empty() const;

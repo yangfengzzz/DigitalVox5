@@ -15,20 +15,20 @@ namespace vox {
 namespace {
 inline void ReadSubpassInfo(std::istringstream &is, std::vector<SubpassInfo> &value) {
     std::size_t size;
-    Read(is, size);
+    utility::Read(is, size);
     value.resize(size);
     for (SubpassInfo &subpass : value) {
-        Read(is, subpass.input_attachments);
-        Read(is, subpass.output_attachments);
+        utility::Read(is, subpass.input_attachments);
+        utility::Read(is, subpass.output_attachments);
     }
 }
 
 inline void ReadProcesses(std::istringstream &is, std::vector<std::string> &value) {
     std::size_t size;
-    Read(is, size);
+    utility::Read(is, size);
     value.resize(size);
     for (std::string &item : value) {
-        Read(is, item);
+        utility::Read(is, item);
     }
 }
 }  // namespace
@@ -50,7 +50,7 @@ void ResourceReplay::Play(ResourceCache &resource_cache, ResourceRecord &recorde
     while (true) {
         // Read command id
         ResourceType resource_type;
-        Read(stream, resource_type);
+        utility::Read(stream, resource_type);
 
         if (stream.eof()) {
             break;
@@ -76,7 +76,7 @@ void ResourceReplay::CreateShaderModule(ResourceCache &resource_cache, std::istr
     std::string preamble;
     std::vector<std::string> processes;
 
-    Read(stream, stage, glsl_source, entry_point, preamble);
+    utility::Read(stream, stage, glsl_source, entry_point, preamble);
 
     ReadProcesses(stream, processes);
 
@@ -92,7 +92,7 @@ void ResourceReplay::CreateShaderModule(ResourceCache &resource_cache, std::istr
 void ResourceReplay::CreatePipelineLayout(ResourceCache &resource_cache, std::istringstream &stream) {
     std::vector<size_t> shader_indices;
 
-    Read(stream, shader_indices);
+    utility::Read(stream, shader_indices);
 
     std::vector<ShaderModule *> shader_stages(shader_indices.size());
     std::transform(shader_indices.begin(), shader_indices.end(), shader_stages.begin(),
@@ -108,7 +108,7 @@ void ResourceReplay::CreateRenderPass(ResourceCache &resource_cache, std::istrin
     std::vector<LoadStoreInfo> load_store_infos;
     std::vector<SubpassInfo> subpasses;
 
-    Read(stream, attachments, load_store_infos);
+    utility::Read(stream, attachments, load_store_infos);
 
     ReadSubpassInfo(stream, subpasses);
 
@@ -122,14 +122,14 @@ void ResourceReplay::CreateGraphicsPipeline(ResourceCache &resource_cache, std::
     size_t render_pass_index{};
     uint32_t subpass_index{};
 
-    Read(stream, pipeline_layout_index, render_pass_index, subpass_index);
+    utility::Read(stream, pipeline_layout_index, render_pass_index, subpass_index);
 
     std::map<uint32_t, std::vector<uint8_t>> specialization_constant_state{};
-    Read(stream, specialization_constant_state);
+    utility::Read(stream, specialization_constant_state);
 
     VertexInputState vertex_input_state{};
 
-    Read(stream, vertex_input_state.attributes, vertex_input_state.bindings);
+    utility::Read(stream, vertex_input_state.attributes, vertex_input_state.bindings);
 
     InputAssemblyState input_assembly_state{};
     RasterizationState rasterization_state{};
@@ -137,11 +137,12 @@ void ResourceReplay::CreateGraphicsPipeline(ResourceCache &resource_cache, std::
     MultisampleState multisample_state{};
     DepthStencilState depth_stencil_state{};
 
-    Read(stream, input_assembly_state, rasterization_state, viewport_state, multisample_state, depth_stencil_state);
+    utility::Read(stream, input_assembly_state, rasterization_state, viewport_state, multisample_state,
+                  depth_stencil_state);
 
     ColorBlendState color_blend_state{};
 
-    Read(stream, color_blend_state.logic_op, color_blend_state.logic_op_enable, color_blend_state.attachments);
+    utility::Read(stream, color_blend_state.logic_op, color_blend_state.logic_op_enable, color_blend_state.attachments);
 
     PipelineState pipeline_state{};
     pipeline_state.SetPipelineLayout(*pipeline_layouts_.at(pipeline_layout_index));

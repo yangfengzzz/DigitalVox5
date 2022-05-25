@@ -6,9 +6,9 @@
 
 #pragma once
 
+#include "vox.base/helper.h"
 #include "vox.render/core/buffer.h"
 #include "vox.render/core/scratch_buffer.h"
-#include "vox.render/helpers.h"
 #include "vox.render/vk_common.h"
 
 namespace vox {

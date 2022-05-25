@@ -33,7 +33,7 @@ public:
     vox::FlagCommand fps_flag_ = {vox::FlagType::FLAG_ONLY, "log-fps", "", "Log FPS"};
 
 private:
-    vox::Timer timer_;
+    vox::utility::Timer timer_;
 
     size_t frame_count_{0};
 

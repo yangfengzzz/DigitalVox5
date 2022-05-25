@@ -46,7 +46,6 @@ set(COMMON_FILES
         vk_common.h
         vk_initializers.h
         resource_caching.h
-        helpers.h
         error.h
         utils.h
         strings.h

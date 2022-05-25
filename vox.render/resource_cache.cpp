@@ -150,7 +150,7 @@ void ResourceCache::UpdateDescriptorSets(const std::vector<core::ImageView> &old
     }
 
     if (!set_updates.empty()) {
-        vkUpdateDescriptorSets(device_.GetHandle(), ToU32(set_updates.size()), set_updates.data(), 0, nullptr);
+        vkUpdateDescriptorSets(device_.GetHandle(), utility::ToU32(set_updates.size()), set_updates.data(), 0, nullptr);
     }
 
     // Delete old entries (moved out descriptor sets)

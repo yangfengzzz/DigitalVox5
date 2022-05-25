@@ -130,7 +130,7 @@ std::uint32_t DescriptorPool::FindAvailablePool(std::uint32_t pool_index) {
     if (pools_.size() <= pool_index) {
         VkDescriptorPoolCreateInfo create_info{VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO};
 
-        create_info.poolSizeCount = ToU32(pool_sizes_.size());
+        create_info.poolSizeCount = utility::ToU32(pool_sizes_.size());
         create_info.pPoolSizes = pool_sizes_.data();
         create_info.maxSets = pool_max_sets_;
 

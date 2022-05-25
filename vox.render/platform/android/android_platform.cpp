@@ -23,8 +23,8 @@ VKBP_DISABLE_WARNINGS()
 
 VKBP_ENABLE_WARNINGS()
 
-#include "vox.render/apps.h"
 #include "vox.base/logging.h"
+#include "vox.render/apps.h"
 #include "vox.render/platform/android/android_window.h"
 #include "vox.render/platform/input_events.h"
 #include "vox.render/strings.h"

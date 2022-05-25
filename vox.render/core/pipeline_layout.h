@@ -6,8 +6,8 @@
 
 #pragma once
 
+#include "vox.base/helper.h"
 #include "vox.render/core/descriptor_set_layout.h"
-#include "vox.render/helpers.h"
 #include "vox.render/shader/shader_module.h"
 #include "vox.render/vk_common.h"
 

@@ -79,9 +79,9 @@ PipelineLayout::PipelineLayout(Device &device, const std::vector<ShaderModule *>
 
     VkPipelineLayoutCreateInfo create_info{VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO};
 
-    create_info.setLayoutCount = ToU32(descriptor_set_layout_handles.size());
+    create_info.setLayoutCount = utility::ToU32(descriptor_set_layout_handles.size());
     create_info.pSetLayouts = descriptor_set_layout_handles.data();
-    create_info.pushConstantRangeCount = ToU32(push_constant_ranges.size());
+    create_info.pushConstantRangeCount = utility::ToU32(push_constant_ranges.size());
     create_info.pPushConstantRanges = push_constant_ranges.data();
 
     // Create the Vulkan pipeline layout handle_

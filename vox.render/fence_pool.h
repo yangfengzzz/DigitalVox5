@@ -6,7 +6,8 @@
 
 #pragma once
 
-#include "vox.render/helpers.h"
+#include "vox.base/helper.h"
+#include "vox.render/error.h"
 
 namespace vox {
 class Device;

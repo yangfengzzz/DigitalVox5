@@ -8,13 +8,14 @@
 
 #include <list>
 
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
 #include "vox.render/core/buffer.h"
 #include "vox.render/core/image.h"
 #include "vox.render/core/image_view.h"
 #include "vox.render/core/query_pool.h"
 #include "vox.render/core/sampler.h"
 #include "vox.render/core/vulkan_resource.h"
-#include "vox.render/helpers.h"
 #include "vox.render/rendering/pipeline_state.h"
 #include "vox.render/rendering/render_target.h"
 #include "vox.render/resource_binding_state.h"
@@ -333,7 +334,7 @@ inline void CommandBuffer::SetSpecializationConstant(uint32_t constant_id, const
 
 template <>
 inline void CommandBuffer::SetSpecializationConstant<bool>(std::uint32_t constant_id, const bool &data) {
-    SetSpecializationConstant(constant_id, ToBytes(ToU32(data)));
+    SetSpecializationConstant(constant_id, utility::ToBytes(utility::ToU32(data)));
 }
 
 }  // namespace vox

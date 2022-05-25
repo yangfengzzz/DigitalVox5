@@ -6,8 +6,8 @@
 
 #pragma once
 
+#include "vox.base/helper.h"
 #include "vox.render/core/vulkan_resource.h"
-#include "vox.render/helpers.h"
 #include "vox.render/vk_common.h"
 
 namespace vox {

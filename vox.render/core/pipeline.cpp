@@ -64,12 +64,12 @@ ComputePipeline::ComputePipeline(Device &device, VkPipelineCache pipeline_cache,
 
     for (const auto &specialization_constant : kSpecializationConstantState) {
         map_entries.push_back(
-                {specialization_constant.first, ToU32(data.size()), specialization_constant.second.size()});
+                {specialization_constant.first, utility::ToU32(data.size()), specialization_constant.second.size()});
         data.insert(data.end(), specialization_constant.second.begin(), specialization_constant.second.end());
     }
 
     VkSpecializationInfo specialization_info{};
-    specialization_info.mapEntryCount = ToU32(map_entries.size());
+    specialization_info.mapEntryCount = utility::ToU32(map_entries.size());
     specialization_info.pMapEntries = map_entries.data();
     specialization_info.dataSize = data.size();
     specialization_info.pData = data.data();
@@ -105,12 +105,12 @@ GraphicsPipeline::GraphicsPipeline(Device &device, VkPipelineCache pipeline_cach
 
     for (const auto &specialization_constant : kSpecializationConstantState) {
         map_entries.push_back(
-                {specialization_constant.first, ToU32(data.size()), specialization_constant.second.size()});
+                {specialization_constant.first, utility::ToU32(data.size()), specialization_constant.second.size()});
         data.insert(data.end(), specialization_constant.second.begin(), specialization_constant.second.end());
     }
 
     VkSpecializationInfo specialization_info{};
-    specialization_info.mapEntryCount = ToU32(map_entries.size());
+    specialization_info.mapEntryCount = utility::ToU32(map_entries.size());
     specialization_info.pMapEntries = map_entries.data();
     specialization_info.dataSize = data.size();
     specialization_info.pData = data.data();
@@ -144,16 +144,18 @@ GraphicsPipeline::GraphicsPipeline(Device &device, VkPipelineCache pipeline_cach
 
     VkGraphicsPipelineCreateInfo create_info{VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO};
 
-    create_info.stageCount = ToU32(stage_create_infos.size());
+    create_info.stageCount = utility::ToU32(stage_create_infos.size());
     create_info.pStages = stage_create_infos.data();
 
     VkPipelineVertexInputStateCreateInfo vertex_input_state{VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO};
 
     vertex_input_state.pVertexAttributeDescriptions = pipeline_state.GetVertexInputState().attributes.data();
-    vertex_input_state.vertexAttributeDescriptionCount = ToU32(pipeline_state.GetVertexInputState().attributes.size());
+    vertex_input_state.vertexAttributeDescriptionCount =
+            utility::ToU32(pipeline_state.GetVertexInputState().attributes.size());
 
     vertex_input_state.pVertexBindingDescriptions = pipeline_state.GetVertexInputState().bindings.data();
-    vertex_input_state.vertexBindingDescriptionCount = ToU32(pipeline_state.GetVertexInputState().bindings.size());
+    vertex_input_state.vertexBindingDescriptionCount =
+            utility::ToU32(pipeline_state.GetVertexInputState().bindings.size());
 
     VkPipelineInputAssemblyStateCreateInfo input_assembly_state{
             VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO};
@@ -218,7 +220,7 @@ GraphicsPipeline::GraphicsPipeline(Device &device, VkPipelineCache pipeline_cach
 
     color_blend_state.logicOpEnable = pipeline_state.GetColorBlendState().logic_op_enable;
     color_blend_state.logicOp = pipeline_state.GetColorBlendState().logic_op;
-    color_blend_state.attachmentCount = ToU32(pipeline_state.GetColorBlendState().attachments.size());
+    color_blend_state.attachmentCount = utility::ToU32(pipeline_state.GetColorBlendState().attachments.size());
     color_blend_state.pAttachments = reinterpret_cast<const VkPipelineColorBlendAttachmentState *>(
             pipeline_state.GetColorBlendState().attachments.data());
     color_blend_state.blendConstants[0] = 1.0f;
@@ -241,7 +243,7 @@ GraphicsPipeline::GraphicsPipeline(Device &device, VkPipelineCache pipeline_cach
     VkPipelineDynamicStateCreateInfo dynamic_state{VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO};
 
     dynamic_state.pDynamicStates = dynamic_states.data();
-    dynamic_state.dynamicStateCount = ToU32(dynamic_states.size());
+    dynamic_state.dynamicStateCount = utility::ToU32(dynamic_states.size());
 
     create_info.pVertexInputState = &vertex_input_state;
     create_info.pInputAssemblyState = &input_assembly_state;

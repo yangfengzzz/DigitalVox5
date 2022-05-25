@@ -6,8 +6,8 @@
 
 #include "vox.render/core/swapchain.h"
 
-#include "vox.render/core/device.h"
 #include "vox.base/logging.h"
+#include "vox.render/core/device.h"
 
 namespace vox {
 namespace {

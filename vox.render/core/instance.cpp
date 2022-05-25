@@ -257,10 +257,10 @@ Instance::Instance(const std::string &application_name,
 
     instance_info.pApplicationInfo = &app_info;
 
-    instance_info.enabledExtensionCount = ToU32(enabled_extensions_.size());
+    instance_info.enabledExtensionCount = utility::ToU32(enabled_extensions_.size());
     instance_info.ppEnabledExtensionNames = enabled_extensions_.data();
 
-    instance_info.enabledLayerCount = ToU32(requested_validation_layers.size());
+    instance_info.enabledLayerCount = utility::ToU32(requested_validation_layers.size());
     instance_info.ppEnabledLayerNames = requested_validation_layers.data();
 
 #if defined(VKB_DEBUG) || defined(VKB_VALIDATION_LAYERS)

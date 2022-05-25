@@ -102,7 +102,7 @@ inline void ReadResourceSize(const spirv_cross::Compiler &compiler,
         array_size = variant.GetRuntimeArraySizes().at(resource.name);
     }
 
-    shader_resource.size = ToU32(compiler.get_declared_struct_size_runtime_array(spirv_type, array_size));
+    shader_resource.size = utility::ToU32(compiler.get_declared_struct_size_runtime_array(spirv_type, array_size));
 }
 
 inline void ReadResourceSize(const spirv_cross::Compiler &compiler,

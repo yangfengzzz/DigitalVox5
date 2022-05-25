@@ -140,12 +140,12 @@ private:
 
 template <class T>
 inline void SpecializationConstantState::SetConstant(std::uint32_t constant_id, const T &data) {
-    SetConstant(constant_id, ToBytes(static_cast<std::uint32_t>(data)));
+    SetConstant(constant_id, utility::ToBytes(static_cast<std::uint32_t>(data)));
 }
 
 template <>
 inline void SpecializationConstantState::SetConstant<bool>(std::uint32_t constant_id, const bool &data) {
-    SetConstant(constant_id, ToBytes(static_cast<std::uint32_t>(data)));
+    SetConstant(constant_id, utility::ToBytes(static_cast<std::uint32_t>(data)));
 }
 
 class PipelineState {

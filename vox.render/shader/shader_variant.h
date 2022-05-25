@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "vox.render/helpers.h"
+#include "vox.base/helper.h"
 
 namespace vox {
 /**

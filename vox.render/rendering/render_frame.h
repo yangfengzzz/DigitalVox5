@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "vox.base/helper.h"
 #include "vox.render/buffer_pool.h"
 #include "vox.render/core/buffer.h"
 #include "vox.render/core/command_buffer.h"
@@ -15,7 +16,6 @@
 #include "vox.render/core/query_pool.h"
 #include "vox.render/core/queue.h"
 #include "vox.render/fence_pool.h"
-#include "vox.render/helpers.h"
 #include "vox.render/rendering/render_target.h"
 #include "vox.render/resource_caching.h"
 #include "vox.render/semaphore_pool.h"

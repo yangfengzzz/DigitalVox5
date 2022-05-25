@@ -151,7 +151,7 @@ void SkyboxSubpass::Draw(CommandBuffer &command_buffer) {
     view_matrix[14] = 0;
     view_matrix[15] = 1;
     auto matrix = kProjectionMatrix * view_matrix;
-    std::vector<uint8_t> bytes = ToBytes(matrix);
+    std::vector<uint8_t> bytes = utility::ToBytes(matrix);
     vp_matrix_->Update(bytes);
 
     // pipeline state

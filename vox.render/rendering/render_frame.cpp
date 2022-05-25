@@ -186,16 +186,16 @@ BufferAllocation RenderFrame::AllocateBuffer(VkBufferUsageFlags usage, VkDeviceS
     if (buffer_allocation_strategy_ == BufferAllocationStrategy::ONE_ALLOCATION_PER_BUFFER || !buffer_block) {
         // If there is no block associated with the pool, we are creating a buffer for each allocation,
         // request a new buffer block
-        buffer_block = &buffer_pool.RequestBufferBlock(ToU32(size));
+        buffer_block = &buffer_pool.RequestBufferBlock(utility::ToU32(size));
     }
 
-    auto data = buffer_block->Allocate(ToU32(size));
+    auto data = buffer_block->Allocate(utility::ToU32(size));
 
     // Check if the buffer block can allocate the requested size
     if (data.Empty()) {
-        buffer_block = &buffer_pool.RequestBufferBlock(ToU32(size));
+        buffer_block = &buffer_pool.RequestBufferBlock(utility::ToU32(size));
 
-        data = buffer_block->Allocate(ToU32(size));
+        data = buffer_block->Allocate(utility::ToU32(size));
     }
 
     return data;

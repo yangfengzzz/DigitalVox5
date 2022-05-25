@@ -43,7 +43,7 @@ const VkQueueFamilyProperties &Queue::GetProperties() const { return properties_
 VkBool32 Queue::SupportPresent() const { return can_present_; }
 
 VkResult Queue::Submit(const std::vector<VkSubmitInfo> &submit_infos, VkFence fence) const {
-    return vkQueueSubmit(handle_, ToU32(submit_infos.size()), submit_infos.data(), fence);
+    return vkQueueSubmit(handle_, utility::ToU32(submit_infos.size()), submit_infos.data(), fence);
 }
 
 VkResult Queue::Submit(const CommandBuffer &command_buffer, VkFence fence) const {
