@@ -8,7 +8,7 @@
 
 #include "vox.render/core/device.h"
 #include "vox.render/error.h"
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 
 namespace vox {
 BufferBlock::BufferBlock(Device &device, VkDeviceSize size, VkBufferUsageFlags usage, VmaMemoryUsage memory_usage)

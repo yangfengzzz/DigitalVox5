@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/platform/platform.h"
 
 #include "vox.editor/editor_application.h"
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     vox::UnixD2DPlatform platform{argc, argv};
 #else
 
-#include "platform/unix/unix_platform.h"
+#include "vox.render/platform/unix/unix_platform.h"
 
 int main(int argc, char *argv[]) {
 #if defined(VK_USE_PLATFORM_METAL_EXT)

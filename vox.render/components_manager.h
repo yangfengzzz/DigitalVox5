@@ -14,7 +14,7 @@
 #include "vox.render/platform/input_events.h"
 #include "vox.render/rendering/render_element.h"
 #include "vox.render/scene_forward.h"
-#include "vox.render/singleton.h"
+#include "vox.base/singleton.h"
 
 namespace vox {
 /**

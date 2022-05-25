@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "vox.render/behaviour.h"
-#include "vox.render/singleton.h"
+#include "vox.base/singleton.h"
 
 namespace vox {
 /**

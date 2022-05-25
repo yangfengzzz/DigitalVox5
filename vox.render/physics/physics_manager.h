@@ -13,7 +13,7 @@
 #include "vox.render/layer.h"
 #include "vox.render/physics/hit_result.h"
 #include "vox.render/physics/physics.h"
-#include "vox.render/singleton.h"
+#include "vox.base/singleton.h"
 
 namespace vox {
 namespace physics {

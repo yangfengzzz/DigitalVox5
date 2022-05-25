@@ -6,7 +6,7 @@
 
 #include "vox.render/platform/application.h"
 
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/platform/platform.h"
 
 namespace vox {

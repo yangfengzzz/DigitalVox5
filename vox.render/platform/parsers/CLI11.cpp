@@ -8,7 +8,7 @@
 
 #include <utility>
 
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/strings.h"
 
 namespace vox {

@@ -21,7 +21,7 @@
 #include "vox.render/core/vulkan_resource.h"
 #include "vox.render/fence_pool.h"
 #include "vox.render/helpers.h"
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/rendering/pipeline_state.h"
 #include "vox.render/rendering/render_target.h"
 #include "vox.render/resource_cache.h"

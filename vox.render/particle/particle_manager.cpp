@@ -6,7 +6,7 @@
 
 #include "vox.render/particle/particle_manager.h"
 
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/shader/shader_manager.h"
 
 namespace vox {

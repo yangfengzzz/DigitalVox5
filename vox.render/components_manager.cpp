@@ -10,7 +10,7 @@
 #include "vox.render/renderer.h"
 #include "vox.render/script.h"
 //#include "vox.render/animator.h"
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/scene_animator.h"
 
 namespace vox {

@@ -6,7 +6,7 @@
 
 #include "vox.render/resource_replay.h"
 
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/rendering/pipeline_state.h"
 #include "vox.render/resource_cache.h"
 #include "vox.render/vk_common.h"

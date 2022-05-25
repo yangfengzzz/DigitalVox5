@@ -6,7 +6,7 @@
 
 #include "vox.render/rendering/render_frame.h"
 
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/utils.h"
 
 namespace vox {

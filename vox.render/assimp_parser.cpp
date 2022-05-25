@@ -13,7 +13,7 @@
 #include <assimp/Importer.hpp>
 
 #include "vox.render/entity.h"
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/material/blinn_phong_material.h"
 #include "vox.render/material/pbr_material.h"
 #include "vox.render/material/pbr_specular_material.h"

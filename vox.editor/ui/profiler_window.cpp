@@ -6,7 +6,7 @@
 
 #include "vox.editor/ui/profiler_window.h"
 
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/ui/widgets/visual/separator.h"
 
 namespace vox::editor::ui {

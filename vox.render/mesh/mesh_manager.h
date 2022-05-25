@@ -8,7 +8,7 @@
 
 #include "vox.render/mesh/buffer_mesh.h"
 #include "vox.render/mesh/model_mesh.h"
-#include "vox.render/singleton.h"
+#include "vox.base/singleton.h"
 
 namespace vox {
 class MeshManager : public Singleton<MeshManager> {

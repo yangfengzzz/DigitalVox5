@@ -8,7 +8,7 @@
 
 #include <spdlog/sinks/base_sink.h>
 
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/ui/widgets/layout/group.h"
 #include "vox.render/ui/widgets/panel_transformables/panel_window.h"
 #include "vox.render/ui/widgets/texts/text_colored.h"

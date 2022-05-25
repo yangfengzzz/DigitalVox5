@@ -7,7 +7,7 @@
 #pragma once
 
 #include "vox.render/behaviour.h"
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 
 namespace vox {
 template <typename... Args>

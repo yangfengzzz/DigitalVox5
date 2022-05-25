@@ -21,7 +21,7 @@
 #include "apps/primitive_app.h"
 #include "apps/shadowmap_app.h"
 #include "apps/skybox_app.h"
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/platform/platform.h"
 
 // MARK: - Entry

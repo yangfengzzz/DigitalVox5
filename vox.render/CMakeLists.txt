@@ -43,13 +43,11 @@ set(FRAMEWORK_FILES
 
 set(COMMON_FILES
         # Header Files
-        singleton.h
         event.h
         event-inl.h
         vk_common.h
         vk_initializers.h
         resource_caching.h
-        logging.h
         helpers.h
         error.h
         utils.h

@@ -10,7 +10,7 @@
 #include <stdexcept>
 #include <string>
 
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/strings.h"
 #include "vox.render/vk_common.h"
 

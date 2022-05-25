@@ -13,7 +13,7 @@
 #include "vox.render/scene.h"
 #include "vox.render/script.h"
 //#include "vox.render/serializer.h"
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 
 namespace vox {
 Event<Entity *> Entity::destroyed_event;

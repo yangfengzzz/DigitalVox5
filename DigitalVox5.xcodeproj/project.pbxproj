@@ -82,7 +82,6 @@
 		0444E4E52803C73E00C6F279 /* ray.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E4872803C73E00C6F279 /* ray.h */; };
 		0444E8B32805560C00C6F279 /* strings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E7FB2805552B00C6F279 /* strings.cpp */; };
 		0444E8B42805560C00C6F279 /* strings.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E8002805552B00C6F279 /* strings.h */; };
-		0444E8B52805567000C6F279 /* logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E7FD2805552B00C6F279 /* logging.h */; };
 		0444E8B8280556B100C6F279 /* vk_initializers.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E7F52805552B00C6F279 /* vk_initializers.h */; };
 		0444E8B9280556B100C6F279 /* vk_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E8012805552B00C6F279 /* vk_common.cpp */; };
 		0444E8BA280556B100C6F279 /* vk_common.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E7F42805552A00C6F279 /* vk_common.h */; };
@@ -228,7 +227,6 @@
 		0444EA5C2805772200C6F279 /* render_context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444E9B2280568C400C6F279 /* render_context.cpp */; };
 		0444EA5D2805772200C6F279 /* render_context.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E9B4280568C400C6F279 /* render_context.h */; };
 		0444EA822805AF2A00C6F279 /* pbr_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA802805AF2A00C6F279 /* pbr_material.h */; };
-		0444EAC228083EAA00C6F279 /* singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA9E28083E5C00C6F279 /* singleton.h */; };
 		0444EAC328083EC100C6F279 /* update_flag_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA8628083E5B00C6F279 /* update_flag_manager.h */; };
 		0444EAC428083EC100C6F279 /* update_flag_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0444EA8F28083E5B00C6F279 /* update_flag_manager.cpp */; };
 		0444EAC528083EC100C6F279 /* layer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444EA9628083E5B00C6F279 /* layer.h */; };
@@ -1341,7 +1339,6 @@
 		0444E7FA2805552B00C6F279 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
 		0444E7FB2805552B00C6F279 /* strings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = strings.cpp; sourceTree = "<group>"; };
 		0444E7FC2805552B00C6F279 /* tags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tags.h; sourceTree = "<group>"; };
-		0444E7FD2805552B00C6F279 /* logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
 		0444E7FE2805552B00C6F279 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		0444E8002805552B00C6F279 /* strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = strings.h; sourceTree = "<group>"; };
 		0444E8012805552B00C6F279 /* vk_common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vk_common.cpp; sourceTree = "<group>"; };
@@ -3255,22 +3252,20 @@
 		047BB5D12803A99E00CD5749 /* vox.render */ = {
 			isa = PBXGroup;
 			children = (
+				0444E7F72805552B00C6F279 /* helpers.h */,
+				0444E92C28055D5D00C6F279 /* timer.h */,
+				0444E92B28055D5D00C6F279 /* timer.cpp */,
 				04D95D59280F9C9100E54DC2 /* shaders */,
-				0444EA9E28083E5C00C6F279 /* singleton.h */,
+				0444E7FC2805552B00C6F279 /* tags.h */,
 				0444E8002805552B00C6F279 /* strings.h */,
 				0444E7FB2805552B00C6F279 /* strings.cpp */,
-				0444E7FD2805552B00C6F279 /* logging.h */,
 				0444E7F52805552B00C6F279 /* vk_initializers.h */,
 				0444E7F42805552A00C6F279 /* vk_common.h */,
 				0444E8012805552B00C6F279 /* vk_common.cpp */,
-				0444E7F72805552B00C6F279 /* helpers.h */,
 				0444E7FA2805552B00C6F279 /* error.h */,
 				0444E7F92805552B00C6F279 /* error.cpp */,
-				0444E7FC2805552B00C6F279 /* tags.h */,
 				0444E7FE2805552B00C6F279 /* utils.h */,
 				0444E7F62805552B00C6F279 /* utils.cpp */,
-				0444E92C28055D5D00C6F279 /* timer.h */,
-				0444E92B28055D5D00C6F279 /* timer.cpp */,
 				0444E92F28055D9300C6F279 /* debug_info.h */,
 				0444E93028055D9300C6F279 /* debug_info.cpp */,
 				0444E81A2805556100C6F279 /* core */,
@@ -3547,12 +3542,13 @@
 				04C3C3452833E3A400B0BE1F /* helper.cpp */,
 				04C3C34D2833E3A500B0BE1F /* ijson_convertible.h */,
 				04C3C34F2833E3A500B0BE1F /* ijson_convertible.cpp */,
-				04C3C3432833E3A400B0BE1F /* logging.h */,
 				04C3C3512833E3A500B0BE1F /* progress_bar.h */,
 				04C3C33B2833E3A300B0BE1F /* progress_bar.cpp */,
 				04C3C52E2835CA7C00B0BE1F /* progress_reporters.h */,
 				04C3C3462833E3A400B0BE1F /* timer.h */,
 				04C3C34C2833E3A400B0BE1F /* timer.cpp */,
+				04C3C3432833E3A400B0BE1F /* logging.h */,
+				0444EA9E28083E5C00C6F279 /* singleton.h */,
 			);
 			path = vox.base;
 			sourceTree = "<group>";
@@ -4403,12 +4399,10 @@
 				0444EBA228084BC500C6F279 /* new_line.h in Headers */,
 				0444E96C280563E600C6F279 /* input_events.h in Headers */,
 				04D95CE5280BF4A400E54DC2 /* base_material.h in Headers */,
-				0444EAC228083EAA00C6F279 /* singleton.h in Headers */,
 				04D95CC0280B068D00E54DC2 /* model_mesh.h in Headers */,
 				0444EB1528084B8700C6F279 /* panel_undecorated.h in Headers */,
 				04D95C7D280A8C6E00E54DC2 /* translational_joint.h in Headers */,
 				0444EA382805720800C6F279 /* texture.h in Headers */,
-				0444E8B52805567000C6F279 /* logging.h in Headers */,
 				0444E9C5280569C500C6F279 /* subpass.h in Headers */,
 				04D95CFF280C3DD000E54DC2 /* render_element.h in Headers */,
 				04D95DA02810EEC900E54DC2 /* framework_graph.h in Headers */,

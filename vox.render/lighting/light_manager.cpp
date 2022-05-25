@@ -7,7 +7,7 @@
 #include "vox.render/lighting/light_manager.h"
 
 #include "vox.render/camera.h"
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/scene.h"
 #include "vox.render/shader/internal_variant_name.h"
 #include "vox.render/shader/shader_manager.h"

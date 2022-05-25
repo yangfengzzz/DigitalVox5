@@ -12,7 +12,7 @@
 #include "vox.render/rendering/postprocessing_computepass.h"
 #include "vox.render/rendering/postprocessing_pipeline.h"
 #include "vox.render/shader/shader_data.h"
-#include "vox.render/singleton.h"
+#include "vox.base/singleton.h"
 
 namespace vox {
 /**

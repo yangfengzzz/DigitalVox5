@@ -8,7 +8,7 @@
 
 #include "vox.render/event.h"
 #include "vox.render/scene.h"
-#include "vox.render/singleton.h"
+#include "vox.base/singleton.h"
 
 namespace vox {
 /**

@@ -10,7 +10,7 @@
 #include "vox.math/point3.h"
 #include "vox.render/platform/filesystem.h"
 #include "vox.render/scene_forward.h"
-#include "vox.render/singleton.h"
+#include "vox.base/singleton.h"
 
 namespace vox {
 namespace editor {

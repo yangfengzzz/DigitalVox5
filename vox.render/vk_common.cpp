@@ -8,7 +8,7 @@
 
 #include <spdlog/fmt/fmt.h>
 
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/platform/filesystem.h"
 #include "vox.render/shader/glsl_compiler.h"
 #include "vox.render/strings.h"

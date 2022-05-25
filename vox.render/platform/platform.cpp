@@ -14,7 +14,7 @@
 #include <algorithm>
 #include <vector>
 
-#include "vox.render/logging.h"
+#include "vox.base/logging.h"
 #include "vox.render/platform/parsers/CLI11.h"
 #include "vox.render/platform/plugins/plugin.h"
 #include "vox.render/plugins/force_close.h"
