@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "vox.visual/gui/widget.h"
 #include "vox.math/vector3.h"
+#include "vox.visual/gui/widget.h"
 
 namespace vox::visualization::gui {
 

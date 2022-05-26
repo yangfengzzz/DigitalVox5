@@ -8,8 +8,8 @@
 
 #if __APPLE__
 
-#include <vector>
 #include <string>
+#include <vector>
 #import "AppKit/AppKit.h"
 
 //#include "vox.visual/gui/Application.h"

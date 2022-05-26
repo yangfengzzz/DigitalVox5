@@ -11,8 +11,8 @@
 
 #include "vox.math/color.h"
 #include "vox.render/core/command_buffer.h"
-#include "vox.visual/gui/gui.h"
 #include "vox.render/platform/input_events.h"
+#include "vox.visual/gui/gui.h"
 
 namespace vox::visualization::gui {
 struct Theme;

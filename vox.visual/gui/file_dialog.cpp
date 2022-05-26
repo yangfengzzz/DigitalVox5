@@ -15,6 +15,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "vox.base/file_system.h"
+#include "vox.base/helper.h"
+#include "vox.base/logging.h"
 #include "vox.visual/gui/Button.h"
 #include "vox.visual/gui/Combobox.h"
 #include "vox.visual/gui/Label.h"
@@ -23,9 +26,6 @@
 #include "vox.visual/gui/TextEdit.h"
 #include "vox.visual/gui/Theme.h"
 #include "vox.visual/gui/Util.h"
-#include "open3d/utility/FileSystem.h"
-#include "open3d/utility/Helper.h"
-#include "open3d/utility/Logging.h"
 
 // macOS sorts directories in with the files
 // Windows and Linux (GTK) sort directories first.
