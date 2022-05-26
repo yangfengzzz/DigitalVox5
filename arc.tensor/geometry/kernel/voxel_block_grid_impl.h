@@ -971,7 +971,7 @@ void ExtractPointCloudCPU
 #endif
 
     if (valid_size < 0) {
-        utility::LogDebug(
+        LOGD(
                 "No estimated max point cloud size provided, using a 2-pass "
                 "estimation. Surface extraction could be slow.");
         // This pass determines valid number of points.
@@ -1140,7 +1140,7 @@ void ExtractPointCloudCPU
     index_t total_count = (*count_ptr).load();
 #endif
 
-    utility::LogDebug("{} vertices extracted", total_count);
+    LOGD("{} vertices extracted", total_count);
     valid_size = total_count;
 
 #if defined(BUILD_CUDA_MODULE) && defined(__CUDACC__)
@@ -1319,7 +1319,7 @@ void ExtractTriangleMeshCPU
 #endif
     }
 
-    utility::LogDebug("Total vertex count = {}", vertex_count);
+    LOGD("Total vertex count = {}", vertex_count);
     vertices = core::Tensor({vertex_count, 3}, core::Float32, device);
 
     vertex_normals = core::Tensor({vertex_count, 3}, core::Float32, device);
@@ -1502,7 +1502,7 @@ void ExtractTriangleMeshCPU
 #else
     triangle_count = (*count_ptr).load();
 #endif
-    utility::LogDebug("Total triangle count = {}", triangle_count);
+    LOGD("Total triangle count = {}", triangle_count);
     triangles = triangles.Slice(0, 0, triangle_count);
 }
 

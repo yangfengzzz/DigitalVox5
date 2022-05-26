@@ -9,6 +9,7 @@ cmake_minimum_required(VERSION 3.12)
 project(vox.visual LANGUAGES C CXX)
 
 file(GLOB sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/graphics/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/gui/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/gui/*.mm)
 
@@ -119,7 +120,9 @@ endif ()
 
 target_include_directories(${PROJECT_NAME} PUBLIC ../
         ${CMAKE_CURRENT_SOURCE_DIR} ${PHYSX_SOURCE} ${LOADER_SOURCE} ${LUA_SOURCE}
-        ../third_party/nlohmann/include)
+        ../third_party/nlohmann/include
+        ../third_party/json_cpp/include
+        ../third_party/eigen)
 
 # Link third party libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC

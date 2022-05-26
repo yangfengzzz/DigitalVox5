@@ -74,7 +74,7 @@ void CheckScopedStreamMultiThreaded(const std::function<void()>& func) {
     int kThreads = 8;
     for (int i = 0; i < kThreads; ++i) {
         threads.emplace_back([&kIterations, &func]() {
-            utility::LogDebug("Starting thread with ID {}", std::this_thread::get_id());
+            LOGD("Starting thread with ID {}", std::this_thread::get_id());
             for (int i = 0; i < kIterations; ++i) {
                 func();
             }
@@ -83,7 +83,7 @@ void CheckScopedStreamMultiThreaded(const std::function<void()>& func) {
 
     for (auto& thread : threads) {
         if (thread.joinable()) {
-            utility::LogDebug("Joining thread with ID {}", thread.get_id());
+            LOGD("Joining thread with ID {}", thread.get_id());
             thread.join();
         }
     }
