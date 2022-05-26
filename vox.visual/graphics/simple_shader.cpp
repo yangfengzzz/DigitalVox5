@@ -7,6 +7,12 @@
 #include "simple_shader.h"
 
 #include "vox.base/logging.h"
+#include "vox.render/entity.h"
+#include "vox.render/material/base_material.h"
+#include "vox.render/mesh/mesh_manager.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/scene.h"
+#include "vox.render/shader/shader_manager.h"
 #include "vox.visual/graphics/color_map.h"
 
 namespace vox::visualization {
@@ -37,6 +43,7 @@ bool SimpleShader::BindLineSet(const geometry::LineSet &lineset, const RenderOpt
     }
     points_.resize(lineset.lines_.size() * 2);
     colors_.resize(lineset.lines_.size() * 2);
+    is_dirty_ = true;
     for (size_t i = 0; i < lineset.lines_.size(); i++) {
         const auto kPointPair = lineset.GetLineCoordinate(i);
         auto float_point_first = kPointPair.first.cast<float>();
@@ -59,6 +66,7 @@ bool SimpleShader::BindOrientedBoundingBox(const geometry::OrientedBoundingBox &
     auto lineset = geometry::LineSet::CreateFromOrientedBoundingBox(bound);
     points_.resize(lineset->lines_.size() * 2);
     colors_.resize(lineset->lines_.size() * 2);
+    is_dirty_ = true;
     for (size_t i = 0; i < lineset->lines_.size(); i++) {
         const auto kPointPair = lineset->GetLineCoordinate(i);
         auto point_first = kPointPair.first.cast<float>();
@@ -82,6 +90,7 @@ bool SimpleShader::BindAxisAlignedBoundingBox(const geometry::AxisAlignedBoundin
     auto lineset = geometry::LineSet::CreateFromAxisAlignedBoundingBox(bound);
     points_.resize(lineset->lines_.size() * 2);
     colors_.resize(lineset->lines_.size() * 2);
+    is_dirty_ = true;
     for (size_t i = 0; i < lineset->lines_.size(); i++) {
         const auto kPointPair = lineset->GetLineCoordinate(i);
         auto point_first = kPointPair.first.cast<float>();
@@ -108,7 +117,7 @@ bool SimpleShader::BindTriangleMesh(const geometry::TriangleMesh &mesh, const Re
     const ColorMap &global_color_map = *GetGlobalColorMap();
     points_.resize(mesh.triangles_.size() * 3);
     colors_.resize(mesh.triangles_.size() * 3);
-
+    is_dirty_ = true;
     for (size_t i = 0; i < mesh.triangles_.size(); i++) {
         const auto &triangle = mesh.triangles_[i];
         for (size_t j = 0; j < 3; j++) {
@@ -159,6 +168,7 @@ bool SimpleShader::BindTetraMesh(const geometry::TetraMesh &tetra_mesh, const Re
         return false;
     }
 
+    is_dirty_ = true;
     std::unordered_set<Index2, utility::hash_tuple<Index2>> inserted_edges;
     auto insert_edge = [&](Index vidx_0, Index vidx_1) {
         Index2 edge(std::min(vidx_0, vidx_1), std::max(vidx_0, vidx_1));
@@ -191,6 +201,7 @@ bool SimpleShader::BindPointCloud(const geometry::PointCloud &pointcloud, const 
     const ColorMap &global_color_map = *GetGlobalColorMap();
     points_.resize(pointcloud.points_.size());
     colors_.resize(pointcloud.points_.size());
+    is_dirty_ = true;
     for (size_t i = 0; i < pointcloud.points_.size(); i++) {
         const auto &point = pointcloud.points_[i].cast<float>();
         points_[i] = Vector3F(point.x(), point.y(), point.z());
@@ -235,7 +246,7 @@ bool SimpleShader::BindVoxelGridLine(const geometry::VoxelGrid &voxel_grid, cons
     const ColorMap &global_color_map = *GetGlobalColorMap();
     points_.clear();  // Final size: num_voxels * 12 * 2
     colors_.clear();  // Final size: num_voxels * 12 * 2
-
+    is_dirty_ = true;
     for (auto &it : voxel_grid.voxels_) {
         const geometry::Voxel &voxel = it.second;
         // 8 vertices in a voxel
@@ -296,7 +307,7 @@ bool SimpleShader::BindVoxelGridFace(const geometry::VoxelGrid &voxel_grid, cons
     const ColorMap &global_color_map = *GetGlobalColorMap();
     points_.clear();  // Final size: num_voxels * 36
     colors_.clear();  // Final size: num_voxels * 36
-
+    is_dirty_ = true;
     for (auto &it : voxel_grid.voxels_) {
         const geometry::Voxel &voxel = it.second;
         // 8 vertices in a voxel
@@ -359,7 +370,7 @@ bool SimpleShader::BindVoxelOctreeLine(const geometry::Octree &octree, const Ren
     const ColorMap &global_color_map = *GetGlobalColorMap();
     points_.clear();  // Final size: num_voxels * 36
     colors_.clear();  // Final size: num_voxels * 36
-
+    is_dirty_ = true;
     auto f = [this, &octree, &option, &global_color_map](
                      const std::shared_ptr<geometry::OctreeNode> &node,
                      const std::shared_ptr<geometry::OctreeNodeInfo> &node_info) -> bool {
@@ -423,9 +434,9 @@ bool SimpleShader::BindVoxelOctreeFace(const geometry::Octree &octree, const Ren
     }
     points_.clear();  // Final size: num_voxels * 36
     colors_.clear();  // Final size: num_voxels * 36
-
+    is_dirty_ = true;
     auto f = [this](const std::shared_ptr<geometry::OctreeNode> &node,
-                             const std::shared_ptr<geometry::OctreeNodeInfo> &node_info) -> bool {
+                    const std::shared_ptr<geometry::OctreeNodeInfo> &node_info) -> bool {
         Eigen::Vector3f base_vertex = node_info->origin_.cast<float>();
         std::vector<Eigen::Vector3f> vertices;
         for (const Eigen::Vector3i &vertex_offset : cuboid_vertex_offsets) {
@@ -450,6 +461,26 @@ bool SimpleShader::BindVoxelOctreeFace(const geometry::Octree &octree, const Ren
 
     octree.Traverse(f);
     return true;
+}
+
+void SimpleShader::OnEnable() {
+    renderer_ = entity_->AddComponent<MeshRenderer>();
+    auto material = std::make_shared<BaseMaterial>(entity_->Scene()->Device());
+    material->vertex_source_ = ShaderManager::GetSingleton().LoadShader("");
+    material->fragment_source_ = ShaderManager::GetSingleton().LoadShader("");
+    renderer_->SetMaterial(material);
+}
+
+void SimpleShader::OnUpdate(float delta_time) {
+    if (is_dirty_) {
+        auto mesh = MeshManager::GetSingleton().LoadModelMesh();
+        mesh->SetPositions(points_);
+        mesh->SetColors(colors_);
+        mesh->UploadData(true);
+        mesh->AddSubMesh(0, 0);
+        renderer_->SetMesh(mesh);
+    }
+    is_dirty_ = false;
 }
 
 }  // namespace vox::visualization

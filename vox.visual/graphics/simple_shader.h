@@ -84,9 +84,16 @@ public:
     /// \return
     bool BindVoxelOctreeFace(const geometry::Octree &octree, const RenderOption &option);
 
+public:
+    void OnEnable() override;
+
+    void OnUpdate(float delta_time) override;
+
 private:
-    std::vector<Vector3F> points_;
-    std::vector<Color> colors_;
+    std::vector<Vector3F> points_{};
+    std::vector<Color> colors_{};
+    MeshRenderer *renderer_{nullptr};
+    bool is_dirty_ = false;
 };
 
 }  // namespace vox::visualization
