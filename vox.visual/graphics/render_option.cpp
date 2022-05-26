@@ -29,9 +29,9 @@ bool RenderOption::ConvertToJsonValue(Json::Value &value) const {
     value["mesh_show_back_face"] = mesh_show_back_face_;
     value["mesh_show_wireframe"] = mesh_show_wireframe_;
     value["default_mesh_color"].clear();
-    value["default_mesh_color"].append(default_mesh_color_.x);
-    value["default_mesh_color"].append(default_mesh_color_.y);
-    value["default_mesh_color"].append(default_mesh_color_.z);
+    value["default_mesh_color"].append(default_mesh_color_.r);
+    value["default_mesh_color"].append(default_mesh_color_.g);
+    value["default_mesh_color"].append(default_mesh_color_.b);
 
     value["line_width"] = line_width_;
 
@@ -61,9 +61,9 @@ bool RenderOption::ConvertFromJsonValue(const Json::Value &value) {
     mesh_color_option_ = (MeshColorOption)value.get("mesh_color_option", (int)mesh_color_option_).asInt();
     mesh_show_back_face_ = value.get("mesh_show_back_face", mesh_show_back_face_).asBool();
     mesh_show_wireframe_ = value.get("mesh_show_wireframe", mesh_show_wireframe_).asBool();
-    default_mesh_color_.x = value["default_mesh_color"][0].asFloat();
-    default_mesh_color_.y = value["default_mesh_color"][1].asFloat();
-    default_mesh_color_.z = value["default_mesh_color"][2].asFloat();
+    default_mesh_color_.r = value["default_mesh_color"][0].asFloat();
+    default_mesh_color_.g = value["default_mesh_color"][1].asFloat();
+    default_mesh_color_.b = value["default_mesh_color"][2].asFloat();
 
     line_width_ = value.get("line_width", line_width_).asDouble();
 

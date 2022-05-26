@@ -7,7 +7,7 @@
 #pragma once
 
 #include "vox.base/ijson_convertible.h"
-#include "vox.math/vector3.h"
+#include "vox.math/color.h"
 
 namespace vox::visualization {
 
@@ -132,7 +132,7 @@ public:
     bool mesh_show_back_face_ = false;
 
     bool mesh_show_wireframe_ = false;
-    Vector3F default_mesh_color_ = Vector3F(0.7, 0.7, 0.7);
+    Color default_mesh_color_ = Color(0.7, 0.7, 0.7);
 
     // LineSet options
     /// Line width for LineSet.
