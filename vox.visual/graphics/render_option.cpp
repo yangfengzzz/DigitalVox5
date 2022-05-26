@@ -84,4 +84,4 @@ void RenderOption::ChangeLineWidth(double change) {
     line_width_ = std::max(std::min(line_width_ + change * LINE_WIDTH_STEP, LINE_WIDTH_MAX), LINE_WIDTH_MIN);
 }
 
-}  // namespace vox
+}  // namespace vox::visualization
