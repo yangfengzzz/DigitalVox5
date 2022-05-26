@@ -77,6 +77,7 @@ add_subdirectory(apps)
 add_subdirectory(vox.editor)
 add_subdirectory(editor)
 
+add_subdirectory(vox.visual)
+
 ################## Arche source ################
 add_subdirectory(arc.tensor)
-add_subdirectory(arc.visual)
