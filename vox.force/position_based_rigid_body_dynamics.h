@@ -13,15 +13,12 @@ namespace vox::force {
 class PositionBasedRigidBodyDynamics {
     // -------------- Position Based Rigid Body Dynamics  -----------------------------------------------------
 private:
-    static void computeMatrixK(const Vector3r &connector,
-                               const Real invMass,
-                               const Vector3r &x,
-                               const Matrix3r &inertiaInverseW,
-                               Matrix3r &K);
+    static void computeMatrixK(
+            const Vector3r &connector, Real invMass, const Vector3r &x, const Matrix3r &inertiaInverseW, Matrix3r &K);
 
     static void computeMatrixK(const Vector3r &connector0,
                                const Vector3r &connector1,
-                               const Real invMass,
+                               Real invMass,
                                const Vector3r &x,
                                const Matrix3r &inertiaInverseW,
                                Matrix3r &K);
@@ -101,11 +98,11 @@ public:
      * @param corr_q1 rotation correction of second body
      */
     static bool solve_BallJoint(
-            const Real invMass0,               // inverse mass is zero if body is static
+            Real invMass0,                     // inverse mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Quaternionr &q1,             // rotation of body 1
@@ -190,11 +187,11 @@ public:
      * @param corr_q1 rotation correction of second body
      */
     static bool solve_BallOnLineJoint(
-            const Real invMass0,               // inverse mass is zero if body is static
+            Real invMass0,                     // inverse mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Quaternionr &q1,             // rotation of body 1
@@ -278,11 +275,11 @@ public:
      * @param corr_q1 rotation correction of second body
      */
     static bool solve_HingeJoint(
-            const Real invMass0,               // inverse  mass is zero if body is static
+            Real invMass0,                     // inverse  mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Quaternionr &q1,             // rotation of body 1
@@ -367,11 +364,11 @@ public:
      * @param corr_q1 rotation correction of second body
      */
     static bool solve_UniversalJoint(
-            const Real invMass0,               // inverse mass is zero if body is static
+            Real invMass0,                     // inverse mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Quaternionr &q1,             // rotation of body 1
@@ -449,11 +446,11 @@ public:
      * @param corr_q1 rotation correction of second body
      */
     static bool solve_SliderJoint(
-            const Real invMass0,               // inverse  mass is zero if body is static
+            Real invMass0,                     // inverse  mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Quaternionr &q1,             // rotation of body 1
@@ -533,15 +530,15 @@ public:
      * @param corr_q1 rotation correction of second body
      */
     static bool solve_TargetPositionMotorSliderJoint(
-            const Real invMass0,               // inverse  mass is zero if body is static
+            Real invMass0,                     // inverse  mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Quaternionr &q1,             // rotation of body 1
-            const Real targetPosition,         // target position of the servo motor
+            Real targetPosition,               // target position of the servo motor
             const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo,  // precomputed slider joint info
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
@@ -617,11 +614,11 @@ public:
      * @param corr_q1 rotation correction of second body
      */
     static bool solve_TargetVelocityMotorSliderJoint(
-            const Real invMass0,               // inverse  mass is zero if body is static
+            Real invMass0,                     // inverse  mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Quaternionr &q1,             // rotation of body 1
@@ -664,19 +661,19 @@ public:
      * @param corr_omega1 angular velocity correction of second body
      */
     static bool velocitySolve_TargetVelocityMotorSliderJoint(
-            const Real invMass0,               // inverse  mass is zero if body is static
+            Real invMass0,                     // inverse  mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Vector3r &v0,                // velocity of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
             const Vector3r &omega0,
-            const Real invMass1,  // inverse mass is zero if body is static
-            const Vector3r &x1,   // center of mass of body 1
+            Real invMass1,       // inverse mass is zero if body is static
+            const Vector3r &x1,  // center of mass of body 1
             const Vector3r &v1,
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Quaternionr &q1,             // rotation of body 1
             const Vector3r &omega1,
-            const Real targetVelocity,                                     // target velocity of the servo motor
+            Real targetVelocity,                                           // target velocity of the servo motor
             const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo,  // precomputed joint info
             Vector3r &corr_v0,
             Vector3r &corr_omega0,
@@ -757,15 +754,15 @@ public:
      * @param corr_q1 rotation correction of second body
      */
     static bool solve_TargetAngleMotorHingeJoint(
-            const Real invMass0,               // inverse  mass is zero if body is static
+            Real invMass0,                     // inverse  mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Quaternionr &q1,             // rotation of body 1
-            const Real targetAngle,            // target angle of the servo motor
+            Real targetAngle,                  // target angle of the servo motor
             const Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &jointInfo,  // precomputed hinge joint info
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
@@ -847,11 +844,11 @@ public:
      * @param corr_q1 rotation correction of second body
      */
     static bool solve_TargetVelocityMotorHingeJoint(
-            const Real invMass0,               // inverse  mass is zero if body is static
+            Real invMass0,                     // inverse  mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Quaternionr &q1,             // rotation of body 1
@@ -892,17 +889,17 @@ public:
      * @param corr_omega1 angular velocity correction of second body
      */
     static bool velocitySolve_TargetVelocityMotorHingeJoint(
-            const Real invMass0,               // inverse  mass is zero if body is static
+            Real invMass0,                     // inverse  mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Vector3r &v0,                // velocity of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Vector3r &omega0,
-            const Real invMass1,  // inverse mass is zero if body is static
-            const Vector3r &x1,   // center of mass of body 1
+            Real invMass1,       // inverse mass is zero if body is static
+            const Vector3r &x1,  // center of mass of body 1
             const Vector3r &v1,
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Vector3r &omega1,
-            const Real targetAngularVelocity,                              // target angular velocity of the servo motor
+            Real targetAngularVelocity,                                    // target angular velocity of the servo motor
             const Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &jointInfo,  // precomputed joint info
             Vector3r &corr_v0,
             Vector3r &corr_omega0,
@@ -961,11 +958,11 @@ public:
      * @param corr_x1 position correction of the particle
      */
     static bool solve_RigidBodyParticleBallJoint(
-            const Real invMass0,               // inverse mass is zero if body is static
+            Real invMass0,                     // inverse mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
-            const Real invMass1,               // inverse mass is zero if particle is static
+            Real invMass1,                     // inverse mass is zero if particle is static
             const Vector3r &x1,                // position of particle
             const Eigen::Matrix<Real, 3, 2, Eigen::DontAlign> &jointInfo,  // precomputed joint info
             Vector3r &corr_x0,
@@ -1003,13 +1000,13 @@ public:
      * 2,4:  goal velocity in normal direction after collision
      */
     static bool init_RigidBodyContactConstraint(
-            const Real invMass0,               // inverse mass is zero if body is static
+            Real invMass0,                     // inverse mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Vector3r &v0,                // velocity of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
             const Vector3r &omega0,            // angular velocity of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Vector3r &v1,                // velocity of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
@@ -1018,7 +1015,7 @@ public:
             const Vector3r &cp0,               // contact point of body 0
             const Vector3r &cp1,               // contact point of body 1
             const Vector3r &normal,            // contact normal in body 1
-            const Real restitutionCoeff,       // coefficient of restitution
+            Real restitutionCoeff,             // coefficient of restitution
             Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> &constraintInfo);
 
     /** Perform a solver step for a contact constraint between two rigid bodies.
@@ -1046,18 +1043,18 @@ public:
      * @param corr_omega1 angular velocity correction of second body
      */
     static bool velocitySolve_RigidBodyContactConstraint(
-            const Real invMass0,               // inverse mass is zero if body is static
+            Real invMass0,                     // inverse mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Vector3r &v0,                // velocity of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Vector3r &omega0,            // angular velocity of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Vector3r &v1,                // velocity of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Vector3r &omega1,            // angular velocity of body 1
-            const Real stiffness,              // stiffness parameter of penalty impulse
-            const Real frictionCoeff,          // friction coefficient
+            Real stiffness,                    // stiffness parameter of penalty impulse
+            Real frictionCoeff,                // friction coefficient
             Real &sum_impulses,                // sum of all impulses
             Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> &constraintInfo,  // precomputed contact info
             Vector3r &corr_v0,
@@ -1093,10 +1090,10 @@ public:
      * 2,4:  goal velocity in normal direction after collision
      */
     static bool init_ParticleRigidBodyContactConstraint(
-            const Real invMass0,               // inverse mass is zero if body is static
+            Real invMass0,                     // inverse mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Vector3r &v0,                // velocity of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Vector3r &v1,                // velocity of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
@@ -1105,7 +1102,7 @@ public:
             const Vector3r &cp0,               // contact point of body 0
             const Vector3r &cp1,               // contact point of body 1
             const Vector3r &normal,            // contact normal in body 1
-            const Real restitutionCoeff,       // coefficient of restitution
+            Real restitutionCoeff,             // coefficient of restitution
             Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> &constraintInfo);
 
     /** Perform a solver step for a contact constraint between a rigid body and a particle.
@@ -1130,16 +1127,16 @@ public:
      * @param corr_omega1 angular velocity correction of second body
      */
     static bool velocitySolve_ParticleRigidBodyContactConstraint(
-            const Real invMass0,               // inverse mass is zero if body is static
+            Real invMass0,                     // inverse mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Vector3r &v0,                // velocity of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Vector3r &v1,                // velocity of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Vector3r &omega1,            // angular velocity of body 1
-            const Real stiffness,              // stiffness parameter of penalty impulse
-            const Real frictionCoeff,          // friction coefficient
+            Real stiffness,                    // stiffness parameter of penalty impulse
+            Real frictionCoeff,                // friction coefficient
             Real &sum_impulses,                // sum of all impulses
             Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> &constraintInfo,  // precomputed contact info
             Vector3r &corr_v0,
@@ -1218,17 +1215,17 @@ public:
      * @param corr_q1 rotation correction of second body
      */
     static bool solve_DistanceJoint(
-            const Real invMass0,               // inverse mass is zero if body is static
+            Real invMass0,                     // inverse mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Quaternionr &q1,             // rotation of body 1
-            const Real stiffness,
-            const Real restLength,
-            const Real dt,
+            Real stiffness,
+            Real restLength,
+            Real dt,
             const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &jointInfo,  // precomputed joint info
             Real &lambda,
             Vector3r &corr_x0,
@@ -1307,16 +1304,16 @@ public:
      * @param corr_q1 rotation correction of second body
      */
     static bool solve_DamperJoint(
-            const Real invMass0,               // inverse  mass is zero if body is static
+            Real invMass0,                     // inverse  mass is zero if body is static
             const Vector3r &x0,                // center of mass of body 0
             const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
             const Quaternionr &q0,             // rotation of body 0
-            const Real invMass1,               // inverse mass is zero if body is static
+            Real invMass1,                     // inverse mass is zero if body is static
             const Vector3r &x1,                // center of mass of body 1
             const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
             const Quaternionr &q1,             // rotation of body 1
-            const Real stiffness,
-            const Real dt,
+            Real stiffness,
+            Real dt,
             const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo,  // precomputed slider joint info
             Real &lambda,
             Vector3r &corr_x0,

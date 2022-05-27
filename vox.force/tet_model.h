@@ -39,7 +39,7 @@ public:
 
 protected:
     /** offset which must be added to get the correct index in the particles array */
-    unsigned int m_indexOffset;
+    unsigned int m_indexOffset{};
     /** Tet mesh of particles which represents the simulation model */
     ParticleMesh m_particleMesh;
     SurfaceMesh m_surfaceMesh;
@@ -73,15 +73,12 @@ public:
     VertexData& getVisVertices();
     SurfaceMesh& getVisMesh();
     ParticleMesh& getParticleMesh() { return m_particleMesh; }
-    const ParticleMesh& getParticleMesh() const { return m_particleMesh; }
+    [[nodiscard]] const ParticleMesh& getParticleMesh() const { return m_particleMesh; }
     void cleanupModel();
 
-    unsigned int getIndexOffset() const;
+    [[nodiscard]] unsigned int getIndexOffset() const;
 
-    void initMesh(const unsigned int nPoints,
-                  const unsigned int nTets,
-                  const unsigned int indexOffset,
-                  unsigned int* indices);
+    void initMesh(unsigned int nPoints, unsigned int nTets, unsigned int indexOffset, unsigned int* indices);
     void updateMeshNormals(const ParticleData& pd);
 
     /** Attach a visualization mesh to the surface of the body.
@@ -96,11 +93,11 @@ public:
      */
     void updateVisMesh(const ParticleData& pd);
 
-    FORCE_INLINE Real getRestitutionCoeff() const { return m_restitutionCoeff; }
+    [[nodiscard]] FORCE_INLINE Real getRestitutionCoeff() const { return m_restitutionCoeff; }
 
     FORCE_INLINE void setRestitutionCoeff(Real val) { m_restitutionCoeff = val; }
 
-    FORCE_INLINE Real getFrictionCoeff() const { return m_frictionCoeff; }
+    [[nodiscard]] FORCE_INLINE Real getFrictionCoeff() const { return m_frictionCoeff; }
 
     FORCE_INLINE void setFrictionCoeff(Real val) { m_frictionCoeff = val; }
 };

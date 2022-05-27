@@ -32,25 +32,25 @@ protected:
 
 public:
     ParticleMesh& getParticleMesh() { return m_particleMesh; }
-    const ParticleMesh& getParticleMesh() const { return m_particleMesh; }
+    [[nodiscard]] const ParticleMesh& getParticleMesh() const { return m_particleMesh; }
 
     void cleanupModel();
 
-    unsigned int getIndexOffset() const;
+    [[nodiscard]] unsigned int getIndexOffset() const;
 
-    void initMesh(const unsigned int nPoints,
-                  const unsigned int nFaces,
-                  const unsigned int indexOffset,
+    void initMesh(unsigned int nPoints,
+                  unsigned int nFaces,
+                  unsigned int indexOffset,
                   unsigned int* indices,
                   const ParticleMesh::UVIndices& uvIndices,
                   const ParticleMesh::UVs& uvs);
     void updateMeshNormals(const ParticleData& pd);
 
-    FORCE_INLINE Real getRestitutionCoeff() const { return m_restitutionCoeff; }
+    [[nodiscard]] FORCE_INLINE Real getRestitutionCoeff() const { return m_restitutionCoeff; }
 
     FORCE_INLINE void setRestitutionCoeff(Real val) { m_restitutionCoeff = val; }
 
-    FORCE_INLINE Real getFrictionCoeff() const { return m_frictionCoeff; }
+    [[nodiscard]] FORCE_INLINE Real getFrictionCoeff() const { return m_frictionCoeff; }
 
     FORCE_INLINE void setFrictionCoeff(Real val) { m_frictionCoeff = val; }
 };
