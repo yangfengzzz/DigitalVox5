@@ -9,7 +9,7 @@
 #include <array>
 #include <vector>
 
-#include "common.h"
+#include "vox.force/common.h"
 
 namespace vox::force {
 class IndexedTetMesh {

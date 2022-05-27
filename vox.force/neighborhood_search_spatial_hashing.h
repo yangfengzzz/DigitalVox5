@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "common.h"
+#include "vox.force/common.h"
 
 typedef Eigen::Vector3i NeighborhoodSearchCellPos;
 

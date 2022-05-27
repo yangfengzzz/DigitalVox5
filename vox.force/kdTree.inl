@@ -10,8 +10,8 @@
 
 #include <cstring>
 
-#include "bounding_sphere.h"
-#include "kdTree.h"
+#include "vox.force/bounding_sphere.h"
+#include "vox.force/kdTree.h"
 
 namespace vox::force {
 template <typename HullType>

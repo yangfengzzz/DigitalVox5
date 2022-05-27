@@ -9,7 +9,7 @@
 #include <utility>
 #include <vector>
 
-#include "common.h"
+#include "vox.force/common.h"
 
 namespace vox::force {
 /**
@@ -180,8 +180,8 @@ public:
 
         m_x_ = s.m_x_;
         m_r_ = s.m_r_ +
-              static_cast<Real>(
-                      kEpsilon);  // add epsilon to make sure that all non-pertubated points are inside the sphere
+               static_cast<Real>(
+                       kEpsilon);  // add epsilon to make sure that all non-pertubated points are inside the sphere
     }
 
     /**

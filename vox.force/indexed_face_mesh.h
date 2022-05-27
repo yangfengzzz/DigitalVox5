@@ -10,7 +10,7 @@
 #include <iterator>
 #include <vector>
 
-#include "common.h"
+#include "vox.force/common.h"
 
 namespace vox::force {
 class IndexedFaceMesh {
@@ -98,7 +98,7 @@ template <class PositionData>
 void IndexedFaceMesh::UpdateNormals(const PositionData& pd, const unsigned int offset) {
     m_normals_.resize(NumFaces());
 
-#pragma omp parallel default(none)
+#pragma omp parallel shared(pd, offset) default(none)
     {
 #pragma omp for schedule(static)
         for (int i = 0; i < (int)NumFaces(); i++) {

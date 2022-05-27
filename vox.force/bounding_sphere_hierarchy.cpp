@@ -1,5 +1,10 @@
+//  Copyright (c) 2022 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
 
-#include "bounding_sphere_hierarchy.h"
+#include "vox.force/bounding_sphere_hierarchy.h"
 
 #include <set>
 #include <unordered_set>

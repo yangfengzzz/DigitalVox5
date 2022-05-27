@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "volume_integration.h"
+#include "vox.force/volume_integration.h"
 
 namespace vox::force {
 

@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "neighborhood_search_spatial_hashing.h"
+#include "vox.force/neighborhood_search_spatial_hashing.h"
 
 namespace vox::force {
 

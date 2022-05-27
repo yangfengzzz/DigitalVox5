@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "bounding_sphere.h"
-#include "common.h"
-#include "kdTree.h"
+#include "vox.force/bounding_sphere.h"
+#include "vox.force/common.h"
+#include "vox.force/kdTree.h"
 
 namespace vox::force {
 class PointCloudBSH : public KDTree<BoundingSphere> {
