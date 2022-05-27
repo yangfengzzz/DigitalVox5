@@ -14,31 +14,31 @@
 #include "vox.base/logging.h"
 
 namespace vox::force {
-#define START_TIMING(timerName) Utilities::Timing::startTiming(timerName);
+#define START_TIMING(timerName) Timing::startTiming(timerName);
 
-#define STOP_TIMING Utilities::Timing::stopTiming(false);
+#define STOP_TIMING Timing::stopTiming(false);
 
-#define STOP_TIMING_PRINT Utilities::Timing::stopTiming(true);
+#define STOP_TIMING_PRINT Timing::stopTiming(true);
 
-#define STOP_TIMING_AVG                                       \
-    {                                                         \
-        static int timing_timerId = -1;                       \
-        Utilities::Timing::stopTiming(false, timing_timerId); \
+#define STOP_TIMING_AVG                            \
+    {                                              \
+        static int timing_timerId = -1;            \
+        Timing::stopTiming(false, timing_timerId); \
     }
 
-#define STOP_TIMING_AVG_PRINT                                \
-    {                                                        \
-        static int timing_timerId = -1;                      \
-        Utilities::Timing::stopTiming(true, timing_timerId); \
+#define STOP_TIMING_AVG_PRINT                     \
+    {                                             \
+        static int timing_timerId = -1;           \
+        Timing::stopTiming(true, timing_timerId); \
     }
 
-#define INIT_TIMING                                                                    \
-    int Utilities::IDFactory::id = 0;                                                  \
-    std::unordered_map<int, Utilities::AverageTime> Utilities::Timing::m_averageTimes; \
-    std::stack<Utilities::TimingHelper> Utilities::Timing::m_timingStack;              \
-    bool Utilities::Timing::m_dontPrintTimes = false;                                  \
-    unsigned int Utilities::Timing::m_startCounter = 0;                                \
-    unsigned int Utilities::Timing::m_stopCounter = 0;
+#define INIT_TIMING                                              \
+    int IDFactory::id = 0;                                       \
+    std::unordered_map<int, AverageTime> Timing::m_averageTimes; \
+    std::stack<TimingHelper> Timing::m_timingStack;              \
+    bool Timing::m_dontPrintTimes = false;                       \
+    unsigned int Timing::m_startCounter = 0;                     \
+    unsigned int Timing::m_stopCounter = 0;
 
 /** \brief Struct to store a time measurement.
  */

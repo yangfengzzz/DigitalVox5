@@ -32,8 +32,6 @@ protected:
     unsigned int m_maxIterations;
     unsigned int m_maxIterationsV;
 
-    virtual void initParameters();
-
     void positionConstraintProjection(SimulationModel &model);
     void velocityConstraintProjection(SimulationModel &model);
 
