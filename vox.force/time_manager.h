@@ -24,9 +24,9 @@ public:
     static void setCurrent(TimeManager* tm);
     static bool hasCurrent();
 
-    Real getTime();
+    [[nodiscard]] Real getTime() const;
     void setTime(Real t);
-    Real getTimeStepSize();
+    [[nodiscard]] Real getTimeStepSize() const;
     void setTimeStepSize(Real tss);
 };
 }  // namespace vox::force
