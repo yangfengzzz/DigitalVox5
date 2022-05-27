@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include "ParameterObject.h"
 #include "vox.force/common.h"
 #include "vox.force/simulation_model.h"
 #include "vox.force/time_step.h"
@@ -15,16 +14,14 @@ namespace vox::force {
 /** \brief Class to manage the current simulation time and the time step size.
  * This class is a singleton.
  */
-class Simulation : public GenParam::ParameterObject {
+class Simulation {
 public:
     static int GRAVITATION;
 
 protected:
-    SimulationModel *m_model;
+    SimulationModel *m_model{};
     TimeStep *m_timeStep;
     Vector3r m_gravitation;
-
-    virtual void initParameters();
 
 private:
     static Simulation *current;

@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include "ParameterObject.h"
 #include "vox.force/collision_detection.h"
 #include "vox.force/common.h"
 #include "vox.force/simulation_model.h"
@@ -14,7 +13,7 @@
 namespace vox::force {
 /** \brief Base class for the simulation methods.
  */
-class TimeStep : public GenParam::ParameterObject {
+class TimeStep {
 protected:
     CollisionDetection *m_collisionDetection;
 
