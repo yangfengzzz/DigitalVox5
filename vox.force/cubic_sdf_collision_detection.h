@@ -17,8 +17,8 @@ namespace vox::force {
  */
 class CubicSDFCollisionDetection : public DistanceFieldCollisionDetection {
 public:
-    using Grid = Discregrid::CubicLagrangeDiscreteGrid;
-    using GridPtr = std::shared_ptr<Discregrid::CubicLagrangeDiscreteGrid>;
+    using Grid = vox::force::discregrid::CubicLagrangeDiscreteGrid;
+    using GridPtr = std::shared_ptr<vox::force::discregrid::CubicLagrangeDiscreteGrid>;
 
     struct CubicSDFCollisionObject : public DistanceFieldCollisionDetection::DistanceFieldCollisionObject {
         std::string m_sdfFile;
