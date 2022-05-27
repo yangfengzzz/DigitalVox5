@@ -87,23 +87,23 @@ public:
 
     virtual void reduceField(unsigned int field_id, Predicate pred) {}
 
-    MultiIndex singleToMultiIndex(unsigned int i) const;
-    unsigned int multiToSingleIndex(MultiIndex const& ijk) const;
+    [[nodiscard]] MultiIndex singleToMultiIndex(unsigned int i) const;
+    [[nodiscard]] unsigned int multiToSingleIndex(MultiIndex const& ijk) const;
 
-    Eigen::AlignedBox3d subdomain(MultiIndex const& ijk) const;
-    Eigen::AlignedBox3d subdomain(unsigned int l) const;
+    [[nodiscard]] Eigen::AlignedBox3d subdomain(MultiIndex const& ijk) const;
+    [[nodiscard]] Eigen::AlignedBox3d subdomain(unsigned int l) const;
 
-    Eigen::AlignedBox3d const& domain() const { return m_domain; }
-    std::array<unsigned int, 3> const& resolution() const { return m_resolution; };
-    Eigen::Vector3d const& cellSize() const { return m_cell_size; }
-    Eigen::Vector3d const& invCellSize() const { return m_inv_cell_size; }
+    [[nodiscard]] Eigen::AlignedBox3d const& domain() const { return m_domain; }
+    [[nodiscard]] std::array<unsigned int, 3> const& resolution() const { return m_resolution; };
+    [[nodiscard]] Eigen::Vector3d const& cellSize() const { return m_cell_size; }
+    [[nodiscard]] Eigen::Vector3d const& invCellSize() const { return m_inv_cell_size; }
 
 protected:
     Eigen::AlignedBox3d m_domain;
-    std::array<unsigned int, 3> m_resolution;
+    std::array<unsigned int, 3> m_resolution{};
     Eigen::Vector3d m_cell_size;
     Eigen::Vector3d m_inv_cell_size;
-    std::size_t m_n_cells;
-    std::size_t m_n_fields;
+    std::size_t m_n_cells{};
+    std::size_t m_n_fields{};
 };
 }  // namespace vox::force::discregrid

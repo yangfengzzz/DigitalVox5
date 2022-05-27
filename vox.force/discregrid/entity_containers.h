@@ -14,32 +14,32 @@ class TriangleMesh;
 
 class FaceContainer {
 public:
-    FaceIterator begin() const { return FaceIterator(0, m_mesh); }
-    FaceIterator end() const;
+    [[nodiscard]] FaceIterator begin() const { return {0, m_mesh}; }
+    [[nodiscard]] FaceIterator end() const;
 
 private:
     friend class TriangleMesh;
-    FaceContainer(TriangleMesh* mesh) : m_mesh(mesh) {}
+    explicit FaceContainer(TriangleMesh* mesh) : m_mesh(mesh) {}
 
     TriangleMesh* m_mesh;
 };
 
 class FaceConstContainer {
 public:
-    FaceConstIterator begin() const { return FaceConstIterator(0, m_mesh); }
-    FaceConstIterator end() const;
+    [[nodiscard]] FaceConstIterator begin() const { return {0, m_mesh}; }
+    [[nodiscard]] FaceConstIterator end() const;
 
 private:
     friend class TriangleMesh;
-    FaceConstContainer(TriangleMesh const* mesh) : m_mesh(mesh) {}
+    explicit FaceConstContainer(TriangleMesh const* mesh) : m_mesh(mesh) {}
 
     TriangleMesh const* m_mesh;
 };
 
 class IncidentFaceContainer {
 public:
-    IncidentFaceIterator begin() const { return IncidentFaceIterator(m_v, m_mesh); }
-    IncidentFaceIterator end() const { return IncidentFaceIterator(); }
+    [[nodiscard]] IncidentFaceIterator begin() const { return {m_v, m_mesh}; }
+    [[nodiscard]] IncidentFaceIterator end() const { return {}; }
 
 private:
     friend class TriangleMesh;
@@ -51,24 +51,24 @@ private:
 
 class VertexContainer {
 public:
-    VertexIterator begin() const { return VertexIterator(0, m_mesh); }
-    VertexIterator end() const;
+    [[nodiscard]] VertexIterator begin() const { return {0, m_mesh}; }
+    [[nodiscard]] VertexIterator end() const;
 
 private:
     friend class TriangleMesh;
-    VertexContainer(TriangleMesh* mesh) : m_mesh(mesh) {}
+    explicit VertexContainer(TriangleMesh* mesh) : m_mesh(mesh) {}
 
     TriangleMesh* m_mesh;
 };
 
 class VertexConstContainer {
 public:
-    VertexConstIterator begin() const { return VertexConstIterator(0, m_mesh); }
-    VertexConstIterator end() const;
+    [[nodiscard]] VertexConstIterator begin() const { return {0, m_mesh}; }
+    [[nodiscard]] VertexConstIterator end() const;
 
 private:
     friend class TriangleMesh;
-    VertexConstContainer(TriangleMesh const* mesh) : m_mesh(mesh) {}
+    explicit VertexConstContainer(TriangleMesh const* mesh) : m_mesh(mesh) {}
 
     TriangleMesh const* m_mesh;
 };

@@ -39,11 +39,11 @@ public:
         return *this;
     }
 
-    inline _Mytype operator+(_Mytype const& rhs) { return _Mytype(m_index + rhs.m_index, m_mesh); }
-    inline difference_type operator-(_Mytype const& rhs) { return m_index - rhs.m_index; }
-    inline _Mytype operator-(int const& rhs) { return _Mytype(m_index - rhs, m_mesh); }
+    inline _Mytype operator+(_Mytype const& rhs) { return {m_index + rhs.m_index, m_mesh}; }
+    inline difference_type operator-(_Mytype const& rhs) const { return m_index - rhs.m_index; }
+    inline _Mytype operator-(int const& rhs) { return {m_index - rhs, m_mesh}; }
 
-    unsigned int vertex(unsigned int i) const;
+    [[nodiscard]] unsigned int vertex(unsigned int i) const;
     unsigned int& vertex(unsigned int i);
 
 private:
@@ -75,11 +75,11 @@ public:
         return *this;
     }
 
-    inline _Mytype operator+(_Mytype const& rhs) const { return _Mytype(m_index + rhs.m_index, m_mesh); }
+    inline _Mytype operator+(_Mytype const& rhs) const { return {m_index + rhs.m_index, m_mesh}; }
     inline difference_type operator-(_Mytype const& rhs) const { return m_index - rhs.m_index; }
-    inline _Mytype operator-(int const& rhs) const { return _Mytype(m_index - rhs, m_mesh); }
+    inline _Mytype operator-(int const& rhs) const { return {m_index - rhs, m_mesh}; }
 
-    unsigned int vertex(unsigned int i) const;
+    [[nodiscard]] unsigned int vertex(unsigned int i) const;
     unsigned int& vertex(unsigned int i);
 
 private:
@@ -133,11 +133,11 @@ public:
         return *this;
     }
 
-    inline _Mytype operator+(_Mytype const& rhs) const { return _Mytype(m_index + rhs.m_index, m_mesh); }
+    inline _Mytype operator+(_Mytype const& rhs) const { return {m_index + rhs.m_index, m_mesh}; }
     inline difference_type operator-(_Mytype const& rhs) const { return m_index - rhs.m_index; }
-    inline _Mytype operator-(int const& rhs) const { return _Mytype(m_index - rhs, m_mesh); }
+    inline _Mytype operator-(int const& rhs) const { return {m_index - rhs, m_mesh}; }
 
-    unsigned int index() const;
+    [[nodiscard]] unsigned int index() const;
 
 private:
     friend class VertexContainer;
@@ -170,11 +170,11 @@ public:
         return *this;
     }
 
-    inline _Mytype operator+(_Mytype const& rhs) const { return _Mytype(m_index + rhs.m_index, m_mesh); }
+    inline _Mytype operator+(_Mytype const& rhs) const { return {m_index + rhs.m_index, m_mesh}; }
     inline difference_type operator-(_Mytype const& rhs) const { return m_index - rhs.m_index; }
-    inline _Mytype operator-(int const& rhs) const { return _Mytype(m_index - rhs, m_mesh); }
+    inline _Mytype operator-(int const& rhs) const { return {m_index - rhs, m_mesh}; }
 
-    unsigned int index() const;
+    [[nodiscard]] unsigned int index() const;
 
 private:
     friend class VertexConstContainer;

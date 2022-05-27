@@ -12,7 +12,7 @@ namespace vox::force::discregrid {
 
 class CubicLagrangeDiscreteGrid : public DiscreteGrid {
 public:
-    CubicLagrangeDiscreteGrid(std::string const& filename);
+    explicit CubicLagrangeDiscreteGrid(std::string const& filename);
     CubicLagrangeDiscreteGrid(Eigen::AlignedBox3d const& domain, std::array<unsigned int, 3> const& resolution);
 
     void save(std::string const& filename) const override;
@@ -22,7 +22,7 @@ public:
                              bool verbose = false,
                              SamplePredicate const& pred = nullptr) override;
 
-    std::size_t nCells() const { return m_n_cells; };
+    [[nodiscard]] std::size_t nCells() const { return m_n_cells; };
     double interpolate(unsigned int field_id,
                        Eigen::Vector3d const& xi,
                        Eigen::Vector3d* gradient = nullptr) const override;
@@ -72,7 +72,7 @@ public:
                      std::function<void(unsigned int, Eigen::AlignedBox3d const&, unsigned int)> const& cb) const;
 
 private:
-    Eigen::Vector3d indexToNodePosition(unsigned int l) const;
+    [[nodiscard]] Eigen::Vector3d indexToNodePosition(unsigned int l) const;
 
 private:
     std::vector<std::vector<double>> m_nodes;

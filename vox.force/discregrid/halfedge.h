@@ -18,18 +18,18 @@ public:
         // assert(e < 3);
     }
 
-    Halfedge next() const { return Halfedge(face(), (edge() + 1) % 3); }
+    [[nodiscard]] Halfedge next() const { return Halfedge(face(), (edge() + 1) % 3); }
 
-    Halfedge previous() const { return Halfedge(face(), (edge() + 2) % 3); }
+    [[nodiscard]] Halfedge previous() const { return Halfedge(face(), (edge() + 2) % 3); }
 
     bool operator==(Halfedge const& other) const { return m_code == other.m_code; }
 
-    unsigned int face() const { return m_code >> 2; }
-    unsigned char edge() const { return m_code & 0x3; }
-    bool isBoundary() const { return edge() == 3; }
+    [[nodiscard]] unsigned int face() const { return m_code >> 2; }
+    [[nodiscard]] unsigned char edge() const { return m_code & 0x3; }
+    [[nodiscard]] bool isBoundary() const { return edge() == 3; }
 
 private:
-    Halfedge(unsigned int code) : m_code(code) {}
+    explicit Halfedge(unsigned int code) : m_code(code) {}
     unsigned int m_code;
 };
 }  // namespace vox::force::discregrid

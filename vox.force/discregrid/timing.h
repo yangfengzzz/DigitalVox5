@@ -37,8 +37,8 @@ struct TimingHelper {
 };
 
 struct AverageTime {
-    double totalTime;
-    unsigned int counter;
+    double totalTime{};
+    unsigned int counter{};
     std::string name;
 };
 
