@@ -8,8 +8,10 @@
 
 #include <memory>
 
-#include "Discregrid/All"
 #include "vox.force/common.h"
+#include "vox.force/discregrid/cubic_lagrange_discrete_grid.h"
+#include "vox.force/discregrid/triangle_mesh.h"
+#include "vox.force/discregrid/triangle_mesh_distance.h"
 #include "vox.force/distance_field_collision_detection.h"
 
 namespace vox::force {
@@ -27,38 +29,34 @@ public:
         static int TYPE_ID;
 
         CubicSDFCollisionObject();
-        virtual ~CubicSDFCollisionObject();
-        virtual int &getTypeId() const { return TYPE_ID; }
-        virtual bool collisionTest(const Vector3r &x,
-                                   const Real tolerance,
-                                   Vector3r &cp,
-                                   Vector3r &n,
-                                   Real &dist,
-                                   const Real maxDist = 0.0);
-        virtual double distance(const Eigen::Vector3d &x, const Real tolerance);
+        ~CubicSDFCollisionObject() override;
+        [[nodiscard]] int &getTypeId() const override { return TYPE_ID; }
+        bool collisionTest(
+                const Vector3r &x, Real tolerance, Vector3r &cp, Vector3r &n, Real &dist, Real maxDist = 0.0) override;
+        double distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
 public:
     CubicSDFCollisionDetection();
-    virtual ~CubicSDFCollisionDetection();
+    ~CubicSDFCollisionDetection() override;
 
-    virtual bool isDistanceFieldCollisionObject(CollisionObject *co) const;
+    bool isDistanceFieldCollisionObject(CollisionObject *co) const override;
 
-    void addCubicSDFCollisionObject(const unsigned int bodyIndex,
-                                    const unsigned int bodyType,
+    void addCubicSDFCollisionObject(unsigned int bodyIndex,
+                                    unsigned int bodyType,
                                     const Vector3r *vertices,
-                                    const unsigned int numVertices,
+                                    unsigned int numVertices,
                                     const std::string &sdfFile,
                                     const Vector3r &scale,
-                                    const bool testMesh = true,
-                                    const bool invertSDF = false);
-    void addCubicSDFCollisionObject(const unsigned int bodyIndex,
-                                    const unsigned int bodyType,
+                                    bool testMesh = true,
+                                    bool invertSDF = false);
+    void addCubicSDFCollisionObject(unsigned int bodyIndex,
+                                    unsigned int bodyType,
                                     const Vector3r *vertices,
-                                    const unsigned int numVertices,
+                                    unsigned int numVertices,
                                     GridPtr sdf,
                                     const Vector3r &scale,
-                                    const bool testMesh = true,
-                                    const bool invertSDF = false);
+                                    bool testMesh = true,
+                                    bool invertSDF = false);
 };
 }  // namespace vox::force

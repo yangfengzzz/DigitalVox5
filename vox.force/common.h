@@ -24,8 +24,6 @@ typedef double Real;
 #else
 typedef float Real;
 
-#define REAL_MAX FLT_MAX
-#define REAL_MIN FLT_MIN
 #define RealParameter FloatParameter
 #define RealParameterType ParameterBase::FLOAT
 #define RealVectorParameterType ParameterBase::VEC_FLOAT

@@ -27,7 +27,7 @@ void KDTree<HullType>::Construct() {
     for (auto i = 0u; i < m_lst_.size(); ++i) box.extend(EntityPosition(i));
 
     auto ni = AddNode(0, static_cast<unsigned int>(m_lst_.size()));
-    construct(ni, box, 0, static_cast<unsigned int>(m_lst_.size()));
+    Construct(ni, box, 0, static_cast<unsigned int>(m_lst_.size()));
 }
 
 template <typename HullType>
@@ -67,8 +67,8 @@ void KDTree<HullType>::Construct(unsigned int node, AlignedBox3r const& box, uns
     auto r_box = box;
     r_box.min()(max_dir) = c;
 
-    construct(m_nodes_[node].children[0], l_box, b, hal);
-    construct(m_nodes_[node].children[1], r_box, b + hal, n - hal);
+    Construct(m_nodes_[node].children[0], l_box, b, hal);
+    Construct(m_nodes_[node].children[1], r_box, b + hal, n - hal);
 }
 
 template <typename HullType>
@@ -91,7 +91,7 @@ void KDTree<HullType>::TraverseDepthFirst(unsigned int node_index,
     cb(node_index, depth);
     auto is_pred = pred(node_index, depth);
     if (!node.IsLeaf() && is_pred) {
-        if (less && !pless(node.children)) {
+        if (less && !less(node.children)) {
             TraverseDepthFirst(m_nodes_[node_index].children[1], depth + 1, pred, cb, less);
             TraverseDepthFirst(m_nodes_[node_index].children[0], depth + 1, pred, cb, less);
         } else {
@@ -171,7 +171,7 @@ void KDTree<HullType>::TraverseBreadthFirst(TraversalQueue& pending,
         cb(n, d);
         auto is_pred = pred(n, d);
         if (!node.IsLeaf() && is_pred) {
-            if (less && !pless(node.children)) {
+            if (less && !less(node.children)) {
                 pending.push({static_cast<unsigned int>(node.children[1]), d + 1});
                 pending.push({static_cast<unsigned int>(node.children[0]), d + 1});
             } else {

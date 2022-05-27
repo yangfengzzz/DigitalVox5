@@ -8,7 +8,6 @@
 
 #include <vector>
 
-#include "ParameterObject.h"
 #include "vox.force/common.h"
 #include "vox.force/line_model.h"
 #include "vox.force/particle_data.h"
@@ -19,7 +18,7 @@
 namespace vox::force {
 class Constraint;
 
-class SimulationModel : public GenParam::ParameterObject {
+class SimulationModel {
 public:
     SimulationModel();
     SimulationModel(const SimulationModel &) = delete;

@@ -8,14 +8,13 @@
 
 #include "vox.force/common.h"
 #define _USE_MATH_DEFINES
-#include <math.h>
-
 #include <array>
+#include <cmath>
 #include <list>
 #include <memory>
 #include <vector>
 
-#include "PositionBasedDynamics/DirectPositionBasedSolverForStiffRodsInterface.h"
+#include "vox.force/direct_position_based_solver_for_stiff_rods_interface.h"
 
 namespace vox::force {
 class SimulationModel;

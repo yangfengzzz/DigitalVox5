@@ -26,79 +26,71 @@ public:
             m_testMesh = true;
             m_invertSDF = 1.0;
         }
-        virtual ~DistanceFieldCollisionObject() {}
-        virtual bool collisionTest(const Vector3r &x,
-                                   const Real tolerance,
-                                   Vector3r &cp,
-                                   Vector3r &n,
-                                   Real &dist,
-                                   const Real maxDist = 0.0);
-        virtual void approximateNormal(const Eigen::Vector3d &x, const Real tolerance, Vector3r &n);
+        ~DistanceFieldCollisionObject() override = default;
+        virtual bool collisionTest(
+                const Vector3r &x, Real tolerance, Vector3r &cp, Vector3r &n, Real &dist, Real maxDist = 0.0);
+        virtual void approximateNormal(const Eigen::Vector3d &x, Real tolerance, Vector3r &n);
 
-        virtual double distance(const Eigen::Vector3d &x, const Real tolerance) = 0;
+        virtual double distance(const Eigen::Vector3d &x, Real tolerance) = 0;
         void initTetBVH(const Vector3r *vertices,
-                        const unsigned int numVertices,
+                        unsigned int numVertices,
                         const unsigned int *indices,
-                        const unsigned int numTets,
-                        const Real tolerance);
+                        unsigned int numTets,
+                        Real tolerance);
     };
 
     struct DistanceFieldCollisionObjectWithoutGeometry : public DistanceFieldCollisionObject {
         static int TYPE_ID;
 
-        virtual ~DistanceFieldCollisionObjectWithoutGeometry() {}
-        virtual int &getTypeId() const { return TYPE_ID; }
-        virtual bool collisionTest(const Vector3r &x,
-                                   const Real tolerance,
-                                   Vector3r &cp,
-                                   Vector3r &n,
-                                   Real &dist,
-                                   const Real maxDist = 0.0) {
+        ~DistanceFieldCollisionObjectWithoutGeometry() override = default;
+        [[nodiscard]] int &getTypeId() const override { return TYPE_ID; }
+        bool collisionTest(const Vector3r &x,
+                           const Real tolerance,
+                           Vector3r &cp,
+                           Vector3r &n,
+                           Real &dist,
+                           const Real maxDist = 0.0) override {
             return false;
         }
-        virtual double distance(const Eigen::Vector3d &x, const Real tolerance) { return 0.0; }
+        double distance(const Eigen::Vector3d &x, const Real tolerance) override { return 0.0; }
     };
 
     struct DistanceFieldCollisionBox : public DistanceFieldCollisionObject {
         Vector3r m_box;
         static int TYPE_ID;
 
-        virtual ~DistanceFieldCollisionBox() {}
-        virtual int &getTypeId() const { return TYPE_ID; }
-        virtual double distance(const Eigen::Vector3d &x, const Real tolerance);
+        ~DistanceFieldCollisionBox() override = default;
+        [[nodiscard]] int &getTypeId() const override { return TYPE_ID; }
+        double distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
     struct DistanceFieldCollisionSphere : public DistanceFieldCollisionObject {
         Real m_radius;
         static int TYPE_ID;
 
-        virtual ~DistanceFieldCollisionSphere() {}
-        virtual int &getTypeId() const { return TYPE_ID; }
-        virtual bool collisionTest(const Vector3r &x,
-                                   const Real tolerance,
-                                   Vector3r &cp,
-                                   Vector3r &n,
-                                   Real &dist,
-                                   const Real maxDist = 0.0);
-        virtual double distance(const Eigen::Vector3d &x, const Real tolerance);
+        ~DistanceFieldCollisionSphere() override = default;
+        [[nodiscard]] int &getTypeId() const override { return TYPE_ID; }
+        bool collisionTest(
+                const Vector3r &x, Real tolerance, Vector3r &cp, Vector3r &n, Real &dist, Real maxDist = 0.0) override;
+        double distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
     struct DistanceFieldCollisionTorus : public DistanceFieldCollisionObject {
         Vector2r m_radii;
         static int TYPE_ID;
 
-        virtual ~DistanceFieldCollisionTorus() {}
-        virtual int &getTypeId() const { return TYPE_ID; }
-        virtual double distance(const Eigen::Vector3d &x, const Real tolerance);
+        ~DistanceFieldCollisionTorus() override = default;
+        [[nodiscard]] int &getTypeId() const override { return TYPE_ID; }
+        double distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
     struct DistanceFieldCollisionCylinder : public DistanceFieldCollisionObject {
         Vector2r m_dim;
         static int TYPE_ID;
 
-        virtual ~DistanceFieldCollisionCylinder() {}
-        virtual int &getTypeId() const { return TYPE_ID; }
-        virtual double distance(const Eigen::Vector3d &x, const Real tolerance);
+        ~DistanceFieldCollisionCylinder() override = default;
+        int &getTypeId() const override { return TYPE_ID; }
+        double distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
     struct DistanceFieldCollisionHollowSphere : public DistanceFieldCollisionObject {
@@ -106,15 +98,11 @@ public:
         Real m_thickness;
         static int TYPE_ID;
 
-        virtual ~DistanceFieldCollisionHollowSphere() {}
-        virtual int &getTypeId() const { return TYPE_ID; }
-        virtual bool collisionTest(const Vector3r &x,
-                                   const Real tolerance,
-                                   Vector3r &cp,
-                                   Vector3r &n,
-                                   Real &dist,
-                                   const Real maxDist = 0.0);
-        virtual double distance(const Eigen::Vector3d &x, const Real tolerance);
+        ~DistanceFieldCollisionHollowSphere() override = default;
+        [[nodiscard]] int &getTypeId() const override { return TYPE_ID; }
+        bool collisionTest(
+                const Vector3r &x, Real tolerance, Vector3r &cp, Vector3r &n, Real &dist, Real maxDist = 0.0) override;
+        double distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
     struct DistanceFieldCollisionHollowBox : public DistanceFieldCollisionObject {
@@ -122,9 +110,9 @@ public:
         Real m_thickness;
         static int TYPE_ID;
 
-        virtual ~DistanceFieldCollisionHollowBox() {}
-        virtual int &getTypeId() const { return TYPE_ID; }
-        virtual double distance(const Eigen::Vector3d &x, const Real tolerance);
+        ~DistanceFieldCollisionHollowBox() override = default;
+        [[nodiscard]] int &getTypeId() const override { return TYPE_ID; }
+        double distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
     struct ContactData {
@@ -150,27 +138,27 @@ protected:
                                        DistanceFieldCollisionObject *co1,
                                        RigidBody *rb2,
                                        DistanceFieldCollisionObject *co2,
-                                       const Real restitutionCoeff,
-                                       const Real frictionCoeff,
+                                       Real restitutionCoeff,
+                                       Real frictionCoeff,
                                        std::vector<std::vector<ContactData>> &contacts_mt);
     void collisionDetectionRBSolid(const ParticleData &pd,
-                                   const unsigned int offset,
-                                   const unsigned int numVert,
+                                   unsigned int offset,
+                                   unsigned int numVert,
                                    DistanceFieldCollisionObject *co1,
                                    RigidBody *rb2,
                                    DistanceFieldCollisionObject *co2,
-                                   const Real restitutionCoeff,
-                                   const Real frictionCoeff,
+                                   Real restitutionCoeff,
+                                   Real frictionCoeff,
                                    std::vector<std::vector<ContactData>> &contacts_mt);
 
     void collisionDetectionSolidSolid(const ParticleData &pd,
-                                      const unsigned int offset,
-                                      const unsigned int numVert,
+                                      unsigned int offset,
+                                      unsigned int numVert,
                                       DistanceFieldCollisionObject *co1,
                                       TetModel *tm2,
                                       DistanceFieldCollisionObject *co2,
-                                      const Real restitutionCoeff,
-                                      const Real frictionCoeff,
+                                      Real restitutionCoeff,
+                                      Real frictionCoeff,
                                       std::vector<std::vector<ContactData>> &contacts_mt);
 
     bool findRefTetAt(const ParticleData &pd,
@@ -182,54 +170,54 @@ protected:
 
 public:
     DistanceFieldCollisionDetection();
-    virtual ~DistanceFieldCollisionDetection();
+    ~DistanceFieldCollisionDetection() override;
 
-    virtual void collisionDetection(SimulationModel &model);
+    void collisionDetection(SimulationModel &model) override;
 
     virtual bool isDistanceFieldCollisionObject(CollisionObject *co) const;
 
-    void addCollisionBox(const unsigned int bodyIndex,
-                         const unsigned int bodyType,
+    void addCollisionBox(unsigned int bodyIndex,
+                         unsigned int bodyType,
                          const Vector3r *vertices,
-                         const unsigned int numVertices,
+                         unsigned int numVertices,
                          const Vector3r &box,
-                         const bool testMesh = true,
-                         const bool invertSDF = false);
-    void addCollisionSphere(const unsigned int bodyIndex,
-                            const unsigned int bodyType,
+                         bool testMesh = true,
+                         bool invertSDF = false);
+    void addCollisionSphere(unsigned int bodyIndex,
+                            unsigned int bodyType,
                             const Vector3r *vertices,
-                            const unsigned int numVertices,
-                            const Real radius,
-                            const bool testMesh = true,
-                            const bool invertSDF = false);
-    void addCollisionTorus(const unsigned int bodyIndex,
-                           const unsigned int bodyType,
+                            unsigned int numVertices,
+                            Real radius,
+                            bool testMesh = true,
+                            bool invertSDF = false);
+    void addCollisionTorus(unsigned int bodyIndex,
+                           unsigned int bodyType,
                            const Vector3r *vertices,
-                           const unsigned int numVertices,
+                           unsigned int numVertices,
                            const Vector2r &radii,
-                           const bool testMesh = true,
-                           const bool invertSDF = false);
-    void addCollisionObjectWithoutGeometry(const unsigned int bodyIndex,
-                                           const unsigned int bodyType,
+                           bool testMesh = true,
+                           bool invertSDF = false);
+    void addCollisionObjectWithoutGeometry(unsigned int bodyIndex,
+                                           unsigned int bodyType,
                                            const Vector3r *vertices,
-                                           const unsigned int numVertices,
-                                           const bool testMesh);
-    void addCollisionHollowSphere(const unsigned int bodyIndex,
-                                  const unsigned int bodyType,
+                                           unsigned int numVertices,
+                                           bool testMesh);
+    void addCollisionHollowSphere(unsigned int bodyIndex,
+                                  unsigned int bodyType,
                                   const Vector3r *vertices,
-                                  const unsigned int numVertices,
-                                  const Real radius,
-                                  const Real thickness,
-                                  const bool testMesh = true,
-                                  const bool invertSDF = false);
-    void addCollisionHollowBox(const unsigned int bodyIndex,
-                               const unsigned int bodyType,
+                                  unsigned int numVertices,
+                                  Real radius,
+                                  Real thickness,
+                                  bool testMesh = true,
+                                  bool invertSDF = false);
+    void addCollisionHollowBox(unsigned int bodyIndex,
+                               unsigned int bodyType,
                                const Vector3r *vertices,
-                               const unsigned int numVertices,
+                               unsigned int numVertices,
                                const Vector3r &box,
-                               const Real thickness,
-                               const bool testMesh = true,
-                               const bool invertSDF = false);
+                               Real thickness,
+                               bool testMesh = true,
+                               bool invertSDF = false);
 
     /** Add collision cylinder
      *
@@ -237,12 +225,12 @@ public:
      * @param  bodyType type of corresponding body
      * @param  dim (radius, height) of cylinder
      */
-    void addCollisionCylinder(const unsigned int bodyIndex,
-                              const unsigned int bodyType,
+    void addCollisionCylinder(unsigned int bodyIndex,
+                              unsigned int bodyType,
                               const Vector3r *vertices,
-                              const unsigned int numVertices,
+                              unsigned int numVertices,
                               const Vector2r &dim,
-                              const bool testMesh = true,
-                              const bool invertSDF = false);
+                              bool testMesh = true,
+                              bool invertSDF = false);
 };
 }  // namespace vox::force

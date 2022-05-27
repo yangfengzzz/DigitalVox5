@@ -51,25 +51,25 @@ public:
         unsigned int m_bodyIndex;
         unsigned int m_bodyType;
 
-        virtual ~CollisionObject() {}
-        virtual int &getTypeId() const = 0;
+        virtual ~CollisionObject() = default;
+        [[nodiscard]] virtual int &getTypeId() const = 0;
     };
 
     struct CollisionObjectWithoutGeometry : public CollisionObject {
         static int TYPE_ID;
-        virtual int &getTypeId() const { return TYPE_ID; }
-        virtual ~CollisionObjectWithoutGeometry() {}
+        [[nodiscard]] int &getTypeId() const override { return TYPE_ID; }
+        ~CollisionObjectWithoutGeometry() override = default;
     };
 
 protected:
     Real m_tolerance;
     ContactCallbackFunction m_contactCB;
     SolidContactCallbackFunction m_solidContactCB;
-    void *m_contactCBUserData;
-    void *m_solidContactCBUserData;
+    void *m_contactCBUserData{};
+    void *m_solidContactCBUserData{};
     std::vector<CollisionObject *> m_collisionObjects;
 
-    void updateAABB(const Vector3r &p, AABB &aabb);
+    static void updateAABB(const Vector3r &p, AABB &aabb);
 
 public:
     CollisionDetection();
@@ -77,39 +77,39 @@ public:
 
     void cleanup();
 
-    Real getTolerance() const { return m_tolerance; }
+    [[nodiscard]] Real getTolerance() const { return m_tolerance; }
     void setTolerance(Real val) { m_tolerance = val; }
 
-    void addRigidBodyContact(const unsigned int rbIndex1,
-                             const unsigned int rbIndex2,
+    void addRigidBodyContact(unsigned int rbIndex1,
+                             unsigned int rbIndex2,
                              const Vector3r &cp1,
                              const Vector3r &cp2,
                              const Vector3r &normal,
-                             const Real dist,
-                             const Real restitutionCoeff,
-                             const Real frictionCoeff);
+                             Real dist,
+                             Real restitutionCoeff,
+                             Real frictionCoeff);
 
-    void addParticleRigidBodyContact(const unsigned int particleIndex,
-                                     const unsigned int rbIndex,
+    void addParticleRigidBodyContact(unsigned int particleIndex,
+                                     unsigned int rbIndex,
                                      const Vector3r &cp1,
                                      const Vector3r &cp2,
                                      const Vector3r &normal,
-                                     const Real dist,
-                                     const Real restitutionCoeff,
-                                     const Real frictionCoeff);
+                                     Real dist,
+                                     Real restitutionCoeff,
+                                     Real frictionCoeff);
 
-    void addParticleSolidContact(const unsigned int particleIndex,
-                                 const unsigned int solidIndex,
-                                 const unsigned int tetIndex,
+    void addParticleSolidContact(unsigned int particleIndex,
+                                 unsigned int solidIndex,
+                                 unsigned int tetIndex,
                                  const Vector3r &bary,
                                  const Vector3r &cp1,
                                  const Vector3r &cp2,
                                  const Vector3r &normal,
-                                 const Real dist,
-                                 const Real restitutionCoeff,
-                                 const Real frictionCoeff);
+                                 Real dist,
+                                 Real restitutionCoeff,
+                                 Real frictionCoeff);
 
-    virtual void addCollisionObject(const unsigned int bodyIndex, const unsigned int bodyType);
+    virtual void addCollisionObject(unsigned int bodyIndex, unsigned int bodyType);
 
     std::vector<CollisionObject *> &getCollisionObjects() { return m_collisionObjects; }
 
@@ -118,6 +118,6 @@ public:
     void setContactCallback(CollisionDetection::ContactCallbackFunction val, void *userData);
     void setSolidContactCallback(CollisionDetection::SolidContactCallbackFunction val, void *userData);
     void updateAABBs(SimulationModel &model);
-    void updateAABB(SimulationModel &model, CollisionDetection::CollisionObject *co);
+    void updateAABB(SimulationModel &model, CollisionDetection::CollisionObject *co) const;
 };
 }  // namespace vox::force
