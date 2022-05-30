@@ -52,8 +52,8 @@ void TimeStep::reset() {}
 
 void TimeStep::setCollisionDetection(SimulationModel &model, CollisionDetection *cd) {
     m_collisionDetection = cd;
-    m_collisionDetection->setContactCallback(contactCallbackFunction, &model);
-    m_collisionDetection->setSolidContactCallback(solidContactCallbackFunction, &model);
+    m_collisionDetection->SetContactCallback(contactCallbackFunction, &model);
+    m_collisionDetection->SetSolidContactCallback(solidContactCallbackFunction, &model);
 }
 
 CollisionDetection *TimeStep::getCollisionDetection() { return m_collisionDetection; }
@@ -69,10 +69,10 @@ void TimeStep::contactCallbackFunction(const unsigned int contactType,
                                        const Real frictionCoeff,
                                        void *userData) {
     auto *model = (SimulationModel *)userData;
-    if (contactType == CollisionDetection::RigidBodyContactType)
+    if (contactType == CollisionDetection::rigid_body_contact_type_)
         model->addRigidBodyContactConstraint(bodyIndex1, bodyIndex2, cp1, cp2, normal, dist, restitutionCoeff,
                                              frictionCoeff);
-    else if (contactType == CollisionDetection::ParticleRigidBodyContactType)
+    else if (contactType == CollisionDetection::particle_rigid_body_contact_type_)
         model->addParticleRigidBodyContactConstraint(bodyIndex1, bodyIndex2, cp1, cp2, normal, dist, restitutionCoeff,
                                                      frictionCoeff);
 }
@@ -90,7 +90,7 @@ void TimeStep::solidContactCallbackFunction(const unsigned int contactType,
                                             const Real frictionCoeff,
                                             void *userData) {
     auto *model = (SimulationModel *)userData;
-    if (contactType == CollisionDetection::ParticleSolidContactType)
+    if (contactType == CollisionDetection::particle_solid_contact_type_)
         model->addParticleSolidContactConstraint(bodyIndex1, bodyIndex2, tetIndex, bary, cp1, cp2, normal, dist,
                                                  restitutionCoeff, frictionCoeff);
 }

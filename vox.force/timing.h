@@ -108,7 +108,7 @@ public:
     }
 
     FORCE_INLINE static double stopTiming(bool print, int &id) {
-        if (id == -1) id = IDFactory::getId();
+        if (id == -1) id = IDFactory::GetId();
         if (!Timing::m_timingStack.empty()) {
             Timing::m_stopCounter++;
             std::chrono::time_point<std::chrono::high_resolution_clock> stop =

@@ -15,7 +15,8 @@
 #include "vox.force/distance_field_collision_detection.h"
 
 namespace vox::force {
-/** Collision detection based on cubic signed distance fields.
+/**
+ * Collision detection based on cubic signed distance fields.
  */
 class CubicSDFCollisionDetection : public DistanceFieldCollisionDetection {
 public:
@@ -23,40 +24,41 @@ public:
     using GridPtr = std::shared_ptr<vox::force::discregrid::CubicLagrangeDiscreteGrid>;
 
     struct CubicSDFCollisionObject : public DistanceFieldCollisionDetection::DistanceFieldCollisionObject {
-        std::string m_sdfFile;
+        std::string m_sdf_file;
         Vector3r m_scale;
         GridPtr m_sdf;
-        static int TYPE_ID;
+        static int type_id;
 
         CubicSDFCollisionObject();
         ~CubicSDFCollisionObject() override;
-        [[nodiscard]] int &getTypeId() const override { return TYPE_ID; }
-        bool collisionTest(
-                const Vector3r &x, Real tolerance, Vector3r &cp, Vector3r &n, Real &dist, Real maxDist = 0.0) override;
-        double distance(const Eigen::Vector3d &x, Real tolerance) override;
+        [[nodiscard]] int &GetTypeId() const override { return type_id; }
+        bool CollisionTest(
+                const Vector3r &x, Real tolerance, Vector3r &cp, Vector3r &n, Real &dist, Real max_dist = 0.0) override;
+        double Distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
 public:
     CubicSDFCollisionDetection();
     ~CubicSDFCollisionDetection() override;
 
-    bool isDistanceFieldCollisionObject(CollisionObject *co) const override;
+    bool IsDistanceFieldCollisionObject(CollisionObject *co) const override;
 
-    void addCubicSDFCollisionObject(unsigned int bodyIndex,
-                                    unsigned int bodyType,
+    void AddCubicSdfCollisionObject(unsigned int body_index,
+                                    unsigned int body_type,
                                     const Vector3r *vertices,
-                                    unsigned int numVertices,
-                                    const std::string &sdfFile,
+                                    unsigned int num_vertices,
+                                    const std::string &sdf_file,
                                     const Vector3r &scale,
-                                    bool testMesh = true,
-                                    bool invertSDF = false);
-    void addCubicSDFCollisionObject(unsigned int bodyIndex,
-                                    unsigned int bodyType,
+                                    bool test_mesh = true,
+                                    bool invert_sdf = false);
+    void AddCubicSdfCollisionObject(unsigned int body_index,
+                                    unsigned int body_type,
                                     const Vector3r *vertices,
-                                    unsigned int numVertices,
+                                    unsigned int num_vertices,
                                     GridPtr sdf,
                                     const Vector3r &scale,
-                                    bool testMesh = true,
-                                    bool invertSDF = false);
+                                    bool test_mesh = true,
+                                    bool invert_sdf = false);
 };
+
 }  // namespace vox::force

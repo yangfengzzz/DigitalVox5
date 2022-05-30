@@ -10,156 +10,155 @@
 
 namespace vox::force {
 
-int CollisionDetection::CollisionObjectWithoutGeometry::TYPE_ID = IDFactory::GetId();
-const unsigned int CollisionDetection::RigidBodyContactType = 0;
-const unsigned int CollisionDetection::ParticleContactType = 1;
-const unsigned int CollisionDetection::ParticleRigidBodyContactType = 2;
-const unsigned int CollisionDetection::ParticleSolidContactType = 3;
+int CollisionDetection::CollisionObjectWithoutGeometry::type_id = IDFactory::GetId();
+const unsigned int CollisionDetection::rigid_body_contact_type_ = 0;
+const unsigned int CollisionDetection::particle_contact_type_ = 1;
+const unsigned int CollisionDetection::particle_rigid_body_contact_type_ = 2;
+const unsigned int CollisionDetection::particle_solid_contact_type_ = 3;
 
-const unsigned int CollisionDetection::CollisionObject::RigidBodyCollisionObjectType = 0;
-const unsigned int CollisionDetection::CollisionObject::TriangleModelCollisionObjectType = 1;
-const unsigned int CollisionDetection::CollisionObject::TetModelCollisionObjectType = 2;
+const unsigned int CollisionDetection::CollisionObject::rigid_body_collision_object_type = 0;
+const unsigned int CollisionDetection::CollisionObject::triangle_model_collision_object_type = 1;
+const unsigned int CollisionDetection::CollisionObject::tet_model_collision_object_type = 2;
 
-CollisionDetection::CollisionDetection() : m_collisionObjects() {
-    m_collisionObjects.reserve(1000);
-    m_contactCB = nullptr;
-    m_solidContactCB = nullptr;
-    m_tolerance = static_cast<Real>(0.01);
+CollisionDetection::CollisionDetection() : m_collision_objects_() {
+    m_collision_objects_.reserve(1000);
+    m_contact_cb_ = nullptr;
+    m_solid_contact_cb_ = nullptr;
+    m_tolerance_ = static_cast<Real>(0.01);
 }
 
 CollisionDetection::~CollisionDetection() { cleanup(); }
 
 void CollisionDetection::cleanup() {
-    for (auto &m_collisionObject : m_collisionObjects) delete m_collisionObject;
-    m_collisionObjects.clear();
+    for (auto &m_collision_object : m_collision_objects_) delete m_collision_object;
+    m_collision_objects_.clear();
 }
 
-void CollisionDetection::addRigidBodyContact(const unsigned int rbIndex1,
-                                             const unsigned int rbIndex2,
-                                             const Vector3r &cp1,
-                                             const Vector3r &cp2,
+void CollisionDetection::AddRigidBodyContact(unsigned int rb_index_1,
+                                             unsigned int rb_index_2,
+                                             const Vector3r &cp_1,
+                                             const Vector3r &cp_2,
                                              const Vector3r &normal,
-                                             const Real dist,
-                                             const Real restitutionCoeff,
-                                             const Real frictionCoeff) {
-    if (m_contactCB)
-        m_contactCB(RigidBodyContactType, rbIndex1, rbIndex2, cp1, cp2, normal, dist, restitutionCoeff, frictionCoeff,
-                    m_contactCBUserData);
+                                             Real dist,
+                                             Real restitution_coeff,
+                                             Real friction_coeff) {
+    if (m_contact_cb_)
+        m_contact_cb_(rigid_body_contact_type_, rb_index_1, rb_index_2, cp_1, cp_2, normal, dist, restitution_coeff,
+                      friction_coeff, m_contact_cb_user_data_);
 }
 
-void CollisionDetection::addParticleRigidBodyContact(const unsigned int particleIndex,
-                                                     const unsigned int rbIndex,
-                                                     const Vector3r &cp1,
-                                                     const Vector3r &cp2,
+void CollisionDetection::AddParticleRigidBodyContact(unsigned int particle_index,
+                                                     unsigned int rb_index,
+                                                     const Vector3r &cp_1,
+                                                     const Vector3r &cp_2,
                                                      const Vector3r &normal,
-                                                     const Real dist,
-                                                     const Real restitutionCoeff,
-                                                     const Real frictionCoeff) {
-    if (m_contactCB)
-        m_contactCB(ParticleRigidBodyContactType, particleIndex, rbIndex, cp1, cp2, normal, dist, restitutionCoeff,
-                    frictionCoeff, m_contactCBUserData);
+                                                     Real dist,
+                                                     Real restitution_coeff,
+                                                     Real friction_coeff) {
+    if (m_contact_cb_)
+        m_contact_cb_(particle_rigid_body_contact_type_, particle_index, rb_index, cp_1, cp_2, normal, dist,
+                      restitution_coeff, friction_coeff, m_contact_cb_user_data_);
 }
 
-void CollisionDetection::addParticleSolidContact(const unsigned int particleIndex,
-                                                 const unsigned int solidIndex,
-                                                 const unsigned int tetIndex,
+void CollisionDetection::AddParticleSolidContact(unsigned int particle_index,
+                                                 unsigned int solid_index,
+                                                 unsigned int tet_index,
                                                  const Vector3r &bary,
-                                                 const Vector3r &cp1,
-                                                 const Vector3r &cp2,
+                                                 const Vector3r &cp_1,
+                                                 const Vector3r &cp_2,
                                                  const Vector3r &normal,
-                                                 const Real dist,
-                                                 const Real restitutionCoeff,
-                                                 const Real frictionCoeff) {
-    if (m_solidContactCB)
-        m_solidContactCB(ParticleSolidContactType, particleIndex, solidIndex, tetIndex, bary, cp1, cp2, normal, dist,
-                         restitutionCoeff, frictionCoeff, m_contactCBUserData);
+                                                 Real dist,
+                                                 Real restitution_coeff,
+                                                 Real friction_coeff) {
+    if (m_solid_contact_cb_)
+        m_solid_contact_cb_(particle_solid_contact_type_, particle_index, solid_index, tet_index, bary, cp_1, cp_2, normal, dist, restitution_coeff, friction_coeff, m_contact_cb_user_data_);
 }
 
-void CollisionDetection::addCollisionObject(const unsigned int bodyIndex, const unsigned int bodyType) {
+void CollisionDetection::AddCollisionObject(const unsigned int body_index, const unsigned int body_type) {
     auto *co = new CollisionObjectWithoutGeometry();
-    co->m_bodyIndex = bodyIndex;
-    co->m_bodyType = bodyType;
-    m_collisionObjects.push_back(co);
+    co->m_body_index = body_index;
+    co->m_body_type = body_type;
+    m_collision_objects_.push_back(co);
 }
 
-void CollisionDetection::setContactCallback(CollisionDetection::ContactCallbackFunction val, void *userData) {
-    m_contactCB = val;
-    m_contactCBUserData = userData;
+void CollisionDetection::SetContactCallback(CollisionDetection::ContactCallbackFunction val, void *user_data) {
+    m_contact_cb_ = val;
+    m_contact_cb_user_data_ = user_data;
 }
 
-void CollisionDetection::setSolidContactCallback(CollisionDetection::SolidContactCallbackFunction val, void *userData) {
-    m_solidContactCB = val;
-    m_solidContactCBUserData = userData;
+void CollisionDetection::SetSolidContactCallback(CollisionDetection::SolidContactCallbackFunction val, void *user_data) {
+    m_solid_contact_cb_ = val;
+    m_solid_contact_cb_user_data_ = user_data;
 }
 
-void CollisionDetection::updateAABBs(SimulationModel &model) {
-    const SimulationModel::RigidBodyVector &rigidBodies = model.getRigidBodies();
-    const SimulationModel::TriangleModelVector &triModels = model.getTriangleModels();
-    const SimulationModel::TetModelVector &tetModels = model.getTetModels();
+void CollisionDetection::UpdateAabbs(SimulationModel &model) {
+    const SimulationModel::RigidBodyVector &rigid_bodies = model.getRigidBodies();
+    const SimulationModel::TriangleModelVector &tri_models = model.getTriangleModels();
+    const SimulationModel::TetModelVector &tet_models = model.getTetModels();
     const ParticleData &pd = model.getParticles();
 
-    for (auto co : m_collisionObjects) {
-        updateAABB(model, co);
+    for (auto co : m_collision_objects_) {
+        UpdateAabb(model, co);
     }
 }
 
-void CollisionDetection::updateAABB(SimulationModel &model, CollisionDetection::CollisionObject *co) const {
-    const SimulationModel::RigidBodyVector &rigidBodies = model.getRigidBodies();
-    const SimulationModel::TriangleModelVector &triModels = model.getTriangleModels();
-    const SimulationModel::TetModelVector &tetModels = model.getTetModels();
+void CollisionDetection::UpdateAabb(SimulationModel &model, CollisionDetection::CollisionObject *co) const {
+    const SimulationModel::RigidBodyVector &rigid_bodies = model.getRigidBodies();
+    const SimulationModel::TriangleModelVector &tri_models = model.getTriangleModels();
+    const SimulationModel::TetModelVector &tet_models = model.getTetModels();
     const ParticleData &pd = model.getParticles();
-    if (co->m_bodyType == CollisionDetection::CollisionObject::RigidBodyCollisionObjectType) {
-        const unsigned int rbIndex = co->m_bodyIndex;
-        RigidBody *rb = rigidBodies[rbIndex];
+    if (co->m_body_type == CollisionDetection::CollisionObject::rigid_body_collision_object_type) {
+        const unsigned int kRbIndex = co->m_body_index;
+        RigidBody *rb = rigid_bodies[kRbIndex];
         const VertexData &vd = rb->getGeometry().getVertexData();
 
-        co->m_aabb.m_p[0] = vd.getPosition(0);
-        co->m_aabb.m_p[1] = vd.getPosition(0);
+        co->m_aabb.m_p_[0] = vd.getPosition(0);
+        co->m_aabb.m_p_[1] = vd.getPosition(0);
         for (unsigned int j = 1; j < vd.size(); j++) {
-            updateAABB(vd.getPosition(j), co->m_aabb);
+            UpdateAabb(vd.getPosition(j), co->m_aabb);
         }
-    } else if (co->m_bodyType == CollisionDetection::CollisionObject::TriangleModelCollisionObjectType) {
-        const unsigned int modelIndex = co->m_bodyIndex;
-        TriangleModel *tm = triModels[modelIndex];
-        const unsigned int offset = tm->getIndexOffset();
+    } else if (co->m_body_type == CollisionDetection::CollisionObject::triangle_model_collision_object_type) {
+        const unsigned int kModelIndex = co->m_body_index;
+        TriangleModel *tm = tri_models[kModelIndex];
+        const unsigned int kOffset = tm->getIndexOffset();
         const IndexedFaceMesh &mesh = tm->getParticleMesh();
-        const unsigned int numVert = mesh.NumVertices();
+        const unsigned int kNumVert = mesh.NumVertices();
 
-        co->m_aabb.m_p[0] = pd.getPosition(offset);
-        co->m_aabb.m_p[1] = pd.getPosition(offset);
-        for (unsigned int j = offset + 1; j < offset + numVert; j++) {
-            updateAABB(pd.getPosition(j), co->m_aabb);
+        co->m_aabb.m_p_[0] = pd.getPosition(kOffset);
+        co->m_aabb.m_p_[1] = pd.getPosition(kOffset);
+        for (unsigned int j = kOffset + 1; j < kOffset + kNumVert; j++) {
+            UpdateAabb(pd.getPosition(j), co->m_aabb);
         }
-    } else if (co->m_bodyType == CollisionDetection::CollisionObject::TetModelCollisionObjectType) {
-        const unsigned int modelIndex = co->m_bodyIndex;
-        TetModel *tm = tetModels[modelIndex];
-        const unsigned int offset = tm->getIndexOffset();
+    } else if (co->m_body_type == CollisionDetection::CollisionObject::tet_model_collision_object_type) {
+        const unsigned int kModelIndex = co->m_body_index;
+        TetModel *tm = tet_models[kModelIndex];
+        const unsigned int kOffset = tm->getIndexOffset();
         const IndexedTetMesh &mesh = tm->getParticleMesh();
-        const unsigned int numVert = mesh.NumVertices();
+        const unsigned int kNumVert = mesh.NumVertices();
 
-        co->m_aabb.m_p[0] = pd.getPosition(offset);
-        co->m_aabb.m_p[1] = pd.getPosition(offset);
-        for (unsigned int j = offset + 1; j < offset + numVert; j++) {
-            updateAABB(pd.getPosition(j), co->m_aabb);
+        co->m_aabb.m_p_[0] = pd.getPosition(kOffset);
+        co->m_aabb.m_p_[1] = pd.getPosition(kOffset);
+        for (unsigned int j = kOffset + 1; j < kOffset + kNumVert; j++) {
+            UpdateAabb(pd.getPosition(j), co->m_aabb);
         }
     }
 
     // Extend AABB by tolerance
-    co->m_aabb.m_p[0][0] -= m_tolerance;
-    co->m_aabb.m_p[0][1] -= m_tolerance;
-    co->m_aabb.m_p[0][2] -= m_tolerance;
-    co->m_aabb.m_p[1][0] += m_tolerance;
-    co->m_aabb.m_p[1][1] += m_tolerance;
-    co->m_aabb.m_p[1][2] += m_tolerance;
+    co->m_aabb.m_p_[0][0] -= m_tolerance_;
+    co->m_aabb.m_p_[0][1] -= m_tolerance_;
+    co->m_aabb.m_p_[0][2] -= m_tolerance_;
+    co->m_aabb.m_p_[1][0] += m_tolerance_;
+    co->m_aabb.m_p_[1][1] += m_tolerance_;
+    co->m_aabb.m_p_[1][2] += m_tolerance_;
 }
 
-void CollisionDetection::updateAABB(const Vector3r &p, AABB &aabb) {
-    if (aabb.m_p[0][0] > p[0]) aabb.m_p[0][0] = p[0];
-    if (aabb.m_p[0][1] > p[1]) aabb.m_p[0][1] = p[1];
-    if (aabb.m_p[0][2] > p[2]) aabb.m_p[0][2] = p[2];
-    if (aabb.m_p[1][0] < p[0]) aabb.m_p[1][0] = p[0];
-    if (aabb.m_p[1][1] < p[1]) aabb.m_p[1][1] = p[1];
-    if (aabb.m_p[1][2] < p[2]) aabb.m_p[1][2] = p[2];
+void CollisionDetection::UpdateAabb(const Vector3r &p, AABB &aabb) {
+    if (aabb.m_p_[0][0] > p[0]) aabb.m_p_[0][0] = p[0];
+    if (aabb.m_p_[0][1] > p[1]) aabb.m_p_[0][1] = p[1];
+    if (aabb.m_p_[0][2] > p[2]) aabb.m_p_[0][2] = p[2];
+    if (aabb.m_p_[1][0] < p[0]) aabb.m_p_[1][0] = p[0];
+    if (aabb.m_p_[1][1] < p[1]) aabb.m_p_[1][1] = p[1];
+    if (aabb.m_p_[1][2] < p[2]) aabb.m_p_[1][2] = p[2];
 }
 
 }  // namespace vox::force

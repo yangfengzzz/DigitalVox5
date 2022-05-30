@@ -7,7 +7,6 @@
 #pragma once
 
 #include "vox.force/common.h"
-#define _USE_MATH_DEFINES
 #include <array>
 #include <cmath>
 #include <list>
@@ -17,18 +16,18 @@
 #include "vox.force/direct_position_based_solver_for_stiff_rods_interface.h"
 
 namespace vox::force {
-class SimulationModel;
+struct SimulationModel;
 
-class Constraint {
+struct Constraint {
 public:
     /** indices of the linked bodies */
     std::vector<unsigned int> m_bodies;
 
-    Constraint(const unsigned int numberOfBodies) { m_bodies.resize(numberOfBodies); }
+    explicit Constraint(const unsigned int numberOfBodies) { m_bodies.resize(numberOfBodies); }
 
-    unsigned int numberOfBodies() const { return static_cast<unsigned int>(m_bodies.size()); }
-    virtual ~Constraint(){};
-    virtual int &getTypeId() const = 0;
+    [[nodiscard]] unsigned int numberOfBodies() const { return static_cast<unsigned int>(m_bodies.size()); }
+    virtual ~Constraint() = default;
+    [[nodiscard]] virtual int &getTypeId() const = 0;
 
     virtual bool initConstraintBeforeProjection(SimulationModel &model) { return true; };
     virtual bool updateConstraint(SimulationModel &model) { return true; };
@@ -36,480 +35,480 @@ public:
     virtual bool solveVelocityConstraint(SimulationModel &model, const unsigned int iter) { return true; };
 };
 
-class BallJoint : public Constraint {
+struct BallJoint : public Constraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> m_jointInfo;
 
     BallJoint() : Constraint(2) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &pos);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class BallOnLineJoint : public Constraint {
+struct BallOnLineJoint : public Constraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 3, 10, Eigen::DontAlign> m_jointInfo;
 
     BallOnLineJoint() : Constraint(2) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &pos,
                         const Vector3r &dir);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class HingeJoint : public Constraint {
+struct HingeJoint : public Constraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 4, 7, Eigen::DontAlign> m_jointInfo;
 
     HingeJoint() : Constraint(2) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &pos,
                         const Vector3r &axis);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class UniversalJoint : public Constraint {
+struct UniversalJoint : public Constraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 3, 8, Eigen::DontAlign> m_jointInfo;
 
     UniversalJoint() : Constraint(2) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &pos,
                         const Vector3r &axis1,
                         const Vector3r &axis2);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class SliderJoint : public Constraint {
+struct SliderJoint : public Constraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> m_jointInfo;
 
     SliderJoint() : Constraint(2) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &axis);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class MotorJoint : public Constraint {
+struct MotorJoint : public Constraint {
 public:
     Real m_target;
     std::vector<Real> m_targetSequence;
     MotorJoint() : Constraint(2) { m_target = 0.0; }
 
-    virtual Real getTarget() const { return m_target; }
+    [[nodiscard]] virtual Real getTarget() const { return m_target; }
     virtual void setTarget(const Real val) { m_target = val; }
 
     virtual std::vector<Real> &getTargetSequence() { return m_targetSequence; }
     virtual void setTargetSequence(const std::vector<Real> &val) { m_targetSequence = val; }
 
-    bool getRepeatSequence() const { return m_repeatSequence; }
+    [[nodiscard]] bool getRepeatSequence() const { return m_repeatSequence; }
     void setRepeatSequence(bool val) { m_repeatSequence = val; }
 
 private:
-    bool m_repeatSequence;
+    bool m_repeatSequence{};
 };
 
-class TargetPositionMotorSliderJoint : public MotorJoint {
+struct TargetPositionMotorSliderJoint : public MotorJoint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> m_jointInfo;
 
     TargetPositionMotorSliderJoint() : MotorJoint() {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &axis);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class TargetVelocityMotorSliderJoint : public MotorJoint {
+struct TargetVelocityMotorSliderJoint : public MotorJoint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> m_jointInfo;
 
     TargetVelocityMotorSliderJoint() : MotorJoint() {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &axis);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
-    virtual bool solveVelocityConstraint(SimulationModel &model, const unsigned int iter);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
+    bool solveVelocityConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class TargetAngleMotorHingeJoint : public MotorJoint {
+struct TargetAngleMotorHingeJoint : public MotorJoint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> m_jointInfo;
     TargetAngleMotorHingeJoint() : MotorJoint() {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
-    virtual void setTarget(const Real val) {
+    void setTarget(const Real val) override {
         const Real pi = (Real)M_PI;
         m_target = std::max(val, -pi);
         m_target = std::min(m_target, pi);
     }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &pos,
                         const Vector3r &axis);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 
 private:
     std::vector<Real> m_targetSequence;
 };
 
-class TargetVelocityMotorHingeJoint : public MotorJoint {
+struct TargetVelocityMotorHingeJoint : public MotorJoint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> m_jointInfo;
     TargetVelocityMotorHingeJoint() : MotorJoint() {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &pos,
                         const Vector3r &axis);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
-    virtual bool solveVelocityConstraint(SimulationModel &model, const unsigned int iter);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
+    bool solveVelocityConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class DamperJoint : public Constraint {
+struct DamperJoint : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_stiffness;
+    static int type_id;
+    Real m_stiffness{};
     Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> m_jointInfo;
-    Real m_lambda;
+    Real m_lambda{};
 
     DamperJoint() : Constraint(2) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &axis,
-                        const Real stiffness);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                        Real stiffness);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class RigidBodyParticleBallJoint : public Constraint {
+struct RigidBodyParticleBallJoint : public Constraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 3, 2, Eigen::DontAlign> m_jointInfo;
 
     RigidBodyParticleBallJoint() : Constraint(2) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
-    bool initConstraint(SimulationModel &model, const unsigned int rbIndex, const unsigned int particleIndex);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+    bool initConstraint(SimulationModel &model, unsigned int rbIndex, unsigned int particleIndex);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class RigidBodySpring : public Constraint {
+struct RigidBodySpring : public Constraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> m_jointInfo;
-    Real m_restLength;
-    Real m_stiffness;
-    Real m_lambda;
+    Real m_restLength{};
+    Real m_stiffness{};
+    Real m_lambda{};
 
     RigidBodySpring() : Constraint(2) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &pos1,
                         const Vector3r &pos2,
-                        const Real stiffness);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                        Real stiffness);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class DistanceJoint : public Constraint {
+struct DistanceJoint : public Constraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> m_jointInfo;
-    Real m_restLength;
+    Real m_restLength{};
 
     DistanceJoint() : Constraint(2) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &pos1,
                         const Vector3r &pos2);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class DistanceConstraint : public Constraint {
+struct DistanceConstraint : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_restLength;
-    Real m_stiffness;
+    static int type_id;
+    Real m_restLength{};
+    Real m_stiffness{};
 
     DistanceConstraint() : Constraint(2) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int particle1,
-                                const unsigned int particle2,
-                                const Real stiffness);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int particle1,
+                                unsigned int particle2,
+                                Real stiffness);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class DistanceConstraint_XPBD : public Constraint {
+struct DistanceConstraint_XPBD : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_restLength;
-    Real m_lambda;
-    Real m_stiffness;
+    static int type_id;
+    Real m_restLength{};
+    Real m_lambda{};
+    Real m_stiffness{};
 
     DistanceConstraint_XPBD() : Constraint(2) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int particle1,
-                                const unsigned int particle2,
-                                const Real stiffness);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int particle1,
+                                unsigned int particle2,
+                                Real stiffness);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class DihedralConstraint : public Constraint {
+struct DihedralConstraint : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_restAngle;
-    Real m_stiffness;
+    static int type_id;
+    Real m_restAngle{};
+    Real m_stiffness{};
 
     DihedralConstraint() : Constraint(4) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int particle1,
-                                const unsigned int particle2,
-                                const unsigned int particle3,
-                                const unsigned int particle4,
-                                const Real stiffness);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int particle1,
+                                unsigned int particle2,
+                                unsigned int particle3,
+                                unsigned int particle4,
+                                Real stiffness);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class IsometricBendingConstraint : public Constraint {
+struct IsometricBendingConstraint : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_stiffness;
+    static int type_id;
+    Real m_stiffness{};
     Matrix4r m_Q;
 
     IsometricBendingConstraint() : Constraint(4) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int particle1,
-                                const unsigned int particle2,
-                                const unsigned int particle3,
-                                const unsigned int particle4,
-                                const Real stiffness);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int particle1,
+                                unsigned int particle2,
+                                unsigned int particle3,
+                                unsigned int particle4,
+                                Real stiffness);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class IsometricBendingConstraint_XPBD : public Constraint {
+struct IsometricBendingConstraint_XPBD : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_stiffness;
+    static int type_id;
+    Real m_stiffness{};
     Matrix4r m_Q;
-    Real m_lambda;
+    Real m_lambda{};
 
     IsometricBendingConstraint_XPBD() : Constraint(4) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int particle1,
-                                const unsigned int particle2,
-                                const unsigned int particle3,
-                                const unsigned int particle4,
-                                const Real stiffness);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int particle1,
+                                unsigned int particle2,
+                                unsigned int particle3,
+                                unsigned int particle4,
+                                Real stiffness);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class FEMTriangleConstraint : public Constraint {
+struct FEMTriangleConstraint : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_area;
+    static int type_id;
+    Real m_area{};
     Matrix2r m_invRestMat;
-    Real m_xxStiffness;
-    Real m_xyStiffness;
-    Real m_yyStiffness;
-    Real m_xyPoissonRatio;
-    Real m_yxPoissonRatio;
+    Real m_xxStiffness{};
+    Real m_xyStiffness{};
+    Real m_yyStiffness{};
+    Real m_xyPoissonRatio{};
+    Real m_yxPoissonRatio{};
 
     FEMTriangleConstraint() : Constraint(3) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int particle1,
-                                const unsigned int particle2,
-                                const unsigned int particle3,
-                                const Real xxStiffness,
-                                const Real yyStiffness,
-                                const Real xyStiffness,
-                                const Real xyPoissonRatio,
-                                const Real yxPoissonRatio);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int particle1,
+                                unsigned int particle2,
+                                unsigned int particle3,
+                                Real xxStiffness,
+                                Real yyStiffness,
+                                Real xyStiffness,
+                                Real xyPoissonRatio,
+                                Real yxPoissonRatio);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class StrainTriangleConstraint : public Constraint {
+struct StrainTriangleConstraint : public Constraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Matrix2r m_invRestMat;
-    Real m_xxStiffness;
-    Real m_xyStiffness;
-    Real m_yyStiffness;
-    bool m_normalizeStretch;
-    bool m_normalizeShear;
+    Real m_xxStiffness{};
+    Real m_xyStiffness{};
+    Real m_yyStiffness{};
+    bool m_normalizeStretch{};
+    bool m_normalizeShear{};
 
     StrainTriangleConstraint() : Constraint(3) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int particle1,
-                                const unsigned int particle2,
-                                const unsigned int particle3,
-                                const Real xxStiffness,
-                                const Real yyStiffness,
-                                const Real xyStiffness,
-                                const bool normalizeStretch,
-                                const bool normalizeShear);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int particle1,
+                                unsigned int particle2,
+                                unsigned int particle3,
+                                Real xxStiffness,
+                                Real yyStiffness,
+                                Real xyStiffness,
+                                bool normalizeStretch,
+                                bool normalizeShear);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class VolumeConstraint : public Constraint {
+struct VolumeConstraint : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_stiffness;
-    Real m_restVolume;
+    static int type_id;
+    Real m_stiffness{};
+    Real m_restVolume{};
 
     VolumeConstraint() : Constraint(4) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int particle1,
-                                const unsigned int particle2,
-                                const unsigned int particle3,
-                                const unsigned int particle4,
-                                const Real stiffness);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int particle1,
+                                unsigned int particle2,
+                                unsigned int particle3,
+                                unsigned int particle4,
+                                Real stiffness);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class VolumeConstraint_XPBD : public Constraint {
+struct VolumeConstraint_XPBD : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_stiffness;
-    Real m_restVolume;
-    Real m_lambda;
+    static int type_id;
+    Real m_stiffness{};
+    Real m_restVolume{};
+    Real m_lambda{};
 
     VolumeConstraint_XPBD() : Constraint(4) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int particle1,
-                                const unsigned int particle2,
-                                const unsigned int particle3,
-                                const unsigned int particle4,
-                                const Real stiffness);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int particle1,
+                                unsigned int particle2,
+                                unsigned int particle3,
+                                unsigned int particle4,
+                                Real stiffness);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class FEMTetConstraint : public Constraint {
+struct FEMTetConstraint : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_stiffness;
-    Real m_poissonRatio;
-    Real m_volume;
+    static int type_id;
+    Real m_stiffness{};
+    Real m_poissonRatio{};
+    Real m_volume{};
     Matrix3r m_invRestMat;
 
     FEMTetConstraint() : Constraint(4) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int particle1,
-                                const unsigned int particle2,
-                                const unsigned int particle3,
-                                const unsigned int particle4,
-                                const Real stiffness,
-                                const Real poissonRatio);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int particle1,
+                                unsigned int particle2,
+                                unsigned int particle3,
+                                unsigned int particle4,
+                                Real stiffness,
+                                Real poissonRatio);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class StrainTetConstraint : public Constraint {
+struct StrainTetConstraint : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_stretchStiffness;
-    Real m_shearStiffness;
+    static int type_id;
+    Real m_stretchStiffness{};
+    Real m_shearStiffness{};
     Matrix3r m_invRestMat;
-    bool m_normalizeStretch;
-    bool m_normalizeShear;
+    bool m_normalizeStretch{};
+    bool m_normalizeShear{};
 
     StrainTetConstraint() : Constraint(4) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int particle1,
-                                const unsigned int particle2,
-                                const unsigned int particle3,
-                                const unsigned int particle4,
-                                const Real stretchStiffness,
-                                const Real shearStiffness,
-                                const bool normalizeStretch,
-                                const bool normalizeShear);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int particle1,
+                                unsigned int particle2,
+                                unsigned int particle3,
+                                unsigned int particle4,
+                                Real stretchStiffness,
+                                Real shearStiffness,
+                                bool normalizeStretch,
+                                bool normalizeShear);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class ShapeMatchingConstraint : public Constraint {
+struct ShapeMatchingConstraint : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_stiffness;
+    static int type_id;
+    Real m_stiffness{};
     Vector3r m_restCm;
     Real *m_w;
     Vector3r *m_x0;
@@ -517,167 +516,167 @@ public:
     Vector3r *m_corr;
     unsigned int *m_numClusters;
 
-    ShapeMatchingConstraint(const unsigned int numberOfParticles) : Constraint(numberOfParticles) {
+    explicit ShapeMatchingConstraint(const unsigned int numberOfParticles) : Constraint(numberOfParticles) {
         m_x = new Vector3r[numberOfParticles];
         m_x0 = new Vector3r[numberOfParticles];
         m_corr = new Vector3r[numberOfParticles];
         m_w = new Real[numberOfParticles];
         m_numClusters = new unsigned int[numberOfParticles];
     }
-    virtual ~ShapeMatchingConstraint() {
+    ~ShapeMatchingConstraint() override {
         delete[] m_x;
         delete[] m_x0;
         delete[] m_corr;
         delete[] m_w;
         delete[] m_numClusters;
     }
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
                                 const unsigned int particleIndices[],
                                 const unsigned int numClusters[],
-                                const Real stiffness);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                Real stiffness);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class RigidBodyContactConstraint {
+struct RigidBodyContactConstraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     /** indices of the linked bodies */
-    std::array<unsigned int, 2> m_bodies;
-    Real m_stiffness;
-    Real m_frictionCoeff;
-    Real m_sum_impulses;
+    std::array<unsigned int, 2> m_bodies{};
+    Real m_stiffness{};
+    Real m_frictionCoeff{};
+    Real m_sum_impulses{};
     Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> m_constraintInfo;
 
-    RigidBodyContactConstraint() {}
-    ~RigidBodyContactConstraint() {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    RigidBodyContactConstraint() = default;
+    ~RigidBodyContactConstraint() = default;
+    [[nodiscard]] virtual int &getTypeId() const { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int rbIndex1,
-                        const unsigned int rbIndex2,
+                        unsigned int rbIndex1,
+                        unsigned int rbIndex2,
                         const Vector3r &cp1,
                         const Vector3r &cp2,
                         const Vector3r &normal,
-                        const Real dist,
-                        const Real restitutionCoeff,
-                        const Real stiffness,
-                        const Real frictionCoeff);
-    virtual bool solveVelocityConstraint(SimulationModel &model, const unsigned int iter);
+                        Real dist,
+                        Real restitutionCoeff,
+                        Real stiffness,
+                        Real frictionCoeff);
+    virtual bool solveVelocityConstraint(SimulationModel &model, unsigned int iter);
 };
 
-class ParticleRigidBodyContactConstraint {
+struct ParticleRigidBodyContactConstraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     /** indices of the linked bodies */
-    std::array<unsigned int, 2> m_bodies;
-    Real m_stiffness;
-    Real m_frictionCoeff;
-    Real m_sum_impulses;
+    std::array<unsigned int, 2> m_bodies{};
+    Real m_stiffness{};
+    Real m_frictionCoeff{};
+    Real m_sum_impulses{};
     Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> m_constraintInfo;
 
-    ParticleRigidBodyContactConstraint() {}
-    ~ParticleRigidBodyContactConstraint() {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    ParticleRigidBodyContactConstraint() = default;
+    ~ParticleRigidBodyContactConstraint() = default;
+    [[nodiscard]] virtual int &getTypeId() const { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int particleIndex,
-                        const unsigned int rbIndex,
+                        unsigned int particleIndex,
+                        unsigned int rbIndex,
                         const Vector3r &cp1,
                         const Vector3r &cp2,
                         const Vector3r &normal,
-                        const Real dist,
-                        const Real restitutionCoeff,
-                        const Real stiffness,
-                        const Real frictionCoeff);
-    virtual bool solveVelocityConstraint(SimulationModel &model, const unsigned int iter);
+                        Real dist,
+                        Real restitutionCoeff,
+                        Real stiffness,
+                        Real frictionCoeff);
+    virtual bool solveVelocityConstraint(SimulationModel &model, unsigned int iter);
 };
 
-class ParticleTetContactConstraint {
+struct ParticleTetContactConstraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     /** indices of the linked bodies */
-    std::array<unsigned int, 2> m_bodies;
-    unsigned int m_solidIndex;
-    unsigned int m_tetIndex;
+    std::array<unsigned int, 2> m_bodies{};
+    unsigned int m_solidIndex{};
+    unsigned int m_tetIndex{};
     Vector3r m_bary;
-    Real m_lambda;
-    Real m_frictionCoeff;
+    Real m_lambda{};
+    Real m_frictionCoeff{};
     Eigen::Matrix<Real, 3, 3, Eigen::DontAlign> m_constraintInfo;
-    Real m_invMasses[4];
+    Real m_invMasses[4]{};
     std::array<Vector3r, 4> m_x;
     std::array<Vector3r, 4> m_v;
 
-    ParticleTetContactConstraint() {}
-    ~ParticleTetContactConstraint() {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    ParticleTetContactConstraint() = default;
+    ~ParticleTetContactConstraint() = default;
+    [[nodiscard]] virtual int &getTypeId() const { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int particleIndex,
-                        const unsigned int solidIndex,
-                        const unsigned int tetindex,
+                        unsigned int particleIndex,
+                        unsigned int solidIndex,
+                        unsigned int tetindex,
                         const Vector3r &bary,
                         const Vector3r &cp1,
                         const Vector3r &cp2,
                         const Vector3r &normal,
-                        const Real dist,
-                        const Real frictionCoeff);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
-    virtual bool solveVelocityConstraint(SimulationModel &model, const unsigned int iter);
+                        Real dist,
+                        Real frictionCoeff);
+    virtual bool solvePositionConstraint(SimulationModel &model, unsigned int iter);
+    virtual bool solveVelocityConstraint(SimulationModel &model, unsigned int iter);
 };
 
-class StretchShearConstraint : public Constraint {
+struct StretchShearConstraint : public Constraint {
 public:
-    static int TYPE_ID;
-    Real m_restLength;
-    Real m_shearingStiffness1;
-    Real m_shearingStiffness2;
-    Real m_stretchingStiffness;
+    static int type_id;
+    Real m_restLength{};
+    Real m_shearingStiffness1{};
+    Real m_shearingStiffness2{};
+    Real m_stretchingStiffness{};
 
     StretchShearConstraint() : Constraint(3) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int particle1,
-                                const unsigned int particle2,
-                                const unsigned int quaternion1,
-                                const Real stretchingStiffness,
-                                const Real shearingStiffness1,
-                                const Real shearingStiffness2);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int particle1,
+                                unsigned int particle2,
+                                unsigned int quaternion1,
+                                Real stretchingStiffness,
+                                Real shearingStiffness1,
+                                Real shearingStiffness2);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class BendTwistConstraint : public Constraint {
+struct BendTwistConstraint : public Constraint {
 public:
-    static int TYPE_ID;
+    static int type_id;
     Quaternionr m_restDarbouxVector;
-    Real m_bendingStiffness1;
-    Real m_bendingStiffness2;
-    Real m_twistingStiffness;
+    Real m_bendingStiffness1{};
+    Real m_bendingStiffness2{};
+    Real m_twistingStiffness{};
 
     BendTwistConstraint() : Constraint(2) {}
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     virtual bool initConstraint(SimulationModel &model,
-                                const unsigned int quaternion1,
-                                const unsigned int quaternion2,
-                                const Real twistingStiffness,
-                                const Real bendingStiffness1,
-                                const Real bendingStiffness2);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+                                unsigned int quaternion1,
+                                unsigned int quaternion2,
+                                Real twistingStiffness,
+                                Real bendingStiffness1,
+                                Real bendingStiffness2);
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
-class StretchBendingTwistingConstraint : public Constraint {
+struct StretchBendingTwistingConstraint : public Constraint {
     using Matrix6r = Eigen::Matrix<Real, 6, 6, Eigen::DontAlign>;
     using Vector6r = Eigen::Matrix<Real, 6, 1, Eigen::DontAlign>;
 
 public:
-    static int TYPE_ID;
+    static int type_id;
     Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> m_constraintInfo;
 
-    Real m_averageRadius;
-    Real m_averageSegmentLength;
+    Real m_averageRadius{};
+    Real m_averageSegmentLength{};
     Vector3r m_restDarbouxVector;
     Vector3r m_stiffnessCoefficientK;
     Vector3r m_stretchCompliance;
@@ -686,42 +685,42 @@ public:
 
     StretchBendingTwistingConstraint() : Constraint(2) {}
 
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
-                        const unsigned int segmentIndex1,
-                        const unsigned int segmentIndex2,
+                        unsigned int segmentIndex1,
+                        unsigned int segmentIndex2,
                         const Vector3r &pos,
-                        const Real averageRadius,
-                        const Real averageSegmentLength,
+                        Real averageRadius,
+                        Real averageSegmentLength,
                         Real youngsModulus,
                         Real torsionModulus);
-    virtual bool initConstraintBeforeProjection(SimulationModel &model);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+    bool initConstraintBeforeProjection(SimulationModel &model) override;
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
 struct Node;
 struct Interval;
-class SimulationModel;
+struct SimulationModel;
 using Vector6r = Eigen::Matrix<Real, 6, 1, Eigen::DontAlign>;
 
-class DirectPositionBasedSolverForStiffRodsConstraint : public Constraint {
-    class RodSegmentImpl : public RodSegment {
+struct DirectPositionBasedSolverForStiffRodsConstraint : public Constraint {
+    struct RodSegmentImpl : public RodSegment {
     public:
         RodSegmentImpl(SimulationModel &model, unsigned int idx) : m_model(model), m_segmentIdx(idx){};
 
-        virtual bool isDynamic();
-        virtual Real Mass();
-        virtual const Vector3r &InertiaTensor();
-        virtual const Vector3r &Position();
-        virtual const Quaternionr &Rotation();
+        bool IsDynamic() override;
+        Real Mass() override;
+        const Vector3r &InertiaTensor() override;
+        const Vector3r &Position() override;
+        const Quaternionr &Rotation() override;
 
         SimulationModel &m_model;
         unsigned int m_segmentIdx;
     };
 
-    class RodConstraintImpl : public RodConstraint {
+    struct RodConstraintImpl : public RodConstraint {
     public:
         std::vector<unsigned int> m_segments;
         Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> m_constraintInfo;
@@ -733,27 +732,27 @@ class DirectPositionBasedSolverForStiffRodsConstraint : public Constraint {
         Vector3r m_stretchCompliance;
         Vector3r m_bendingAndTorsionCompliance;
 
-        virtual unsigned int segmentIndex(unsigned int i) {
+        unsigned int SegmentIndex(unsigned int i) override {
             if (i < static_cast<unsigned int>(m_segments.size())) return m_segments[i];
             return 0u;
         };
 
-        virtual Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &getConstraintInfo() { return m_constraintInfo; }
-        virtual Real getAverageSegmentLength() { return m_averageSegmentLength; }
-        virtual Vector3r &getRestDarbouxVector() { return m_restDarbouxVector; }
-        virtual Vector3r &getStiffnessCoefficientK() { return m_stiffnessCoefficientK; };
-        virtual Vector3r &getStretchCompliance() { return m_stretchCompliance; }
-        virtual Vector3r &getBendingAndTorsionCompliance() { return m_bendingAndTorsionCompliance; }
+        Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &GetConstraintInfo() override { return m_constraintInfo; }
+        Real GetAverageSegmentLength() override { return m_averageSegmentLength; }
+        Vector3r &GetRestDarbouxVector() override { return m_restDarbouxVector; }
+        Vector3r &GetStiffnessCoefficientK() override { return m_stiffnessCoefficientK; };
+        Vector3r &GetStretchCompliance() override { return m_stretchCompliance; }
+        Vector3r &GetBendingAndTorsionCompliance() override { return m_bendingAndTorsionCompliance; }
     };
 
 public:
-    static int TYPE_ID;
+    static int type_id;
 
     DirectPositionBasedSolverForStiffRodsConstraint()
-        : Constraint(2), root(NULL), numberOfIntervals(0), intervals(NULL), forward(NULL), backward(NULL) {}
-    ~DirectPositionBasedSolverForStiffRodsConstraint();
+        : Constraint(2), root(nullptr), numberOfIntervals(0), intervals(nullptr), forward(nullptr), backward(nullptr) {}
+    ~DirectPositionBasedSolverForStiffRodsConstraint() override;
 
-    virtual int &getTypeId() const { return TYPE_ID; }
+    [[nodiscard]] int &getTypeId() const override { return type_id; }
 
     bool initConstraint(SimulationModel &model,
                         const std::vector<std::pair<unsigned int, unsigned int>> &constraintSegmentIndices,
@@ -763,9 +762,9 @@ public:
                         const std::vector<Real> &youngsModuli,
                         const std::vector<Real> &torsionModuli);
 
-    virtual bool initConstraintBeforeProjection(SimulationModel &model);
-    virtual bool updateConstraint(SimulationModel &model);
-    virtual bool solvePositionConstraint(SimulationModel &model, const unsigned int iter);
+    bool initConstraintBeforeProjection(SimulationModel &model) override;
+    bool updateConstraint(SimulationModel &model) override;
+    bool solvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 
 protected:
     /** root node */

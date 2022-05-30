@@ -13,87 +13,87 @@
 
 namespace vox::force {
 
-int CubicSDFCollisionDetection::CubicSDFCollisionObject::TYPE_ID = IDFactory::GetId();
+int CubicSDFCollisionDetection::CubicSDFCollisionObject::type_id = IDFactory::GetId();
 
 CubicSDFCollisionDetection::CubicSDFCollisionDetection() : DistanceFieldCollisionDetection() {}
 
 CubicSDFCollisionDetection::~CubicSDFCollisionDetection() = default;
 
-bool CubicSDFCollisionDetection::isDistanceFieldCollisionObject(CollisionObject *co) const {
-    return DistanceFieldCollisionDetection::isDistanceFieldCollisionObject(co) ||
-           (co->getTypeId() == CubicSDFCollisionDetection::CubicSDFCollisionObject::TYPE_ID);
+bool CubicSDFCollisionDetection::IsDistanceFieldCollisionObject(CollisionObject *co) const {
+    return DistanceFieldCollisionDetection::IsDistanceFieldCollisionObject(co) ||
+           (co->GetTypeId() == CubicSDFCollisionDetection::CubicSDFCollisionObject::type_id);
 }
 
-void CubicSDFCollisionDetection::addCubicSDFCollisionObject(const unsigned int bodyIndex,
-                                                            const unsigned int bodyType,
+void CubicSDFCollisionDetection::AddCubicSdfCollisionObject(unsigned int body_index,
+                                                            unsigned int body_type,
                                                             const Vector3r *vertices,
-                                                            const unsigned int numVertices,
-                                                            const std::string &sdfFile,
+                                                            unsigned int num_vertices,
+                                                            const std::string &sdf_file,
                                                             const Vector3r &scale,
-                                                            const bool testMesh,
-                                                            const bool invertSDF) {
+                                                            bool test_mesh,
+                                                            bool invert_sdf) {
     auto *co = new CubicSDFCollisionDetection::CubicSDFCollisionObject();
-    co->m_bodyIndex = bodyIndex;
-    co->m_bodyType = bodyType;
-    co->m_sdfFile = sdfFile;
+    co->m_body_index = body_index;
+    co->m_body_type = body_type;
+    co->m_sdf_file = sdf_file;
     co->m_scale = scale;
-    co->m_sdf = std::make_shared<Grid>(co->m_sdfFile);
-    co->m_bvh.Init(vertices, numVertices);
+    co->m_sdf = std::make_shared<Grid>(co->m_sdf_file);
+    co->m_bvh.Init(vertices, num_vertices);
     co->m_bvh.Construct();
-    co->m_testMesh = testMesh;
-    co->m_invertSDF = 1.0;
-    if (invertSDF) co->m_invertSDF = -1.0;
-    m_collisionObjects.push_back(co);
+    co->m_test_mesh = test_mesh;
+    co->m_invert_sdf = 1.0;
+    if (invert_sdf) co->m_invert_sdf = -1.0;
+    m_collision_objects_.push_back(co);
 }
 
-void CubicSDFCollisionDetection::addCubicSDFCollisionObject(const unsigned int bodyIndex,
-                                                            const unsigned int bodyType,
+void CubicSDFCollisionDetection::AddCubicSdfCollisionObject(unsigned int body_index,
+                                                            unsigned int body_type,
                                                             const Vector3r *vertices,
-                                                            const unsigned int numVertices,
+                                                            unsigned int num_vertices,
                                                             CubicSDFCollisionDetection::GridPtr sdf,
                                                             const Vector3r &scale,
-                                                            const bool testMesh /*= true*/,
-                                                            const bool invertSDF /*= false*/) {
+                                                            bool test_mesh /*= true*/,
+                                                            bool invert_sdf /*= false*/) {
     auto *co = new CubicSDFCollisionDetection::CubicSDFCollisionObject();
-    co->m_bodyIndex = bodyIndex;
-    co->m_bodyType = bodyType;
-    co->m_sdfFile = "";
+    co->m_body_index = body_index;
+    co->m_body_type = body_type;
+    co->m_sdf_file = "";
     co->m_scale = scale;
     co->m_sdf = std::move(sdf);
-    co->m_bvh.Init(vertices, numVertices);
+    co->m_bvh.Init(vertices, num_vertices);
     co->m_bvh.Construct();
-    co->m_testMesh = testMesh;
-    co->m_invertSDF = 1.0;
-    if (invertSDF) co->m_invertSDF = -1.0;
-    m_collisionObjects.push_back(co);
+    co->m_test_mesh = test_mesh;
+    co->m_invert_sdf = 1.0;
+    if (invert_sdf) co->m_invert_sdf = -1.0;
+    m_collision_objects_.push_back(co);
 }
 
 CubicSDFCollisionDetection::CubicSDFCollisionObject::CubicSDFCollisionObject() = default;
 
 CubicSDFCollisionDetection::CubicSDFCollisionObject::~CubicSDFCollisionObject() = default;
 
-double CubicSDFCollisionDetection::CubicSDFCollisionObject::distance(const Eigen::Vector3d &x, const Real tolerance) {
-    const Eigen::Vector3d scaled_x = x.cwiseProduct(m_scale.template cast<double>().cwiseInverse());
-    const double dist = m_sdf->interpolate(0, scaled_x);
-    if (dist == std::numeric_limits<double>::max()) return dist;
-    return m_invertSDF * m_scale[0] * dist - tolerance;
+double CubicSDFCollisionDetection::CubicSDFCollisionObject::Distance(const Eigen::Vector3d &x, const Real tolerance) {
+    const Eigen::Vector3d kScaledX = x.cwiseProduct(m_scale.template cast<double>().cwiseInverse());
+    const double kDist = m_sdf->interpolate(0, kScaledX);
+    if (kDist == std::numeric_limits<double>::max()) return kDist;
+    return m_invert_sdf * m_scale[0] * kDist - tolerance;
 }
 
-bool CubicSDFCollisionDetection::CubicSDFCollisionObject::collisionTest(
-        const Vector3r &x, const Real tolerance, Vector3r &cp, Vector3r &n, Real &dist, const Real maxDist) {
-    const Vector3r scaled_x = x.cwiseProduct(m_scale.cwiseInverse());
+bool CubicSDFCollisionDetection::CubicSDFCollisionObject::CollisionTest(
+        const Vector3r &x, Real tolerance, Vector3r &cp, Vector3r &n, Real &dist, Real max_dist) {
+    const Vector3r kScaledX = x.cwiseProduct(m_scale.cwiseInverse());
 
     Eigen::Vector3d normal;
-    double d = m_sdf->interpolate(0, scaled_x.template cast<double>(), &normal);
+    double d = m_sdf->interpolate(0, kScaledX.template cast<double>(), &normal);
     if (d == std::numeric_limits<Real>::max()) return false;
-    dist = static_cast<Real>(m_invertSDF * d - tolerance);
+    dist = static_cast<Real>(m_invert_sdf * d - tolerance);
 
-    normal = m_invertSDF * normal;
-    if (dist < maxDist) {
+    normal = m_invert_sdf * normal;
+    if (dist < max_dist) {
         normal.normalize();
         n = normal.template cast<Real>();
 
-        cp = (scaled_x - dist * n);
+        cp = (kScaledX - dist * n);
         cp = cp.cwiseProduct(m_scale);
 
         return true;

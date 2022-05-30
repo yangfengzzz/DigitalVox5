@@ -494,8 +494,8 @@ bool DirectPositionBasedSolverForStiffRods::isSegmentInInterval(RodSegment *segm
                                                                 std::vector<RodConstraint *> &rodConstraints,
                                                                 std::vector<RodSegment *> &rodSegments) {
     for (int i = intervals[intervalIndex].start; i <= intervals[intervalIndex].end; i++) {
-        if ((segment == rodSegments[rodConstraints[i]->segmentIndex(0)]) ||
-            (segment == rodSegments[rodConstraints[i]->segmentIndex(1)]))
+        if ((segment == rodSegments[rodConstraints[i]->SegmentIndex(0)]) ||
+            (segment == rodSegments[rodConstraints[i]->SegmentIndex(1)]))
             return true;
     }
     return false;
@@ -523,8 +523,8 @@ void DirectPositionBasedSolverForStiffRods::initSegmentNode(Node *n,
     std::vector<int> constraintIndices;
     for (int j = 0; j < static_cast<int>(rodConstraints.size()); ++j) {
         RodConstraint *constraint(rodConstraints[j]);
-        if (rodSegments[constraint->segmentIndex(0)] == segment ||
-            rodSegments[constraint->segmentIndex(1)] == segment) {
+        if (rodSegments[constraint->SegmentIndex(0)] == segment ||
+            rodSegments[constraint->SegmentIndex(1)] == segment) {
             constraints.push_back(constraint);
             constraintIndices.push_back(j);
         }
@@ -559,12 +559,12 @@ void DirectPositionBasedSolverForStiffRods::initSegmentNode(Node *n,
             segmentNode->parent = constraintNode;
 
             //	get other segment connected to constraint for new node
-            if (rodSegments[constraints[i]->segmentIndex(0)] == segment) {
-                segmentNode->object = rodSegments[constraints[i]->segmentIndex(1)];
-                segmentNode->index = constraints[i]->segmentIndex(1);
+            if (rodSegments[constraints[i]->SegmentIndex(0)] == segment) {
+                segmentNode->object = rodSegments[constraints[i]->SegmentIndex(1)];
+                segmentNode->index = constraints[i]->SegmentIndex(1);
             } else {
-                segmentNode->object = rodSegments[constraints[i]->segmentIndex(0)];
-                segmentNode->index = constraints[i]->segmentIndex(0);
+                segmentNode->object = rodSegments[constraints[i]->SegmentIndex(0)];
+                segmentNode->index = constraints[i]->SegmentIndex(0);
             }
 
             segmentNode->D.setZero();
@@ -611,7 +611,7 @@ void DirectPositionBasedSolverForStiffRods::initNodes(int intervalIndex,
             }
         }
 
-        if (!rb->isDynamic()) {
+        if (!rb->IsDynamic()) {
             root[intervalIndex].object = rb;
             root[intervalIndex].index = i;
             break;
@@ -710,7 +710,7 @@ void DirectPositionBasedSolverForStiffRods::computeMatrixK(const Vector3r &conne
 }
 
 void DirectPositionBasedSolverForStiffRods::getMassMatrix(RodSegment *segment, Matrix6r &M) {
-    if (!segment->isDynamic()) {
+    if (!segment->IsDynamic()) {
         M = Matrix6r::Identity();
         return;
     }
@@ -753,13 +753,13 @@ Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
     for (size_t currentConstraintIndex = 0; currentConstraintIndex < rodConstraints.size(); ++currentConstraintIndex) {
         RodConstraint *currentConstraint = rodConstraints[currentConstraintIndex];
 
-        RodSegment *segment0 = rodSegments[currentConstraint->segmentIndex(0)];
-        RodSegment *segment1 = rodSegments[currentConstraint->segmentIndex(1)];
+        RodSegment *segment0 = rodSegments[currentConstraint->SegmentIndex(0)];
+        RodSegment *segment1 = rodSegments[currentConstraint->SegmentIndex(1)];
 
         const Quaternionr &q0 = segment0->Rotation();
         const Quaternionr &q1 = segment1->Rotation();
 
-        const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo(currentConstraint->getConstraintInfo());
+        const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo(currentConstraint->GetConstraintInfo());
         Vector6r &rhs(RHS[currentConstraintIndex]);
 
         // Compute zero-stretch part of constraint violation
@@ -769,18 +769,18 @@ Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
 
         // compute Darboux vector (Equation (7))
         Vector3r omega;
-        computeDarbouxVector(q0, q1, currentConstraint->getAverageSegmentLength(), omega);
+        computeDarbouxVector(q0, q1, currentConstraint->GetAverageSegmentLength(), omega);
 
         // Compute bending and torsion part of constraint violation
-        Vector3r bendingAndTorsionViolation = omega - currentConstraint->getRestDarbouxVector();
+        Vector3r bendingAndTorsionViolation = omega - currentConstraint->GetRestDarbouxVector();
 
         // fill right hand side of the linear equation system
         const Vector6r &lambdaSum(lambdaSums[currentConstraintIndex]);
-        rhs.block<3, 1>(0, 0) = -stretchViolation - Vector3r(currentConstraint->getStretchCompliance().array() *
+        rhs.block<3, 1>(0, 0) = -stretchViolation - Vector3r(currentConstraint->GetStretchCompliance().array() *
                                                              lambdaSum.block<3, 1>(0, 0).array());
 
         rhs.block<3, 1>(3, 0) =
-                -bendingAndTorsionViolation - Vector3r(currentConstraint->getBendingAndTorsionCompliance().array() *
+                -bendingAndTorsionViolation - Vector3r(currentConstraint->GetBendingAndTorsionCompliance().array() *
                                                        lambdaSum.block<3, 1>(3, 0).array());
 
         // compute max error
@@ -798,7 +798,7 @@ Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
 
         // compute stretching bending Jacobians (Equation (10) and Equation (11))
         Eigen::Matrix<Real, 3, 4> jOmega0, jOmega1;
-        computeBendingAndTorsionJacobians(q0, q1, currentConstraint->getAverageSegmentLength(), jOmega0, jOmega1);
+        computeBendingAndTorsionJacobians(q0, q1, currentConstraint->GetAverageSegmentLength(), jOmega0, jOmega1);
 
         bendingAndTorsionJacobians[currentConstraintIndex][0] = jOmega0 * G0;
         bendingAndTorsionJacobians[currentConstraintIndex][1] = jOmega1 * G1;
@@ -812,13 +812,13 @@ Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
             RodConstraint *currentConstraint = (RodConstraint *)node->object;
             // insert compliance
             node->D.setZero();
-            const Vector3r &stretchCompliance(currentConstraint->getStretchCompliance());
+            const Vector3r &stretchCompliance(currentConstraint->GetStretchCompliance());
 
             node->D(0, 0) -= stretchCompliance[0];
             node->D(1, 1) -= stretchCompliance[1];
             node->D(2, 2) -= stretchCompliance[2];
 
-            const Vector3r &bendingAndTorsionCompliance(currentConstraint->getBendingAndTorsionCompliance());
+            const Vector3r &bendingAndTorsionCompliance(currentConstraint->GetBendingAndTorsionCompliance());
             node->D(3, 3) -= bendingAndTorsionCompliance[0];
             node->D(4, 4) -= bendingAndTorsionCompliance[1];
             node->D(5, 5) -= bendingAndTorsionCompliance[2];
@@ -835,12 +835,12 @@ Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
 
                 Real sign = 1;
                 int segmentIndex = 0;
-                if (segment == rodSegments[constraint->segmentIndex(1)]) {
+                if (segment == rodSegments[constraint->SegmentIndex(1)]) {
                     segmentIndex = 1;
                     sign = -1;
                 }
 
-                const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo(constraint->getConstraintInfo());
+                const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo(constraint->GetConstraintInfo());
                 const Vector3r r = constraintInfo.col(2 + segmentIndex) - segment->Position();
                 Matrix3r r_cross;
                 Real crossSign(-static_cast<Real>(1.0) * sign);
@@ -863,12 +863,12 @@ Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
 
                 Real sign = 1;
                 int segmentIndex = 0;
-                if (segment == rodSegments[constraint->segmentIndex(1)]) {
+                if (segment == rodSegments[constraint->SegmentIndex(1)]) {
                     segmentIndex = 1;
                     sign = -1;
                 }
 
-                const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo(constraint->getConstraintInfo());
+                const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo(constraint->GetConstraintInfo());
                 const Vector3r r = constraintInfo.col(2 + segmentIndex) - segment->Position();
                 Matrix3r r_crossT;
                 MathFunctions::crossProductMatrix(sign * r, r_crossT);
@@ -900,7 +900,7 @@ Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
         bool chk = false;
         if (!node->isconstraint) {
             RodSegment *segment = (RodSegment *)node->object;
-            if (!segment->isDynamic()) {
+            if (!segment->IsDynamic()) {
                 node->Dinv.setZero();
                 chk = true;
             }
@@ -948,7 +948,7 @@ bool DirectPositionBasedSolverForStiffRods::solve(int intervalIndex,
         bool noZeroDinv(true);
         if (!node->isconstraint) {
             RodSegment *segment = (RodSegment *)node->object;
-            noZeroDinv = segment->isDynamic();
+            noZeroDinv = segment->IsDynamic();
         }
         if (noZeroDinv)  // if DInv == 0 child value is 0 and node->soln is not altered
         {
@@ -971,7 +971,7 @@ bool DirectPositionBasedSolverForStiffRods::solve(int intervalIndex,
         Node *node = *nodeIter;
         if (!node->isconstraint) {
             RodSegment *segment = (RodSegment *)node->object;
-            if (!segment->isDynamic()) {
+            if (!segment->IsDynamic()) {
                 break;
             }
 
@@ -1009,14 +1009,14 @@ bool DirectPositionBasedSolverForStiffRods::init_DirectPositionBasedSolverForSti
     // init constraints
     for (size_t cIdx(0); cIdx < rodConstraints.size(); ++cIdx) {
         RodConstraint *constraint(rodConstraints[cIdx]);
-        RodSegment *segment0(rodSegments[constraint->segmentIndex(0)]);
-        RodSegment *segment1(rodSegments[constraint->segmentIndex(1)]);
+        RodSegment *segment0(rodSegments[constraint->SegmentIndex(0)]);
+        RodSegment *segment1(rodSegments[constraint->SegmentIndex(1)]);
 
         init_StretchBendingTwistingConstraint(
                 segment0->Position(), segment0->Rotation(), segment1->Position(), segment1->Rotation(),
-                constraintPositions[cIdx], averageRadii[cIdx], constraint->getAverageSegmentLength(),
-                youngsModuli[cIdx], torsionModuli[cIdx], constraint->getConstraintInfo(),
-                constraint->getStiffnessCoefficientK(), constraint->getRestDarbouxVector());
+                constraintPositions[cIdx], averageRadii[cIdx], constraint->GetAverageSegmentLength(),
+                youngsModuli[cIdx], torsionModuli[cIdx], constraint->GetConstraintInfo(),
+                constraint->GetStiffnessCoefficientK(), constraint->GetRestDarbouxVector());
     }
 
     // compute tree data structure for direct solver
@@ -1051,8 +1051,8 @@ bool DirectPositionBasedSolverForStiffRods::initBeforeProjection_DirectPositionB
         RodConstraint *constraint(rodConstraints[cIdx]);
 
         initBeforeProjection_StretchBendingTwistingConstraint(
-                constraint->getStiffnessCoefficientK(), inverseTimeStepSize, constraint->getAverageSegmentLength(),
-                constraint->getStretchCompliance(), constraint->getBendingAndTorsionCompliance(), lambdaSums[cIdx]);
+                constraint->GetStiffnessCoefficientK(), inverseTimeStepSize, constraint->GetAverageSegmentLength(),
+                constraint->GetStretchCompliance(), constraint->GetBendingAndTorsionCompliance(), lambdaSums[cIdx]);
     }
     return true;
 }
@@ -1062,11 +1062,11 @@ bool DirectPositionBasedSolverForStiffRods::update_DirectPositionBasedSolverForS
     // update rod constraints
     for (size_t cIdx(0); cIdx < rodConstraints.size(); ++cIdx) {
         RodConstraint *constraint(rodConstraints[cIdx]);
-        RodSegment *segment0(rodSegments[constraint->segmentIndex(0)]);
-        RodSegment *segment1(rodSegments[constraint->segmentIndex(1)]);
+        RodSegment *segment0(rodSegments[constraint->SegmentIndex(0)]);
+        RodSegment *segment1(rodSegments[constraint->SegmentIndex(1)]);
 
         update_StretchBendingTwistingConstraint(segment0->Position(), segment0->Rotation(), segment1->Position(),
-                                                segment1->Rotation(), constraint->getConstraintInfo());
+                                                segment1->Rotation(), constraint->GetConstraintInfo());
     }
     return true;
 }

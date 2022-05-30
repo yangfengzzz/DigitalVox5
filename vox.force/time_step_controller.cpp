@@ -165,10 +165,10 @@ void TimeStepController::step(SimulationModel &model) {
     //////////////////////////////////////////////////////////////////////////
     SimulationModel::ConstraintVector &constraints = model.getConstraints();
     for (auto &constraint : constraints) {
-        if ((constraint->getTypeId() == TargetAngleMotorHingeJoint::TYPE_ID) ||
-            (constraint->getTypeId() == TargetVelocityMotorHingeJoint::TYPE_ID) ||
-            (constraint->getTypeId() == TargetPositionMotorSliderJoint::TYPE_ID) ||
-            (constraint->getTypeId() == TargetVelocityMotorSliderJoint::TYPE_ID)) {
+        if ((constraint->getTypeId() == TargetAngleMotorHingeJoint::type_id) ||
+            (constraint->getTypeId() == TargetVelocityMotorHingeJoint::type_id) ||
+            (constraint->getTypeId() == TargetPositionMotorSliderJoint::type_id) ||
+            (constraint->getTypeId() == TargetVelocityMotorSliderJoint::type_id)) {
             auto *motor = (MotorJoint *)constraint;
             const std::vector<Real> sequence = motor->getTargetSequence();
             if (!sequence.empty()) {
