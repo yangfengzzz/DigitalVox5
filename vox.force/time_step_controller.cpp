@@ -165,16 +165,16 @@ void TimeStepController::step(SimulationModel &model) {
     //////////////////////////////////////////////////////////////////////////
     SimulationModel::ConstraintVector &constraints = model.getConstraints();
     for (auto &constraint : constraints) {
-        if ((constraint->getTypeId() == TargetAngleMotorHingeJoint::type_id) ||
-            (constraint->getTypeId() == TargetVelocityMotorHingeJoint::type_id) ||
-            (constraint->getTypeId() == TargetPositionMotorSliderJoint::type_id) ||
-            (constraint->getTypeId() == TargetVelocityMotorSliderJoint::type_id)) {
+        if ((constraint->GetTypeId() == TargetAngleMotorHingeJoint::type_id) ||
+            (constraint->GetTypeId() == TargetVelocityMotorHingeJoint::type_id) ||
+            (constraint->GetTypeId() == TargetPositionMotorSliderJoint::type_id) ||
+            (constraint->GetTypeId() == TargetVelocityMotorSliderJoint::type_id)) {
             auto *motor = (MotorJoint *)constraint;
-            const std::vector<Real> sequence = motor->getTargetSequence();
+            const std::vector<Real> sequence = motor->GetTargetSequence();
             if (!sequence.empty()) {
                 Real time = tm->getTime();
                 const Real sequenceDuration = sequence[sequence.size() - 2] - sequence[0];
-                if (motor->getRepeatSequence()) {
+                if (motor->GetRepeatSequence()) {
                     while (time > sequenceDuration) time -= sequenceDuration;
                 }
                 unsigned int index = 0;
@@ -189,7 +189,7 @@ void TimeStepController::step(SimulationModel &model) {
                              alpha * sequence[2 * index + 1];
                 } else
                     target = sequence[sequence.size() - 1];
-                motor->setTarget(target);
+                motor->SetTarget(target);
             }
         }
     }
@@ -221,7 +221,7 @@ void TimeStepController::positionConstraintProjection(SimulationModel &model) {
 
     // init constraints for this time step if necessary
     for (auto &constraint : constraints) {
-        constraint->initConstraintBeforeProjection(model);
+        constraint->InitConstraintBeforeProjection(model);
     }
 
     while (m_iterations < m_maxIterations) {
@@ -234,14 +234,14 @@ void TimeStepController::positionConstraintProjection(SimulationModel &model) {
                 for (int i = 0; i < groupSize; i++) {
                     const unsigned int constraintIndex = groups[group][i];
 
-                    constraints[constraintIndex]->updateConstraint(model);
-                    constraints[constraintIndex]->solvePositionConstraint(model, m_iterations);
+                    constraints[constraintIndex]->UpdateConstraint(model);
+                    constraints[constraintIndex]->SolvePositionConstraint(model, m_iterations);
                 }
             }
         }
 
         for (auto &particleTetContact : particleTetContacts) {
-            particleTetContact.solvePositionConstraint(model, m_iterations);
+            particleTetContact.SolvePositionConstraint(model, m_iterations);
         }
 
         m_iterations++;
@@ -271,7 +271,7 @@ void TimeStepController::velocityConstraintProjection(SimulationModel &model) {
 #pragma omp for schedule(static)
             for (int i = 0; i < groupSize; i++) {
                 const unsigned int constraintIndex = groups[group][i];
-                constraints[constraintIndex]->updateConstraint(model);
+                constraints[constraintIndex]->UpdateConstraint(model);
             }
         }
     }
@@ -285,20 +285,20 @@ void TimeStepController::velocityConstraintProjection(SimulationModel &model) {
 #pragma omp for schedule(static)
                 for (int i = 0; i < groupSize; i++) {
                     const unsigned int constraintIndex = groups[group][i];
-                    constraints[constraintIndex]->solveVelocityConstraint(model, m_iterationsV);
+                    constraints[constraintIndex]->SolveVelocityConstraint(model, m_iterationsV);
                 }
             }
         }
 
         // solve contacts
         for (auto &rigidBodyContact : rigidBodyContacts) {
-            rigidBodyContact.solveVelocityConstraint(model, m_iterationsV);
+            rigidBodyContact.SolveVelocityConstraint(model, m_iterationsV);
         }
         for (auto &particleRigidBodyContact : particleRigidBodyContacts) {
-            particleRigidBodyContact.solveVelocityConstraint(model, m_iterationsV);
+            particleRigidBodyContact.SolveVelocityConstraint(model, m_iterationsV);
         }
         for (auto &particleTetContact : particleTetContacts) {
-            particleTetContact.solveVelocityConstraint(model, m_iterationsV);
+            particleTetContact.SolveVelocityConstraint(model, m_iterationsV);
         }
         m_iterationsV++;
     }
