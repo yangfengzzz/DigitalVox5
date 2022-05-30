@@ -41,8 +41,8 @@ void TimeStep::clearAccelerations(SimulationModel &model) {
     const unsigned int count = pd.size();
     for (unsigned int i = 0; i < count; i++) {
         // Clear accelerations of dynamic particles
-        if (pd.getMass(i) != 0.0) {
-            Vector3r &a = pd.getAcceleration(i);
+        if (pd.GetMass(i) != 0.0) {
+            Vector3r &a = pd.GetAcceleration(i);
             a = grav;
         }
     }

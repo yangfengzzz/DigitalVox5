@@ -328,13 +328,13 @@ bool PositionBasedElasticRods::computeMaterialFrameDerivative(const Vector3r &p0
     mat.col(2) *= (-static_cast<Real>(1.0) / length_cross);
 
     Matrix3r product_matrix;
-    MathFunctions::crossProductMatrix(p2 - p1, product_matrix);
+    MathFunctions::CrossProductMatrix(p2 - p1, product_matrix);
     d2p0 = mat * product_matrix;
 
-    MathFunctions::crossProductMatrix(p0 - p2, product_matrix);
+    MathFunctions::CrossProductMatrix(p0 - p2, product_matrix);
     d2p1 = mat * product_matrix;
 
-    MathFunctions::crossProductMatrix(p1 - p0, product_matrix);
+    MathFunctions::CrossProductMatrix(p1 - p0, product_matrix);
     d2p2 = mat * product_matrix;
 
     //////////////////////////////////////////////////////////////////////////
@@ -342,8 +342,8 @@ bool PositionBasedElasticRods::computeMaterialFrameDerivative(const Vector3r &p0
     //////////////////////////////////////////////////////////////////////////
     Matrix3r product_mat_d3;
     Matrix3r product_mat_d2;
-    MathFunctions::crossProductMatrix(d.col(2), product_mat_d3);
-    MathFunctions::crossProductMatrix(d.col(1), product_mat_d2);
+    MathFunctions::CrossProductMatrix(d.col(2), product_mat_d3);
+    MathFunctions::CrossProductMatrix(d.col(1), product_mat_d2);
 
     d1p0 = product_mat_d2 * d3p0 - product_mat_d3 * d2p0;
     d1p1 = product_mat_d2 * d3p1 - product_mat_d3 * d2p1;
@@ -844,7 +844,7 @@ Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
                 const Vector3r r = constraintInfo.col(2 + segmentIndex) - segment->Position();
                 Matrix3r r_cross;
                 Real crossSign(-static_cast<Real>(1.0) * sign);
-                MathFunctions::crossProductMatrix(crossSign * r, r_cross);
+                MathFunctions::CrossProductMatrix(crossSign * r, r_cross);
 
                 Eigen::DiagonalMatrix<Real, 3> upperLeft(sign, sign, sign);
                 node->J.block<3, 3>(0, 0) = upperLeft;
@@ -871,7 +871,7 @@ Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
                 const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo(constraint->GetConstraintInfo());
                 const Vector3r r = constraintInfo.col(2 + segmentIndex) - segment->Position();
                 Matrix3r r_crossT;
-                MathFunctions::crossProductMatrix(sign * r, r_crossT);
+                MathFunctions::CrossProductMatrix(sign * r, r_crossT);
 
                 Eigen::DiagonalMatrix<Real, 3> upperLeft(sign, sign, sign);
                 node->J.block<3, 3>(0, 0) = upperLeft;
@@ -1243,8 +1243,8 @@ bool DirectPositionBasedSolverForStiffRods::solve_StretchBendingTwistingConstrai
     const Vector3r rb = connector1 - x1;
 
     Matrix3r ra_crossT, rb_crossT;
-    MathFunctions::crossProductMatrix(-ra, ra_crossT);  // use -ra to get the transpose
-    MathFunctions::crossProductMatrix(-rb, rb_crossT);  // use -rb to get the transpose
+    MathFunctions::CrossProductMatrix(-ra, ra_crossT);  // use -ra to get the transpose
+    MathFunctions::CrossProductMatrix(-rb, rb_crossT);  // use -rb to get the transpose
 
     Matrix3r offdiag(Matrix3r::Zero());
     if (invMass0 != 0.0) {

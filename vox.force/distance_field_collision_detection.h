@@ -172,7 +172,7 @@ public:
     DistanceFieldCollisionDetection();
     ~DistanceFieldCollisionDetection() override;
 
-    void collisionDetection(SimulationModel &model) override;
+    void GetCollisionDetection(SimulationModel &model) override;
 
     virtual bool IsDistanceFieldCollisionObject(CollisionObject *co) const;
 

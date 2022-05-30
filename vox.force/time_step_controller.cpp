@@ -72,10 +72,10 @@ void TimeStepController::step(SimulationModel &model) {
 //////////////////////////////////////////////////////////////////////////
 #pragma omp for schedule(static)
             for (int i = 0; i < (int)pd.size(); i++) {
-                pd.getLastPosition(i) = pd.getOldPosition(i);
-                pd.getOldPosition(i) = pd.getPosition(i);
-                TimeIntegration::semiImplicitEuler(h, pd.getMass(i), pd.getPosition(i), pd.getVelocity(i),
-                                                   pd.getAcceleration(i));
+                pd.GetLastPosition(i) = pd.GetOldPosition(i);
+                pd.GetOldPosition(i) = pd.GetPosition(i);
+                TimeIntegration::semiImplicitEuler(h, pd.GetMass(i), pd.GetPosition(i), pd.GetVelocity(i),
+                                                   pd.GetAcceleration(i));
             }
 
 //////////////////////////////////////////////////////////////////////////
@@ -83,11 +83,11 @@ void TimeStepController::step(SimulationModel &model) {
 //////////////////////////////////////////////////////////////////////////
 #pragma omp for schedule(static)
             for (int i = 0; i < (int)od.size(); i++) {
-                od.getLastQuaternion(i) = od.getOldQuaternion(i);
-                od.getOldQuaternion(i) = od.getQuaternion(i);
-                TimeIntegration::semiImplicitEulerRotation(h, od.getMass(i), od.getMass(i) * Matrix3r::Identity(),
-                                                           od.getInvMass(i) * Matrix3r::Identity(), od.getQuaternion(i),
-                                                           od.getVelocity(i), Vector3r(0, 0, 0));
+                od.GetLastQuaternion(i) = od.GetOldQuaternion(i);
+                od.GetOldQuaternion(i) = od.GetQuaternion(i);
+                TimeIntegration::semiImplicitEulerRotation(h, od.GetMass(i), od.GetMass(i) * Matrix3r::Identity(),
+                                                           od.getInvMass(i) * Matrix3r::Identity(), od.GetQuaternion(i),
+                                                           od.GetVelocity(i), Vector3r(0, 0, 0));
             }
         }
 
@@ -119,24 +119,24 @@ void TimeStepController::step(SimulationModel &model) {
 #pragma omp for schedule(static)
             for (int i = 0; i < (int)pd.size(); i++) {
                 if (m_velocityUpdateMethod == 0)
-                    TimeIntegration::velocityUpdateFirstOrder(h, pd.getMass(i), pd.getPosition(i), pd.getOldPosition(i),
-                                                              pd.getVelocity(i));
+                    TimeIntegration::velocityUpdateFirstOrder(h, pd.GetMass(i), pd.GetPosition(i), pd.GetOldPosition(i),
+                                                              pd.GetVelocity(i));
                 else
-                    TimeIntegration::velocityUpdateSecondOrder(h, pd.getMass(i), pd.getPosition(i),
-                                                               pd.getOldPosition(i), pd.getLastPosition(i),
-                                                               pd.getVelocity(i));
+                    TimeIntegration::velocityUpdateSecondOrder(h, pd.GetMass(i), pd.GetPosition(i),
+                                                               pd.GetOldPosition(i), pd.GetLastPosition(i),
+                                                               pd.GetVelocity(i));
             }
 
 // Update velocites of orientations
 #pragma omp for schedule(static)
             for (int i = 0; i < (int)od.size(); i++) {
                 if (m_velocityUpdateMethod == 0)
-                    TimeIntegration::angularVelocityUpdateFirstOrder(h, od.getMass(i), od.getQuaternion(i),
-                                                                     od.getOldQuaternion(i), od.getVelocity(i));
+                    TimeIntegration::angularVelocityUpdateFirstOrder(h, od.GetMass(i), od.GetQuaternion(i),
+                                                                     od.GetOldQuaternion(i), od.GetVelocity(i));
                 else
-                    TimeIntegration::angularVelocityUpdateSecondOrder(h, od.getMass(i), od.getQuaternion(i),
-                                                                      od.getOldQuaternion(i), od.getLastQuaternion(i),
-                                                                      od.getVelocity(i));
+                    TimeIntegration::angularVelocityUpdateSecondOrder(h, od.GetMass(i), od.GetQuaternion(i),
+                                                                      od.GetOldQuaternion(i), od.GetLastQuaternion(i),
+                                                                      od.GetVelocity(i));
             }
         }
     }
@@ -154,7 +154,7 @@ void TimeStepController::step(SimulationModel &model) {
 
     if (m_collisionDetection) {
         START_TIMING("collision detection")
-        m_collisionDetection->collisionDetection(model);
+        m_collisionDetection->CollisionDetection(model);
         STOP_TIMING_AVG
     }
 

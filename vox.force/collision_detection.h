@@ -75,7 +75,7 @@ public:
     CollisionDetection();
     virtual ~CollisionDetection();
 
-    void cleanup();
+    void Cleanup();
 
     [[nodiscard]] Real GetTolerance() const { return m_tolerance_; }
     void SetTolerance(Real val) { m_tolerance_ = val; }
@@ -113,7 +113,7 @@ public:
 
     std::vector<CollisionObject *> &GetCollisionObjects() { return m_collision_objects_; }
 
-    virtual void collisionDetection(SimulationModel &model) = 0;
+    virtual void GetCollisionDetection(SimulationModel &model) = 0;
 
     void SetContactCallback(CollisionDetection::ContactCallbackFunction val, void *user_data);
     void SetSolidContactCallback(CollisionDetection::SolidContactCallbackFunction val, void *user_data);

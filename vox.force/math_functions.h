@@ -12,33 +12,33 @@
 namespace vox::force {
 class MathFunctions {
 private:
-    static void jacobiRotate(Matrix3r &A, Matrix3r &R, int p, int q);
+    static void JacobiRotate(Matrix3r &A, Matrix3r &R, int p, int q);
 
 public:
-    static Real infNorm(const Matrix3r &A);
-    static Real oneNorm(const Matrix3r &A);
+    static Real InfNorm(const Matrix3r &A);
+    static Real OneNorm(const Matrix3r &A);
 
-    static void eigenDecomposition(const Matrix3r &A, Matrix3r &eigenVecs, Vector3r &eigenVals);
+    static void EigenDecomposition(const Matrix3r &A, Matrix3r &eigen_vecs, Vector3r &eigen_vals);
 
-    static void polarDecomposition(const Matrix3r &A, Matrix3r &R, Matrix3r &U, Matrix3r &D);
+    static void PolarDecomposition(const Matrix3r &A, Matrix3r &R, Matrix3r &U, Matrix3r &D);
 
-    static void polarDecompositionStable(const Matrix3r &M, const Real tolerance, Matrix3r &R);
+    static void PolarDecompositionStable(const Matrix3r &M, Real tolerance, Matrix3r &R);
 
-    static void svdWithInversionHandling(const Matrix3r &A, Vector3r &sigma, Matrix3r &U, Matrix3r &VT);
+    static void SvdWithInversionHandling(const Matrix3r &A, Vector3r &sigma, Matrix3r &U, Matrix3r &VT);
 
-    static Real cotTheta(const Vector3r &v, const Vector3r &w);
+    static Real CotTheta(const Vector3r &v, const Vector3r &w);
 
     /** Computes the cross product matrix of a vector.
      * @param  v		input vector
      * @param  v_hat	resulting cross product matrix
      */
-    static void crossProductMatrix(const Vector3r &v, Matrix3r &v_hat);
+    static void CrossProductMatrix(const Vector3r &v, Matrix3r &v_hat);
 
     /** Implementation of the paper: \n
      * Matthias Muller, Jan Bender, Nuttapong Chentanez and Miles Macklin,
      * "A Robust Method to Extract the Rotational Part of Deformations",
      * ACM SIGGRAPH Motion in Games, 2016
      */
-    static void extractRotation(const Matrix3r &A, Quaternionr &q, const unsigned int maxIter);
+    static void ExtractRotation(const Matrix3r &A, Quaternionr &q, unsigned int max_iter);
 };
 }  // namespace vox::force

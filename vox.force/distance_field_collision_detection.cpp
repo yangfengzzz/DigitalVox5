@@ -23,7 +23,7 @@ DistanceFieldCollisionDetection::DistanceFieldCollisionDetection() : CollisionDe
 
 DistanceFieldCollisionDetection::~DistanceFieldCollisionDetection() = default;
 
-void DistanceFieldCollisionDetection::collisionDetection(SimulationModel &model) {
+void DistanceFieldCollisionDetection::GetCollisionDetection(SimulationModel &model) {
     model.resetContacts();
     const SimulationModel::RigidBodyVector &rigid_bodies = model.getRigidBodies();
     const SimulationModel::TriangleModelVector &tri_models = model.getTriangleModels();
@@ -65,7 +65,7 @@ void DistanceFieldCollisionDetection::collisionDetection(SimulationModel &model)
                     const unsigned int kOffset = tm->getIndexOffset();
                     const IndexedFaceMesh &mesh = tm->getParticleMesh();
                     const unsigned int kNumVert = mesh.NumVertices();
-                    sco->m_bvh.Init(&pd.getPosition(kOffset), kNumVert);
+                    sco->m_bvh.Init(&pd.GetPosition(kOffset), kNumVert);
                     sco->m_bvh.Update();
                 } else if (co->m_body_type == CollisionDetection::CollisionObject::tet_model_collision_object_type) {
                     TetModel *tm = tet_models[co->m_body_index];
@@ -74,9 +74,9 @@ void DistanceFieldCollisionDetection::collisionDetection(SimulationModel &model)
                     const unsigned int kNumVert = mesh.NumVertices();
 
                     auto *sco = (DistanceFieldCollisionObject *)co;
-                    sco->m_bvh.Init(&pd.getPosition(kOffset), kNumVert);
-                    sco->m_bvh_tets.UpdateVertices(&pd.getPosition(kOffset));
-                    sco->m_bvh_tets_0.UpdateVertices(&pd.getPosition(kOffset));
+                    sco->m_bvh.Init(&pd.GetPosition(kOffset), kNumVert);
+                    sco->m_bvh_tets.UpdateVertices(&pd.GetPosition(kOffset));
+                    sco->m_bvh_tets_0.UpdateVertices(&pd.GetPosition(kOffset));
 
                     sco->m_bvh.Update();
                     sco->m_bvh_tets.Update();
@@ -219,7 +219,7 @@ void DistanceFieldCollisionDetection::CollisionDetectionRigidBodies(
 
         for (auto i = node.begin; i < node.begin + node.n; ++i) {
             unsigned int index = bvh.GetEntity(i);
-            const Vector3r &x_w = vd.getPosition(index);
+            const Vector3r &x_w = vd.GetPosition(index);
             const Vector3r kX = R * (x_w - com2) + v1;
             Vector3r cp, n;
             Real dist;
@@ -295,7 +295,7 @@ void DistanceFieldCollisionDetection::CollisionDetectionRbSolid(const ParticleDa
 
         for (auto i = node.begin; i < node.begin + node.n; ++i) {
             unsigned int index = bvh.GetEntity(i) + offset;
-            const Vector3r &x_w = pd.getPosition(index);
+            const Vector3r &x_w = pd.GetPosition(index);
             const Vector3r kX = R * (x_w - com2) + v1;
             Vector3r cp, n;
             Real dist;
@@ -342,14 +342,14 @@ void DistanceFieldCollisionDetection::CollisionDetectionSolidSolid(const Particl
             for (auto j = node2.begin; j < node2.begin + node2.n; ++j) {
                 // Get sample point
                 unsigned int index = bvh1.GetEntity(i) + offset;
-                const Vector3r &x_w = pd.getPosition(index);
+                const Vector3r &x_w = pd.GetPosition(index);
 
                 // Get tet
                 const unsigned int kTetIndex = bvh2.GetEntity(j);
-                const Vector3r &x0 = pd.getPosition(indices[4 * kTetIndex] + kOffset2);
-                const Vector3r &x1 = pd.getPosition(indices[4 * kTetIndex + 1] + kOffset2);
-                const Vector3r &x2 = pd.getPosition(indices[4 * kTetIndex + 2] + kOffset2);
-                const Vector3r &x3 = pd.getPosition(indices[4 * kTetIndex + 3] + kOffset2);
+                const Vector3r &x0 = pd.GetPosition(indices[4 * kTetIndex] + kOffset2);
+                const Vector3r &x1 = pd.GetPosition(indices[4 * kTetIndex + 1] + kOffset2);
+                const Vector3r &x2 = pd.GetPosition(indices[4 * kTetIndex + 2] + kOffset2);
+                const Vector3r &x3 = pd.GetPosition(indices[4 * kTetIndex + 3] + kOffset2);
 
                 // Compute barycentric coordinates of point in tet
                 Matrix3r A;
@@ -361,10 +361,10 @@ void DistanceFieldCollisionDetection::CollisionDetectionSolidSolid(const Particl
                 // check if point lies in tet using barycentric coordinates
                 if ((bary[0] >= 0.0) && (bary[1] >= 0.0) && (bary[2] >= 0.0) && (bary[0] + bary[1] + bary[2] <= 1.0)) {
                     // use barycentric coordinates to determine position of the point in the reference space of the tet
-                    const Vector3r &X0 = pd.getPosition0(indices[4 * kTetIndex] + kOffset2);
-                    const Vector3r &X1 = pd.getPosition0(indices[4 * kTetIndex + 1] + kOffset2);
-                    const Vector3r &X2 = pd.getPosition0(indices[4 * kTetIndex + 2] + kOffset2);
-                    const Vector3r &X3 = pd.getPosition0(indices[4 * kTetIndex + 3] + kOffset2);
+                    const Vector3r &X0 = pd.GetPosition0(indices[4 * kTetIndex] + kOffset2);
+                    const Vector3r &X1 = pd.GetPosition0(indices[4 * kTetIndex + 1] + kOffset2);
+                    const Vector3r &X2 = pd.GetPosition0(indices[4 * kTetIndex + 2] + kOffset2);
+                    const Vector3r &X3 = pd.GetPosition0(indices[4 * kTetIndex + 3] + kOffset2);
 
                     Matrix3r A0;
                     A0.col(0) = X1 - X0;
@@ -395,10 +395,10 @@ void DistanceFieldCollisionDetection::CollisionDetectionSolidSolid(const Particl
                             // if we are in another tet, update matrix A
                             Vector3r cp_w;
                             if (cp_tet_index != kTetIndex) {
-                                const Vector3r &x0 = pd.getPosition(indices[4 * cp_tet_index] + kOffset2);
-                                const Vector3r &x1 = pd.getPosition(indices[4 * cp_tet_index + 1] + kOffset2);
-                                const Vector3r &x2 = pd.getPosition(indices[4 * cp_tet_index + 2] + kOffset2);
-                                const Vector3r &x3 = pd.getPosition(indices[4 * cp_tet_index + 3] + kOffset2);
+                                const Vector3r &x0 = pd.GetPosition(indices[4 * cp_tet_index] + kOffset2);
+                                const Vector3r &x1 = pd.GetPosition(indices[4 * cp_tet_index + 1] + kOffset2);
+                                const Vector3r &x2 = pd.GetPosition(indices[4 * cp_tet_index + 2] + kOffset2);
+                                const Vector3r &x3 = pd.GetPosition(indices[4 * cp_tet_index + 3] + kOffset2);
                                 A.col(0) = x1 - x0;
                                 A.col(1) = x2 - x0;
                                 A.col(2) = x3 - x0;
@@ -747,10 +747,10 @@ bool DistanceFieldCollisionDetection::FindRefTetAt(
             const unsigned int kTetIndex = bvh0.GetEntity(i);
 
             // use barycentric coordinates to determine position in reference space
-            const Vector3r &X0 = pd.getPosition0(indices[4 * kTetIndex] + kOffset);
-            const Vector3r &X1 = pd.getPosition0(indices[4 * kTetIndex + 1] + kOffset);
-            const Vector3r &X2 = pd.getPosition0(indices[4 * kTetIndex + 2] + kOffset);
-            const Vector3r &X3 = pd.getPosition0(indices[4 * kTetIndex + 3] + kOffset);
+            const Vector3r &X0 = pd.GetPosition0(indices[4 * kTetIndex] + kOffset);
+            const Vector3r &X1 = pd.GetPosition0(indices[4 * kTetIndex + 1] + kOffset);
+            const Vector3r &X2 = pd.GetPosition0(indices[4 * kTetIndex + 2] + kOffset);
+            const Vector3r &X3 = pd.GetPosition0(indices[4 * kTetIndex + 3] + kOffset);
 
             // Compute barycentric coordinates of point in tet
             Matrix3r A;

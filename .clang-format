@@ -6,4 +6,4 @@ Standard: c++17
 ContinuationIndentWidth: 8
 AccessModifierOffset: -4
 BinPackParameters: false
-SortIncludes: true
+SortIncludes: "CaseInsensitive"

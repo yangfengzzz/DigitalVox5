@@ -55,22 +55,22 @@ void SimulationModel::reset() {
 
     // particles
     for (unsigned int i = 0; i < m_particles.size(); i++) {
-        const Vector3r &x0 = m_particles.getPosition0(i);
-        m_particles.getPosition(i) = x0;
-        m_particles.getLastPosition(i) = m_particles.getPosition(i);
-        m_particles.getOldPosition(i) = m_particles.getPosition(i);
-        m_particles.getVelocity(i).setZero();
-        m_particles.getAcceleration(i).setZero();
+        const Vector3r &x0 = m_particles.GetPosition0(i);
+        m_particles.GetPosition(i) = x0;
+        m_particles.GetLastPosition(i) = m_particles.GetPosition(i);
+        m_particles.GetOldPosition(i) = m_particles.GetPosition(i);
+        m_particles.GetVelocity(i).setZero();
+        m_particles.GetAcceleration(i).setZero();
     }
 
     // orientations
     for (unsigned int i = 0; i < m_orientations.size(); i++) {
-        const Quaternionr &q0 = m_orientations.getQuaternion0(i);
-        m_orientations.getQuaternion(i) = q0;
-        m_orientations.getLastQuaternion(i) = q0;
-        m_orientations.getOldQuaternion(i) = q0;
-        m_orientations.getVelocity(i).setZero();
-        m_orientations.getAcceleration(i).setZero();
+        const Quaternionr &q0 = m_orientations.GetQuaternion0(i);
+        m_orientations.GetQuaternion(i) = q0;
+        m_orientations.GetLastQuaternion(i) = q0;
+        m_orientations.GetOldQuaternion(i) = q0;
+        m_orientations.GetVelocity(i).setZero();
+        m_orientations.GetAcceleration(i).setZero();
     }
 
     updateConstraints();
@@ -571,7 +571,7 @@ void SimulationModel::addTriangleModel(const unsigned int nPoints,
     unsigned int startIndex = m_particles.size();
     m_particles.reserve(startIndex + nPoints);
 
-    for (unsigned int i = 0; i < nPoints; i++) m_particles.addVertex(points[i]);
+    for (unsigned int i = 0; i < nPoints; i++) m_particles.AddVertex(points[i]);
 
     triModel->initMesh(nPoints, nFaces, startIndex, indices, uvIndices, uvs);
 
@@ -643,7 +643,7 @@ void SimulationModel::addRegularTriangleModel(const int width,
 
     ParticleData &pd = getParticles();
     for (unsigned int i = offset; i < offset + m_triangleModels[modelIndex]->getParticleMesh().NumVertices(); i++)
-        pd.setMass(i, 1.0);
+        pd.SetMass(i, 1.0);
 }
 
 void SimulationModel::addTetModel(const unsigned int nPoints,
@@ -656,7 +656,7 @@ void SimulationModel::addTetModel(const unsigned int nPoints,
     unsigned int startIndex = m_particles.size();
     m_particles.reserve(startIndex + nPoints);
 
-    for (unsigned int i = 0; i < nPoints; i++) m_particles.addVertex(points[i]);
+    for (unsigned int i = 0; i < nPoints; i++) m_particles.AddVertex(points[i]);
 
     tetModel->initMesh(nPoints, nTets, startIndex, indices);
 }
@@ -764,7 +764,7 @@ void SimulationModel::addRegularTetModel(const int width,
 
     ParticleData &pd = getParticles();
     for (unsigned int i = offset; i < offset + m_tetModels[modelIndex]->getParticleMesh().NumVertices(); i++) {
-        pd.setMass(i, 1.0);
+        pd.SetMass(i, 1.0);
     }
 }
 
@@ -780,14 +780,14 @@ void SimulationModel::addLineModel(const unsigned int nPoints,
     unsigned int startIndex = m_particles.size();
     m_particles.reserve(startIndex + nPoints);
 
-    for (unsigned int i = 0; i < nPoints; i++) m_particles.addVertex(points[i]);
+    for (unsigned int i = 0; i < nPoints; i++) m_particles.AddVertex(points[i]);
 
     unsigned int startIndexOrientations = m_orientations.size();
     m_orientations.reserve(startIndexOrientations + nQuaternions);
 
-    for (unsigned int i = 0; i < nQuaternions; i++) m_orientations.addQuaternion(quaternions[i]);
+    for (unsigned int i = 0; i < nQuaternions; i++) m_orientations.AddQuaternion(quaternions[i]);
 
-    lineModel->initMesh(nPoints, nQuaternions, startIndex, startIndexOrientations, indices, indicesQuaternions);
+    lineModel->InitMesh(nPoints, nQuaternions, startIndex, startIndexOrientations, indices, indicesQuaternions);
 }
 
 void SimulationModel::initConstraintGroups() {

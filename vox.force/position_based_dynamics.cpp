@@ -15,15 +15,15 @@ const Real eps = static_cast<Real>(1e-6);
 // PositionBasedDynamics
 //////////////////////////////////////////////////////////////////////////
 
-bool PositionBasedDynamics::solve_DistanceConstraint(const Vector3r &p0,
-                                                     Real invMass0,
+bool PositionBasedDynamics::SolveDistanceConstraint(const Vector3r &p0,
+                                                     Real inv_mass_0,
                                                      const Vector3r &p1,
-                                                     Real invMass1,
-                                                     const Real restLength,
-                                                     const Real stiffness,
+                                                     Real inv_mass_1,
+                                                    Real rest_length,
+                                                    Real stiffness,
                                                      Vector3r &corr0,
                                                      Vector3r &corr1) {
-    Real wSum = invMass0 + invMass1;
+    Real wSum = inv_mass_0 + inv_mass_1;
     if (wSum == 0.0) return false;
 
     Vector3r n = p1 - p0;
@@ -31,14 +31,14 @@ bool PositionBasedDynamics::solve_DistanceConstraint(const Vector3r &p0,
     n.normalize();
 
     Vector3r corr;
-    corr = stiffness * n * (d - restLength) / wSum;
+    corr = stiffness * n * (d - rest_length) / wSum;
 
-    corr0 = invMass0 * corr;
-    corr1 = -invMass1 * corr;
+    corr0 = inv_mass_0 * corr;
+    corr1 = -inv_mass_1 * corr;
     return true;
 }
 
-bool PositionBasedDynamics::solve_DihedralConstraint(const Vector3r &p0,
+bool PositionBasedDynamics::SolveDihedralConstraint(const Vector3r &p0,
                                                      Real invMass0,
                                                      const Vector3r &p1,
                                                      Real invMass1,
@@ -46,8 +46,8 @@ bool PositionBasedDynamics::solve_DihedralConstraint(const Vector3r &p0,
                                                      Real invMass2,
                                                      const Vector3r &p3,
                                                      Real invMass3,
-                                                     const Real restAngle,
-                                                     const Real stiffness,
+                                                    Real restAngle,
+                                                    Real stiffness,
                                                      Vector3r &corr0,
                                                      Vector3r &corr1,
                                                      Vector3r &corr2,
@@ -160,10 +160,10 @@ bool PositionBasedDynamics::init_IsometricBendingConstraint(
     const Vector3r e3 = *x[2] - *x[1];
     const Vector3r e4 = *x[3] - *x[1];
 
-    const Real c01 = MathFunctions::cotTheta(e0, e1);
-    const Real c02 = MathFunctions::cotTheta(e0, e2);
-    const Real c03 = MathFunctions::cotTheta(-e0, e3);
-    const Real c04 = MathFunctions::cotTheta(-e0, e4);
+    const Real c01 = MathFunctions::CotTheta(e0, e1);
+    const Real c02 = MathFunctions::CotTheta(e0, e2);
+    const Real c03 = MathFunctions::CotTheta(-e0, e3);
+    const Real c04 = MathFunctions::CotTheta(-e0, e4);
 
     const Real A0 = static_cast<Real>(0.5) * (e0.cross(e1)).norm();
     const Real A1 = static_cast<Real>(0.5) * (e0.cross(e2)).norm();
@@ -557,7 +557,7 @@ bool PositionBasedDynamics::solve_ShapeMatchingConstraint(const Vector3r x0[],
         R = mat;
     else
         // MathFunctions::polarDecomposition(mat, R, U, D);
-        MathFunctions::polarDecompositionStable(mat, eps, R);
+        MathFunctions::PolarDecompositionStable(mat, eps, R);
 
     for (int i = 0; i < numPoints; i++) {
         Vector3r goal = cm + R * (x0[i] - restCm);
@@ -1063,7 +1063,7 @@ void PositionBasedDynamics::computeGreenStrainAndPiolaStressInversion(const Vect
 
     Matrix3r U, VT;
     Vector3r hatF;
-    MathFunctions::svdWithInversionHandling(F, hatF, U, VT);
+    MathFunctions::SvdWithInversionHandling(F, hatF, U, VT);
 
     // Clamp small singular values
     const Real minXVal = static_cast<Real>(0.577);

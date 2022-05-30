@@ -20,20 +20,20 @@ public:
      * BMM2015,
      *
      * @param p0 position of first particle
-     * @param invMass0 inverse mass of first particle
+     * @param inv_mass_0 inverse mass of first particle
      * @param p1 position of second particle
-     * @param invMass1 inverse mass of second particle
-     * @param restLength rest length of distance constraint
+     * @param inv_mass_1 inverse mass of second particle
+     * @param rest_length rest length of distance constraint
      * @param stiffness stiffness coefficient
      * @param corr0 position correction of first particle
      * @param corr1 position correction of second particle
      */
-    static bool solve_DistanceConstraint(const Vector3r &p0,
-                                         Real invMass0,
+    static bool SolveDistanceConstraint(const Vector3r &p0,
+                                         Real inv_mass_0,
                                          const Vector3r &p1,
-                                         Real invMass1,
-                                         const Real restLength,
-                                         const Real stiffness,
+                                         Real inv_mass_1,
+                                         Real rest_length,
+                                         Real stiffness,
                                          Vector3r &corr0,
                                          Vector3r &corr1);
 
@@ -73,7 +73,7 @@ public:
      * @param corr2 position correction of third particle
      * @param corr3 position correction of fourth particle
      */
-    static bool solve_DihedralConstraint(
+    static bool SolveDihedralConstraint(
             const Vector3r &p0,
             Real invMass0,  // angle on (p2, p3) between triangles (p0, p2, p3) and (p1, p3, p2)
             const Vector3r &p1,
@@ -82,8 +82,8 @@ public:
             Real invMass2,
             const Vector3r &p3,
             Real invMass3,
-            const Real restAngle,
-            const Real stiffness,
+            Real restAngle,
+            Real stiffness,
             Vector3r &corr0,
             Vector3r &corr1,
             Vector3r &corr2,
@@ -123,8 +123,8 @@ public:
                                        Real invMass2,
                                        const Vector3r &p3,
                                        Real invMass3,
-                                       const Real restVolume,
-                                       const Real stiffness,
+                                       Real restVolume,
+                                       Real stiffness,
                                        Vector3r &corr0,
                                        Vector3r &corr1,
                                        Vector3r &corr2,
@@ -152,9 +152,9 @@ public:
                                                   Real invMass0,
                                                   const Vector3r &p1,
                                                   Real invMass1,
-                                                  const Real restDist,
-                                                  const Real compressionStiffness,
-                                                  const Real stretchStiffness,
+                                                  Real restDist,
+                                                  Real compressionStiffness,
+                                                  Real stretchStiffness,
                                                   Vector3r &corr,
                                                   Vector3r &corr0,
                                                   Vector3r &corr1);
@@ -186,9 +186,9 @@ public:
                                                       Real invMass1,
                                                       const Vector3r &p2,
                                                       Real invMass2,
-                                                      const Real restDist,
-                                                      const Real compressionStiffness,
-                                                      const Real stretchStiffness,
+                                                      Real restDist,
+                                                      Real compressionStiffness,
+                                                      Real stretchStiffness,
                                                       Vector3r &corr,
                                                       Vector3r &corr0,
                                                       Vector3r &corr1,
@@ -221,9 +221,9 @@ public:
                                                  Real invMass2,
                                                  const Vector3r &p3,
                                                  Real invMass3,
-                                                 const Real restDist,
-                                                 const Real compressionStiffness,
-                                                 const Real stretchStiffness,
+                                                 Real restDist,
+                                                 Real compressionStiffness,
+                                                 Real stretchStiffness,
                                                  Vector3r &corr0,
                                                  Vector3r &corr1,
                                                  Vector3r &corr2,
@@ -275,7 +275,7 @@ public:
             const Vector3r &p3,
             Real invMass3,
             const Matrix4r &Q,
-            const Real stiffness,
+            Real stiffness,
             Vector3r &corr0,
             Vector3r &corr1,
             Vector3r &corr2,
@@ -294,7 +294,7 @@ public:
      */
     static bool init_ShapeMatchingConstraint(const Vector3r x0[],
                                              const Real invMasses[],
-                                             const int numPoints,
+                                             int numPoints,
                                              Vector3r &restCm);
 
     /** Determine the position corrections for a shape matching constraint.\n\n
@@ -314,12 +314,12 @@ public:
     static bool solve_ShapeMatchingConstraint(const Vector3r x0[],
                                               const Vector3r x[],
                                               const Real invMasses[],
-                                              const int numPoints,
+                                              int numPoints,
                                               const Vector3r &restCm,
-                                              const Real stiffness,
-                                              const bool allowStretch,  // default false
+                                              Real stiffness,
+                                              bool allowStretch,  // default false
                                               Vector3r corr[],
-                                              Matrix3r *rot = NULL);
+                                              Matrix3r *rot = nullptr);
 
     // -------------- Strain Based Dynamics  -----------------------------------------------------
 
@@ -363,11 +363,11 @@ public:
                                                const Vector3r &p2,
                                                Real invMass2,
                                                const Matrix2r &invRestMat,
-                                               const Real xxStiffness,
-                                               const Real yyStiffness,
-                                               const Real xyStiffness,
-                                               const bool normalizeStretch,  // use false as default
-                                               const bool normalizeShear,    // use false as default
+                                               Real xxStiffness,
+                                               Real yyStiffness,
+                                               Real xyStiffness,
+                                               bool normalizeStretch,  // use false as default
+                                               bool normalizeShear,    // use false as default
                                                Vector3r &corr0,
                                                Vector3r &corr1,
                                                Vector3r &corr2);
@@ -397,8 +397,8 @@ public:
                                             const Matrix3r &invRestMat,
                                             const Vector3r &stretchStiffness,  // xx, yy, zz
                                             const Vector3r &shearStiffness,    // xy, xz, yz
-                                            const bool normalizeStretch,       // use false as default
-                                            const bool normalizeShear,         // use false as default
+                                            bool normalizeStretch,       // use false as default
+                                            bool normalizeShear,         // use false as default
                                             Vector3r &corr0,
                                             Vector3r &corr1,
                                             Vector3r &corr2,
@@ -413,9 +413,9 @@ private:
                                                  const Vector3r &x3,
                                                  const Vector3r &x4,
                                                  const Matrix3r &invRestMat,
-                                                 const Real restVolume,
-                                                 const Real mu,
-                                                 const Real lambda,
+                                                 Real restVolume,
+                                                 Real mu,
+                                                 Real lambda,
                                                  Matrix3r &epsilon,
                                                  Matrix3r &sigma,
                                                  Real &energy);
@@ -425,9 +425,9 @@ private:
                                                           const Vector3r &x3,
                                                           const Vector3r &x4,
                                                           const Matrix3r &invRestMat,
-                                                          const Real restVolume,
-                                                          const Real mu,
-                                                          const Real lambda,
+                                                          Real restVolume,
+                                                          Real mu,
+                                                          Real lambda,
                                                           Matrix3r &epsilon,
                                                           Matrix3r &sigma,
                                                           Real &energy);
@@ -447,11 +447,11 @@ public:
                                             Real invMass2,
                                             const Real &area,
                                             const Matrix2r &invRestMat,
-                                            const Real youngsModulusX,
-                                            const Real youngsModulusY,
-                                            const Real youngsModulusShear,
-                                            const Real poissonRatioXY,
-                                            const Real poissonRatioYX,
+                                            Real youngsModulusX,
+                                            Real youngsModulusY,
+                                            Real youngsModulusShear,
+                                            Real poissonRatioXY,
+                                            Real poissonRatioYX,
                                             Vector3r &corr0,
                                             Vector3r &corr1,
                                             Vector3r &corr2);
@@ -474,11 +474,11 @@ public:
                                          Real invMass2,
                                          const Vector3r &p3,
                                          Real invMass3,
-                                         const Real restVolume,
+                                         Real restVolume,
                                          const Matrix3r &invRestMat,
-                                         const Real youngsModulus,
-                                         const Real poissonRatio,
-                                         const bool handleInversion,
+                                         Real youngsModulus,
+                                         Real poissonRatio,
+                                         bool handleInversion,
                                          Vector3r &corr0,
                                          Vector3r &corr1,
                                          Vector3r &corr2,
@@ -504,7 +504,7 @@ public:
      * 1,2:  maximal impulse in tangent direction\n
      */
     static bool init_ParticleTetContactConstraint(
-            const Real invMass0,     // inverse mass is zero if particle is static
+            Real invMass0,     // inverse mass is zero if particle is static
             const Vector3r &x0,      // particle which collides with tet
             const Vector3r &v0,      // velocity of particle
             const Real invMass[],    // inverse masses of tet particles
@@ -529,7 +529,7 @@ public:
      * @param corr position corrections of tet particles
      */
     static bool solve_ParticleTetContactConstraint(
-            const Real invMass0,   // inverse mass is zero if particle is static
+            Real invMass0,   // inverse mass is zero if particle is static
             const Vector3r &x0,    // particle which collides with tet
             const Real invMass[],  // inverse masses of tet particles
             const Vector3r x[],    // positions of tet particles
@@ -557,15 +557,15 @@ public:
      * @param corr_v velocity corrections of tet particles
      */
     static bool velocitySolve_ParticleTetContactConstraint(
-            const Real invMass0,   // inverse mass is zero if particle is static
+            Real invMass0,   // inverse mass is zero if particle is static
             const Vector3r &x0,    // particle which collides with tet
             const Vector3r &v0,    // velocity of particle
             const Real invMass[],  // inverse masses of tet particles
             const Vector3r x[],    // positions of tet particles
             const Vector3r v[],    // velocities of tet particles
             const Vector3r &bary,  // barycentric coordinates of contact point in tet
-            const Real lambda,
-            const Real frictionCoeff,                                     // friction coefficient
+            Real lambda,
+            Real frictionCoeff,                                     // friction coefficient
             Eigen::Matrix<Real, 3, 3, Eigen::DontAlign> &constraintInfo,  // precomputed contact info
             Vector3r &corr_v0,
             Vector3r corr_v[]);

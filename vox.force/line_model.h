@@ -17,14 +17,14 @@
 namespace vox::force {
 class LineModel {
     struct OrientedEdge {
-        OrientedEdge() {}
-        OrientedEdge(unsigned int p0, unsigned int p1, unsigned int q0) {
-            m_vert[0] = p0;
-            m_vert[1] = p1;
-            m_quat = q0;
+        OrientedEdge() = default;
+        OrientedEdge(unsigned int p_0, unsigned int p_1, unsigned int q_0) {
+            m_vert[0] = p_0;
+            m_vert[1] = p_1;
+            m_quat = q_0;
         }
-        unsigned int m_vert[2];
-        unsigned int m_quat;
+        unsigned int m_vert[2]{};
+        unsigned int m_quat{};
     };
 
 public:
@@ -35,35 +35,35 @@ public:
 
 protected:
     /** offset which must be added to get the correct index in the particles array */
-    unsigned int m_indexOffset;
+    unsigned int m_index_offset_{};
     /** offset which must be added to get the correct index in the quaternions array */
-    unsigned int m_indexOffsetQuaternions;
-    unsigned int m_nPoints, m_nQuaternions;
-    Edges m_edges;
-    Real m_restitutionCoeff;
-    Real m_frictionCoeff;
+    unsigned int m_index_offset_quaternions_{};
+    unsigned int m_n_points_{}, m_n_quaternions_{};
+    Edges m_edges_;
+    Real m_restitution_coeff_;
+    Real m_friction_coeff_;
 
 public:
-    void updateConstraints();
+    void UpdateConstraints();
 
-    Edges& getEdges();
+    Edges& GetEdges();
 
-    unsigned int getIndexOffset() const;
-    unsigned int getIndexOffsetQuaternions() const;
+    [[nodiscard]] unsigned int GetIndexOffset() const;
+    [[nodiscard]] unsigned int GetIndexOffsetQuaternions() const;
 
-    void initMesh(const unsigned int nPoints,
-                  const unsigned int nQuaternions,
-                  const unsigned int indexOffset,
-                  const unsigned int indexOffsetQuaternions,
+    void InitMesh(unsigned int n_points,
+                  unsigned int n_quaternions,
+                  unsigned int index_offset,
+                  unsigned int index_offset_quaternions,
                   unsigned int* indices,
-                  unsigned int* indicesQuaternions);
+                  unsigned int* indices_quaternions);
 
-    FORCE_INLINE Real getRestitutionCoeff() const { return m_restitutionCoeff; }
+    [[nodiscard]] FORCE_INLINE Real GetRestitutionCoeff() const { return m_restitution_coeff_; }
 
-    FORCE_INLINE void setRestitutionCoeff(Real val) { m_restitutionCoeff = val; }
+    FORCE_INLINE void SetRestitutionCoeff(Real val) { m_restitution_coeff_ = val; }
 
-    FORCE_INLINE Real getFrictionCoeff() const { return m_frictionCoeff; }
+    [[nodiscard]] FORCE_INLINE Real GetFrictionCoeff() const { return m_friction_coeff_; }
 
-    FORCE_INLINE void setFrictionCoeff(Real val) { m_frictionCoeff = val; }
+    FORCE_INLINE void SetFrictionCoeff(Real val) { m_friction_coeff_ = val; }
 };
 }  // namespace vox::force

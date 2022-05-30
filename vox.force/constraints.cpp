@@ -671,7 +671,7 @@ bool RigidBodyParticleBallJoint::InitConstraint(SimulationModel &model,
     ParticleData &pd = model.getParticles();
     RigidBody &rb = *rbs[m_bodies[0]];
     return PositionBasedRigidBodyDynamics::init_RigidBodyParticleBallJoint(
-            rb.getPosition(), rb.getRotation(), pd.getPosition(particle_index), m_joint_info);
+            rb.getPosition(), rb.getRotation(), pd.GetPosition(particle_index), m_joint_info);
 }
 
 bool RigidBodyParticleBallJoint::UpdateConstraint(SimulationModel &model) {
@@ -679,7 +679,7 @@ bool RigidBodyParticleBallJoint::UpdateConstraint(SimulationModel &model) {
     ParticleData &pd = model.getParticles();
     RigidBody &rb1 = *rb[m_bodies[0]];
     return PositionBasedRigidBodyDynamics::update_RigidBodyParticleBallJoint(rb1.getPosition(), rb1.getRotation(),
-                                                                             pd.getPosition(m_bodies[1]), m_joint_info);
+                                                                             pd.GetPosition(m_bodies[1]), m_joint_info);
 }
 
 bool RigidBodyParticleBallJoint::SolvePositionConstraint(SimulationModel &model, const unsigned int iter) {
@@ -692,7 +692,7 @@ bool RigidBodyParticleBallJoint::SolvePositionConstraint(SimulationModel &model,
     Quaternionr corr_q1;
     const bool kRes = PositionBasedRigidBodyDynamics::solve_RigidBodyParticleBallJoint(
             rb1.getInvMass(), rb1.getPosition(), rb1.getInertiaTensorInverseW(), rb1.getRotation(),
-            pd.getInvMass(m_bodies[1]), pd.getPosition(m_bodies[1]), m_joint_info, corr_x1, corr_q1, corr_x2);
+            pd.GetInvMass(m_bodies[1]), pd.GetPosition(m_bodies[1]), m_joint_info, corr_x1, corr_q1, corr_x2);
 
     if (kRes) {
         if (rb1.getMass() != 0.0) {
@@ -701,8 +701,8 @@ bool RigidBodyParticleBallJoint::SolvePositionConstraint(SimulationModel &model,
             rb1.getRotation().normalize();
             rb1.rotationUpdated();
         }
-        if (pd.getMass(m_bodies[1]) != 0.0) {
-            pd.getPosition(m_bodies[1]) += corr_x2;
+        if (pd.GetMass(m_bodies[1]) != 0.0) {
+            pd.GetPosition(m_bodies[1]) += corr_x2;
         }
     }
     return kRes;
@@ -841,8 +841,8 @@ bool DistanceConstraint::InitConstraint(SimulationModel &model,
     m_bodies[1] = particle2;
     ParticleData &pd = model.getParticles();
 
-    const Vector3r &x1_0 = pd.getPosition0(particle1);
-    const Vector3r &x2_0 = pd.getPosition0(particle2);
+    const Vector3r &x1_0 = pd.GetPosition0(particle1);
+    const Vector3r &x2_0 = pd.GetPosition0(particle2);
 
     m_rest_length = (x2_0 - x1_0).norm();
 
@@ -855,14 +855,14 @@ bool DistanceConstraint::SolvePositionConstraint(SimulationModel &model, const u
     const unsigned kI1 = m_bodies[0];
     const unsigned kI2 = m_bodies[1];
 
-    Vector3r &x1 = pd.getPosition(kI1);
-    Vector3r &x2 = pd.getPosition(kI2);
-    const Real kInvMass1 = pd.getInvMass(kI1);
-    const Real kInvMass2 = pd.getInvMass(kI2);
+    Vector3r &x1 = pd.GetPosition(kI1);
+    Vector3r &x2 = pd.GetPosition(kI2);
+    const Real kInvMass1 = pd.GetInvMass(kI1);
+    const Real kInvMass2 = pd.GetInvMass(kI2);
 
     Vector3r corr1, corr2;
-    const bool kRes = PositionBasedDynamics::solve_DistanceConstraint(x1, kInvMass1, x2, kInvMass2, m_rest_length,
-                                                                      m_stiffness, corr1, corr2);
+    const bool kRes = PositionBasedDynamics::SolveDistanceConstraint(x1, kInvMass1, x2, kInvMass2, m_rest_length,
+                                                                     m_stiffness, corr1, corr2);
 
     if (kRes) {
         if (kInvMass1 != 0.0) x1 += corr1;
@@ -884,8 +884,8 @@ bool DistanceConstraint_XPBD::InitConstraint(SimulationModel &model,
     m_bodies[1] = particle2;
     ParticleData &pd = model.getParticles();
 
-    const Vector3r &x1_0 = pd.getPosition0(particle1);
-    const Vector3r &x2_0 = pd.getPosition0(particle2);
+    const Vector3r &x1_0 = pd.GetPosition0(particle1);
+    const Vector3r &x2_0 = pd.GetPosition0(particle2);
 
     m_rest_length = (x2_0 - x1_0).norm();
 
@@ -898,10 +898,10 @@ bool DistanceConstraint_XPBD::SolvePositionConstraint(SimulationModel &model, co
     const unsigned kI1 = m_bodies[0];
     const unsigned kI2 = m_bodies[1];
 
-    Vector3r &x1 = pd.getPosition(kI1);
-    Vector3r &x2 = pd.getPosition(kI2);
-    const Real kInvMass1 = pd.getInvMass(kI1);
-    const Real kInvMass2 = pd.getInvMass(kI2);
+    Vector3r &x1 = pd.GetPosition(kI1);
+    Vector3r &x2 = pd.GetPosition(kI2);
+    const Real kInvMass1 = pd.GetInvMass(kI1);
+    const Real kInvMass2 = pd.GetInvMass(kI2);
 
     const Real kDt = TimeManager::getCurrent()->getTimeStepSize();
 
@@ -935,10 +935,10 @@ bool DihedralConstraint::InitConstraint(SimulationModel &model,
     m_bodies[3] = particle4;
     ParticleData &pd = model.getParticles();
 
-    const Vector3r &p0 = pd.getPosition0(particle1);
-    const Vector3r &p1 = pd.getPosition0(particle2);
-    const Vector3r &p2 = pd.getPosition0(particle3);
-    const Vector3r &p3 = pd.getPosition0(particle4);
+    const Vector3r &p0 = pd.GetPosition0(particle1);
+    const Vector3r &p1 = pd.GetPosition0(particle2);
+    const Vector3r &p2 = pd.GetPosition0(particle3);
+    const Vector3r &p3 = pd.GetPosition0(particle4);
 
     Vector3r e = p3 - p2;
     Real elen = e.norm();
@@ -971,20 +971,20 @@ bool DihedralConstraint::SolvePositionConstraint(SimulationModel &model, const u
     const unsigned kI3 = m_bodies[2];
     const unsigned kI4 = m_bodies[3];
 
-    Vector3r &x1 = pd.getPosition(kI1);
-    Vector3r &x2 = pd.getPosition(kI2);
-    Vector3r &x3 = pd.getPosition(kI3);
-    Vector3r &x4 = pd.getPosition(kI4);
+    Vector3r &x1 = pd.GetPosition(kI1);
+    Vector3r &x2 = pd.GetPosition(kI2);
+    Vector3r &x3 = pd.GetPosition(kI3);
+    Vector3r &x4 = pd.GetPosition(kI4);
 
-    const Real kInvMass1 = pd.getInvMass(kI1);
-    const Real kInvMass2 = pd.getInvMass(kI2);
-    const Real kInvMass3 = pd.getInvMass(kI3);
-    const Real kInvMass4 = pd.getInvMass(kI4);
+    const Real kInvMass1 = pd.GetInvMass(kI1);
+    const Real kInvMass2 = pd.GetInvMass(kI2);
+    const Real kInvMass3 = pd.GetInvMass(kI3);
+    const Real kInvMass4 = pd.GetInvMass(kI4);
 
     Vector3r corr1, corr2, corr3, corr4;
     const bool kRes =
-            PositionBasedDynamics::solve_DihedralConstraint(x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, x4, kInvMass4,
-                                                            m_rest_angle, m_stiffness, corr1, corr2, corr3, corr4);
+            PositionBasedDynamics::SolveDihedralConstraint(x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, x4, kInvMass4,
+                                                           m_rest_angle, m_stiffness, corr1, corr2, corr3, corr4);
 
     if (kRes) {
         if (kInvMass1 != 0.0) x1 += corr1;
@@ -1012,10 +1012,10 @@ bool IsometricBendingConstraint::InitConstraint(SimulationModel &model,
 
     ParticleData &pd = model.getParticles();
 
-    const Vector3r &x1 = pd.getPosition0(particle1);
-    const Vector3r &x2 = pd.getPosition0(particle2);
-    const Vector3r &x3 = pd.getPosition0(particle3);
-    const Vector3r &x4 = pd.getPosition0(particle4);
+    const Vector3r &x1 = pd.GetPosition0(particle1);
+    const Vector3r &x2 = pd.GetPosition0(particle2);
+    const Vector3r &x3 = pd.GetPosition0(particle3);
+    const Vector3r &x4 = pd.GetPosition0(particle4);
 
     return PositionBasedDynamics::init_IsometricBendingConstraint(x1, x2, x3, x4, m_Q);
 }
@@ -1028,15 +1028,15 @@ bool IsometricBendingConstraint::SolvePositionConstraint(SimulationModel &model,
     const unsigned kI3 = m_bodies[2];
     const unsigned kI4 = m_bodies[3];
 
-    Vector3r &x1 = pd.getPosition(kI1);
-    Vector3r &x2 = pd.getPosition(kI2);
-    Vector3r &x3 = pd.getPosition(kI3);
-    Vector3r &x4 = pd.getPosition(kI4);
+    Vector3r &x1 = pd.GetPosition(kI1);
+    Vector3r &x2 = pd.GetPosition(kI2);
+    Vector3r &x3 = pd.GetPosition(kI3);
+    Vector3r &x4 = pd.GetPosition(kI4);
 
-    const Real kInvMass1 = pd.getInvMass(kI1);
-    const Real kInvMass2 = pd.getInvMass(kI2);
-    const Real kInvMass3 = pd.getInvMass(kI3);
-    const Real kInvMass4 = pd.getInvMass(kI4);
+    const Real kInvMass1 = pd.GetInvMass(kI1);
+    const Real kInvMass2 = pd.GetInvMass(kI2);
+    const Real kInvMass3 = pd.GetInvMass(kI3);
+    const Real kInvMass4 = pd.GetInvMass(kI4);
 
     Vector3r corr1, corr2, corr3, corr4;
     const bool kRes = PositionBasedDynamics::solve_IsometricBendingConstraint(
@@ -1069,10 +1069,10 @@ bool IsometricBendingConstraint_XPBD::InitConstraint(SimulationModel &model,
 
     ParticleData &pd = model.getParticles();
 
-    const Vector3r &x1 = pd.getPosition0(particle1);
-    const Vector3r &x2 = pd.getPosition0(particle2);
-    const Vector3r &x3 = pd.getPosition0(particle3);
-    const Vector3r &x4 = pd.getPosition0(particle4);
+    const Vector3r &x1 = pd.GetPosition0(particle1);
+    const Vector3r &x2 = pd.GetPosition0(particle2);
+    const Vector3r &x3 = pd.GetPosition0(particle3);
+    const Vector3r &x4 = pd.GetPosition0(particle4);
 
     return PositionBasedDynamics::init_IsometricBendingConstraint(x1, x2, x3, x4, m_Q);
 }
@@ -1085,15 +1085,15 @@ bool IsometricBendingConstraint_XPBD::SolvePositionConstraint(SimulationModel &m
     const unsigned kI3 = m_bodies[2];
     const unsigned kI4 = m_bodies[3];
 
-    Vector3r &x1 = pd.getPosition(kI1);
-    Vector3r &x2 = pd.getPosition(kI2);
-    Vector3r &x3 = pd.getPosition(kI3);
-    Vector3r &x4 = pd.getPosition(kI4);
+    Vector3r &x1 = pd.GetPosition(kI1);
+    Vector3r &x2 = pd.GetPosition(kI2);
+    Vector3r &x3 = pd.GetPosition(kI3);
+    Vector3r &x4 = pd.GetPosition(kI4);
 
-    const Real kInvMass1 = pd.getInvMass(kI1);
-    const Real kInvMass2 = pd.getInvMass(kI2);
-    const Real kInvMass3 = pd.getInvMass(kI3);
-    const Real kInvMass4 = pd.getInvMass(kI4);
+    const Real kInvMass1 = pd.GetInvMass(kI1);
+    const Real kInvMass2 = pd.GetInvMass(kI2);
+    const Real kInvMass3 = pd.GetInvMass(kI3);
+    const Real kInvMass4 = pd.GetInvMass(kI4);
 
     const Real kDt = TimeManager::getCurrent()->getTimeStepSize();
 
@@ -1136,9 +1136,9 @@ bool FEMTriangleConstraint::InitConstraint(SimulationModel &model,
 
     ParticleData &pd = model.getParticles();
 
-    Vector3r &x1 = pd.getPosition0(particle1);
-    Vector3r &x2 = pd.getPosition0(particle2);
-    Vector3r &x3 = pd.getPosition0(particle3);
+    Vector3r &x1 = pd.GetPosition0(particle1);
+    Vector3r &x2 = pd.GetPosition0(particle2);
+    Vector3r &x3 = pd.GetPosition0(particle3);
 
     return PositionBasedDynamics::init_FEMTriangleConstraint(x1, x2, x3, m_area, m_inv_rest_mat);
 }
@@ -1150,13 +1150,13 @@ bool FEMTriangleConstraint::SolvePositionConstraint(SimulationModel &model, cons
     const unsigned kI2 = m_bodies[1];
     const unsigned kI3 = m_bodies[2];
 
-    Vector3r &x1 = pd.getPosition(kI1);
-    Vector3r &x2 = pd.getPosition(kI2);
-    Vector3r &x3 = pd.getPosition(kI3);
+    Vector3r &x1 = pd.GetPosition(kI1);
+    Vector3r &x2 = pd.GetPosition(kI2);
+    Vector3r &x3 = pd.GetPosition(kI3);
 
-    const Real kInvMass1 = pd.getInvMass(kI1);
-    const Real kInvMass2 = pd.getInvMass(kI2);
-    const Real kInvMass3 = pd.getInvMass(kI3);
+    const Real kInvMass1 = pd.GetInvMass(kI1);
+    const Real kInvMass2 = pd.GetInvMass(kI2);
+    const Real kInvMass3 = pd.GetInvMass(kI3);
 
     Vector3r corr1, corr2, corr3;
     const bool kRes = PositionBasedDynamics::solve_FEMTriangleConstraint(
@@ -1194,9 +1194,9 @@ bool StrainTriangleConstraint::InitConstraint(SimulationModel &model,
 
     ParticleData &pd = model.getParticles();
 
-    Vector3r &x1 = pd.getPosition0(particle1);
-    Vector3r &x2 = pd.getPosition0(particle2);
-    Vector3r &x3 = pd.getPosition0(particle3);
+    Vector3r &x1 = pd.GetPosition0(particle1);
+    Vector3r &x2 = pd.GetPosition0(particle2);
+    Vector3r &x3 = pd.GetPosition0(particle3);
 
     // Bring triangles to xy plane
     const Vector3r kY1(x1[0], x1[2], 0.0);
@@ -1213,13 +1213,13 @@ bool StrainTriangleConstraint::SolvePositionConstraint(SimulationModel &model, c
     const unsigned kI2 = m_bodies[1];
     const unsigned kI3 = m_bodies[2];
 
-    Vector3r &x1 = pd.getPosition(kI1);
-    Vector3r &x2 = pd.getPosition(kI2);
-    Vector3r &x3 = pd.getPosition(kI3);
+    Vector3r &x1 = pd.GetPosition(kI1);
+    Vector3r &x2 = pd.GetPosition(kI2);
+    Vector3r &x3 = pd.GetPosition(kI3);
 
-    const Real kInvMass1 = pd.getInvMass(kI1);
-    const Real kInvMass2 = pd.getInvMass(kI2);
-    const Real kInvMass3 = pd.getInvMass(kI3);
+    const Real kInvMass1 = pd.GetInvMass(kI1);
+    const Real kInvMass2 = pd.GetInvMass(kI2);
+    const Real kInvMass3 = pd.GetInvMass(kI3);
 
     Vector3r corr1, corr2, corr3;
     const bool kRes = PositionBasedDynamics::solve_StrainTriangleConstraint(
@@ -1251,10 +1251,10 @@ bool VolumeConstraint::InitConstraint(SimulationModel &model,
     m_bodies[3] = particle4;
     ParticleData &pd = model.getParticles();
 
-    const Vector3r &p0 = pd.getPosition0(particle1);
-    const Vector3r &p1 = pd.getPosition0(particle2);
-    const Vector3r &p2 = pd.getPosition0(particle3);
-    const Vector3r &p3 = pd.getPosition0(particle4);
+    const Vector3r &p0 = pd.GetPosition0(particle1);
+    const Vector3r &p1 = pd.GetPosition0(particle2);
+    const Vector3r &p2 = pd.GetPosition0(particle3);
+    const Vector3r &p3 = pd.GetPosition0(particle4);
 
     m_rest_volume = fabs(static_cast<Real>(1.0 / 6.0) * (p3 - p0).dot((p2 - p0).cross(p1 - p0)));
 
@@ -1269,15 +1269,15 @@ bool VolumeConstraint::SolvePositionConstraint(SimulationModel &model, const uns
     const unsigned kI3 = m_bodies[2];
     const unsigned kI4 = m_bodies[3];
 
-    Vector3r &x1 = pd.getPosition(kI1);
-    Vector3r &x2 = pd.getPosition(kI2);
-    Vector3r &x3 = pd.getPosition(kI3);
-    Vector3r &x4 = pd.getPosition(kI4);
+    Vector3r &x1 = pd.GetPosition(kI1);
+    Vector3r &x2 = pd.GetPosition(kI2);
+    Vector3r &x3 = pd.GetPosition(kI3);
+    Vector3r &x4 = pd.GetPosition(kI4);
 
-    const Real kInvMass1 = pd.getInvMass(kI1);
-    const Real kInvMass2 = pd.getInvMass(kI2);
-    const Real kInvMass3 = pd.getInvMass(kI3);
-    const Real kInvMass4 = pd.getInvMass(kI4);
+    const Real kInvMass1 = pd.GetInvMass(kI1);
+    const Real kInvMass2 = pd.GetInvMass(kI2);
+    const Real kInvMass3 = pd.GetInvMass(kI3);
+    const Real kInvMass4 = pd.GetInvMass(kI4);
 
     Vector3r corr1, corr2, corr3, corr4;
     const bool kRes =
@@ -1311,10 +1311,10 @@ bool VolumeConstraint_XPBD::InitConstraint(SimulationModel &model,
     m_bodies[3] = particle4;
     ParticleData &pd = model.getParticles();
 
-    const Vector3r &p0 = pd.getPosition0(particle1);
-    const Vector3r &p1 = pd.getPosition0(particle2);
-    const Vector3r &p2 = pd.getPosition0(particle3);
-    const Vector3r &p3 = pd.getPosition0(particle4);
+    const Vector3r &p0 = pd.GetPosition0(particle1);
+    const Vector3r &p1 = pd.GetPosition0(particle2);
+    const Vector3r &p2 = pd.GetPosition0(particle3);
+    const Vector3r &p3 = pd.GetPosition0(particle4);
 
     m_rest_volume = fabs(static_cast<Real>(1.0 / 6.0) * (p3 - p0).dot((p2 - p0).cross(p1 - p0)));
 
@@ -1329,15 +1329,15 @@ bool VolumeConstraint_XPBD::SolvePositionConstraint(SimulationModel &model, cons
     const unsigned kI3 = m_bodies[2];
     const unsigned kI4 = m_bodies[3];
 
-    Vector3r &x1 = pd.getPosition(kI1);
-    Vector3r &x2 = pd.getPosition(kI2);
-    Vector3r &x3 = pd.getPosition(kI3);
-    Vector3r &x4 = pd.getPosition(kI4);
+    Vector3r &x1 = pd.GetPosition(kI1);
+    Vector3r &x2 = pd.GetPosition(kI2);
+    Vector3r &x3 = pd.GetPosition(kI3);
+    Vector3r &x4 = pd.GetPosition(kI4);
 
-    const Real kInvMass1 = pd.getInvMass(kI1);
-    const Real kInvMass2 = pd.getInvMass(kI2);
-    const Real kInvMass3 = pd.getInvMass(kI3);
-    const Real kInvMass4 = pd.getInvMass(kI4);
+    const Real kInvMass1 = pd.GetInvMass(kI1);
+    const Real kInvMass2 = pd.GetInvMass(kI2);
+    const Real kInvMass3 = pd.GetInvMass(kI3);
+    const Real kInvMass4 = pd.GetInvMass(kI4);
 
     const Real kDt = TimeManager::getCurrent()->getTimeStepSize();
 
@@ -1376,10 +1376,10 @@ bool FEMTetConstraint::InitConstraint(SimulationModel &model,
 
     ParticleData &pd = model.getParticles();
 
-    Vector3r &x1 = pd.getPosition0(particle1);
-    Vector3r &x2 = pd.getPosition0(particle2);
-    Vector3r &x3 = pd.getPosition0(particle3);
-    Vector3r &x4 = pd.getPosition0(particle4);
+    Vector3r &x1 = pd.GetPosition0(particle1);
+    Vector3r &x2 = pd.GetPosition0(particle2);
+    Vector3r &x3 = pd.GetPosition0(particle3);
+    Vector3r &x4 = pd.GetPosition0(particle4);
 
     return PositionBasedDynamics::init_FEMTetraConstraint(x1, x2, x3, x4, m_volume, m_inv_rest_mat);
 }
@@ -1392,15 +1392,15 @@ bool FEMTetConstraint::SolvePositionConstraint(SimulationModel &model, const uns
     const unsigned kI3 = m_bodies[2];
     const unsigned kI4 = m_bodies[3];
 
-    Vector3r &x1 = pd.getPosition(kI1);
-    Vector3r &x2 = pd.getPosition(kI2);
-    Vector3r &x3 = pd.getPosition(kI3);
-    Vector3r &x4 = pd.getPosition(kI4);
+    Vector3r &x1 = pd.GetPosition(kI1);
+    Vector3r &x2 = pd.GetPosition(kI2);
+    Vector3r &x3 = pd.GetPosition(kI3);
+    Vector3r &x4 = pd.GetPosition(kI4);
 
-    const Real kInvMass1 = pd.getInvMass(kI1);
-    const Real kInvMass2 = pd.getInvMass(kI2);
-    const Real kInvMass3 = pd.getInvMass(kI3);
-    const Real kInvMass4 = pd.getInvMass(kI4);
+    const Real kInvMass1 = pd.GetInvMass(kI1);
+    const Real kInvMass2 = pd.GetInvMass(kI2);
+    const Real kInvMass3 = pd.GetInvMass(kI3);
+    const Real kInvMass4 = pd.GetInvMass(kI4);
 
     Real current_volume = -static_cast<Real>(1.0 / 6.0) * (x4 - x1).dot((x3 - x1).cross(x2 - x1));
     bool handle_inversion = false;
@@ -1444,10 +1444,10 @@ bool StrainTetConstraint::InitConstraint(SimulationModel &model,
 
     ParticleData &pd = model.getParticles();
 
-    Vector3r &x1 = pd.getPosition0(particle1);
-    Vector3r &x2 = pd.getPosition0(particle2);
-    Vector3r &x3 = pd.getPosition0(particle3);
-    Vector3r &x4 = pd.getPosition0(particle4);
+    Vector3r &x1 = pd.GetPosition0(particle1);
+    Vector3r &x2 = pd.GetPosition0(particle2);
+    Vector3r &x3 = pd.GetPosition0(particle3);
+    Vector3r &x4 = pd.GetPosition0(particle4);
 
     return PositionBasedDynamics::init_StrainTetraConstraint(x1, x2, x3, x4, m_inv_rest_mat);
 }
@@ -1460,15 +1460,15 @@ bool StrainTetConstraint::SolvePositionConstraint(SimulationModel &model, const 
     const unsigned kI3 = m_bodies[2];
     const unsigned kI4 = m_bodies[3];
 
-    Vector3r &x1 = pd.getPosition(kI1);
-    Vector3r &x2 = pd.getPosition(kI2);
-    Vector3r &x3 = pd.getPosition(kI3);
-    Vector3r &x4 = pd.getPosition(kI4);
+    Vector3r &x1 = pd.GetPosition(kI1);
+    Vector3r &x2 = pd.GetPosition(kI2);
+    Vector3r &x3 = pd.GetPosition(kI3);
+    Vector3r &x4 = pd.GetPosition(kI4);
 
-    const Real kInvMass1 = pd.getInvMass(kI1);
-    const Real kInvMass2 = pd.getInvMass(kI2);
-    const Real kInvMass3 = pd.getInvMass(kI3);
-    const Real kInvMass4 = pd.getInvMass(kI4);
+    const Real kInvMass1 = pd.GetInvMass(kI1);
+    const Real kInvMass2 = pd.GetInvMass(kI2);
+    const Real kInvMass3 = pd.GetInvMass(kI3);
+    const Real kInvMass4 = pd.GetInvMass(kI4);
 
     Vector3r corr1, corr2, corr3, corr4;
     const bool kRes = PositionBasedDynamics::solve_StrainTetraConstraint(
@@ -1496,8 +1496,8 @@ bool ShapeMatchingConstraint::InitConstraint(SimulationModel &model,
     ParticleData &pd = model.getParticles();
     for (unsigned int i = 0; i < NumberOfBodies(); i++) {
         m_bodies[i] = particle_indices[i];
-        m_x0[i] = pd.getPosition0(m_bodies[i]);
-        m_w[i] = pd.getInvMass(m_bodies[i]);
+        m_x0[i] = pd.GetPosition0(m_bodies[i]);
+        m_w[i] = pd.GetInvMass(m_bodies[i]);
         m_num_clusters[i] = num_clusters[i];
     }
 
@@ -1508,7 +1508,7 @@ bool ShapeMatchingConstraint::InitConstraint(SimulationModel &model,
 bool ShapeMatchingConstraint::SolvePositionConstraint(SimulationModel &model, const unsigned int iter) {
     ParticleData &pd = model.getParticles();
     for (unsigned int i = 0; i < NumberOfBodies(); i++) {
-        m_x[i] = pd.getPosition(m_bodies[i]);
+        m_x[i] = pd.GetPosition(m_bodies[i]);
     }
 
     const bool kRes = PositionBasedDynamics::solve_ShapeMatchingConstraint(m_x0, m_x, m_w, NumberOfBodies(), m_rest_cm,
@@ -1518,7 +1518,7 @@ bool ShapeMatchingConstraint::SolvePositionConstraint(SimulationModel &model, co
         for (unsigned int i = 0; i < NumberOfBodies(); i++) {
             // Important: Divide position correction by the number of clusters
             // which contain the vertex.
-            if (m_w[i] != 0.0) pd.getPosition(m_bodies[i]) += (1.0 / m_num_clusters[i]) * m_corr[i];
+            if (m_w[i] != 0.0) pd.GetPosition(m_bodies[i]) += (1.0 / m_num_clusters[i]) * m_corr[i];
         }
     }
     return kRes;
@@ -1608,7 +1608,7 @@ bool ParticleRigidBodyContactConstraint::InitConstraint(SimulationModel &model,
     m_sum_impulses = 0.0;
 
     return PositionBasedRigidBodyDynamics::init_ParticleRigidBodyContactConstraint(
-            pd.getInvMass(particle_index), pd.getPosition(particle_index), pd.getVelocity(particle_index),
+            pd.GetInvMass(particle_index), pd.GetPosition(particle_index), pd.GetVelocity(particle_index),
             rb.getInvMass(), rb.getPosition(), rb.getVelocity(), rb.getInertiaTensorInverseW(), rb.getRotation(),
             rb.getAngularVelocity(), cp1, cp2, normal, restitution_coeff, m_constraint_info);
 }
@@ -1622,13 +1622,13 @@ bool ParticleRigidBodyContactConstraint::SolveVelocityConstraint(SimulationModel
     Vector3r corr_v1, corr_v2;
     Vector3r corr_omega_2;
     const bool kRes = PositionBasedRigidBodyDynamics::velocitySolve_ParticleRigidBodyContactConstraint(
-            pd.getInvMass(m_bodies[0]), pd.getPosition(m_bodies[0]), pd.getVelocity(m_bodies[0]), rb.getInvMass(),
+            pd.GetInvMass(m_bodies[0]), pd.GetPosition(m_bodies[0]), pd.GetVelocity(m_bodies[0]), rb.getInvMass(),
             rb.getPosition(), rb.getVelocity(), rb.getInertiaTensorInverseW(), rb.getAngularVelocity(), m_stiffness,
             m_friction_coeff, m_sum_impulses, m_constraint_info, corr_v1, corr_v2, corr_omega_2);
 
     if (kRes) {
-        if (pd.getMass(m_bodies[0]) != 0.0) {
-            pd.getVelocity(m_bodies[0]) += corr_v1;
+        if (pd.GetMass(m_bodies[0]) != 0.0) {
+            pd.GetVelocity(m_bodies[0]) += corr_v1;
         }
         if (rb.getMass() != 0.0) {
             rb.getVelocity() += corr_v2;
@@ -1664,21 +1664,21 @@ bool ParticleTetContactConstraint::InitConstraint(SimulationModel &model,
     TetModel *tm = tet_models[solid_index];
     const unsigned int kOffset = tm->getIndexOffset();
     const unsigned int *indices = tm->getParticleMesh().GetTets().data();
-    m_x[0] = pd.getPosition(indices[4 * tet_index] + kOffset);
-    m_x[1] = pd.getPosition(indices[4 * tet_index + 1] + kOffset);
-    m_x[2] = pd.getPosition(indices[4 * tet_index + 2] + kOffset);
-    m_x[3] = pd.getPosition(indices[4 * tet_index + 3] + kOffset);
-    m_v[0] = pd.getVelocity(indices[4 * tet_index] + kOffset);
-    m_v[1] = pd.getVelocity(indices[4 * tet_index + 1] + kOffset);
-    m_v[2] = pd.getVelocity(indices[4 * tet_index + 2] + kOffset);
-    m_v[3] = pd.getVelocity(indices[4 * tet_index + 3] + kOffset);
-    m_inv_masses[0] = pd.getInvMass(indices[4 * tet_index] + kOffset);
-    m_inv_masses[1] = pd.getInvMass(indices[4 * tet_index + 1] + kOffset);
-    m_inv_masses[2] = pd.getInvMass(indices[4 * tet_index + 2] + kOffset);
-    m_inv_masses[3] = pd.getInvMass(indices[4 * tet_index + 3] + kOffset);
+    m_x[0] = pd.GetPosition(indices[4 * tet_index] + kOffset);
+    m_x[1] = pd.GetPosition(indices[4 * tet_index + 1] + kOffset);
+    m_x[2] = pd.GetPosition(indices[4 * tet_index + 2] + kOffset);
+    m_x[3] = pd.GetPosition(indices[4 * tet_index + 3] + kOffset);
+    m_v[0] = pd.GetVelocity(indices[4 * tet_index] + kOffset);
+    m_v[1] = pd.GetVelocity(indices[4 * tet_index + 1] + kOffset);
+    m_v[2] = pd.GetVelocity(indices[4 * tet_index + 2] + kOffset);
+    m_v[3] = pd.GetVelocity(indices[4 * tet_index + 3] + kOffset);
+    m_inv_masses[0] = pd.GetInvMass(indices[4 * tet_index] + kOffset);
+    m_inv_masses[1] = pd.GetInvMass(indices[4 * tet_index + 1] + kOffset);
+    m_inv_masses[2] = pd.GetInvMass(indices[4 * tet_index + 2] + kOffset);
+    m_inv_masses[3] = pd.GetInvMass(indices[4 * tet_index + 3] + kOffset);
 
     return PositionBasedDynamics::init_ParticleTetContactConstraint(
-            pd.getInvMass(particle_index), pd.getPosition(particle_index), pd.getVelocity(particle_index), m_inv_masses,
+            pd.GetInvMass(particle_index), pd.GetPosition(particle_index), pd.GetVelocity(particle_index), m_inv_masses,
             m_x.data(), m_v.data(), bary, normal, m_constraint_info);
 }
 
@@ -1689,19 +1689,19 @@ bool ParticleTetContactConstraint::SolvePositionConstraint(SimulationModel &mode
     TetModel *tm = tet_models[m_solid_index];
     const unsigned int kOffset = tm->getIndexOffset();
     const unsigned int *indices = tm->getParticleMesh().GetTets().data();
-    Vector3r &x0 = pd.getPosition(indices[4 * m_tet_index] + kOffset);
-    Vector3r &x1 = pd.getPosition(indices[4 * m_tet_index + 1] + kOffset);
-    Vector3r &x2 = pd.getPosition(indices[4 * m_tet_index + 2] + kOffset);
-    Vector3r &x3 = pd.getPosition(indices[4 * m_tet_index + 3] + kOffset);
+    Vector3r &x0 = pd.GetPosition(indices[4 * m_tet_index] + kOffset);
+    Vector3r &x1 = pd.GetPosition(indices[4 * m_tet_index + 1] + kOffset);
+    Vector3r &x2 = pd.GetPosition(indices[4 * m_tet_index + 2] + kOffset);
+    Vector3r &x3 = pd.GetPosition(indices[4 * m_tet_index + 3] + kOffset);
 
     Vector3r corr0;
     Vector3r corr[4];
     const bool kRes = PositionBasedDynamics::solve_ParticleTetContactConstraint(
-            pd.getInvMass(m_bodies[0]), pd.getPosition(m_bodies[0]), m_inv_masses, m_x.data(), m_bary,
+            pd.GetInvMass(m_bodies[0]), pd.GetPosition(m_bodies[0]), m_inv_masses, m_x.data(), m_bary,
             m_constraint_info, m_lambda, corr0, corr);
 
     if (kRes) {
-        if (pd.getMass(m_bodies[0]) != 0.0) pd.getPosition(m_bodies[0]) += corr0;
+        if (pd.GetMass(m_bodies[0]) != 0.0) pd.GetPosition(m_bodies[0]) += corr0;
         if (m_inv_masses[0] != 0.0) x0 += corr[0];
         if (m_inv_masses[1] != 0.0) x1 += corr[1];
         if (m_inv_masses[2] != 0.0) x2 += corr[2];
@@ -1717,10 +1717,10 @@ bool ParticleTetContactConstraint::SolveVelocityConstraint(SimulationModel &mode
     TetModel *tm = tet_models[m_solid_index];
     const unsigned int kOffset = tm->getIndexOffset();
     const unsigned int *indices = tm->getParticleMesh().GetTets().data();
-    Vector3r &v0 = pd.getVelocity(indices[4 * m_tet_index] + kOffset);
-    Vector3r &v1 = pd.getVelocity(indices[4 * m_tet_index + 1] + kOffset);
-    Vector3r &v2 = pd.getVelocity(indices[4 * m_tet_index + 2] + kOffset);
-    Vector3r &v3 = pd.getVelocity(indices[4 * m_tet_index + 3] + kOffset);
+    Vector3r &v0 = pd.GetVelocity(indices[4 * m_tet_index] + kOffset);
+    Vector3r &v1 = pd.GetVelocity(indices[4 * m_tet_index + 1] + kOffset);
+    Vector3r &v2 = pd.GetVelocity(indices[4 * m_tet_index + 2] + kOffset);
+    Vector3r &v3 = pd.GetVelocity(indices[4 * m_tet_index + 3] + kOffset);
     m_v[0] = v0;
     m_v[1] = v1;
     m_v[2] = v2;
@@ -1729,11 +1729,11 @@ bool ParticleTetContactConstraint::SolveVelocityConstraint(SimulationModel &mode
     Vector3r corr_v0;
     Vector3r corr_v[4];
     const bool kRes = PositionBasedDynamics::velocitySolve_ParticleTetContactConstraint(
-            pd.getInvMass(m_bodies[0]), pd.getPosition(m_bodies[0]), pd.getVelocity(m_bodies[0]), m_inv_masses,
+            pd.GetInvMass(m_bodies[0]), pd.GetPosition(m_bodies[0]), pd.GetVelocity(m_bodies[0]), m_inv_masses,
             m_x.data(), m_v.data(), m_bary, m_lambda, m_friction_coeff, m_constraint_info, corr_v0, corr_v);
 
     if (kRes) {
-        if (pd.getMass(m_bodies[0]) != 0.0) pd.getVelocity(m_bodies[0]) += corr_v0;
+        if (pd.GetMass(m_bodies[0]) != 0.0) pd.GetVelocity(m_bodies[0]) += corr_v0;
         if (m_inv_masses[0] != 0.0) v0 += corr_v[0];
         if (m_inv_masses[1] != 0.0) v1 += corr_v[1];
         if (m_inv_masses[2] != 0.0) v2 += corr_v[2];
@@ -1760,8 +1760,8 @@ bool StretchShearConstraint::InitConstraint(SimulationModel &model,
     m_bodies[2] = quaternion1;
     ParticleData &pd = model.getParticles();
 
-    const Vector3r &x1_0 = pd.getPosition0(particle1);
-    const Vector3r &x2_0 = pd.getPosition0(particle2);
+    const Vector3r &x1_0 = pd.GetPosition0(particle1);
+    const Vector3r &x2_0 = pd.GetPosition0(particle2);
 
     m_rest_length = (x2_0 - x1_0).norm();
 
@@ -1776,11 +1776,11 @@ bool StretchShearConstraint::SolvePositionConstraint(SimulationModel &model, con
     const unsigned kI2 = m_bodies[1];
     const unsigned kIq1 = m_bodies[2];
 
-    Vector3r &x1 = pd.getPosition(kI1);
-    Vector3r &x2 = pd.getPosition(kI2);
-    Quaternionr &q1 = od.getQuaternion(kIq1);
-    const Real kInvMass1 = pd.getInvMass(kI1);
-    const Real kInvMass2 = pd.getInvMass(kI2);
+    Vector3r &x1 = pd.GetPosition(kI1);
+    Vector3r &x2 = pd.GetPosition(kI2);
+    Quaternionr &q1 = od.GetQuaternion(kIq1);
+    const Real kInvMass1 = pd.GetInvMass(kI1);
+    const Real kInvMass2 = pd.GetInvMass(kI2);
     const Real kInvMassq1 = od.getInvMass(kIq1);
     Vector3r stiffness(m_shearing_stiffness_1, m_shearing_stiffness_2, m_stretching_stiffness);
 
@@ -1816,8 +1816,8 @@ bool BendTwistConstraint::InitConstraint(SimulationModel &model,
     m_bodies[1] = quaternion2;
     OrientationData &od = model.getOrientations();
 
-    const Quaternionr &q1_0 = od.getQuaternion(quaternion1);
-    const Quaternionr &q2_0 = od.getQuaternion(quaternion2);
+    const Quaternionr &q1_0 = od.GetQuaternion(quaternion1);
+    const Quaternionr &q2_0 = od.GetQuaternion(quaternion2);
 
     m_rest_darboux_vector = q1_0.conjugate() * q2_0;
     Quaternionr omega_plus, omega_minus;
@@ -1834,8 +1834,8 @@ bool BendTwistConstraint::SolvePositionConstraint(SimulationModel &model, const 
     const unsigned kI1 = m_bodies[0];
     const unsigned kI2 = m_bodies[1];
 
-    Quaternionr &q1 = od.getQuaternion(kI1);
-    Quaternionr &q2 = od.getQuaternion(kI2);
+    Quaternionr &q1 = od.GetQuaternion(kI1);
+    Quaternionr &q2 = od.GetQuaternion(kI2);
     const Real kInvMass1 = od.getInvMass(kI1);
     const Real kInvMass2 = od.getInvMass(kI2);
     Vector3r stiffness(m_bending_stiffness_1, m_bending_stiffness_2, m_twisting_stiffness);

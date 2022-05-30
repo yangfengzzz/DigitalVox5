@@ -87,7 +87,7 @@ void TetModel::attachVisMesh(const ParticleData &pd) {
     {
 #pragma omp for schedule(static)
         for (int i = 0; i < (int)m_visVertices.size(); i++) {
-            const Vector3r &p = m_visVertices.getPosition(i);
+            const Vector3r &p = m_visVertices.GetPosition(i);
             Real curDist[nNearstT];
             int curT[nNearstT];
             for (int k = 0; k < nNearstT; k++) {
@@ -100,9 +100,9 @@ void TetModel::attachVisMesh(const ParticleData &pd) {
                 const unsigned int indexA = faces[3 * j] + m_indexOffset;
                 const unsigned int indexB = faces[3 * j + 1] + m_indexOffset;
                 const unsigned int indexC = faces[3 * j + 2] + m_indexOffset;
-                const Vector3r &a = pd.getPosition0(indexA);
-                const Vector3r &b = pd.getPosition0(indexB);
-                const Vector3r &c = pd.getPosition0(indexC);
+                const Vector3r &a = pd.GetPosition0(indexA);
+                const Vector3r &b = pd.GetPosition0(indexB);
+                const Vector3r &c = pd.GetPosition0(indexC);
 
                 Vector3r inter, bary;
                 // compute nearest point on triangle
@@ -139,13 +139,13 @@ void TetModel::attachVisMesh(const ParticleData &pd) {
                 if (curT[k] == -1) break;
 
                 // see Kobbelt: Multiresolution Herarchies on unstructured triangle meshes
-                const Vector3r &p = m_visVertices.getPosition(i);
+                const Vector3r &p = m_visVertices.GetPosition(i);
                 const Vector3r n1 = -normals[faces[3 * curT[k] + 0]];
                 const Vector3r n2 = -normals[faces[3 * curT[k] + 1]];
                 const Vector3r n3 = -normals[faces[3 * curT[k] + 2]];
-                const Vector3r &p1 = pd.getPosition0(faces[3 * curT[k] + 0] + m_indexOffset);
-                const Vector3r &p2 = pd.getPosition0(faces[3 * curT[k] + 1] + m_indexOffset);
-                const Vector3r &p3 = pd.getPosition0(faces[3 * curT[k] + 2] + m_indexOffset);
+                const Vector3r &p1 = pd.GetPosition0(faces[3 * curT[k] + 0] + m_indexOffset);
+                const Vector3r &p2 = pd.GetPosition0(faces[3 * curT[k] + 1] + m_indexOffset);
+                const Vector3r &p3 = pd.GetPosition0(faces[3 * curT[k] + 2] + m_indexOffset);
                 const Vector3r U = p.cross(n1);
                 const Vector3r V = p.cross(n2);
                 const Vector3r W = p.cross(n3);
@@ -270,15 +270,15 @@ void TetModel::updateVisMesh(const ParticleData &pd) {
             const unsigned int indexB = faces[3 * triindex + 1] + m_indexOffset;
             const unsigned int indexC = faces[3 * triindex + 2] + m_indexOffset;
 
-            const Vector3r &a = pd.getPosition(indexA);
-            const Vector3r &b = pd.getPosition(indexB);
-            const Vector3r &c = pd.getPosition(indexC);
+            const Vector3r &a = pd.GetPosition(indexA);
+            const Vector3r &b = pd.GetPosition(indexB);
+            const Vector3r &c = pd.GetPosition(indexC);
             Vector3r p2 = bary[0] * a + bary[1] * b + bary[2] * c;
             Vector3r n = bary[0] * normals[faces[3 * triindex]] + bary[1] * normals[faces[3 * triindex + 1]] +
                          bary[2] * normals[faces[3 * triindex + 2]];
             n.normalize();
 
-            Vector3r &p = m_visVertices.getPosition(pindex);
+            Vector3r &p = m_visVertices.GetPosition(pindex);
             p = p2 - n * m_attachment.m_dist;
         }
     }

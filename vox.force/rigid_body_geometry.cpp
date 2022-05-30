@@ -28,8 +28,8 @@ void RigidBodyGeometry::initMesh(const unsigned int nVertices,
     m_vertexData.resize(nVertices);
     m_mesh.SetFlatShading(flatShading);
     for (unsigned int i = 0; i < nVertices; i++) {
-        m_vertexData_local.getPosition(i) = vertices[i].cwiseProduct(scale);
-        m_vertexData.getPosition(i) = m_vertexData_local.getPosition(i);
+        m_vertexData_local.GetPosition(i) = vertices[i].cwiseProduct(scale);
+        m_vertexData.GetPosition(i) = m_vertexData_local.GetPosition(i);
     }
 
     for (unsigned int i = 0; i < nFaces; i++) {
@@ -47,7 +47,7 @@ void RigidBodyGeometry::updateMeshNormals(const VertexData &vd) {
 
 void RigidBodyGeometry::updateMeshTransformation(const Vector3r &x, const Matrix3r &R) {
     for (unsigned int i = 0; i < m_vertexData_local.size(); i++) {
-        m_vertexData.getPosition(i) = R * m_vertexData_local.getPosition(i) + x;
+        m_vertexData.GetPosition(i) = R * m_vertexData_local.GetPosition(i) + x;
     }
     updateMeshNormals(m_vertexData);
 }

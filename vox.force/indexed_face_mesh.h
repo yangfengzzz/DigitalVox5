@@ -103,9 +103,9 @@ void IndexedFaceMesh::UpdateNormals(const PositionData& pd, const unsigned int o
 #pragma omp for schedule(static)
         for (int i = 0; i < (int)NumFaces(); i++) {
             // Get first three points of face
-            const Vector3r& a = pd.getPosition(m_indices_[m_vertices_per_face_ * i] + offset);
-            const Vector3r& b = pd.getPosition(m_indices_[m_vertices_per_face_ * i + 1] + offset);
-            const Vector3r& c = pd.getPosition(m_indices_[m_vertices_per_face_ * i + 2] + offset);
+            const Vector3r& a = pd.GetPosition(m_indices_[m_vertices_per_face_ * i] + offset);
+            const Vector3r& b = pd.GetPosition(m_indices_[m_vertices_per_face_ * i + 1] + offset);
+            const Vector3r& c = pd.GetPosition(m_indices_[m_vertices_per_face_ * i + 2] + offset);
 
             // Create normal
             Vector3r v_1 = b - a;

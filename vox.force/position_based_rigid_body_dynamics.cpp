@@ -647,8 +647,8 @@ bool PositionBasedRigidBodyDynamics::solve_HingeJoint(const Real invMass0,
     const Vector3r r0 = c0 - x0;
     const Vector3r r1 = c1 - x1;
     Matrix3r r0_star, r1_star;
-    MathFunctions::crossProductMatrix(r0, r0_star);
-    MathFunctions::crossProductMatrix(r1, r1_star);
+    MathFunctions::CrossProductMatrix(r0, r0_star);
+    MathFunctions::CrossProductMatrix(r1, r1_star);
 
     Eigen::Matrix<Real, 4, 3, Eigen::DontAlign> Gq1;
     computeMatrixG(q1, Gq1);
@@ -840,8 +840,8 @@ bool PositionBasedRigidBodyDynamics::solve_UniversalJoint(const Real invMass0,
     const Vector3r r0 = c0 - x0;
     const Vector3r r1 = c1 - x1;
     Matrix3r r0_star, r1_star;
-    MathFunctions::crossProductMatrix(r0, r0_star);
-    MathFunctions::crossProductMatrix(r1, r1_star);
+    MathFunctions::CrossProductMatrix(r0, r0_star);
+    MathFunctions::CrossProductMatrix(r1, r1_star);
 
     Eigen::Matrix<Real, 4, 1> b;
     b.block<3, 1>(0, 0) = c1 - c0;
@@ -1522,8 +1522,8 @@ bool PositionBasedRigidBodyDynamics::solve_TargetAngleMotorHingeJoint(
     const Vector3r r0 = c0 - x0;
     const Vector3r r1 = c1 - x1;
     Matrix3r r0_star, r1_star;
-    MathFunctions::crossProductMatrix(r0, r0_star);
-    MathFunctions::crossProductMatrix(r1, r1_star);
+    MathFunctions::CrossProductMatrix(r0, r0_star);
+    MathFunctions::CrossProductMatrix(r1, r1_star);
 
     Eigen::Matrix<Real, 4, 3, Eigen::DontAlign> Gq1;
     computeMatrixG(q1, Gq1);
@@ -1760,8 +1760,8 @@ bool PositionBasedRigidBodyDynamics::velocitySolve_TargetVelocityMotorHingeJoint
     const Vector3r r0 = c0 - x0;
     const Vector3r r1 = c1 - x1;
     Matrix3r r0_star, r1_star;
-    MathFunctions::crossProductMatrix(r0, r0_star);
-    MathFunctions::crossProductMatrix(r1, r1_star);
+    MathFunctions::CrossProductMatrix(r0, r0_star);
+    MathFunctions::CrossProductMatrix(r1, r1_star);
 
     Eigen::Matrix<Real, 6, 6> K;
     K.setZero();

@@ -116,7 +116,7 @@ public:
         m_restitutionCoeff = static_cast<Real>(0.6);
         m_frictionCoeff = static_cast<Real>(0.2);
 
-        getGeometry().initMesh(vertices.size(), mesh.NumFaces(), &vertices.getPosition(0), mesh.GetFaces().data(),
+        getGeometry().initMesh(vertices.size(), mesh.NumFaces(), &vertices.GetPosition(0), mesh.GetFaces().data(),
                                mesh.GetUvIndices(), mesh.GetUVs(), scale, mesh.GetFlatShading());
         getGeometry().updateMeshTransformation(getPosition(), getRotationMatrix());
     }
@@ -150,7 +150,7 @@ public:
         m_restitutionCoeff = static_cast<Real>(0.6);
         m_frictionCoeff = static_cast<Real>(0.2);
 
-        getGeometry().initMesh(vertices.size(), mesh.NumFaces(), &vertices.getPosition(0), mesh.GetFaces().data(),
+        getGeometry().initMesh(vertices.size(), mesh.NumFaces(), &vertices.GetPosition(0), mesh.GetFaces().data(),
                                mesh.GetUvIndices(), mesh.GetUVs(), scale, mesh.GetFlatShading());
         determineMassProperties(density);
         getGeometry().updateMeshTransformation(getPosition(), getRotationMatrix());
@@ -214,7 +214,7 @@ public:
         VertexData &vd = m_geometry.getVertexDataLocal();
 
         VolumeIntegration vi(m_geometry.getVertexDataLocal().size(), m_geometry.getMesh().NumFaces(),
-                             &m_geometry.getVertexDataLocal().getPosition(0), m_geometry.getMesh().GetFaces().data());
+                             &m_geometry.getVertexDataLocal().GetPosition(0), m_geometry.getMesh().GetFaces().data());
         vi.ComputeInertiaTensor(density);
 
         // Diagonalize Inertia Tensor
@@ -227,14 +227,14 @@ public:
 
         if (R.determinant() < 0.0) R = -R;
 
-        for (unsigned int i = 0; i < vd.size(); i++) vd.getPosition(i) = m_rot * vd.getPosition(i) + m_x0;
+        for (unsigned int i = 0; i < vd.size(); i++) vd.GetPosition(i) = m_rot * vd.GetPosition(i) + m_x0;
 
         Vector3r x_MAT = vi.GetCenterOfMass();
         R = m_rot * R;
         x_MAT = m_rot * x_MAT + m_x0;
 
         // rotate vertices back
-        for (unsigned int i = 0; i < vd.size(); i++) vd.getPosition(i) = R.transpose() * (vd.getPosition(i) - x_MAT);
+        for (unsigned int i = 0; i < vd.size(); i++) vd.GetPosition(i) = R.transpose() * (vd.GetPosition(i) - x_MAT);
 
         // set rotation
         Quaternionr qR = Quaternionr(R);

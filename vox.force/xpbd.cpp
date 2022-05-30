@@ -126,10 +126,10 @@ bool XPBD::init_IsometricBendingConstraint(
     const Vector3r e3 = *x[2] - *x[1];
     const Vector3r e4 = *x[3] - *x[1];
 
-    const Real c01 = MathFunctions::cotTheta(e0, e1);
-    const Real c02 = MathFunctions::cotTheta(e0, e2);
-    const Real c03 = MathFunctions::cotTheta(-e0, e3);
-    const Real c04 = MathFunctions::cotTheta(-e0, e4);
+    const Real c01 = MathFunctions::CotTheta(e0, e1);
+    const Real c02 = MathFunctions::CotTheta(e0, e2);
+    const Real c03 = MathFunctions::CotTheta(-e0, e3);
+    const Real c04 = MathFunctions::CotTheta(-e0, e4);
 
     const Real A0 = static_cast<Real>(0.5) * (e0.cross(e1)).norm();
     const Real A1 = static_cast<Real>(0.5) * (e0.cross(e2)).norm();
