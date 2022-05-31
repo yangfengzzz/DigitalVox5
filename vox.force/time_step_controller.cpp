@@ -55,16 +55,16 @@ void TimeStepController::step(SimulationModel &model) {
         {
 #pragma omp for schedule(static) nowait
             for (int i = 0; i < numBodies; i++) {
-                rb[i]->getLastPosition() = rb[i]->getOldPosition();
-                rb[i]->getOldPosition() = rb[i]->getPosition();
-                TimeIntegration::semiImplicitEuler(h, rb[i]->getMass(), rb[i]->getPosition(), rb[i]->getVelocity(),
-                                                   rb[i]->getAcceleration());
-                rb[i]->getLastRotation() = rb[i]->getOldRotation();
-                rb[i]->getOldRotation() = rb[i]->getRotation();
-                TimeIntegration::semiImplicitEulerRotation(h, rb[i]->getMass(), rb[i]->getInertiaTensorW(),
-                                                           rb[i]->getInertiaTensorInverseW(), rb[i]->getRotation(),
-                                                           rb[i]->getAngularVelocity(), rb[i]->getTorque());
-                rb[i]->rotationUpdated();
+                rb[i]->GetLastPosition() = rb[i]->GetOldPosition();
+                rb[i]->GetOldPosition() = rb[i]->getPosition();
+                TimeIntegration::semiImplicitEuler(h, rb[i]->GetMass(), rb[i]->getPosition(), rb[i]->GetVelocity(),
+                                                   rb[i]->GetAcceleration());
+                rb[i]->GetLastRotation() = rb[i]->GetOldRotation();
+                rb[i]->GetOldRotation() = rb[i]->GetRotation();
+                TimeIntegration::semiImplicitEulerRotation(h, rb[i]->GetMass(), rb[i]->GetInertiaTensorW(),
+                                                           rb[i]->GetInertiaTensorInverseW(), rb[i]->GetRotation(),
+                                                           rb[i]->GetAngularVelocity(), rb[i]->GetTorque());
+                rb[i]->RotationUpdated();
             }
 
 //////////////////////////////////////////////////////////////////////////
@@ -100,18 +100,18 @@ void TimeStepController::step(SimulationModel &model) {
 #pragma omp for schedule(static) nowait
             for (int i = 0; i < numBodies; i++) {
                 if (m_velocityUpdateMethod == 0) {
-                    TimeIntegration::velocityUpdateFirstOrder(h, rb[i]->getMass(), rb[i]->getPosition(),
-                                                              rb[i]->getOldPosition(), rb[i]->getVelocity());
-                    TimeIntegration::angularVelocityUpdateFirstOrder(h, rb[i]->getMass(), rb[i]->getRotation(),
-                                                                     rb[i]->getOldRotation(),
-                                                                     rb[i]->getAngularVelocity());
+                    TimeIntegration::velocityUpdateFirstOrder(h, rb[i]->GetMass(), rb[i]->getPosition(),
+                                                              rb[i]->GetOldPosition(), rb[i]->GetVelocity());
+                    TimeIntegration::angularVelocityUpdateFirstOrder(h, rb[i]->GetMass(), rb[i]->GetRotation(),
+                                                                     rb[i]->GetOldRotation(),
+                                                                     rb[i]->GetAngularVelocity());
                 } else {
-                    TimeIntegration::velocityUpdateSecondOrder(h, rb[i]->getMass(), rb[i]->getPosition(),
-                                                               rb[i]->getOldPosition(), rb[i]->getLastPosition(),
-                                                               rb[i]->getVelocity());
-                    TimeIntegration::angularVelocityUpdateSecondOrder(h, rb[i]->getMass(), rb[i]->getRotation(),
-                                                                      rb[i]->getOldRotation(), rb[i]->getLastRotation(),
-                                                                      rb[i]->getAngularVelocity());
+                    TimeIntegration::velocityUpdateSecondOrder(h, rb[i]->GetMass(), rb[i]->getPosition(),
+                                                               rb[i]->GetOldPosition(), rb[i]->GetLastPosition(),
+                                                               rb[i]->GetVelocity());
+                    TimeIntegration::angularVelocityUpdateSecondOrder(h, rb[i]->GetMass(), rb[i]->GetRotation(),
+                                                                      rb[i]->GetOldRotation(), rb[i]->GetLastRotation(),
+                                                                      rb[i]->GetAngularVelocity());
                 }
             }
 
@@ -147,8 +147,8 @@ void TimeStepController::step(SimulationModel &model) {
     {
 #pragma omp for schedule(static) nowait
         for (int i = 0; i < numBodies; i++) {
-            if (rb[i]->getMass() != 0.0)
-                rb[i]->getGeometry().updateMeshTransformation(rb[i]->getPosition(), rb[i]->getRotationMatrix());
+            if (rb[i]->GetMass() != 0.0)
+                rb[i]->GetGeometry().UpdateMeshTransformation(rb[i]->getPosition(), rb[i]->GetRotationMatrix());
         }
     }
 

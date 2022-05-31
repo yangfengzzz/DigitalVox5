@@ -27,8 +27,8 @@ void TimeStep::clearAccelerations(SimulationModel &model) {
     const Vector3r grav(0, -9.8, 0);
     for (auto &i : rb) {
         // Clear accelerations of dynamic particles
-        if (i->getMass() != 0.0) {
-            Vector3r &a = i->getAcceleration();
+        if (i->GetMass() != 0.0) {
+            Vector3r &a = i->GetAcceleration();
             a = grav;
         }
     }

@@ -83,13 +83,13 @@ public:
 
     /** Attach a visualization mesh to the surface of the body.
      * Important: The vertex normals have to be updated before
-     * calling this function by calling updateMeshNormals().
+     * calling this function by calling UpdateMeshNormals().
      */
     void attachVisMesh(const ParticleData& pd);
 
     /** Update the visualization mesh of the body.
      * Important: The vertex normals have to be updated before
-     * calling this function by calling updateMeshNormals().
+     * calling this function by calling UpdateMeshNormals().
      */
     void updateVisMesh(const ParticleData& pd);
 

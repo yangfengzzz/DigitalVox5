@@ -49,8 +49,8 @@ void SimulationModel::reset() {
     // rigid bodies
     for (auto &m_rigidBodie : m_rigidBodies) {
         m_rigidBodie->reset();
-        m_rigidBodie->getGeometry().updateMeshTransformation(m_rigidBodie->getPosition(),
-                                                             m_rigidBodie->getRotationMatrix());
+        m_rigidBodie->GetGeometry().UpdateMeshTransformation(m_rigidBodie->getPosition(),
+                                                             m_rigidBodie->GetRotationMatrix());
     }
 
     // particles

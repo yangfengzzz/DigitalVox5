@@ -8,55 +8,55 @@
 
 namespace vox::force {
 
-RigidBodyGeometry::RigidBodyGeometry() : m_mesh() {}
+RigidBodyGeometry::RigidBodyGeometry() : m_mesh_() {}
 
-RigidBodyGeometry::~RigidBodyGeometry() { m_mesh.Release(); }
+RigidBodyGeometry::~RigidBodyGeometry() { m_mesh_.Release(); }
 
-RigidBodyGeometry::Mesh &RigidBodyGeometry::getMesh() { return m_mesh; }
+RigidBodyGeometry::Mesh &RigidBodyGeometry::GetMesh() { return m_mesh_; }
 
-void RigidBodyGeometry::initMesh(const unsigned int nVertices,
-                                 const unsigned int nFaces,
+void RigidBodyGeometry::InitMesh(unsigned int n_vertices,
+                                 unsigned int n_faces,
                                  const Vector3r *vertices,
                                  const unsigned int *indices,
-                                 const Mesh::UVIndices &uvIndices,
+                                 const Mesh::UVIndices &uv_indices,
                                  const Mesh::UVs &uvs,
                                  const Vector3r &scale,
-                                 const bool flatShading) {
-    m_mesh.Release();
-    m_mesh.InitMesh(nVertices, nFaces * 2, nFaces);
-    m_vertexData_local.resize(nVertices);
-    m_vertexData.resize(nVertices);
-    m_mesh.SetFlatShading(flatShading);
-    for (unsigned int i = 0; i < nVertices; i++) {
-        m_vertexData_local.GetPosition(i) = vertices[i].cwiseProduct(scale);
-        m_vertexData.GetPosition(i) = m_vertexData_local.GetPosition(i);
+                                 bool flat_shading) {
+    m_mesh_.Release();
+    m_mesh_.InitMesh(n_vertices, n_faces * 2, n_faces);
+    m_vertex_data_local_.Resize(n_vertices);
+    m_vertex_data_.Resize(n_vertices);
+    m_mesh_.SetFlatShading(flat_shading);
+    for (unsigned int i = 0; i < n_vertices; i++) {
+        m_vertex_data_local_.GetPosition(i) = vertices[i].cwiseProduct(scale);
+        m_vertex_data_.GetPosition(i) = m_vertex_data_local_.GetPosition(i);
     }
 
-    for (unsigned int i = 0; i < nFaces; i++) {
-        m_mesh.AddFace(&indices[3 * i]);
+    for (unsigned int i = 0; i < n_faces; i++) {
+        m_mesh_.AddFace(&indices[3 * i]);
     }
-    m_mesh.CopyUVs(uvIndices, uvs);
-    m_mesh.BuildNeighbors();
-    updateMeshNormals(m_vertexData);
+    m_mesh_.CopyUVs(uv_indices, uvs);
+    m_mesh_.BuildNeighbors();
+    UpdateMeshNormals(m_vertex_data_);
 }
 
-void RigidBodyGeometry::updateMeshNormals(const VertexData &vd) {
-    m_mesh.UpdateNormals(vd, 0);
-    m_mesh.UpdateVertexNormals(vd);
+void RigidBodyGeometry::UpdateMeshNormals(const VertexData &vd) {
+    m_mesh_.UpdateNormals(vd, 0);
+    m_mesh_.UpdateVertexNormals(vd);
 }
 
-void RigidBodyGeometry::updateMeshTransformation(const Vector3r &x, const Matrix3r &R) {
-    for (unsigned int i = 0; i < m_vertexData_local.size(); i++) {
-        m_vertexData.GetPosition(i) = R * m_vertexData_local.GetPosition(i) + x;
+void RigidBodyGeometry::UpdateMeshTransformation(const Vector3r &x, const Matrix3r &r) {
+    for (unsigned int i = 0; i < m_vertex_data_local_.Size(); i++) {
+        m_vertex_data_.GetPosition(i) = r * m_vertex_data_local_.GetPosition(i) + x;
     }
-    updateMeshNormals(m_vertexData);
+    UpdateMeshNormals(m_vertex_data_);
 }
 
-VertexData &RigidBodyGeometry::getVertexData() { return m_vertexData; }
+VertexData &RigidBodyGeometry::GetVertexData() { return m_vertex_data_; }
 
-const VertexData &RigidBodyGeometry::getVertexData() const { return m_vertexData; }
+const VertexData &RigidBodyGeometry::GetVertexData() const { return m_vertex_data_; }
 
-VertexData &RigidBodyGeometry::getVertexDataLocal() { return m_vertexData_local; }
+VertexData &RigidBodyGeometry::GetVertexDataLocal() { return m_vertex_data_local_; }
 
-const VertexData &RigidBodyGeometry::getVertexDataLocal() const { return m_vertexData_local; }
+const VertexData &RigidBodyGeometry::GetVertexDataLocal() const { return m_vertex_data_local_; }
 }  // namespace vox::force

@@ -21,26 +21,26 @@ public:
     typedef IndexedFaceMesh Mesh;
 
 protected:
-    Mesh m_mesh;
-    VertexData m_vertexData_local;
-    VertexData m_vertexData;
+    Mesh m_mesh_;
+    VertexData m_vertex_data_local_;
+    VertexData m_vertex_data_;
 
 public:
-    Mesh &getMesh();
-    VertexData &getVertexData();
-    [[nodiscard]] const VertexData &getVertexData() const;
-    VertexData &getVertexDataLocal();
-    [[nodiscard]] const VertexData &getVertexDataLocal() const;
+    Mesh &GetMesh();
+    VertexData &GetVertexData();
+    [[nodiscard]] const VertexData &GetVertexData() const;
+    VertexData &GetVertexDataLocal();
+    [[nodiscard]] const VertexData &GetVertexDataLocal() const;
 
-    void initMesh(unsigned int nVertices,
-                  unsigned int nFaces,
+    void InitMesh(unsigned int n_vertices,
+                  unsigned int n_faces,
                   const Vector3r *vertices,
                   const unsigned int *indices,
-                  const Mesh::UVIndices &uvIndices,
+                  const Mesh::UVIndices &uv_indices,
                   const Mesh::UVs &uvs,
                   const Vector3r &scale = Vector3r(1.0, 1.0, 1.0),
-                  bool flatShading = false);
-    void updateMeshTransformation(const Vector3r &x, const Matrix3r &R);
-    void updateMeshNormals(const VertexData &vd);
+                  bool flat_shading = false);
+    void UpdateMeshTransformation(const Vector3r &x, const Matrix3r &r);
+    void UpdateMeshNormals(const VertexData &vd);
 };
 }  // namespace vox::force

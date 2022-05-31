@@ -100,8 +100,8 @@ void DistanceFieldCollisionDetection::GetCollisionDetection(SimulationModel &mod
                 ((DistanceFieldCollisionObject *)co1)->m_test_mesh) {
                 RigidBody *rb1 = rigid_bodies[co1->m_body_index];
                 RigidBody *rb2 = rigid_bodies[co2->m_body_index];
-                const Real kRestitutionCoeff = rb1->getRestitutionCoeff() * rb2->getRestitutionCoeff();
-                const Real kFrictionCoeff = rb1->getFrictionCoeff() + rb2->getFrictionCoeff();
+                const Real kRestitutionCoeff = rb1->GetRestitutionCoeff() * rb2->GetRestitutionCoeff();
+                const Real kFrictionCoeff = rb1->GetFrictionCoeff() + rb2->GetFrictionCoeff();
                 CollisionDetectionRigidBodies(rb1, (DistanceFieldCollisionObject *)co1, rb2,
                                               (DistanceFieldCollisionObject *)co2, kRestitutionCoeff, kFrictionCoeff,
                                               contacts_mt);
@@ -113,8 +113,8 @@ void DistanceFieldCollisionDetection::GetCollisionDetection(SimulationModel &mod
                 const unsigned int kOffset = tm->getIndexOffset();
                 const IndexedFaceMesh &mesh = tm->getParticleMesh();
                 const unsigned int kNumVert = mesh.NumVertices();
-                const Real kRestitutionCoeff = tm->getRestitutionCoeff() * rb2->getRestitutionCoeff();
-                const Real kFrictionCoeff = tm->getFrictionCoeff() + rb2->getFrictionCoeff();
+                const Real kRestitutionCoeff = tm->getRestitutionCoeff() * rb2->GetRestitutionCoeff();
+                const Real kFrictionCoeff = tm->getFrictionCoeff() + rb2->GetFrictionCoeff();
                 CollisionDetectionRbSolid(pd, kOffset, kNumVert, (DistanceFieldCollisionObject *)co1, rb2,
                                           (DistanceFieldCollisionObject *)co2, kRestitutionCoeff, kFrictionCoeff,
                                           contacts_mt);
@@ -126,8 +126,8 @@ void DistanceFieldCollisionDetection::GetCollisionDetection(SimulationModel &mod
                 const unsigned int kOffset = tm->getIndexOffset();
                 const IndexedTetMesh &mesh = tm->getParticleMesh();
                 const unsigned int kNumVert = mesh.NumVertices();
-                const Real kRestitutionCoeff = tm->getRestitutionCoeff() * rb2->getRestitutionCoeff();
-                const Real kFrictionCoeff = tm->getFrictionCoeff() + rb2->getFrictionCoeff();
+                const Real kRestitutionCoeff = tm->getRestitutionCoeff() * rb2->GetRestitutionCoeff();
+                const Real kFrictionCoeff = tm->getFrictionCoeff() + rb2->GetFrictionCoeff();
                 CollisionDetectionRbSolid(pd, kOffset, kNumVert, (DistanceFieldCollisionObject *)co1, rb2,
                                           (DistanceFieldCollisionObject *)co2, kRestitutionCoeff, kFrictionCoeff,
                                           contacts_mt);
@@ -172,11 +172,11 @@ void DistanceFieldCollisionDetection::CollisionDetectionRigidBodies(
         Real restitution_coeff,
         Real friction_coeff,
         std::vector<std::vector<ContactData>> &contacts_mt) {
-    if ((rb1->getMass() == 0.0) && (rb2->getMass() == 0.0)) return;
+    if ((rb1->GetMass() == 0.0) && (rb2->GetMass() == 0.0)) return;
 
-    const VertexData &vd = rb1->getGeometry().getVertexData();
+    const VertexData &vd = rb1->GetGeometry().GetVertexData();
 
-    const Vector3r &com2 = rb2->getPosition();
+    const Vector3r &com2 = rb2->GetPosition();
 
     // remove the rotation of the main axis transformation that is performed
     // to get a diagonal inertia tensor since the distance function is
@@ -188,15 +188,15 @@ void DistanceFieldCollisionDetection::CollisionDetectionRigidBodies(
     // transformation local to:
     // p_world = R R_MAT^T (R_initial p_local + x_initial - x_MAT) + x
     //
-    const Matrix3r &R = rb2->getTransformationR();
-    const Vector3r &v1 = rb2->getTransformationV1();
-    const Vector3r &v2 = rb2->getTransformationV2();
+    const Matrix3r &R = rb2->GetTransformationR();
+    const Vector3r &v1 = rb2->GetTransformationV1();
+    const Vector3r &v2 = rb2->GetTransformationV2();
 
     const PointCloudBSH &bvh = ((DistanceFieldCollisionDetection::DistanceFieldCollisionObject *)co1)->m_bvh;
     std::function<bool(unsigned int, unsigned int)> predicate = [&](unsigned int node_index, unsigned int depth) {
         const BoundingSphere &bs = bvh.GetHull(node_index);
         const Vector3r &sphere_x = bs.X();
-        const Vector3r kSphereXw = rb1->getRotation() * sphere_x + rb1->getPosition();
+        const Vector3r kSphereXw = rb1->GetRotation() * sphere_x + rb1->GetPosition();
 
         AlignedBox3r box3f;
         box3f.extend(co2->m_aabb.m_p_[0]);
@@ -251,7 +251,7 @@ void DistanceFieldCollisionDetection::CollisionDetectionRbSolid(const ParticleDa
                                                                 Real restitution_coeff,
                                                                 Real friction_coeff,
                                                                 std::vector<std::vector<ContactData>> &contacts_mt) {
-    const Vector3r &com2 = rb2->getPosition();
+    const Vector3r &com2 = rb2->GetPosition();
 
     // remove the rotation of the main axis transformation that is performed
     // to get a diagonal inertia tensor since the distance function is
@@ -263,9 +263,9 @@ void DistanceFieldCollisionDetection::CollisionDetectionRbSolid(const ParticleDa
     // transformation local to:
     // p_world = R R_MAT^T (R_initial p_local + x_initial - x_MAT) + x
     //
-    const Matrix3r &R = rb2->getTransformationR();
-    const Vector3r &v1 = rb2->getTransformationV1();
-    const Vector3r &v2 = rb2->getTransformationV2();
+    const Matrix3r &R = rb2->GetTransformationR();
+    const Vector3r &v1 = rb2->GetTransformationV1();
+    const Vector3r &v2 = rb2->GetTransformationV2();
 
     const PointCloudBSH &bvh = ((DistanceFieldCollisionDetection::DistanceFieldCollisionObject *)co1)->m_bvh;
 

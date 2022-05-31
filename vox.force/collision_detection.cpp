@@ -112,7 +112,7 @@ void CollisionDetection::UpdateAabb(SimulationModel &model, CollisionDetection::
     if (co->m_body_type == CollisionDetection::CollisionObject::rigid_body_collision_object_type) {
         const unsigned int kRbIndex = co->m_body_index;
         RigidBody *rb = rigid_bodies[kRbIndex];
-        const VertexData &vd = rb->getGeometry().getVertexData();
+        const VertexData &vd = rb->GetGeometry().GetVertexData();
 
         co->m_aabb.m_p_[0] = vd.GetPosition(0);
         co->m_aabb.m_p_[1] = vd.GetPosition(0);

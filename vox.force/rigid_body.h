@@ -18,163 +18,163 @@ namespace vox::force {
 class RigidBody {
 private:
     /** mass */
-    Real m_mass{};
+    Real m_mass_{};
     /** inverse mass */
-    Real m_invMass{};
+    Real m_inv_mass_{};
     /** center of mass */
-    Vector3r m_x;
-    Vector3r m_lastX;
-    Vector3r m_oldX;
-    Vector3r m_x0;
+    Vector3r m_x_;
+    Vector3r m_last_x_;
+    Vector3r m_old_x_;
+    Vector3r m_x_0_;
     /** center of mass velocity */
-    Vector3r m_v;
-    Vector3r m_v0;
+    Vector3r m_v_;
+    Vector3r m_v_0_;
     /** acceleration (by external forces) */
-    Vector3r m_a;
+    Vector3r m_a_;
 
     /** Inertia tensor in the principal axis system: \n
      * After the main axis transformation the inertia tensor is a diagonal matrix.
      * So only three values are required to store the inertia tensor. These values
      * are constant over time.
      */
-    Vector3r m_inertiaTensor;
+    Vector3r m_inertia_tensor_;
     /** 3x3 matrix, inertia tensor in world space */
-    Matrix3r m_inertiaTensorW;
+    Matrix3r m_inertia_tensor_w_;
     /** Inverse inertia tensor in body space */
-    Vector3r m_inertiaTensorInverse;
+    Vector3r m_inertia_tensor_inverse_;
     /** 3x3 matrix, inverse of the inertia tensor in world space */
-    Matrix3r m_inertiaTensorInverseW;
+    Matrix3r m_inertia_tensor_inverse_w_;
     /** Quaternion that describes the rotation of the body in world space */
-    Quaternionr m_q;
-    Quaternionr m_lastQ;
-    Quaternionr m_oldQ;
-    Quaternionr m_q0;
+    Quaternionr m_q_;
+    Quaternionr m_last_q_;
+    Quaternionr m_old_q_;
+    Quaternionr m_q_0_;
     /** Quaternion representing the rotation of the main axis transformation
     that is performed to get a diagonal inertia tensor */
-    Quaternionr m_q_mat;
+    Quaternionr m_q_mat_;
     /** Quaternion representing the initial rotation of the geometry */
-    Quaternionr m_q_initial;
+    Quaternionr m_q_initial_;
     /** difference of the initial translation and the translation of the main axis transformation */
-    Vector3r m_x0_mat;
+    Vector3r m_x_0_mat_;
     /** rotationMatrix = 3x3 matrix.
      * Important for the transformation from world in body space and vice versa.
      * When using quaternions the rotation matrix is computed out of the quaternion.
      */
-    Matrix3r m_rot;
+    Matrix3r m_rot_;
     /** Angular velocity, defines rotation axis and velocity (magnitude of the vector) */
-    Vector3r m_omega;
-    Vector3r m_omega0;
+    Vector3r m_omega_;
+    Vector3r m_omega_0_;
     /** external torque */
-    Vector3r m_torque;
+    Vector3r m_torque_;
 
-    Real m_restitutionCoeff{};
-    Real m_frictionCoeff{};
+    Real m_restitution_coeff_{};
+    Real m_friction_coeff_{};
 
-    RigidBodyGeometry m_geometry;
+    RigidBodyGeometry m_geometry_;
 
     // transformation required to transform a point to local space or vice vera
-    Matrix3r m_transformation_R;
-    Vector3r m_transformation_v1;
-    Vector3r m_transformation_v2;
-    Vector3r m_transformation_R_X_v1;
+    Matrix3r m_transformation_r_;
+    Vector3r m_transformation_v_1_;
+    Vector3r m_transformation_v_2_;
+    Vector3r m_transformation_r_x_v_1_;
 
 public:
     RigidBody() = default;
 
     ~RigidBody() = default;
 
-    void initBody(const Real mass,
+    void InitBody(const Real mass,
                   const Vector3r &x,
-                  const Vector3r &inertiaTensor,
+                  const Vector3r &inertia_tensor,
                   const Quaternionr &rotation,
                   const VertexData &vertices,
                   const IndexedFaceMesh &mesh,
                   const Vector3r &scale = Vector3r(1.0, 1.0, 1.0)) {
-        setMass(mass);
-        m_x = x;
-        m_x0 = x;
-        m_lastX = x;
-        m_oldX = x;
-        m_v.setZero();
-        m_v0.setZero();
-        m_a.setZero();
+        SetMass(mass);
+        m_x_ = x;
+        m_x_0_ = x;
+        m_last_x_ = x;
+        m_old_x_ = x;
+        m_v_.setZero();
+        m_v_0_.setZero();
+        m_a_.setZero();
 
-        setInertiaTensor(inertiaTensor);
-        m_q = rotation;
-        m_q0 = rotation;
-        m_lastQ = rotation;
-        m_oldQ = rotation;
-        m_rot = m_q.matrix();
-        m_q_mat = Quaternionr(1.0, 0.0, 0.0, 0.0);
-        m_q_initial = Quaternionr(1.0, 0.0, 0.0, 0.0);
-        m_x0_mat.setZero();
-        rotationUpdated();
-        m_omega.setZero();
-        m_omega0.setZero();
-        m_torque.setZero();
+        SetInertiaTensor(inertia_tensor);
+        m_q_ = rotation;
+        m_q_0_ = rotation;
+        m_last_q_ = rotation;
+        m_old_q_ = rotation;
+        m_rot_ = m_q_.matrix();
+        m_q_mat_ = Quaternionr(1.0, 0.0, 0.0, 0.0);
+        m_q_initial_ = Quaternionr(1.0, 0.0, 0.0, 0.0);
+        m_x_0_mat_.setZero();
+        RotationUpdated();
+        m_omega_.setZero();
+        m_omega_0_.setZero();
+        m_torque_.setZero();
 
-        m_restitutionCoeff = static_cast<Real>(0.6);
-        m_frictionCoeff = static_cast<Real>(0.2);
+        m_restitution_coeff_ = static_cast<Real>(0.6);
+        m_friction_coeff_ = static_cast<Real>(0.2);
 
-        getGeometry().initMesh(vertices.Size(), mesh.NumFaces(), &vertices.GetPosition(0), mesh.GetFaces().data(),
+        GetGeometry().InitMesh(vertices.Size(), mesh.NumFaces(), &vertices.GetPosition(0), mesh.GetFaces().data(),
                                mesh.GetUvIndices(), mesh.GetUVs(), scale, mesh.GetFlatShading());
-        getGeometry().updateMeshTransformation(getPosition(), getRotationMatrix());
+        GetGeometry().UpdateMeshTransformation(GetPosition(), GetRotationMatrix());
     }
 
-    void initBody(const Real density,
+    void InitBody(const Real density,
                   const Vector3r &x,
                   const Quaternionr &rotation,
                   const VertexData &vertices,
                   const IndexedFaceMesh &mesh,
                   const Vector3r &scale = Vector3r(1.0, 1.0, 1.0)) {
-        m_mass = 1.0;
-        m_inertiaTensor = Vector3r(1.0, 1.0, 1.0);
-        m_x = x;
-        m_x0 = x;
-        m_lastX = x;
-        m_oldX = x;
-        m_v.setZero();
-        m_v0.setZero();
-        m_a.setZero();
+        m_mass_ = 1.0;
+        m_inertia_tensor_ = Vector3r(1.0, 1.0, 1.0);
+        m_x_ = x;
+        m_x_0_ = x;
+        m_last_x_ = x;
+        m_old_x_ = x;
+        m_v_.setZero();
+        m_v_0_.setZero();
+        m_a_.setZero();
 
-        m_q = rotation;
-        m_q0 = rotation;
-        m_lastQ = rotation;
-        m_oldQ = rotation;
-        m_rot = m_q.matrix();
-        rotationUpdated();
-        m_omega.setZero();
-        m_omega0.setZero();
-        m_torque.setZero();
+        m_q_ = rotation;
+        m_q_0_ = rotation;
+        m_last_q_ = rotation;
+        m_old_q_ = rotation;
+        m_rot_ = m_q_.matrix();
+        RotationUpdated();
+        m_omega_.setZero();
+        m_omega_0_.setZero();
+        m_torque_.setZero();
 
-        m_restitutionCoeff = static_cast<Real>(0.6);
-        m_frictionCoeff = static_cast<Real>(0.2);
+        m_restitution_coeff_ = static_cast<Real>(0.6);
+        m_friction_coeff_ = static_cast<Real>(0.2);
 
-        getGeometry().initMesh(vertices.Size(), mesh.NumFaces(), &vertices.GetPosition(0), mesh.GetFaces().data(),
+        GetGeometry().InitMesh(vertices.Size(), mesh.NumFaces(), &vertices.GetPosition(0), mesh.GetFaces().data(),
                                mesh.GetUvIndices(), mesh.GetUVs(), scale, mesh.GetFlatShading());
-        determineMassProperties(density);
-        getGeometry().updateMeshTransformation(getPosition(), getRotationMatrix());
+        DetermineMassProperties(density);
+        GetGeometry().UpdateMeshTransformation(GetPosition(), GetRotationMatrix());
     }
 
-    void reset() {
-        getPosition() = getPosition0();
-        getOldPosition() = getPosition0();
-        getLastPosition() = getPosition0();
+    void Reset() {
+        GetPosition() = GetPosition0();
+        GetOldPosition() = GetPosition0();
+        GetLastPosition() = GetPosition0();
 
-        getRotation() = getRotation0();
-        getOldRotation() = getRotation0();
-        getLastRotation() = getRotation0();
+        GetRotation() = GetRotation0();
+        GetOldRotation() = GetRotation0();
+        GetLastRotation() = GetRotation0();
 
-        getVelocity() = getVelocity0();
-        getAngularVelocity() = getAngularVelocity0();
+        GetVelocity() = GetVelocity0();
+        GetAngularVelocity() = GetAngularVelocity0();
 
-        getAcceleration().setZero();
-        getTorque().setZero();
+        GetAcceleration().setZero();
+        GetTorque().setZero();
 
-        rotationUpdated();
+        RotationUpdated();
     }
 
-    void updateInverseTransformation() {
+    void UpdateInverseTransformation() {
         // remove the rotation of the main axis transformation that is performed
         // to get a diagonal inertia tensor since the distance function is
         // evaluated in local coordinates
@@ -185,233 +185,233 @@ public:
         // transformation local to world:
         // p_world = R R_MAT^T (R_initial p_local + x_initial - x_MAT) + x
         //
-        m_transformation_R = (getRotationInitial().inverse() * getRotationMAT() * getRotation().inverse()).matrix();
-        m_transformation_v1 = -getRotationInitial().inverse().matrix() * getPositionInitial_MAT();
-        m_transformation_v2 =
-                (getRotation() * getRotationMAT().inverse()).matrix() * getPositionInitial_MAT() + getPosition();
-        m_transformation_R_X_v1 = -m_transformation_R * getPosition() + m_transformation_v1;
+        m_transformation_r_ = (GetRotationInitial().inverse() * GetRotationMat() * GetRotation().inverse()).matrix();
+        m_transformation_v_1_ = -GetRotationInitial().inverse().matrix() * GetPositionInitialMat();
+        m_transformation_v_2_ =
+                (GetRotation() * GetRotationMat().inverse()).matrix() * GetPositionInitialMat() + GetPosition();
+        m_transformation_r_x_v_1_ = -m_transformation_r_ * GetPosition() + m_transformation_v_1_;
     }
 
-    void rotationUpdated() {
-        if (m_mass != 0.0) {
-            m_rot = m_q.matrix();
-            updateInertiaW();
-            updateInverseTransformation();
+    void RotationUpdated() {
+        if (m_mass_ != 0.0) {
+            m_rot_ = m_q_.matrix();
+            UpdateInertiaW();
+            UpdateInverseTransformation();
         }
     }
 
-    void updateInertiaW() {
-        if (m_mass != 0.0) {
-            m_inertiaTensorW = m_rot * m_inertiaTensor.asDiagonal() * m_rot.transpose();
-            m_inertiaTensorInverseW = m_rot * m_inertiaTensorInverse.asDiagonal() * m_rot.transpose();
+    void UpdateInertiaW() {
+        if (m_mass_ != 0.0) {
+            m_inertia_tensor_w_ = m_rot_ * m_inertia_tensor_.asDiagonal() * m_rot_.transpose();
+            m_inertia_tensor_inverse_w_ = m_rot_ * m_inertia_tensor_inverse_.asDiagonal() * m_rot_.transpose();
         }
     }
 
     /** Determine mass and inertia tensor of the given geometry.
      */
-    void determineMassProperties(const Real density) {
+    void DetermineMassProperties(const Real density) {
         // apply initial rotation
-        VertexData &vd = m_geometry.getVertexDataLocal();
+        VertexData &vd = m_geometry_.GetVertexDataLocal();
 
-        VolumeIntegration vi(m_geometry.getVertexDataLocal().Size(), m_geometry.getMesh().NumFaces(),
-                             &m_geometry.getVertexDataLocal().GetPosition(0), m_geometry.getMesh().GetFaces().data());
+        VolumeIntegration vi(m_geometry_.GetVertexDataLocal().Size(), m_geometry_.GetMesh().NumFaces(),
+                             &m_geometry_.GetVertexDataLocal().GetPosition(0), m_geometry_.GetMesh().GetFaces().data());
         vi.ComputeInertiaTensor(density);
 
         // Diagonalize Inertia Tensor
         Eigen::SelfAdjointEigenSolver<Matrix3r> es(vi.GetInertia());
-        Vector3r inertiaTensor = es.eigenvalues();
-        Matrix3r R = es.eigenvectors();
+        Vector3r inertia_tensor = es.eigenvalues();
+        Matrix3r r = es.eigenvectors();
 
-        setMass(vi.GetMass());
-        setInertiaTensor(inertiaTensor);
+        SetMass(vi.GetMass());
+        SetInertiaTensor(inertia_tensor);
 
-        if (R.determinant() < 0.0) R = -R;
+        if (r.determinant() < 0.0) r = -r;
 
-        for (unsigned int i = 0; i < vd.Size(); i++) vd.GetPosition(i) = m_rot * vd.GetPosition(i) + m_x0;
+        for (unsigned int i = 0; i < vd.Size(); i++) vd.GetPosition(i) = m_rot_ * vd.GetPosition(i) + m_x_0_;
 
-        Vector3r x_MAT = vi.GetCenterOfMass();
-        R = m_rot * R;
-        x_MAT = m_rot * x_MAT + m_x0;
+        Vector3r x_mat = vi.GetCenterOfMass();
+        r = m_rot_ * r;
+        x_mat = m_rot_ * x_mat + m_x_0_;
 
         // rotate vertices back
-        for (unsigned int i = 0; i < vd.Size(); i++) vd.GetPosition(i) = R.transpose() * (vd.GetPosition(i) - x_MAT);
+        for (unsigned int i = 0; i < vd.Size(); i++) vd.GetPosition(i) = r.transpose() * (vd.GetPosition(i) - x_mat);
 
         // set rotation
-        auto qR = Quaternionr(R);
-        qR.normalize();
-        m_q_mat = qR;
-        m_q_initial = m_q0;
-        m_x0_mat = m_x0 - x_MAT;
+        auto q_r = Quaternionr(r);
+        q_r.normalize();
+        m_q_mat_ = q_r;
+        m_q_initial_ = m_q_0_;
+        m_x_0_mat_ = m_x_0_ - x_mat;
 
-        m_q0 = qR;
-        m_q = m_q0;
-        m_lastQ = m_q0;
-        m_oldQ = m_q0;
-        rotationUpdated();
+        m_q_0_ = q_r;
+        m_q_ = m_q_0_;
+        m_last_q_ = m_q_0_;
+        m_old_q_ = m_q_0_;
+        RotationUpdated();
 
         // set translation
-        m_x0 = x_MAT;
-        m_x = m_x0;
-        m_lastX = m_x0;
-        m_oldX = m_x0;
-        updateInverseTransformation();
+        m_x_0_ = x_mat;
+        m_x_ = m_x_0_;
+        m_last_x_ = m_x_0_;
+        m_old_x_ = m_x_0_;
+        UpdateInverseTransformation();
     }
 
-    const Matrix3r &getTransformationR() { return m_transformation_R; }
-    const Vector3r &getTransformationV1() { return m_transformation_v1; }
-    const Vector3r &getTransformationV2() { return m_transformation_v2; }
-    const Vector3r &getTransformationRXV1() { return m_transformation_R_X_v1; }
+    const Matrix3r &GetTransformationR() { return m_transformation_r_; }
+    const Vector3r &GetTransformationV1() { return m_transformation_v_1_; }
+    const Vector3r &GetTransformationV2() { return m_transformation_v_2_; }
+    const Vector3r &GetTransformationRxv1() { return m_transformation_r_x_v_1_; }
 
-    FORCE_INLINE Real &getMass() { return m_mass; }
+    FORCE_INLINE Real &GetMass() { return m_mass_; }
 
-    [[nodiscard]] FORCE_INLINE const Real &getMass() const { return m_mass; }
+    [[nodiscard]] FORCE_INLINE const Real &GetMass() const { return m_mass_; }
 
-    FORCE_INLINE void setMass(const Real &value) {
-        m_mass = value;
-        if (m_mass != 0.0)
-            m_invMass = static_cast<Real>(1.0) / m_mass;
+    FORCE_INLINE void SetMass(const Real &value) {
+        m_mass_ = value;
+        if (m_mass_ != 0.0)
+            m_inv_mass_ = static_cast<Real>(1.0) / m_mass_;
         else
-            m_invMass = 0.0;
+            m_inv_mass_ = 0.0;
     }
 
-    [[nodiscard]] FORCE_INLINE const Real &getInvMass() const { return m_invMass; }
+    [[nodiscard]] FORCE_INLINE const Real &GetInvMass() const { return m_inv_mass_; }
 
-    FORCE_INLINE Vector3r &getPosition() { return m_x; }
+    FORCE_INLINE Vector3r &GetPosition() { return m_x_; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getPosition() const { return m_x; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetPosition() const { return m_x_; }
 
-    FORCE_INLINE void setPosition(const Vector3r &pos) { m_x = pos; }
+    FORCE_INLINE void SetPosition(const Vector3r &pos) { m_x_ = pos; }
 
-    FORCE_INLINE Vector3r &getLastPosition() { return m_lastX; }
+    FORCE_INLINE Vector3r &GetLastPosition() { return m_last_x_; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getLastPosition() const { return m_lastX; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetLastPosition() const { return m_last_x_; }
 
-    FORCE_INLINE void setLastPosition(const Vector3r &pos) { m_lastX = pos; }
+    FORCE_INLINE void SetLastPosition(const Vector3r &pos) { m_last_x_ = pos; }
 
-    FORCE_INLINE Vector3r &getOldPosition() { return m_oldX; }
+    FORCE_INLINE Vector3r &GetOldPosition() { return m_old_x_; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getOldPosition() const { return m_oldX; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetOldPosition() const { return m_old_x_; }
 
-    FORCE_INLINE void setOldPosition(const Vector3r &pos) { m_oldX = pos; }
+    FORCE_INLINE void SetOldPosition(const Vector3r &pos) { m_old_x_ = pos; }
 
-    FORCE_INLINE Vector3r &getPosition0() { return m_x0; }
+    FORCE_INLINE Vector3r &GetPosition0() { return m_x_0_; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getPosition0() const { return m_x0; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetPosition0() const { return m_x_0_; }
 
-    FORCE_INLINE void setPosition0(const Vector3r &pos) { m_x0 = pos; }
+    FORCE_INLINE void SetPosition0(const Vector3r &pos) { m_x_0_ = pos; }
 
-    FORCE_INLINE Vector3r &getPositionInitial_MAT() { return m_x0_mat; }
+    FORCE_INLINE Vector3r &GetPositionInitialMat() { return m_x_0_mat_; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getPositionInitial_MAT() const { return m_x0_mat; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetPositionInitialMat() const { return m_x_0_mat_; }
 
-    FORCE_INLINE void setPositionInitial_MAT(const Vector3r &pos) { m_x0_mat = pos; }
+    FORCE_INLINE void SetPositionInitialMat(const Vector3r &pos) { m_x_0_mat_ = pos; }
 
-    FORCE_INLINE Vector3r &getVelocity() { return m_v; }
+    FORCE_INLINE Vector3r &GetVelocity() { return m_v_; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getVelocity() const { return m_v; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetVelocity() const { return m_v_; }
 
-    FORCE_INLINE void setVelocity(const Vector3r &value) { m_v = value; }
+    FORCE_INLINE void SetVelocity(const Vector3r &value) { m_v_ = value; }
 
-    FORCE_INLINE Vector3r &getVelocity0() { return m_v0; }
+    FORCE_INLINE Vector3r &GetVelocity0() { return m_v_0_; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getVelocity0() const { return m_v0; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetVelocity0() const { return m_v_0_; }
 
-    FORCE_INLINE void setVelocity0(const Vector3r &value) { m_v0 = value; }
+    FORCE_INLINE void SetVelocity0(const Vector3r &value) { m_v_0_ = value; }
 
-    FORCE_INLINE Vector3r &getAcceleration() { return m_a; }
+    FORCE_INLINE Vector3r &GetAcceleration() { return m_a_; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getAcceleration() const { return m_a; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetAcceleration() const { return m_a_; }
 
-    FORCE_INLINE void setAcceleration(const Vector3r &accel) { m_a = accel; }
+    FORCE_INLINE void SetAcceleration(const Vector3r &accel) { m_a_ = accel; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getInertiaTensor() const { return m_inertiaTensor; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetInertiaTensor() const { return m_inertia_tensor_; }
 
-    FORCE_INLINE void setInertiaTensor(const Vector3r &value) {
-        m_inertiaTensor = value;
-        m_inertiaTensorInverse = Vector3r(static_cast<Real>(1.0) / value[0], static_cast<Real>(1.0) / value[1],
+    FORCE_INLINE void SetInertiaTensor(const Vector3r &value) {
+        m_inertia_tensor_ = value;
+        m_inertia_tensor_inverse_ = Vector3r(static_cast<Real>(1.0) / value[0], static_cast<Real>(1.0) / value[1],
                                           static_cast<Real>(1.0) / value[2]);
     }
 
-    FORCE_INLINE Matrix3r &getInertiaTensorW() { return m_inertiaTensorW; }
+    FORCE_INLINE Matrix3r &GetInertiaTensorW() { return m_inertia_tensor_w_; }
 
-    [[nodiscard]] FORCE_INLINE const Matrix3r &getInertiaTensorW() const { return m_inertiaTensorW; }
+    [[nodiscard]] FORCE_INLINE const Matrix3r &GetInertiaTensorW() const { return m_inertia_tensor_w_; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getInertiaTensorInverse() const { return m_inertiaTensorInverse; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetInertiaTensorInverse() const { return m_inertia_tensor_inverse_; }
 
-    FORCE_INLINE Matrix3r &getInertiaTensorInverseW() { return m_inertiaTensorInverseW; }
+    FORCE_INLINE Matrix3r &GetInertiaTensorInverseW() { return m_inertia_tensor_inverse_w_; }
 
-    [[nodiscard]] FORCE_INLINE const Matrix3r &getInertiaTensorInverseW() const { return m_inertiaTensorInverseW; }
+    [[nodiscard]] FORCE_INLINE const Matrix3r &GetInertiaTensorInverseW() const { return m_inertia_tensor_inverse_w_; }
 
-    FORCE_INLINE void setInertiaTensorInverseW(const Matrix3r &value) { m_inertiaTensorInverseW = value; }
+    FORCE_INLINE void SetInertiaTensorInverseW(const Matrix3r &value) { m_inertia_tensor_inverse_w_ = value; }
 
-    FORCE_INLINE Quaternionr &getRotation() { return m_q; }
+    FORCE_INLINE Quaternionr &GetRotation() { return m_q_; }
 
-    [[nodiscard]] FORCE_INLINE const Quaternionr &getRotation() const { return m_q; }
+    [[nodiscard]] FORCE_INLINE const Quaternionr &GetRotation() const { return m_q_; }
 
-    FORCE_INLINE void setRotation(const Quaternionr &value) { m_q = value; }
+    FORCE_INLINE void SetRotation(const Quaternionr &value) { m_q_ = value; }
 
-    FORCE_INLINE Quaternionr &getLastRotation() { return m_lastQ; }
+    FORCE_INLINE Quaternionr &GetLastRotation() { return m_last_q_; }
 
-    [[nodiscard]] FORCE_INLINE const Quaternionr &getLastRotation() const { return m_lastQ; }
+    [[nodiscard]] FORCE_INLINE const Quaternionr &GetLastRotation() const { return m_last_q_; }
 
-    FORCE_INLINE void setLastRotation(const Quaternionr &value) { m_lastQ = value; }
+    FORCE_INLINE void SetLastRotation(const Quaternionr &value) { m_last_q_ = value; }
 
-    FORCE_INLINE Quaternionr &getOldRotation() { return m_oldQ; }
+    FORCE_INLINE Quaternionr &GetOldRotation() { return m_old_q_; }
 
-    [[nodiscard]] FORCE_INLINE const Quaternionr &getOldRotation() const { return m_oldQ; }
+    [[nodiscard]] FORCE_INLINE const Quaternionr &GetOldRotation() const { return m_old_q_; }
 
-    FORCE_INLINE void setOldRotation(const Quaternionr &value) { m_oldQ = value; }
+    FORCE_INLINE void SetOldRotation(const Quaternionr &value) { m_old_q_ = value; }
 
-    FORCE_INLINE Quaternionr &getRotation0() { return m_q0; }
+    FORCE_INLINE Quaternionr &GetRotation0() { return m_q_0_; }
 
-    [[nodiscard]] FORCE_INLINE const Quaternionr &getRotation0() const { return m_q0; }
+    [[nodiscard]] FORCE_INLINE const Quaternionr &GetRotation0() const { return m_q_0_; }
 
-    FORCE_INLINE void setRotation0(const Quaternionr &value) { m_q0 = value; }
+    FORCE_INLINE void SetRotation0(const Quaternionr &value) { m_q_0_ = value; }
 
-    FORCE_INLINE Quaternionr &getRotationMAT() { return m_q_mat; }
+    FORCE_INLINE Quaternionr &GetRotationMat() { return m_q_mat_; }
 
-    [[nodiscard]] FORCE_INLINE const Quaternionr &getRotationMAT() const { return m_q_mat; }
+    [[nodiscard]] FORCE_INLINE const Quaternionr &GetRotationMat() const { return m_q_mat_; }
 
-    FORCE_INLINE void setRotationMAT(const Quaternionr &value) { m_q_mat = value; }
+    FORCE_INLINE void SetRotationMat(const Quaternionr &value) { m_q_mat_ = value; }
 
-    FORCE_INLINE Quaternionr &getRotationInitial() { return m_q_initial; }
+    FORCE_INLINE Quaternionr &GetRotationInitial() { return m_q_initial_; }
 
-    [[nodiscard]] FORCE_INLINE const Quaternionr &getRotationInitial() const { return m_q_initial; }
+    [[nodiscard]] FORCE_INLINE const Quaternionr &GetRotationInitial() const { return m_q_initial_; }
 
-    FORCE_INLINE void setRotationInitial(const Quaternionr &value) { m_q_initial = value; }
+    FORCE_INLINE void SetRotationInitial(const Quaternionr &value) { m_q_initial_ = value; }
 
-    FORCE_INLINE Matrix3r &getRotationMatrix() { return m_rot; }
+    FORCE_INLINE Matrix3r &GetRotationMatrix() { return m_rot_; }
 
-    [[nodiscard]] FORCE_INLINE const Matrix3r &getRotationMatrix() const { return m_rot; }
+    [[nodiscard]] FORCE_INLINE const Matrix3r &GetRotationMatrix() const { return m_rot_; }
 
-    FORCE_INLINE void setRotationMatrix(const Matrix3r &value) { m_rot = value; }
+    FORCE_INLINE void SetRotationMatrix(const Matrix3r &value) { m_rot_ = value; }
 
-    FORCE_INLINE Vector3r &getAngularVelocity() { return m_omega; }
+    FORCE_INLINE Vector3r &GetAngularVelocity() { return m_omega_; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getAngularVelocity() const { return m_omega; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetAngularVelocity() const { return m_omega_; }
 
-    FORCE_INLINE void setAngularVelocity(const Vector3r &value) { m_omega = value; }
+    FORCE_INLINE void SetAngularVelocity(const Vector3r &value) { m_omega_ = value; }
 
-    FORCE_INLINE Vector3r &getAngularVelocity0() { return m_omega0; }
+    FORCE_INLINE Vector3r &GetAngularVelocity0() { return m_omega_0_; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getAngularVelocity0() const { return m_omega0; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetAngularVelocity0() const { return m_omega_0_; }
 
-    FORCE_INLINE void setAngularVelocity0(const Vector3r &value) { m_omega0 = value; }
+    FORCE_INLINE void SetAngularVelocity0(const Vector3r &value) { m_omega_0_ = value; }
 
-    FORCE_INLINE Vector3r &getTorque() { return m_torque; }
+    FORCE_INLINE Vector3r &GetTorque() { return m_torque_; }
 
-    [[nodiscard]] FORCE_INLINE const Vector3r &getTorque() const { return m_torque; }
+    [[nodiscard]] FORCE_INLINE const Vector3r &GetTorque() const { return m_torque_; }
 
-    FORCE_INLINE void setTorque(const Vector3r &value) { m_torque = value; }
+    FORCE_INLINE void SetTorque(const Vector3r &value) { m_torque_ = value; }
 
-    [[nodiscard]] FORCE_INLINE Real getRestitutionCoeff() const { return m_restitutionCoeff; }
+    [[nodiscard]] FORCE_INLINE Real GetRestitutionCoeff() const { return m_restitution_coeff_; }
 
-    FORCE_INLINE void setRestitutionCoeff(Real val) { m_restitutionCoeff = val; }
+    FORCE_INLINE void SetRestitutionCoeff(Real val) { m_restitution_coeff_ = val; }
 
-    [[nodiscard]] FORCE_INLINE Real getFrictionCoeff() const { return m_frictionCoeff; }
+    [[nodiscard]] FORCE_INLINE Real GetFrictionCoeff() const { return m_friction_coeff_; }
 
-    FORCE_INLINE void setFrictionCoeff(Real val) { m_frictionCoeff = val; }
+    FORCE_INLINE void SetFrictionCoeff(Real val) { m_friction_coeff_ = val; }
 
-    RigidBodyGeometry &getGeometry() { return m_geometry; }
+    RigidBodyGeometry &GetGeometry() { return m_geometry_; }
 };
 }  // namespace vox::force
