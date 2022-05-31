@@ -361,34 +361,33 @@ public:
                                                        Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &joint_info);
 
     /** Determine the position and orientation corrections for the combined zero-stretch, bending and twisting
-    /// constraint (eq. 23 in the paper).
-    *
-    * @param inv_mass_0 inverse mass of first body; inverse mass is zero if body is static
-    * @param x0 center of mass of body 0
-    * @param inertia_inverse_w_0 inverse inertia tensor (world space) of body 0
-    * @param q0 rotation of body 0
-    * @param inv_mass_1 inverse mass of second body; inverse mass is zero if body is static
-    * @param x1 center of mass of body 1
-    * @param inertia_inverse_w_1 inverse inertia tensor (world space) of body 1
-    * @param q1 rotation of body 1
-    * @param rest_darboux_vector the rest Darboux vector of the initial constraint configuration
-    * @param average_segment_length the average length of the two rod segments connected by the constraint
-    * @param stretch_compliance the compliance of the stretch constraint part (eq. 24 in the paper)
-    * @param bending_and_torsion_compliance the compliance of the bending and torsion constraint part (eq. 24 in the
-    // paper)
-    * @param joint_info joint information which is required by the solver.This
-    * information must be generated in the beginning by calling InitStretchBendingTwistingConstraint()
-    * and updated each time the bodies change their state by UpdateStretchBendingTwistingConstraint().
-    * @param corr_x0 position correction of center of mass of first body
-    * @param corr_q0 rotation correction of first body
-    * @param corr_x1 position correction of center of mass of second body
-    * @param corr_q1 rotation correction of second body
-    * @param lambda_sum the sum of all lambda updates of
-    * this constraint during one time step which is needed by the solver to handle
-    * compliance in the correct way. Must be set to zero before the position
-    * projection iterations start at each time step by calling
-    * InitBeforeProjectionStretchBendingTwistingConstraint(). (see eq. 19 in the paper)
-    */
+     * constraint (eq. 23 in the paper).
+     * @param inv_mass_0 inverse mass of first body; inverse mass is zero if body is static
+     * @param x0 center of mass of body 0
+     * @param inertia_inverse_w_0 inverse inertia tensor (world space) of body 0
+     * @param q0 rotation of body 0
+     * @param inv_mass_1 inverse mass of second body; inverse mass is zero if body is static
+     * @param x1 center of mass of body 1
+     * @param inertia_inverse_w_1 inverse inertia tensor (world space) of body 1
+     * @param q1 rotation of body 1
+     * @param rest_darboux_vector the rest Darboux vector of the initial constraint configuration
+     * @param average_segment_length the average length of the two rod segments connected by the constraint
+     * @param stretch_compliance the compliance of the stretch constraint part (eq. 24 in the paper)
+     * @param bending_and_torsion_compliance the compliance of the bending and torsion constraint part (eq. 24 in the
+     * paper)
+     * @param joint_info joint information which is required by the solver.This
+     * information must be generated in the beginning by calling InitStretchBendingTwistingConstraint()
+     * and updated each time the bodies change their state by UpdateStretchBendingTwistingConstraint().
+     * @param corr_x0 position correction of center of mass of first body
+     * @param corr_q0 rotation correction of first body
+     * @param corr_x1 position correction of center of mass of second body
+     * @param corr_q1 rotation correction of second body
+     * @param lambda_sum the sum of all lambda updates of
+     * this constraint during one time step which is needed by the solver to handle
+     * compliance in the correct way. Must be set to zero before the position
+     * projection iterations start at each time step by calling
+     * InitBeforeProjectionStretchBendingTwistingConstraint(). (see eq. 19 in the paper)
+     */
     static bool SolveStretchBendingTwistingConstraint(Real inv_mass_0,
                                                       const Vector3r &x0,
                                                       const Matrix3r &inertia_inverse_w_0,
@@ -409,6 +408,7 @@ public:
                                                       Vector6r &lambda_sum);
 };
 
+//MARK: -
 // Implementation of "Position And Orientation Based Cosserat Rods" paper
 // (https://animation.rwth-aachen.de/publication/0550/)
 //
@@ -472,6 +472,7 @@ public:
                                          Quaternionr &corr_q1);
 };
 
+//MARK: -
 // Implementation of "Position Based Elastic Rods" paper
 // (http://www.nobuyuki-umetani.com/PositionBasedElasticRod/2014_sca_PositionBasedElasticRod.html)
 //
@@ -559,11 +560,11 @@ public:
      * @param bending_and_twisting_ks stiffness coefficients for bending and twisting
      * @param mid_edge_length average edge length
      * @param rest_darboux_vector Darboux vector in rest state
-     * @param corr0 position correction of first particle
-     * @param corr1 position correction of second particle
-     * @param corr2 position correction of third particle
-     * @param corr3 position correction of fourth particle
-     * @param corr4 position correction of fifth particle
+     * @param oa position correction of first particle
+     * @param ob position correction of second particle
+     * @param oc position correction of third particle
+     * @param od position correction of fourth particle
+     * @param oe position correction of fifth particle
      */
     static bool SolveDarbouxVectorConstraint(const Vector3r &p0,
                                              Real inv_mass_0,

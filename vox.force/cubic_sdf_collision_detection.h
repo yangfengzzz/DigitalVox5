@@ -23,6 +23,7 @@ public:
     using Grid = vox::force::discregrid::CubicLagrangeDiscreteGrid;
     using GridPtr = std::shared_ptr<vox::force::discregrid::CubicLagrangeDiscreteGrid>;
 
+    //MARK: -
     struct CubicSDFCollisionObject : public DistanceFieldCollisionDetection::DistanceFieldCollisionObject {
         std::string m_sdf_file;
         Vector3r m_scale;

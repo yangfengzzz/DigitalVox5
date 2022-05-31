@@ -15,6 +15,7 @@ namespace vox::force {
 /** Distance field collision detection. */
 class DistanceFieldCollisionDetection : public CollisionDetection {
 public:
+    //MARK: -
     struct DistanceFieldCollisionObject : public CollisionObject {
         bool m_test_mesh;
         Real m_invert_sdf;
@@ -39,6 +40,7 @@ public:
                         Real tolerance);
     };
 
+    //MARK: -
     struct DistanceFieldCollisionObjectWithoutGeometry : public DistanceFieldCollisionObject {
         static int type_id;
 
@@ -55,6 +57,7 @@ public:
         double Distance(const Eigen::Vector3d &x, const Real tolerance) override { return 0.0; }
     };
 
+    //MARK: -
     struct DistanceFieldCollisionBox : public DistanceFieldCollisionObject {
         Vector3r m_box;
         static int type_id;
@@ -64,6 +67,7 @@ public:
         double Distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
+    //MARK: -
     struct DistanceFieldCollisionSphere : public DistanceFieldCollisionObject {
         Real m_radius;
         static int type_id;
@@ -75,6 +79,7 @@ public:
         double Distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
+    //MARK: -
     struct DistanceFieldCollisionTorus : public DistanceFieldCollisionObject {
         Vector2r m_radii;
         static int type_id;
@@ -84,6 +89,7 @@ public:
         double Distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
+    //MARK: -
     struct DistanceFieldCollisionCylinder : public DistanceFieldCollisionObject {
         Vector2r m_dim;
         static int type_id;
@@ -93,6 +99,7 @@ public:
         double Distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
+    //MARK: -
     struct DistanceFieldCollisionHollowSphere : public DistanceFieldCollisionObject {
         Real m_radius;
         Real m_thickness;
@@ -105,6 +112,7 @@ public:
         double Distance(const Eigen::Vector3d &x, Real tolerance) override;
     };
 
+    //MARK: -
     struct DistanceFieldCollisionHollowBox : public DistanceFieldCollisionObject {
         Vector3r m_box;
         Real m_thickness;

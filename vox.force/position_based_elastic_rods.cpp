@@ -15,7 +15,7 @@ namespace vox::force {
 
 const int permutation[3][3] = {0, 2, 1, 1, 0, 2, 2, 1, 0};
 
-// ----------------------------------------------------------------------------------------------
+//MARK: ----------------------------------------------------------------------------------------------
 bool PositionBasedCosseratRods::SolveStretchShearConstraint(const Vector3r &p0,
                                                             Real inv_mass_0,
                                                             const Vector3r &p1,
@@ -88,7 +88,7 @@ bool PositionBasedCosseratRods::SolveBendTwistConstraint(const Quaternionr &q0,
     return true;
 }
 
-// ----------------------------------------------------------------------------------------------
+//MARK: ----------------------------------------------------------------------------------------------
 bool PositionBasedElasticRods::SolvePerpendiculaBisectorConstraint(const Vector3r &p0,
                                                                    Real inv_mass_0,
                                                                    const Vector3r &p1,
@@ -475,8 +475,8 @@ bool PositionBasedElasticRods::ComputeDarbouxGradient(const Vector3r &darboux_ve
     }
     return true;
 }
-// ----------------------------------------------------------------------------------------------
 
+//MARK: ----------------------------------------------------------------------------------------------
 void DirectPositionBasedSolverForStiffRods::InitLists(int number_of_intervals,
                                                       std::list<Node *> *&forward,
                                                       std::list<Node *> *&backward,

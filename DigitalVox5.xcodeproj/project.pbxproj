@@ -2701,19 +2701,41 @@
 			isa = PBXGroup;
 			children = (
 				042D8C3B2845FD36003EF95A /* common.h */,
+				042D8C562845FD38003EF95A /* math_functions.h */,
+				042D8C602845FD39003EF95A /* math_functions.cpp */,
+				042D8CA028460424003EF95A /* time_integration.h */,
+				042D8C9728460424003EF95A /* time_integration.cpp */,
+				042D8C9328460423003EF95A /* volume_integration.h */,
+				042D8C9F28460424003EF95A /* volume_integration.cpp */,
+				042D8C9928460424003EF95A /* timing.h */,
+				042D8C8E28460423003EF95A /* time_manager.h */,
+				042D8C9128460423003EF95A /* time_manager.cpp */,
+				042D8C412845FD37003EF95A /* id_factory.h */,
+				042D8C3E2845FD37003EF95A /* id_factory.cpp */,
 				042D8C432845FD37003EF95A /* aabb.h */,
 				042D8C462845FD37003EF95A /* kdTree.h */,
 				042D8C5C2845FD39003EF95A /* kdTree.inl */,
 				042D8C4C2845FD38003EF95A /* bounding_sphere.h */,
 				042D8C442845FD37003EF95A /* bounding_sphere_hierarchy.h */,
 				042D8C5B2845FD39003EF95A /* bounding_sphere_hierarchy.cpp */,
+				042D8C472845FD37003EF95A /* neighborhood_search_spatial_hashing.h */,
+				042D8C452845FD37003EF95A /* neighborhood_search_spatial_hashing.cpp */,
 				042D8C572845FD38003EF95A /* collision_detection.h */,
 				042D8C622845FD39003EF95A /* collision_detection.cpp */,
-				042D8C392845FD36003EF95A /* cubic_sdf_collision_detection.cpp */,
-				042D8C4B2845FD38003EF95A /* cubic_sdf_collision_detection.h */,
 				042D8C4F2845FD38003EF95A /* distance_field_collision_detection.h */,
 				042D8C3D2845FD37003EF95A /* distance_field_collision_detection.cpp */,
+				042D8C4B2845FD38003EF95A /* cubic_sdf_collision_detection.h */,
+				042D8C392845FD36003EF95A /* cubic_sdf_collision_detection.cpp */,
 				042D8C162845FD17003EF95A /* discregrid */,
+				042D8C5F2845FD39003EF95A /* indexed_face_mesh.h */,
+				042D8C612845FD39003EF95A /* indexed_face_mesh.cpp */,
+				042D8C502845FD38003EF95A /* indexed_tet_mesh.h */,
+				042D8C5D2845FD39003EF95A /* indexed_tet_mesh.cpp */,
+				042D8C542845FD38003EF95A /* particle_data.h */,
+				042D8C592845FD39003EF95A /* rigid_body.h */,
+				042D8C4A2845FD38003EF95A /* rigid_body_geometry.h */,
+				042D8C402845FD37003EF95A /* rigid_body_geometry.cpp */,
+				042D8CB9284609B2003EF95A /* geometry */,
 				042D8C5A2845FD39003EF95A /* constraints.h */,
 				042D8C492845FD37003EF95A /* constraints.cpp */,
 				042D8C5E2845FD39003EF95A /* position_based_dynamics.h */,
@@ -2727,43 +2749,23 @@
 				042D8C3C2845FD36003EF95A /* direct_position_based_solver_for_stiff_rods_interface.h */,
 				042D8C4E2845FD38003EF95A /* position_based_elastic_rods.h */,
 				042D8C4D2845FD38003EF95A /* position_based_elastic_rods.cpp */,
-				042D8C3E2845FD37003EF95A /* id_factory.cpp */,
-				042D8C412845FD37003EF95A /* id_factory.h */,
-				042D8C612845FD39003EF95A /* indexed_face_mesh.cpp */,
-				042D8C5F2845FD39003EF95A /* indexed_face_mesh.h */,
-				042D8C5D2845FD39003EF95A /* indexed_tet_mesh.cpp */,
-				042D8C502845FD38003EF95A /* indexed_tet_mesh.h */,
-				042D8C512845FD38003EF95A /* line_model.cpp */,
-				042D8C552845FD38003EF95A /* line_model.h */,
-				042D8C602845FD39003EF95A /* math_functions.cpp */,
-				042D8C562845FD38003EF95A /* math_functions.h */,
-				042D8C452845FD37003EF95A /* neighborhood_search_spatial_hashing.cpp */,
-				042D8C472845FD37003EF95A /* neighborhood_search_spatial_hashing.h */,
-				042D8C542845FD38003EF95A /* particle_data.h */,
-				042D8C402845FD37003EF95A /* rigid_body_geometry.cpp */,
-				042D8C4A2845FD38003EF95A /* rigid_body_geometry.h */,
-				042D8C592845FD39003EF95A /* rigid_body.h */,
-				042D8C422845FD37003EF95A /* simulation_model.cpp */,
-				042D8C8F28460423003EF95A /* simulation_model.h */,
-				042D8C8C28460423003EF95A /* simulation.cpp */,
-				042D8C9D28460424003EF95A /* simulation.h */,
-				042D8C9A28460424003EF95A /* tet_model.cpp */,
-				042D8C8D28460423003EF95A /* tet_model.h */,
-				042D8C9728460424003EF95A /* time_integration.cpp */,
-				042D8CA028460424003EF95A /* time_integration.h */,
-				042D8C9128460423003EF95A /* time_manager.cpp */,
-				042D8C8E28460423003EF95A /* time_manager.h */,
-				042D8C9528460423003EF95A /* time_step_controller.cpp */,
-				042D8C9228460423003EF95A /* time_step_controller.h */,
-				042D8C9628460424003EF95A /* time_step.cpp */,
-				042D8CA128460424003EF95A /* time_step.h */,
-				042D8C9928460424003EF95A /* timing.h */,
-				042D8C9028460423003EF95A /* triangle_model.cpp */,
-				042D8C9E28460424003EF95A /* triangle_model.h */,
-				042D8C9F28460424003EF95A /* volume_integration.cpp */,
-				042D8C9328460423003EF95A /* volume_integration.h */,
-				042D8C9428460423003EF95A /* xpbd.cpp */,
 				042D8C9B28460424003EF95A /* xpbd.h */,
+				042D8C9428460423003EF95A /* xpbd.cpp */,
+				042D8CB82846092A003EF95A /* constraints */,
+				042D8C552845FD38003EF95A /* line_model.h */,
+				042D8C512845FD38003EF95A /* line_model.cpp */,
+				042D8C9E28460424003EF95A /* triangle_model.h */,
+				042D8C9028460423003EF95A /* triangle_model.cpp */,
+				042D8C8D28460423003EF95A /* tet_model.h */,
+				042D8C9A28460424003EF95A /* tet_model.cpp */,
+				042D8C8F28460423003EF95A /* simulation_model.h */,
+				042D8C422845FD37003EF95A /* simulation_model.cpp */,
+				042D8CA128460424003EF95A /* time_step.h */,
+				042D8C9628460424003EF95A /* time_step.cpp */,
+				042D8C9228460423003EF95A /* time_step_controller.h */,
+				042D8C9528460423003EF95A /* time_step_controller.cpp */,
+				042D8C9D28460424003EF95A /* simulation.h */,
+				042D8C8C28460423003EF95A /* simulation.cpp */,
 			);
 			path = vox.force;
 			sourceTree = "<group>";
@@ -2790,6 +2792,20 @@
 				042D8C172845FD29003EF95A /* z_sort_table.h */,
 			);
 			path = discregrid;
+			sourceTree = "<group>";
+		};
+		042D8CB82846092A003EF95A /* constraints */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = constraints;
+			sourceTree = "<group>";
+		};
+		042D8CB9284609B2003EF95A /* geometry */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = geometry;
 			sourceTree = "<group>";
 		};
 		0444E81A2805556100C6F279 /* core */ = {

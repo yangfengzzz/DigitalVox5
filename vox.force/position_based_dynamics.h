@@ -12,10 +12,10 @@
 namespace vox::force {
 class PositionBasedDynamics {
 public:
-    // -------------- standard PBD -----------------------------------------------------
+    //MARK: -------------- standard PBD -----------------------------------------------------
 
-    /** Determine the position corrections for a distance constraint between two particles:\n\n
-     * \f$C(\mathbf{p}_0, \mathbf{p}_1) = \| \mathbf{p}_0 - \mathbf{p}_1\| - l_0 = 0\f$\n\n
+    /** Determine the position corrections for a distance constraint between two particles:
+     * \f$ C(\mathbf{p}_0, \mathbf{p}_1) = \| \mathbf{p}_0 - \mathbf{p}_1\| - l_0 = 0\f$
      * More information can be found in the following papers: \cite Mueller07, \cite BMOT2013, \cite BMOTM2014, \cite
      * BMM2015,
      *
@@ -229,7 +229,7 @@ public:
                                                 Vector3r &corr2,
                                                 Vector3r &corr3);
 
-    // -------------- Isometric bending -----------------------------------------------------
+    //MARK: -------------- Isometric bending -----------------------------------------------------
 
     /** Initialize the local stiffness matrix Q. The matrix is
      * required by the solver step. It must only be recomputed
@@ -281,7 +281,7 @@ public:
             Vector3r &corr2,
             Vector3r &corr3);
 
-    // -------------- Shape Matching  -----------------------------------------------------
+    //MARK: -------------- Shape Matching  -----------------------------------------------------
 
     /** Initialize rest configuration infos for one shape matching cluster
      * which are required by the solver step. It must only be reinitialized
@@ -321,7 +321,7 @@ public:
                                              Vector3r corr[],
                                              Matrix3r *rot = nullptr);
 
-    // -------------- Strain Based Dynamics  -----------------------------------------------------
+    //MARK: -------------- Strain Based Dynamics  -----------------------------------------------------
 
     /** Initialize rest configuration infos which are required by the solver step.
      * Recomputation is only necessary when rest shape changes.\n\n
@@ -404,7 +404,7 @@ public:
                                            Vector3r &corr2,
                                            Vector3r &corr3);
 
-    // -------------- FEM Based PBD  -----------------------------------------------------
+    //MARK: -------------- FEM Based PBD  -----------------------------------------------------
 private:
     static void ComputeGradCGreen(Real rest_volume, const Matrix3r &inv_rest_mat, const Matrix3r &sigma, Vector3r *J);
 
