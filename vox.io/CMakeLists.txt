@@ -28,7 +28,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ../third_party/json_cpp/include
         ../third_party/zlib/contrib/
         ../third_party/zlib/contrib/minizip
-        /usr/local/Cellar/openssl@3/3.0.2/include
+        /usr/local/Cellar/openssl@3/3.0.3/include
         ../third_party/assimp/include
         ../third_party/assimp/build_release/include
         ../third_party/tinygltf

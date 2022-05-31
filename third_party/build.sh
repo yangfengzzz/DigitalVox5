@@ -49,6 +49,37 @@ cmake ..
 make -j5
 cd ../..
 
+# json_cpp ##################################
+cd json_cpp
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j5
+cd ..
+
+# libpng ##################################
+cd libpng
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j5
+cd ..
+
+# libjpeg ##################################
+cd libjpeg
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j5
+cd ..
+
+# qhull ##################################
+cd qhull
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j5
+cd ..
+
 # GLFW ####################################
 #cd glfw
 #mkdir build

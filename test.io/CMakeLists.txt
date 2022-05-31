@@ -28,7 +28,7 @@ endif ()
 # Link third party libraries
 target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/googletest/build/lib
         ${CMAKE_SOURCE_DIR}/third_party/json_cpp/build/lib
-        /usr/local/Cellar/openssl@3/3.0.2/lib
+        /usr/local/Cellar/openssl@3/3.0.3/lib
         ${CMAKE_SOURCE_DIR}/third_party/zlib
         ${CMAKE_SOURCE_DIR}/third_party/qhull/build
         ${CMAKE_SOURCE_DIR}/third_party/libjpeg/build

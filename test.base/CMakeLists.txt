@@ -15,7 +15,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ../third_party/eigen
         ../third_party/json_cpp/include
         ../third_party/zlib/contrib/
-        /usr/local/Cellar/openssl@3/3.0.2/include)
+        /usr/local/Cellar/openssl@3/3.0.3/include)
 
 # OpenMP
 find_package(OpenMP)
@@ -27,7 +27,7 @@ endif ()
 # Link third party libraries
 target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/third_party/googletest/build/lib
         ${CMAKE_SOURCE_DIR}/third_party/json_cpp/build/lib
-        /usr/local/Cellar/openssl@3/3.0.2/lib
+        /usr/local/Cellar/openssl@3/3.0.3/lib
         ${CMAKE_SOURCE_DIR}/third_party/zlib)
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog vox.base
         libgmock.a libgmock_main.a libgtest.a libgtest_main.a

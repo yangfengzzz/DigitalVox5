@@ -7070,7 +7070,7 @@
 					./third_party/zlib/contrib/minizip,
 					./third_party/openssl/include,
 					./third_party/spdlog/include,
-					"/usr/local/Cellar/openssl@3/3.0.2/include",
+					"/usr/local/Cellar/openssl@3/3.0.3/include",
 				);
 				USE_HEADERMAP = NO;
 			};
@@ -7094,7 +7094,7 @@
 					./third_party/zlib/contrib/minizip,
 					./third_party/openssl/include,
 					./third_party/spdlog/include,
-					"/usr/local/Cellar/openssl@3/3.0.2/include",
+					"/usr/local/Cellar/openssl@3/3.0.3/include",
 				);
 				USE_HEADERMAP = NO;
 			};
@@ -7113,7 +7113,7 @@
 					./third_party/googletest/build/lib,
 					./third_party/json_cpp/build/lib,
 					./third_party/zlib,
-					"/usr/local/Cellar/openssl@3/3.0.2/lib",
+					"/usr/local/Cellar/openssl@3/3.0.3/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-lgtest",
@@ -7126,7 +7126,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = (
-					"/usr/local/Cellar/openssl@3/3.0.2/include",
+					"/usr/local/Cellar/openssl@3/3.0.3/include",
 					./third_party/eigen,
 					./third_party/json_cpp/include,
 					./third_party/zlib/contrib/,
@@ -7152,7 +7152,7 @@
 					./third_party/googletest/build/lib,
 					./third_party/json_cpp/build/lib,
 					./third_party/zlib,
-					"/usr/local/Cellar/openssl@3/3.0.2/lib",
+					"/usr/local/Cellar/openssl@3/3.0.3/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-lgtest",
@@ -7165,7 +7165,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = (
-					"/usr/local/Cellar/openssl@3/3.0.2/include",
+					"/usr/local/Cellar/openssl@3/3.0.3/include",
 					./third_party/eigen,
 					./third_party/json_cpp/include,
 					./third_party/zlib/contrib/,
@@ -7195,7 +7195,7 @@
 					./third_party/json_cpp/include,
 					./third_party/zlib/contrib/,
 					./third_party/zlib/contrib/minizip,
-					"/usr/local/Cellar/openssl@3/3.0.2/include",
+					"/usr/local/Cellar/openssl@3/3.0.3/include",
 					./third_party/assimp/include,
 					./third_party/assimp/build_release/include,
 					./third_party/tinygltf,
@@ -7228,7 +7228,7 @@
 					./third_party/json_cpp/include,
 					./third_party/zlib/contrib/,
 					./third_party/zlib/contrib/minizip,
-					"/usr/local/Cellar/openssl@3/3.0.2/include",
+					"/usr/local/Cellar/openssl@3/3.0.3/include",
 					./third_party/assimp/include,
 					./third_party/assimp/build_release/include,
 					./third_party/tinygltf,
@@ -7264,7 +7264,7 @@
 					./third_party/libpng/build,
 					./third_party/assimp/build_release/bin,
 					./third_party/zlib,
-					"/usr/local/Cellar/openssl@3/3.0.2/lib",
+					"/usr/local/Cellar/openssl@3/3.0.3/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-lgtest",
@@ -7286,7 +7286,7 @@
 					./third_party/json_cpp/include,
 					./third_party/zlib/contrib/,
 					./third_party/zlib/contrib/minizip,
-					"/usr/local/Cellar/openssl@3/3.0.2/include",
+					"/usr/local/Cellar/openssl@3/3.0.3/include",
 					./third_party/assimp/include,
 					./third_party/assimp/build_release/include,
 					./third_party/tinygltf,
@@ -7323,7 +7323,7 @@
 					./third_party/libpng/build,
 					./third_party/assimp/build_release/bin,
 					./third_party/zlib,
-					"/usr/local/Cellar/openssl@3/3.0.2/lib",
+					"/usr/local/Cellar/openssl@3/3.0.3/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-lgtest",
@@ -7345,7 +7345,7 @@
 					./third_party/json_cpp/include,
 					./third_party/zlib/contrib/,
 					./third_party/zlib/contrib/minizip,
-					"/usr/local/Cellar/openssl@3/3.0.2/include",
+					"/usr/local/Cellar/openssl@3/3.0.3/include",
 					./third_party/assimp/include,
 					./third_party/assimp/build_release/include,
 					./third_party/tinygltf,
