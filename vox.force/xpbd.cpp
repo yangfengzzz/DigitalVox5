@@ -9,27 +9,24 @@
 #include "vox.force/math_functions.h"
 
 namespace vox::force {
-
-const Real eps = static_cast<Real>(1e-6);
-
 //////////////////////////////////////////////////////////////////////////
 // XPBD
 //////////////////////////////////////////////////////////////////////////
 
-bool XPBD::solve_DistanceConstraint(const Vector3r& p0,
-                                    Real invMass0,
+bool XPBD::SolveDistanceConstraint(const Vector3r& p0,
+                                    Real inv_mass_0,
                                     const Vector3r& p1,
-                                    Real invMass1,
-                                    const Real restLength,
-                                    const Real stiffness,
-                                    const Real dt,
+                                    Real inv_mass_1,
+                                   Real rest_length,
+                                   Real stiffness,
+                                   Real dt,
                                     Real& lambda,
                                     Vector3r& corr0,
                                     Vector3r& corr1) {
-    Real K = invMass0 + invMass1;
+    Real K = inv_mass_0 + inv_mass_1;
     Vector3r n = p0 - p1;
     Real d = n.norm();
-    Real C = d - restLength;
+    Real C = d - rest_length;
     if (d > static_cast<Real>(1e-6))
         n /= d;
     else {
@@ -53,27 +50,27 @@ bool XPBD::solve_DistanceConstraint(const Vector3r& p0,
         return true;
     }
 
-    const Real delta_lambda = -Kinv * (C + alpha * lambda);
-    lambda += delta_lambda;
-    const Vector3r pt = n * delta_lambda;
+    const Real kDeltaLambda = -Kinv * (C + alpha * lambda);
+    lambda += kDeltaLambda;
+    const Vector3r pt = n * kDeltaLambda;
 
-    corr0 = invMass0 * pt;
-    corr1 = -invMass1 * pt;
+    corr0 = inv_mass_0 * pt;
+    corr1 = -inv_mass_1 * pt;
     return true;
 }
 
 // ----------------------------------------------------------------------------------------------
-bool XPBD::solve_VolumeConstraint(const Vector3r& p0,
-                                  Real invMass0,
+bool XPBD::SolveVolumeConstraint(const Vector3r& p0,
+                                  Real inv_mass_0,
                                   const Vector3r& p1,
-                                  Real invMass1,
+                                  Real inv_mass_1,
                                   const Vector3r& p2,
-                                  Real invMass2,
+                                  Real inv_mass_2,
                                   const Vector3r& p3,
-                                  Real invMass3,
-                                  const Real restVolume,
-                                  const Real stiffness,
-                                  const Real dt,
+                                  Real inv_mass_3,
+                                 Real rest_volume,
+                                 Real stiffness,
+                                 Real dt,
                                   Real& lambda,
                                   Vector3r& corr0,
                                   Vector3r& corr1,
@@ -91,8 +88,8 @@ bool XPBD::solve_VolumeConstraint(const Vector3r& p0,
     Vector3r grad2 = (p0 - p1).cross(p3 - p1);
     Vector3r grad3 = (p1 - p0).cross(p2 - p0);
 
-    Real K = invMass0 * grad0.squaredNorm() + invMass1 * grad1.squaredNorm() + invMass2 * grad2.squaredNorm() +
-             invMass3 * grad3.squaredNorm();
+    Real K = inv_mass_0 * grad0.squaredNorm() + inv_mass_1 * grad1.squaredNorm() + inv_mass_2 * grad2.squaredNorm() +
+             inv_mass_3 * grad3.squaredNorm();
 
     Real alpha = 0.0;
     if (stiffness != 0.0) {
@@ -100,22 +97,22 @@ bool XPBD::solve_VolumeConstraint(const Vector3r& p0,
         K += alpha;
     }
 
-    if (fabs(K) < eps) return false;
+    if (fabs(K) < std::numeric_limits<Real>::epsilon()) return false;
 
-    const Real C = volume - restVolume;
-    const Real delta_lambda = -(C + alpha * lambda) / K;
-    lambda += delta_lambda;
+    const Real C = volume - rest_volume;
+    const Real kDeltaLambda = -(C + alpha * lambda) / K;
+    lambda += kDeltaLambda;
 
-    corr0 = delta_lambda * invMass0 * grad0;
-    corr1 = delta_lambda * invMass1 * grad1;
-    corr2 = delta_lambda * invMass2 * grad2;
-    corr3 = delta_lambda * invMass3 * grad3;
+    corr0 = kDeltaLambda * inv_mass_0 * grad0;
+    corr1 = kDeltaLambda * inv_mass_1 * grad1;
+    corr2 = kDeltaLambda * inv_mass_2 * grad2;
+    corr3 = kDeltaLambda * inv_mass_3 * grad3;
 
     return true;
 }
 
 // ----------------------------------------------------------------------------------------------
-bool XPBD::init_IsometricBendingConstraint(
+bool XPBD::InitIsometricBendingConstraint(
         const Vector3r& p0, const Vector3r& p1, const Vector3r& p2, const Vector3r& p3, Matrix4r& Q) {
     // Compute matrix Q for quadratic bending
     const Vector3r* x[4] = {&p2, &p3, &p0, &p1};
@@ -149,60 +146,60 @@ bool XPBD::init_IsometricBendingConstraint(
 }
 
 // ----------------------------------------------------------------------------------------------
-bool XPBD::solve_IsometricBendingConstraint(const Vector3r& p0,
-                                            Real invMass0,
+bool XPBD::SolveIsometricBendingConstraint(const Vector3r& p0,
+                                            Real inv_mass_0,
                                             const Vector3r& p1,
-                                            Real invMass1,
+                                            Real inv_mass_1,
                                             const Vector3r& p2,
-                                            Real invMass2,
+                                            Real inv_mass_2,
                                             const Vector3r& p3,
-                                            Real invMass3,
+                                            Real inv_mass_3,
                                             const Matrix4r& Q,
-                                            const Real stiffness,
-                                            const Real dt,
+                                           Real stiffness,
+                                           Real dt,
                                             Real& lambda,
                                             Vector3r& corr0,
                                             Vector3r& corr1,
                                             Vector3r& corr2,
                                             Vector3r& corr3) {
     const Vector3r* x[4] = {&p2, &p3, &p0, &p1};
-    Real invMass[4] = {invMass2, invMass3, invMass0, invMass1};
+    Real inv_mass[4] = {inv_mass_2, inv_mass_3, inv_mass_0, inv_mass_1};
 
     Real energy = 0.0;
     for (unsigned char k = 0; k < 4; k++)
         for (unsigned char j = 0; j < 4; j++) energy += Q(j, k) * (x[k]->dot(*x[j]));
     energy *= 0.5;
 
-    Vector3r gradC[4];
-    gradC[0].setZero();
-    gradC[1].setZero();
-    gradC[2].setZero();
-    gradC[3].setZero();
+    Vector3r grad_c[4];
+    grad_c[0].setZero();
+    grad_c[1].setZero();
+    grad_c[2].setZero();
+    grad_c[3].setZero();
     for (unsigned char k = 0; k < 4; k++)
-        for (unsigned char j = 0; j < 4; j++) gradC[j] += Q(j, k) * *x[k];
+        for (unsigned char j = 0; j < 4; j++) grad_c[j] += Q(j, k) * *x[k];
 
-    Real sum_normGradC = 0.0;
+    Real sum_norm_grad_c = 0.0;
     for (unsigned int j = 0; j < 4; j++) {
         // compute sum of squared gradient norms
-        if (invMass[j] != 0.0) sum_normGradC += invMass[j] * gradC[j].squaredNorm();
+        if (inv_mass[j] != 0.0) sum_norm_grad_c += inv_mass[j] * grad_c[j].squaredNorm();
     }
 
     Real alpha = 0.0;
     if (stiffness != 0.0) {
         alpha = static_cast<Real>(1.0) / (stiffness * dt * dt);
-        sum_normGradC += alpha;
+        sum_norm_grad_c += alpha;
     }
 
     // exit early if required
-    if (fabs(sum_normGradC) > eps) {
+    if (fabs(sum_norm_grad_c) > std::numeric_limits<Real>::epsilon()) {
         // compute impulse-based scaling factor
-        const Real delta_lambda = -(energy + alpha * lambda) / sum_normGradC;
-        lambda += delta_lambda;
+        const Real kDeltaLambda = -(energy + alpha * lambda) / sum_norm_grad_c;
+        lambda += kDeltaLambda;
 
-        corr0 = (delta_lambda * invMass[2]) * gradC[2];
-        corr1 = (delta_lambda * invMass[3]) * gradC[3];
-        corr2 = (delta_lambda * invMass[0]) * gradC[0];
-        corr3 = (delta_lambda * invMass[1]) * gradC[1];
+        corr0 = (kDeltaLambda * inv_mass[2]) * grad_c[2];
+        corr1 = (kDeltaLambda * inv_mass[3]) * grad_c[3];
+        corr2 = (kDeltaLambda * inv_mass[0]) * grad_c[0];
+        corr3 = (kDeltaLambda * inv_mass[1]) * grad_c[1];
 
         return true;
     }

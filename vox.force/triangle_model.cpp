@@ -10,38 +10,38 @@
 
 namespace vox::force {
 
-TriangleModel::TriangleModel() : m_particleMesh() {
-    m_restitutionCoeff = static_cast<Real>(0.6);
-    m_frictionCoeff = static_cast<Real>(0.2);
+TriangleModel::TriangleModel() : m_particle_mesh_() {
+    m_restitution_coeff_ = static_cast<Real>(0.6);
+    m_friction_coeff_ = static_cast<Real>(0.2);
 }
 
-TriangleModel::~TriangleModel(void) { cleanupModel(); }
+TriangleModel::~TriangleModel() { CleanupModel(); }
 
-void TriangleModel::cleanupModel() { m_particleMesh.Release(); }
+void TriangleModel::CleanupModel() { m_particle_mesh_.Release(); }
 
-void TriangleModel::updateMeshNormals(const ParticleData& pd) {
-    m_particleMesh.UpdateNormals(pd, m_indexOffset);
-    m_particleMesh.UpdateVertexNormals(pd);
+void TriangleModel::UpdateMeshNormals(const ParticleData& pd) {
+    m_particle_mesh_.UpdateNormals(pd, m_index_offset_);
+    m_particle_mesh_.UpdateVertexNormals(pd);
 }
 
-void TriangleModel::initMesh(const unsigned int nPoints,
-                             const unsigned int nFaces,
-                             const unsigned int indexOffset,
+void TriangleModel::InitMesh(unsigned int n_points,
+                             unsigned int n_faces,
+                             unsigned int index_offset,
                              unsigned int* indices,
-                             const ParticleMesh::UVIndices& uvIndices,
+                             const ParticleMesh::UVIndices& uv_indices,
                              const ParticleMesh::UVs& uvs) {
-    m_indexOffset = indexOffset;
-    m_particleMesh.Release();
+    m_index_offset_ = index_offset;
+    m_particle_mesh_.Release();
 
-    m_particleMesh.InitMesh(nPoints, nFaces * 2, nFaces);
+    m_particle_mesh_.InitMesh(n_points, n_faces * 2, n_faces);
 
-    for (unsigned int i = 0; i < nFaces; i++) {
-        m_particleMesh.AddFace(&indices[3 * i]);
+    for (unsigned int i = 0; i < n_faces; i++) {
+        m_particle_mesh_.AddFace(&indices[3 * i]);
     }
-    m_particleMesh.CopyUVs(uvIndices, uvs);
-    m_particleMesh.BuildNeighbors();
+    m_particle_mesh_.CopyUVs(uv_indices, uvs);
+    m_particle_mesh_.BuildNeighbors();
 }
 
-unsigned int TriangleModel::getIndexOffset() const { return m_indexOffset; }
+unsigned int TriangleModel::GetIndexOffset() const { return m_index_offset_; }
 
 }  // namespace vox::force

@@ -62,8 +62,8 @@ void DistanceFieldCollisionDetection::GetCollisionDetection(SimulationModel &mod
                     auto *sco = (DistanceFieldCollisionObject *)co;
 
                     TriangleModel *tm = tri_models[co->m_body_index];
-                    const unsigned int kOffset = tm->getIndexOffset();
-                    const IndexedFaceMesh &mesh = tm->getParticleMesh();
+                    const unsigned int kOffset = tm->GetIndexOffset();
+                    const IndexedFaceMesh &mesh = tm->GetParticleMesh();
                     const unsigned int kNumVert = mesh.NumVertices();
                     sco->m_bvh.Init(&pd.GetPosition(kOffset), kNumVert);
                     sco->m_bvh.Update();
@@ -110,11 +110,11 @@ void DistanceFieldCollisionDetection::GetCollisionDetection(SimulationModel &mod
                        ((DistanceFieldCollisionObject *)co1)->m_test_mesh) {
                 TriangleModel *tm = tri_models[co1->m_body_index];
                 RigidBody *rb2 = rigid_bodies[co2->m_body_index];
-                const unsigned int kOffset = tm->getIndexOffset();
-                const IndexedFaceMesh &mesh = tm->getParticleMesh();
+                const unsigned int kOffset = tm->GetIndexOffset();
+                const IndexedFaceMesh &mesh = tm->GetParticleMesh();
                 const unsigned int kNumVert = mesh.NumVertices();
-                const Real kRestitutionCoeff = tm->getRestitutionCoeff() * rb2->GetRestitutionCoeff();
-                const Real kFrictionCoeff = tm->getFrictionCoeff() + rb2->GetFrictionCoeff();
+                const Real kRestitutionCoeff = tm->GetRestitutionCoeff() * rb2->GetRestitutionCoeff();
+                const Real kFrictionCoeff = tm->GetFrictionCoeff() + rb2->GetFrictionCoeff();
                 CollisionDetectionRbSolid(pd, kOffset, kNumVert, (DistanceFieldCollisionObject *)co1, rb2,
                                           (DistanceFieldCollisionObject *)co2, kRestitutionCoeff, kFrictionCoeff,
                                           contacts_mt);

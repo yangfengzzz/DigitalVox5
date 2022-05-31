@@ -231,7 +231,7 @@ bool SimulationModel::AddDamperJoint(unsigned int rb_index_1,
     return res;
 }
 
-bool SimulationModel::AddRigidBodyParticleBallJoint(const unsigned int rbIndex, const unsigned int particle_index) {
+bool SimulationModel::AddRigidBodyParticleBallJoint(const unsigned int rb_index, const unsigned int particle_index) {
     auto *bj = new RigidBodyParticleBallJoint();
     const bool res = bj->InitConstraint(*this, rb_index, particle_index);
     if (res) {
@@ -573,10 +573,10 @@ void SimulationModel::AddTriangleModel(unsigned int n_points,
 
     for (unsigned int i = 0; i < n_points; i++) m_particles_.AddVertex(points[i]);
 
-    triModel->initMesh(n_points, n_faces, startIndex, indices, uv_indices, uvs);
+    triModel->InitMesh(n_points, n_faces, startIndex, indices, uv_indices, uvs);
 
     // Update normals
-    triModel->updateMeshNormals(m_particles_);
+    triModel->UpdateMeshNormals(m_particles_);
 }
 
 void SimulationModel::AddRegularTriangleModel(
@@ -640,10 +640,10 @@ void SimulationModel::AddRegularTriangleModel(
     const unsigned int nFaces = nIndices / 3;
     const auto modelIndex = m_triangle_models_.size();
     AddTriangleModel(nPoints, nFaces, points.data(), indices.data(), uvIndices, uvs);
-    const auto offset = m_triangle_models_[modelIndex]->getIndexOffset();
+    const auto offset = m_triangle_models_[modelIndex]->GetIndexOffset();
 
     ParticleData &pd = GetParticles();
-    for (unsigned int i = offset; i < offset + m_triangle_models_[modelIndex]->getParticleMesh().NumVertices(); i++)
+    for (unsigned int i = offset; i < offset + m_triangle_models_[modelIndex]->GetParticleMesh().NumVertices(); i++)
         pd.SetMass(i, 1.0);
 }
 
@@ -861,9 +861,9 @@ void SimulationModel::AddClothConstraints(const TriangleModel *tm,
                                           bool normalize_stretch,
                                           bool normalize_shear) {
     if (cloth_method == 1) {
-        const unsigned int offset = tm->getIndexOffset();
-        const unsigned int nEdges = tm->getParticleMesh().NumEdges();
-        const IndexedFaceMesh::Edge *edges = tm->getParticleMesh().GetEdges().data();
+        const unsigned int offset = tm->GetIndexOffset();
+        const unsigned int nEdges = tm->GetParticleMesh().NumEdges();
+        const IndexedFaceMesh::Edge *edges = tm->GetParticleMesh().GetEdges().data();
         for (unsigned int i = 0; i < nEdges; i++) {
             const unsigned int v1 = edges[i].m_vert[0] + offset;
             const unsigned int v2 = edges[i].m_vert[1] + offset;
@@ -871,8 +871,8 @@ void SimulationModel::AddClothConstraints(const TriangleModel *tm,
             AddDistanceConstraint(v1, v2, distance_stiffness);
         }
     } else if (cloth_method == 2) {
-        const unsigned int offset = tm->getIndexOffset();
-        const TriangleModel::ParticleMesh &mesh = tm->getParticleMesh();
+        const unsigned int offset = tm->GetIndexOffset();
+        const TriangleModel::ParticleMesh &mesh = tm->GetParticleMesh();
         const unsigned int *tris = mesh.GetFaces().data();
         const unsigned int nFaces = mesh.NumFaces();
         for (unsigned int i = 0; i < nFaces; i++) {
@@ -883,8 +883,8 @@ void SimulationModel::AddClothConstraints(const TriangleModel *tm,
                                      yx_poisson_ratio);
         }
     } else if (cloth_method == 3) {
-        const unsigned int offset = tm->getIndexOffset();
-        const TriangleModel::ParticleMesh &mesh = tm->getParticleMesh();
+        const unsigned int offset = tm->GetIndexOffset();
+        const TriangleModel::ParticleMesh &mesh = tm->GetParticleMesh();
         const unsigned int *tris = mesh.GetFaces().data();
         const unsigned int nFaces = mesh.NumFaces();
         for (unsigned int i = 0; i < nFaces; i++) {
@@ -895,9 +895,9 @@ void SimulationModel::AddClothConstraints(const TriangleModel *tm,
                                         normalize_shear);
         }
     } else if (cloth_method == 4) {
-        const unsigned int offset = tm->getIndexOffset();
-        const unsigned int nEdges = tm->getParticleMesh().NumEdges();
-        const IndexedFaceMesh::Edge *edges = tm->getParticleMesh().GetEdges().data();
+        const unsigned int offset = tm->GetIndexOffset();
+        const unsigned int nEdges = tm->GetParticleMesh().NumEdges();
+        const IndexedFaceMesh::Edge *edges = tm->GetParticleMesh().GetEdges().data();
         for (unsigned int i = 0; i < nEdges; i++) {
             const unsigned int v1 = edges[i].m_vert[0] + offset;
             const unsigned int v2 = edges[i].m_vert[1] + offset;
@@ -911,8 +911,8 @@ void SimulationModel::AddBendingConstraints(const TriangleModel *tm,
                                             unsigned int bending_method, Real stiffness) {
     if ((bending_method < 1) || (bending_method > 3)) return;
 
-    const unsigned int offset = tm->getIndexOffset();
-    const TriangleModel::ParticleMesh &mesh = tm->getParticleMesh();
+    const unsigned int offset = tm->GetIndexOffset();
+    const TriangleModel::ParticleMesh &mesh = tm->GetParticleMesh();
     unsigned int nEdges = mesh.NumEdges();
     const TriangleModel::ParticleMesh::Edge *edges = mesh.GetEdges().data();
     const unsigned int *tris = mesh.GetFaces().data();

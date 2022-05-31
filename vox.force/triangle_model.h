@@ -24,34 +24,34 @@ public:
 
 protected:
     /** offset which must be added to get the correct index in the particles array */
-    unsigned int m_indexOffset;
+    unsigned int m_index_offset_{};
     /** Face mesh of particles which represents the simulation model */
-    ParticleMesh m_particleMesh;
-    Real m_restitutionCoeff;
-    Real m_frictionCoeff;
+    ParticleMesh m_particle_mesh_;
+    Real m_restitution_coeff_;
+    Real m_friction_coeff_;
 
 public:
-    ParticleMesh& getParticleMesh() { return m_particleMesh; }
-    [[nodiscard]] const ParticleMesh& getParticleMesh() const { return m_particleMesh; }
+    ParticleMesh& GetParticleMesh() { return m_particle_mesh_; }
+    [[nodiscard]] const ParticleMesh& GetParticleMesh() const { return m_particle_mesh_; }
 
-    void cleanupModel();
+    void CleanupModel();
 
-    [[nodiscard]] unsigned int getIndexOffset() const;
+    [[nodiscard]] unsigned int GetIndexOffset() const;
 
-    void initMesh(unsigned int nPoints,
-                  unsigned int nFaces,
-                  unsigned int indexOffset,
+    void InitMesh(unsigned int n_points,
+                  unsigned int n_faces,
+                  unsigned int index_offset,
                   unsigned int* indices,
-                  const ParticleMesh::UVIndices& uvIndices,
+                  const ParticleMesh::UVIndices& uv_indices,
                   const ParticleMesh::UVs& uvs);
-    void updateMeshNormals(const ParticleData& pd);
+    void UpdateMeshNormals(const ParticleData& pd);
 
-    [[nodiscard]] FORCE_INLINE Real getRestitutionCoeff() const { return m_restitutionCoeff; }
+    [[nodiscard]] FORCE_INLINE Real GetRestitutionCoeff() const { return m_restitution_coeff_; }
 
-    FORCE_INLINE void setRestitutionCoeff(Real val) { m_restitutionCoeff = val; }
+    FORCE_INLINE void SetRestitutionCoeff(Real val) { m_restitution_coeff_ = val; }
 
-    [[nodiscard]] FORCE_INLINE Real getFrictionCoeff() const { return m_frictionCoeff; }
+    [[nodiscard]] FORCE_INLINE Real GetFrictionCoeff() const { return m_friction_coeff_; }
 
-    FORCE_INLINE void setFrictionCoeff(Real val) { m_frictionCoeff = val; }
+    FORCE_INLINE void SetFrictionCoeff(Real val) { m_friction_coeff_ = val; }
 };
 }  // namespace vox::force

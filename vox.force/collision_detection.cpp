@@ -122,8 +122,8 @@ void CollisionDetection::UpdateAabb(SimulationModel &model, CollisionDetection::
     } else if (co->m_body_type == CollisionDetection::CollisionObject::triangle_model_collision_object_type) {
         const unsigned int kModelIndex = co->m_body_index;
         TriangleModel *tm = tri_models[kModelIndex];
-        const unsigned int kOffset = tm->getIndexOffset();
-        const IndexedFaceMesh &mesh = tm->getParticleMesh();
+        const unsigned int kOffset = tm->GetIndexOffset();
+        const IndexedFaceMesh &mesh = tm->GetParticleMesh();
         const unsigned int kNumVert = mesh.NumVertices();
 
         co->m_aabb.m_p_[0] = pd.GetPosition(kOffset);

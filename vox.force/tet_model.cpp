@@ -81,12 +81,12 @@ void TetModel::AttachVisMesh(const ParticleData &pd) {
 
     // for each point find nearest triangle (TODO: optimize)
     const int nNearstT = 15;
-    m_attachments_.resize(m_vis_vertices_.size());
+    m_attachments_.resize(m_vis_vertices_.Size());
 
 #pragma omp parallel shared(nFaces, faces, pd, normals, eps) default(none)
     {
 #pragma omp for schedule(static)
-        for (int i = 0; i < (int)m_vis_vertices_.size(); i++) {
+        for (int i = 0; i < (int)m_vis_vertices_.Size(); i++) {
             const Vector3r &p = m_vis_vertices_.GetPosition(i);
             Real curDist[nNearstT];
             int curT[nNearstT];

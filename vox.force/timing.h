@@ -15,31 +15,31 @@
 #include "vox.force/id_factory.h"
 
 namespace vox::force {
-#define START_TIMING(timerName) Timing::startTiming(timerName);
+#define START_TIMING(timerName) Timing::StartTiming(timerName);
 
-#define STOP_TIMING Timing::stopTiming(false);
+#define STOP_TIMING Timing::StopTiming(false);
 
-#define STOP_TIMING_PRINT Timing::stopTiming(true);
+#define STOP_TIMING_PRINT Timing::StopTiming(true);
 
 #define STOP_TIMING_AVG                            \
     {                                              \
         static int timing_timerId = -1;            \
-        Timing::stopTiming(false, timing_timerId); \
+        Timing::StopTiming(false, timing_timerId); \
     }
 
 #define STOP_TIMING_AVG_PRINT                     \
     {                                             \
         static int timing_timerId = -1;           \
-        Timing::stopTiming(true, timing_timerId); \
+        Timing::StopTiming(true, timing_timerId); \
     }
 
 #define INIT_TIMING                                              \
     int IDFactory::id = 0;                                       \
-    std::unordered_map<int, AverageTime> Timing::m_averageTimes; \
-    std::stack<TimingHelper> Timing::m_timingStack;              \
-    bool Timing::m_dontPrintTimes = false;                       \
-    unsigned int Timing::m_startCounter = 0;                     \
-    unsigned int Timing::m_stopCounter = 0;
+    std::unordered_map<int, AverageTime> Timing::m_average_times; \
+    std::stack<TimingHelper> Timing::m_timing_stack;              \
+    bool Timing::m_dont_print_times = false;                       \
+    unsigned int Timing::m_start_counter = 0;                     \
+    unsigned int Timing::m_stop_counter = 0;
 
 /** \brief Struct to store a time measurement.
  */

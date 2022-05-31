@@ -908,8 +908,8 @@ bool DistanceConstraint_XPBD::SolvePositionConstraint(SimulationModel &model, co
     if (iter == 0) m_lambda = 0.0;
 
     Vector3r corr1, corr2;
-    const bool kRes = XPBD::solve_DistanceConstraint(x1, kInvMass1, x2, kInvMass2, m_rest_length, m_stiffness, kDt,
-                                                     m_lambda, corr1, corr2);
+    const bool kRes = XPBD::SolveDistanceConstraint(x1, kInvMass1, x2, kInvMass2, m_rest_length, m_stiffness, kDt,
+                                                    m_lambda, corr1, corr2);
 
     if (kRes) {
         if (kInvMass1 != 0.0) x1 += corr1;
@@ -1101,8 +1101,8 @@ bool IsometricBendingConstraint_XPBD::SolvePositionConstraint(SimulationModel &m
 
     Vector3r corr1, corr2, corr3, corr4;
     const bool kRes =
-            XPBD::solve_IsometricBendingConstraint(x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, x4, kInvMass4, m_Q,
-                                                   m_stiffness, kDt, m_lambda, corr1, corr2, corr3, corr4);
+            XPBD::SolveIsometricBendingConstraint(x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, x4, kInvMass4, m_Q,
+                                                  m_stiffness, kDt, m_lambda, corr1, corr2, corr3, corr4);
 
     if (kRes) {
         if (kInvMass1 != 0.0) x1 += corr1;
@@ -1345,8 +1345,8 @@ bool VolumeConstraint_XPBD::SolvePositionConstraint(SimulationModel &model, cons
 
     Vector3r corr1, corr2, corr3, corr4;
     const bool kRes =
-            XPBD::solve_VolumeConstraint(x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, x4, kInvMass4, m_rest_volume,
-                                         m_stiffness, kDt, m_lambda, corr1, corr2, corr3, corr4);
+            XPBD::SolveVolumeConstraint(x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, x4, kInvMass4, m_rest_volume,
+                                        m_stiffness, kDt, m_lambda, corr1, corr2, corr3, corr4);
 
     if (kRes) {
         if (kInvMass1 != 0.0) x1 += corr1;

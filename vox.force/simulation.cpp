@@ -42,13 +42,13 @@ bool Simulation::HasCurrent() { return (current_ != nullptr); }
 
 void Simulation::Init() {
     m_time_step_ = new TimeStepController();
-    m_time_step_->init();
+    m_time_step_->Init();
     TimeManager::GetCurrent()->SetTimeStepSize(static_cast<Real>(0.005));
 }
 
 void Simulation::Reset() {
-    m_model_->reset();
-    if (m_time_step_) m_time_step_->reset();
+    m_model_->Reset();
+    if (m_time_step_) m_time_step_->Reset();
 
     TimeManager::GetCurrent()->SetTime(static_cast<Real>(0.0));
 }
