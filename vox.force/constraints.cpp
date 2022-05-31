@@ -1786,7 +1786,7 @@ bool StretchShearConstraint::SolvePositionConstraint(SimulationModel &model, con
 
     Vector3r corr1, corr2;
     Quaternionr corrq1;
-    const bool kRes = PositionBasedCosseratRods::solve_StretchShearConstraint(
+    const bool kRes = PositionBasedCosseratRods::SolveStretchShearConstraint(
             x1, kInvMass1, x2, kInvMass2, q1, kInvMassq1, stiffness, m_rest_length, corr1, corr2, corrq1);
 
     if (kRes) {
@@ -1841,8 +1841,8 @@ bool BendTwistConstraint::SolvePositionConstraint(SimulationModel &model, const 
     Vector3r stiffness(m_bending_stiffness_1, m_bending_stiffness_2, m_twisting_stiffness);
 
     Quaternionr corr1, corr2;
-    const bool kRes = PositionBasedCosseratRods::solve_BendTwistConstraint(q1, kInvMass1, q2, kInvMass2, stiffness,
-                                                                           m_rest_darboux_vector, corr1, corr2);
+    const bool kRes = PositionBasedCosseratRods::SolveBendTwistConstraint(q1, kInvMass1, q2, kInvMass2, stiffness,
+                                                                          m_rest_darboux_vector, corr1, corr2);
 
     if (kRes) {
         if (kInvMass1 != 0.0) {
@@ -1880,14 +1880,14 @@ bool StretchBendingTwistingConstraint::InitConstraint(SimulationModel &model,
     m_average_radius = average_radius;
     m_average_segment_length = average_segment_length;
 
-    return DirectPositionBasedSolverForStiffRods::init_StretchBendingTwistingConstraint(
+    return DirectPositionBasedSolverForStiffRods::InitStretchBendingTwistingConstraint(
             segment1.getPosition(), segment1.getRotation(), segment2.getPosition(), segment2.getRotation(), pos,
             m_average_radius, m_average_segment_length, youngs_modulus, torsion_modulus, m_constraint_info,
             m_stiffness_coefficient_k, m_rest_darboux_vector);
 }
 
 bool StretchBendingTwistingConstraint::InitConstraintBeforeProjection(SimulationModel &model) {
-    DirectPositionBasedSolverForStiffRods::initBeforeProjection_StretchBendingTwistingConstraint(
+    DirectPositionBasedSolverForStiffRods::InitBeforeProjectionStretchBendingTwistingConstraint(
             m_stiffness_coefficient_k, static_cast<Real>(1.0) / TimeManager::getCurrent()->getTimeStepSize(),
             m_average_segment_length, m_stretch_compliance, m_bending_and_torsion_compliance, m_lambda_sum);
     return true;
@@ -1897,7 +1897,7 @@ bool StretchBendingTwistingConstraint::UpdateConstraint(SimulationModel &model) 
     SimulationModel::RigidBodyVector &rb = model.getRigidBodies();
     const RigidBody &segment1 = *rb[m_bodies[0]];
     const RigidBody &segment2 = *rb[m_bodies[1]];
-    return DirectPositionBasedSolverForStiffRods::update_StretchBendingTwistingConstraint(
+    return DirectPositionBasedSolverForStiffRods::UpdateStretchBendingTwistingConstraint(
             segment1.getPosition(), segment1.getRotation(), segment2.getPosition(), segment2.getRotation(),
             m_constraint_info);
 }
@@ -1910,7 +1910,7 @@ bool StretchBendingTwistingConstraint::SolvePositionConstraint(SimulationModel &
 
     Vector3r corr_x1, corr_x2;
     Quaternionr corr_q1, corr_q2;
-    const bool kRes = DirectPositionBasedSolverForStiffRods::solve_StretchBendingTwistingConstraint(
+    const bool kRes = DirectPositionBasedSolverForStiffRods::SolveStretchBendingTwistingConstraint(
             segment1.getInvMass(), segment1.getPosition(), segment1.getInertiaTensorInverseW(), segment1.getRotation(),
             segment2.getInvMass(), segment2.getPosition(), segment2.getInertiaTensorInverseW(), segment2.getRotation(),
             m_rest_darboux_vector, m_average_segment_length, m_stretch_compliance, m_bending_and_torsion_compliance,
@@ -2021,7 +2021,7 @@ bool DirectPositionBasedSolverForStiffRodsConstraint::InitConstraint(
 
     // initialize data of the sparse direct solver
     DeleteNodes();
-    DirectPositionBasedSolverForStiffRods::init_DirectPositionBasedSolverForStiffRodsConstraint(
+    DirectPositionBasedSolverForStiffRods::InitDirectPositionBasedSolverForStiffRodsConstraint(
             m_rod_constraints, m_rod_segments, intervals, number_of_intervals, forward, backward, root,
             constraint_positions, average_radii, youngs_moduli, torsion_moduli, m_right_hand_side, m_lambda_sums,
             m_bending_and_torsion_jacobians, m_corr_x, m_corr_q);
@@ -2030,20 +2030,20 @@ bool DirectPositionBasedSolverForStiffRodsConstraint::InitConstraint(
 }
 
 bool DirectPositionBasedSolverForStiffRodsConstraint::InitConstraintBeforeProjection(SimulationModel &model) {
-    DirectPositionBasedSolverForStiffRods::initBeforeProjection_DirectPositionBasedSolverForStiffRodsConstraint(
+    DirectPositionBasedSolverForStiffRods::InitBeforeProjectionDirectPositionBasedSolverForStiffRodsConstraint(
             m_rod_constraints, static_cast<Real>(1.0) / TimeManager::getCurrent()->getTimeStepSize(), m_lambda_sums);
     return true;
 }
 
 bool DirectPositionBasedSolverForStiffRodsConstraint::UpdateConstraint(SimulationModel &model) {
-    DirectPositionBasedSolverForStiffRods::update_DirectPositionBasedSolverForStiffRodsConstraint(m_rod_constraints,
-                                                                                                  m_rod_segments);
+    DirectPositionBasedSolverForStiffRods::UpdateDirectPositionBasedSolverForStiffRodsConstraint(m_rod_constraints,
+                                                                                                 m_rod_segments);
     return true;
 }
 
 bool DirectPositionBasedSolverForStiffRodsConstraint::SolvePositionConstraint(SimulationModel &model,
                                                                               const unsigned int iter) {
-    const bool kRes = DirectPositionBasedSolverForStiffRods::solve_DirectPositionBasedSolverForStiffRodsConstraint(
+    const bool kRes = DirectPositionBasedSolverForStiffRods::SolveDirectPositionBasedSolverForStiffRodsConstraint(
             m_rod_constraints, m_rod_segments, intervals, number_of_intervals, forward, backward, m_right_hand_side,
             m_lambda_sums, m_bending_and_torsion_jacobians, m_corr_x, m_corr_q);
 

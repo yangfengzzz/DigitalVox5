@@ -13,160 +13,161 @@
 
 namespace vox::force {
 
-const Real eps = static_cast<Real>(1e-6);
-
 const int permutation[3][3] = {0, 2, 1, 1, 0, 2, 2, 1, 0};
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedCosseratRods::solve_StretchShearConstraint(const Vector3r &p0,
-                                                             Real invMass0,
-                                                             const Vector3r &p1,
-                                                             Real invMass1,
-                                                             const Quaternionr &q0,
-                                                             Real invMassq0,
-                                                             const Vector3r &stretchingAndShearingKs,
-                                                             const Real restLength,
-                                                             Vector3r &corr0,
-                                                             Vector3r &corr1,
-                                                             Quaternionr &corrq0) {
+bool PositionBasedCosseratRods::SolveStretchShearConstraint(const Vector3r &p0,
+                                                            Real inv_mass_0,
+                                                            const Vector3r &p1,
+                                                            Real inv_mass_1,
+                                                            const Quaternionr &q0,
+                                                            Real inv_massq_0,
+                                                            const Vector3r &stretching_and_shearing_ks,
+                                                            Real rest_length,
+                                                            Vector3r &corr0,
+                                                            Vector3r &corr1,
+                                                            Quaternionr &corrq0) {
     Vector3r d3;  // third director d3 = q0 * e_3 * q0_conjugate
     d3[0] = static_cast<Real>(2.0) * (q0.x() * q0.z() + q0.w() * q0.y());
     d3[1] = static_cast<Real>(2.0) * (q0.y() * q0.z() - q0.w() * q0.x());
     d3[2] = q0.w() * q0.w() - q0.x() * q0.x() - q0.y() * q0.y() + q0.z() * q0.z();
 
-    Vector3r gamma = (p1 - p0) / restLength - d3;
-    gamma /= (invMass1 + invMass0) / restLength + invMassq0 * static_cast<Real>(4.0) * restLength + eps;
+    Vector3r gamma = (p1 - p0) / rest_length - d3;
+    gamma /= (inv_mass_1 + inv_mass_0) / rest_length + inv_massq_0 * static_cast<Real>(4.0) * rest_length +
+             std::numeric_limits<Real>::epsilon();
 
-    if (std::abs(stretchingAndShearingKs[0] - stretchingAndShearingKs[1]) < eps &&
-        std::abs(stretchingAndShearingKs[0] - stretchingAndShearingKs[2]) < eps)  // all Ks are approx. equal
-        for (int i = 0; i < 3; i++) gamma[i] *= stretchingAndShearingKs[i];
+    if (std::abs(stretching_and_shearing_ks[0] - stretching_and_shearing_ks[1]) <
+                std::numeric_limits<Real>::epsilon() &&
+        std::abs(stretching_and_shearing_ks[0] - stretching_and_shearing_ks[2]) <
+                std::numeric_limits<Real>::epsilon())  // all Ks are approx. equal
+        for (int i = 0; i < 3; i++) gamma[i] *= stretching_and_shearing_ks[i];
     else  // diffenent stretching and shearing Ks. Transform diag(Ks[0], Ks[1], Ks[2]) into world space using Ks_w =
           // R(q0) * diag(Ks[0], Ks[1], Ks[2]) * R^T(q0) and multiply it with gamma
     {
         Matrix3r R = q0.toRotationMatrix();
         gamma = (R.transpose() * gamma).eval();
-        for (int i = 0; i < 3; i++) gamma[i] *= stretchingAndShearingKs[i];
+        for (int i = 0; i < 3; i++) gamma[i] *= stretching_and_shearing_ks[i];
         gamma = (R * gamma).eval();
     }
 
-    corr0 = invMass0 * gamma;
-    corr1 = -invMass1 * gamma;
+    corr0 = inv_mass_0 * gamma;
+    corr1 = -inv_mass_1 * gamma;
 
     Quaternionr q_e_3_bar(q0.z(), -q0.y(), q0.x(),
                           -q0.w());  // compute q*e_3.conjugate (cheaper than quaternion product)
     corrq0 = Quaternionr(0.0, gamma.x(), gamma.y(), gamma.z()) * q_e_3_bar;
-    corrq0.coeffs() *= static_cast<Real>(2.0) * invMassq0 * restLength;
+    corrq0.coeffs() *= static_cast<Real>(2.0) * inv_massq_0 * rest_length;
 
     return true;
 }
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedCosseratRods::solve_BendTwistConstraint(const Quaternionr &q0,
-                                                          Real invMassq0,
-                                                          const Quaternionr &q1,
-                                                          Real invMassq1,
-                                                          const Vector3r &bendingAndTwistingKs,
-                                                          const Quaternionr &restDarbouxVector,
-                                                          Quaternionr &corrq0,
-                                                          Quaternionr &corrq1) {
+bool PositionBasedCosseratRods::SolveBendTwistConstraint(const Quaternionr &q0,
+                                                         Real inv_massq_0,
+                                                         const Quaternionr &q1,
+                                                         Real inv_massq_1,
+                                                         const Vector3r &bending_and_twisting_ks,
+                                                         const Quaternionr &rest_darboux_vector,
+                                                         Quaternionr &corrq0,
+                                                         Quaternionr &corrq1) {
     Quaternionr omega = q0.conjugate() * q1;  // darboux vector
 
     Quaternionr omega_plus;
-    omega_plus.coeffs() = omega.coeffs() + restDarbouxVector.coeffs();  // delta Omega with -Omega_0
-    omega.coeffs() = omega.coeffs() - restDarbouxVector.coeffs();       // delta Omega with + omega_0
+    omega_plus.coeffs() = omega.coeffs() + rest_darboux_vector.coeffs();  // delta Omega with -Omega_0
+    omega.coeffs() = omega.coeffs() - rest_darboux_vector.coeffs();       // delta Omega with + omega_0
     if (omega.squaredNorm() > omega_plus.squaredNorm()) omega = omega_plus;
 
     for (int i = 0; i < 3; i++)
-        omega.coeffs()[i] *= bendingAndTwistingKs[i] / (invMassq0 + invMassq1 + static_cast<Real>(1.0e-6));
+        omega.coeffs()[i] *= bending_and_twisting_ks[i] / (inv_massq_0 + inv_massq_1 + static_cast<Real>(1.0e-6));
     omega.w() = 0.0;  // discrete Darboux vector does not have vanishing scalar part
 
     corrq0 = q1 * omega;
     corrq1 = q0 * omega;
-    corrq0.coeffs() *= invMassq0;
-    corrq1.coeffs() *= -invMassq1;
+    corrq0.coeffs() *= inv_massq_0;
+    corrq1.coeffs() *= -inv_massq_1;
     return true;
 }
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedElasticRods::solve_PerpendiculaBisectorConstraint(const Vector3r &p0,
-                                                                    Real invMass0,
-                                                                    const Vector3r &p1,
-                                                                    Real invMass1,
-                                                                    const Vector3r &p2,
-                                                                    Real invMass2,
-                                                                    const Real stiffness,
-                                                                    Vector3r &corr0,
-                                                                    Vector3r &corr1,
-                                                                    Vector3r &corr2) {
+bool PositionBasedElasticRods::SolvePerpendiculaBisectorConstraint(const Vector3r &p0,
+                                                                   Real inv_mass_0,
+                                                                   const Vector3r &p1,
+                                                                   Real inv_mass_1,
+                                                                   const Vector3r &p2,
+                                                                   Real inv_mass_2,
+                                                                   Real stiffness,
+                                                                   Vector3r &corr0,
+                                                                   Vector3r &corr1,
+                                                                   Vector3r &corr2) {
     const Vector3r pm = 0.5 * (p0 + p1);
     const Vector3r p0p2 = p0 - p2;
     const Vector3r p2p1 = p2 - p1;
     const Vector3r p1p0 = p1 - p0;
     const Vector3r p2pm = p2 - pm;
 
-    Real wSum = invMass0 * p0p2.squaredNorm() + invMass1 * p2p1.squaredNorm() + invMass2 * p1p0.squaredNorm();
-    if (wSum < eps) return false;
+    Real w_sum = inv_mass_0 * p0p2.squaredNorm() + inv_mass_1 * p2p1.squaredNorm() + inv_mass_2 * p1p0.squaredNorm();
+    if (w_sum < std::numeric_limits<Real>::epsilon()) return false;
 
-    const Real lambda = stiffness * p2pm.dot(p1p0) / wSum;
+    const Real lambda = stiffness * p2pm.dot(p1p0) / w_sum;
 
-    corr0 = -invMass0 * lambda * p0p2;
-    corr1 = -invMass1 * lambda * p2p1;
-    corr2 = -invMass2 * lambda * p1p0;
+    corr0 = -inv_mass_0 * lambda * p0p2;
+    corr1 = -inv_mass_1 * lambda * p2p1;
+    corr2 = -inv_mass_2 * lambda * p1p0;
 
     return true;
 }
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedElasticRods::solve_GhostPointEdgeDistanceConstraint(const Vector3r &p0,
-                                                                      Real invMass0,
-                                                                      const Vector3r &p1,
-                                                                      Real invMass1,
-                                                                      const Vector3r &p2,
-                                                                      Real invMass2,
-                                                                      const Real stiffness,
-                                                                      const Real ghostEdgeRestLength,
-                                                                      Vector3r &corr0,
-                                                                      Vector3r &corr1,
-                                                                      Vector3r &corr2) {
+bool PositionBasedElasticRods::SolveGhostPointEdgeDistanceConstraint(const Vector3r &p0,
+                                                                     Real inv_mass_0,
+                                                                     const Vector3r &p1,
+                                                                     Real inv_mass_1,
+                                                                     const Vector3r &p2,
+                                                                     Real inv_mass_2,
+                                                                     Real stiffness,
+                                                                     Real ghost_edge_rest_length,
+                                                                     Vector3r &corr0,
+                                                                     Vector3r &corr1,
+                                                                     Vector3r &corr2) {
     // Ghost-Edge constraint
     Vector3r pm = 0.5 * (p0 + p1);
     Vector3r p2pm = p2 - pm;
-    Real wSum =
-            static_cast<Real>(0.25) * invMass0 + static_cast<Real>(0.25) * invMass1 + static_cast<Real>(1.0) * invMass2;
+    Real wSum = static_cast<Real>(0.25) * inv_mass_0 + static_cast<Real>(0.25) * inv_mass_1 +
+                static_cast<Real>(1.0) * inv_mass_2;
 
-    if (wSum < eps) return false;
+    if (wSum < std::numeric_limits<Real>::epsilon()) return false;
 
     Real p2pm_mag = p2pm.norm();
     p2pm *= static_cast<Real>(1.0) / p2pm_mag;
 
-    const Real lambda = stiffness * (p2pm_mag - ghostEdgeRestLength) / wSum;
+    const Real lambda = stiffness * (p2pm_mag - ghost_edge_rest_length) / wSum;
 
-    corr0 = 0.5 * invMass0 * lambda * p2pm;
-    corr1 = 0.5 * invMass1 * lambda * p2pm;
-    corr2 = -1.0 * invMass2 * lambda * p2pm;
+    corr0 = 0.5 * inv_mass_0 * lambda * p2pm;
+    corr1 = 0.5 * inv_mass_1 * lambda * p2pm;
+    corr2 = -1.0 * inv_mass_2 * lambda * p2pm;
 
     return true;
 }
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedElasticRods::solve_DarbouxVectorConstraint(const Vector3r &p0,
-                                                             Real invMass0,
-                                                             const Vector3r &p1,
-                                                             Real invMass1,
-                                                             const Vector3r &p2,
-                                                             Real invMass2,
-                                                             const Vector3r &p3,
-                                                             Real invMass3,
-                                                             const Vector3r &p4,
-                                                             Real invMass4,
-                                                             const Vector3r &bendingAndTwistingKs,
-                                                             const Real midEdgeLength,
-                                                             const Vector3r &restDarbouxVector,
-                                                             Vector3r &corr0,
-                                                             Vector3r &corr1,
-                                                             Vector3r &corr2,
-                                                             Vector3r &corr3,
-                                                             Vector3r &corr4) {
+bool PositionBasedElasticRods::SolveDarbouxVectorConstraint(const Vector3r &p0,
+                                                            Real inv_mass_0,
+                                                            const Vector3r &p1,
+                                                            Real inv_mass_1,
+                                                            const Vector3r &p2,
+                                                            Real inv_mass_2,
+                                                            const Vector3r &p3,
+                                                            Real inv_mass_3,
+                                                            const Vector3r &p4,
+                                                            Real inv_mass_4,
+                                                            const Vector3r &bending_and_twisting_ks,
+                                                            Real mid_edge_length,
+                                                            const Vector3r &rest_darboux_vector,
+                                                            Vector3r &oa,
+                                                            Vector3r &ob,
+                                                            Vector3r &oc,
+                                                            Vector3r &od,
+                                                            Vector3r &oe) {
     //  Single rod element:
     //      3   4		//ghost points
     //		|	|
@@ -175,39 +176,39 @@ bool PositionBasedElasticRods::solve_DarbouxVectorConstraint(const Vector3r &p0,
     Vector3r darboux_vector;
     Matrix3r d0, d1;
 
-    PositionBasedElasticRods::computeMaterialFrame(p0, p1, p3, d0);
-    PositionBasedElasticRods::computeMaterialFrame(p1, p2, p4, d1);
+    PositionBasedElasticRods::ComputeMaterialFrame(p0, p1, p3, d0);
+    PositionBasedElasticRods::ComputeMaterialFrame(p1, p2, p4, d1);
 
-    PositionBasedElasticRods::computeDarbouxVector(d0, d1, midEdgeLength, darboux_vector);
+    PositionBasedElasticRods::ComputeDarbouxVector(d0, d1, mid_edge_length, darboux_vector);
 
     Matrix3r dajpi[3][3];
-    computeMaterialFrameDerivative(p0, p1, p3, d0, dajpi[0][0], dajpi[0][1], dajpi[0][2], dajpi[1][0], dajpi[1][1],
+    ComputeMaterialFrameDerivative(p0, p1, p3, d0, dajpi[0][0], dajpi[0][1], dajpi[0][2], dajpi[1][0], dajpi[1][1],
                                    dajpi[1][2], dajpi[2][0], dajpi[2][1], dajpi[2][2]);
 
     Matrix3r dbjpi[3][3];
-    computeMaterialFrameDerivative(p1, p2, p4, d1, dbjpi[0][0], dbjpi[0][1], dbjpi[0][2], dbjpi[1][0], dbjpi[1][1],
+    ComputeMaterialFrameDerivative(p1, p2, p4, d1, dbjpi[0][0], dbjpi[0][1], dbjpi[0][2], dbjpi[1][0], dbjpi[1][1],
                                    dbjpi[1][2], dbjpi[2][0], dbjpi[2][1], dbjpi[2][2]);
 
     Matrix3r constraint_jacobian[5];
-    computeDarbouxGradient(darboux_vector, midEdgeLength, d0, d1, dajpi, dbjpi,
+    ComputeDarbouxGradient(darboux_vector, mid_edge_length, d0, d1, dajpi, dbjpi,
                            // bendingAndTwistingKs,
                            constraint_jacobian[0], constraint_jacobian[1], constraint_jacobian[2],
                            constraint_jacobian[3], constraint_jacobian[4]);
 
-    const Vector3r constraint_value(bendingAndTwistingKs[0] * (darboux_vector[0] - restDarbouxVector[0]),
-                                    bendingAndTwistingKs[1] * (darboux_vector[1] - restDarbouxVector[1]),
-                                    bendingAndTwistingKs[2] * (darboux_vector[2] - restDarbouxVector[2]));
+    const Vector3r constraint_value(bending_and_twisting_ks[0] * (darboux_vector[0] - rest_darboux_vector[0]),
+                                    bending_and_twisting_ks[1] * (darboux_vector[1] - rest_darboux_vector[1]),
+                                    bending_and_twisting_ks[2] * (darboux_vector[2] - rest_darboux_vector[2]));
 
     Matrix3r factor_matrix;
     factor_matrix.setZero();
 
     Matrix3r tmp_mat;
-    Real invMasses[]{invMass0, invMass1, invMass2, invMass3, invMass4};
+    Real inv_masses[]{inv_mass_0, inv_mass_1, inv_mass_2, inv_mass_3, inv_mass_4};
     for (int i = 0; i < 5; ++i) {
         tmp_mat = constraint_jacobian[i].transpose() * constraint_jacobian[i];
-        tmp_mat.col(0) *= invMasses[i];
-        tmp_mat.col(1) *= invMasses[i];
-        tmp_mat.col(2) *= invMasses[i];
+        tmp_mat.col(0) *= inv_masses[i];
+        tmp_mat.col(1) *= inv_masses[i];
+        tmp_mat.col(2) *= inv_masses[i];
 
         factor_matrix += tmp_mat;
     }
@@ -216,23 +217,23 @@ bool PositionBasedElasticRods::solve_DarbouxVectorConstraint(const Vector3r &p0,
     tmp_mat = factor_matrix.inverse();
 
     for (int i = 0; i < 5; ++i) {
-        constraint_jacobian[i].col(0) *= invMasses[i];
-        constraint_jacobian[i].col(1) *= invMasses[i];
-        constraint_jacobian[i].col(2) *= invMasses[i];
+        constraint_jacobian[i].col(0) *= inv_masses[i];
+        constraint_jacobian[i].col(1) *= inv_masses[i];
+        constraint_jacobian[i].col(2) *= inv_masses[i];
         dp[i] = -(constraint_jacobian[i]) * (tmp_mat * constraint_value);
     }
 
-    corr0 = dp[0];
-    corr1 = dp[1];
-    corr2 = dp[2];
-    corr3 = dp[3];
-    corr4 = dp[4];
+    oa = dp[0];
+    ob = dp[1];
+    oc = dp[2];
+    od = dp[3];
+    oe = dp[4];
 
     return true;
 }
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedElasticRods::computeMaterialFrame(const Vector3r &p0,
+bool PositionBasedElasticRods::ComputeMaterialFrame(const Vector3r &p0,
                                                     const Vector3r &p1,
                                                     const Vector3r &p2,
                                                     Matrix3r &frame) {
@@ -247,9 +248,9 @@ bool PositionBasedElasticRods::computeMaterialFrame(const Vector3r &p0,
 }
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedElasticRods::computeDarbouxVector(const Matrix3r &dA,
+bool PositionBasedElasticRods::ComputeDarbouxVector(const Matrix3r &dA,
                                                     const Matrix3r &dB,
-                                                    const Real mid_edge_length,
+                                                    Real mid_edge_length,
                                                     Vector3r &darboux_vector) {
     Real factor =
             static_cast<Real>(1.0) + dA.col(0).dot(dB.col(0)) + dA.col(1).dot(dB.col(1)) + dA.col(2).dot(dB.col(2));
@@ -267,7 +268,7 @@ bool PositionBasedElasticRods::computeDarbouxVector(const Matrix3r &dA,
 }
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedElasticRods::computeMaterialFrameDerivative(const Vector3r &p0,
+bool PositionBasedElasticRods::ComputeMaterialFrameDerivative(const Vector3r &p0,
                                                               const Vector3r &p1,
                                                               const Vector3r &p2,
                                                               const Matrix3r &d,
@@ -312,7 +313,7 @@ bool PositionBasedElasticRods::computeMaterialFrameDerivative(const Vector3r &p0
     const Vector3r p02 = p2 - p0;
     const Vector3r p01_cross_p02 = p01.cross(p02);
 
-    const Real length_cross = p01_cross_p02.norm();
+    const Real kLengthCross = p01_cross_p02.norm();
 
     Matrix3r mat;
     mat.col(0) = d.col(1)[0] * d.col(1);
@@ -323,9 +324,9 @@ bool PositionBasedElasticRods::computeMaterialFrameDerivative(const Vector3r &p0
     mat.col(1)[1] -= 1.0;
     mat.col(2)[2] -= 1.0;
 
-    mat.col(0) *= (-static_cast<Real>(1.0) / length_cross);
-    mat.col(1) *= (-static_cast<Real>(1.0) / length_cross);
-    mat.col(2) *= (-static_cast<Real>(1.0) / length_cross);
+    mat.col(0) *= (-static_cast<Real>(1.0) / kLengthCross);
+    mat.col(1) *= (-static_cast<Real>(1.0) / kLengthCross);
+    mat.col(2) *= (-static_cast<Real>(1.0) / kLengthCross);
 
     Matrix3r product_matrix;
     MathFunctions::CrossProductMatrix(p2 - p1, product_matrix);
@@ -352,10 +353,10 @@ bool PositionBasedElasticRods::computeMaterialFrameDerivative(const Vector3r &p0
 }
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedElasticRods::computeDarbouxGradient(const Vector3r &darboux_vector,
-                                                      const Real length,
-                                                      const Matrix3r &da,
-                                                      const Matrix3r &db,
+bool PositionBasedElasticRods::ComputeDarbouxGradient(const Vector3r &darboux_vector,
+                                                      Real length,
+                                                      const Matrix3r &dA,
+                                                      const Matrix3r &dB,
                                                       const Matrix3r dajpi[3][3],
                                                       const Matrix3r dbjpi[3][3],
                                                       // const Vector3r& bendAndTwistKs,
@@ -364,7 +365,7 @@ bool PositionBasedElasticRods::computeDarbouxGradient(const Vector3r &darboux_ve
                                                       Matrix3r &omega_pc,
                                                       Matrix3r &omega_pd,
                                                       Matrix3r &omega_pe) {
-    Real X = static_cast<Real>(1.0) + da.col(0).dot(db.col(0)) + da.col(1).dot(db.col(1)) + da.col(2).dot(db.col(2));
+    Real X = static_cast<Real>(1.0) + dA.col(0).dot(dB.col(0)) + dA.col(1).dot(dB.col(1)) + dA.col(2).dot(dB.col(2));
     X = static_cast<Real>(2.0) / (length * X);
 
     for (auto c : permutation) {
@@ -378,12 +379,12 @@ bool PositionBasedElasticRods::computeDarbouxGradient(const Vector3r &darboux_ve
             Vector3r tmp(0, 0, 0);
 
             // first term
-            term1 = dajpi[j][0].transpose() * db.col(k);
-            tmp = dajpi[k][0].transpose() * db.col(j);
+            term1 = dajpi[j][0].transpose() * dB.col(k);
+            tmp = dajpi[k][0].transpose() * dB.col(j);
             term1 = term1 - tmp;
             // second term
             for (int n = 0; n < 3; ++n) {
-                tmp = dajpi[n][0].transpose() * db.col(n);
+                tmp = dajpi[n][0].transpose() * dB.col(n);
                 term2 = term2 + tmp;
             }
             omega_pa.col(i) = X * (term1 - (0.5 * darboux_vector[i] * length) * term2);
@@ -395,22 +396,22 @@ bool PositionBasedElasticRods::computeDarbouxGradient(const Vector3r &darboux_ve
             Vector3r term2(0, 0, 0);
             Vector3r tmp(0, 0, 0);
             // first term
-            term1 = dajpi[j][1].transpose() * db.col(k);
-            tmp = dajpi[k][1].transpose() * db.col(j);
+            term1 = dajpi[j][1].transpose() * dB.col(k);
+            tmp = dajpi[k][1].transpose() * dB.col(j);
             term1 = term1 - tmp;
             // third term
-            tmp = dbjpi[j][0].transpose() * da.col(k);
+            tmp = dbjpi[j][0].transpose() * dA.col(k);
             term1 = term1 - tmp;
 
-            tmp = dbjpi[k][0].transpose() * da.col(j);
+            tmp = dbjpi[k][0].transpose() * dA.col(j);
             term1 = term1 + tmp;
 
             // second term
             for (int n = 0; n < 3; ++n) {
-                tmp = dajpi[n][1].transpose() * db.col(n);
+                tmp = dajpi[n][1].transpose() * dB.col(n);
                 term2 = term2 + tmp;
 
-                tmp = dbjpi[n][0].transpose() * da.col(n);
+                tmp = dbjpi[n][0].transpose() * dA.col(n);
                 term2 = term2 + tmp;
             }
             omega_pb.col(i) = X * (term1 - (0.5 * darboux_vector[i] * length) * term2);
@@ -423,13 +424,13 @@ bool PositionBasedElasticRods::computeDarbouxGradient(const Vector3r &darboux_ve
             Vector3r tmp(0, 0, 0);
 
             // first term
-            term1 = dbjpi[j][1].transpose() * da.col(k);
-            tmp = dbjpi[k][1].transpose() * da.col(j);
+            term1 = dbjpi[j][1].transpose() * dA.col(k);
+            tmp = dbjpi[k][1].transpose() * dA.col(j);
             term1 = term1 - tmp;
 
             // second term
             for (int n = 0; n < 3; ++n) {
-                tmp = dbjpi[n][1].transpose() * da.col(n);
+                tmp = dbjpi[n][1].transpose() * dA.col(n);
                 term2 = term2 + tmp;
             }
             omega_pc.col(i) = -X * (term1 + (0.5 * darboux_vector[i] * length) * term2);
@@ -441,12 +442,12 @@ bool PositionBasedElasticRods::computeDarbouxGradient(const Vector3r &darboux_ve
             Vector3r term2(0, 0, 0);
             Vector3r tmp(0, 0, 0);
             // first term
-            term1 = dajpi[j][2].transpose() * db.col(k);
-            tmp = dajpi[k][2].transpose() * db.col(j);
+            term1 = dajpi[j][2].transpose() * dB.col(k);
+            tmp = dajpi[k][2].transpose() * dB.col(j);
             term1 = term1 - tmp;
             // second term
             for (int n = 0; n < 3; ++n) {
-                tmp = dajpi[n][2].transpose() * db.col(n);
+                tmp = dajpi[n][2].transpose() * dB.col(n);
                 term2 = term2 + tmp;
             }
             omega_pd.col(i) = X * (term1 - (0.5 * darboux_vector[i] * length) * term2);
@@ -458,13 +459,13 @@ bool PositionBasedElasticRods::computeDarbouxGradient(const Vector3r &darboux_ve
             Vector3r term2(0, 0, 0);
             Vector3r tmp(0, 0, 0);
             // first term
-            term1 = dbjpi[j][2].transpose() * da.col(k);
-            tmp = dbjpi[k][2].transpose() * da.col(j);
+            term1 = dbjpi[j][2].transpose() * dA.col(k);
+            tmp = dbjpi[k][2].transpose() * dA.col(j);
             term1 -= tmp;
 
             // second term
             for (int n = 0; n < 3; ++n) {
-                tmp = dbjpi[n][2].transpose() * da.col(n);
+                tmp = dbjpi[n][2].transpose() * dA.col(n);
                 term2 += tmp;
             }
 
@@ -476,199 +477,200 @@ bool PositionBasedElasticRods::computeDarbouxGradient(const Vector3r &darboux_ve
 }
 // ----------------------------------------------------------------------------------------------
 
-void DirectPositionBasedSolverForStiffRods::initLists(int numberOfIntervals,
+void DirectPositionBasedSolverForStiffRods::InitLists(int number_of_intervals,
                                                       std::list<Node *> *&forward,
                                                       std::list<Node *> *&backward,
                                                       Node *&root) {
-    if (forward != NULL) delete[] forward;
-    if (backward != NULL) delete[] backward;
-    if (root != NULL) delete[] root;
-    forward = new std::list<Node *>[numberOfIntervals];
-    backward = new std::list<Node *>[numberOfIntervals];
-    root = new Node[numberOfIntervals];
+    delete[] forward;
+    delete[] backward;
+    delete[] root;
+    forward = new std::list<Node *>[number_of_intervals];
+    backward = new std::list<Node *>[number_of_intervals];
+    root = new Node[number_of_intervals];
 }
 
-bool DirectPositionBasedSolverForStiffRods::isSegmentInInterval(RodSegment *segment,
-                                                                int intervalIndex,
+bool DirectPositionBasedSolverForStiffRods::IsSegmentInInterval(RodSegment *segment,
+                                                                int interval_index,
                                                                 Interval *intervals,
-                                                                std::vector<RodConstraint *> &rodConstraints,
-                                                                std::vector<RodSegment *> &rodSegments) {
-    for (int i = intervals[intervalIndex].start; i <= intervals[intervalIndex].end; i++) {
-        if ((segment == rodSegments[rodConstraints[i]->SegmentIndex(0)]) ||
-            (segment == rodSegments[rodConstraints[i]->SegmentIndex(1)]))
+                                                                std::vector<RodConstraint *> &rod_constraints,
+                                                                std::vector<RodSegment *> &rod_segments) {
+    for (int i = intervals[interval_index].start; i <= intervals[interval_index].end; i++) {
+        if ((segment == rod_segments[rod_constraints[i]->SegmentIndex(0)]) ||
+            (segment == rod_segments[rod_constraints[i]->SegmentIndex(1)]))
             return true;
     }
     return false;
 }
 
-bool DirectPositionBasedSolverForStiffRods::isConstraintInInterval(RodConstraint *constraint,
-                                                                   int intervalIndex,
+bool DirectPositionBasedSolverForStiffRods::IsConstraintInInterval(RodConstraint *constraint,
+                                                                   int interval_index,
                                                                    Interval *intervals,
-                                                                   std::vector<RodConstraint *> &rodConstraints) {
-    for (int i = intervals[intervalIndex].start; i <= intervals[intervalIndex].end; i++) {
-        if (constraint == rodConstraints[i]) return true;
+                                                                   std::vector<RodConstraint *> &rod_constraints) {
+    for (int i = intervals[interval_index].start; i <= intervals[interval_index].end; i++) {
+        if (constraint == rod_constraints[i]) return true;
     }
     return false;
 }
 
-void DirectPositionBasedSolverForStiffRods::initSegmentNode(Node *n,
-                                                            int intervalIndex,
-                                                            std::vector<RodConstraint *> &rodConstraints,
-                                                            std::vector<RodSegment *> &rodSegments,
-                                                            std::vector<RodConstraint *> &markedConstraints,
+void DirectPositionBasedSolverForStiffRods::InitSegmentNode(Node *n,
+                                                            int interval_index,
+                                                            std::vector<RodConstraint *> &rod_constraints,
+                                                            std::vector<RodSegment *> &rod_segments,
+                                                            std::vector<RodConstraint *> &marked_constraints,
                                                             Interval *intervals) {
-    RodSegment *segment = (RodSegment *)n->object;
+    auto *segment = (RodSegment *)n->object;
 
     std::vector<RodConstraint *> constraints;
-    std::vector<int> constraintIndices;
-    for (int j = 0; j < static_cast<int>(rodConstraints.size()); ++j) {
-        RodConstraint *constraint(rodConstraints[j]);
-        if (rodSegments[constraint->SegmentIndex(0)] == segment ||
-            rodSegments[constraint->SegmentIndex(1)] == segment) {
+    std::vector<int> constraint_indices;
+    for (int j = 0; j < static_cast<int>(rod_constraints.size()); ++j) {
+        RodConstraint *constraint(rod_constraints[j]);
+        if (rod_segments[constraint->SegmentIndex(0)] == segment ||
+            rod_segments[constraint->SegmentIndex(1)] == segment) {
             constraints.push_back(constraint);
-            constraintIndices.push_back(j);
+            constraint_indices.push_back(j);
         }
     }
 
     for (unsigned int i = 0; i < constraints.size(); i++) {
-        if (!isConstraintInInterval(constraints[i], intervalIndex, intervals, rodConstraints)) continue;
+        if (!IsConstraintInInterval(constraints[i], interval_index, intervals, rod_constraints)) continue;
 
         // Test whether the edge has been visited before
         bool marked = false;
-        for (unsigned int j = 0; j < markedConstraints.size(); j++) {
-            if (constraints[i] == markedConstraints[j]) {
+        for (auto &marked_constraint : marked_constraints) {
+            if (constraints[i] == marked_constraint) {
                 marked = true;
                 break;
             }
         }
         if (!marked) {
-            Node *constraintNode = new Node();
-            constraintNode->index = constraintIndices[i];
-            constraintNode->object = constraints[i];
-            constraintNode->isconstraint = true;
-            constraintNode->parent = n;
-            constraintNode->D.setZero();
-            constraintNode->Dinv.setZero();
-            constraintNode->J.setZero();
-            constraintNode->soln.setZero();
+            Node *constraint_node = new Node();
+            constraint_node->index = constraint_indices[i];
+            constraint_node->object = constraints[i];
+            constraint_node->isconstraint = true;
+            constraint_node->parent = n;
+            constraint_node->D.setZero();
+            constraint_node->Dinv.setZero();
+            constraint_node->J.setZero();
+            constraint_node->soln.setZero();
 
-            n->children.push_back(constraintNode);
+            n->children.push_back(constraint_node);
 
-            Node *segmentNode = new Node();
-            segmentNode->isconstraint = false;
-            segmentNode->parent = constraintNode;
+            Node *segment_node = new Node();
+            segment_node->isconstraint = false;
+            segment_node->parent = constraint_node;
 
             //	get other segment connected to constraint for new node
-            if (rodSegments[constraints[i]->SegmentIndex(0)] == segment) {
-                segmentNode->object = rodSegments[constraints[i]->SegmentIndex(1)];
-                segmentNode->index = constraints[i]->SegmentIndex(1);
+            if (rod_segments[constraints[i]->SegmentIndex(0)] == segment) {
+                segment_node->object = rod_segments[constraints[i]->SegmentIndex(1)];
+                segment_node->index = constraints[i]->SegmentIndex(1);
             } else {
-                segmentNode->object = rodSegments[constraints[i]->SegmentIndex(0)];
-                segmentNode->index = constraints[i]->SegmentIndex(0);
+                segment_node->object = rod_segments[constraints[i]->SegmentIndex(0)];
+                segment_node->index = constraints[i]->SegmentIndex(0);
             }
 
-            segmentNode->D.setZero();
-            segmentNode->Dinv.setZero();
-            segmentNode->J.setZero();
-            segmentNode->soln.setZero();
+            segment_node->D.setZero();
+            segment_node->Dinv.setZero();
+            segment_node->J.setZero();
+            segment_node->soln.setZero();
 
-            constraintNode->children.push_back(segmentNode);
+            constraint_node->children.push_back(segment_node);
 
             // mark constraint
-            markedConstraints.push_back(constraints[i]);
+            marked_constraints.push_back(constraints[i]);
 
-            initSegmentNode(segmentNode, intervalIndex, rodConstraints, rodSegments, markedConstraints, intervals);
+            InitSegmentNode(segment_node, interval_index, rod_constraints, rod_segments, marked_constraints, intervals);
         }
     }
 }
 
-void DirectPositionBasedSolverForStiffRods::orderMatrix(Node *n,
-                                                        int intervalIndex,
+void DirectPositionBasedSolverForStiffRods::OrderMatrix(Node *n,
+                                                        int interval_index,
                                                         std::list<Node *> *forward,
                                                         std::list<Node *> *backward) {
-    for (unsigned int i = 0; i < n->children.size(); i++) orderMatrix(n->children[i], intervalIndex, forward, backward);
-    forward[intervalIndex].push_back(n);
-    backward[intervalIndex].push_front(n);
+    for (auto &i : n->children) OrderMatrix(i, interval_index, forward, backward);
+    forward[interval_index].push_back(n);
+    backward[interval_index].push_front(n);
 }
 
-void DirectPositionBasedSolverForStiffRods::initNodes(int intervalIndex,
-                                                      std::vector<RodSegment *> &rodSegments,
+void DirectPositionBasedSolverForStiffRods::InitNodes(int interval_index,
+                                                      std::vector<RodSegment *> &rod_segments,
                                                       Node *&root,
                                                       Interval *intervals,
-                                                      std::vector<RodConstraint *> &rodConstraints,
+                                                      std::vector<RodConstraint *> &rod_constraints,
                                                       std::list<Node *> *forward,
                                                       std::list<Node *> *backward,
-                                                      std::vector<RodConstraint *> &markedConstraints) {
+                                                      std::vector<RodConstraint *> &marked_constraints) {
     // find root
-    for (int i = 0; i < (int)rodSegments.size(); i++) {
-        RodSegment *rb(rodSegments[i]);
-        if (!isSegmentInInterval(rb, intervalIndex, intervals, rodConstraints, rodSegments))
+    for (int i = 0; i < (int)rod_segments.size(); i++) {
+        RodSegment *rb(rod_segments[i]);
+        if (!IsSegmentInInterval(rb, interval_index, intervals, rod_constraints, rod_segments))
             continue;
         else {
-            if (root[intervalIndex].object == NULL) {
-                root[intervalIndex].object = rb;
-                root[intervalIndex].index = i;
+            if (root[interval_index].object == nullptr) {
+                root[interval_index].object = rb;
+                root[interval_index].index = i;
             }
         }
 
         if (!rb->IsDynamic()) {
-            root[intervalIndex].object = rb;
-            root[intervalIndex].index = i;
+            root[interval_index].object = rb;
+            root[interval_index].index = i;
             break;
         }
     }
-    root[intervalIndex].isconstraint = false;
-    root[intervalIndex].parent = NULL;
+    root[interval_index].isconstraint = false;
+    root[interval_index].parent = nullptr;
 
-    root[intervalIndex].D.setZero();
-    root[intervalIndex].Dinv.setZero();
-    root[intervalIndex].soln.setZero();
+    root[interval_index].D.setZero();
+    root[interval_index].Dinv.setZero();
+    root[interval_index].soln.setZero();
 
-    initSegmentNode(&root[intervalIndex], intervalIndex, rodConstraints, rodSegments, markedConstraints, intervals);
-    orderMatrix(&root[intervalIndex], intervalIndex, forward, backward);
+    InitSegmentNode(&root[interval_index], interval_index, rod_constraints, rod_segments, marked_constraints,
+                    intervals);
+    OrderMatrix(&root[interval_index], interval_index, forward, backward);
 }
 
-void DirectPositionBasedSolverForStiffRods::initTree(std::vector<RodConstraint *> &rodConstraints,
-                                                     std::vector<RodSegment *> &rodSegments,
+void DirectPositionBasedSolverForStiffRods::InitTree(std::vector<RodConstraint *> &rod_constraints,
+                                                     std::vector<RodSegment *> &rod_segments,
                                                      Interval *&intervals,
-                                                     int &numberOfIntervals,
+                                                     int &number_of_intervals,
                                                      std::list<Node *> *&forward,
                                                      std::list<Node *> *&backward,
                                                      Node *&root) {
-    numberOfIntervals = 1;
+    number_of_intervals = 1;
     intervals = new Interval[1];
     intervals[0].start = 0;
-    intervals[0].end = (int)rodConstraints.size() - 1;
-    initLists(numberOfIntervals, forward, backward, root);
+    intervals[0].end = (int)rod_constraints.size() - 1;
+    InitLists(number_of_intervals, forward, backward, root);
 
-    std::vector<RodConstraint *> markedConstraints;
-    for (int i = 0; i < numberOfIntervals; i++) {
-        initNodes(i, rodSegments, root, intervals, rodConstraints, forward, backward, markedConstraints);
-        markedConstraints.clear();
+    std::vector<RodConstraint *> marked_constraints;
+    for (int i = 0; i < number_of_intervals; i++) {
+        InitNodes(i, rod_segments, root, intervals, rod_constraints, forward, backward, marked_constraints);
+        marked_constraints.clear();
     }
 }
 
-bool DirectPositionBasedSolverForStiffRods::computeDarbouxVector(const Quaternionr &q0,
+bool DirectPositionBasedSolverForStiffRods::ComputeDarbouxVector(const Quaternionr &q0,
                                                                  const Quaternionr &q1,
-                                                                 const Real averageSegmentLength,
-                                                                 Vector3r &darbouxVector) {
-    darbouxVector = 2. / averageSegmentLength * (q0.conjugate() * q1).vec();
+                                                                 Real average_segment_length,
+                                                                 Vector3r &darboux_vector) {
+    darboux_vector = 2. / average_segment_length * (q0.conjugate() * q1).vec();
     return true;
 }
 
-bool DirectPositionBasedSolverForStiffRods::computeBendingAndTorsionJacobians(const Quaternionr &q0,
+bool DirectPositionBasedSolverForStiffRods::ComputeBendingAndTorsionJacobians(const Quaternionr &q0,
                                                                               const Quaternionr &q1,
-                                                                              const Real averageSegmentLength,
-                                                                              Eigen::Matrix<Real, 3, 4> &jOmega0,
-                                                                              Eigen::Matrix<Real, 3, 4> &jOmega1) {
-    jOmega0 << -q1.w(), -q1.z(), q1.y(), q1.x(), q1.z(), -q1.w(), -q1.x(), q1.y(), -q1.y(), q1.x(), -q1.w(), q1.z();
-    jOmega1 << q0.w(), q0.z(), -q0.y(), -q0.x(), -q0.z(), q0.w(), q0.x(), -q0.y(), q0.y(), -q0.x(), q0.w(), -q0.z();
-    jOmega0 *= static_cast<Real>(2.0) / averageSegmentLength;
-    jOmega1 *= static_cast<Real>(2.0) / averageSegmentLength;
+                                                                              Real average_segment_length,
+                                                                              Eigen::Matrix<Real, 3, 4> &j_omega_0,
+                                                                              Eigen::Matrix<Real, 3, 4> &j_omega_1) {
+    j_omega_0 << -q1.w(), -q1.z(), q1.y(), q1.x(), q1.z(), -q1.w(), -q1.x(), q1.y(), -q1.y(), q1.x(), -q1.w(), q1.z();
+    j_omega_1 << q0.w(), q0.z(), -q0.y(), -q0.x(), -q0.z(), q0.w(), q0.x(), -q0.y(), q0.y(), -q0.x(), q0.w(), -q0.z();
+    j_omega_0 *= static_cast<Real>(2.0) / average_segment_length;
+    j_omega_1 *= static_cast<Real>(2.0) / average_segment_length;
     return true;
 }
 
-bool DirectPositionBasedSolverForStiffRods::computeMatrixG(const Quaternionr &q, Eigen::Matrix<Real, 4, 3> &G) {
+bool DirectPositionBasedSolverForStiffRods::ComputeMatrixG(const Quaternionr &q, Eigen::Matrix<Real, 4, 3> &G) {
     // w component at index 3
     G << static_cast<Real>(0.5) * q.w(), static_cast<Real>(0.5) * q.z(), -static_cast<Real>(0.5) * q.y(),
             -static_cast<Real>(0.5) * q.z(), static_cast<Real>(0.5) * q.w(), static_cast<Real>(0.5) * q.x(),
@@ -677,47 +679,44 @@ bool DirectPositionBasedSolverForStiffRods::computeMatrixG(const Quaternionr &q,
     return true;
 }
 
-void DirectPositionBasedSolverForStiffRods::computeMatrixK(const Vector3r &connector,
-                                                           const Real invMass,
-                                                           const Vector3r &x,
-                                                           const Matrix3r &inertiaInverseW,
-                                                           Matrix3r &K) {
-    if (invMass != 0.0) {
+void DirectPositionBasedSolverForStiffRods::ComputeMatrixK(
+        const Vector3r &connector, Real inv_mass, const Vector3r &x, const Matrix3r &inertia_inverse_w, Matrix3r &K) {
+    if (inv_mass != 0.0) {
         const Vector3r v = connector - x;
         const Real a = v[0];
         const Real b = v[1];
         const Real c = v[2];
 
         // J is symmetric
-        const Real j11 = inertiaInverseW(0, 0);
-        const Real j12 = inertiaInverseW(0, 1);
-        const Real j13 = inertiaInverseW(0, 2);
-        const Real j22 = inertiaInverseW(1, 1);
-        const Real j23 = inertiaInverseW(1, 2);
-        const Real j33 = inertiaInverseW(2, 2);
+        const Real j11 = inertia_inverse_w(0, 0);
+        const Real j12 = inertia_inverse_w(0, 1);
+        const Real j13 = inertia_inverse_w(0, 2);
+        const Real j22 = inertia_inverse_w(1, 1);
+        const Real j23 = inertia_inverse_w(1, 2);
+        const Real j33 = inertia_inverse_w(2, 2);
 
-        K(0, 0) = c * c * j22 - b * c * (j23 + j23) + b * b * j33 + invMass;
+        K(0, 0) = c * c * j22 - b * c * (j23 + j23) + b * b * j33 + inv_mass;
         K(0, 1) = -(c * c * j12) + a * c * j23 + b * c * j13 - a * b * j33;
         K(0, 2) = b * c * j12 - a * c * j22 - b * b * j13 + a * b * j23;
         K(1, 0) = K(0, 1);
-        K(1, 1) = c * c * j11 - a * c * (j13 + j13) + a * a * j33 + invMass;
+        K(1, 1) = c * c * j11 - a * c * (j13 + j13) + a * a * j33 + inv_mass;
         K(1, 2) = -(b * c * j11) + a * c * j12 + a * b * j13 - a * a * j23;
         K(2, 0) = K(0, 2);
         K(2, 1) = K(1, 2);
-        K(2, 2) = b * b * j11 - a * b * (j12 + j12) + a * a * j22 + invMass;
+        K(2, 2) = b * b * j11 - a * b * (j12 + j12) + a * a * j22 + inv_mass;
     } else
         K.setZero();
 }
 
-void DirectPositionBasedSolverForStiffRods::getMassMatrix(RodSegment *segment, Matrix6r &M) {
+void DirectPositionBasedSolverForStiffRods::GetMassMatrix(RodSegment *segment, Matrix6r &M) {
     if (!segment->IsDynamic()) {
         M = Matrix6r::Identity();
         return;
     }
 
-    const Vector3r &inertiaLocal = segment->InertiaTensor();
-    Matrix3r rotationMatrix(segment->Rotation().toRotationMatrix());
-    Matrix3r inertia(rotationMatrix * Eigen::DiagonalMatrix<Real, 3>(inertiaLocal) * rotationMatrix.transpose());
+    const Vector3r &inertia_local = segment->InertiaTensor();
+    Matrix3r rotation_matrix(segment->Rotation().toRotationMatrix());
+    Matrix3r inertia(rotation_matrix * Eigen::DiagonalMatrix<Real, 3>(inertia_local) * rotation_matrix.transpose());
 
     Real mass = segment->Mass();
 
@@ -738,54 +737,55 @@ void DirectPositionBasedSolverForStiffRods::getMassMatrix(RodSegment *segment, M
         for (int j = 3; j < 6; j++) M(i, j) = inertia(i - 3, j - 3);
 }
 
-Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
-                                                   const std::vector<RodConstraint *> &rodConstraints,
-                                                   std::vector<RodSegment *> &rodSegments,
+Real DirectPositionBasedSolverForStiffRods::Factor(const int interval_index,
+                                                   const std::vector<RodConstraint *> &rod_constraints,
+                                                   std::vector<RodSegment *> &rod_segments,
                                                    const Interval *&intervals,
                                                    std::list<Node *> *forward,
                                                    std::list<Node *> *backward,
                                                    std::vector<Vector6r> &RHS,
-                                                   std::vector<Vector6r> &lambdaSums,
-                                                   std::vector<std::vector<Matrix3r>> &bendingAndTorsionJacobians) {
-    Real maxError(0.);
+                                                   std::vector<Vector6r> &lambda_sums,
+                                                   std::vector<std::vector<Matrix3r>> &bending_and_torsion_jacobians) {
+    Real max_error(0.);
 
     // compute right hand side of linear equation system
-    for (size_t currentConstraintIndex = 0; currentConstraintIndex < rodConstraints.size(); ++currentConstraintIndex) {
-        RodConstraint *currentConstraint = rodConstraints[currentConstraintIndex];
+    for (size_t current_constraint_index = 0; current_constraint_index < rod_constraints.size();
+         ++current_constraint_index) {
+        RodConstraint *current_constraint = rod_constraints[current_constraint_index];
 
-        RodSegment *segment0 = rodSegments[currentConstraint->SegmentIndex(0)];
-        RodSegment *segment1 = rodSegments[currentConstraint->SegmentIndex(1)];
+        RodSegment *segment0 = rod_segments[current_constraint->SegmentIndex(0)];
+        RodSegment *segment1 = rod_segments[current_constraint->SegmentIndex(1)];
 
         const Quaternionr &q0 = segment0->Rotation();
         const Quaternionr &q1 = segment1->Rotation();
 
-        const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo(currentConstraint->GetConstraintInfo());
-        Vector6r &rhs(RHS[currentConstraintIndex]);
+        const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraint_info(current_constraint->GetConstraintInfo());
+        Vector6r &rhs(RHS[current_constraint_index]);
 
         // Compute zero-stretch part of constraint violation
-        const Vector3r &connector0 = constraintInfo.col(2);
-        const Vector3r &connector1 = constraintInfo.col(3);
-        Vector3r stretchViolation = connector0 - connector1;
+        const Vector3r &connector0 = constraint_info.col(2);
+        const Vector3r &connector1 = constraint_info.col(3);
+        Vector3r stretch_violation = connector0 - connector1;
 
         // compute Darboux vector (Equation (7))
         Vector3r omega;
-        computeDarbouxVector(q0, q1, currentConstraint->GetAverageSegmentLength(), omega);
+        ComputeDarbouxVector(q0, q1, current_constraint->GetAverageSegmentLength(), omega);
 
         // Compute bending and torsion part of constraint violation
-        Vector3r bendingAndTorsionViolation = omega - currentConstraint->GetRestDarbouxVector();
+        Vector3r bending_and_torsion_violation = omega - current_constraint->GetRestDarbouxVector();
 
         // fill right hand side of the linear equation system
-        const Vector6r &lambdaSum(lambdaSums[currentConstraintIndex]);
-        rhs.block<3, 1>(0, 0) = -stretchViolation - Vector3r(currentConstraint->GetStretchCompliance().array() *
-                                                             lambdaSum.block<3, 1>(0, 0).array());
+        const Vector6r &lambda_sum(lambda_sums[current_constraint_index]);
+        rhs.block<3, 1>(0, 0) = -stretch_violation - Vector3r(current_constraint->GetStretchCompliance().array() *
+                                                              lambda_sum.block<3, 1>(0, 0).array());
 
         rhs.block<3, 1>(3, 0) =
-                -bendingAndTorsionViolation - Vector3r(currentConstraint->GetBendingAndTorsionCompliance().array() *
-                                                       lambdaSum.block<3, 1>(3, 0).array());
+                -bending_and_torsion_violation - Vector3r(current_constraint->GetBendingAndTorsionCompliance().array() *
+                                                          lambda_sum.block<3, 1>(3, 0).array());
 
         // compute max error
         for (unsigned char i(0); i < 6; ++i) {
-            maxError = std::max(maxError, std::abs(rhs[i]));
+            max_error = std::max(max_error, std::abs(rhs[i]));
         }
 
         // Compute a part of the Jacobian here, because the relationship
@@ -793,113 +793,113 @@ Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
 
         // compute G matrices
         Eigen::Matrix<Real, 4, 3> G0, G1;
-        computeMatrixG(q0, G0);
-        computeMatrixG(q1, G1);
+        ComputeMatrixG(q0, G0);
+        ComputeMatrixG(q1, G1);
 
         // compute stretching bending Jacobians (Equation (10) and Equation (11))
         Eigen::Matrix<Real, 3, 4> jOmega0, jOmega1;
-        computeBendingAndTorsionJacobians(q0, q1, currentConstraint->GetAverageSegmentLength(), jOmega0, jOmega1);
+        ComputeBendingAndTorsionJacobians(q0, q1, current_constraint->GetAverageSegmentLength(), jOmega0, jOmega1);
 
-        bendingAndTorsionJacobians[currentConstraintIndex][0] = jOmega0 * G0;
-        bendingAndTorsionJacobians[currentConstraintIndex][1] = jOmega1 * G1;
+        bending_and_torsion_jacobians[current_constraint_index][0] = jOmega0 * G0;
+        bending_and_torsion_jacobians[current_constraint_index][1] = jOmega1 * G1;
     }
 
-    std::list<Node *>::iterator nodeIter;
-    for (nodeIter = forward[intervalIndex].begin(); nodeIter != forward[intervalIndex].end(); nodeIter++) {
-        Node *node = *nodeIter;
+    std::list<Node *>::iterator node_iter;
+    for (node_iter = forward[interval_index].begin(); node_iter != forward[interval_index].end(); node_iter++) {
+        Node *node = *node_iter;
         // compute system matrix diagonal
         if (node->isconstraint) {
-            RodConstraint *currentConstraint = (RodConstraint *)node->object;
+            auto *current_constraint = (RodConstraint *)node->object;
             // insert compliance
             node->D.setZero();
-            const Vector3r &stretchCompliance(currentConstraint->GetStretchCompliance());
+            const Vector3r &stretch_compliance(current_constraint->GetStretchCompliance());
 
-            node->D(0, 0) -= stretchCompliance[0];
-            node->D(1, 1) -= stretchCompliance[1];
-            node->D(2, 2) -= stretchCompliance[2];
+            node->D(0, 0) -= stretch_compliance[0];
+            node->D(1, 1) -= stretch_compliance[1];
+            node->D(2, 2) -= stretch_compliance[2];
 
-            const Vector3r &bendingAndTorsionCompliance(currentConstraint->GetBendingAndTorsionCompliance());
-            node->D(3, 3) -= bendingAndTorsionCompliance[0];
-            node->D(4, 4) -= bendingAndTorsionCompliance[1];
-            node->D(5, 5) -= bendingAndTorsionCompliance[2];
+            const Vector3r &bending_and_torsion_compliance(current_constraint->GetBendingAndTorsionCompliance());
+            node->D(3, 3) -= bending_and_torsion_compliance[0];
+            node->D(4, 4) -= bending_and_torsion_compliance[1];
+            node->D(5, 5) -= bending_and_torsion_compliance[2];
         } else {
-            getMassMatrix((RodSegment *)node->object, node->D);
+            GetMassMatrix((RodSegment *)node->object, node->D);
         }
 
         // compute Jacobian
-        if (node->parent != NULL) {
+        if (node->parent != nullptr) {
             if (node->isconstraint) {
                 // compute J
-                RodConstraint *constraint = (RodConstraint *)node->object;
-                RodSegment *segment = (RodSegment *)node->parent->object;
+                auto *constraint = (RodConstraint *)node->object;
+                auto *segment = (RodSegment *)node->parent->object;
 
                 Real sign = 1;
-                int segmentIndex = 0;
-                if (segment == rodSegments[constraint->SegmentIndex(1)]) {
-                    segmentIndex = 1;
+                int segment_index = 0;
+                if (segment == rod_segments[constraint->SegmentIndex(1)]) {
+                    segment_index = 1;
                     sign = -1;
                 }
 
-                const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo(constraint->GetConstraintInfo());
-                const Vector3r r = constraintInfo.col(2 + segmentIndex) - segment->Position();
+                const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraint_info(constraint->GetConstraintInfo());
+                const Vector3r r = constraint_info.col(2 + segment_index) - segment->Position();
                 Matrix3r r_cross;
-                Real crossSign(-static_cast<Real>(1.0) * sign);
-                MathFunctions::CrossProductMatrix(crossSign * r, r_cross);
+                Real cross_sign(-static_cast<Real>(1.0) * sign);
+                MathFunctions::CrossProductMatrix(cross_sign * r, r_cross);
 
-                Eigen::DiagonalMatrix<Real, 3> upperLeft(sign, sign, sign);
-                node->J.block<3, 3>(0, 0) = upperLeft;
+                Eigen::DiagonalMatrix<Real, 3> upper_left(sign, sign, sign);
+                node->J.block<3, 3>(0, 0) = upper_left;
 
-                Matrix3r lowerLeft(Matrix3r::Zero());
-                node->J.block<3, 3>(3, 0) = lowerLeft;
+                Matrix3r lower_left(Matrix3r::Zero());
+                node->J.block<3, 3>(3, 0) = lower_left;
 
                 node->J.block<3, 3>(0, 3) = r_cross;
 
-                Matrix3r &lowerRight(bendingAndTorsionJacobians[node->index][segmentIndex]);
-                node->J.block<3, 3>(3, 3) = lowerRight;
+                Matrix3r &lower_right(bending_and_torsion_jacobians[node->index][segment_index]);
+                node->J.block<3, 3>(3, 3) = lower_right;
             } else {
                 // compute JT
-                RodConstraint *constraint = (RodConstraint *)node->parent->object;
-                RodSegment *segment = (RodSegment *)node->object;
+                auto *constraint = (RodConstraint *)node->parent->object;
+                auto *segment = (RodSegment *)node->object;
 
                 Real sign = 1;
-                int segmentIndex = 0;
-                if (segment == rodSegments[constraint->SegmentIndex(1)]) {
-                    segmentIndex = 1;
+                int segment_index = 0;
+                if (segment == rod_segments[constraint->SegmentIndex(1)]) {
+                    segment_index = 1;
                     sign = -1;
                 }
 
-                const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo(constraint->GetConstraintInfo());
-                const Vector3r r = constraintInfo.col(2 + segmentIndex) - segment->Position();
+                const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraint_info(constraint->GetConstraintInfo());
+                const Vector3r r = constraint_info.col(2 + segment_index) - segment->Position();
                 Matrix3r r_crossT;
                 MathFunctions::CrossProductMatrix(sign * r, r_crossT);
 
-                Eigen::DiagonalMatrix<Real, 3> upperLeft(sign, sign, sign);
-                node->J.block<3, 3>(0, 0) = upperLeft;
+                Eigen::DiagonalMatrix<Real, 3> upper_left(sign, sign, sign);
+                node->J.block<3, 3>(0, 0) = upper_left;
 
                 node->J.block<3, 3>(3, 0) = r_crossT;
 
-                Matrix3r upperRight(Matrix3r::Zero());
-                node->J.block<3, 3>(0, 3) = upperRight;
+                Matrix3r upper_right(Matrix3r::Zero());
+                node->J.block<3, 3>(0, 3) = upper_right;
 
-                Matrix3r lowerRight(bendingAndTorsionJacobians[node->parent->index][segmentIndex].transpose());
-                node->J.block<3, 3>(3, 3) = lowerRight;
+                Matrix3r lower_right(bending_and_torsion_jacobians[node->parent->index][segment_index].transpose());
+                node->J.block<3, 3>(3, 3) = lower_right;
             }
         }
     }
 
-    for (nodeIter = forward[intervalIndex].begin(); nodeIter != forward[intervalIndex].end(); nodeIter++) {
-        Node *node = *nodeIter;
+    for (node_iter = forward[interval_index].begin(); node_iter != forward[interval_index].end(); node_iter++) {
+        Node *node = *node_iter;
         std::vector<Node *> children = node->children;
-        for (size_t i = 0; i < children.size(); i++) {
-            Matrix6r JT = (children[i]->J).transpose();
-            Matrix6r &D = children[i]->D;
-            Matrix6r &J = children[i]->J;
+        for (auto &i : children) {
+            Matrix6r JT = (i->J).transpose();
+            Matrix6r &D = i->D;
+            Matrix6r &J = i->J;
             Matrix6r JTDJ = ((JT * D) * J);
             node->D = node->D - JTDJ;
         }
         bool chk = false;
         if (!node->isconstraint) {
-            RodSegment *segment = (RodSegment *)node->object;
+            auto *segment = (RodSegment *)node->object;
             if (!segment->IsDynamic()) {
                 node->Dinv.setZero();
                 chk = true;
@@ -907,7 +907,7 @@ Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
         }
 
         node->DLDLT.compute(node->D);  // result reused in solve()
-        if (node->parent != NULL) {
+        if (node->parent != nullptr) {
             if (!chk) {
                 node->J = node->DLDLT.solve(node->J);
             } else {
@@ -915,46 +915,46 @@ Real DirectPositionBasedSolverForStiffRods::factor(const int intervalIndex,
             }
         }
     }
-    return maxError;
+    return max_error;
 }
 
-bool DirectPositionBasedSolverForStiffRods::solve(int intervalIndex,
+bool DirectPositionBasedSolverForStiffRods::Solve(int interval_index,
                                                   std::list<Node *> *forward,
                                                   std::list<Node *> *backward,
                                                   std::vector<Vector6r> &RHS,
-                                                  std::vector<Vector6r> &lambdaSums,
+                                                  std::vector<Vector6r> &lambda_sums,
                                                   std::vector<Vector3r> &corr_x,
                                                   std::vector<Quaternionr> &corr_q) {
-    std::list<Node *>::iterator nodeIter;
-    for (nodeIter = forward[intervalIndex].begin(); nodeIter != forward[intervalIndex].end(); nodeIter++) {
-        Node *node = *nodeIter;
+    std::list<Node *>::iterator node_iter;
+    for (node_iter = forward[interval_index].begin(); node_iter != forward[interval_index].end(); node_iter++) {
+        Node *node = *node_iter;
         if (node->isconstraint) {
             node->soln = -RHS[node->index];
         } else {
             node->soln.setZero();
         }
         std::vector<Node *> &children = node->children;
-        for (size_t i = 0; i < children.size(); ++i) {
-            Matrix6r cJT = children[i]->J.transpose();
-            Vector6r &csoln = children[i]->soln;
+        for (auto &i : children) {
+            Matrix6r cJT = i->J.transpose();
+            Vector6r &csoln = i->soln;
             Vector6r v = cJT * csoln;
             node->soln = node->soln - v;
         }
     }
 
-    for (nodeIter = backward[intervalIndex].begin(); nodeIter != backward[intervalIndex].end(); nodeIter++) {
-        Node *node = *nodeIter;
+    for (node_iter = backward[interval_index].begin(); node_iter != backward[interval_index].end(); node_iter++) {
+        Node *node = *node_iter;
 
-        bool noZeroDinv(true);
+        bool no_zero_dinv(true);
         if (!node->isconstraint) {
-            RodSegment *segment = (RodSegment *)node->object;
-            noZeroDinv = segment->IsDynamic();
+            auto *segment = (RodSegment *)node->object;
+            no_zero_dinv = segment->IsDynamic();
         }
-        if (noZeroDinv)  // if DInv == 0 child value is 0 and node->soln is not altered
+        if (no_zero_dinv)  // if DInv == 0 child value is 0 and node->soln is not altered
         {
             node->soln = node->DLDLT.solve(node->soln);
 
-            if (node->parent != NULL) {
+            if (node->parent != nullptr) {
                 node->soln -= node->J * node->parent->soln;
             }
         } else {
@@ -962,150 +962,150 @@ bool DirectPositionBasedSolverForStiffRods::solve(int intervalIndex,
         }
 
         if (node->isconstraint) {
-            lambdaSums[node->index] += node->soln;
+            lambda_sums[node->index] += node->soln;
         }
     }
 
     // compute position and orientation updates
-    for (nodeIter = forward[intervalIndex].begin(); nodeIter != forward[intervalIndex].end(); nodeIter++) {
-        Node *node = *nodeIter;
+    for (node_iter = forward[interval_index].begin(); node_iter != forward[interval_index].end(); node_iter++) {
+        Node *node = *node_iter;
         if (!node->isconstraint) {
-            RodSegment *segment = (RodSegment *)node->object;
+            auto *segment = (RodSegment *)node->object;
             if (!segment->IsDynamic()) {
                 break;
             }
 
             const Vector6r &soln(node->soln);
-            Vector3r deltaXSoln = Vector3r(-soln[0], -soln[1], -soln[2]);
-            corr_x[node->index] = deltaXSoln;
+            Vector3r delta_x_soln = Vector3r(-soln[0], -soln[1], -soln[2]);
+            corr_x[node->index] = delta_x_soln;
 
             Eigen::Matrix<Real, 4, 3> G;
-            computeMatrixG(segment->Rotation(), G);
-            Quaternionr deltaQSoln;
-            deltaQSoln.coeffs() = G * Vector3r(-soln[3], -soln[4], -soln[5]);
-            corr_q[node->index] = deltaQSoln;
+            ComputeMatrixG(segment->Rotation(), G);
+            Quaternionr delta_q_soln;
+            delta_q_soln.coeffs() = G * Vector3r(-soln[3], -soln[4], -soln[5]);
+            corr_q[node->index] = delta_q_soln;
         }
     }
     return true;
 }
 
-bool DirectPositionBasedSolverForStiffRods::init_DirectPositionBasedSolverForStiffRodsConstraint(
-        std::vector<RodConstraint *> &rodConstraints,
-        std::vector<RodSegment *> &rodSegments,
+bool DirectPositionBasedSolverForStiffRods::InitDirectPositionBasedSolverForStiffRodsConstraint(
+        std::vector<RodConstraint *> &rod_constraints,
+        std::vector<RodSegment *> &rod_segments,
         Interval *&intervals,
-        int &numberOfIntervals,
+        int &number_of_intervals,
         std::list<Node *> *&forward,
         std::list<Node *> *&backward,
         Node *&root,
-        const std::vector<Vector3r> &constraintPositions,
-        const std::vector<Real> &averageRadii,
-        const std::vector<Real> &youngsModuli,
-        const std::vector<Real> &torsionModuli,
+        const std::vector<Vector3r> &constraint_positions,
+        const std::vector<Real> &average_radii,
+        const std::vector<Real> &youngs_moduli,
+        const std::vector<Real> &torsion_moduli,
         std::vector<Vector6r> &RHS,
-        std::vector<Vector6r> &lambdaSums,
-        std::vector<std::vector<Matrix3r>> &bendingAndTorsionJacobians,
+        std::vector<Vector6r> &lambda_sums,
+        std::vector<std::vector<Matrix3r>> &bending_and_torsion_jacobians,
         std::vector<Vector3r> &corr_x,
         std::vector<Quaternionr> &corr_q) {
     // init constraints
-    for (size_t cIdx(0); cIdx < rodConstraints.size(); ++cIdx) {
-        RodConstraint *constraint(rodConstraints[cIdx]);
-        RodSegment *segment0(rodSegments[constraint->SegmentIndex(0)]);
-        RodSegment *segment1(rodSegments[constraint->SegmentIndex(1)]);
+    for (size_t cIdx(0); cIdx < rod_constraints.size(); ++cIdx) {
+        RodConstraint *constraint(rod_constraints[cIdx]);
+        RodSegment *segment0(rod_segments[constraint->SegmentIndex(0)]);
+        RodSegment *segment1(rod_segments[constraint->SegmentIndex(1)]);
 
-        init_StretchBendingTwistingConstraint(
+        InitStretchBendingTwistingConstraint(
                 segment0->Position(), segment0->Rotation(), segment1->Position(), segment1->Rotation(),
-                constraintPositions[cIdx], averageRadii[cIdx], constraint->GetAverageSegmentLength(),
-                youngsModuli[cIdx], torsionModuli[cIdx], constraint->GetConstraintInfo(),
+                constraint_positions[cIdx], average_radii[cIdx], constraint->GetAverageSegmentLength(),
+                youngs_moduli[cIdx], torsion_moduli[cIdx], constraint->GetConstraintInfo(),
                 constraint->GetStiffnessCoefficientK(), constraint->GetRestDarbouxVector());
     }
 
     // compute tree data structure for direct solver
-    initTree(rodConstraints, rodSegments, intervals, numberOfIntervals, forward, backward, root);
+    InitTree(rod_constraints, rod_segments, intervals, number_of_intervals, forward, backward, root);
 
-    RHS.resize(rodConstraints.size());
+    RHS.resize(rod_constraints.size());
     std::fill(RHS.begin(), RHS.end(), Vector6r::Zero());
 
-    lambdaSums.resize(rodConstraints.size());
-    std::fill(lambdaSums.begin(), lambdaSums.end(), Vector6r::Zero());
+    lambda_sums.resize(rod_constraints.size());
+    std::fill(lambda_sums.begin(), lambda_sums.end(), Vector6r::Zero());
 
-    bendingAndTorsionJacobians.resize(rodConstraints.size());
-    std::vector<Matrix3r> sampleJacobians(2);
-    sampleJacobians[0].setZero();
-    sampleJacobians[1].setZero();
-    std::fill(bendingAndTorsionJacobians.begin(), bendingAndTorsionJacobians.end(), sampleJacobians);
+    bending_and_torsion_jacobians.resize(rod_constraints.size());
+    std::vector<Matrix3r> sample_jacobians(2);
+    sample_jacobians[0].setZero();
+    sample_jacobians[1].setZero();
+    std::fill(bending_and_torsion_jacobians.begin(), bending_and_torsion_jacobians.end(), sample_jacobians);
 
-    corr_x.resize(rodSegments.size());
+    corr_x.resize(rod_segments.size());
     std::fill(corr_x.begin(), corr_x.end(), Vector3r::Zero());
 
-    corr_q.resize(rodSegments.size());
+    corr_q.resize(rod_segments.size());
     std::fill(corr_q.begin(), corr_q.end(), Quaternionr::Identity());
 
     return true;
 }
 
-bool DirectPositionBasedSolverForStiffRods::initBeforeProjection_DirectPositionBasedSolverForStiffRodsConstraint(
-        const std::vector<RodConstraint *> &rodConstraints,
-        const Real inverseTimeStepSize,
-        std::vector<Vector6r> &lambdaSums) {
-    for (size_t cIdx(0); cIdx < rodConstraints.size(); ++cIdx) {
-        RodConstraint *constraint(rodConstraints[cIdx]);
+bool DirectPositionBasedSolverForStiffRods::InitBeforeProjectionDirectPositionBasedSolverForStiffRodsConstraint(
+        const std::vector<RodConstraint *> &rod_constraints,
+        Real inverse_time_step_size,
+        std::vector<Vector6r> &lambda_sums) {
+    for (size_t cIdx(0); cIdx < rod_constraints.size(); ++cIdx) {
+        RodConstraint *constraint(rod_constraints[cIdx]);
 
-        initBeforeProjection_StretchBendingTwistingConstraint(
-                constraint->GetStiffnessCoefficientK(), inverseTimeStepSize, constraint->GetAverageSegmentLength(),
-                constraint->GetStretchCompliance(), constraint->GetBendingAndTorsionCompliance(), lambdaSums[cIdx]);
+        InitBeforeProjectionStretchBendingTwistingConstraint(
+                constraint->GetStiffnessCoefficientK(), inverse_time_step_size, constraint->GetAverageSegmentLength(),
+                constraint->GetStretchCompliance(), constraint->GetBendingAndTorsionCompliance(), lambda_sums[cIdx]);
     }
     return true;
 }
 
-bool DirectPositionBasedSolverForStiffRods::update_DirectPositionBasedSolverForStiffRodsConstraint(
-        const std::vector<RodConstraint *> &rodConstraints, const std::vector<RodSegment *> &rodSegments) {
+bool DirectPositionBasedSolverForStiffRods::UpdateDirectPositionBasedSolverForStiffRodsConstraint(
+        const std::vector<RodConstraint *> &rod_constraints, const std::vector<RodSegment *> &rod_segments) {
     // update rod constraints
-    for (size_t cIdx(0); cIdx < rodConstraints.size(); ++cIdx) {
-        RodConstraint *constraint(rodConstraints[cIdx]);
-        RodSegment *segment0(rodSegments[constraint->SegmentIndex(0)]);
-        RodSegment *segment1(rodSegments[constraint->SegmentIndex(1)]);
+    for (size_t cIdx(0); cIdx < rod_constraints.size(); ++cIdx) {
+        RodConstraint *constraint(rod_constraints[cIdx]);
+        RodSegment *segment0(rod_segments[constraint->SegmentIndex(0)]);
+        RodSegment *segment1(rod_segments[constraint->SegmentIndex(1)]);
 
-        update_StretchBendingTwistingConstraint(segment0->Position(), segment0->Rotation(), segment1->Position(),
-                                                segment1->Rotation(), constraint->GetConstraintInfo());
+        UpdateStretchBendingTwistingConstraint(segment0->Position(), segment0->Rotation(), segment1->Position(),
+                                               segment1->Rotation(), constraint->GetConstraintInfo());
     }
     return true;
 }
 
-bool DirectPositionBasedSolverForStiffRods::solve_DirectPositionBasedSolverForStiffRodsConstraint(
-        const std::vector<RodConstraint *> &rodConstraints,
-        std::vector<RodSegment *> &rodSegments,
+bool DirectPositionBasedSolverForStiffRods::SolveDirectPositionBasedSolverForStiffRodsConstraint(
+        const std::vector<RodConstraint *> &rod_constraints,
+        std::vector<RodSegment *> &rod_segments,
         const Interval *intervals,
-        const int &numberOfIntervals,
+        const int &number_of_intervals,
         std::list<Node *> *forward,
         std::list<Node *> *backward,
         std::vector<Vector6r> &RHS,
-        std::vector<Vector6r> &lambdaSums,
-        std::vector<std::vector<Matrix3r>> &bendingAndTorsionJacobians,
+        std::vector<Vector6r> &lambda_sums,
+        std::vector<std::vector<Matrix3r>> &bending_and_torsion_jacobians,
         std::vector<Vector3r> &corr_x,
         std::vector<Quaternionr> &corr_q) {
-    for (int i = 0; i < numberOfIntervals; i++) {
-        factor(i, rodConstraints, rodSegments, intervals, forward, backward, RHS, lambdaSums,
-               bendingAndTorsionJacobians);
+    for (int i = 0; i < number_of_intervals; i++) {
+        Factor(i, rod_constraints, rod_segments, intervals, forward, backward, RHS, lambda_sums,
+               bending_and_torsion_jacobians);
     }
-    for (int i = 0; i < numberOfIntervals; i++) {
-        solve(i, forward, backward, RHS, lambdaSums, corr_x, corr_q);
+    for (int i = 0; i < number_of_intervals; i++) {
+        Solve(i, forward, backward, RHS, lambda_sums, corr_x, corr_q);
     }
     return true;
 }
 
-bool DirectPositionBasedSolverForStiffRods::init_StretchBendingTwistingConstraint(
+bool DirectPositionBasedSolverForStiffRods::InitStretchBendingTwistingConstraint(
         const Vector3r &x0,
         const Quaternionr &q0,
         const Vector3r &x1,
         const Quaternionr &q1,
-        const Vector3r &constraintPosition,
-        const Real averageRadius,
-        const Real averageSegmentLength,
-        const Real youngsModulus,
-        const Real torsionModulus,
-        Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo,
-        Vector3r &stiffnessCoefficientK,
-        Vector3r &restDarbouxVector) {
+        const Vector3r &constraint_position,
+        Real average_radius,
+        Real average_segment_length,
+        Real youngs_modulus,
+        Real torsion_modulus,
+        Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &joint_info,
+        Vector3r &stiffness_coefficient_k,
+        Vector3r &rest_darboux_vector) {
     // constraintInfo contains
     // 0:	connector in segment 0 (local)
     // 1:	connector in segment 1 (local)
@@ -1116,54 +1116,55 @@ bool DirectPositionBasedSolverForStiffRods::init_StretchBendingTwistingConstrain
     const Matrix3r rot0T = q0.matrix().transpose();
     const Matrix3r rot1T = q1.matrix().transpose();
 
-    constraintInfo.col(0) = rot0T * (constraintPosition - x0);
-    constraintInfo.col(1) = rot1T * (constraintPosition - x1);
-    constraintInfo.col(2) = constraintPosition;
-    constraintInfo.col(3) = constraintPosition;
+    joint_info.col(0) = rot0T * (constraint_position - x0);
+    joint_info.col(1) = rot1T * (constraint_position - x1);
+    joint_info.col(2) = constraint_position;
+    joint_info.col(3) = constraint_position;
 
     // compute bending and torsion stiffness of the K matrix diagonal; assumption: the rod axis follows the y-axis of
     // the local frame as with Blender's armatures
-    Real secondMomentOfArea(static_cast<Real>(M_PI_4) * std::pow(averageRadius, static_cast<Real>(4.0)));
-    Real bendingStiffness(youngsModulus * secondMomentOfArea);
-    Real torsionStiffness(static_cast<Real>(2.0) * torsionModulus * secondMomentOfArea);
-    stiffnessCoefficientK = Vector3r(bendingStiffness, torsionStiffness, bendingStiffness);
+    Real second_moment_of_area(static_cast<Real>(M_PI_4) * std::pow(average_radius, static_cast<Real>(4.0)));
+    Real bending_stiffness(youngs_modulus * second_moment_of_area);
+    Real torsion_stiffness(static_cast<Real>(2.0) * torsion_modulus * second_moment_of_area);
+    stiffness_coefficient_k = Vector3r(bending_stiffness, torsion_stiffness, bending_stiffness);
 
     // compute rest Darboux vector
-    computeDarbouxVector(q0, q1, averageSegmentLength, restDarbouxVector);
+    ComputeDarbouxVector(q0, q1, average_segment_length, rest_darboux_vector);
 
     return true;
 }
 
-bool DirectPositionBasedSolverForStiffRods::initBeforeProjection_StretchBendingTwistingConstraint(
-        const Vector3r &stiffnessCoefficientK,
-        const Real inverseTimeStepSize,
-        const Real averageSegmentLength,
-        Vector3r &stretchCompliance,
-        Vector3r &bendingAndTorsionCompliance,
-        Vector6r &lambdaSum) {
-    Real inverseTSQuadratic(inverseTimeStepSize * inverseTimeStepSize);
+bool DirectPositionBasedSolverForStiffRods::InitBeforeProjectionStretchBendingTwistingConstraint(
+        const Vector3r &stiffness_coefficient_k,
+        Real inverse_time_step_size,
+        Real average_segment_length,
+        Vector3r &stretch_compliance,
+        Vector3r &bending_and_torsion_compliance,
+        Vector6r &lambda_sum) {
+    Real inverse_ts_quadratic(inverse_time_step_size * inverse_time_step_size);
 
     // compute compliance parameter of the stretch constraint part
-    const Real stretchRegularizationParameter(static_cast<Real>(1.E-10));
-    stretchCompliance << stretchRegularizationParameter * inverseTSQuadratic,
-            stretchRegularizationParameter * inverseTSQuadratic, stretchRegularizationParameter * inverseTSQuadratic;
+    const Real kStretchRegularizationParameter(static_cast<Real>(1.E-10));
+    stretch_compliance << kStretchRegularizationParameter * inverse_ts_quadratic,
+            kStretchRegularizationParameter * inverse_ts_quadratic,
+            kStretchRegularizationParameter * inverse_ts_quadratic;
 
     // compute compliance parameter of the bending and torsion constraint part
-    bendingAndTorsionCompliance << inverseTSQuadratic / stiffnessCoefficientK(0),
-            inverseTSQuadratic / stiffnessCoefficientK(1), inverseTSQuadratic / stiffnessCoefficientK(2);
-    bendingAndTorsionCompliance *= static_cast<Real>(1.0) / averageSegmentLength;
+    bending_and_torsion_compliance << inverse_ts_quadratic / stiffness_coefficient_k(0),
+            inverse_ts_quadratic / stiffness_coefficient_k(1), inverse_ts_quadratic / stiffness_coefficient_k(2);
+    bending_and_torsion_compliance *= static_cast<Real>(1.0) / average_segment_length;
 
     // set sum of delta lambda values to zero
-    lambdaSum.setZero();
+    lambda_sum.setZero();
     return true;
 }
 
-bool DirectPositionBasedSolverForStiffRods::update_StretchBendingTwistingConstraint(
+bool DirectPositionBasedSolverForStiffRods::UpdateStretchBendingTwistingConstraint(
         const Vector3r &x0,
         const Quaternionr &q0,
         const Vector3r &x1,
         const Quaternionr &q1,
-        Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo) {
+        Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &joint_info) {
     // constraintInfo contains
     // 0:	connector in segment 0 (local)
     // 1:	connector in segment 1 (local)
@@ -1173,69 +1174,69 @@ bool DirectPositionBasedSolverForStiffRods::update_StretchBendingTwistingConstra
     // compute world space positions of connectors
     const Matrix3r rot0 = q0.matrix();
     const Matrix3r rot1 = q1.matrix();
-    constraintInfo.col(2) = rot0 * constraintInfo.col(0) + x0;
-    constraintInfo.col(3) = rot1 * constraintInfo.col(1) + x1;
+    joint_info.col(2) = rot0 * joint_info.col(0) + x0;
+    joint_info.col(3) = rot1 * joint_info.col(1) + x1;
 
     return true;
 }
 
-bool DirectPositionBasedSolverForStiffRods::solve_StretchBendingTwistingConstraint(
-        const Real invMass0,
+bool DirectPositionBasedSolverForStiffRods::SolveStretchBendingTwistingConstraint(
+        Real inv_mass_0,
         const Vector3r &x0,
-        const Matrix3r &inertiaInverseW0,
+        const Matrix3r &inertia_inverse_w_0,
         const Quaternionr &q0,
-        const Real invMass1,
+        Real inv_mass_1,
         const Vector3r &x1,
-        const Matrix3r &inertiaInverseW1,
+        const Matrix3r &inertia_inverse_w_1,
         const Quaternionr &q1,
-        const Vector3r &restDarbouxVector,
-        const Real averageSegmentLength,
-        const Vector3r &stretchCompliance,
-        const Vector3r &bendingAndTorsionCompliance,
-        const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &constraintInfo,
+        const Vector3r &rest_darboux_vector,
+        Real average_segment_length,
+        const Vector3r &stretch_compliance,
+        const Vector3r &bending_and_torsion_compliance,
+        const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &joint_info,
         Vector3r &corr_x0,
         Quaternionr &corr_q0,
         Vector3r &corr_x1,
         Quaternionr &corr_q1,
-        Vector6r &lambdaSum) {
+        Vector6r &lambda_sum) {
     // compute Darboux vector (Equation (7))
     Vector3r omega;
-    computeDarbouxVector(q0, q1, averageSegmentLength, omega);
+    ComputeDarbouxVector(q0, q1, average_segment_length, omega);
 
     // compute bending and torsion Jacobians (Equation (10) and Equation (11))
     Eigen::Matrix<Real, 3, 4> jOmega0, jOmega1;
-    computeBendingAndTorsionJacobians(q0, q1, averageSegmentLength, jOmega0, jOmega1);
+    ComputeBendingAndTorsionJacobians(q0, q1, average_segment_length, jOmega0, jOmega1);
 
     // compute G matrices (Equation (27))
     Eigen::Matrix<Real, 4, 3> G0, G1;
-    computeMatrixG(q0, G0);
-    computeMatrixG(q1, G1);
+    ComputeMatrixG(q0, G0);
+    ComputeMatrixG(q1, G1);
 
     Matrix3r jOmegaG0(jOmega0 * G0), jOmegaG1(jOmega1 * G1);
 
     // Compute zero-stretch part of constraint violation (Equation (23))
-    const Vector3r &connector0 = constraintInfo.col(2);
-    const Vector3r &connector1 = constraintInfo.col(3);
-    Vector3r stretchViolation = connector0 - connector1;
+    const Vector3r &connector0 = joint_info.col(2);
+    const Vector3r &connector1 = joint_info.col(3);
+    Vector3r stretch_violation = connector0 - connector1;
 
     // Compute bending and torsion part of constraint violation  (Equation (23))
-    Vector3r bendingAndTorsionViolation = omega - restDarbouxVector;
+    Vector3r bending_and_torsion_violation = omega - rest_darboux_vector;
 
     // fill right hand side of the linear equation system (Equation (19))
     Vector6r rhs;
     rhs.block<3, 1>(0, 0) =
-            -stretchViolation - Vector3r(stretchCompliance.array() * lambdaSum.block<3, 1>(0, 0).array());
+            -stretch_violation - Vector3r(stretch_compliance.array() * lambda_sum.block<3, 1>(0, 0).array());
 
-    rhs.block<3, 1>(3, 0) = -bendingAndTorsionViolation -
-                            Vector3r(bendingAndTorsionCompliance.array() * lambdaSum.block<3, 1>(3, 0).array());
+    rhs.block<3, 1>(3, 0) = -bending_and_torsion_violation -
+                            Vector3r(bending_and_torsion_compliance.array() * lambda_sum.block<3, 1>(3, 0).array());
 
     // compute matrix of the linear equation system (using Equations (25), (26), and (28) in Equation (19))
     Matrix6r JMJT(Matrix6r::Zero());
 
     // compute stretch block
     Matrix3r K1, K2;
-    computeMatrixK(connector0, invMass0, x0, inertiaInverseW0, K1);
-    computeMatrixK(connector1, invMass1, x1, inertiaInverseW1, K2);
+    ComputeMatrixK(connector0, inv_mass_0, x0, inertia_inverse_w_0, K1);
+    ComputeMatrixK(connector1, inv_mass_1, x1, inertia_inverse_w_1, K2);
     JMJT.block<3, 3>(0, 0) = K1 + K2;
 
     // compute coupling blocks
@@ -1247,63 +1248,63 @@ bool DirectPositionBasedSolverForStiffRods::solve_StretchBendingTwistingConstrai
     MathFunctions::CrossProductMatrix(-rb, rb_crossT);  // use -rb to get the transpose
 
     Matrix3r offdiag(Matrix3r::Zero());
-    if (invMass0 != 0.0) {
-        offdiag = jOmegaG0 * inertiaInverseW0 * ra_crossT * (-1);
+    if (inv_mass_0 != 0.0) {
+        offdiag = jOmegaG0 * inertia_inverse_w_0 * ra_crossT * (-1);
     }
 
-    if (invMass1 != 0.0) {
-        offdiag += jOmegaG1 * inertiaInverseW1 * rb_crossT;
+    if (inv_mass_1 != 0.0) {
+        offdiag += jOmegaG1 * inertia_inverse_w_1 * rb_crossT;
     }
     JMJT.block<3, 3>(3, 0) = offdiag;
     JMJT.block<3, 3>(0, 3) = offdiag.transpose();
 
     // compute bending and torsion block
-    Matrix3r MInvJT0(inertiaInverseW0 * jOmegaG0.transpose());
-    Matrix3r MInvJT1(inertiaInverseW1 * jOmegaG1.transpose());
+    Matrix3r MInvJT0(inertia_inverse_w_0 * jOmegaG0.transpose());
+    Matrix3r MInvJT1(inertia_inverse_w_1 * jOmegaG1.transpose());
 
-    Matrix3r JMJTOmega(Matrix3r::Zero());
-    if (invMass0 != 0.0) {
-        JMJTOmega = jOmegaG0 * MInvJT0;
+    Matrix3r jmjt_omega(Matrix3r::Zero());
+    if (inv_mass_0 != 0.0) {
+        jmjt_omega = jOmegaG0 * MInvJT0;
     }
 
-    if (invMass1 != 0.0) {
-        JMJTOmega += jOmegaG1 * MInvJT1;
+    if (inv_mass_1 != 0.0) {
+        jmjt_omega += jOmegaG1 * MInvJT1;
     }
-    JMJT.block<3, 3>(3, 3) = JMJTOmega;
+    JMJT.block<3, 3>(3, 3) = jmjt_omega;
 
     // add compliance
-    JMJT(0, 0) += stretchCompliance(0);
-    JMJT(1, 1) += stretchCompliance(1);
-    JMJT(2, 2) += stretchCompliance(2);
-    JMJT(3, 3) += bendingAndTorsionCompliance(0);
-    JMJT(4, 4) += bendingAndTorsionCompliance(1);
-    JMJT(5, 5) += bendingAndTorsionCompliance(2);
+    JMJT(0, 0) += stretch_compliance(0);
+    JMJT(1, 1) += stretch_compliance(1);
+    JMJT(2, 2) += stretch_compliance(2);
+    JMJT(3, 3) += bending_and_torsion_compliance(0);
+    JMJT(4, 4) += bending_and_torsion_compliance(1);
+    JMJT(5, 5) += bending_and_torsion_compliance(2);
 
     // solve linear equation system (Equation 19)
     auto decomposition(JMJT.ldlt());
-    Vector6r deltaLambda(decomposition.solve(rhs));
+    Vector6r delta_lambda(decomposition.solve(rhs));
 
     // update sum of delta lambda values for next Gauss-Seidel solver iteration step
-    lambdaSum += deltaLambda;
+    lambda_sum += delta_lambda;
 
     // compute position and orientation updates (using Equations (25), (26), and (28) in Equation (20))
-    Vector3r deltaLambdaStretch(deltaLambda.block<3, 1>(0, 0)),
-            deltaLambdaBendingAndTorsion(deltaLambda.block<3, 1>(3, 0));
+    Vector3r delta_lambda_stretch(delta_lambda.block<3, 1>(0, 0)),
+            delta_lambda_bending_and_torsion(delta_lambda.block<3, 1>(3, 0));
     corr_x0.setZero();
     corr_x1.setZero();
     corr_q0.coeffs().setZero();
     corr_q1.coeffs().setZero();
 
-    if (invMass0 != 0.) {
-        corr_x0 += invMass0 * deltaLambdaStretch;
-        corr_q0.coeffs() += G0 * (inertiaInverseW0 * ra_crossT * (-1 * deltaLambdaStretch) +
-                                  MInvJT0 * deltaLambdaBendingAndTorsion);
+    if (inv_mass_0 != 0.) {
+        corr_x0 += inv_mass_0 * delta_lambda_stretch;
+        corr_q0.coeffs() += G0 * (inertia_inverse_w_0 * ra_crossT * (-1 * delta_lambda_stretch) +
+                                  MInvJT0 * delta_lambda_bending_and_torsion);
     }
 
-    if (invMass1 != 0.) {
-        corr_x1 -= invMass1 * deltaLambdaStretch;
-        corr_q1.coeffs() +=
-                G1 * (inertiaInverseW1 * rb_crossT * deltaLambdaStretch + MInvJT1 * deltaLambdaBendingAndTorsion);
+    if (inv_mass_1 != 0.) {
+        corr_x1 -= inv_mass_1 * delta_lambda_stretch;
+        corr_q1.coeffs() += G1 * (inertia_inverse_w_1 * rb_crossT * delta_lambda_stretch +
+                                  MInvJT1 * delta_lambda_bending_and_torsion);
     }
 
     return true;
