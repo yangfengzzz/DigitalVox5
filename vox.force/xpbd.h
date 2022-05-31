@@ -115,7 +115,7 @@ public:
      * @param invMass2 inverse mass of third particle
      * @param p3 position of fourth particle
      * @param invMass3 inverse mass of fourth particle
-     * @param  Q local stiffness matrix which must be initialized by calling init_IsometricBendingConstraint()
+     * @param  Q local stiffness matrix which must be initialized by calling InitIsometricBendingConstraint()
      * @param  stiffness stiffness coefficient for bending
      * @param dt Time step size
      * @param lambda Lagrange multiplier (XPBD)

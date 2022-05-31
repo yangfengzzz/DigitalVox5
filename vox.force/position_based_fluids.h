@@ -39,7 +39,7 @@ public:
      * @param density_err returns the clamped density error (can be used for enforcing a maximal global density error)
      * @param density return the density
      */
-    static bool computePBFDensity(
+    static bool ComputePbfDensity(
             unsigned int particleIndex,      // current fluid particle
             unsigned int numberOfParticles,  // number of fluid particles
             const Vector3r x[],              // array of all particle positions

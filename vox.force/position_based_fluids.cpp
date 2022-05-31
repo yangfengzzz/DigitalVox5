@@ -11,16 +11,16 @@
 namespace vox::force {
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedFluids::computePBFDensity(const unsigned int particleIndex,
-                                            const unsigned int numberOfParticles,
+bool PositionBasedFluids::ComputePbfDensity(unsigned int particleIndex,
+                                            unsigned int numberOfParticles,
                                             const Vector3r x[],
                                             const Real mass[],
                                             const Vector3r boundaryX[],
                                             const Real boundaryPsi[],
-                                            const unsigned int numNeighbors,
+                                            unsigned int numNeighbors,
                                             const unsigned int neighbors[],
-                                            const Real density0,
-                                            const bool boundaryHandling,
+                                            Real density0,
+                                            bool boundaryHandling,
                                             Real &density_err,
                                             Real &density) {
     // Compute current density for particle i

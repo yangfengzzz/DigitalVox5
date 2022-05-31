@@ -1017,7 +1017,7 @@ bool IsometricBendingConstraint::InitConstraint(SimulationModel &model,
     const Vector3r &x3 = pd.GetPosition0(particle3);
     const Vector3r &x4 = pd.GetPosition0(particle4);
 
-    return PositionBasedDynamics::init_IsometricBendingConstraint(x1, x2, x3, x4, m_Q);
+    return PositionBasedDynamics::InitIsometricBendingConstraint(x1, x2, x3, x4, m_Q);
 }
 
 bool IsometricBendingConstraint::SolvePositionConstraint(SimulationModel &model, const unsigned int iter) {
@@ -1039,7 +1039,7 @@ bool IsometricBendingConstraint::SolvePositionConstraint(SimulationModel &model,
     const Real kInvMass4 = pd.GetInvMass(kI4);
 
     Vector3r corr1, corr2, corr3, corr4;
-    const bool kRes = PositionBasedDynamics::solve_IsometricBendingConstraint(
+    const bool kRes = PositionBasedDynamics::SolveIsometricBendingConstraint(
             x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, x4, kInvMass4, m_Q, m_stiffness, corr1, corr2, corr3, corr4);
 
     if (kRes) {
@@ -1074,7 +1074,7 @@ bool IsometricBendingConstraint_XPBD::InitConstraint(SimulationModel &model,
     const Vector3r &x3 = pd.GetPosition0(particle3);
     const Vector3r &x4 = pd.GetPosition0(particle4);
 
-    return PositionBasedDynamics::init_IsometricBendingConstraint(x1, x2, x3, x4, m_Q);
+    return PositionBasedDynamics::InitIsometricBendingConstraint(x1, x2, x3, x4, m_Q);
 }
 
 bool IsometricBendingConstraint_XPBD::SolvePositionConstraint(SimulationModel &model, const unsigned int iter) {
@@ -1140,7 +1140,7 @@ bool FEMTriangleConstraint::InitConstraint(SimulationModel &model,
     Vector3r &x2 = pd.GetPosition0(particle2);
     Vector3r &x3 = pd.GetPosition0(particle3);
 
-    return PositionBasedDynamics::init_FEMTriangleConstraint(x1, x2, x3, m_area, m_inv_rest_mat);
+    return PositionBasedDynamics::InitFemTriangleConstraint(x1, x2, x3, m_area, m_inv_rest_mat);
 }
 
 bool FEMTriangleConstraint::SolvePositionConstraint(SimulationModel &model, const unsigned int iter) {
@@ -1159,7 +1159,7 @@ bool FEMTriangleConstraint::SolvePositionConstraint(SimulationModel &model, cons
     const Real kInvMass3 = pd.GetInvMass(kI3);
 
     Vector3r corr1, corr2, corr3;
-    const bool kRes = PositionBasedDynamics::solve_FEMTriangleConstraint(
+    const bool kRes = PositionBasedDynamics::SolveFemTriangleConstraint(
             x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, m_area, m_inv_rest_mat, m_xx_stiffness, m_yy_stiffness,
             m_xy_stiffness, m_xy_poisson_ratio, m_yx_poisson_ratio, corr1, corr2, corr3);
 
@@ -1203,7 +1203,7 @@ bool StrainTriangleConstraint::InitConstraint(SimulationModel &model,
     const Vector3r kY2(x2[0], x2[2], 0.0);
     const Vector3r kY3(x3[0], x3[2], 0.0);
 
-    return PositionBasedDynamics::init_StrainTriangleConstraint(kY1, kY2, kY3, m_inv_rest_mat);
+    return PositionBasedDynamics::InitStrainTriangleConstraint(kY1, kY2, kY3, m_inv_rest_mat);
 }
 
 bool StrainTriangleConstraint::SolvePositionConstraint(SimulationModel &model, const unsigned int iter) {
@@ -1222,7 +1222,7 @@ bool StrainTriangleConstraint::SolvePositionConstraint(SimulationModel &model, c
     const Real kInvMass3 = pd.GetInvMass(kI3);
 
     Vector3r corr1, corr2, corr3;
-    const bool kRes = PositionBasedDynamics::solve_StrainTriangleConstraint(
+    const bool kRes = PositionBasedDynamics::SolveStrainTriangleConstraint(
             x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, m_inv_rest_mat, m_xx_stiffness, m_yy_stiffness, m_xy_stiffness,
             m_normalize_stretch, m_normalize_shear, corr1, corr2, corr3);
 
@@ -1281,8 +1281,8 @@ bool VolumeConstraint::SolvePositionConstraint(SimulationModel &model, const uns
 
     Vector3r corr1, corr2, corr3, corr4;
     const bool kRes =
-            PositionBasedDynamics::solve_VolumeConstraint(x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, x4, kInvMass4,
-                                                          m_rest_volume, m_stiffness, corr1, corr2, corr3, corr4);
+            PositionBasedDynamics::SolveVolumeConstraint(x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, x4, kInvMass4,
+                                                         m_rest_volume, m_stiffness, corr1, corr2, corr3, corr4);
 
     if (kRes) {
         if (kInvMass1 != 0.0) x1 += corr1;
@@ -1381,7 +1381,7 @@ bool FEMTetConstraint::InitConstraint(SimulationModel &model,
     Vector3r &x3 = pd.GetPosition0(particle3);
     Vector3r &x4 = pd.GetPosition0(particle4);
 
-    return PositionBasedDynamics::init_FEMTetraConstraint(x1, x2, x3, x4, m_volume, m_inv_rest_mat);
+    return PositionBasedDynamics::InitFemTetraConstraint(x1, x2, x3, x4, m_volume, m_inv_rest_mat);
 }
 
 bool FEMTetConstraint::SolvePositionConstraint(SimulationModel &model, const unsigned int iter) {
@@ -1408,7 +1408,7 @@ bool FEMTetConstraint::SolvePositionConstraint(SimulationModel &model, const uns
         handle_inversion = true;
 
     Vector3r corr1, corr2, corr3, corr4;
-    const bool kRes = PositionBasedDynamics::solve_FEMTetraConstraint(
+    const bool kRes = PositionBasedDynamics::SolveFemTetraConstraint(
             x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, x4, kInvMass4, m_volume, m_inv_rest_mat, m_stiffness,
             m_poisson_ratio, handle_inversion, corr1, corr2, corr3, corr4);
 
@@ -1449,7 +1449,7 @@ bool StrainTetConstraint::InitConstraint(SimulationModel &model,
     Vector3r &x3 = pd.GetPosition0(particle3);
     Vector3r &x4 = pd.GetPosition0(particle4);
 
-    return PositionBasedDynamics::init_StrainTetraConstraint(x1, x2, x3, x4, m_inv_rest_mat);
+    return PositionBasedDynamics::InitStrainTetraConstraint(x1, x2, x3, x4, m_inv_rest_mat);
 }
 
 bool StrainTetConstraint::SolvePositionConstraint(SimulationModel &model, const unsigned int iter) {
@@ -1471,7 +1471,7 @@ bool StrainTetConstraint::SolvePositionConstraint(SimulationModel &model, const 
     const Real kInvMass4 = pd.GetInvMass(kI4);
 
     Vector3r corr1, corr2, corr3, corr4;
-    const bool kRes = PositionBasedDynamics::solve_StrainTetraConstraint(
+    const bool kRes = PositionBasedDynamics::SolveStrainTetraConstraint(
             x1, kInvMass1, x2, kInvMass2, x3, kInvMass3, x4, kInvMass4, m_inv_rest_mat,
             m_stretch_stiffness * Vector3r::Ones(), m_shear_stiffness * Vector3r::Ones(), m_normalize_stretch,
             m_normalize_shear, corr1, corr2, corr3, corr4);
@@ -1501,7 +1501,7 @@ bool ShapeMatchingConstraint::InitConstraint(SimulationModel &model,
         m_num_clusters[i] = num_clusters[i];
     }
 
-    const bool kRes = PositionBasedDynamics::init_ShapeMatchingConstraint(m_x0, m_w, NumberOfBodies(), m_rest_cm);
+    const bool kRes = PositionBasedDynamics::InitShapeMatchingConstraint(m_x0, m_w, NumberOfBodies(), m_rest_cm);
     return kRes;
 }
 
@@ -1511,8 +1511,8 @@ bool ShapeMatchingConstraint::SolvePositionConstraint(SimulationModel &model, co
         m_x[i] = pd.GetPosition(m_bodies[i]);
     }
 
-    const bool kRes = PositionBasedDynamics::solve_ShapeMatchingConstraint(m_x0, m_x, m_w, NumberOfBodies(), m_rest_cm,
-                                                                           m_stiffness, false, m_corr);
+    const bool kRes = PositionBasedDynamics::SolveShapeMatchingConstraint(m_x0, m_x, m_w, NumberOfBodies(), m_rest_cm,
+                                                                          m_stiffness, false, m_corr);
 
     if (kRes) {
         for (unsigned int i = 0; i < NumberOfBodies(); i++) {
@@ -1677,7 +1677,7 @@ bool ParticleTetContactConstraint::InitConstraint(SimulationModel &model,
     m_inv_masses[2] = pd.GetInvMass(indices[4 * tet_index + 2] + kOffset);
     m_inv_masses[3] = pd.GetInvMass(indices[4 * tet_index + 3] + kOffset);
 
-    return PositionBasedDynamics::init_ParticleTetContactConstraint(
+    return PositionBasedDynamics::InitParticleTetContactConstraint(
             pd.GetInvMass(particle_index), pd.GetPosition(particle_index), pd.GetVelocity(particle_index), m_inv_masses,
             m_x.data(), m_v.data(), bary, normal, m_constraint_info);
 }
@@ -1696,7 +1696,7 @@ bool ParticleTetContactConstraint::SolvePositionConstraint(SimulationModel &mode
 
     Vector3r corr0;
     Vector3r corr[4];
-    const bool kRes = PositionBasedDynamics::solve_ParticleTetContactConstraint(
+    const bool kRes = PositionBasedDynamics::SolveParticleTetContactConstraint(
             pd.GetInvMass(m_bodies[0]), pd.GetPosition(m_bodies[0]), m_inv_masses, m_x.data(), m_bary,
             m_constraint_info, m_lambda, corr0, corr);
 
@@ -1728,7 +1728,7 @@ bool ParticleTetContactConstraint::SolveVelocityConstraint(SimulationModel &mode
 
     Vector3r corr_v0;
     Vector3r corr_v[4];
-    const bool kRes = PositionBasedDynamics::velocitySolve_ParticleTetContactConstraint(
+    const bool kRes = PositionBasedDynamics::VelocitySolveParticleTetContactConstraint(
             pd.GetInvMass(m_bodies[0]), pd.GetPosition(m_bodies[0]), pd.GetVelocity(m_bodies[0]), m_inv_masses,
             m_x.data(), m_v.data(), m_bary, m_lambda, m_friction_coeff, m_constraint_info, corr_v0, corr_v);
 

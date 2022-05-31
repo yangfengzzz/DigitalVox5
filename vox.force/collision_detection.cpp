@@ -116,7 +116,7 @@ void CollisionDetection::UpdateAabb(SimulationModel &model, CollisionDetection::
 
         co->m_aabb.m_p_[0] = vd.GetPosition(0);
         co->m_aabb.m_p_[1] = vd.GetPosition(0);
-        for (unsigned int j = 1; j < vd.size(); j++) {
+        for (unsigned int j = 1; j < vd.Size(); j++) {
             UpdateAabb(vd.GetPosition(j), co->m_aabb);
         }
     } else if (co->m_body_type == CollisionDetection::CollisionObject::triangle_model_collision_object_type) {
