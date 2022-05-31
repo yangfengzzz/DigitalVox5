@@ -631,7 +631,7 @@ bool DamperJoint::SolvePositionConstraint(SimulationModel &model, const unsigned
     RigidBody &rb1 = *rb[m_bodies[0]];
     RigidBody &rb2 = *rb[m_bodies[1]];
 
-    const Real kDt = TimeManager::getCurrent()->getTimeStepSize();
+    const Real kDt = TimeManager::GetCurrent()->GetTimeStepSize();
 
     if (iter == 0) m_lambda = 0.0;
 
@@ -743,7 +743,7 @@ bool RigidBodySpring::SolvePositionConstraint(SimulationModel &model, const unsi
     RigidBody &rb1 = *rb[m_bodies[0]];
     RigidBody &rb2 = *rb[m_bodies[1]];
 
-    const Real kDt = TimeManager::getCurrent()->getTimeStepSize();
+    const Real kDt = TimeManager::GetCurrent()->GetTimeStepSize();
 
     if (iter == 0) m_lambda = 0.0;
 
@@ -903,7 +903,7 @@ bool DistanceConstraint_XPBD::SolvePositionConstraint(SimulationModel &model, co
     const Real kInvMass1 = pd.GetInvMass(kI1);
     const Real kInvMass2 = pd.GetInvMass(kI2);
 
-    const Real kDt = TimeManager::getCurrent()->getTimeStepSize();
+    const Real kDt = TimeManager::GetCurrent()->GetTimeStepSize();
 
     if (iter == 0) m_lambda = 0.0;
 
@@ -1095,7 +1095,7 @@ bool IsometricBendingConstraint_XPBD::SolvePositionConstraint(SimulationModel &m
     const Real kInvMass3 = pd.GetInvMass(kI3);
     const Real kInvMass4 = pd.GetInvMass(kI4);
 
-    const Real kDt = TimeManager::getCurrent()->getTimeStepSize();
+    const Real kDt = TimeManager::GetCurrent()->GetTimeStepSize();
 
     if (iter == 0) m_lambda = 0.0;
 
@@ -1339,7 +1339,7 @@ bool VolumeConstraint_XPBD::SolvePositionConstraint(SimulationModel &model, cons
     const Real kInvMass3 = pd.GetInvMass(kI3);
     const Real kInvMass4 = pd.GetInvMass(kI4);
 
-    const Real kDt = TimeManager::getCurrent()->getTimeStepSize();
+    const Real kDt = TimeManager::GetCurrent()->GetTimeStepSize();
 
     if (iter == 0) m_lambda = 0.0;
 
@@ -1888,7 +1888,7 @@ bool StretchBendingTwistingConstraint::InitConstraint(SimulationModel &model,
 
 bool StretchBendingTwistingConstraint::InitConstraintBeforeProjection(SimulationModel &model) {
     DirectPositionBasedSolverForStiffRods::InitBeforeProjectionStretchBendingTwistingConstraint(
-            m_stiffness_coefficient_k, static_cast<Real>(1.0) / TimeManager::getCurrent()->getTimeStepSize(),
+            m_stiffness_coefficient_k, static_cast<Real>(1.0) / TimeManager::GetCurrent()->GetTimeStepSize(),
             m_average_segment_length, m_stretch_compliance, m_bending_and_torsion_compliance, m_lambda_sum);
     return true;
 }
@@ -2031,7 +2031,7 @@ bool DirectPositionBasedSolverForStiffRodsConstraint::InitConstraint(
 
 bool DirectPositionBasedSolverForStiffRodsConstraint::InitConstraintBeforeProjection(SimulationModel &model) {
     DirectPositionBasedSolverForStiffRods::InitBeforeProjectionDirectPositionBasedSolverForStiffRodsConstraint(
-            m_rod_constraints, static_cast<Real>(1.0) / TimeManager::getCurrent()->getTimeStepSize(), m_lambda_sums);
+            m_rod_constraints, static_cast<Real>(1.0) / TimeManager::GetCurrent()->GetTimeStepSize(), m_lambda_sums);
     return true;
 }
 

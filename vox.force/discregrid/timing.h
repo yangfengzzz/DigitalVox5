@@ -124,8 +124,8 @@ public:
             std::cout << "Average time " << at.name.c_str() << ": " << avgTime << " ms\n" << std::flush;
         }
         if (Timing::m_startCounter != Timing::m_stopCounter)
-            std::cout << "Problem: " << Timing::m_startCounter << " calls of startTiming and " << Timing::m_stopCounter
-                      << " calls of stopTiming.\n " << std::flush;
+            std::cout << "Problem: " << Timing::m_startCounter << " calls of StartTiming and " << Timing::m_stopCounter
+                      << " calls of StopTiming.\n " << std::flush;
         std::cout << "---------------------------------------------------------------------------\n\n";
     }
 
@@ -137,8 +137,8 @@ public:
             std::cout << "Time sum " << at.name.c_str() << ": " << timeSum << " ms\n" << std::flush;
         }
         if (Timing::m_startCounter != Timing::m_stopCounter)
-            std::cout << "Problem: " << Timing::m_startCounter << " calls of startTiming and " << Timing::m_stopCounter
-                      << " calls of stopTiming.\n " << std::flush;
+            std::cout << "Problem: " << Timing::m_startCounter << " calls of StartTiming and " << Timing::m_stopCounter
+                      << " calls of StopTiming.\n " << std::flush;
         std::cout << "---------------------------------------------------------------------------\n\n";
     }
 };

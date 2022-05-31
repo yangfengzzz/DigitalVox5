@@ -11,22 +11,22 @@
 namespace vox::force {
 class TimeManager {
 private:
-    Real time;
-    static TimeManager* current;
-    Real h;
+    Real time_;
+    static TimeManager* current_;
+    Real h_;
 
 public:
     TimeManager();
     ~TimeManager();
 
     // Singleton
-    static TimeManager* getCurrent();
-    static void setCurrent(TimeManager* tm);
-    static bool hasCurrent();
+    static TimeManager* GetCurrent();
+    static void SetCurrent(TimeManager* tm);
+    static bool HasCurrent();
 
-    [[nodiscard]] Real getTime() const;
-    void setTime(Real t);
-    [[nodiscard]] Real getTimeStepSize() const;
-    void setTimeStepSize(Real tss);
+    [[nodiscard]] Real GetTime() const;
+    void SetTime(Real t);
+    [[nodiscard]] Real GetTimeStepSize() const;
+    void SetTimeStepSize(Real tss);
 };
 }  // namespace vox::force

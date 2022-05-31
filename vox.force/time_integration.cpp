@@ -9,8 +9,8 @@
 namespace vox::force {
 
 // ----------------------------------------------------------------------------------------------
-void TimeIntegration::semiImplicitEuler(
-        const Real h, const Real mass, Vector3r &position, Vector3r &velocity, const Vector3r &acceleration) {
+void TimeIntegration::SemiImplicitEuler(
+        Real h, Real mass, Vector3r &position, Vector3r &velocity, const Vector3r &acceleration) {
     if (mass != 0.0) {
         velocity += acceleration * h;
         position += velocity * h;
@@ -18,61 +18,58 @@ void TimeIntegration::semiImplicitEuler(
 }
 
 // ----------------------------------------------------------------------------------------------
-void TimeIntegration::semiImplicitEulerRotation(const Real h,
-                                                const Real mass,
-                                                const Matrix3r &invertiaW,
-                                                const Matrix3r &invInertiaW,
+void TimeIntegration::SemiImplicitEulerRotation(Real h,
+                                                Real mass,
+                                                const Matrix3r &invertia_w,
+                                                const Matrix3r &inv_inertia_w,
                                                 Quaternionr &rotation,
-                                                Vector3r &angularVelocity,
+                                                Vector3r &angular_velocity,
                                                 const Vector3r &torque) {
     if (mass != 0.0) {
-        angularVelocity += h * invInertiaW * (torque - (angularVelocity.cross(invertiaW * angularVelocity)));
+        angular_velocity += h * inv_inertia_w * (torque - (angular_velocity.cross(invertia_w * angular_velocity)));
 
-        Quaternionr angVelQ(0.0, angularVelocity[0], angularVelocity[1], angularVelocity[2]);
+        Quaternionr angVelQ(0.0, angular_velocity[0], angular_velocity[1], angular_velocity[2]);
         rotation.coeffs() += h * 0.5 * (angVelQ * rotation).coeffs();
         rotation.normalize();
     }
 }
 
 // ----------------------------------------------------------------------------------------------
-void TimeIntegration::velocityUpdateFirstOrder(
-        const Real h, const Real mass, const Vector3r &position, const Vector3r &oldPosition, Vector3r &velocity) {
-    if (mass != 0.0) velocity = (1.0 / h) * (position - oldPosition);
+void TimeIntegration::VelocityUpdateFirstOrder(
+        Real h, Real mass, const Vector3r &position, const Vector3r &old_position, Vector3r &velocity) {
+    if (mass != 0.0) velocity = (1.0 / h) * (position - old_position);
 }
 
 // ----------------------------------------------------------------------------------------------
-void TimeIntegration::angularVelocityUpdateFirstOrder(const Real h,
-                                                      const Real mass,
-                                                      const Quaternionr &rotation,
-                                                      const Quaternionr &oldRotation,
-                                                      Vector3r &angularVelocity) {
+void TimeIntegration::AngularVelocityUpdateFirstOrder(
+        Real h, Real mass, const Quaternionr &rotation, const Quaternionr &old_rotation, Vector3r &angular_velocity) {
     if (mass != 0.0) {
-        const Quaternionr relRot = (rotation * oldRotation.conjugate());
-        angularVelocity = relRot.vec() * (2.0 / h);
+        const Quaternionr relRot = (rotation * old_rotation.conjugate());
+        angular_velocity = relRot.vec() * (2.0 / h);
     }
 }
 
 // ----------------------------------------------------------------------------------------------
-void TimeIntegration::velocityUpdateSecondOrder(const Real h,
-                                                const Real mass,
+void TimeIntegration::VelocityUpdateSecondOrder(Real h,
+                                                Real mass,
                                                 const Vector3r &position,
-                                                const Vector3r &oldPosition,
-                                                const Vector3r &positionOfLastStep,
+                                                const Vector3r &old_position,
+                                                const Vector3r &position_of_last_step,
                                                 Vector3r &velocity) {
-    if (mass != 0.0) velocity = (1.0 / h) * (1.5 * position - 2.0 * oldPosition + 0.5 * positionOfLastStep);
+    if (mass != 0.0) velocity = (1.0 / h) * (1.5 * position - 2.0 * old_position + 0.5 * position_of_last_step);
 }
 
 // ----------------------------------------------------------------------------------------------
-void TimeIntegration::angularVelocityUpdateSecondOrder(const Real h,
-                                                       const Real mass,
+void TimeIntegration::AngularVelocityUpdateSecondOrder(Real h,
+                                                       Real mass,
                                                        const Quaternionr &rotation,
-                                                       const Quaternionr &oldRotation,
-                                                       const Quaternionr &rotationOfLastStep,
-                                                       Vector3r &angularVelocity) {
+                                                       const Quaternionr &old_rotation,
+                                                       const Quaternionr &rotation_of_last_step,
+                                                       Vector3r &angular_velocity) {
     // ToDo: is still first order
     if (mass != 0.0) {
-        const Quaternionr relRot = (rotation * oldRotation.conjugate());
-        angularVelocity = relRot.vec() * (2.0 / h);
+        const Quaternionr relRot = (rotation * old_rotation.conjugate());
+        angular_velocity = relRot.vec() * (2.0 / h);
     }
 }
 

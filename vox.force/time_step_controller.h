@@ -16,30 +16,30 @@ class TimeStepController : public TimeStep {
 public:
     // 		static int SOLVER_ITERATIONS;
     // 		static int SOLVER_ITERATIONS_V;
-    static int NUM_SUB_STEPS;
-    static int MAX_ITERATIONS;
-    static int MAX_ITERATIONS_V;
-    static int VELOCITY_UPDATE_METHOD;
+    static int num_sub_steps_;
+    static int max_iterations_;
+    static int max_iterations_v_;
+    static int velocity_update_method_;
 
-    static int ENUM_VUPDATE_FIRST_ORDER;
-    static int ENUM_VUPDATE_SECOND_ORDER;
+    static int enum_vupdate_first_order_;
+    static int enum_vupdate_second_order_;
 
 protected:
-    int m_velocityUpdateMethod;
-    unsigned int m_iterations;
-    unsigned int m_iterationsV;
-    unsigned int m_subSteps;
-    unsigned int m_maxIterations;
-    unsigned int m_maxIterationsV;
+    int m_velocity_update_method_;
+    unsigned int m_iterations_;
+    unsigned int m_iterations_v_;
+    unsigned int m_sub_steps_;
+    unsigned int m_max_iterations_;
+    unsigned int m_max_iterations_v_;
 
-    void positionConstraintProjection(SimulationModel &model);
-    void velocityConstraintProjection(SimulationModel &model);
+    void PositionConstraintProjection(SimulationModel &model);
+    void VelocityConstraintProjection(SimulationModel &model);
 
 public:
     TimeStepController();
-    virtual ~TimeStepController(void);
+    ~TimeStepController() override;
 
-    virtual void step(SimulationModel &model);
-    virtual void reset();
+    void Step(SimulationModel &model) override;
+    void Reset() override;
 };
 }  // namespace vox::force

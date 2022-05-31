@@ -23,7 +23,7 @@ Simulation::Simulation() {
 
 Simulation::~Simulation() {
     delete m_time_step_;
-    delete TimeManager::getCurrent();
+    delete TimeManager::GetCurrent();
 
     current_ = nullptr;
 }
@@ -43,14 +43,14 @@ bool Simulation::HasCurrent() { return (current_ != nullptr); }
 void Simulation::Init() {
     m_time_step_ = new TimeStepController();
     m_time_step_->init();
-    TimeManager::getCurrent()->setTimeStepSize(static_cast<Real>(0.005));
+    TimeManager::GetCurrent()->SetTimeStepSize(static_cast<Real>(0.005));
 }
 
 void Simulation::Reset() {
     m_model_->reset();
     if (m_time_step_) m_time_step_->reset();
 
-    TimeManager::getCurrent()->setTime(static_cast<Real>(0.0));
+    TimeManager::GetCurrent()->SetTime(static_cast<Real>(0.0));
 }
 
 }  // namespace vox::force

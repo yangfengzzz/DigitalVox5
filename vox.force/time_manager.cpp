@@ -8,32 +8,32 @@
 
 namespace vox::force {
 
-TimeManager* TimeManager::current = nullptr;
+TimeManager* TimeManager::current_ = nullptr;
 
 TimeManager::TimeManager() {
-    time = 0;
-    h = static_cast<Real>(0.005);
+    time_ = 0;
+    h_ = static_cast<Real>(0.005);
 }
 
-TimeManager::~TimeManager() { current = nullptr; }
+TimeManager::~TimeManager() { current_ = nullptr; }
 
-TimeManager* TimeManager::getCurrent() {
-    if (current == nullptr) {
-        current = new TimeManager();
+TimeManager* TimeManager::GetCurrent() {
+    if (current_ == nullptr) {
+        current_ = new TimeManager();
     }
-    return current;
+    return current_;
 }
 
-void TimeManager::setCurrent(TimeManager* tm) { current = tm; }
+void TimeManager::SetCurrent(TimeManager* tm) { current_ = tm; }
 
-bool TimeManager::hasCurrent() { return (current != nullptr); }
+bool TimeManager::HasCurrent() { return (current_ != nullptr); }
 
-Real TimeManager::getTime() const { return time; }
+Real TimeManager::GetTime() const { return time_; }
 
-void TimeManager::setTime(Real t) { time = t; }
+void TimeManager::SetTime(Real t) { time_ = t; }
 
-Real TimeManager::getTimeStepSize() const { return h; }
+Real TimeManager::GetTimeStepSize() const { return h_; }
 
-void TimeManager::setTimeStepSize(Real tss) { h = tss; }
+void TimeManager::SetTimeStepSize(Real tss) { h_ = tss; }
 
 }  // namespace vox::force

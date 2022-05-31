@@ -15,46 +15,46 @@ namespace vox::force {
  */
 class TimeStep {
 protected:
-    CollisionDetection *m_collisionDetection{};
+    CollisionDetection *m_collision_detection_{};
 
     /** Clear accelerations and add gravitation.
      */
-    void clearAccelerations(SimulationModel &model);
+    void ClearAccelerations(SimulationModel &model);
 
-    static void contactCallbackFunction(unsigned int contactType,
-                                        unsigned int bodyIndex1,
-                                        unsigned int bodyIndex2,
+    static void ContactCallbackFunction(unsigned int contact_type,
+                                        unsigned int body_index_1,
+                                        unsigned int body_index_2,
                                         const Vector3r &cp1,
                                         const Vector3r &cp2,
                                         const Vector3r &normal,
                                         Real dist,
-                                        Real restitutionCoeff,
-                                        Real frictionCoeff,
-                                        void *userData);
+                                        Real restitution_coeff,
+                                        Real friction_coeff,
+                                        void *user_data);
 
-    static void solidContactCallbackFunction(unsigned int contactType,
-                                             unsigned int bodyIndex1,
-                                             unsigned int bodyIndex2,
-                                             unsigned int tetIndex,
+    static void SolidContactCallbackFunction(unsigned int contact_type,
+                                             unsigned int body_index_1,
+                                             unsigned int body_index_2,
+                                             unsigned int tet_index,
                                              const Vector3r &bary,
                                              const Vector3r &cp1,
                                              const Vector3r &cp2,
                                              const Vector3r &normal,
                                              Real dist,
-                                             Real restitutionCoeff,
-                                             Real frictionCoeff,
-                                             void *userData);
+                                             Real restitution_coeff,
+                                             Real friction_coeff,
+                                             void *user_data);
 
 public:
     TimeStep();
     virtual ~TimeStep();
 
-    virtual void step(SimulationModel &model) = 0;
-    virtual void reset();
+    virtual void Step(SimulationModel &model) = 0;
+    virtual void Reset();
 
-    virtual void init();
+    virtual void Init();
 
-    void setCollisionDetection(SimulationModel &model, CollisionDetection *cd);
-    CollisionDetection *getCollisionDetection();
+    void SetCollisionDetection(SimulationModel &model, CollisionDetection *cd);
+    CollisionDetection *GetCollisionDetection();
 };
 }  // namespace vox::force

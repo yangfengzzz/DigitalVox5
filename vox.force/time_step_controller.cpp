@@ -14,54 +14,54 @@ namespace vox::force {
 
 // int TimeStepController::SOLVER_ITERATIONS = -1;
 // int TimeStepController::SOLVER_ITERATIONS_V = -1;
-int TimeStepController::NUM_SUB_STEPS = -1;
-int TimeStepController::MAX_ITERATIONS = -1;
-int TimeStepController::MAX_ITERATIONS_V = -1;
-int TimeStepController::VELOCITY_UPDATE_METHOD = -1;
-int TimeStepController::ENUM_VUPDATE_FIRST_ORDER = -1;
-int TimeStepController::ENUM_VUPDATE_SECOND_ORDER = -1;
+int TimeStepController::num_sub_steps_ = -1;
+int TimeStepController::max_iterations_ = -1;
+int TimeStepController::max_iterations_v_ = -1;
+int TimeStepController::velocity_update_method_ = -1;
+int TimeStepController::enum_vupdate_first_order_ = -1;
+int TimeStepController::enum_vupdate_second_order_ = -1;
 
 TimeStepController::TimeStepController() {
-    m_velocityUpdateMethod = 0;
-    m_iterations = 0;
-    m_iterationsV = 0;
-    m_maxIterations = 1;
-    m_maxIterationsV = 5;
-    m_subSteps = 5;
-    m_collisionDetection = nullptr;
+    m_velocity_update_method_ = 0;
+    m_iterations_ = 0;
+    m_iterations_v_ = 0;
+    m_max_iterations_ = 1;
+    m_max_iterations_v_ = 5;
+    m_sub_steps_ = 5;
+    m_collision_detection_ = nullptr;
 }
 
 TimeStepController::~TimeStepController() = default;
 
-void TimeStepController::step(SimulationModel &model) {
+void TimeStepController::Step(SimulationModel &model) {
     START_TIMING("simulation step")
-    TimeManager *tm = TimeManager::getCurrent();
-    const Real hOld = tm->getTimeStepSize();
+    TimeManager *tm = TimeManager::GetCurrent();
+    const Real kHOld = tm->GetTimeStepSize();
 
     //////////////////////////////////////////////////////////////////////////
     // rigid body model
     //////////////////////////////////////////////////////////////////////////
-    clearAccelerations(model);
+    ClearAccelerations(model);
     SimulationModel::RigidBodyVector &rb = model.GetRigidBodies();
     ParticleData &pd = model.GetParticles();
     OrientationData &od = model.GetOrientations();
 
-    const int numBodies = (int)rb.size();
+    const int kNumBodies = (int)rb.size();
 
-    Real h = hOld / (Real)m_subSteps;
-    tm->setTimeStepSize(h);
-    for (unsigned int step = 0; step < m_subSteps; step++) {
-#pragma omp parallel if (numBodies > MIN_PARALLEL_SIZE) shared(rb, h, pd, numBodies, od) default(none)
+    Real h = kHOld / (Real)m_sub_steps_;
+    tm->SetTimeStepSize(h);
+    for (unsigned int step = 0; step < m_sub_steps_; step++) {
+#pragma omp parallel if (kNumBodies > MIN_PARALLEL_SIZE) shared(rb, h, pd, kNumBodies, od) default(none)
         {
 #pragma omp for schedule(static) nowait
-            for (int i = 0; i < numBodies; i++) {
+            for (int i = 0; i < kNumBodies; i++) {
                 rb[i]->GetLastPosition() = rb[i]->GetOldPosition();
-                rb[i]->GetOldPosition() = rb[i]->getPosition();
-                TimeIntegration::semiImplicitEuler(h, rb[i]->GetMass(), rb[i]->getPosition(), rb[i]->GetVelocity(),
+                rb[i]->GetOldPosition() = rb[i]->GetPosition();
+                TimeIntegration::SemiImplicitEuler(h, rb[i]->GetMass(), rb[i]->GetPosition(), rb[i]->GetVelocity(),
                                                    rb[i]->GetAcceleration());
                 rb[i]->GetLastRotation() = rb[i]->GetOldRotation();
                 rb[i]->GetOldRotation() = rb[i]->GetRotation();
-                TimeIntegration::semiImplicitEulerRotation(h, rb[i]->GetMass(), rb[i]->GetInertiaTensorW(),
+                TimeIntegration::SemiImplicitEulerRotation(h, rb[i]->GetMass(), rb[i]->GetInertiaTensorW(),
                                                            rb[i]->GetInertiaTensorInverseW(), rb[i]->GetRotation(),
                                                            rb[i]->GetAngularVelocity(), rb[i]->GetTorque());
                 rb[i]->RotationUpdated();
@@ -71,10 +71,10 @@ void TimeStepController::step(SimulationModel &model) {
 // particle model
 //////////////////////////////////////////////////////////////////////////
 #pragma omp for schedule(static)
-            for (int i = 0; i < (int)pd.size(); i++) {
+            for (int i = 0; i < (int)pd.Size(); i++) {
                 pd.GetLastPosition(i) = pd.GetOldPosition(i);
                 pd.GetOldPosition(i) = pd.GetPosition(i);
-                TimeIntegration::semiImplicitEuler(h, pd.GetMass(i), pd.GetPosition(i), pd.GetVelocity(i),
+                TimeIntegration::SemiImplicitEuler(h, pd.GetMass(i), pd.GetPosition(i), pd.GetVelocity(i),
                                                    pd.GetAcceleration(i));
             }
 
@@ -82,34 +82,34 @@ void TimeStepController::step(SimulationModel &model) {
 // orientation model
 //////////////////////////////////////////////////////////////////////////
 #pragma omp for schedule(static)
-            for (int i = 0; i < (int)od.size(); i++) {
+            for (int i = 0; i < (int)od.Size(); i++) {
                 od.GetLastQuaternion(i) = od.GetOldQuaternion(i);
                 od.GetOldQuaternion(i) = od.GetQuaternion(i);
-                TimeIntegration::semiImplicitEulerRotation(h, od.GetMass(i), od.GetMass(i) * Matrix3r::Identity(),
-                                                           od.getInvMass(i) * Matrix3r::Identity(), od.GetQuaternion(i),
+                TimeIntegration::SemiImplicitEulerRotation(h, od.GetMass(i), od.GetMass(i) * Matrix3r::Identity(),
+                                                           od.GetInvMass(i) * Matrix3r::Identity(), od.GetQuaternion(i),
                                                            od.GetVelocity(i), Vector3r(0, 0, 0));
             }
         }
 
         START_TIMING("position constraints projection")
-        positionConstraintProjection(model);
+        PositionConstraintProjection(model);
         STOP_TIMING_AVG
-#pragma omp parallel if (numBodies > MIN_PARALLEL_SIZE) shared(numBodies, pd, rb, h, od) default(none)
+#pragma omp parallel if (kNumBodies > MIN_PARALLEL_SIZE) shared(kNumBodies, pd, rb, h, od) default(none)
         {
 // Update velocities
 #pragma omp for schedule(static) nowait
-            for (int i = 0; i < numBodies; i++) {
-                if (m_velocityUpdateMethod == 0) {
-                    TimeIntegration::velocityUpdateFirstOrder(h, rb[i]->GetMass(), rb[i]->getPosition(),
+            for (int i = 0; i < kNumBodies; i++) {
+                if (m_velocity_update_method_ == 0) {
+                    TimeIntegration::VelocityUpdateFirstOrder(h, rb[i]->GetMass(), rb[i]->GetPosition(),
                                                               rb[i]->GetOldPosition(), rb[i]->GetVelocity());
-                    TimeIntegration::angularVelocityUpdateFirstOrder(h, rb[i]->GetMass(), rb[i]->GetRotation(),
+                    TimeIntegration::AngularVelocityUpdateFirstOrder(h, rb[i]->GetMass(), rb[i]->GetRotation(),
                                                                      rb[i]->GetOldRotation(),
                                                                      rb[i]->GetAngularVelocity());
                 } else {
-                    TimeIntegration::velocityUpdateSecondOrder(h, rb[i]->GetMass(), rb[i]->getPosition(),
+                    TimeIntegration::VelocityUpdateSecondOrder(h, rb[i]->GetMass(), rb[i]->GetPosition(),
                                                                rb[i]->GetOldPosition(), rb[i]->GetLastPosition(),
                                                                rb[i]->GetVelocity());
-                    TimeIntegration::angularVelocityUpdateSecondOrder(h, rb[i]->GetMass(), rb[i]->GetRotation(),
+                    TimeIntegration::AngularVelocityUpdateSecondOrder(h, rb[i]->GetMass(), rb[i]->GetRotation(),
                                                                       rb[i]->GetOldRotation(), rb[i]->GetLastRotation(),
                                                                       rb[i]->GetAngularVelocity());
                 }
@@ -117,48 +117,48 @@ void TimeStepController::step(SimulationModel &model) {
 
 // Update velocities
 #pragma omp for schedule(static)
-            for (int i = 0; i < (int)pd.size(); i++) {
-                if (m_velocityUpdateMethod == 0)
-                    TimeIntegration::velocityUpdateFirstOrder(h, pd.GetMass(i), pd.GetPosition(i), pd.GetOldPosition(i),
+            for (int i = 0; i < (int)pd.Size(); i++) {
+                if (m_velocity_update_method_ == 0)
+                    TimeIntegration::VelocityUpdateFirstOrder(h, pd.GetMass(i), pd.GetPosition(i), pd.GetOldPosition(i),
                                                               pd.GetVelocity(i));
                 else
-                    TimeIntegration::velocityUpdateSecondOrder(h, pd.GetMass(i), pd.GetPosition(i),
+                    TimeIntegration::VelocityUpdateSecondOrder(h, pd.GetMass(i), pd.GetPosition(i),
                                                                pd.GetOldPosition(i), pd.GetLastPosition(i),
                                                                pd.GetVelocity(i));
             }
 
 // Update velocites of orientations
 #pragma omp for schedule(static)
-            for (int i = 0; i < (int)od.size(); i++) {
-                if (m_velocityUpdateMethod == 0)
-                    TimeIntegration::angularVelocityUpdateFirstOrder(h, od.GetMass(i), od.GetQuaternion(i),
+            for (int i = 0; i < (int)od.Size(); i++) {
+                if (m_velocity_update_method_ == 0)
+                    TimeIntegration::AngularVelocityUpdateFirstOrder(h, od.GetMass(i), od.GetQuaternion(i),
                                                                      od.GetOldQuaternion(i), od.GetVelocity(i));
                 else
-                    TimeIntegration::angularVelocityUpdateSecondOrder(h, od.GetMass(i), od.GetQuaternion(i),
+                    TimeIntegration::AngularVelocityUpdateSecondOrder(h, od.GetMass(i), od.GetQuaternion(i),
                                                                       od.GetOldQuaternion(i), od.GetLastQuaternion(i),
                                                                       od.GetVelocity(i));
             }
         }
     }
-    h = hOld;
-    tm->setTimeStepSize(hOld);
+    h = kHOld;
+    tm->SetTimeStepSize(kHOld);
 
-#pragma omp parallel shared(numBodies, rb) default(none)
+#pragma omp parallel shared(kNumBodies, rb) default(none)
     {
 #pragma omp for schedule(static) nowait
-        for (int i = 0; i < numBodies; i++) {
+        for (int i = 0; i < kNumBodies; i++) {
             if (rb[i]->GetMass() != 0.0)
-                rb[i]->GetGeometry().UpdateMeshTransformation(rb[i]->getPosition(), rb[i]->GetRotationMatrix());
+                rb[i]->GetGeometry().UpdateMeshTransformation(rb[i]->GetPosition(), rb[i]->GetRotationMatrix());
         }
     }
 
-    if (m_collisionDetection) {
+    if (m_collision_detection_) {
         START_TIMING("collision detection")
-        m_collisionDetection->CollisionDetection(model);
+        m_collision_detection_->GetCollisionDetection(model);
         STOP_TIMING_AVG
     }
 
-    velocityConstraintProjection(model);
+    VelocityConstraintProjection(model);
 
     //////////////////////////////////////////////////////////////////////////
     // update motor joint targets
@@ -170,44 +170,44 @@ void TimeStepController::step(SimulationModel &model) {
             (constraint->GetTypeId() == TargetPositionMotorSliderJoint::type_id) ||
             (constraint->GetTypeId() == TargetVelocityMotorSliderJoint::type_id)) {
             auto *motor = (MotorJoint *)constraint;
-            const std::vector<Real> sequence = motor->GetTargetSequence();
-            if (!sequence.empty()) {
-                Real time = tm->getTime();
-                const Real sequenceDuration = sequence[sequence.size() - 2] - sequence[0];
+            const std::vector<Real> kSequence = motor->GetTargetSequence();
+            if (!kSequence.empty()) {
+                Real time = tm->GetTime();
+                const Real kSequenceDuration = kSequence[kSequence.size() - 2] - kSequence[0];
                 if (motor->GetRepeatSequence()) {
-                    while (time > sequenceDuration) time -= sequenceDuration;
+                    while (time > kSequenceDuration) time -= kSequenceDuration;
                 }
                 unsigned int index = 0;
-                while ((2 * index < sequence.size()) && (sequence[2 * index] <= time)) index++;
+                while ((2 * index < kSequence.size()) && (kSequence[2 * index] <= time)) index++;
 
                 // linear interpolation
                 Real target = 0.0;
-                if (2 * index < sequence.size()) {
-                    const Real alpha =
-                            (time - sequence[2 * (index - 1)]) / (sequence[2 * index] - sequence[2 * (index - 1)]);
-                    target = (static_cast<Real>(1.0) - alpha) * sequence[2 * index - 1] +
-                             alpha * sequence[2 * index + 1];
+                if (2 * index < kSequence.size()) {
+                    const Real kAlpha =
+                            (time - kSequence[2 * (index - 1)]) / (kSequence[2 * index] - kSequence[2 * (index - 1)]);
+                    target = (static_cast<Real>(1.0) - kAlpha) * kSequence[2 * index - 1] +
+                             kAlpha * kSequence[2 * index + 1];
                 } else
-                    target = sequence[sequence.size() - 1];
+                    target = kSequence[kSequence.size() - 1];
                 motor->SetTarget(target);
             }
         }
     }
 
     // compute new time
-    tm->setTime(tm->getTime() + h);
+    tm->SetTime(tm->GetTime() + h);
     STOP_TIMING_AVG
 }
 
-void TimeStepController::reset() {
-    m_iterations = 0;
-    m_iterationsV = 0;
+void TimeStepController::Reset() {
+    m_iterations_ = 0;
+    m_iterations_v_ = 0;
     // m_maxIterations = 5;
     // m_maxIterationsV = 5;
 }
 
-void TimeStepController::positionConstraintProjection(SimulationModel &model) {
-    m_iterations = 0;
+void TimeStepController::PositionConstraintProjection(SimulationModel &model) {
+    m_iterations_ = 0;
 
     // init constraint groups if necessary
     model.InitConstraintGroups();
@@ -216,7 +216,7 @@ void TimeStepController::positionConstraintProjection(SimulationModel &model) {
     SimulationModel::ConstraintVector &constraints = model.GetConstraints();
     SimulationModel::ConstraintGroupVector &groups = model.GetConstraintGroups();
     SimulationModel::RigidBodyContactConstraintVector &contacts = model.GetRigidBodyContactConstraints();
-    SimulationModel::ParticleSolidContactConstraintVector &particleTetContacts =
+    SimulationModel::ParticleSolidContactConstraintVector &particle_tet_contacts =
             model.GetParticleSolidContactConstraints();
 
     // init constraints for this time step if necessary
@@ -224,32 +224,32 @@ void TimeStepController::positionConstraintProjection(SimulationModel &model) {
         constraint->InitConstraintBeforeProjection(model);
     }
 
-    while (m_iterations < m_maxIterations) {
+    while (m_iterations_ < m_max_iterations_) {
         for (unsigned int group = 0; group < groups.size(); group++) {
-            const int groupSize = (int)groups[group].size();
-#pragma omp parallel if (groupSize > MIN_PARALLEL_SIZE) \
-        shared(group, groups, constraints, model, groupSize) default(none)
+            const int kGroupSize = (int)groups[group].size();
+#pragma omp parallel if (kGroupSize > MIN_PARALLEL_SIZE) \
+        shared(group, groups, constraints, model, kGroupSize) default(none)
             {
 #pragma omp for schedule(static)
-                for (int i = 0; i < groupSize; i++) {
-                    const unsigned int constraintIndex = groups[group][i];
+                for (int i = 0; i < kGroupSize; i++) {
+                    const unsigned int kConstraintIndex = groups[group][i];
 
-                    constraints[constraintIndex]->UpdateConstraint(model);
-                    constraints[constraintIndex]->SolvePositionConstraint(model, m_iterations);
+                    constraints[kConstraintIndex]->UpdateConstraint(model);
+                    constraints[kConstraintIndex]->SolvePositionConstraint(model, m_iterations_);
                 }
             }
         }
 
-        for (auto &particleTetContact : particleTetContacts) {
-            particleTetContact.SolvePositionConstraint(model, m_iterations);
+        for (auto &particle_tet_contact : particle_tet_contacts) {
+            particle_tet_contact.SolvePositionConstraint(model, m_iterations_);
         }
 
-        m_iterations++;
+        m_iterations_++;
     }
 }
 
-void TimeStepController::velocityConstraintProjection(SimulationModel &model) {
-    m_iterationsV = 0;
+void TimeStepController::VelocityConstraintProjection(SimulationModel &model) {
+    m_iterations_v_ = 0;
 
     // init constraint groups if necessary
     model.InitConstraintGroups();
@@ -257,50 +257,50 @@ void TimeStepController::velocityConstraintProjection(SimulationModel &model) {
     SimulationModel::RigidBodyVector &rb = model.GetRigidBodies();
     SimulationModel::ConstraintVector &constraints = model.GetConstraints();
     SimulationModel::ConstraintGroupVector &groups = model.GetConstraintGroups();
-    SimulationModel::RigidBodyContactConstraintVector &rigidBodyContacts = model.GetRigidBodyContactConstraints();
-    SimulationModel::ParticleRigidBodyContactConstraintVector &particleRigidBodyContacts =
+    SimulationModel::RigidBodyContactConstraintVector &rigid_body_contacts = model.GetRigidBodyContactConstraints();
+    SimulationModel::ParticleRigidBodyContactConstraintVector &particle_rigid_body_contacts =
             model.GetParticleRigidBodyContactConstraints();
-    SimulationModel::ParticleSolidContactConstraintVector &particleTetContacts =
+    SimulationModel::ParticleSolidContactConstraintVector &particle_tet_contacts =
             model.GetParticleSolidContactConstraints();
 
     for (unsigned int group = 0; group < groups.size(); group++) {
-        const int groupSize = (int)groups[group].size();
-#pragma omp parallel if (groupSize > MIN_PARALLEL_SIZE) \
-        shared(groupSize, groups, group, model, constraints) default(none)
+        const int kGroupSize = (int)groups[group].size();
+#pragma omp parallel if (kGroupSize > MIN_PARALLEL_SIZE) \
+        shared(kGroupSize, groups, group, model, constraints) default(none)
         {
 #pragma omp for schedule(static)
-            for (int i = 0; i < groupSize; i++) {
-                const unsigned int constraintIndex = groups[group][i];
-                constraints[constraintIndex]->UpdateConstraint(model);
+            for (int i = 0; i < kGroupSize; i++) {
+                const unsigned int kConstraintIndex = groups[group][i];
+                constraints[kConstraintIndex]->UpdateConstraint(model);
             }
         }
     }
 
-    while (m_iterationsV < m_maxIterationsV) {
+    while (m_iterations_v_ < m_max_iterations_v_) {
         for (unsigned int group = 0; group < groups.size(); group++) {
-            const int groupSize = (int)groups[group].size();
-#pragma omp parallel if (groupSize > MIN_PARALLEL_SIZE) \
-        shared(groupSize, groups, group, constraints, model) default(none)
+            const int kGroupSize = (int)groups[group].size();
+#pragma omp parallel if (kGroupSize > MIN_PARALLEL_SIZE) \
+        shared(kGroupSize, groups, group, constraints, model) default(none)
             {
 #pragma omp for schedule(static)
-                for (int i = 0; i < groupSize; i++) {
-                    const unsigned int constraintIndex = groups[group][i];
-                    constraints[constraintIndex]->SolveVelocityConstraint(model, m_iterationsV);
+                for (int i = 0; i < kGroupSize; i++) {
+                    const unsigned int kConstraintIndex = groups[group][i];
+                    constraints[kConstraintIndex]->SolveVelocityConstraint(model, m_iterations_v_);
                 }
             }
         }
 
         // solve contacts
-        for (auto &rigidBodyContact : rigidBodyContacts) {
-            rigidBodyContact.SolveVelocityConstraint(model, m_iterationsV);
+        for (auto &rigid_body_contact : rigid_body_contacts) {
+            rigid_body_contact.SolveVelocityConstraint(model, m_iterations_v_);
         }
-        for (auto &particleRigidBodyContact : particleRigidBodyContacts) {
-            particleRigidBodyContact.SolveVelocityConstraint(model, m_iterationsV);
+        for (auto &particle_rigid_body_contact : particle_rigid_body_contacts) {
+            particle_rigid_body_contact.SolveVelocityConstraint(model, m_iterations_v_);
         }
-        for (auto &particleTetContact : particleTetContacts) {
-            particleTetContact.SolveVelocityConstraint(model, m_iterationsV);
+        for (auto &particle_tet_contact : particle_tet_contacts) {
+            particle_tet_contact.SolveVelocityConstraint(model, m_iterations_v_);
         }
-        m_iterationsV++;
+        m_iterations_v_++;
     }
 }
 
