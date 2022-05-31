@@ -52,7 +52,7 @@ public:
     static void VelocityUpdateFirstOrder(
             Real h,
             Real mass,
-            const Vector3r &position,     // position after constraint projection	at time t+h
+            const Vector3r &position,      // position after constraint projection	at time t+h
             const Vector3r &old_position,  // position before constraint projection at time t
             Vector3r &velocity);
 
@@ -60,7 +60,7 @@ public:
     static void AngularVelocityUpdateFirstOrder(
             Real h,
             Real mass,
-            const Quaternionr &rotation,     // rotation after constraint projection	at time t+h
+            const Quaternionr &rotation,      // rotation after constraint projection	at time t+h
             const Quaternionr &old_rotation,  // rotation before constraint projection at time t
             Vector3r &angular_velocity);
 
@@ -68,8 +68,8 @@ public:
     static void VelocityUpdateSecondOrder(
             Real h,
             Real mass,
-            const Vector3r &position,            // position after constraint projection	at time t+h
-            const Vector3r &old_position,         // position before constraint projection at time t
+            const Vector3r &position,               // position after constraint projection	at time t+h
+            const Vector3r &old_position,           // position before constraint projection at time t
             const Vector3r &position_of_last_step,  // position of last simulation step at time t-h
             Vector3r &velocity);
 
@@ -77,8 +77,8 @@ public:
     static void AngularVelocityUpdateSecondOrder(
             Real h,
             Real mass,
-            const Quaternionr &rotation,            // rotation after constraint projection	at time t+h
-            const Quaternionr &old_rotation,         // rotation before constraint projection at time t
+            const Quaternionr &rotation,               // rotation after constraint projection	at time t+h
+            const Quaternionr &old_rotation,           // rotation before constraint projection at time t
             const Quaternionr &rotation_of_last_step,  // rotation of last simulation step at time t-h
             Vector3r &angular_velocity);
 };

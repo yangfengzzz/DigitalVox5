@@ -341,7 +341,7 @@ void MathFunctions::SvdWithInversionHandling(const Matrix3r &A, Vector3r &sigma,
         }
     } else {
         Vector3r sigma_inv(static_cast<Real>(1.0) / sigma[0], static_cast<Real>(1.0) / sigma[1],
-                          static_cast<Real>(1.0) / sigma[2]);
+                           static_cast<Real>(1.0) / sigma[2]);
         U = A * V;
         for (unsigned char l = 0; l < 3; l++) {
             for (unsigned char m = 0; m < 3; m++) {

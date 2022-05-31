@@ -33,11 +33,11 @@ namespace vox::force {
         Timing::StopTiming(true, timing_timerId); \
     }
 
-#define INIT_TIMING                                              \
-    int IDFactory::id = 0;                                       \
+#define INIT_TIMING                                               \
+    int IDFactory::id = 0;                                        \
     std::unordered_map<int, AverageTime> Timing::m_average_times; \
     std::stack<TimingHelper> Timing::m_timing_stack;              \
-    bool Timing::m_dont_print_times = false;                       \
+    bool Timing::m_dont_print_times = false;                      \
     unsigned int Timing::m_start_counter = 0;                     \
     unsigned int Timing::m_stop_counter = 0;
 

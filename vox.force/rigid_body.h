@@ -329,7 +329,7 @@ public:
     FORCE_INLINE void SetInertiaTensor(const Vector3r &value) {
         m_inertia_tensor_ = value;
         m_inertia_tensor_inverse_ = Vector3r(static_cast<Real>(1.0) / value[0], static_cast<Real>(1.0) / value[1],
-                                          static_cast<Real>(1.0) / value[2]);
+                                             static_cast<Real>(1.0) / value[2]);
     }
 
     FORCE_INLINE Matrix3r &GetInertiaTensorW() { return m_inertia_tensor_w_; }

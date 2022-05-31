@@ -105,7 +105,8 @@ void DistanceFieldCollisionDetection::GetCollisionDetection(SimulationModel &mod
                 CollisionDetectionRigidBodies(rb1, (DistanceFieldCollisionObject *)co1, rb2,
                                               (DistanceFieldCollisionObject *)co2, kRestitutionCoeff, kFrictionCoeff,
                                               contacts_mt);
-            } else if ((co1->m_body_type == CollisionDetection::CollisionObject::triangle_model_collision_object_type) &&
+            } else if ((co1->m_body_type ==
+                        CollisionDetection::CollisionObject::triangle_model_collision_object_type) &&
                        (co2->m_body_type == CollisionDetection::CollisionObject::rigid_body_collision_object_type) &&
                        ((DistanceFieldCollisionObject *)co1)->m_test_mesh) {
                 TriangleModel *tm = tri_models[co1->m_body_index];
@@ -233,8 +234,7 @@ void DistanceFieldCollisionDetection::CollisionDetectionRigidBodies(
                 int tid = omp_get_thread_num();
 #endif
 
-                contacts_mt[tid].push_back(
-                        {0, co1->m_body_index, co2->m_body_index, x_w, kCpW, kNw, dist,
+                contacts_mt[tid].push_back({0, co1->m_body_index, co2->m_body_index, x_w, kCpW, kNw, dist,
                                             restitution_coeff, friction_coeff});
             }
         }
@@ -422,8 +422,8 @@ void DistanceFieldCollisionDetection::CollisionDetectionSolidSolid(const Particl
                             if (kDist > 1.0e-6) n_w /= kDist;
 
                             contacts_mt[tid].push_back({2, index, co2->m_body_index, x_w, cp_w, n_w, kDist,
-                                                        restitution_coeff, friction_coeff, kTetIndex, cp_tet_index, bary,
-                                                        cp_bary});
+                                                        restitution_coeff, friction_coeff, kTetIndex, cp_tet_index,
+                                                        bary, cp_bary});
                         }
                     }
                 }

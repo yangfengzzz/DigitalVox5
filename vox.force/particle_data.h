@@ -69,7 +69,8 @@ private:
     std::vector<Vector3r> m_last_x_;
 
 public:
-    FORCE_INLINE ParticleData() : m_masses_(), m_inv_masses_(), m_x_0_(), m_x_(), m_v_(), m_a_(), m_old_x_(), m_last_x_() {}
+    FORCE_INLINE ParticleData()
+        : m_masses_(), m_inv_masses_(), m_x_0_(), m_x_(), m_v_(), m_a_(), m_old_x_(), m_last_x_() {}
 
     FORCE_INLINE ~ParticleData() {
         m_masses_.clear();

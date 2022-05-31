@@ -31,15 +31,15 @@ public:
      * @param corr1 position correction of second particle
      */
     static bool SolveDistanceConstraint(const Vector3r& p0,
-                                         Real inv_mass_0,
-                                         const Vector3r& p1,
-                                         Real inv_mass_1,
-                                         Real rest_length,
-                                         Real stiffness,
-                                         Real dt,
-                                         Real& lambda,
-                                         Vector3r& corr0,
-                                         Vector3r& corr1);
+                                        Real inv_mass_0,
+                                        const Vector3r& p1,
+                                        Real inv_mass_1,
+                                        Real rest_length,
+                                        Real stiffness,
+                                        Real dt,
+                                        Real& lambda,
+                                        Vector3r& corr0,
+                                        Vector3r& corr1);
 
     /** Determine the position corrections for a constraint that conserves the volume
      * of single tetrahedron. Such a constraint has the form
@@ -70,21 +70,21 @@ public:
      * @param corr3 position correction of fourth particle
      */
     static bool SolveVolumeConstraint(const Vector3r& p0,
-                                       Real inv_mass_0,
-                                       const Vector3r& p1,
-                                       Real inv_mass_1,
-                                       const Vector3r& p2,
-                                       Real inv_mass_2,
-                                       const Vector3r& p3,
-                                       Real inv_mass_3,
-                                       Real rest_volume,
-                                       Real stiffness,
-                                       Real dt,
-                                       Real& lambda,
-                                       Vector3r& corr0,
-                                       Vector3r& corr1,
-                                       Vector3r& corr2,
-                                       Vector3r& corr3);
+                                      Real inv_mass_0,
+                                      const Vector3r& p1,
+                                      Real inv_mass_1,
+                                      const Vector3r& p2,
+                                      Real inv_mass_2,
+                                      const Vector3r& p3,
+                                      Real inv_mass_3,
+                                      Real rest_volume,
+                                      Real stiffness,
+                                      Real dt,
+                                      Real& lambda,
+                                      Vector3r& corr0,
+                                      Vector3r& corr1,
+                                      Vector3r& corr2,
+                                      Vector3r& corr3);
 
     // -------------- Isometric bending -----------------------------------------------------
 

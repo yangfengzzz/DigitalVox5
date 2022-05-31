@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include <Eigen/Dense>
 #include <array>
 #include <cassert>
+#include <Eigen/Dense>
 #include <string>
 #include <vector>
 
@@ -25,68 +25,68 @@ public:
 
     explicit TriangleMesh(std::string const& filename);
 
-    void exportOBJ(std::string const& filename) const;
+    void ExportObj(std::string const& filename) const;
 
     // Halfedge modifiers.
-    [[nodiscard]] unsigned int source(Halfedge const h) const {
-        if (h.isBoundary()) return target(opposite(h));
-        return m_faces[h.face()][h.edge()];
+    [[nodiscard]] unsigned int Source(Halfedge const h) const {
+        if (h.IsBoundary()) return Target(Opposite(h));
+        return m_faces_[h.Face()][h.Edge()];
     }
-    [[nodiscard]] unsigned int target(Halfedge const h) const {
-        if (h.isBoundary()) return source(opposite(h));
-        return source(h.next());
+    [[nodiscard]] unsigned int Target(Halfedge const h) const {
+        if (h.IsBoundary()) return Source(Opposite(h));
+        return Source(h.Next());
     }
-    [[nodiscard]] Halfedge opposite(Halfedge const h) const {
-        if (h.isBoundary()) return m_b2e[h.face()];
-        return m_e2e[h.face()][h.edge()];
+    [[nodiscard]] Halfedge Opposite(Halfedge const h) const {
+        if (h.IsBoundary()) return m_b2e_[h.Face()];
+        return m_e2e_[h.Face()][h.Edge()];
     }
 
     // Container getters.
-    FaceContainer faces() { return FaceContainer(this); }
-    [[nodiscard]] FaceConstContainer faces() const { return FaceConstContainer(this); }
-    [[nodiscard]] IncidentFaceContainer incident_faces(unsigned int v) const { return {v, this}; }
-    VertexContainer vertices() { return VertexContainer(this); }
-    [[nodiscard]] VertexConstContainer vertices() const { return VertexConstContainer(this); }
+    FaceContainer Faces() { return FaceContainer(this); }
+    [[nodiscard]] FaceConstContainer Faces() const { return FaceConstContainer(this); }
+    [[nodiscard]] IncidentFaceContainer IncidentFaces(unsigned int v) const { return {v, this}; }
+    VertexContainer Vertices() { return VertexContainer(this); }
+    [[nodiscard]] VertexConstContainer Vertices() const { return VertexConstContainer(this); }
 
     // Entity size getters.
-    [[nodiscard]] std::size_t nFaces() const { return m_faces.size(); }
-    [[nodiscard]] std::size_t nVertices() const { return m_v2e.size(); }
-    [[nodiscard]] std::size_t nBorderEdges() const { return m_b2e.size(); }
+    [[nodiscard]] std::size_t NFaces() const { return m_faces_.size(); }
+    [[nodiscard]] std::size_t NVertices() const { return m_v2e_.size(); }
+    [[nodiscard]] std::size_t NBorderEdges() const { return m_b2e_.size(); }
 
     // Entity getters.
-    [[nodiscard]] unsigned int const& faceVertex(unsigned int f, unsigned int i) const {
+    [[nodiscard]] unsigned int const& FaceVertex(unsigned int f, unsigned int i) const {
         assert(i < 3);
-        assert(f < m_faces.size());
-        return m_faces[f][i];
+        assert(f < m_faces_.size());
+        return m_faces_[f][i];
     }
-    unsigned int& faceVertex(unsigned int f, unsigned int i) {
+    unsigned int& FaceVertex(unsigned int f, unsigned int i) {
         assert(i < 3);
-        assert(f < m_faces.size());
-        return m_faces[f][i];
+        assert(f < m_faces_.size());
+        return m_faces_[f][i];
     }
 
-    [[nodiscard]] Eigen::Vector3d const& vertex(unsigned int i) const { return m_vertices[i]; }
-    Eigen::Vector3d& vertex(unsigned int i) { return m_vertices[i]; }
-    [[nodiscard]] std::array<unsigned int, 3> const& face(unsigned int i) const { return m_faces[i]; }
-    std::array<unsigned int, 3>& face(unsigned int i) { return m_faces[i]; }
-    [[nodiscard]] Halfedge incident_halfedge(unsigned int v) const { return m_v2e[v]; }
+    [[nodiscard]] Eigen::Vector3d const& Vertex(unsigned int i) const { return m_vertices_[i]; }
+    Eigen::Vector3d& Vertex(unsigned int i) { return m_vertices_[i]; }
+    [[nodiscard]] std::array<unsigned int, 3> const& Face(unsigned int i) const { return m_faces_[i]; }
+    std::array<unsigned int, 3>& Face(unsigned int i) { return m_faces_[i]; }
+    [[nodiscard]] Halfedge IncidentHalfedge(unsigned int v) const { return m_v2e_[v]; }
 
     // Data getters.
-    [[nodiscard]] std::vector<Eigen::Vector3d> const& vertex_data() const { return m_vertices; }
-    std::vector<Eigen::Vector3d>& vertex_data() { return m_vertices; }
-    [[nodiscard]] std::vector<std::array<unsigned int, 3>> const& face_data() const { return m_faces; }
-    std::vector<std::array<unsigned int, 3>>& face_data() { return m_faces; }
+    [[nodiscard]] std::vector<Eigen::Vector3d> const& VertexData() const { return m_vertices_; }
+    std::vector<Eigen::Vector3d>& VertexData() { return m_vertices_; }
+    [[nodiscard]] std::vector<std::array<unsigned int, 3>> const& FaceData() const { return m_faces_; }
+    std::vector<std::array<unsigned int, 3>>& FaceData() { return m_faces_; }
 
-    [[nodiscard]] Eigen::Vector3d computeFaceNormal(unsigned int f) const;
-
-private:
-    void construct();
+    [[nodiscard]] Eigen::Vector3d ComputeFaceNormal(unsigned int f) const;
 
 private:
-    std::vector<Eigen::Vector3d> m_vertices;
-    std::vector<std::array<unsigned int, 3>> m_faces;
-    std::vector<std::array<Halfedge, 3>> m_e2e;
-    std::vector<Halfedge> m_v2e;
-    std::vector<Halfedge> m_b2e;
+    void Construct();
+
+private:
+    std::vector<Eigen::Vector3d> m_vertices_;
+    std::vector<std::array<unsigned int, 3>> m_faces_;
+    std::vector<std::array<Halfedge, 3>> m_e2e_;
+    std::vector<Halfedge> m_v2e_;
+    std::vector<Halfedge> m_b2e_;
 };
 }  // namespace vox::force::discregrid

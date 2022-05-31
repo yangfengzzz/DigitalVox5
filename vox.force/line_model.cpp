@@ -5,6 +5,7 @@
 //  property of any third parties.
 
 #include "vox.force/line_model.h"
+
 #include "vox.force/position_based_rigid_body_dynamics.h"
 
 namespace vox::force {

@@ -13,10 +13,10 @@
 namespace vox::force {
 class CollisionDetection {
 public:
-    static const unsigned int rigid_body_contact_type_;          // = 0;
-    static const unsigned int particle_contact_type_;           // = 1;
+    static const unsigned int rigid_body_contact_type_;           // = 0;
+    static const unsigned int particle_contact_type_;             // = 1;
     static const unsigned int particle_rigid_body_contact_type_;  // = 2;
-    static const unsigned int particle_solid_contact_type_;      // = 3;
+    static const unsigned int particle_solid_contact_type_;       // = 3;
 
     typedef void (*ContactCallbackFunction)(const unsigned int contact_type,
                                             const unsigned int body_index_1,

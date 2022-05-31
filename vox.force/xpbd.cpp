@@ -14,15 +14,15 @@ namespace vox::force {
 //////////////////////////////////////////////////////////////////////////
 
 bool XPBD::SolveDistanceConstraint(const Vector3r& p0,
-                                    Real inv_mass_0,
-                                    const Vector3r& p1,
-                                    Real inv_mass_1,
+                                   Real inv_mass_0,
+                                   const Vector3r& p1,
+                                   Real inv_mass_1,
                                    Real rest_length,
                                    Real stiffness,
                                    Real dt,
-                                    Real& lambda,
-                                    Vector3r& corr0,
-                                    Vector3r& corr1) {
+                                   Real& lambda,
+                                   Vector3r& corr0,
+                                   Vector3r& corr1) {
     Real K = inv_mass_0 + inv_mass_1;
     Vector3r n = p0 - p1;
     Real d = n.norm();
@@ -61,21 +61,21 @@ bool XPBD::SolveDistanceConstraint(const Vector3r& p0,
 
 // ----------------------------------------------------------------------------------------------
 bool XPBD::SolveVolumeConstraint(const Vector3r& p0,
-                                  Real inv_mass_0,
-                                  const Vector3r& p1,
-                                  Real inv_mass_1,
-                                  const Vector3r& p2,
-                                  Real inv_mass_2,
-                                  const Vector3r& p3,
-                                  Real inv_mass_3,
+                                 Real inv_mass_0,
+                                 const Vector3r& p1,
+                                 Real inv_mass_1,
+                                 const Vector3r& p2,
+                                 Real inv_mass_2,
+                                 const Vector3r& p3,
+                                 Real inv_mass_3,
                                  Real rest_volume,
                                  Real stiffness,
                                  Real dt,
-                                  Real& lambda,
-                                  Vector3r& corr0,
-                                  Vector3r& corr1,
-                                  Vector3r& corr2,
-                                  Vector3r& corr3) {
+                                 Real& lambda,
+                                 Vector3r& corr0,
+                                 Vector3r& corr1,
+                                 Vector3r& corr2,
+                                 Vector3r& corr3) {
     Real volume = static_cast<Real>(1.0 / 6.0) * (p1 - p0).cross(p2 - p0).dot(p3 - p0);
 
     corr0.setZero();
@@ -147,21 +147,21 @@ bool XPBD::InitIsometricBendingConstraint(
 
 // ----------------------------------------------------------------------------------------------
 bool XPBD::SolveIsometricBendingConstraint(const Vector3r& p0,
-                                            Real inv_mass_0,
-                                            const Vector3r& p1,
-                                            Real inv_mass_1,
-                                            const Vector3r& p2,
-                                            Real inv_mass_2,
-                                            const Vector3r& p3,
-                                            Real inv_mass_3,
-                                            const Matrix4r& Q,
+                                           Real inv_mass_0,
+                                           const Vector3r& p1,
+                                           Real inv_mass_1,
+                                           const Vector3r& p2,
+                                           Real inv_mass_2,
+                                           const Vector3r& p3,
+                                           Real inv_mass_3,
+                                           const Matrix4r& Q,
                                            Real stiffness,
                                            Real dt,
-                                            Real& lambda,
-                                            Vector3r& corr0,
-                                            Vector3r& corr1,
-                                            Vector3r& corr2,
-                                            Vector3r& corr3) {
+                                           Real& lambda,
+                                           Vector3r& corr0,
+                                           Vector3r& corr1,
+                                           Vector3r& corr2,
+                                           Vector3r& corr3) {
     const Vector3r* x[4] = {&p2, &p3, &p0, &p1};
     Real inv_mass[4] = {inv_mass_2, inv_mass_3, inv_mass_0, inv_mass_1};
 
