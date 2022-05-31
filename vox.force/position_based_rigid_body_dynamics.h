@@ -13,21 +13,24 @@ namespace vox::force {
 class PositionBasedRigidBodyDynamics {
     // -------------- Position Based Rigid Body Dynamics  -----------------------------------------------------
 private:
-    static void computeMatrixK(
-            const Vector3r &connector, Real invMass, const Vector3r &x, const Matrix3r &inertiaInverseW, Matrix3r &K);
-
-    static void computeMatrixK(const Vector3r &connector0,
-                               const Vector3r &connector1,
-                               Real invMass,
+    static void ComputeMatrixK(const Vector3r &connector,
+                               Real inv_mass,
                                const Vector3r &x,
-                               const Matrix3r &inertiaInverseW,
+                               const Matrix3r &inertia_inverse_w,
+                               Matrix3r &k);
+
+    static void ComputeMatrixK(const Vector3r &connector0,
+                               const Vector3r &connector1,
+                               Real inv_mass,
+                               const Vector3r &x,
+                               const Matrix3r &inertia_inverse_w,
                                Matrix3r &K);
 
     /** Compute matrix that is required to transform quaternion in
      * a 3D representation. */
-    static void computeMatrixG(const Quaternionr &q, Eigen::Matrix<Real, 4, 3, Eigen::DontAlign> &G);
-    static void computeMatrixQ(const Quaternionr &q, Eigen::Matrix<Real, 4, 4, Eigen::DontAlign> &Q);
-    static void computeMatrixQHat(const Quaternionr &q, Eigen::Matrix<Real, 4, 4, Eigen::DontAlign> &Q);
+    static void ComputeMatrixG(const Quaternionr &q, Eigen::Matrix<Real, 4, 3, Eigen::DontAlign> &G);
+    static void ComputeMatrixQ(const Quaternionr &q, Eigen::Matrix<Real, 4, 4, Eigen::DontAlign> &Q);
+    static void ComputeMatrixQHat(const Quaternionr &q, Eigen::Matrix<Real, 4, 4, Eigen::DontAlign> &Q);
 
 public:
     /** Initialize ball joint and return info which is required by the solver step.
@@ -36,77 +39,77 @@ public:
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param jointPosition position of ball joint
-     * @param jointInfo Stores the local and global positions of the connector points.
+     * @param joint_position position of ball joint
+     * @param joint_info Stores the local and global positions of the connector points.
      * The first two columns store the local connectors in body 0 and 1, respectively, while
      * the last two columns contain the global connector positions which have to be
-     * updated in each simulation step by calling update_BallJoint().\n
+     * updated in each simulation step by calling UpdateBallJoint().\n
      * The joint info contains the following columns:\n
      * 0:	connector in body 0 (local)\n
      * 1:	connector in body 1 (local)\n
      * 2:	connector in body 0 (global)\n
      * 3:	connector in body 1 (global)
      */
-    static bool init_BallJoint(const Vector3r &x0,             // center of mass of body 0
-                               const Quaternionr &q0,          // rotation of body 0
-                               const Vector3r &x1,             // center of mass of body 1
-                               const Quaternionr &q1,          // rotation of body 1
-                               const Vector3r &jointPosition,  // position of balljoint
-                               Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &jointInfo);
+    static bool InitBallJoint(const Vector3r &x0,              // center of mass of body 0
+                              const Quaternionr &q0,           // rotation of body 0
+                              const Vector3r &x1,              // center of mass of body 1
+                              const Quaternionr &q1,           // rotation of body 1
+                              const Vector3r &joint_position,  // position of balljoint
+                              Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &joint_info);
 
     /** Update ball joint info which is required by the solver step.
      * The ball joint info must be generated in the initialization process of the model
-     * by calling the function init_BallJoint().
+     * by calling the function InitBallJoint().
      * This method should be called once per simulation step before executing the solver.\n\n
      *
      * @param x0 center of mass of first body
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param ballJointInfo ball joint information which should be updated
+     * @param ball_joint_info ball joint information which should be updated
      */
-    static bool update_BallJoint(const Vector3r &x0,     // center of mass of body 0
-                                 const Quaternionr &q0,  // rotation of body 0
-                                 const Vector3r &x1,     // center of mass of body 1
-                                 const Quaternionr &q1,  // rotation of body 1
-                                 Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &ballJointInfo);
+    static bool UpdateBallJoint(const Vector3r &x0,     // center of mass of body 0
+                                const Quaternionr &q0,  // rotation of body 0
+                                const Vector3r &x1,     // center of mass of body 1
+                                const Quaternionr &q1,  // rotation of body 1
+                                Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &ball_joint_info);
 
     /** Perform a solver step for a ball joint which links two rigid bodies.
      * A ball joint removes three translational degrees of freedom between the bodies.
      * The ball joint info must be generated in the initialization process of the model
-     * by calling the function init_BallJoint() and updated each time the bodies
-     * change their state by update_BallJoint().\n\n
+     * by calling the function InitBallJoint() and updated each time the bodies
+     * change their state by UpdateBallJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
      * \image html balljoint.jpg "ball joint"
      * \image latex balljoint.jpg "ball joint" width=0.5\textwidth
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
      * @param invMass1 inverse mass of second body
      * @param x1 center of mass of second body
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
-     * @param ballJointInfo Ball joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_BallJoint()
-     * and updated each time the bodies change their state by update_BallJoint().
+     * @param ball_joint_info Ball joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitBallJoint()
+     * and updated each time the bodies change their state by UpdateBallJoint().
      * @param corr_x0 position correction of center of mass of first body
      * @param corr_q0 rotation correction of first body
      * @param corr_x1 position correction of center of mass of second body
      * @param corr_q1 rotation correction of second body
      */
-    static bool solve_BallJoint(
-            Real invMass0,                     // inverse mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
-            const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &ballJointInfo,  // precomputed ball joint info
+    static bool SolveBallJoint(
+            Real inv_mass_0,                      // inverse mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            Real invMass1,                        // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
+            const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &ball_joint_info,  // precomputed ball joint info
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
             Vector3r &corr_x1,
@@ -120,13 +123,13 @@ public:
      * @param q1 rotation of second body
      * @param position position of joint
      * @param direction direction of line
-     * @param jointInfo Stores the local and global positions of the connector points.
+     * @param joint_info Stores the local and global positions of the connector points.
      * The first two columns store the local connectors in body 0 and 1, respectively.
      * The next three columns contain a coordinate system for the constraint correction (a
      * full coordinate system where the x-axis is the slider axis)
      * in local coordinates. The last five columns contain the global connector positions
      * and the constraint coordinate system in world space which have to be
-     * updated in each simulation step by calling update_BallOnLineJoint().\n
+     * updated in each simulation step by calling UpdateBallOnLineJoint().\n
      * The joint info contains the following columns:\n
      * 0:	connector in body 0 (local)\n
      * 1:	connector in body 1 (local)\n
@@ -135,67 +138,67 @@ public:
      * 6:	connector in body 1 (global)\n
      * 7-9:	coordinate system of body 0 (global)\n
      */
-    static bool init_BallOnLineJoint(const Vector3r &x0,         // center of mass of body 0
-                                     const Quaternionr &q0,      // rotation of body 0
-                                     const Vector3r &x1,         // center of mass of body 1
-                                     const Quaternionr &q1,      // rotation of body 1
-                                     const Vector3r &position,   // position of joint
-                                     const Vector3r &direction,  // direction of line
-                                     Eigen::Matrix<Real, 3, 10, Eigen::DontAlign> &jointInfo);
+    static bool InitBallOnLineJoint(const Vector3r &x0,         // center of mass of body 0
+                                    const Quaternionr &q0,      // rotation of body 0
+                                    const Vector3r &x1,         // center of mass of body 1
+                                    const Quaternionr &q1,      // rotation of body 1
+                                    const Vector3r &position,   // position of joint
+                                    const Vector3r &direction,  // direction of line
+                                    Eigen::Matrix<Real, 3, 10, Eigen::DontAlign> &joint_info);
 
     /** Update ball-on-line-joint information which is required by the solver step.
      * The ball-on-line-joint info must be generated in the initialization process of the model
-     * by calling the function init_BallOnLineJoint().
+     * by calling the function InitBallOnLineJoint().
      * This method should be called once per simulation step before executing the solver.\n\n
      *
      * @param x0 center of mass of first body
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param jointInfo ball-on-line-joint information which should be updated
+     * @param joint_info ball-on-line-joint information which should be updated
      */
-    static bool update_BallOnLineJoint(const Vector3r &x0,     // center of mass of body 0
-                                       const Quaternionr &q0,  // rotation of body 0
-                                       const Vector3r &x1,     // center of mass of body 1
-                                       const Quaternionr &q1,  // rotation of body 1
-                                       Eigen::Matrix<Real, 3, 10, Eigen::DontAlign> &jointInfo);
+    static bool UpdateBallOnLineJoint(const Vector3r &x0,     // center of mass of body 0
+                                      const Quaternionr &q0,  // rotation of body 0
+                                      const Vector3r &x1,     // center of mass of body 1
+                                      const Quaternionr &q1,  // rotation of body 1
+                                      Eigen::Matrix<Real, 3, 10, Eigen::DontAlign> &joint_info);
 
     /** Perform a solver step for a ball-on-line-joint which links two rigid bodies.
      * A ball-on-line-joint removes two translational degrees of freedom between the bodies.
      * The joint info must be generated in the initialization process of the model
-     * by calling the function init_BallOnLineJoint() and updated each time the bodies
-     * change their state by update_BallOnLineJoint().\n\n
+     * by calling the function InitBallOnLineJoint() and updated each time the bodies
+     * change their state by UpdateBallOnLineJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
      * \image html ballonlinejoint.jpg "ball-on-line joint"
      * \image latex ballonlinejoint.jpg "ball-on-line joint" width=0.5\textwidth
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
-     * @param jointInfo Ball joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_BallJoint()
-     * and updated each time the bodies change their state by update_BallJoint().
+     * @param joint_info Ball joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitBallJoint()
+     * and updated each time the bodies change their state by UpdateBallJoint().
      * @param corr_x0 position correction of center of mass of first body
      * @param corr_q0 rotation correction of first body
      * @param corr_x1 position correction of center of mass of second body
      * @param corr_q1 rotation correction of second body
      */
-    static bool solve_BallOnLineJoint(
-            Real invMass0,                     // inverse mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
-            const Eigen::Matrix<Real, 3, 10, Eigen::DontAlign> &jointInfo,  // precomputed joint info
+    static bool SolveBallOnLineJoint(
+            Real inv_mass_0,                      // inverse mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
+            const Eigen::Matrix<Real, 3, 10, Eigen::DontAlign> &joint_info,  // precomputed joint info
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
             Vector3r &corr_x1,
@@ -207,9 +210,9 @@ public:
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param hingeJointPosition position of hinge joint
-     * @param hingeJointAxis axis of hinge joint
-     * @param hingeJointInfo Stores the local and global positions of the connector points.
+     * @param hinge_joint_position position of hinge joint
+     * @param hinge_joint_axis axis of hinge joint
+     * @param hinge_joint_info Stores the local and global positions of the connector points.
      * The joint info contains the following columns:\n
      * 0-1:	projection matrix Pr for the rotational part\n
      * 2:	connector in body 0 (local)\n
@@ -221,69 +224,69 @@ public:
      * full coordinate system where the x-axis is the hinge axis) and then the info of
      * the second body (the connector point and the hinge axis).
      * The info must be updated in each simulation step
-     * by calling update_HingeJoint().
+     * by calling UpdateHingeJoint().
      */
-    static bool init_HingeJoint(const Vector3r &x0,                  // center of mass of body 0
-                                const Quaternionr &q0,               // rotation of body 0
-                                const Vector3r &x1,                  // center of mass of body 1
-                                const Quaternionr &q1,               // rotation of body 1
-                                const Vector3r &hingeJointPosition,  // position of hinge joint
-                                const Vector3r &hingeJointAxis,      // axis of hinge joint
-                                Eigen::Matrix<Real, 4, 7, Eigen::DontAlign> &hingeJointInfo);
+    static bool InitHingeJoint(const Vector3r &x0,                    // center of mass of body 0
+                               const Quaternionr &q0,                 // rotation of body 0
+                               const Vector3r &x1,                    // center of mass of body 1
+                               const Quaternionr &q1,                 // rotation of body 1
+                               const Vector3r &hinge_joint_position,  // position of hinge joint
+                               const Vector3r &hinge_joint_axis,      // axis of hinge joint
+                               Eigen::Matrix<Real, 4, 7, Eigen::DontAlign> &hinge_joint_info);
 
     /** Update hinge joint info which is required by the solver step.
      * The joint info must be generated in the initialization process of the model
-     * by calling the function init_HingeJoint().
+     * by calling the function InitHingeJoint().
      * This method should be called once per simulation step before executing the solver.\n\n
      *
      * @param x0 center of mass of first body
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param hingeJointInfo hinge joint information which should be updated
+     * @param hinge_joint_info hinge joint information which should be updated
      */
-    static bool update_HingeJoint(const Vector3r &x0,     // center of mass of body 0
-                                  const Quaternionr &q0,  // rotation of body 0
-                                  const Vector3r &x1,     // center of mass of body 1
-                                  const Quaternionr &q1,  // rotation of body 1
-                                  Eigen::Matrix<Real, 4, 7, Eigen::DontAlign> &hingeJointInfo);
+    static bool UpdateHingeJoint(const Vector3r &x0,     // center of mass of body 0
+                                 const Quaternionr &q0,  // rotation of body 0
+                                 const Vector3r &x1,     // center of mass of body 1
+                                 const Quaternionr &q1,  // rotation of body 1
+                                 Eigen::Matrix<Real, 4, 7, Eigen::DontAlign> &hinge_joint_info);
 
     /** Perform a solver step for a hinge joint which links two rigid bodies.
      * A hinge joint removes three translational and two rotational  degrees of freedom between the bodies.
      * The hinge joint info must be generated in the initialization process of the model
-     * by calling the function init_HingeJoint() and updated each time the bodies
-     * change their state by update_HingeJoint().\n\n
+     * by calling the function InitHingeJoint() and updated each time the bodies
+     * change their state by UpdateHingeJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
      * \image html hingejoint.jpg "hinge joint"
      * \image latex hingejoint.jpg "hinge joint" width=0.5\textwidth
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
-     * @param hingeJointInfo Hinge joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_HingeJoint()
-     * and updated each time the bodies change their state by update_HingeJoint().
+     * @param hinge_joint_info Hinge joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitHingeJoint()
+     * and updated each time the bodies change their state by UpdateHingeJoint().
      * @param corr_x0 position correction of center of mass of first body
      * @param corr_q0 rotation correction of first body
      * @param corr_x1 position correction of center of mass of second body
      * @param corr_q1 rotation correction of second body
      */
-    static bool solve_HingeJoint(
-            Real invMass0,                     // inverse  mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
-            const Eigen::Matrix<Real, 4, 7, Eigen::DontAlign> &hingeJointInfo,  // precomputed hinge joint info
+    static bool SolveHingeJoint(
+            Real inv_mass_0,                      // inverse  mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
+            const Eigen::Matrix<Real, 4, 7, Eigen::DontAlign> &hinge_joint_info,  // precomputed hinge joint info
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
             Vector3r &corr_x1,
@@ -295,10 +298,10 @@ public:
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param jointPosition position of universal joint
-     * @param jointAxis0 first axis of universal joint
-     * @param jointAxis1 second axis of universal joint
-     * @param jointInfo Stores the local and global positions of the connector points.
+     * @param joint_position position of universal joint
+     * @param joint_axis_0 first axis of universal joint
+     * @param joint_axis_1 second axis of universal joint
+     * @param joint_info Stores the local and global positions of the connector points.
      * The joint info contains the following columns:\n
      * 0:	connector in body 0 (local)\n
      * 1:	connector in body 1 (local)\n
@@ -309,70 +312,70 @@ public:
      * 6:	constraint axis 0 in body 0 (global)\n
      * 7:	constraint axis 1 in body 1 (global)\n\n
      * The info must be updated in each simulation step
-     * by calling update_UniversalJoint().
+     * by calling UpdateUniversalJoint().
      */
-    static bool init_UniversalJoint(const Vector3r &x0,             // center of mass of body 0
-                                    const Quaternionr &q0,          // rotation of body 0
-                                    const Vector3r &x1,             // center of mass of body 1
-                                    const Quaternionr &q1,          // rotation of body 1
-                                    const Vector3r &jointPosition,  // position of universal joint
-                                    const Vector3r &jointAxis0,     // first axis of universal joint
-                                    const Vector3r &jointAxis1,     // second axis of universal joint
-                                    Eigen::Matrix<Real, 3, 8, Eigen::DontAlign> &jointInfo);
+    static bool InitUniversalJoint(const Vector3r &x0,              // center of mass of body 0
+                                   const Quaternionr &q0,           // rotation of body 0
+                                   const Vector3r &x1,              // center of mass of body 1
+                                   const Quaternionr &q1,           // rotation of body 1
+                                   const Vector3r &joint_position,  // position of universal joint
+                                   const Vector3r &joint_axis_0,    // first axis of universal joint
+                                   const Vector3r &joint_axis_1,    // second axis of universal joint
+                                   Eigen::Matrix<Real, 3, 8, Eigen::DontAlign> &joint_info);
 
     /** Update universal joint info which is required by the solver step.
      * The joint info must be generated in the initializatgion process of the model
-     * by calling the function init_UniversalJoint().
+     * by calling the function InitUniversalJoint().
      * This method should be called once per simulation step before executing the solver.\n\n
      *
      * @param x0 center of mass of first body
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param jointInfo universal joint information which should be updated
+     * @param joint_info universal joint information which should be updated
      */
-    static bool update_UniversalJoint(const Vector3r &x0,     // center of mass of body 0
-                                      const Quaternionr &q0,  // rotation of body 0
-                                      const Vector3r &x1,     // center of mass of body 1
-                                      const Quaternionr &q1,  // rotation of body 1
-                                      Eigen::Matrix<Real, 3, 8, Eigen::DontAlign> &jointInfo);
+    static bool UpdateUniversalJoint(const Vector3r &x0,     // center of mass of body 0
+                                     const Quaternionr &q0,  // rotation of body 0
+                                     const Vector3r &x1,     // center of mass of body 1
+                                     const Quaternionr &q1,  // rotation of body 1
+                                     Eigen::Matrix<Real, 3, 8, Eigen::DontAlign> &joint_info);
 
     /** Perform a solver step for a universal joint which links two rigid bodies.
      * A universal joint removes three translational and one rotational degree of freedom between the bodies.
      * The universal joint info must be generated in the initialization process of the model
-     * by calling the function init_UniversalJoint() and updated each time the bodies
-     * change their state by update_UniversalJoint().\n\n
+     * by calling the function InitUniversalJoint() and updated each time the bodies
+     * change their state by UpdateUniversalJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
      * \image html universaljoint.jpg "universal joint"
      * \image latex universaljoint.jpg "universal joint" width=0.5\textwidth
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
-     * @param jointInfo Universal joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_UniversalJoint()
-     * and updated each time the bodies change their state by update_UniversalJoint().
+     * @param joint_info Universal joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitUniversalJoint()
+     * and updated each time the bodies change their state by UpdateUniversalJoint().
      * @param corr_x0 position correction of center of mass of first body
      * @param corr_q0 rotation correction of first body
      * @param corr_x1 position correction of center of mass of second body
      * @param corr_q1 rotation correction of second body
      */
-    static bool solve_UniversalJoint(
-            Real invMass0,                     // inverse mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
-            const Eigen::Matrix<Real, 3, 8, Eigen::DontAlign> &jointInfo,  // precomputed universal joint info
+    static bool SolveUniversalJoint(
+            Real inv_mass_0,                      // inverse mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
+            const Eigen::Matrix<Real, 3, 8, Eigen::DontAlign> &joint_info,  // precomputed universal joint info
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
             Vector3r &corr_x1,
@@ -384,8 +387,8 @@ public:
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param sliderJointAxis axis of slider joint
-     * @param jointInfo Stores the local and global positions of the connector points.
+     * @param slider_joint_axis axis of slider joint
+     * @param joint_info Stores the local and global positions of the connector points.
      * The joint info contains the following columns:\n
      * jointInfo contains\n
      * 0:   coordinate system in body 0, where the x-axis is the slider axis (local)\n
@@ -393,68 +396,68 @@ public:
      * 2:   2D vector d = P * (x0 - x1), where P projects the vector onto a plane perpendicular to the slider axis\n
      * 3-5: projection matrix Pr for the rotational part\n\n
      * The info must be updated in each simulation step
-     * by calling update_SliderJoint().
+     * by calling UpdateSliderJoint().
      */
-    static bool init_SliderJoint(const Vector3r &x0,               // center of mass of body 0
-                                 const Quaternionr &q0,            // rotation of body 0
-                                 const Vector3r &x1,               // center of mass of body 1
-                                 const Quaternionr &q1,            // rotation of body 1
-                                 const Vector3r &sliderJointAxis,  // axis of slider joint
-                                 Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo);
+    static bool InitSliderJoint(const Vector3r &x0,                 // center of mass of body 0
+                                const Quaternionr &q0,              // rotation of body 0
+                                const Vector3r &x1,                 // center of mass of body 1
+                                const Quaternionr &q1,              // rotation of body 1
+                                const Vector3r &slider_joint_axis,  // axis of slider joint
+                                Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info);
 
     /** Update slider joint info which is required by the solver step.
      * The joint info must be generated in the initialization process of the model
-     * by calling the function init_SliderJoint().
+     * by calling the function InitSliderJoint().
      * This method should be called once per simulation step before executing the solver.\n\n
      *
      * @param x0 center of mass of first body
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param jointInfo slider joint information which should be updated
+     * @param joint_info slider joint information which should be updated
      */
-    static bool update_SliderJoint(const Vector3r &x0,     // center of mass of body 0
-                                   const Quaternionr &q0,  // rotation of body 0
-                                   const Vector3r &x1,     // center of mass of body 1
-                                   const Quaternionr &q1,  // rotation of body 1
-                                   Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo);
+    static bool UpdateSliderJoint(const Vector3r &x0,     // center of mass of body 0
+                                  const Quaternionr &q0,  // rotation of body 0
+                                  const Vector3r &x1,     // center of mass of body 1
+                                  const Quaternionr &q1,  // rotation of body 1
+                                  Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info);
 
     /** Perform a solver step for a slider joint which links two rigid bodies.
      * A slider joint removes two translational and three rotational degrees of freedom between the bodies.
      * The slider joint info must be generated in the initialization process of the model
-     * by calling the function init_SliderJoint() and updated each time the bodies
-     * change their state by update_SliderJoint().\n\n
+     * by calling the function InitSliderJoint() and updated each time the bodies
+     * change their state by UpdateSliderJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
      * \image html sliderjoint.jpg "slider joint"
      * \image latex sliderjoint.jpg "slider joint" width=0.5\textwidth
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
-     * @param jointInfo Slider joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_SliderJoint()
-     * and updated each time the bodies change their state by update_SliderJoint().
+     * @param joint_info Slider joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitSliderJoint()
+     * and updated each time the bodies change their state by UpdateSliderJoint().
      * @param corr_x0 position correction of center of mass of first body
      * @param corr_q0 rotation correction of first body
      * @param corr_x1 position correction of center of mass of second body
      * @param corr_q1 rotation correction of second body
      */
-    static bool solve_SliderJoint(
-            Real invMass0,                     // inverse  mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
-            const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo,  // precomputed slider joint info
+    static bool SolveSliderJoint(
+            Real inv_mass_0,                      // inverse  mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
+            const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info,  // precomputed slider joint info
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
             Vector3r &corr_x1,
@@ -467,79 +470,79 @@ public:
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param sliderJointAxis axis of slider joint
-     * @param jointInfo Stores the local and global positions of the connector points.
+     * @param slider_joint_axis axis of slider joint
+     * @param joint_info Stores the local and global positions of the connector points.
      * The joint info contains the following columns:\n
      * 0:	slider axis in body 0 (local)\n
      * 1:	slider axis in body 0 (global)\n
      * 2:   distance vector d = (x0 - x1)\n
      * 3-5:	projection matrix Pr for the rotational part\n\n
      * The info must be updated in each simulation step
-     * by calling update_TargetPositionMotorSliderJoint().
+     * by calling UpdateTargetPositionMotorSliderJoint().
      */
-    static bool init_TargetPositionMotorSliderJoint(const Vector3r &x0,               // center of mass of body 0
-                                                    const Quaternionr &q0,            // rotation of body 0
-                                                    const Vector3r &x1,               // center of mass of body 1
-                                                    const Quaternionr &q1,            // rotation of body 1
-                                                    const Vector3r &sliderJointAxis,  // axis of slider joint
-                                                    Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo);
+    static bool InitTargetPositionMotorSliderJoint(const Vector3r &x0,                 // center of mass of body 0
+                                                   const Quaternionr &q0,              // rotation of body 0
+                                                   const Vector3r &x1,                 // center of mass of body 1
+                                                   const Quaternionr &q1,              // rotation of body 1
+                                                   const Vector3r &slider_joint_axis,  // axis of slider joint
+                                                   Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info);
 
     /** Update motor slider joint info which is required by the solver step.
      * The joint info must be generated in the initialization process of the model
-     * by calling the function init_TargetPositionMotorSliderJoint().
+     * by calling the function InitTargetPositionMotorSliderJoint().
      * This method should be called once per simulation step before executing the solver.\n\n
      *
      * @param x0 center of mass of first body
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param jointInfo slider joint information which should be updated
+     * @param joint_info slider joint information which should be updated
      */
-    static bool update_TargetPositionMotorSliderJoint(const Vector3r &x0,     // center of mass of body 0
-                                                      const Quaternionr &q0,  // rotation of body 0
-                                                      const Vector3r &x1,     // center of mass of body 1
-                                                      const Quaternionr &q1,  // rotation of body 1
-                                                      Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo);
+    static bool UpdateTargetPositionMotorSliderJoint(const Vector3r &x0,     // center of mass of body 0
+                                                     const Quaternionr &q0,  // rotation of body 0
+                                                     const Vector3r &x1,     // center of mass of body 1
+                                                     const Quaternionr &q1,  // rotation of body 1
+                                                     Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info);
 
     /** Perform a solver step for a motor slider joint which links two rigid bodies.
      * A motor slider joint removes two translational and three rotational degrees of freedom between the bodies.
      * Moreover, a target position can be enforced on the remaining translation axis.
      * The motor slider joint info must be generated in the initialization process of the model
-     * by calling the function init_TargetPositionMotorSliderJoint() and updated each time the bodies
-     * change their state by update_TargetPositionMotorSliderJoint().\n\n
+     * by calling the function InitTargetPositionMotorSliderJoint() and updated each time the bodies
+     * change their state by UpdateTargetPositionMotorSliderJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
      * \image html motorsliderjoint.jpg "motor slider joint"
      * \image latex motorsliderjoint.jpg "motor slider joint" width=0.5\textwidth
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
-     * @param targetPosition target position of the servo motor
-     * @param jointInfo Motor slider joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_TargetPositionMotorSliderJoint()
-     * and updated each time the bodies change their state by update_TargetPositionMotorSliderJoint().
+     * @param target_position target position of the servo motor
+     * @param joint_info Motor slider joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitTargetPositionMotorSliderJoint()
+     * and updated each time the bodies change their state by UpdateTargetPositionMotorSliderJoint().
      * @param corr_x0 position correction of center of mass of first body
      * @param corr_q0 rotation correction of first body
      * @param corr_x1 position correction of center of mass of second body
      * @param corr_q1 rotation correction of second body
      */
-    static bool solve_TargetPositionMotorSliderJoint(
-            Real invMass0,                     // inverse  mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
-            Real targetPosition,               // target position of the servo motor
-            const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo,  // precomputed slider joint info
+    static bool SolveTargetPositionMotorSliderJoint(
+            Real inv_mass_0,                      // inverse  mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
+            Real target_position,                 // target position of the servo motor
+            const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info,  // precomputed slider joint info
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
             Vector3r &corr_x1,
@@ -552,77 +555,77 @@ public:
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param sliderJointAxis axis of slider joint
-     * @param jointInfo Stores the local and global positions of the connector points.
+     * @param slider_joint_axis axis of slider joint
+     * @param joint_info Stores the local and global positions of the connector points.
      * The joint info contains the following columns:\n
      * 0:   coordinate system in body 0, where the x-axis is the slider axis (local)\n
      * 1:   coordinate system in body 0, where the x-axis is the slider axis (global)\n
      * 2:   2D vector d = P * (x0 - x1), where P projects the vector onto a plane perpendicular to the slider axis\n
      * 3-5: projection matrix Pr for the rotational part\n\n
      * The info must be updated in each simulation step
-     * by calling update_TargetVelocityMotorSliderJoint().
+     * by calling UpdateTargetVelocityMotorSliderJoint().
      */
-    static bool init_TargetVelocityMotorSliderJoint(const Vector3r &x0,               // center of mass of body 0
-                                                    const Quaternionr &q0,            // rotation of body 0
-                                                    const Vector3r &x1,               // center of mass of body 1
-                                                    const Quaternionr &q1,            // rotation of body 1
-                                                    const Vector3r &sliderJointAxis,  // axis of slider joint
-                                                    Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo);
+    static bool InitTargetVelocityMotorSliderJoint(const Vector3r &x0,                 // center of mass of body 0
+                                                   const Quaternionr &q0,              // rotation of body 0
+                                                   const Vector3r &x1,                 // center of mass of body 1
+                                                   const Quaternionr &q1,              // rotation of body 1
+                                                   const Vector3r &slider_joint_axis,  // axis of slider joint
+                                                   Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info);
 
     /** Update motor slider joint info which is required by the solver step.
      * The joint info must be generated in the initialization process of the model
-     * by calling the function init_TargetVelocityMotorSliderJoint().
+     * by calling the function InitTargetVelocityMotorSliderJoint().
      * This method should be called once per simulation step before executing the solver.\n\n
      *
      * @param x0 center of mass of first body
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param jointInfo slider joint information which should be updated
+     * @param joint_info slider joint information which should be updated
      */
-    static bool update_TargetVelocityMotorSliderJoint(const Vector3r &x0,     // center of mass of body 0
-                                                      const Quaternionr &q0,  // rotation of body 0
-                                                      const Vector3r &x1,     // center of mass of body 1
-                                                      const Quaternionr &q1,  // rotation of body 1
-                                                      Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo);
+    static bool UpdateTargetVelocityMotorSliderJoint(const Vector3r &x0,     // center of mass of body 0
+                                                     const Quaternionr &q0,  // rotation of body 0
+                                                     const Vector3r &x1,     // center of mass of body 1
+                                                     const Quaternionr &q1,  // rotation of body 1
+                                                     Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info);
 
     /** Perform a solver step for a motor slider joint which links two rigid bodies.
      * A motor slider joint removes two translational and three rotational degrees of freedom between the bodies.
      * Moreover, a target velocity can be enforced on the remaining translation axis.
      * The motor slider joint info must be generated in the initialization process of the model
-     * by calling the function init_TargetVelocityMotorSliderJoint() and updated each time the bodies
-     * change their state by update_TargetVelocityMotorSliderJoint().\n\n
+     * by calling the function InitTargetVelocityMotorSliderJoint() and updated each time the bodies
+     * change their state by UpdateTargetVelocityMotorSliderJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
      * \image html motorsliderjoint.jpg "motor slider joint"
      * \image latex motorsliderjoint.jpg "motor slider joint" width=0.5\textwidth
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
-     * @param jointInfo Motor slider joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_TargetVelocityMotorSliderJoint()
-     * and updated each time the bodies change their state by update_TargetVelocityMotorSliderJoint().
+     * @param joint_info Motor slider joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitTargetVelocityMotorSliderJoint()
+     * and updated each time the bodies change their state by UpdateTargetVelocityMotorSliderJoint().
      * @param corr_x0 position correction of center of mass of first body
      * @param corr_q0 rotation correction of first body
      * @param corr_x1 position correction of center of mass of second body
      * @param corr_q1 rotation correction of second body
      */
-    static bool solve_TargetVelocityMotorSliderJoint(
-            Real invMass0,                     // inverse  mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
-            const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo,  // precomputed slider joint info
+    static bool SolveTargetVelocityMotorSliderJoint(
+            Real inv_mass_0,                      // inverse  mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
+            const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info,  // precomputed slider joint info
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
             Vector3r &corr_x1,
@@ -632,49 +635,49 @@ public:
      * A motor slider joint removes two translational and three rotational degrees of freedom between the bodies.
      * Moreover, a target velocity can be enforced on the remaining translation axis.
      * The motor slider joint info must be generated in the initialization process of the model
-     * by calling the function init_TargetVelocityMotorSliderJoint() and updated each time the bodies
-     * change their state by update_TargetVelocityMotorSliderJoint().\n\n
+     * by calling the function InitTargetVelocityMotorSliderJoint() and updated each time the bodies
+     * change their state by UpdateTargetVelocityMotorSliderJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
      * \image html motorsliderjoint.jpg "motor slider joint"
      * \image latex motorsliderjoint.jpg "motor slider joint" width=0.5\textwidth
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
      * @param v0 velocity of body 0
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
-     * @param omega0 angular velocity of first body
-     * @param invMass1 inverse mass of second body
+     * @param omega_0 angular velocity of first body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
      * @param v1 velocity of body 1
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
-     * @param omega1 angular velocity of second body
-     * @param targetVelocity target velocity of the motor
-     * @param jointInfo Motor slider joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_TargetVelocityMotorSliderJoint()
-     * and updated each time the bodies change their state by update_TargetVelocityMotorSliderJoint().
+     * @param omega_1 angular velocity of second body
+     * @param target_velocity target velocity of the motor
+     * @param joint_info Motor slider joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitTargetVelocityMotorSliderJoint()
+     * and updated each time the bodies change their state by UpdateTargetVelocityMotorSliderJoint().
      * @param corr_v0 velocity correction of first body
      * @param corr_omega0 angular velocity correction of first body
      * @param corr_v1 velocity correction of second body
      * @param corr_omega1 angular velocity correction of second body
      */
-    static bool velocitySolve_TargetVelocityMotorSliderJoint(
-            Real invMass0,                     // inverse  mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Vector3r &v0,                // velocity of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            const Vector3r &omega0,
-            Real invMass1,       // inverse mass is zero if body is static
+    static bool VelocitySolveTargetVelocityMotorSliderJoint(
+            Real inv_mass_0,                      // inverse  mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Vector3r &v0,                   // velocity of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            const Vector3r &omega_0,
+            Real inv_mass_1,     // inverse mass is zero if body is static
             const Vector3r &x1,  // center of mass of body 1
             const Vector3r &v1,
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
-            const Vector3r &omega1,
-            Real targetVelocity,                                           // target velocity of the servo motor
-            const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo,  // precomputed joint info
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
+            const Vector3r &omega_1,
+            Real target_velocity,                                           // target velocity of the servo motor
+            const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info,  // precomputed joint info
             Vector3r &corr_v0,
             Vector3r &corr_omega0,
             Vector3r &corr_v1,
@@ -687,9 +690,9 @@ public:
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param hingeJointPosition position of hinge joint
-     * @param hingeJointAxis axis of hinge joint
-     * @param jointInfo Stores the local and global positions of the connector points.
+     * @param hinge_joint_position position of hinge joint
+     * @param hinge_joint_axis axis of hinge joint
+     * @param joint_info Stores the local and global positions of the connector points.
      * The joint info contains the following columns:\n
      * 0-2:	projection matrix Pr for the rotational part\n
      * 3:	connector in body 0 (local)\n
@@ -698,72 +701,72 @@ public:
      * 6:	connector in body 1 (global)\n
      * 7:	hinge axis in body 0 (local) used for rendering \n\n
      * The info must be updated in each simulation step
-     * by calling update_TargetAngleMotorHingeJoint().
+     * by calling UpdateTargetAngleMotorHingeJoint().
      */
-    static bool init_TargetAngleMotorHingeJoint(const Vector3r &x0,                  // center of mass of body 0
-                                                const Quaternionr &q0,               // rotation of body 0
-                                                const Vector3r &x1,                  // center of mass of body 1
-                                                const Quaternionr &q1,               // rotation of body 1
-                                                const Vector3r &hingeJointPosition,  // position of hinge joint
-                                                const Vector3r &hingeJointAxis,      // axis of hinge joint
-                                                Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &jointInfo);
+    static bool InitTargetAngleMotorHingeJoint(const Vector3r &x0,                    // center of mass of body 0
+                                               const Quaternionr &q0,                 // rotation of body 0
+                                               const Vector3r &x1,                    // center of mass of body 1
+                                               const Quaternionr &q1,                 // rotation of body 1
+                                               const Vector3r &hinge_joint_position,  // position of hinge joint
+                                               const Vector3r &hinge_joint_axis,      // axis of hinge joint
+                                               Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &joint_info);
 
     /** Update motor hinge joint info which is required by the solver step.
      * The joint info must be generated in the initialization process of the model
-     * by calling the function init_TargetAngleMotorHingeJoint().
+     * by calling the function InitTargetAngleMotorHingeJoint().
      * This method should be called once per simulation step before executing the solver.\n\n
      *
      * @param x0 center of mass of first body
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param jointInfo motor hinge joint information which should be updated
+     * @param joint_info motor hinge joint information which should be updated
      */
-    static bool update_TargetAngleMotorHingeJoint(const Vector3r &x0,     // center of mass of body 0
-                                                  const Quaternionr &q0,  // rotation of body 0
-                                                  const Vector3r &x1,     // center of mass of body 1
-                                                  const Quaternionr &q1,  // rotation of body 1
-                                                  Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &jointInfo);
+    static bool UpdateTargetAngleMotorHingeJoint(const Vector3r &x0,     // center of mass of body 0
+                                                 const Quaternionr &q0,  // rotation of body 0
+                                                 const Vector3r &x1,     // center of mass of body 1
+                                                 const Quaternionr &q1,  // rotation of body 1
+                                                 Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &joint_info);
 
     /** Perform a solver step for a motor hinge joint which links two rigid bodies.
      * A motor hinge joint removes three translational and two rotational degrees of freedom between the bodies.
      * Moreover, a target angle can be enforced on the remaining rotation axis.
      * The motor hinge joint info must be generated in the initialization process of the model
-     * by calling the function init_TargetAngleMotorHingeJoint() and updated each time the bodies
-     * change their state by update_TargetAngleMotorHingeJoint().\n\n
+     * by calling the function InitTargetAngleMotorHingeJoint() and updated each time the bodies
+     * change their state by UpdateTargetAngleMotorHingeJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
      * \image html motorhingejoint.jpg "motor hinge joint"
      * \image latex motorhingejoint.jpg "motor hinge joint" width=0.5\textwidth
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
-     * @param targetAngle target angle of the servo motor
-     * @param jointInfo Motor hinge joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_TargetAngleMotorHingeJoint()
-     * and updated each time the bodies change their state by update_TargetAngleMotorHingeJoint().
+     * @param target_angle target angle of the servo motor
+     * @param joint_info Motor hinge joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitTargetAngleMotorHingeJoint()
+     * and updated each time the bodies change their state by UpdateTargetAngleMotorHingeJoint().
      * @param corr_x0 position correction of center of mass of first body
      * @param corr_q0 rotation correction of first body
      * @param corr_x1 position correction of center of mass of second body
      * @param corr_q1 rotation correction of second body
      */
-    static bool solve_TargetAngleMotorHingeJoint(
-            Real invMass0,                     // inverse  mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
-            Real targetAngle,                  // target angle of the servo motor
-            const Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &jointInfo,  // precomputed hinge joint info
+    static bool SolveTargetAngleMotorHingeJoint(
+            Real inv_mass_0,                      // inverse  mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
+            Real target_angle,                    // target angle of the servo motor
+            const Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &joint_info,  // precomputed hinge joint info
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
             Vector3r &corr_x1,
@@ -776,9 +779,9 @@ public:
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param hingeJointPosition position of hinge joint
-     * @param hingeJointAxis axis of hinge joint
-     * @param jointInfo Stores the local and global positions of the connector points.
+     * @param hinge_joint_position position of hinge joint
+     * @param hinge_joint_axis axis of hinge joint
+     * @param joint_info Stores the local and global positions of the connector points.
      * The joint info contains the following columns:\n
      * 0-1:	projection matrix Pr for the rotational part\n
      * 2:	connector in body 0 (local)\n
@@ -788,71 +791,71 @@ public:
      * 6:	hinge axis in body 0 (local)\n
      * 7:   hinge axis in body 0 (global)\n\n
      * The info must be updated in each simulation step
-     * by calling update_TargetVelocityMotorHingeJoint().
+     * by calling UpdateTargetVelocityMotorHingeJoint().
      */
-    static bool init_TargetVelocityMotorHingeJoint(const Vector3r &x0,                  // center of mass of body 0
-                                                   const Quaternionr &q0,               // rotation of body 0
-                                                   const Vector3r &x1,                  // center of mass of body 1
-                                                   const Quaternionr &q1,               // rotation of body 1
-                                                   const Vector3r &hingeJointPosition,  // position of hinge joint
-                                                   const Vector3r &hingeJointAxis,      // axis of hinge joint
-                                                   Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &jointInfo);
+    static bool InitTargetVelocityMotorHingeJoint(const Vector3r &x0,                    // center of mass of body 0
+                                                  const Quaternionr &q0,                 // rotation of body 0
+                                                  const Vector3r &x1,                    // center of mass of body 1
+                                                  const Quaternionr &q1,                 // rotation of body 1
+                                                  const Vector3r &hinge_joint_position,  // position of hinge joint
+                                                  const Vector3r &hinge_joint_axis,      // axis of hinge joint
+                                                  Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &joint_info);
 
     /** Update motor hinge joint info which is required by the solver step.
      * The joint info must be generated in the initialization process of the model
-     * by calling the function init_TargetVelocityMotorHingeJoint().
+     * by calling the function InitTargetVelocityMotorHingeJoint().
      * This method should be called once per simulation step before executing the solver.\n\n
      *
      * @param x0 center of mass of first body
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param jointInfo motor hinge joint information which should be updated
+     * @param joint_info motor hinge joint information which should be updated
      */
-    static bool update_TargetVelocityMotorHingeJoint(const Vector3r &x0,     // center of mass of body 0
-                                                     const Quaternionr &q0,  // rotation of body 0
-                                                     const Vector3r &x1,     // center of mass of body 1
-                                                     const Quaternionr &q1,  // rotation of body 1
-                                                     Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &jointInfo);
+    static bool UpdateTargetVelocityMotorHingeJoint(const Vector3r &x0,     // center of mass of body 0
+                                                    const Quaternionr &q0,  // rotation of body 0
+                                                    const Vector3r &x1,     // center of mass of body 1
+                                                    const Quaternionr &q1,  // rotation of body 1
+                                                    Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &joint_info);
 
     /** Perform a solver step for a motor hinge joint which links two rigid bodies.
      * A motor hinge joint removes three translational and two rotational degrees of freedom between the bodies.
      * Moreover, a target velocity can be enforced on the remaining rotation axis by
-     * calling the function velocitySolve_TargetVelocityMotorHingeJoint().
+     * calling the function VelocitySolveTargetVelocityMotorHingeJoint().
      * The motor hinge joint info must be generated in the initialization process of the model
-     * by calling the function init_TargetVelocityMotorHingeJoint() and updated each time the bodies
-     * change their state by update_TargetVelocityMotorHingeJoint().\n\n
+     * by calling the function InitTargetVelocityMotorHingeJoint() and updated each time the bodies
+     * change their state by UpdateTargetVelocityMotorHingeJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
      * \image html motorhingejoint.jpg "motor hinge joint"
      * \image latex motorhingejoint.jpg "motor hinge joint" width=0.5\textwidth
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
-     * @param jointInfo Motor hinge joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_TargetVelocityMotorHingeJoint()
-     * and updated each time the bodies change their state by update_TargetVelocityMotorHingeJoint().
+     * @param joint_info Motor hinge joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitTargetVelocityMotorHingeJoint()
+     * and updated each time the bodies change their state by UpdateTargetVelocityMotorHingeJoint().
      * @param corr_x0 position correction of center of mass of first body
      * @param corr_q0 rotation correction of first body
      * @param corr_x1 position correction of center of mass of second body
      * @param corr_q1 rotation correction of second body
      */
-    static bool solve_TargetVelocityMotorHingeJoint(
-            Real invMass0,                     // inverse  mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
-            const Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &jointInfo,  // precomputed hinge joint info
+    static bool SolveTargetVelocityMotorHingeJoint(
+            Real inv_mass_0,                      // inverse  mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
+            const Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &joint_info,  // precomputed hinge joint info
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
             Vector3r &corr_x1,
@@ -862,45 +865,45 @@ public:
      * A motor hinge joint removes three translational and two rotational degrees of freedom between the bodies.
      * Moreover, a target velocity can be enforced on the remaining rotation axis.
      * The motor hinge joint info must be generated in the initialization process of the model
-     * by calling the function init_TargetVelocityMotorHingeJoint() and updated each time the bodies
-     * change their state by update_TargetVelocityMotorHingeJoint().\n\n
+     * by calling the function InitTargetVelocityMotorHingeJoint() and updated each time the bodies
+     * change their state by UpdateTargetVelocityMotorHingeJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
      * \image html motorhingejoint.jpg "motor hinge joint"
      * \image latex motorhingejoint.jpg "motor hinge joint" width=0.5\textwidth
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
      * @param v0 velocity of body 0
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param omega0 angular velocity of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
      * @param v1 velocity of body 1
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param omega1 angular velocity of second body
-     * @param targetAngularVelocity target angular velocity of the motor
-     * @param jointInfo Motor hinge joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_TargetVelocityMotorHingeJoint()
-     * and updated each time the bodies change their state by update_TargetVelocityMotorHingeJoint().
+     * @param target_angular_velocity target angular velocity of the motor
+     * @param joint_info Motor hinge joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitTargetVelocityMotorHingeJoint()
+     * and updated each time the bodies change their state by UpdateTargetVelocityMotorHingeJoint().
      * @param corr_v0 velocity correction of first body
      * @param corr_omega0 angular velocity correction of first body
      * @param corr_v1 velocity correction of second body
      * @param corr_omega1 angular velocity correction of second body
      */
-    static bool velocitySolve_TargetVelocityMotorHingeJoint(
-            Real invMass0,                     // inverse  mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Vector3r &v0,                // velocity of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
+    static bool VelocitySolveTargetVelocityMotorHingeJoint(
+            Real inv_mass_0,                      // inverse  mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Vector3r &v0,                   // velocity of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
             const Vector3r &omega0,
-            Real invMass1,       // inverse mass is zero if body is static
+            Real inv_mass_1,     // inverse mass is zero if body is static
             const Vector3r &x1,  // center of mass of body 1
             const Vector3r &v1,
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
             const Vector3r &omega1,
-            Real targetAngularVelocity,                                    // target angular velocity of the servo motor
-            const Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &jointInfo,  // precomputed joint info
+            Real target_angular_velocity,  // target angular velocity of the servo motor
+            const Eigen::Matrix<Real, 4, 8, Eigen::DontAlign> &joint_info,  // precomputed joint info
             Vector3r &corr_v0,
             Vector3r &corr_omega0,
             Vector3r &corr_v1,
@@ -912,59 +915,59 @@ public:
      * @param x0 center of mass of the rigid body
      * @param q0 rotation of the rigid body body
      * @param x1 position of the particle
-     * @param jointInfo Stores the local and global position of the connector point in the rigid body.
-     * The info must be updated in each simulation step by calling update_RigidBodyParticleBallJoint().\n
+     * @param joint_info Stores the local and global position of the connector point in the rigid body.
+     * The info must be updated in each simulation step by calling UpdateRigidBodyParticleBallJoint().\n
      * The joint info contains the following columns:\n
      * 0:	connector in rigid body (local)\n
      * 1:	connector in rigid body (global)\n
      */
-    static bool init_RigidBodyParticleBallJoint(const Vector3r &x0,     // center of mass of the rigid body
-                                                const Quaternionr &q0,  // rotation of the rigid body body
-                                                const Vector3r &x1,     // position of the particle
-                                                Eigen::Matrix<Real, 3, 2, Eigen::DontAlign> &jointInfo);
+    static bool InitRigidBodyParticleBallJoint(const Vector3r &x0,     // center of mass of the rigid body
+                                               const Quaternionr &q0,  // rotation of the rigid body body
+                                               const Vector3r &x1,     // position of the particle
+                                               Eigen::Matrix<Real, 3, 2, Eigen::DontAlign> &joint_info);
 
     /** Update joint info which is required by the solver step.
      * The joint info must be generated in the initialization process of the model
-     * by calling the function init_RigidBodyParticleBallJoint().
+     * by calling the function InitRigidBodyParticleBallJoint().
      * This method should be called once per simulation step before executing the solver.\n\n
      *
      * @param x0 center of mass of the rigid body
      * @param q0 rotation of the rigid body body
      * @param x1 position of the particle
-     * @param jointInfo ball joint information which should be updated
+     * @param joint_info ball joint information which should be updated
      */
-    static bool update_RigidBodyParticleBallJoint(const Vector3r &x0,     // center of mass of the rigid body
-                                                  const Quaternionr &q0,  // rotation of the rigid body body
-                                                  const Vector3r &x1,     // position of the particle
-                                                  Eigen::Matrix<Real, 3, 2, Eigen::DontAlign> &jointInfo);
+    static bool UpdateRigidBodyParticleBallJoint(const Vector3r &x0,     // center of mass of the rigid body
+                                                 const Quaternionr &q0,  // rotation of the rigid body body
+                                                 const Vector3r &x1,     // position of the particle
+                                                 Eigen::Matrix<Real, 3, 2, Eigen::DontAlign> &joint_info);
 
     /** Perform a solver step for a ball joint which links a rigid body and a particle.
      * The joint info must be generated in the initialization process of the model
-     * by calling the function init_RigidBodyParticleBallJoint() and updated each time the rigid body
-     * changes its state by update_RigidBodyParticleBallJoint().\n\n
+     * by calling the function InitRigidBodyParticleBallJoint() and updated each time the rigid body
+     * changes its state by UpdateRigidBodyParticleBallJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
-     * @param invMass0 inverse mass of rigid body
+     * @param inv_mass_0 inverse mass of rigid body
      * @param x0 center of mass of rigid body
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of rigid body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of rigid body
      * @param q0 rotation of rigid body
-     * @param invMass1 inverse mass of particle
+     * @param inv_mass_1 inverse mass of particle
      * @param x1 position of particle
-     * @param jointInfo Joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_RigidBodyParticleBallJoint()
-     * and updated each time the rigid body changes its state by update_RigidBodyParticleBallJoint().
+     * @param joint_info Joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitRigidBodyParticleBallJoint()
+     * and updated each time the rigid body changes its state by UpdateRigidBodyParticleBallJoint().
      * @param corr_x0 position correction of the center of mass of the rigid body
      * @param corr_q0 rotation correction of the rigid body
      * @param corr_x1 position correction of the particle
      */
-    static bool solve_RigidBodyParticleBallJoint(
-            Real invMass0,                     // inverse mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            Real invMass1,                     // inverse mass is zero if particle is static
-            const Vector3r &x1,                // position of particle
-            const Eigen::Matrix<Real, 3, 2, Eigen::DontAlign> &jointInfo,  // precomputed joint info
+    static bool SolveRigidBodyParticleBallJoint(
+            Real inv_mass_0,                      // inverse mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            Real inv_mass_1,                      // inverse mass is zero if particle is static
+            const Vector3r &x1,                   // position of particle
+            const Eigen::Matrix<Real, 3, 2, Eigen::DontAlign> &joint_info,  // precomputed joint info
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
             Vector3r &corr_x1);
@@ -972,23 +975,23 @@ public:
     /** Initialize contact between two rigid bodies and return
      * info which is required by the solver step.
      *
-     * @param invMass0 inverse mass of rigid body
+     * @param inv_mass_0 inverse mass of rigid body
      * @param x0 center of mass of first body
      * @param v0 velocity of body 0
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
      * @param omega0 angular velocity of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
      * @param v1 velocity of body 1
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
      * @param omega1 angular velocity of second body
      * @param cp0 contact point of body 0
      * @param cp1 contact point of body 1
      * @param normal contact normal in body 1
-     * @param restitutionCoeff coefficient of restitution
-     * @param constraintInfo Stores the local and global position of the contact points and
+     * @param restitution_coeff coefficient of restitution
+     * @param constraint_info Stores the local and global position of the contact points and
      * the contact normal. \n
      * The joint info contains the following columns:\n
      * 0:	connector in body 0 (global)\n
@@ -999,64 +1002,64 @@ public:
      * 1,4:  maximal impulse in tangent direction\n
      * 2,4:  goal velocity in normal direction after collision
      */
-    static bool init_RigidBodyContactConstraint(
-            Real invMass0,                     // inverse mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Vector3r &v0,                // velocity of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            const Vector3r &omega0,            // angular velocity of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Vector3r &v1,                // velocity of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
-            const Vector3r &omega1,            // angular velocity of body 1
-            const Vector3r &cp0,               // contact point of body 0
-            const Vector3r &cp1,               // contact point of body 1
-            const Vector3r &normal,            // contact normal in body 1
-            Real restitutionCoeff,             // coefficient of restitution
-            Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> &constraintInfo);
+    static bool InitRigidBodyContactConstraint(
+            Real inv_mass_0,                      // inverse mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Vector3r &v0,                   // velocity of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            const Vector3r &omega0,               // angular velocity of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Vector3r &v1,                   // velocity of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
+            const Vector3r &omega1,               // angular velocity of body 1
+            const Vector3r &cp0,                  // contact point of body 0
+            const Vector3r &cp1,                  // contact point of body 1
+            const Vector3r &normal,               // contact normal in body 1
+            Real restitution_coeff,               // coefficient of restitution
+            Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> &constraint_info);
 
     /** Perform a solver step for a contact constraint between two rigid bodies.
      * A contact constraint handles collisions and resting contacts between the bodies.
      * The contact info must be generated in each time step.
      *
-     * @param invMass0 inverse mass of rigid body
+     * @param inv_mass_0 inverse mass of rigid body
      * @param x0 center of mass of first body
      * @param v0 velocity of body 0
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param omega0 angular velocity of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
      * @param v1 velocity of body 1
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param omega1 angular velocity of second body
      * @param stiffness stiffness parameter of penalty impulse
-     * @param frictionCoeff friction coefficient
+     * @param friction_coeff friction coefficient
      * @param sum_impulses sum of all correction impulses in normal direction
-     * @param constraintInfo information which is required by the solver. This
-     * information must be generated in the beginning by calling init_RigidBodyContactConstraint().
+     * @param constraint_info information which is required by the solver. This
+     * information must be generated in the beginning by calling InitRigidBodyContactConstraint().
      * @param corr_v0 velocity correction of first body
      * @param corr_omega0 angular velocity correction of first body
      * @param corr_v1 velocity correction of second body
      * @param corr_omega1 angular velocity correction of second body
      */
-    static bool velocitySolve_RigidBodyContactConstraint(
-            Real invMass0,                     // inverse mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Vector3r &v0,                // velocity of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Vector3r &omega0,            // angular velocity of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Vector3r &v1,                // velocity of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Vector3r &omega1,            // angular velocity of body 1
-            Real stiffness,                    // stiffness parameter of penalty impulse
-            Real frictionCoeff,                // friction coefficient
-            Real &sum_impulses,                // sum of all impulses
-            Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> &constraintInfo,  // precomputed contact info
+    static bool VelocitySolveRigidBodyContactConstraint(
+            Real inv_mass_0,                      // inverse mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Vector3r &v0,                   // velocity of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Vector3r &omega0,               // angular velocity of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Vector3r &v1,                   // velocity of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Vector3r &omega1,               // angular velocity of body 1
+            Real stiffness,                       // stiffness parameter of penalty impulse
+            Real friction_coeff,                  // friction coefficient
+            Real &sum_impulses,                   // sum of all impulses
+            Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> &constraint_info,  // precomputed contact info
             Vector3r &corr_v0,
             Vector3r &corr_omega0,
             Vector3r &corr_v1,
@@ -1071,14 +1074,14 @@ public:
      * @param invMass1 inverse mass of second body
      * @param x1 center of mass of second body
      * @param v1 velocity of body 1
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
      * @param omega1 angular velocity of second body
      * @param cp0 contact point of body 0
      * @param cp1 contact point of body 1
      * @param normal contact normal in body 1
-     * @param restitutionCoeff coefficient of restitution
-     * @param constraintInfo Stores the local and global position of the contact points and
+     * @param restitution_coeff coefficient of restitution
+     * @param constraint_info Stores the local and global position of the contact points and
      * the contact normal. \n
      * The joint info contains the following columns:\n
      * 0:	connector in body 0 (global)\n
@@ -1089,56 +1092,56 @@ public:
      * 1,4:  maximal impulse in tangent direction\n
      * 2,4:  goal velocity in normal direction after collision
      */
-    static bool init_ParticleRigidBodyContactConstraint(
-            Real invMass0,                     // inverse mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Vector3r &v0,                // velocity of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Vector3r &v1,                // velocity of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
-            const Vector3r &omega1,            // angular velocity of body 1
-            const Vector3r &cp0,               // contact point of body 0
-            const Vector3r &cp1,               // contact point of body 1
-            const Vector3r &normal,            // contact normal in body 1
-            Real restitutionCoeff,             // coefficient of restitution
-            Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> &constraintInfo);
+    static bool InitParticleRigidBodyContactConstraint(
+            Real invMass0,                        // inverse mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Vector3r &v0,                   // velocity of body 0
+            Real invMass1,                        // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Vector3r &v1,                   // velocity of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
+            const Vector3r &omega1,               // angular velocity of body 1
+            const Vector3r &cp0,                  // contact point of body 0
+            const Vector3r &cp1,                  // contact point of body 1
+            const Vector3r &normal,               // contact normal in body 1
+            Real restitution_coeff,               // coefficient of restitution
+            Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> &constraint_info);
 
     /** Perform a solver step for a contact constraint between a rigid body and a particle.
      * A contact constraint handles collisions and resting contacts between the bodies.
      * The contact info must be generated in each time step.
      *
-     * @param invMass0 inverse mass of rigid body
+     * @param inv_mass_0 inverse mass of rigid body
      * @param x0 center of mass of first body
      * @param v0 velocity of body 0
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
      * @param v1 velocity of body 1
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param omega1 angular velocity of second body
      * @param stiffness stiffness parameter of penalty impulse
-     * @param frictionCoeff friction coefficient
+     * @param friction_coeff friction coefficient
      * @param sum_impulses sum of all correction impulses in normal direction
-     * @param constraintInfo information which is required by the solver. This
-     * information must be generated in the beginning by calling init_RigidBodyContactConstraint().
+     * @param constraint_info information which is required by the solver. This
+     * information must be generated in the beginning by calling InitRigidBodyContactConstraint().
      * @param corr_v0 velocity correction of first body
      * @param corr_v1 velocity correction of second body
      * @param corr_omega1 angular velocity correction of second body
      */
-    static bool velocitySolve_ParticleRigidBodyContactConstraint(
-            Real invMass0,                     // inverse mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Vector3r &v0,                // velocity of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Vector3r &v1,                // velocity of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Vector3r &omega1,            // angular velocity of body 1
-            Real stiffness,                    // stiffness parameter of penalty impulse
-            Real frictionCoeff,                // friction coefficient
-            Real &sum_impulses,                // sum of all impulses
-            Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> &constraintInfo,  // precomputed contact info
+    static bool VelocitySolveParticleRigidBodyContactConstraint(
+            Real inv_mass_0,                      // inverse mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Vector3r &v0,                   // velocity of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Vector3r &v1,                   // velocity of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Vector3r &omega1,               // angular velocity of body 1
+            Real stiffness,                       // stiffness parameter of penalty impulse
+            Real friction_coeff,                  // friction coefficient
+            Real &sum_impulses,                   // sum of all impulses
+            Eigen::Matrix<Real, 3, 5, Eigen::DontAlign> &constraint_info,  // precomputed contact info
             Vector3r &corr_v0,
             Vector3r &corr_v1,
             Vector3r &corr_omega1);
@@ -1150,83 +1153,83 @@ public:
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
      * @param jointPosition position of distance joint
-     * @param jointInfo Stores the local and global positions of the connector points.
+     * @param joint_info Stores the local and global positions of the connector points.
      * The first two columns store the local connectors in body 0 and 1, respectively, while
      * the last two columns contain the global connector positions which have to be
-     * updated in each simulation step by calling update_DistanceJoint().\n
+     * updated in each simulation step by calling UpdateDistanceJoint().\n
      * The joint info contains the following columns:\n
      * 0:	connector in body 0 (local)\n
      * 1:	connector in body 1 (local)\n
      * 2:	connector in body 0 (global)\n
      * 3:	connector in body 1 (global)
      */
-    static bool init_DistanceJoint(const Vector3r &x0,     // center of mass of body 0
-                                   const Quaternionr &q0,  // rotation of body 0
-                                   const Vector3r &x1,     // center of mass of body 1
-                                   const Quaternionr &q1,  // rotation of body 1
-                                   const Vector3r &pos0,
-                                   const Vector3r &pos1,
-                                   Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &jointInfo);
+    static bool InitDistanceJoint(const Vector3r &x0,     // center of mass of body 0
+                                  const Quaternionr &q0,  // rotation of body 0
+                                  const Vector3r &x1,     // center of mass of body 1
+                                  const Quaternionr &q1,  // rotation of body 1
+                                  const Vector3r &pos0,
+                                  const Vector3r &pos1,
+                                  Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &joint_info);
 
     /** Update distance joint info which is required by the solver step.
      * The distance joint info must be generated in the initialization process of the model
-     * by calling the function init_DistanceJoint().
+     * by calling the function InitDistanceJoint().
      * This method should be called once per simulation step before executing the solver.\n\n
      *
      * @param x0 center of mass of first body
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param jointInfo joint information which should be updated
+     * @param joint_info joint information which should be updated
      */
-    static bool update_DistanceJoint(const Vector3r &x0,     // center of mass of body 0
-                                     const Quaternionr &q0,  // rotation of body 0
-                                     const Vector3r &x1,     // center of mass of body 1
-                                     const Quaternionr &q1,  // rotation of body 1
-                                     Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &jointInfo);
+    static bool UpdateDistanceJoint(const Vector3r &x0,     // center of mass of body 0
+                                    const Quaternionr &q0,  // rotation of body 0
+                                    const Vector3r &x1,     // center of mass of body 1
+                                    const Quaternionr &q1,  // rotation of body 1
+                                    Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &joint_info);
 
     /** Perform a solver step for a distance joint which links two rigid bodies.
      * A distance joint removes one translational degrees of freedom between the bodies.
      * When setting a stiffness value which is not zero, we get an implicit spring.
      * The distance joint info must be generated in the initialization process of the model
-     * by calling the function init_DistanceJoint() and updated each time the bodies
-     * change their state by update_DistanceJoint().\n\n
+     * by calling the function InitDistanceJoint() and updated each time the bodies
+     * change their state by UpdateDistanceJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
      * @param stiffness Stiffness of the constraint. 0 means it is totally stiff and we get a distance joint otherwise
      * we get an implicit spring.
-     * @param restLength Rest length of the joint.
+     * @param rest_length Rest length of the joint.
      * @param dt Time step size (required for XPBD when simulating a spring)
-     * @param jointInfo Joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_DistanceJoint()
-     * and updated each time the bodies change their state by update_DistanceJoint().
+     * @param joint_info Joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitDistanceJoint()
+     * and updated each time the bodies change their state by UpdateDistanceJoint().
      * @param lambda Lagrange multiplier (required for XPBD). Must be 0 in the first iteration.
      * @param corr_x0 position correction of center of mass of first body
      * @param corr_q0 rotation correction of first body
      * @param corr_x1 position correction of center of mass of second body
      * @param corr_q1 rotation correction of second body
      */
-    static bool solve_DistanceJoint(
-            Real invMass0,                     // inverse mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
+    static bool SolveDistanceJoint(
+            Real inv_mass_0,                      // inverse mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
             Real stiffness,
-            Real restLength,
+            Real rest_length,
             Real dt,
-            const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &jointInfo,  // precomputed joint info
+            const Eigen::Matrix<Real, 3, 4, Eigen::DontAlign> &joint_info,  // precomputed joint info
             Real &lambda,
             Vector3r &corr_x0,
             Quaternionr &corr_q0,
@@ -1242,79 +1245,79 @@ public:
      * @param q1 rotation of second body
      * @param sliderJointPosition position of slider joint
      * @param sliderJointAxis axis of slider joint
-     * @param jointInfo Stores the local and global positions of the connector points.
+     * @param joint_info Stores the local and global positions of the connector points.
      * The joint info contains the following columns:\n
      * 0:	coordinate system in body 0, where the x-axis is the slider axis (local)\n
      * 1:	coordinate system in body 0, where the x-axis is the slider axis (global)\n
      * 2:    3D vector d = R^T * (x0 - x1), where R is a rotation matrix with the slider axis as first column\n
      * 3-5:	projection matrix Pr for the rotational part\n\n
      * The info must be updated in each simulation step
-     * by calling update_TargetPositionMotorSliderJoint().
+     * by calling UpdateTargetPositionMotorSliderJoint().
      */
-    static bool init_DamperJoint(const Vector3r &x0,     // center of mass of body 0
-                                 const Quaternionr &q0,  // rotation of body 0
-                                 const Vector3r &x1,     // center of mass of body 1
-                                 const Quaternionr &q1,  // rotation of body 1
-                                 const Vector3r &direction,
-                                 Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo);
+    static bool InitDamperJoint(const Vector3r &x0,     // center of mass of body 0
+                                const Quaternionr &q0,  // rotation of body 0
+                                const Vector3r &x1,     // center of mass of body 1
+                                const Quaternionr &q1,  // rotation of body 1
+                                const Vector3r &direction,
+                                Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info);
 
     /** Update motor slider joint info which is required by the solver step.
      * The joint info must be generated in the initialization process of the model
-     * by calling the function init_TargetPositionMotorSliderJoint().
+     * by calling the function InitTargetPositionMotorSliderJoint().
      * This method should be called once per simulation step before executing the solver.\n\n
      *
      * @param x0 center of mass of first body
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param jointInfo slider joint information which should be updated
+     * @param joint_info slider joint information which should be updated
      */
-    static bool update_DamperJoint(const Vector3r &x0,     // center of mass of body 0
-                                   const Quaternionr &q0,  // rotation of body 0
-                                   const Vector3r &x1,     // center of mass of body 1
-                                   const Quaternionr &q1,  // rotation of body 1
-                                   Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo);
+    static bool UpdateDamperJoint(const Vector3r &x0,     // center of mass of body 0
+                                  const Quaternionr &q0,  // rotation of body 0
+                                  const Vector3r &x1,     // center of mass of body 1
+                                  const Quaternionr &q1,  // rotation of body 1
+                                  Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info);
 
     /** Perform a solver step for a motor slider joint which links two rigid bodies.
      * A motor slider joint removes two translational and three rotational degrees of freedom between the bodies.
      * Moreover, a target position can be enforced on the remaining translation axis.
      * The motor slider joint info must be generated in the initialization process of the model
-     * by calling the function init_TargetPositionMotorSliderJoint() and updated each time the bodies
-     * change their state by update_TargetPositionMotorSliderJoint().\n\n
+     * by calling the function InitTargetPositionMotorSliderJoint() and updated each time the bodies
+     * change their state by UpdateTargetPositionMotorSliderJoint().\n\n
      * More information can be found in: \cite Deul2014
      *
      * \image html motorsliderjoint.jpg "motor slider joint"
      * \image latex motorsliderjoint.jpg "motor slider joint" width=0.5\textwidth
      *
-     * @param invMass0 inverse mass of first body
+     * @param inv_mass_0 inverse mass of first body
      * @param x0 center of mass of first body
-     * @param inertiaInverseW0 inverse inertia tensor in world coordinates of first body
+     * @param inertia_inverse_w_0 inverse inertia tensor in world coordinates of first body
      * @param q0 rotation of first body
-     * @param invMass1 inverse mass of second body
+     * @param inv_mass_1 inverse mass of second body
      * @param x1 center of mass of second body
-     * @param inertiaInverseW1 inverse inertia tensor in world coordinates of second body
+     * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
      * @param targetPosition target position of the servo motor
-     * @param jointInfo Motor slider joint information which is required by the solver. This
-     * information must be generated in the beginning by calling init_TargetPositionMotorSliderJoint()
-     * and updated each time the bodies change their state by update_TargetPositionMotorSliderJoint().
+     * @param joint_info Motor slider joint information which is required by the solver. This
+     * information must be generated in the beginning by calling InitTargetPositionMotorSliderJoint()
+     * and updated each time the bodies change their state by UpdateTargetPositionMotorSliderJoint().
      * @param corr_x0 position correction of center of mass of first body
      * @param corr_q0 rotation correction of first body
      * @param corr_x1 position correction of center of mass of second body
      * @param corr_q1 rotation correction of second body
      */
-    static bool solve_DamperJoint(
-            Real invMass0,                     // inverse  mass is zero if body is static
-            const Vector3r &x0,                // center of mass of body 0
-            const Matrix3r &inertiaInverseW0,  // inverse inertia tensor (world space) of body 0
-            const Quaternionr &q0,             // rotation of body 0
-            Real invMass1,                     // inverse mass is zero if body is static
-            const Vector3r &x1,                // center of mass of body 1
-            const Matrix3r &inertiaInverseW1,  // inverse inertia tensor (world space) of body 1
-            const Quaternionr &q1,             // rotation of body 1
+    static bool SolveDamperJoint(
+            Real inv_mass_0,                      // inverse  mass is zero if body is static
+            const Vector3r &x0,                   // center of mass of body 0
+            const Matrix3r &inertia_inverse_w_0,  // inverse inertia tensor (world space) of body 0
+            const Quaternionr &q0,                // rotation of body 0
+            Real inv_mass_1,                      // inverse mass is zero if body is static
+            const Vector3r &x1,                   // center of mass of body 1
+            const Matrix3r &inertia_inverse_w_1,  // inverse inertia tensor (world space) of body 1
+            const Quaternionr &q1,                // rotation of body 1
             Real stiffness,
             Real dt,
-            const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &jointInfo,  // precomputed slider joint info
+            const Eigen::Matrix<Real, 4, 6, Eigen::DontAlign> &joint_info,  // precomputed slider joint info
             Real &lambda,
             Vector3r &corr_x0,
             Quaternionr &corr_q0,

@@ -11,29 +11,29 @@
 namespace vox::force {
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedFluids::ComputePbfDensity(unsigned int particleIndex,
-                                            unsigned int numberOfParticles,
+bool PositionBasedFluids::ComputePbfDensity(unsigned int particle_index,
+                                            unsigned int number_of_particles,
                                             const Vector3r x[],
                                             const Real mass[],
-                                            const Vector3r boundaryX[],
-                                            const Real boundaryPsi[],
-                                            unsigned int numNeighbors,
+                                            const Vector3r boundary_x[],
+                                            const Real boundary_psi[],
+                                            unsigned int num_neighbors,
                                             const unsigned int neighbors[],
                                             Real density0,
-                                            bool boundaryHandling,
+                                            bool boundary_handling,
                                             Real &density_err,
                                             Real &density) {
     // Compute current density for particle i
-    density = mass[particleIndex] * CubicKernel::W_zero();
-    for (unsigned int j = 0; j < numNeighbors; j++) {
-        const unsigned int neighborIndex = neighbors[j];
-        if (neighborIndex < numberOfParticles)  // Test if fluid particle
+    density = mass[particle_index] * CubicKernel::W_zero();
+    for (unsigned int j = 0; j < num_neighbors; j++) {
+        const unsigned int kNeighborIndex = neighbors[j];
+        if (kNeighborIndex < number_of_particles)  // Test if fluid particle
         {
-            density += mass[neighborIndex] * CubicKernel::W(x[particleIndex] - x[neighborIndex]);
-        } else if (boundaryHandling) {
+            density += mass[kNeighborIndex] * CubicKernel::W(x[particle_index] - x[kNeighborIndex]);
+        } else if (boundary_handling) {
             // Boundary: Akinci2012
-            density += boundaryPsi[neighborIndex - numberOfParticles] *
-                       CubicKernel::W(x[particleIndex] - boundaryX[neighborIndex - numberOfParticles]);
+            density += boundary_psi[kNeighborIndex - number_of_particles] *
+                       CubicKernel::W(x[particle_index] - boundary_x[kNeighborIndex - number_of_particles]);
         }
     }
 
@@ -42,17 +42,17 @@ bool PositionBasedFluids::ComputePbfDensity(unsigned int particleIndex,
 }
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedFluids::computePBFLagrangeMultiplier(const unsigned int particleIndex,
-                                                       const unsigned int numberOfParticles,
+bool PositionBasedFluids::ComputePbfLagrangeMultiplier(unsigned int particle_index,
+                                                       unsigned int number_of_particles,
                                                        const Vector3r x[],
                                                        const Real mass[],
-                                                       const Vector3r boundaryX[],
-                                                       const Real boundaryPsi[],
-                                                       const Real density,
-                                                       const unsigned int numNeighbors,
+                                                       const Vector3r boundary_x[],
+                                                       const Real boundary_psi[],
+                                                       Real density,
+                                                       unsigned int num_neighbors,
                                                        const unsigned int neighbors[],
-                                                       const Real density0,
-                                                       const bool boundaryHandling,
+                                                       Real density0,
+                                                       bool boundary_handling,
                                                        Real &lambda) {
     const Real eps = static_cast<Real>(1.0e-6);
 
@@ -65,19 +65,19 @@ bool PositionBasedFluids::computePBFLagrangeMultiplier(const unsigned int partic
         Real sum_grad_C2 = 0.0;
         Vector3r gradC_i(0.0, 0.0, 0.0);
 
-        for (unsigned int j = 0; j < numNeighbors; j++) {
+        for (unsigned int j = 0; j < num_neighbors; j++) {
             const unsigned int neighborIndex = neighbors[j];
-            if (neighborIndex < numberOfParticles)  // Test if fluid particle
+            if (neighborIndex < number_of_particles)  // Test if fluid particle
             {
                 const Vector3r gradC_j =
-                        -mass[neighborIndex] / density0 * CubicKernel::gradW(x[particleIndex] - x[neighborIndex]);
+                        -mass[neighborIndex] / density0 * CubicKernel::gradW(x[particle_index] - x[neighborIndex]);
                 sum_grad_C2 += gradC_j.squaredNorm();
                 gradC_i -= gradC_j;
-            } else if (boundaryHandling) {
+            } else if (boundary_handling) {
                 // Boundary: Akinci2012
                 const Vector3r gradC_j =
-                        -boundaryPsi[neighborIndex - numberOfParticles] / density0 *
-                        CubicKernel::gradW(x[particleIndex] - boundaryX[neighborIndex - numberOfParticles]);
+                        -boundary_psi[neighborIndex - number_of_particles] / density0 *
+                        CubicKernel::gradW(x[particle_index] - boundary_x[neighborIndex - number_of_particles]);
                 sum_grad_C2 += gradC_j.squaredNorm();
                 gradC_i -= gradC_j;
             }
@@ -94,33 +94,33 @@ bool PositionBasedFluids::computePBFLagrangeMultiplier(const unsigned int partic
 }
 
 // ----------------------------------------------------------------------------------------------
-bool PositionBasedFluids::solveDensityConstraint(const unsigned int particleIndex,
-                                                 const unsigned int numberOfParticles,
+bool PositionBasedFluids::SolveDensityConstraint(unsigned int particle_index,
+                                                 unsigned int number_of_particles,
                                                  const Vector3r x[],
                                                  const Real mass[],
-                                                 const Vector3r boundaryX[],
-                                                 const Real boundaryPsi[],
-                                                 const unsigned int numNeighbors,
+                                                 const Vector3r boundary_x[],
+                                                 const Real boundary_psi[],
+                                                 unsigned int num_neighbors,
                                                  const unsigned int neighbors[],
-                                                 const Real density0,
-                                                 const bool boundaryHandling,
+                                                 Real density0,
+                                                 bool boundary_handling,
                                                  const Real lambda[],
                                                  Vector3r &corr) {
     // Compute position correction
     corr.setZero();
-    for (unsigned int j = 0; j < numNeighbors; j++) {
-        const unsigned int neighborIndex = neighbors[j];
-        if (neighborIndex < numberOfParticles)  // Test if fluid particle
+    for (unsigned int j = 0; j < num_neighbors; j++) {
+        const unsigned int kNeighborIndex = neighbors[j];
+        if (kNeighborIndex < number_of_particles)  // Test if fluid particle
         {
             const Vector3r gradC_j =
-                    -mass[neighborIndex] / density0 * CubicKernel::gradW(x[particleIndex] - x[neighborIndex]);
-            corr -= (lambda[particleIndex] + lambda[neighborIndex]) * gradC_j;
-        } else if (boundaryHandling) {
+                    -mass[kNeighborIndex] / density0 * CubicKernel::gradW(x[particle_index] - x[kNeighborIndex]);
+            corr -= (lambda[particle_index] + lambda[kNeighborIndex]) * gradC_j;
+        } else if (boundary_handling) {
             // Boundary: Akinci2012
             const Vector3r gradC_j =
-                    -boundaryPsi[neighborIndex - numberOfParticles] / density0 *
-                    CubicKernel::gradW(x[particleIndex] - boundaryX[neighborIndex - numberOfParticles]);
-            corr -= (lambda[particleIndex]) * gradC_j;
+                    -boundary_psi[kNeighborIndex - number_of_particles] / density0 *
+                    CubicKernel::gradW(x[particle_index] - boundary_x[kNeighborIndex - number_of_particles]);
+            corr -= (lambda[particle_index]) * gradC_j;
         }
     }
 

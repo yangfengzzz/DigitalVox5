@@ -524,7 +524,7 @@ public:
      * @param x positions of tet particles
      * @param bary barycentric coordinates of contact point in tet
      * @param constraint_info information which is required by the solver. This
-     * information must be generated in the beginning by calling init_RigidBodyContactConstraint().
+     * information must be generated in the beginning by calling InitRigidBodyContactConstraint().
      * @param corr0 position correction of particle
      * @param corr position corrections of tet particles
      */
@@ -552,7 +552,7 @@ public:
      * @param bary barycentric coordinates of contact point in tet
      * @param friction_coeff friction coefficient
      * @param constraint_info information which is required by the solver. This
-     * information must be generated in the beginning by calling init_RigidBodyContactConstraint().
+     * information must be generated in the beginning by calling InitRigidBodyContactConstraint().
      * @param corr_v0 velocity correction of particle
      * @param corr_v velocity corrections of tet particles
      */

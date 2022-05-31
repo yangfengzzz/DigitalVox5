@@ -25,32 +25,32 @@ public:
      *
      * More information can be found in the following papers: \cite Macklin:2013:PBF, \cite BMOTM2014, \cite BMM2015
      *
-     * @param particleIndex	index of current fluid particle
-     * @param numberOfParticles	number of fluid particles
+     * @param particle_index	index of current fluid particle
+     * @param number_of_particles	number of fluid particles
      * @param x	array of all particle positions
      * @param mass array of all particle masses
-     * @param boundaryX array of all boundary particles
-     * @param boundaryPsi array of all boundary psi values (see \cite Akinci:2012)
-     * @param numNeighbors number of neighbors
+     * @param boundary_x array of all boundary particles
+     * @param boundary_psi array of all boundary psi values (see \cite Akinci:2012)
+     * @param num_neighbors number of neighbors
      * @param neighbors array with indices of all neighbors (indices larger than numberOfParticles are boundary
      * particles)
      * @param density0 rest density
-     * @param boundaryHandling perform boundary handling (see \cite Akinci:2012)
+     * @param boundary_handling perform boundary handling (see \cite Akinci:2012)
      * @param density_err returns the clamped density error (can be used for enforcing a maximal global density error)
      * @param density return the density
      */
     static bool ComputePbfDensity(
-            unsigned int particleIndex,      // current fluid particle
-            unsigned int numberOfParticles,  // number of fluid particles
-            const Vector3r x[],              // array of all particle positions
-            const Real mass[],               // array of all particle masses
-            const Vector3r boundaryX[],      // array of all boundary particles
-            const Real boundaryPsi[],        // array of all boundary psi values (Akinci2012)
-            unsigned int numNeighbors,       // number of neighbors
-            const unsigned int neighbors[],  // array with indices of all neighbors (indices larger than
-                                             // numberOfParticles are boundary particles)
-            Real density0,                   // rest density
-            bool boundaryHandling,           // perform boundary handling (Akinci2012)
+            unsigned int particle_index,       // current fluid particle
+            unsigned int number_of_particles,  // number of fluid particles
+            const Vector3r x[],                // array of all particle positions
+            const Real mass[],                 // array of all particle masses
+            const Vector3r boundary_x[],       // array of all boundary particles
+            const Real boundary_psi[],         // array of all boundary psi values (Akinci2012)
+            unsigned int num_neighbors,        // number of neighbors
+            const unsigned int neighbors[],    // array with indices of all neighbors (indices larger than
+                                               // numberOfParticles are boundary particles)
+            Real density0,                     // rest density
+            bool boundary_handling,            // perform boundary handling (Akinci2012)
             Real &density_err,  // returns the clamped density error (can be used for enforcing a maximal global density
                                 // error)
             Real &density);     // return the density
@@ -76,32 +76,33 @@ public:
      *
      * More information can be found in the following papers: \cite Macklin:2013:PBF, \cite BMOTM2014, \cite BMM2015
      *
-     * @param particleIndex	index of current fluid particle
-     * @param numberOfParticles	number of fluid particles
+     * @param particle_index	index of current fluid particle
+     * @param number_of_particles	number of fluid particles
      * @param x	array of all particle positions
      * @param mass array of all particle masses
-     * @param boundaryX array of all boundary particles
-     * @param boundaryPsi array of all boundary psi values (see \cite Akinci:2012)
+     * @param boundary_x array of all boundary particles
+     * @param boundary_psi array of all boundary psi values (see \cite Akinci:2012)
      * @param density density of current fluid particle
-     * @param numNeighbors number of neighbors
+     * @param num_neighbors number of neighbors
      * @param neighbors array with indices of all neighbors (indices larger than numberOfParticles are boundary
      * particles)
      * @param density0 rest density
-     * @param boundaryHandling perform boundary handling (see \cite Akinci:2012)
+     * @param boundary_handling perform boundary handling (see \cite Akinci:2012)
      * @param lambda returns the Lagrange multiplier
      */
-    static bool computePBFLagrangeMultiplier(unsigned int particleIndex,      // current fluid particle
-                                             unsigned int numberOfParticles,  // number of fluid particles
-                                             const Vector3r x[],              // array of all particle positions
-                                             const Real mass[],               // array of all particle masses
-                                             const Vector3r boundaryX[],      // array of all boundary particles
-                                             const Real boundaryPsi[],  // array of all boundary psi values (Akinci2012)
-                                             Real density,              // density of current fluid particle
-                                             unsigned int numNeighbors,       // number of neighbors
-                                             const unsigned int neighbors[],  // array with indices of all neighbors
-                                             Real density0,                   // rest density
-                                             bool boundaryHandling,           // perform boundary handling (Akinci2012)
-                                             Real &lambda);                   // returns the Lagrange multiplier
+    static bool ComputePbfLagrangeMultiplier(
+            unsigned int particle_index,       // current fluid particle
+            unsigned int number_of_particles,  // number of fluid particles
+            const Vector3r x[],                // array of all particle positions
+            const Real mass[],                 // array of all particle masses
+            const Vector3r boundary_x[],       // array of all boundary particles
+            const Real boundary_psi[],         // array of all boundary psi values (Akinci2012)
+            Real density,                      // density of current fluid particle
+            unsigned int num_neighbors,        // number of neighbors
+            const unsigned int neighbors[],    // array with indices of all neighbors
+            Real density0,                     // rest density
+            bool boundary_handling,            // perform boundary handling (Akinci2012)
+            Real &lambda);                     // returns the Lagrange multiplier
 
     /** Perform a solver step for a fluid particle:
      *
@@ -114,32 +115,32 @@ public:
      *
      * More information can be found in the following papers: \cite Macklin:2013:PBF, \cite BMOTM2014, \cite BMM2015
      *
-     * @param particleIndex	index of current fluid particle
-     * @param numberOfParticles	number of fluid particles
+     * @param particle_index	index of current fluid particle
+     * @param number_of_particles	number of fluid particles
      * @param x	array of all particle positions
      * @param mass array of all particle masses
-     * @param boundaryX array of all boundary particles
-     * @param boundaryPsi array of all boundary psi values (see \cite Akinci:2012)
-     * @param numNeighbors number of neighbors
+     * @param boundary_x array of all boundary particles
+     * @param boundary_psi array of all boundary psi values (see \cite Akinci:2012)
+     * @param num_neighbors number of neighbors
      * @param neighbors array with indices of all neighbors (indices larger than numberOfParticles are boundary
      *particles)
      * @param density0 rest density
-     * @param boundaryHandling perform boundary handling (see \cite Akinci:2012)
+     * @param boundary_handling perform boundary handling (see \cite Akinci:2012)
      * @param lambda Lagrange multipliers
      * @param corr returns the position correction for the current fluid particle
      */
-    static bool solveDensityConstraint(
-            unsigned int particleIndex,      // current fluid particle
-            unsigned int numberOfParticles,  // number of fluid particles
-            const Vector3r x[],              // array of all particle positions
-            const Real mass[],               // array of all particle masses
-            const Vector3r boundaryX[],      // array of all boundary particles
-            const Real boundaryPsi[],        // array of all boundary psi values (Akinci2012)
-            unsigned int numNeighbors,       // number of neighbors
-            const unsigned int neighbors[],  // array with indices of all neighbors
-            Real density0,                   // rest density
-            bool boundaryHandling,           // perform boundary handling (Akinci2012)
-            const Real lambda[],             // Lagrange multiplier
-            Vector3r &corr);                 // returns the position correction for the current fluid particle
+    static bool SolveDensityConstraint(
+            unsigned int particle_index,       // current fluid particle
+            unsigned int number_of_particles,  // number of fluid particles
+            const Vector3r x[],                // array of all particle positions
+            const Real mass[],                 // array of all particle masses
+            const Vector3r boundary_x[],       // array of all boundary particles
+            const Real boundary_psi[],         // array of all boundary psi values (Akinci2012)
+            unsigned int num_neighbors,        // number of neighbors
+            const unsigned int neighbors[],    // array with indices of all neighbors
+            Real density0,                     // rest density
+            bool boundary_handling,            // perform boundary handling (Akinci2012)
+            const Real lambda[],               // Lagrange multiplier
+            Vector3r &corr);                   // returns the position correction for the current fluid particle
 };
 }  // namespace vox::force
