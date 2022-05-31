@@ -33,7 +33,7 @@ This repository contains submodules for external dependencies, so when doing a f
 recursively:
 
 ```
-git clone --recursive https://github.com/yangfengzzz/DigitalVox4.git
+git clone --recursive https://github.com/yangfengzzz/DigitalVox5.git
 ```
 
 Existing repositories can be updated manually:
