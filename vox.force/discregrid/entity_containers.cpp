@@ -10,14 +10,14 @@
 
 namespace vox::force::discregrid {
 
-FaceIterator FaceContainer::end() const { return {static_cast<unsigned int>(m_mesh->nFaces()), m_mesh}; }
+FaceIterator FaceContainer::End() const { return {static_cast<unsigned int>(m_mesh_->nFaces()), m_mesh_}; }
 
-FaceConstIterator FaceConstContainer::end() const { return {static_cast<unsigned int>(m_mesh->nFaces()), m_mesh}; }
+FaceConstIterator FaceConstContainer::End() const { return {static_cast<unsigned int>(m_mesh_->nFaces()), m_mesh_}; }
 
-VertexIterator VertexContainer::end() const { return {static_cast<unsigned int>(m_mesh->nVertices()), m_mesh}; }
+VertexIterator VertexContainer::End() const { return {static_cast<unsigned int>(m_mesh_->nVertices()), m_mesh_}; }
 
-VertexConstIterator VertexConstContainer::end() const {
-    return {static_cast<unsigned int>(m_mesh->nVertices()), m_mesh};
+VertexConstIterator VertexConstContainer::End() const {
+    return {static_cast<unsigned int>(m_mesh_->nVertices()), m_mesh_};
 }
 
 }  // namespace vox::force::discregrid

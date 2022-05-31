@@ -15,15 +15,15 @@ public:
     explicit CubicLagrangeDiscreteGrid(std::string const& filename);
     CubicLagrangeDiscreteGrid(Eigen::AlignedBox3d const& domain, std::array<unsigned int, 3> const& resolution);
 
-    void save(std::string const& filename) const override;
-    void load(std::string const& filename) override;
+    void Save(std::string const& filename) const override;
+    void Load(std::string const& filename) override;
 
-    unsigned int addFunction(ContinuousFunction const& func,
+    unsigned int AddFunction(ContinuousFunction const& func,
                              bool verbose = false,
                              SamplePredicate const& pred = nullptr) override;
 
-    [[nodiscard]] std::size_t nCells() const { return m_n_cells; };
-    double interpolate(unsigned int field_id,
+    [[nodiscard]] std::size_t NCells() const { return m_n_cells_; };
+    double Interpolate(unsigned int field_id,
                        Eigen::Vector3d const& xi,
                        Eigen::Vector3d* gradient = nullptr) const override;
 
@@ -38,7 +38,7 @@ public:
      * @param dN (Optional) derivatives of the shape functions, required to compute the gradient
      * @return Success of the function.
      */
-    bool determineShapeFunctions(unsigned int field_id,
+    bool DetermineShapeFunctions(unsigned int field_id,
                                  Eigen::Vector3d const& x,
                                  std::array<unsigned int, 32>& cell,
                                  Eigen::Vector3d& c0,
@@ -58,7 +58,7 @@ public:
      * @param dN (Optional) derivatives of the shape functions, required to compute the gradient
      * @return double Results of the evaluation of the discrete function at point xi
      */
-    double interpolate(unsigned int field_id,
+    double Interpolate(unsigned int field_id,
                        Eigen::Vector3d const& xi,
                        const std::array<unsigned int, 32>& cell,
                        const Eigen::Vector3d& c0,
@@ -66,18 +66,18 @@ public:
                        Eigen::Vector3d* gradient = nullptr,
                        Eigen::Matrix<double, 32, 3>* dN = nullptr) const override;
 
-    void reduceField(unsigned int field_id, Predicate pred) override;
+    void ReduceField(unsigned int field_id, Predicate pred) override;
 
-    void forEachCell(unsigned int field_id,
+    void ForEachCell(unsigned int field_id,
                      std::function<void(unsigned int, Eigen::AlignedBox3d const&, unsigned int)> const& cb) const;
 
 private:
-    [[nodiscard]] Eigen::Vector3d indexToNodePosition(unsigned int l) const;
+    [[nodiscard]] Eigen::Vector3d IndexToNodePosition(unsigned int l) const;
 
 private:
-    std::vector<std::vector<double>> m_nodes;
-    std::vector<std::vector<std::array<unsigned int, 32>>> m_cells;
-    std::vector<std::vector<unsigned int>> m_cell_map;
+    std::vector<std::vector<double>> m_nodes_;
+    std::vector<std::vector<std::array<unsigned int, 32>>> m_cells_;
+    std::vector<std::vector<unsigned int>> m_cell_map_;
 };
 
 }  // namespace vox::force::discregrid

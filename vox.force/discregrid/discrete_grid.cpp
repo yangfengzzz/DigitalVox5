@@ -10,25 +10,25 @@ using namespace Eigen;
 
 namespace vox::force::discregrid {
 
-DiscreteGrid::MultiIndex DiscreteGrid::singleToMultiIndex(unsigned int l) const {
-    auto n01 = m_resolution[0] * m_resolution[1];
+DiscreteGrid::MultiIndex DiscreteGrid::SingleToMultiIndex(unsigned int l) const {
+    auto n01 = m_resolution_[0] * m_resolution_[1];
     auto k = l / n01;
     auto temp = l % n01;
-    auto j = temp / m_resolution[0];
-    auto i = temp % m_resolution[0];
+    auto j = temp / m_resolution_[0];
+    auto i = temp % m_resolution_[0];
     return {{i, j, k}};
 }
 
-unsigned int DiscreteGrid::multiToSingleIndex(MultiIndex const& ijk) const {
-    return m_resolution[1] * m_resolution[0] * ijk[2] + m_resolution[0] * ijk[1] + ijk[0];
+unsigned int DiscreteGrid::MultiToSingleIndex(MultiIndex const& ijk) const {
+    return m_resolution_[1] * m_resolution_[0] * ijk[2] + m_resolution_[0] * ijk[1] + ijk[0];
 }
 
-AlignedBox3d DiscreteGrid::subdomain(MultiIndex const& ijk) const {
-    auto origin =
-            m_domain.min() + Map<Matrix<unsigned int, 3, 1> const>(ijk.data()).cast<double>().cwiseProduct(m_cell_size);
-    return {origin, origin + m_cell_size};
+AlignedBox3d DiscreteGrid::Subdomain(MultiIndex const& ijk) const {
+    auto origin = m_domain_.min() +
+                  Map<Matrix<unsigned int, 3, 1> const>(ijk.data()).cast<double>().cwiseProduct(m_cell_size_);
+    return {origin, origin + m_cell_size_};
 }
 
-AlignedBox3d DiscreteGrid::subdomain(unsigned int l) const { return subdomain(singleToMultiIndex(l)); }
+AlignedBox3d DiscreteGrid::Subdomain(unsigned int l) const { return Subdomain(SingleToMultiIndex(l)); }
 
 }  // namespace vox::force::discregrid

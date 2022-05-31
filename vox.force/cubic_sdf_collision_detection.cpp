@@ -74,7 +74,7 @@ CubicSDFCollisionDetection::CubicSDFCollisionObject::~CubicSDFCollisionObject() 
 
 double CubicSDFCollisionDetection::CubicSDFCollisionObject::Distance(const Eigen::Vector3d &x, const Real tolerance) {
     const Eigen::Vector3d kScaledX = x.cwiseProduct(m_scale.template cast<double>().cwiseInverse());
-    const double kDist = m_sdf->interpolate(0, kScaledX);
+    const double kDist = m_sdf->Interpolate(0, kScaledX);
     if (kDist == std::numeric_limits<double>::max()) return kDist;
     return m_invert_sdf * m_scale[0] * kDist - tolerance;
 }
@@ -84,7 +84,7 @@ bool CubicSDFCollisionDetection::CubicSDFCollisionObject::CollisionTest(
     const Vector3r kScaledX = x.cwiseProduct(m_scale.cwiseInverse());
 
     Eigen::Vector3d normal;
-    double d = m_sdf->interpolate(0, kScaledX.template cast<double>(), &normal);
+    double d = m_sdf->Interpolate(0, kScaledX.template cast<double>(), &normal);
     if (d == std::numeric_limits<Real>::max()) return false;
     dist = static_cast<Real>(m_invert_sdf * d - tolerance);
 

@@ -14,62 +14,62 @@ class TriangleMesh;
 
 class FaceContainer {
 public:
-    [[nodiscard]] FaceIterator begin() const { return {0, m_mesh}; }
-    [[nodiscard]] FaceIterator end() const;
+    [[nodiscard]] FaceIterator Begin() const { return {0, m_mesh_}; }
+    [[nodiscard]] FaceIterator End() const;
 
 private:
     friend class TriangleMesh;
-    explicit FaceContainer(TriangleMesh* mesh) : m_mesh(mesh) {}
+    explicit FaceContainer(TriangleMesh* mesh) : m_mesh_(mesh) {}
 
-    TriangleMesh* m_mesh;
+    TriangleMesh* m_mesh_;
 };
 
 class FaceConstContainer {
 public:
-    [[nodiscard]] FaceConstIterator begin() const { return {0, m_mesh}; }
-    [[nodiscard]] FaceConstIterator end() const;
+    [[nodiscard]] FaceConstIterator Begin() const { return {0, m_mesh_}; }
+    [[nodiscard]] FaceConstIterator End() const;
 
 private:
     friend class TriangleMesh;
-    explicit FaceConstContainer(TriangleMesh const* mesh) : m_mesh(mesh) {}
+    explicit FaceConstContainer(TriangleMesh const* mesh) : m_mesh_(mesh) {}
 
-    TriangleMesh const* m_mesh;
+    TriangleMesh const* m_mesh_;
 };
 
 class IncidentFaceContainer {
 public:
-    [[nodiscard]] IncidentFaceIterator begin() const { return {m_v, m_mesh}; }
-    [[nodiscard]] IncidentFaceIterator end() const { return {}; }
+    [[nodiscard]] IncidentFaceIterator Begin() const { return {m_v_, m_mesh_}; }
+    [[nodiscard]] IncidentFaceIterator End() const { return {}; }
 
 private:
     friend class TriangleMesh;
-    IncidentFaceContainer(unsigned int v, TriangleMesh const* mesh) : m_v(v), m_mesh(mesh) {}
+    IncidentFaceContainer(unsigned int v, TriangleMesh const* mesh) : m_v_(v), m_mesh_(mesh) {}
 
-    TriangleMesh const* m_mesh;
-    unsigned int m_v;
+    TriangleMesh const* m_mesh_;
+    unsigned int m_v_;
 };
 
 class VertexContainer {
 public:
-    [[nodiscard]] VertexIterator begin() const { return {0, m_mesh}; }
-    [[nodiscard]] VertexIterator end() const;
+    [[nodiscard]] VertexIterator Begin() const { return {0, m_mesh_}; }
+    [[nodiscard]] VertexIterator End() const;
 
 private:
     friend class TriangleMesh;
-    explicit VertexContainer(TriangleMesh* mesh) : m_mesh(mesh) {}
+    explicit VertexContainer(TriangleMesh* mesh) : m_mesh_(mesh) {}
 
-    TriangleMesh* m_mesh;
+    TriangleMesh* m_mesh_;
 };
 
 class VertexConstContainer {
 public:
-    [[nodiscard]] VertexConstIterator begin() const { return {0, m_mesh}; }
-    [[nodiscard]] VertexConstIterator end() const;
+    [[nodiscard]] VertexConstIterator Begin() const { return {0, m_mesh_}; }
+    [[nodiscard]] VertexConstIterator End() const;
 
 private:
     friend class TriangleMesh;
-    explicit VertexConstContainer(TriangleMesh const* mesh) : m_mesh(mesh) {}
+    explicit VertexConstContainer(TriangleMesh const* mesh) : m_mesh_(mesh) {}
 
-    TriangleMesh const* m_mesh;
+    TriangleMesh const* m_mesh_;
 };
 }  // namespace vox::force::discregrid

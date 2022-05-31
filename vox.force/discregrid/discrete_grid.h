@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include <Eigen/Dense>
 #include <array>
+#include <Eigen/Dense>
 #include <fstream>
 #include <vector>
 
@@ -23,26 +23,26 @@ public:
 
     DiscreteGrid() = default;
     DiscreteGrid(Eigen::AlignedBox3d const& domain, std::array<unsigned int, 3> const& resolution)
-        : m_domain(domain), m_resolution(resolution), m_n_fields(0u) {
+        : m_domain_(domain), m_resolution_(resolution), m_n_fields_(0u) {
         auto n = Eigen::Matrix<unsigned int, 3, 1>::Map(resolution.data());
-        m_cell_size = domain.diagonal().cwiseQuotient(n.cast<double>());
-        m_inv_cell_size = m_cell_size.cwiseInverse();
-        m_n_cells = n.prod();
+        m_cell_size_ = domain.diagonal().cwiseQuotient(n.cast<double>());
+        m_inv_cell_size_ = m_cell_size_.cwiseInverse();
+        m_n_cells_ = n.prod();
     }
     virtual ~DiscreteGrid() = default;
 
-    virtual void save(std::string const& filename) const = 0;
-    virtual void load(std::string const& filename) = 0;
+    virtual void Save(std::string const& filename) const = 0;
+    virtual void Load(std::string const& filename) = 0;
 
-    virtual unsigned int addFunction(ContinuousFunction const& func,
+    virtual unsigned int AddFunction(ContinuousFunction const& func,
                                      bool verbose = false,
                                      SamplePredicate const& pred = nullptr) = 0;
 
-    double interpolate(Eigen::Vector3d const& xi, Eigen::Vector3d* gradient = nullptr) const {
-        return interpolate(0u, xi, gradient);
+    double Interpolate(Eigen::Vector3d const& xi, Eigen::Vector3d* gradient = nullptr) const {
+        return Interpolate(0u, xi, gradient);
     }
 
-    virtual double interpolate(unsigned int field_id,
+    virtual double Interpolate(unsigned int field_id,
                                Eigen::Vector3d const& xi,
                                Eigen::Vector3d* gradient = nullptr) const = 0;
 
@@ -57,7 +57,7 @@ public:
      * @param dN (Optional) derivatives of the shape functions, required to compute the gradient
      * @return Success of the function.
      */
-    virtual bool determineShapeFunctions(unsigned int field_id,
+    virtual bool DetermineShapeFunctions(unsigned int field_id,
                                          Eigen::Vector3d const& x,
                                          std::array<unsigned int, 32>& cell,
                                          Eigen::Vector3d& c0,
@@ -77,7 +77,7 @@ public:
      * @param dN (Optional) derivatives of the shape functions, required to compute the gradient
      * @return double Results of the evaluation of the discrete function at point xi
      */
-    virtual double interpolate(unsigned int field_id,
+    virtual double Interpolate(unsigned int field_id,
                                Eigen::Vector3d const& xi,
                                const std::array<unsigned int, 32>& cell,
                                const Eigen::Vector3d& c0,
@@ -85,25 +85,25 @@ public:
                                Eigen::Vector3d* gradient = nullptr,
                                Eigen::Matrix<double, 32, 3>* dN = nullptr) const = 0;
 
-    virtual void reduceField(unsigned int field_id, Predicate pred) {}
+    virtual void ReduceField(unsigned int field_id, Predicate pred) {}
 
-    [[nodiscard]] MultiIndex singleToMultiIndex(unsigned int i) const;
-    [[nodiscard]] unsigned int multiToSingleIndex(MultiIndex const& ijk) const;
+    [[nodiscard]] MultiIndex SingleToMultiIndex(unsigned int i) const;
+    [[nodiscard]] unsigned int MultiToSingleIndex(MultiIndex const& ijk) const;
 
-    [[nodiscard]] Eigen::AlignedBox3d subdomain(MultiIndex const& ijk) const;
-    [[nodiscard]] Eigen::AlignedBox3d subdomain(unsigned int l) const;
+    [[nodiscard]] Eigen::AlignedBox3d Subdomain(MultiIndex const& ijk) const;
+    [[nodiscard]] Eigen::AlignedBox3d Subdomain(unsigned int l) const;
 
-    [[nodiscard]] Eigen::AlignedBox3d const& domain() const { return m_domain; }
-    [[nodiscard]] std::array<unsigned int, 3> const& resolution() const { return m_resolution; };
-    [[nodiscard]] Eigen::Vector3d const& cellSize() const { return m_cell_size; }
-    [[nodiscard]] Eigen::Vector3d const& invCellSize() const { return m_inv_cell_size; }
+    [[nodiscard]] Eigen::AlignedBox3d const& Domain() const { return m_domain_; }
+    [[nodiscard]] std::array<unsigned int, 3> const& Resolution() const { return m_resolution_; };
+    [[nodiscard]] Eigen::Vector3d const& CellSize() const { return m_cell_size_; }
+    [[nodiscard]] Eigen::Vector3d const& InvCellSize() const { return m_inv_cell_size_; }
 
 protected:
-    Eigen::AlignedBox3d m_domain;
-    std::array<unsigned int, 3> m_resolution{};
-    Eigen::Vector3d m_cell_size;
-    Eigen::Vector3d m_inv_cell_size;
-    std::size_t m_n_cells{};
-    std::size_t m_n_fields{};
+    Eigen::AlignedBox3d m_domain_;
+    std::array<unsigned int, 3> m_resolution_{};
+    Eigen::Vector3d m_cell_size_;
+    Eigen::Vector3d m_inv_cell_size_;
+    std::size_t m_n_cells_{};
+    std::size_t m_n_fields_{};
 };
 }  // namespace vox::force::discregrid
