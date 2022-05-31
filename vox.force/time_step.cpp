@@ -22,8 +22,8 @@ void TimeStep::clearAccelerations(SimulationModel &model) {
     // rigid body model
     //////////////////////////////////////////////////////////////////////////
 
-    SimulationModel::RigidBodyVector &rb = model.getRigidBodies();
-    Simulation *sim = Simulation::getCurrent();
+    SimulationModel::RigidBodyVector &rb = model.GetRigidBodies();
+    Simulation *sim = Simulation::GetCurrent();
     const Vector3r grav(0, -9.8, 0);
     for (auto &i : rb) {
         // Clear accelerations of dynamic particles
@@ -37,7 +37,7 @@ void TimeStep::clearAccelerations(SimulationModel &model) {
     // particle model
     //////////////////////////////////////////////////////////////////////////
 
-    ParticleData &pd = model.getParticles();
+    ParticleData &pd = model.GetParticles();
     const unsigned int count = pd.size();
     for (unsigned int i = 0; i < count; i++) {
         // Clear accelerations of dynamic particles
@@ -70,10 +70,10 @@ void TimeStep::contactCallbackFunction(const unsigned int contactType,
                                        void *userData) {
     auto *model = (SimulationModel *)userData;
     if (contactType == CollisionDetection::rigid_body_contact_type_)
-        model->addRigidBodyContactConstraint(bodyIndex1, bodyIndex2, cp1, cp2, normal, dist, restitutionCoeff,
+        model->AddRigidBodyContactConstraint(bodyIndex1, bodyIndex2, cp1, cp2, normal, dist, restitutionCoeff,
                                              frictionCoeff);
     else if (contactType == CollisionDetection::particle_rigid_body_contact_type_)
-        model->addParticleRigidBodyContactConstraint(bodyIndex1, bodyIndex2, cp1, cp2, normal, dist, restitutionCoeff,
+        model->AddParticleRigidBodyContactConstraint(bodyIndex1, bodyIndex2, cp1, cp2, normal, dist, restitutionCoeff,
                                                      frictionCoeff);
 }
 
@@ -91,7 +91,7 @@ void TimeStep::solidContactCallbackFunction(const unsigned int contactType,
                                             void *userData) {
     auto *model = (SimulationModel *)userData;
     if (contactType == CollisionDetection::particle_solid_contact_type_)
-        model->addParticleSolidContactConstraint(bodyIndex1, bodyIndex2, tetIndex, bary, cp1, cp2, normal, dist,
+        model->AddParticleSolidContactConstraint(bodyIndex1, bodyIndex2, tetIndex, bary, cp1, cp2, normal, dist,
                                                  restitutionCoeff, frictionCoeff);
 }
 

@@ -94,10 +94,10 @@ void CollisionDetection::SetSolidContactCallback(CollisionDetection::SolidContac
 }
 
 void CollisionDetection::UpdateAabbs(SimulationModel &model) {
-    const SimulationModel::RigidBodyVector &rigid_bodies = model.getRigidBodies();
-    const SimulationModel::TriangleModelVector &tri_models = model.getTriangleModels();
-    const SimulationModel::TetModelVector &tet_models = model.getTetModels();
-    const ParticleData &pd = model.getParticles();
+    const SimulationModel::RigidBodyVector &rigid_bodies = model.GetRigidBodies();
+    const SimulationModel::TriangleModelVector &tri_models = model.GetTriangleModels();
+    const SimulationModel::TetModelVector &tet_models = model.GetTetModels();
+    const ParticleData &pd = model.GetParticles();
 
     for (auto co : m_collision_objects_) {
         UpdateAabb(model, co);
@@ -105,10 +105,10 @@ void CollisionDetection::UpdateAabbs(SimulationModel &model) {
 }
 
 void CollisionDetection::UpdateAabb(SimulationModel &model, CollisionDetection::CollisionObject *co) const {
-    const SimulationModel::RigidBodyVector &rigid_bodies = model.getRigidBodies();
-    const SimulationModel::TriangleModelVector &tri_models = model.getTriangleModels();
-    const SimulationModel::TetModelVector &tet_models = model.getTetModels();
-    const ParticleData &pd = model.getParticles();
+    const SimulationModel::RigidBodyVector &rigid_bodies = model.GetRigidBodies();
+    const SimulationModel::TriangleModelVector &tri_models = model.GetTriangleModels();
+    const SimulationModel::TetModelVector &tet_models = model.GetTetModels();
+    const ParticleData &pd = model.GetParticles();
     if (co->m_body_type == CollisionDetection::CollisionObject::rigid_body_collision_object_type) {
         const unsigned int kRbIndex = co->m_body_index;
         RigidBody *rb = rigid_bodies[kRbIndex];
@@ -134,8 +134,8 @@ void CollisionDetection::UpdateAabb(SimulationModel &model, CollisionDetection::
     } else if (co->m_body_type == CollisionDetection::CollisionObject::tet_model_collision_object_type) {
         const unsigned int kModelIndex = co->m_body_index;
         TetModel *tm = tet_models[kModelIndex];
-        const unsigned int kOffset = tm->getIndexOffset();
-        const IndexedTetMesh &mesh = tm->getParticleMesh();
+        const unsigned int kOffset = tm->GetIndexOffset();
+        const IndexedTetMesh &mesh = tm->GetParticleMesh();
         const unsigned int kNumVert = mesh.NumVertices();
 
         co->m_aabb.m_p_[0] = pd.GetPosition(kOffset);

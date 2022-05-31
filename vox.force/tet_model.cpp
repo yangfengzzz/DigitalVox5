@@ -11,83 +11,83 @@
 
 namespace vox::force {
 
-TetModel::TetModel() : m_surfaceMesh(), m_visVertices(), m_visMesh(), m_particleMesh() {
-    m_initialX.setZero();
-    m_initialR.setIdentity();
-    m_initialScale.setOnes();
-    m_restitutionCoeff = static_cast<Real>(0.6);
-    m_frictionCoeff = static_cast<Real>(0.2);
+TetModel::TetModel() : m_surface_mesh_(), m_vis_vertices_(), m_vis_mesh_(), m_particle_mesh_() {
+    m_initial_x_.setZero();
+    m_initial_r_.setIdentity();
+    m_initial_scale_.setOnes();
+    m_restitution_coeff_ = static_cast<Real>(0.6);
+    m_friction_coeff_ = static_cast<Real>(0.2);
 }
 
-TetModel::~TetModel() { cleanupModel(); }
+TetModel::~TetModel() { CleanupModel(); }
 
-void TetModel::cleanupModel() { m_particleMesh.Release(); }
+void TetModel::CleanupModel() { m_particle_mesh_.Release(); }
 
-TetModel::SurfaceMesh &TetModel::getSurfaceMesh() { return m_surfaceMesh; }
+TetModel::SurfaceMesh &TetModel::GetSurfaceMesh() { return m_surface_mesh_; }
 
-VertexData &TetModel::getVisVertices() { return m_visVertices; }
+VertexData &TetModel::GetVisVertices() { return m_vis_vertices_; }
 
-TetModel::SurfaceMesh &TetModel::getVisMesh() { return m_visMesh; }
+TetModel::SurfaceMesh &TetModel::GetVisMesh() { return m_vis_mesh_; }
 
-void TetModel::initMesh(const unsigned int nPoints,
-                        const unsigned int nTets,
-                        const unsigned int indexOffset,
+void TetModel::InitMesh(const unsigned int n_points,
+                        const unsigned int n_tets,
+                        const unsigned int index_offset,
                         unsigned int *indices) {
-    m_indexOffset = indexOffset;
-    m_particleMesh.Release();
-    m_particleMesh.InitMesh(nPoints, nTets * 6, nTets * 4, nTets);
+    m_index_offset_ = index_offset;
+    m_particle_mesh_.Release();
+    m_particle_mesh_.InitMesh(n_points, n_tets * 6, n_tets * 4, n_tets);
 
-    for (unsigned int i = 0; i < nTets; i++) {
-        m_particleMesh.AddTet(&indices[4 * i]);
+    for (unsigned int i = 0; i < n_tets; i++) {
+        m_particle_mesh_.AddTet(&indices[4 * i]);
     }
-    m_particleMesh.BuildNeighbors();
+    m_particle_mesh_.BuildNeighbors();
 
-    createSurfaceMesh();
+    CreateSurfaceMesh();
 }
 
-unsigned int TetModel::getIndexOffset() const { return m_indexOffset; }
+unsigned int TetModel::GetIndexOffset() const { return m_index_offset_; }
 
-void TetModel::createSurfaceMesh() {
-    const unsigned int nVerts = m_particleMesh.NumVertices();
+void TetModel::CreateSurfaceMesh() {
+    const unsigned int nVerts = m_particle_mesh_.NumVertices();
 
-    m_surfaceMesh.InitMesh(nVerts, m_particleMesh.NumEdges(), m_particleMesh.NumFaces());
+    m_surface_mesh_.InitMesh(nVerts, m_particle_mesh_.NumEdges(), m_particle_mesh_.NumFaces());
 
     // Search for all border faces of the tet mesh
-    const IndexedTetMesh::Face *faceData = m_particleMesh.GetFaceData().data();
-    const unsigned int *faces = m_particleMesh.GetFaces().data();
-    for (unsigned int i = 0; i < m_particleMesh.NumFaces(); i++) {
+    const IndexedTetMesh::Face *faceData = m_particle_mesh_.GetFaceData().data();
+    const unsigned int *faces = m_particle_mesh_.GetFaces().data();
+    for (unsigned int i = 0; i < m_particle_mesh_.NumFaces(); i++) {
         const IndexedTetMesh::Face &face = faceData[i];
         // Found border face
         if ((face.m_tets[1] == 0xffffffff) || (face.m_tets[0] == 0xffffffff)) {
-            m_surfaceMesh.AddFace(&faces[3 * i]);
+            m_surface_mesh_.AddFace(&faces[3 * i]);
         }
     }
-    m_surfaceMesh.BuildNeighbors();
+    m_surface_mesh_.BuildNeighbors();
 }
 
-void TetModel::updateMeshNormals(const ParticleData &pd) {
-    m_surfaceMesh.UpdateNormals(pd, m_indexOffset);
-    m_surfaceMesh.UpdateVertexNormals(pd);
+void TetModel::UpdateMeshNormals(const ParticleData &pd) {
+    m_surface_mesh_.UpdateNormals(pd, m_index_offset_);
+    m_surface_mesh_.UpdateVertexNormals(pd);
 }
 
-void TetModel::attachVisMesh(const ParticleData &pd) {
+void TetModel::AttachVisMesh(const ParticleData &pd) {
     const Real eps = static_cast<Real>(1.0e-6);
 
     // The created surface mesh defines the boundary of the tet mesh
-    unsigned int *faces = m_surfaceMesh.GetFaces().data();
-    const unsigned int nFaces = m_surfaceMesh.NumFaces();
+    unsigned int *faces = m_surface_mesh_.GetFaces().data();
+    const unsigned int nFaces = m_surface_mesh_.NumFaces();
 
-    const Vector3r *normals = m_surfaceMesh.GetVertexNormals().data();
+    const Vector3r *normals = m_surface_mesh_.GetVertexNormals().data();
 
     // for each point find nearest triangle (TODO: optimize)
     const int nNearstT = 15;
-    m_attachments.resize(m_visVertices.size());
+    m_attachments_.resize(m_vis_vertices_.size());
 
 #pragma omp parallel shared(nFaces, faces, pd, normals, eps) default(none)
     {
 #pragma omp for schedule(static)
-        for (int i = 0; i < (int)m_visVertices.size(); i++) {
-            const Vector3r &p = m_visVertices.GetPosition(i);
+        for (int i = 0; i < (int)m_vis_vertices_.size(); i++) {
+            const Vector3r &p = m_vis_vertices_.GetPosition(i);
             Real curDist[nNearstT];
             int curT[nNearstT];
             for (int k = 0; k < nNearstT; k++) {
@@ -97,16 +97,16 @@ void TetModel::attachVisMesh(const ParticleData &pd) {
             Vector3r curBary[nNearstT];
             Vector3r curInter[nNearstT];
             for (unsigned int j = 0; j < nFaces; j++) {
-                const unsigned int indexA = faces[3 * j] + m_indexOffset;
-                const unsigned int indexB = faces[3 * j + 1] + m_indexOffset;
-                const unsigned int indexC = faces[3 * j + 2] + m_indexOffset;
+                const unsigned int indexA = faces[3 * j] + m_index_offset_;
+                const unsigned int indexB = faces[3 * j + 1] + m_index_offset_;
+                const unsigned int indexC = faces[3 * j + 2] + m_index_offset_;
                 const Vector3r &a = pd.GetPosition0(indexA);
                 const Vector3r &b = pd.GetPosition0(indexB);
                 const Vector3r &c = pd.GetPosition0(indexC);
 
                 Vector3r inter, bary;
                 // compute nearest point on triangle
-                if (pointInTriangle(a, b, c, p, inter, bary)) {
+                if (PointInTriangle(a, b, c, p, inter, bary)) {
                     Real len = (p - inter).norm();
                     for (int k = nNearstT - 1; k >= 0; k--)  // update the best triangles
                     {
@@ -139,13 +139,13 @@ void TetModel::attachVisMesh(const ParticleData &pd) {
                 if (curT[k] == -1) break;
 
                 // see Kobbelt: Multiresolution Herarchies on unstructured triangle meshes
-                const Vector3r &p = m_visVertices.GetPosition(i);
+                const Vector3r &p = m_vis_vertices_.GetPosition(i);
                 const Vector3r n1 = -normals[faces[3 * curT[k] + 0]];
                 const Vector3r n2 = -normals[faces[3 * curT[k] + 1]];
                 const Vector3r n3 = -normals[faces[3 * curT[k] + 2]];
-                const Vector3r &p1 = pd.GetPosition0(faces[3 * curT[k] + 0] + m_indexOffset);
-                const Vector3r &p2 = pd.GetPosition0(faces[3 * curT[k] + 1] + m_indexOffset);
-                const Vector3r &p3 = pd.GetPosition0(faces[3 * curT[k] + 2] + m_indexOffset);
+                const Vector3r &p1 = pd.GetPosition0(faces[3 * curT[k] + 0] + m_index_offset_);
+                const Vector3r &p2 = pd.GetPosition0(faces[3 * curT[k] + 1] + m_index_offset_);
+                const Vector3r &p3 = pd.GetPosition0(faces[3 * curT[k] + 2] + m_index_offset_);
                 const Vector3r U = p.cross(n1);
                 const Vector3r V = p.cross(n2);
                 const Vector3r W = p.cross(n3);
@@ -164,7 +164,7 @@ void TetModel::attachVisMesh(const ParticleData &pd) {
                 const Vector3r Fvv = VV - VW + WW;
                 Real u = curBary[k][0];
                 Real v = curBary[k][0];
-                solveQuadraticForZero(F, Fu, Fv, Fuu, Fuv, Fvv, u, v);
+                SolveQuadraticForZero(F, Fu, Fv, Fuu, Fuv, Fvv, u, v);
                 Real w = static_cast<Real>(1.0) - u - v;
 
                 if (u < 0) u = 0.0;
@@ -199,19 +199,19 @@ void TetModel::attachVisMesh(const ParticleData &pd) {
                 if (error < eps) break;
             }
 
-            Attachment &fp = m_attachments[i];
+            Attachment &fp = m_attachments_[i];
             fp.m_index = i;
-            fp.m_triIndex = (unsigned int)curT[current_k];
+            fp.m_tri_index = (unsigned int)curT[current_k];
             fp.m_bary[0] = current_bary.x();
             fp.m_bary[1] = current_bary.y();
             fp.m_bary[2] = current_bary.z();
             fp.m_dist = current_dist;
-            fp.m_minError = error;
+            fp.m_min_error = error;
         }
     }
 }
 
-void TetModel::solveQuadraticForZero(const Vector3r &F,
+void TetModel::SolveQuadraticForZero(const Vector3r &F,
                                      const Vector3r &Fu,
                                      const Vector3r &Fv,
                                      const Vector3r &Fuu,
@@ -249,26 +249,26 @@ void TetModel::solveQuadraticForZero(const Vector3r &F,
     }
 }
 
-void TetModel::updateVisMesh(const ParticleData &pd) {
-    if (m_attachments.empty()) return;
+void TetModel::UpdateVisMesh(const ParticleData &pd) {
+    if (m_attachments_.empty()) return;
 
     // The collision mesh is the boundary of the tet mesh
-    unsigned int *faces = m_surfaceMesh.GetFaces().data();
-    const unsigned int nFaces = m_surfaceMesh.NumFaces();
+    unsigned int *faces = m_surface_mesh_.GetFaces().data();
+    const unsigned int nFaces = m_surface_mesh_.NumFaces();
 
-    const Vector3r *normals = m_surfaceMesh.GetVertexNormals().data();
+    const Vector3r *normals = m_surface_mesh_.GetVertexNormals().data();
 
 #pragma omp parallel shared(faces, pd, normals) default(none)
     {
 #pragma omp for schedule(static)
-        for (auto &m_attachment : m_attachments) {
+        for (auto &m_attachment : m_attachments_) {
             const unsigned int pindex = m_attachment.m_index;
-            const unsigned int triindex = m_attachment.m_triIndex;
+            const unsigned int triindex = m_attachment.m_tri_index;
             const Real *bary = m_attachment.m_bary;
 
-            const unsigned int indexA = faces[3 * triindex] + m_indexOffset;
-            const unsigned int indexB = faces[3 * triindex + 1] + m_indexOffset;
-            const unsigned int indexC = faces[3 * triindex + 2] + m_indexOffset;
+            const unsigned int indexA = faces[3 * triindex] + m_index_offset_;
+            const unsigned int indexB = faces[3 * triindex + 1] + m_index_offset_;
+            const unsigned int indexC = faces[3 * triindex + 2] + m_index_offset_;
 
             const Vector3r &a = pd.GetPosition(indexA);
             const Vector3r &b = pd.GetPosition(indexB);
@@ -278,16 +278,16 @@ void TetModel::updateVisMesh(const ParticleData &pd) {
                          bary[2] * normals[faces[3 * triindex + 2]];
             n.normalize();
 
-            Vector3r &p = m_visVertices.GetPosition(pindex);
+            Vector3r &p = m_vis_vertices_.GetPosition(pindex);
             p = p2 - n * m_attachment.m_dist;
         }
     }
 
-    m_visMesh.UpdateNormals(m_visVertices, 0);
-    m_visMesh.UpdateVertexNormals(m_visVertices);
+    m_vis_mesh_.UpdateNormals(m_vis_vertices_, 0);
+    m_vis_mesh_.UpdateVertexNormals(m_vis_vertices_);
 }
 
-bool TetModel::pointInTriangle(const Vector3r &p0,
+bool TetModel::PointInTriangle(const Vector3r &p0,
                                const Vector3r &p1,
                                const Vector3r &p2,
                                const Vector3r &p,

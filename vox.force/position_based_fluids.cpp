@@ -24,7 +24,7 @@ bool PositionBasedFluids::ComputePbfDensity(unsigned int particle_index,
                                             Real &density_err,
                                             Real &density) {
     // Compute current density for particle i
-    density = mass[particle_index] * CubicKernel::W_zero();
+    density = mass[particle_index] * CubicKernel::WZero();
     for (unsigned int j = 0; j < num_neighbors; j++) {
         const unsigned int kNeighborIndex = neighbors[j];
         if (kNeighborIndex < number_of_particles)  // Test if fluid particle
@@ -70,14 +70,14 @@ bool PositionBasedFluids::ComputePbfLagrangeMultiplier(unsigned int particle_ind
             if (neighborIndex < number_of_particles)  // Test if fluid particle
             {
                 const Vector3r gradC_j =
-                        -mass[neighborIndex] / density0 * CubicKernel::gradW(x[particle_index] - x[neighborIndex]);
+                        -mass[neighborIndex] / density0 * CubicKernel::GradW(x[particle_index] - x[neighborIndex]);
                 sum_grad_C2 += gradC_j.squaredNorm();
                 gradC_i -= gradC_j;
             } else if (boundary_handling) {
                 // Boundary: Akinci2012
                 const Vector3r gradC_j =
                         -boundary_psi[neighborIndex - number_of_particles] / density0 *
-                        CubicKernel::gradW(x[particle_index] - boundary_x[neighborIndex - number_of_particles]);
+                        CubicKernel::GradW(x[particle_index] - boundary_x[neighborIndex - number_of_particles]);
                 sum_grad_C2 += gradC_j.squaredNorm();
                 gradC_i -= gradC_j;
             }
@@ -113,13 +113,13 @@ bool PositionBasedFluids::SolveDensityConstraint(unsigned int particle_index,
         if (kNeighborIndex < number_of_particles)  // Test if fluid particle
         {
             const Vector3r gradC_j =
-                    -mass[kNeighborIndex] / density0 * CubicKernel::gradW(x[particle_index] - x[kNeighborIndex]);
+                    -mass[kNeighborIndex] / density0 * CubicKernel::GradW(x[particle_index] - x[kNeighborIndex]);
             corr -= (lambda[particle_index] + lambda[kNeighborIndex]) * gradC_j;
         } else if (boundary_handling) {
             // Boundary: Akinci2012
             const Vector3r gradC_j =
                     -boundary_psi[kNeighborIndex - number_of_particles] / density0 *
-                    CubicKernel::gradW(x[particle_index] - boundary_x[kNeighborIndex - number_of_particles]);
+                    CubicKernel::GradW(x[particle_index] - boundary_x[kNeighborIndex - number_of_particles]);
             corr -= (lambda[particle_index]) * gradC_j;
         }
     }

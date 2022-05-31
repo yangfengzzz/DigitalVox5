@@ -24,11 +24,11 @@ DistanceFieldCollisionDetection::DistanceFieldCollisionDetection() : CollisionDe
 DistanceFieldCollisionDetection::~DistanceFieldCollisionDetection() = default;
 
 void DistanceFieldCollisionDetection::GetCollisionDetection(SimulationModel &model) {
-    model.resetContacts();
-    const SimulationModel::RigidBodyVector &rigid_bodies = model.getRigidBodies();
-    const SimulationModel::TriangleModelVector &tri_models = model.getTriangleModels();
-    const SimulationModel::TetModelVector &tet_models = model.getTetModels();
-    const ParticleData &pd = model.getParticles();
+    model.ResetContacts();
+    const SimulationModel::RigidBodyVector &rigid_bodies = model.GetRigidBodies();
+    const SimulationModel::TriangleModelVector &tri_models = model.GetTriangleModels();
+    const SimulationModel::TetModelVector &tet_models = model.GetTetModels();
+    const ParticleData &pd = model.GetParticles();
 
     std::vector<std::pair<unsigned int, unsigned int>> co_pairs;
     for (unsigned int i = 0; i < m_collision_objects_.size(); i++) {
@@ -69,8 +69,8 @@ void DistanceFieldCollisionDetection::GetCollisionDetection(SimulationModel &mod
                     sco->m_bvh.Update();
                 } else if (co->m_body_type == CollisionDetection::CollisionObject::tet_model_collision_object_type) {
                     TetModel *tm = tet_models[co->m_body_index];
-                    const unsigned int kOffset = tm->getIndexOffset();
-                    const IndexedTetMesh &mesh = tm->getParticleMesh();
+                    const unsigned int kOffset = tm->GetIndexOffset();
+                    const IndexedTetMesh &mesh = tm->GetParticleMesh();
                     const unsigned int kNumVert = mesh.NumVertices();
 
                     auto *sco = (DistanceFieldCollisionObject *)co;
@@ -123,11 +123,11 @@ void DistanceFieldCollisionDetection::GetCollisionDetection(SimulationModel &mod
                        ((DistanceFieldCollisionObject *)co1)->m_test_mesh) {
                 TetModel *tm = tet_models[co1->m_body_index];
                 RigidBody *rb2 = rigid_bodies[co2->m_body_index];
-                const unsigned int kOffset = tm->getIndexOffset();
-                const IndexedTetMesh &mesh = tm->getParticleMesh();
+                const unsigned int kOffset = tm->GetIndexOffset();
+                const IndexedTetMesh &mesh = tm->GetParticleMesh();
                 const unsigned int kNumVert = mesh.NumVertices();
-                const Real kRestitutionCoeff = tm->getRestitutionCoeff() * rb2->GetRestitutionCoeff();
-                const Real kFrictionCoeff = tm->getFrictionCoeff() + rb2->GetFrictionCoeff();
+                const Real kRestitutionCoeff = tm->GetRestitutionCoeff() * rb2->GetRestitutionCoeff();
+                const Real kFrictionCoeff = tm->GetFrictionCoeff() + rb2->GetFrictionCoeff();
                 CollisionDetectionRbSolid(pd, kOffset, kNumVert, (DistanceFieldCollisionObject *)co1, rb2,
                                           (DistanceFieldCollisionObject *)co2, kRestitutionCoeff, kFrictionCoeff,
                                           contacts_mt);
@@ -136,11 +136,11 @@ void DistanceFieldCollisionDetection::GetCollisionDetection(SimulationModel &mod
                        ((DistanceFieldCollisionObject *)co1)->m_test_mesh) {
                 TetModel *tm1 = tet_models[co1->m_body_index];
                 TetModel *tm2 = tet_models[co2->m_body_index];
-                const unsigned int kOffset = tm1->getIndexOffset();
-                const IndexedTetMesh &mesh = tm1->getParticleMesh();
+                const unsigned int kOffset = tm1->GetIndexOffset();
+                const IndexedTetMesh &mesh = tm1->GetParticleMesh();
                 const unsigned int kNumVert = mesh.NumVertices();
-                const Real kRestitutionCoeff = tm1->getRestitutionCoeff() * tm2->getRestitutionCoeff();
-                const Real kFrictionCoeff = tm1->getFrictionCoeff() + tm2->getFrictionCoeff();
+                const Real kRestitutionCoeff = tm1->GetRestitutionCoeff() * tm2->GetRestitutionCoeff();
+                const Real kFrictionCoeff = tm1->GetFrictionCoeff() + tm2->GetFrictionCoeff();
                 CollisionDetectionSolidSolid(pd, kOffset, kNumVert, (DistanceFieldCollisionObject *)co1, tm2,
                                              (DistanceFieldCollisionObject *)co2, kRestitutionCoeff, kFrictionCoeff,
                                              contacts_mt);
@@ -328,8 +328,8 @@ void DistanceFieldCollisionDetection::CollisionDetectionSolidSolid(const Particl
                                                                    std::vector<std::vector<ContactData>> &contacts_mt) {
     const PointCloudBSH &bvh1 = ((DistanceFieldCollisionDetection::DistanceFieldCollisionObject *)co1)->m_bvh;
     const TetMeshBSH &bvh2 = ((DistanceFieldCollisionDetection::DistanceFieldCollisionObject *)co2)->m_bvh_tets;
-    const unsigned int *indices = tm2->getParticleMesh().GetTets().data();
-    const unsigned int kOffset2 = tm2->getIndexOffset();
+    const unsigned int *indices = tm2->GetParticleMesh().GetTets().data();
+    const unsigned int kOffset2 = tm2->GetIndexOffset();
 
     // callback function for BVH which is called if a leaf node in the point cloud BVH
     // has a collision with a leaf node in the tet BVH
@@ -379,7 +379,7 @@ void DistanceFieldCollisionDetection::CollisionDetectionSolidSolid(const Particl
 
                     // apply inverse initial transform to transform the point in the space of the
                     // signed distance field
-                    const Vector3r kXl = (tm2->getInitialR().transpose() * (kX - tm2->getInitialX()));
+                    const Vector3r kXl = (tm2->GetInitialR().transpose() * (kX - tm2->GetInitialX()));
 
                     // perform collision test with distance field to get closest point on surface
                     // if (co2->collisionTest(X_l, m_tolerance, cp_l, n_l, dist))
@@ -388,7 +388,7 @@ void DistanceFieldCollisionDetection::CollisionDetectionSolidSolid(const Particl
                         Vector3r cp_bary;
 
                         // transform the closest point on surface back to the reference space of the tet model
-                        const Vector3r kCp0 = (tm2->getInitialR() * cp_l + tm2->getInitialX());
+                        const Vector3r kCp0 = (tm2->GetInitialR() * cp_l + tm2->GetInitialX());
 
                         // find the tet which contains the resulting point
                         if (FindRefTetAt(pd, tm2, co2, kCp0, cp_tet_index, cp_bary)) {
@@ -728,8 +728,8 @@ bool DistanceFieldCollisionDetection::FindRefTetAt(
         unsigned int &tet_index,
         Vector3r &barycentric_coordinates) {
     const TetMeshBSH &bvh0 = ((DistanceFieldCollisionDetection::DistanceFieldCollisionObject *)co)->m_bvh_tets_0;
-    const unsigned int *indices = tm->getParticleMesh().GetTets().data();
-    const unsigned int kOffset = tm->getIndexOffset();
+    const unsigned int *indices = tm->GetParticleMesh().GetTets().data();
+    const unsigned int kOffset = tm->GetIndexOffset();
     std::vector<Vector3r> bary;
     std::vector<unsigned int> tets;
     bary.reserve(100);

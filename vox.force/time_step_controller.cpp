@@ -42,9 +42,9 @@ void TimeStepController::step(SimulationModel &model) {
     // rigid body model
     //////////////////////////////////////////////////////////////////////////
     clearAccelerations(model);
-    SimulationModel::RigidBodyVector &rb = model.getRigidBodies();
-    ParticleData &pd = model.getParticles();
-    OrientationData &od = model.getOrientations();
+    SimulationModel::RigidBodyVector &rb = model.GetRigidBodies();
+    ParticleData &pd = model.GetParticles();
+    OrientationData &od = model.GetOrientations();
 
     const int numBodies = (int)rb.size();
 
@@ -163,7 +163,7 @@ void TimeStepController::step(SimulationModel &model) {
     //////////////////////////////////////////////////////////////////////////
     // update motor joint targets
     //////////////////////////////////////////////////////////////////////////
-    SimulationModel::ConstraintVector &constraints = model.getConstraints();
+    SimulationModel::ConstraintVector &constraints = model.GetConstraints();
     for (auto &constraint : constraints) {
         if ((constraint->GetTypeId() == TargetAngleMotorHingeJoint::type_id) ||
             (constraint->GetTypeId() == TargetVelocityMotorHingeJoint::type_id) ||
@@ -210,14 +210,14 @@ void TimeStepController::positionConstraintProjection(SimulationModel &model) {
     m_iterations = 0;
 
     // init constraint groups if necessary
-    model.initConstraintGroups();
+    model.InitConstraintGroups();
 
-    SimulationModel::RigidBodyVector &rb = model.getRigidBodies();
-    SimulationModel::ConstraintVector &constraints = model.getConstraints();
-    SimulationModel::ConstraintGroupVector &groups = model.getConstraintGroups();
-    SimulationModel::RigidBodyContactConstraintVector &contacts = model.getRigidBodyContactConstraints();
+    SimulationModel::RigidBodyVector &rb = model.GetRigidBodies();
+    SimulationModel::ConstraintVector &constraints = model.GetConstraints();
+    SimulationModel::ConstraintGroupVector &groups = model.GetConstraintGroups();
+    SimulationModel::RigidBodyContactConstraintVector &contacts = model.GetRigidBodyContactConstraints();
     SimulationModel::ParticleSolidContactConstraintVector &particleTetContacts =
-            model.getParticleSolidContactConstraints();
+            model.GetParticleSolidContactConstraints();
 
     // init constraints for this time step if necessary
     for (auto &constraint : constraints) {
@@ -252,16 +252,16 @@ void TimeStepController::velocityConstraintProjection(SimulationModel &model) {
     m_iterationsV = 0;
 
     // init constraint groups if necessary
-    model.initConstraintGroups();
+    model.InitConstraintGroups();
 
-    SimulationModel::RigidBodyVector &rb = model.getRigidBodies();
-    SimulationModel::ConstraintVector &constraints = model.getConstraints();
-    SimulationModel::ConstraintGroupVector &groups = model.getConstraintGroups();
-    SimulationModel::RigidBodyContactConstraintVector &rigidBodyContacts = model.getRigidBodyContactConstraints();
+    SimulationModel::RigidBodyVector &rb = model.GetRigidBodies();
+    SimulationModel::ConstraintVector &constraints = model.GetConstraints();
+    SimulationModel::ConstraintGroupVector &groups = model.GetConstraintGroups();
+    SimulationModel::RigidBodyContactConstraintVector &rigidBodyContacts = model.GetRigidBodyContactConstraints();
     SimulationModel::ParticleRigidBodyContactConstraintVector &particleRigidBodyContacts =
-            model.getParticleRigidBodyContactConstraints();
+            model.GetParticleRigidBodyContactConstraints();
     SimulationModel::ParticleSolidContactConstraintVector &particleTetContacts =
-            model.getParticleSolidContactConstraints();
+            model.GetParticleSolidContactConstraints();
 
     for (unsigned int group = 0; group < groups.size(); group++) {
         const int groupSize = (int)groups[group].size();

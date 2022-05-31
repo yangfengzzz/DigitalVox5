@@ -7,8 +7,8 @@
 #include "sph_kernels.h"
 
 namespace vox::force {
-Real CubicKernel::m_radius;
-Real CubicKernel::m_k;
-Real CubicKernel::m_l;
-Real CubicKernel::m_W_zero;
+Real CubicKernel::m_radius_;
+Real CubicKernel::m_k_;
+Real CubicKernel::m_l_;
+Real CubicKernel::m_w_zero_;
 }  // namespace vox::force

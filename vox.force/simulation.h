@@ -11,20 +11,21 @@
 #include "vox.force/time_step.h"
 
 namespace vox::force {
-/** \brief Class to manage the current simulation time and the time step size.
+/**
+ * \brief Class to manage the current simulation time and the time step size.
  * This class is a singleton.
  */
 class Simulation {
 public:
-    static int GRAVITATION;
+    static int gravitation_;
 
 protected:
-    SimulationModel *m_model{};
-    TimeStep *m_timeStep;
-    Vector3r m_gravitation;
+    SimulationModel *m_model_{};
+    TimeStep *m_time_step_;
+    Vector3r m_gravitation_;
 
 private:
-    static Simulation *current;
+    static Simulation *current_;
 
 public:
     Simulation();
@@ -32,18 +33,18 @@ public:
     Simulation &operator=(const Simulation &) = delete;
     ~Simulation();
 
-    void init();
-    void reset();
+    void Init();
+    void Reset();
 
     // Singleton
-    static Simulation *getCurrent();
-    static void setCurrent(Simulation *tm);
-    static bool hasCurrent();
+    static Simulation *GetCurrent();
+    static void SetCurrent(Simulation *tm);
+    static bool HasCurrent();
 
-    SimulationModel *getModel() { return m_model; }
-    void setModel(SimulationModel *model) { m_model = model; }
+    SimulationModel *GetModel() { return m_model_; }
+    void SetModel(SimulationModel *model) { m_model_ = model; }
 
-    TimeStep *getTimeStep() { return m_timeStep; }
-    void setTimeStep(TimeStep *ts) { m_timeStep = ts; }
+    TimeStep *GetTimeStep() { return m_time_step_; }
+    void SetTimeStep(TimeStep *ts) { m_time_step_ = ts; }
 };
 }  // namespace vox::force

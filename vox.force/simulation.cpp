@@ -12,43 +12,43 @@
 
 namespace vox::force {
 
-Simulation* Simulation::current = nullptr;
-int Simulation::GRAVITATION = -1;
+Simulation* Simulation::current_ = nullptr;
+int Simulation::gravitation_ = -1;
 
 Simulation::Simulation() {
-    m_gravitation = Vector3r(0.0, -9.81, 0.0);
+    m_gravitation_ = Vector3r(0.0, -9.81, 0.0);
 
-    m_timeStep = nullptr;
+    m_time_step_ = nullptr;
 }
 
 Simulation::~Simulation() {
-    delete m_timeStep;
+    delete m_time_step_;
     delete TimeManager::getCurrent();
 
-    current = nullptr;
+    current_ = nullptr;
 }
 
-Simulation* Simulation::getCurrent() {
-    if (current == nullptr) {
-        current = new Simulation();
-        current->init();
+Simulation* Simulation::GetCurrent() {
+    if (current_ == nullptr) {
+        current_ = new Simulation();
+        current_->Init();
     }
-    return current;
+    return current_;
 }
 
-void Simulation::setCurrent(Simulation* tm) { current = tm; }
+void Simulation::SetCurrent(Simulation* tm) { current_ = tm; }
 
-bool Simulation::hasCurrent() { return (current != nullptr); }
+bool Simulation::HasCurrent() { return (current_ != nullptr); }
 
-void Simulation::init() {
-    m_timeStep = new TimeStepController();
-    m_timeStep->init();
+void Simulation::Init() {
+    m_time_step_ = new TimeStepController();
+    m_time_step_->init();
     TimeManager::getCurrent()->setTimeStepSize(static_cast<Real>(0.005));
 }
 
-void Simulation::reset() {
-    m_model->reset();
-    if (m_timeStep) m_timeStep->reset();
+void Simulation::Reset() {
+    m_model_->reset();
+    if (m_time_step_) m_time_step_->reset();
 
     TimeManager::getCurrent()->setTime(static_cast<Real>(0.0));
 }

@@ -24,36 +24,36 @@ public:
 
     struct Attachment {
         unsigned int m_index;
-        unsigned int m_triIndex;
+        unsigned int m_tri_index;
         Real m_bary[3];
         Real m_dist;
-        Real m_minError;
+        Real m_min_error;
     };
 
-    Vector3r& getInitialX() { return m_initialX; }
-    void setInitialX(const Vector3r& val) { m_initialX = val; }
-    Matrix3r& getInitialR() { return m_initialR; }
-    void setInitialR(const Matrix3r& val) { m_initialR = val; }
-    Vector3r& getInitialScale() { return m_initialScale; }
-    void setInitialScale(const Vector3r& val) { m_initialScale = val; }
+    Vector3r& GetInitialX() { return m_initial_x_; }
+    void SetInitialX(const Vector3r& val) { m_initial_x_ = val; }
+    Matrix3r& GetInitialR() { return m_initial_r_; }
+    void SetInitialR(const Matrix3r& val) { m_initial_r_ = val; }
+    Vector3r& GetInitialScale() { return m_initial_scale_; }
+    void SetInitialScale(const Vector3r& val) { m_initial_scale_ = val; }
 
 protected:
     /** offset which must be added to get the correct index in the particles array */
-    unsigned int m_indexOffset{};
+    unsigned int m_index_offset_{};
     /** Tet mesh of particles which represents the simulation model */
-    ParticleMesh m_particleMesh;
-    SurfaceMesh m_surfaceMesh;
-    VertexData m_visVertices;
-    SurfaceMesh m_visMesh;
-    Real m_restitutionCoeff;
-    Real m_frictionCoeff;
-    std::vector<Attachment> m_attachments;
-    Vector3r m_initialX;
-    Matrix3r m_initialR;
-    Vector3r m_initialScale;
+    ParticleMesh m_particle_mesh_;
+    SurfaceMesh m_surface_mesh_;
+    VertexData m_vis_vertices_;
+    SurfaceMesh m_vis_mesh_;
+    Real m_restitution_coeff_;
+    Real m_friction_coeff_;
+    std::vector<Attachment> m_attachments_;
+    Vector3r m_initial_x_;
+    Matrix3r m_initial_r_;
+    Vector3r m_initial_scale_;
 
-    void createSurfaceMesh();
-    void solveQuadraticForZero(const Vector3r& F,
+    void CreateSurfaceMesh();
+    void SolveQuadraticForZero(const Vector3r& F,
                                const Vector3r& Fu,
                                const Vector3r& Fv,
                                const Vector3r& Fuu,
@@ -61,7 +61,7 @@ protected:
                                const Vector3r& Fvv,
                                Real& u,
                                Real& v);
-    bool pointInTriangle(const Vector3r& p0,
+    bool PointInTriangle(const Vector3r& p0,
                          const Vector3r& p1,
                          const Vector3r& p2,
                          const Vector3r& p,
@@ -69,36 +69,36 @@ protected:
                          Vector3r& bary);
 
 public:
-    SurfaceMesh& getSurfaceMesh();
-    VertexData& getVisVertices();
-    SurfaceMesh& getVisMesh();
-    ParticleMesh& getParticleMesh() { return m_particleMesh; }
-    [[nodiscard]] const ParticleMesh& getParticleMesh() const { return m_particleMesh; }
-    void cleanupModel();
+    SurfaceMesh& GetSurfaceMesh();
+    VertexData& GetVisVertices();
+    SurfaceMesh& GetVisMesh();
+    ParticleMesh& GetParticleMesh() { return m_particle_mesh_; }
+    [[nodiscard]] const ParticleMesh& GetParticleMesh() const { return m_particle_mesh_; }
+    void CleanupModel();
 
-    [[nodiscard]] unsigned int getIndexOffset() const;
+    [[nodiscard]] unsigned int GetIndexOffset() const;
 
-    void initMesh(unsigned int nPoints, unsigned int nTets, unsigned int indexOffset, unsigned int* indices);
-    void updateMeshNormals(const ParticleData& pd);
+    void InitMesh(unsigned int n_points, unsigned int n_tets, unsigned int index_offset, unsigned int* indices);
+    void UpdateMeshNormals(const ParticleData& pd);
 
     /** Attach a visualization mesh to the surface of the body.
      * Important: The vertex normals have to be updated before
      * calling this function by calling UpdateMeshNormals().
      */
-    void attachVisMesh(const ParticleData& pd);
+    void AttachVisMesh(const ParticleData& pd);
 
     /** Update the visualization mesh of the body.
      * Important: The vertex normals have to be updated before
      * calling this function by calling UpdateMeshNormals().
      */
-    void updateVisMesh(const ParticleData& pd);
+    void UpdateVisMesh(const ParticleData& pd);
 
-    [[nodiscard]] FORCE_INLINE Real getRestitutionCoeff() const { return m_restitutionCoeff; }
+    [[nodiscard]] FORCE_INLINE Real GetRestitutionCoeff() const { return m_restitution_coeff_; }
 
-    FORCE_INLINE void setRestitutionCoeff(Real val) { m_restitutionCoeff = val; }
+    FORCE_INLINE void SetRestitutionCoeff(Real val) { m_restitution_coeff_ = val; }
 
-    [[nodiscard]] FORCE_INLINE Real getFrictionCoeff() const { return m_frictionCoeff; }
+    [[nodiscard]] FORCE_INLINE Real GetFrictionCoeff() const { return m_friction_coeff_; }
 
-    FORCE_INLINE void setFrictionCoeff(Real val) { m_frictionCoeff = val; }
+    FORCE_INLINE void SetFrictionCoeff(Real val) { m_friction_coeff_ = val; }
 };
 }  // namespace vox::force

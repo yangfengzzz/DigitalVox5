@@ -25,7 +25,7 @@ public:
     SimulationModel &operator=(const SimulationModel &) = delete;
     virtual ~SimulationModel();
 
-    void init();
+    void Init();
 
     typedef std::vector<Constraint *> ConstraintVector;
     typedef std::vector<RigidBodyContactConstraint> RigidBodyContactConstraintVector;
@@ -39,236 +39,239 @@ public:
     typedef std::vector<ConstraintGroup> ConstraintGroupVector;
 
 protected:
-    RigidBodyVector m_rigidBodies;
-    TriangleModelVector m_triangleModels;
-    TetModelVector m_tetModels;
-    LineModelVector m_lineModels;
-    ParticleData m_particles;
-    OrientationData m_orientations;
-    ConstraintVector m_constraints;
-    RigidBodyContactConstraintVector m_rigidBodyContactConstraints;
-    ParticleRigidBodyContactConstraintVector m_particleRigidBodyContactConstraints;
-    ParticleSolidContactConstraintVector m_particleSolidContactConstraints;
-    ConstraintGroupVector m_constraintGroups;
+    RigidBodyVector m_rigid_bodies_;
+    TriangleModelVector m_triangle_models_;
+    TetModelVector m_tet_models_;
+    LineModelVector m_line_models_;
+    ParticleData m_particles_;
+    OrientationData m_orientations_;
+    ConstraintVector m_constraints_;
+    RigidBodyContactConstraintVector m_rigid_body_contact_constraints_;
+    ParticleRigidBodyContactConstraintVector m_particle_rigid_body_contact_constraints_;
+    ParticleSolidContactConstraintVector m_particle_solid_contact_constraints_;
+    ConstraintGroupVector m_constraint_groups_;
 
-    Real m_contactStiffnessRigidBody;
-    Real m_contactStiffnessParticleRigidBody;
+    Real m_contact_stiffness_rigid_body_;
+    Real m_contact_stiffness_particle_rigid_body_;
 
 public:
-    void reset();
-    void cleanup();
+    void Reset();
+    void Cleanup();
 
-    RigidBodyVector &getRigidBodies();
-    ParticleData &getParticles();
-    OrientationData &getOrientations();
-    TriangleModelVector &getTriangleModels();
-    TetModelVector &getTetModels();
-    LineModelVector &getLineModels();
-    ConstraintVector &getConstraints();
-    RigidBodyContactConstraintVector &getRigidBodyContactConstraints();
-    ParticleRigidBodyContactConstraintVector &getParticleRigidBodyContactConstraints();
-    ParticleSolidContactConstraintVector &getParticleSolidContactConstraints();
-    ConstraintGroupVector &getConstraintGroups();
-    bool m_groupsInitialized;
+    RigidBodyVector &GetRigidBodies();
+    ParticleData &GetParticles();
+    OrientationData &GetOrientations();
+    TriangleModelVector &GetTriangleModels();
+    TetModelVector &GetTetModels();
+    LineModelVector &GetLineModels();
+    ConstraintVector &GetConstraints();
+    RigidBodyContactConstraintVector &GetRigidBodyContactConstraints();
+    ParticleRigidBodyContactConstraintVector &GetParticleRigidBodyContactConstraints();
+    ParticleSolidContactConstraintVector &GetParticleSolidContactConstraints();
+    ConstraintGroupVector &GetConstraintGroups();
+    bool m_groups_initialized_;
 
-    void resetContacts();
+    void ResetContacts();
 
-    void addTriangleModel(unsigned int nPoints,
-                          unsigned int nFaces,
+    void AddTriangleModel(unsigned int n_points,
+                          unsigned int n_faces,
                           Vector3r *points,
                           unsigned int *indices,
-                          const TriangleModel::ParticleMesh::UVIndices &uvIndices,
+                          const TriangleModel::ParticleMesh::UVIndices &uv_indices,
                           const TriangleModel::ParticleMesh::UVs &uvs);
-    void addRegularTriangleModel(int width,
+    void AddRegularTriangleModel(int width,
                                  int height,
                                  const Vector3r &translation = Vector3r::Zero(),
                                  const Matrix3r &rotation = Matrix3r::Identity(),
                                  const Vector2r &scale = Vector2r::Ones());
 
-    void addTetModel(unsigned int nPoints, unsigned int nTets, Vector3r *points, unsigned int *indices);
-    void addRegularTetModel(int width,
+    void AddTetModel(unsigned int n_points, unsigned int n_tets, Vector3r *points, unsigned int *indices);
+    void AddRegularTetModel(int width,
                             int height,
                             int depth,
                             const Vector3r &translation = Vector3r::Zero(),
                             const Matrix3r &rotation = Matrix3r::Identity(),
                             const Vector3r &scale = Vector3r::Ones());
 
-    void addLineModel(unsigned int nPoints,
-                      unsigned int nQuaternions,
+    void AddLineModel(unsigned int n_points,
+                      unsigned int n_quaternions,
                       Vector3r *points,
                       Quaternionr *quaternions,
                       unsigned int *indices,
-                      unsigned int *indicesQuaternions);
+                      unsigned int *indices_quaternions);
 
-    void updateConstraints();
-    void initConstraintGroups();
+    void UpdateConstraints();
+    void InitConstraintGroups();
 
-    bool addBallJoint(unsigned int rbIndex1, unsigned int rbIndex2, const Vector3r &pos);
-    bool addBallOnLineJoint(unsigned int rbIndex1, unsigned int rbIndex2, const Vector3r &pos, const Vector3r &dir);
-    bool addHingeJoint(unsigned int rbIndex1, unsigned int rbIndex2, const Vector3r &pos, const Vector3r &axis);
-    bool addTargetAngleMotorHingeJoint(unsigned int rbIndex1,
-                                       unsigned int rbIndex2,
+    bool AddBallJoint(unsigned int rb_index_1, unsigned int rb_index_2, const Vector3r &pos);
+    bool AddBallOnLineJoint(unsigned int rb_index_1, unsigned int rb_index_2, const Vector3r &pos, const Vector3r &dir);
+    bool AddHingeJoint(unsigned int rb_index_1, unsigned int rb_index_2, const Vector3r &pos, const Vector3r &axis);
+    bool AddTargetAngleMotorHingeJoint(unsigned int rb_index_1,
+                                       unsigned int rb_index_2,
                                        const Vector3r &pos,
                                        const Vector3r &axis);
-    bool addTargetVelocityMotorHingeJoint(unsigned int rbIndex1,
-                                          unsigned int rbIndex2,
+    bool AddTargetVelocityMotorHingeJoint(unsigned int rb_index_1,
+                                          unsigned int rb_index_2,
                                           const Vector3r &pos,
                                           const Vector3r &axis);
-    bool addUniversalJoint(unsigned int rbIndex1,
-                           unsigned int rbIndex2,
+    bool AddUniversalJoint(unsigned int rb_index_1,
+                           unsigned int rb_index_2,
                            const Vector3r &pos,
                            const Vector3r &axis1,
                            const Vector3r &axis2);
-    bool addSliderJoint(unsigned int rbIndex1, unsigned int rbIndex2, const Vector3r &axis);
-    bool addTargetPositionMotorSliderJoint(unsigned int rbIndex1, unsigned int rbIndex2, const Vector3r &axis);
-    bool addTargetVelocityMotorSliderJoint(unsigned int rbIndex1, unsigned int rbIndex2, const Vector3r &axis);
-    bool addRigidBodyParticleBallJoint(unsigned int rbIndex, unsigned int particleIndex);
-    bool addRigidBodySpring(
-            unsigned int rbIndex1, unsigned int rbIndex2, const Vector3r &pos1, const Vector3r &pos2, Real stiffness);
-    bool addDistanceJoint(unsigned int rbIndex1, unsigned int rbIndex2, const Vector3r &pos1, const Vector3r &pos2);
-    bool addDamperJoint(unsigned int rbIndex1, unsigned int rbIndex2, const Vector3r &axis, Real stiffness);
-    bool addRigidBodyContactConstraint(unsigned int rbIndex1,
-                                       unsigned int rbIndex2,
+    bool AddSliderJoint(unsigned int rb_index_1, unsigned int rb_index_2, const Vector3r &axis);
+    bool AddTargetPositionMotorSliderJoint(unsigned int rb_index_1, unsigned int rb_index_2, const Vector3r &axis);
+    bool AddTargetVelocityMotorSliderJoint(unsigned int rb_index_1, unsigned int rb_index_2, const Vector3r &axis);
+    bool AddRigidBodyParticleBallJoint(unsigned int rb_index, unsigned int particle_index);
+    bool AddRigidBodySpring(unsigned int rb_index_1,
+                            unsigned int rb_index_2,
+                            const Vector3r &pos1,
+                            const Vector3r &pos2,
+                            Real stiffness);
+    bool AddDistanceJoint(unsigned int rb_index_1, unsigned int rb_index_2, const Vector3r &pos1, const Vector3r &pos2);
+    bool AddDamperJoint(unsigned int rb_index_1, unsigned int rb_index_2, const Vector3r &axis, Real stiffness);
+    bool AddRigidBodyContactConstraint(unsigned int rb_index_1,
+                                       unsigned int rb_index_2,
                                        const Vector3r &cp1,
                                        const Vector3r &cp2,
                                        const Vector3r &normal,
                                        Real dist,
-                                       Real restitutionCoeff,
-                                       Real frictionCoeff);
-    bool addParticleRigidBodyContactConstraint(unsigned int particleIndex,
-                                               unsigned int rbIndex,
+                                       Real restitution_coeff,
+                                       Real friction_coeff);
+    bool AddParticleRigidBodyContactConstraint(unsigned int particle_index,
+                                               unsigned int rb_index,
                                                const Vector3r &cp1,
                                                const Vector3r &cp2,
                                                const Vector3r &normal,
                                                Real dist,
-                                               Real restitutionCoeff,
-                                               Real frictionCoeff);
+                                               Real restitution_coeff,
+                                               Real friction_coeff);
 
-    bool addParticleSolidContactConstraint(unsigned int particleIndex,
-                                           unsigned int solidIndex,
-                                           unsigned int tetIndex,
+    bool AddParticleSolidContactConstraint(unsigned int particle_index,
+                                           unsigned int solid_index,
+                                           unsigned int tet_index,
                                            const Vector3r &bary,
                                            const Vector3r &cp1,
                                            const Vector3r &cp2,
                                            const Vector3r &normal,
                                            Real dist,
-                                           Real restitutionCoeff,
-                                           Real frictionCoeff);
+                                           Real restitution_coeff,
+                                           Real friction_coeff);
 
-    bool addDistanceConstraint(unsigned int particle1, unsigned int particle2, Real stiffness);
-    bool addDistanceConstraint_XPBD(unsigned int particle1, unsigned int particle2, Real stiffness);
-    bool addDihedralConstraint(unsigned int particle1,
+    bool AddDistanceConstraint(unsigned int particle1, unsigned int particle2, Real stiffness);
+    bool AddDistanceConstraintXPBD(unsigned int particle1, unsigned int particle2, Real stiffness);
+    bool AddDihedralConstraint(unsigned int particle1,
                                unsigned int particle2,
                                unsigned int particle3,
                                unsigned int particle4,
                                Real stiffness);
-    bool addIsometricBendingConstraint(unsigned int particle1,
+    bool AddIsometricBendingConstraint(unsigned int particle1,
                                        unsigned int particle2,
                                        unsigned int particle3,
                                        unsigned int particle4,
                                        Real stiffness);
-    bool addIsometricBendingConstraint_XPBD(unsigned int particle1,
-                                            unsigned int particle2,
-                                            unsigned int particle3,
-                                            unsigned int particle4,
-                                            Real stiffness);
-    bool addFEMTriangleConstraint(unsigned int particle1,
+    bool AddIsometricBendingConstraintXpbd(unsigned int particle1,
+                                           unsigned int particle2,
+                                           unsigned int particle3,
+                                           unsigned int particle4,
+                                           Real stiffness);
+    bool AddFemTriangleConstraint(unsigned int particle1,
                                   unsigned int particle2,
                                   unsigned int particle3,
-                                  Real xxStiffness,
-                                  Real yyStiffness,
-                                  Real xyStiffness,
-                                  Real xyPoissonRatio,
-                                  Real yxPoissonRatio);
-    bool addStrainTriangleConstraint(unsigned int particle1,
+                                  Real xx_stiffness,
+                                  Real yy_stiffness,
+                                  Real xy_stiffness,
+                                  Real xy_poisson_ratio,
+                                  Real yx_poisson_ratio);
+    bool AddStrainTriangleConstraint(unsigned int particle1,
                                      unsigned int particle2,
                                      unsigned int particle3,
-                                     Real xxStiffness,
-                                     Real yyStiffness,
-                                     Real xyStiffness,
-                                     bool normalizeStretch,
-                                     bool normalizeShear);
-    bool addVolumeConstraint(unsigned int particle1,
+                                     Real xx_stiffness,
+                                     Real yy_stiffness,
+                                     Real xy_stiffness,
+                                     bool normalize_stretch,
+                                     bool normalize_shear);
+    bool AddVolumeConstraint(unsigned int particle1,
                              unsigned int particle2,
                              unsigned int particle3,
                              unsigned int particle4,
                              Real stiffness);
-    bool addVolumeConstraint_XPBD(unsigned int particle1,
-                                  unsigned int particle2,
-                                  unsigned int particle3,
-                                  unsigned int particle4,
-                                  Real stiffness);
-    bool addFEMTetConstraint(unsigned int particle1,
+    bool AddVolumeConstraintXPBD(unsigned int particle1,
+                                 unsigned int particle2,
+                                 unsigned int particle3,
+                                 unsigned int particle4,
+                                 Real stiffness);
+    bool AddFemTetConstraint(unsigned int particle1,
                              unsigned int particle2,
                              unsigned int particle3,
                              unsigned int particle4,
                              Real stiffness,
-                             Real poissonRatio);
-    bool addStrainTetConstraint(unsigned int particle1,
+                             Real poisson_ratio);
+    bool AddStrainTetConstraint(unsigned int particle1,
                                 unsigned int particle2,
                                 unsigned int particle3,
                                 unsigned int particle4,
-                                Real stretchStiffness,
-                                Real shearStiffness,
-                                bool normalizeStretch,
-                                bool normalizeShear);
-    bool addShapeMatchingConstraint(unsigned int numberOfParticles,
-                                    const unsigned int particleIndices[],
-                                    const unsigned int numClusters[],
+                                Real stretch_stiffness,
+                                Real shear_stiffness,
+                                bool normalize_stretch,
+                                bool normalize_shear);
+    bool AddShapeMatchingConstraint(unsigned int number_of_particles,
+                                    const unsigned int particle_indices[],
+                                    const unsigned int num_clusters[],
                                     Real stiffness);
-    bool addStretchShearConstraint(unsigned int particle1,
+    bool AddStretchShearConstraint(unsigned int particle1,
                                    unsigned int particle2,
                                    unsigned int quaternion1,
-                                   Real stretchingStiffness,
-                                   Real shearingStiffness1,
-                                   Real shearingStiffness2);
-    bool addBendTwistConstraint(unsigned int quaternion1,
+                                   Real stretching_stiffness,
+                                   Real shearing_stiffness_1,
+                                   Real shearing_stiffness_2);
+    bool AddBendTwistConstraint(unsigned int quaternion1,
                                 unsigned int quaternion2,
-                                Real twistingStiffness,
-                                Real bendingStiffness1,
-                                Real bendingStiffness2);
-    bool addStretchBendingTwistingConstraint(unsigned int rbIndex1,
-                                             unsigned int rbIndex2,
+                                Real twisting_stiffness,
+                                Real bending_stiffness_1,
+                                Real bending_stiffness_2);
+    bool AddStretchBendingTwistingConstraint(unsigned int rb_index_1,
+                                             unsigned int rb_index_2,
                                              const Vector3r &pos,
-                                             Real averageRadius,
-                                             Real averageSegmentLength,
-                                             Real youngsModulus,
-                                             Real torsionModulus);
-    bool addDirectPositionBasedSolverForStiffRodsConstraint(
-            const std::vector<std::pair<unsigned int, unsigned int>> &jointSegmentIndices,
-            const std::vector<Vector3r> &jointPositions,
-            const std::vector<Real> &averageRadii,
-            const std::vector<Real> &averageSegmentLengths,
-            const std::vector<Real> &youngsModuli,
-            const std::vector<Real> &torsionModuli);
+                                             Real average_radius,
+                                             Real average_segment_length,
+                                             Real youngs_modulus,
+                                             Real torsion_modulus);
+    bool AddDirectPositionBasedSolverForStiffRodsConstraint(
+            const std::vector<std::pair<unsigned int, unsigned int>> &joint_segment_indices,
+            const std::vector<Vector3r> &joint_positions,
+            const std::vector<Real> &average_radii,
+            const std::vector<Real> &average_segment_lengths,
+            const std::vector<Real> &youngs_moduli,
+            const std::vector<Real> &torsion_moduli);
 
-    [[nodiscard]] Real getContactStiffnessRigidBody() const { return m_contactStiffnessRigidBody; }
-    void setContactStiffnessRigidBody(Real val) { m_contactStiffnessRigidBody = val; }
-    [[nodiscard]] Real getContactStiffnessParticleRigidBody() const { return m_contactStiffnessParticleRigidBody; }
-    void setContactStiffnessParticleRigidBody(Real val) { m_contactStiffnessParticleRigidBody = val; }
+    [[nodiscard]] Real GetContactStiffnessRigidBody() const { return m_contact_stiffness_rigid_body_; }
+    void SetContactStiffnessRigidBody(Real val) { m_contact_stiffness_rigid_body_ = val; }
+    [[nodiscard]] Real GetContactStiffnessParticleRigidBody() const { return m_contact_stiffness_particle_rigid_body_; }
+    void SetContactStiffnessParticleRigidBody(Real val) { m_contact_stiffness_particle_rigid_body_ = val; }
 
-    void addClothConstraints(const TriangleModel *tm,
-                             unsigned int clothMethod,
-                             Real distanceStiffness,
-                             Real xxStiffness,
-                             Real yyStiffness,
-                             Real xyStiffness,
-                             Real xyPoissonRatio,
-                             Real yxPoissonRatio,
-                             bool normalizeStretch,
-                             bool normalizeShear);
-    void addBendingConstraints(const TriangleModel *tm, unsigned int bendingMethod, const Real stiffness);
-    void addSolidConstraints(const TetModel *tm,
-                             unsigned int solidMethod,
+    void AddClothConstraints(const TriangleModel *tm,
+                             unsigned int cloth_method,
+                             Real distance_stiffness,
+                             Real xx_stiffness,
+                             Real yy_stiffness,
+                             Real xy_stiffness,
+                             Real xy_poisson_ratio,
+                             Real yx_poisson_ratio,
+                             bool normalize_stretch,
+                             bool normalize_shear);
+    void AddBendingConstraints(const TriangleModel *tm, unsigned int bending_method, Real stiffness);
+    void AddSolidConstraints(const TetModel *tm,
+                             unsigned int solid_method,
                              Real stiffness,
-                             Real poissonRatio,
-                             Real volumeStiffness,
-                             bool normalizeStretch,
-                             bool normalizeShear);
+                             Real poisson_ratio,
+                             Real volume_stiffness,
+                             bool normalize_stretch,
+                             bool normalize_shear);
 
     template <typename ConstraintType, typename T, T ConstraintType::*MemPtr>
-    void setConstraintValue(const T v) {
-        for (auto &m_constraint : m_constraints) {
+    void SetConstraintValue(const T v) {
+        for (auto &m_constraint : m_constraints_) {
             auto *c = dynamic_cast<ConstraintType *>(m_constraint);
             if (c != nullptr) c->*MemPtr = v;
         }
