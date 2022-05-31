@@ -33,6 +33,7 @@ private:
     static void ComputeMatrixQHat(const Quaternionr &q, Eigen::Matrix<Real, 4, 4, Eigen::DontAlign> &Q);
 
 public:
+    //MARK: -
     /** Initialize ball joint and return info which is required by the solver step.
      *
      * @param x0 center of mass of first body
@@ -115,6 +116,7 @@ public:
             Vector3r &corr_x1,
             Quaternionr &corr_q1);
 
+    //MARK: -
     /** Initialize ball-on-line-joint and return information which is required by the solver step.
      *
      * @param x0 center of mass of first body
@@ -204,6 +206,7 @@ public:
             Vector3r &corr_x1,
             Quaternionr &corr_q1);
 
+    //MARK: -
     /** Initialize hinge joint and return info which is required by the solver step.
      *
      * @param x0 center of mass of first body
@@ -292,6 +295,7 @@ public:
             Vector3r &corr_x1,
             Quaternionr &corr_q1);
 
+    //MARK: -
     /** Initialize universal joint and return info which is required by the solver step.
      *
      * @param x0 center of mass of first body
@@ -381,6 +385,7 @@ public:
             Vector3r &corr_x1,
             Quaternionr &corr_q1);
 
+    //MARK: -
     /** Initialize slider joint and return info which is required by the solver step.
      *
      * @param x0 center of mass of first body
@@ -463,6 +468,7 @@ public:
             Vector3r &corr_x1,
             Quaternionr &corr_q1);
 
+    //MARK: -
     /** Initialize a motor slider joint which is able to enforce
      * a target position and return info which is required by the solver step.
      *
@@ -548,6 +554,7 @@ public:
             Vector3r &corr_x1,
             Quaternionr &corr_q1);
 
+    //MARK: -
     /** Initialize a motor slider joint which is able to enforce
      * a target velocity and return info which is required by the solver step.
      *
@@ -683,6 +690,7 @@ public:
             Vector3r &corr_v1,
             Vector3r &corr_omega1);
 
+    //MARK: -
     /** Initialize a motor hinge joint which is able to enforce
      * a target angle and return info which is required by the solver step.
      *
@@ -772,6 +780,7 @@ public:
             Vector3r &corr_x1,
             Quaternionr &corr_q1);
 
+    //MARK: -
     /** Initialize a motor hinge joint which is able to enforce
      * a target velocity and return info which is required by the solver step.
      *
@@ -909,6 +918,7 @@ public:
             Vector3r &corr_v1,
             Vector3r &corr_omega1);
 
+    //MARK: -
     /** Initialize ball joint between a rigid body and a particle
      * at the position of the particle and return info which is required by the solver step.
      *
@@ -972,6 +982,7 @@ public:
             Quaternionr &corr_q0,
             Vector3r &corr_x1);
 
+    //MARK: -
     /** Initialize contact between two rigid bodies and return
      * info which is required by the solver step.
      *
@@ -1065,6 +1076,7 @@ public:
             Vector3r &corr_v1,
             Vector3r &corr_omega1);
 
+    //MARK: -
     /** Initialize contact between a rigid body and a particle and return
      * info which is required by the solver step.
      *
@@ -1146,13 +1158,13 @@ public:
             Vector3r &corr_v1,
             Vector3r &corr_omega1);
 
+    //MARK: -
     /** Initialize distance joint and return info which is required by the solver step.
      *
      * @param x0 center of mass of first body
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param jointPosition position of distance joint
      * @param joint_info Stores the local and global positions of the connector points.
      * The first two columns store the local connectors in body 0 and 1, respectively, while
      * the last two columns contain the global connector positions which have to be
@@ -1236,6 +1248,7 @@ public:
             Vector3r &corr_x1,
             Quaternionr &corr_q1);
 
+    //MARK: -
     /** Initialize a motor slider joint which is able to enforce
      * a target position and return info which is required by the solver step.
      *
@@ -1243,8 +1256,6 @@ public:
      * @param q0 rotation of first body
      * @param x1 center of mass of second body
      * @param q1 rotation of second body
-     * @param sliderJointPosition position of slider joint
-     * @param sliderJointAxis axis of slider joint
      * @param joint_info Stores the local and global positions of the connector points.
      * The joint info contains the following columns:\n
      * 0:	coordinate system in body 0, where the x-axis is the slider axis (local)\n
@@ -1297,7 +1308,6 @@ public:
      * @param x1 center of mass of second body
      * @param inertia_inverse_w_1 inverse inertia tensor in world coordinates of second body
      * @param q1 rotation of second body
-     * @param targetPosition target position of the servo motor
      * @param joint_info Motor slider joint information which is required by the solver. This
      * information must be generated in the beginning by calling InitTargetPositionMotorSliderJoint()
      * and updated each time the bodies change their state by UpdateTargetPositionMotorSliderJoint().

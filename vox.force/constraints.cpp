@@ -53,7 +53,7 @@ int StretchBendingTwistingConstraint::type_id = IDFactory::GetId();
 int DirectPositionBasedSolverForStiffRodsConstraint::type_id = IDFactory::GetId();
 
 //////////////////////////////////////////////////////////////////////////
-// BallJoint
+//MARK: - BallJoint
 //////////////////////////////////////////////////////////////////////////
 bool BallJoint::InitConstraint(SimulationModel &model,
                                unsigned int rb_index1,
@@ -107,7 +107,7 @@ bool BallJoint::SolvePositionConstraint(SimulationModel &model, const unsigned i
 }
 
 //////////////////////////////////////////////////////////////////////////
-// BallOnLineJoint
+//MARK: - BallOnLineJoint
 //////////////////////////////////////////////////////////////////////////
 bool BallOnLineJoint::InitConstraint(SimulationModel &model,
                                      const unsigned int rb_index1,
@@ -162,7 +162,7 @@ bool BallOnLineJoint::SolvePositionConstraint(SimulationModel &model, const unsi
 }
 
 //////////////////////////////////////////////////////////////////////////
-// HingeJoint
+//MARK: - HingeJoint
 //////////////////////////////////////////////////////////////////////////
 bool HingeJoint::InitConstraint(SimulationModel &model,
                                 const unsigned int rb_index1,
@@ -217,7 +217,7 @@ bool HingeJoint::SolvePositionConstraint(SimulationModel &model, const unsigned 
 }
 
 //////////////////////////////////////////////////////////////////////////
-// UniversalJoint
+//MARK: - UniversalJoint
 //////////////////////////////////////////////////////////////////////////
 bool UniversalJoint::InitConstraint(SimulationModel &model,
                                     const unsigned int rb_index1,
@@ -273,7 +273,7 @@ bool UniversalJoint::SolvePositionConstraint(SimulationModel &model, const unsig
 }
 
 //////////////////////////////////////////////////////////////////////////
-// SliderJoint
+//MARK: - SliderJoint
 //////////////////////////////////////////////////////////////////////////
 bool SliderJoint::InitConstraint(SimulationModel &model,
                                  const unsigned int rb_index1,
@@ -327,7 +327,7 @@ bool SliderJoint::SolvePositionConstraint(SimulationModel &model, const unsigned
 }
 
 //////////////////////////////////////////////////////////////////////////
-// TargetPositionMotorSliderJoint
+//MARK: - TargetPositionMotorSliderJoint
 //////////////////////////////////////////////////////////////////////////
 bool TargetPositionMotorSliderJoint::InitConstraint(SimulationModel &model,
                                                     const unsigned int rb_index1,
@@ -381,7 +381,7 @@ bool TargetPositionMotorSliderJoint::SolvePositionConstraint(SimulationModel &mo
 }
 
 //////////////////////////////////////////////////////////////////////////
-// TargetVelocityMotorSliderJoint
+//MARK: - TargetVelocityMotorSliderJoint
 //////////////////////////////////////////////////////////////////////////
 bool TargetVelocityMotorSliderJoint::InitConstraint(SimulationModel &model,
                                                     const unsigned int rb_index1,
@@ -462,7 +462,7 @@ bool TargetVelocityMotorSliderJoint::SolveVelocityConstraint(SimulationModel &mo
 }
 
 //////////////////////////////////////////////////////////////////////////
-// TargetAngleMotorHingeJoint
+//MARK: - TargetAngleMotorHingeJoint
 //////////////////////////////////////////////////////////////////////////
 bool TargetAngleMotorHingeJoint::InitConstraint(SimulationModel &model,
                                                 const unsigned int rb_index1,
@@ -517,7 +517,7 @@ bool TargetAngleMotorHingeJoint::SolvePositionConstraint(SimulationModel &model,
 }
 
 //////////////////////////////////////////////////////////////////////////
-// TargetVelocityMotorHingeJoint
+//MARK: - TargetVelocityMotorHingeJoint
 //////////////////////////////////////////////////////////////////////////
 bool TargetVelocityMotorHingeJoint::InitConstraint(SimulationModel &model,
                                                    const unsigned int rb_index1,
@@ -599,7 +599,7 @@ bool TargetVelocityMotorHingeJoint::SolveVelocityConstraint(SimulationModel &mod
 }
 
 //////////////////////////////////////////////////////////////////////////
-// DamperJoint
+//MARK: - DamperJoint
 //////////////////////////////////////////////////////////////////////////
 bool DamperJoint::InitConstraint(SimulationModel &model,
                                  const unsigned int rb_index1,
@@ -660,7 +660,7 @@ bool DamperJoint::SolvePositionConstraint(SimulationModel &model, const unsigned
 }
 
 //////////////////////////////////////////////////////////////////////////
-// RigidBodyParticleBallJoint
+//MARK: - RigidBodyParticleBallJoint
 //////////////////////////////////////////////////////////////////////////
 bool RigidBodyParticleBallJoint::InitConstraint(SimulationModel &model,
                                                 const unsigned int rb_index,
@@ -709,7 +709,7 @@ bool RigidBodyParticleBallJoint::SolvePositionConstraint(SimulationModel &model,
 }
 
 //////////////////////////////////////////////////////////////////////////
-// RigidBodySpring
+//MARK: - RigidBodySpring
 //////////////////////////////////////////////////////////////////////////
 bool RigidBodySpring::InitConstraint(SimulationModel &model,
                                      const unsigned int rb_index1,
@@ -772,7 +772,7 @@ bool RigidBodySpring::SolvePositionConstraint(SimulationModel &model, const unsi
 }
 
 //////////////////////////////////////////////////////////////////////////
-// DistanceJoint
+//MARK: - DistanceJoint
 //////////////////////////////////////////////////////////////////////////
 bool DistanceJoint::InitConstraint(SimulationModel &model,
                                    const unsigned int rb_index1,
@@ -830,7 +830,7 @@ bool DistanceJoint::SolvePositionConstraint(SimulationModel &model, const unsign
 }
 
 //////////////////////////////////////////////////////////////////////////
-// DistanceConstraint
+//MARK: - DistanceConstraint
 //////////////////////////////////////////////////////////////////////////
 bool DistanceConstraint::InitConstraint(SimulationModel &model,
                                         const unsigned int particle1,
@@ -872,7 +872,7 @@ bool DistanceConstraint::SolvePositionConstraint(SimulationModel &model, const u
 }
 
 //////////////////////////////////////////////////////////////////////////
-// DistanceConstraint_XPBD
+//MARK: - DistanceConstraint_XPBD
 //////////////////////////////////////////////////////////////////////////
 bool DistanceConstraint_XPBD::InitConstraint(SimulationModel &model,
                                              const unsigned int particle1,
@@ -919,7 +919,7 @@ bool DistanceConstraint_XPBD::SolvePositionConstraint(SimulationModel &model, co
 }
 
 //////////////////////////////////////////////////////////////////////////
-// DihedralConstraint
+//MARK: - DihedralConstraint
 //////////////////////////////////////////////////////////////////////////
 
 bool DihedralConstraint::InitConstraint(SimulationModel &model,
@@ -996,7 +996,7 @@ bool DihedralConstraint::SolvePositionConstraint(SimulationModel &model, const u
 }
 
 //////////////////////////////////////////////////////////////////////////
-// IsometricBendingConstraint
+//MARK: - IsometricBendingConstraint
 //////////////////////////////////////////////////////////////////////////
 bool IsometricBendingConstraint::InitConstraint(SimulationModel &model,
                                                 const unsigned int particle1,
@@ -1052,7 +1052,7 @@ bool IsometricBendingConstraint::SolvePositionConstraint(SimulationModel &model,
 }
 
 //////////////////////////////////////////////////////////////////////////
-// IsometricBendingConstraint_XPBD
+//MARK: - IsometricBendingConstraint_XPBD
 //////////////////////////////////////////////////////////////////////////
 bool IsometricBendingConstraint_XPBD::InitConstraint(SimulationModel &model,
                                                      const unsigned int particle1,
@@ -1114,7 +1114,7 @@ bool IsometricBendingConstraint_XPBD::SolvePositionConstraint(SimulationModel &m
 }
 
 //////////////////////////////////////////////////////////////////////////
-// FEMTriangleConstraint
+//MARK: - FEMTriangleConstraint
 //////////////////////////////////////////////////////////////////////////
 bool FEMTriangleConstraint::InitConstraint(SimulationModel &model,
                                            const unsigned int particle1,
@@ -1172,7 +1172,7 @@ bool FEMTriangleConstraint::SolvePositionConstraint(SimulationModel &model, cons
 }
 
 //////////////////////////////////////////////////////////////////////////
-// StrainTriangleConstraint
+//MARK: - StrainTriangleConstraint
 //////////////////////////////////////////////////////////////////////////
 bool StrainTriangleConstraint::InitConstraint(SimulationModel &model,
                                               const unsigned int particle1,
@@ -1235,7 +1235,7 @@ bool StrainTriangleConstraint::SolvePositionConstraint(SimulationModel &model, c
 }
 
 //////////////////////////////////////////////////////////////////////////
-// VolumeConstraint
+//MARK: - VolumeConstraint
 //////////////////////////////////////////////////////////////////////////
 
 bool VolumeConstraint::InitConstraint(SimulationModel &model,
@@ -1294,7 +1294,7 @@ bool VolumeConstraint::SolvePositionConstraint(SimulationModel &model, const uns
 }
 
 //////////////////////////////////////////////////////////////////////////
-// VolumeConstraint_XPBD
+//MARK: - VolumeConstraint_XPBD
 //////////////////////////////////////////////////////////////////////////
 
 bool VolumeConstraint_XPBD::InitConstraint(SimulationModel &model,
@@ -1358,7 +1358,7 @@ bool VolumeConstraint_XPBD::SolvePositionConstraint(SimulationModel &model, cons
 }
 
 //////////////////////////////////////////////////////////////////////////
-// FEMTetConstraint
+//MARK: - FEMTetConstraint
 //////////////////////////////////////////////////////////////////////////
 bool FEMTetConstraint::InitConstraint(SimulationModel &model,
                                       const unsigned int particle1,
@@ -1422,7 +1422,7 @@ bool FEMTetConstraint::SolvePositionConstraint(SimulationModel &model, const uns
 }
 
 //////////////////////////////////////////////////////////////////////////
-// StrainTetConstraint
+//MARK: - StrainTetConstraint
 //////////////////////////////////////////////////////////////////////////
 bool StrainTetConstraint::InitConstraint(SimulationModel &model,
                                          const unsigned int particle1,
@@ -1486,7 +1486,7 @@ bool StrainTetConstraint::SolvePositionConstraint(SimulationModel &model, const 
 }
 
 //////////////////////////////////////////////////////////////////////////
-// ShapeMatchingConstraint
+//MARK: - ShapeMatchingConstraint
 //////////////////////////////////////////////////////////////////////////
 bool ShapeMatchingConstraint::InitConstraint(SimulationModel &model,
                                              const unsigned int particle_indices[],
@@ -1525,7 +1525,7 @@ bool ShapeMatchingConstraint::SolvePositionConstraint(SimulationModel &model, co
 }
 
 //////////////////////////////////////////////////////////////////////////
-// RigidBodyContactConstraint
+//MARK: - RigidBodyContactConstraint
 //////////////////////////////////////////////////////////////////////////
 bool RigidBodyContactConstraint::InitConstraint(SimulationModel &model,
                                                 const unsigned int rb_index_1,
@@ -1583,7 +1583,7 @@ bool RigidBodyContactConstraint::SolveVelocityConstraint(SimulationModel &model,
 }
 
 //////////////////////////////////////////////////////////////////////////
-// ParticleRigidBodyContactConstraint
+//MARK: - ParticleRigidBodyContactConstraint
 //////////////////////////////////////////////////////////////////////////
 bool ParticleRigidBodyContactConstraint::InitConstraint(SimulationModel &model,
                                                         const unsigned int particle_index,
@@ -1639,7 +1639,7 @@ bool ParticleRigidBodyContactConstraint::SolveVelocityConstraint(SimulationModel
 }
 
 //////////////////////////////////////////////////////////////////////////
-// ParticleSolidContactConstraint
+//MARK: - ParticleSolidContactConstraint
 //////////////////////////////////////////////////////////////////////////
 bool ParticleTetContactConstraint::InitConstraint(SimulationModel &model,
                                                   const unsigned int particle_index,
@@ -1743,7 +1743,7 @@ bool ParticleTetContactConstraint::SolveVelocityConstraint(SimulationModel &mode
 }
 
 //////////////////////////////////////////////////////////////////////////
-// StretchShearConstraint
+//MARK: - StretchShearConstraint
 //////////////////////////////////////////////////////////////////////////
 bool StretchShearConstraint::InitConstraint(SimulationModel &model,
                                             const unsigned int particle1,
@@ -1801,7 +1801,7 @@ bool StretchShearConstraint::SolvePositionConstraint(SimulationModel &model, con
 }
 
 //////////////////////////////////////////////////////////////////////////
-// BendTwistConstraint
+//MARK: - BendTwistConstraint
 //////////////////////////////////////////////////////////////////////////
 bool BendTwistConstraint::InitConstraint(SimulationModel &model,
                                          const unsigned int quaternion1,
@@ -1859,7 +1859,7 @@ bool BendTwistConstraint::SolvePositionConstraint(SimulationModel &model, const 
 }
 
 //////////////////////////////////////////////////////////////////////////
-// StretchBendingTwistingConstraint
+//MARK: - StretchBendingTwistingConstraint
 //////////////////////////////////////////////////////////////////////////
 
 bool StretchBendingTwistingConstraint::InitConstraint(SimulationModel &model,
@@ -1934,7 +1934,7 @@ bool StretchBendingTwistingConstraint::SolvePositionConstraint(SimulationModel &
 }
 
 //////////////////////////////////////////////////////////////////////////
-// DirectPositionBasedSolverForStiffRodsConstraint
+//MARK: - DirectPositionBasedSolverForStiffRodsConstraint
 //////////////////////////////////////////////////////////////////////////
 
 DirectPositionBasedSolverForStiffRodsConstraint::~DirectPositionBasedSolverForStiffRodsConstraint() {

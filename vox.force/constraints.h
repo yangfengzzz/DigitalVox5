@@ -18,6 +18,7 @@
 namespace vox::force {
 struct SimulationModel;
 
+//MARK: -
 struct Constraint {
 public:
     /** indices of the linked bodies */
@@ -35,6 +36,7 @@ public:
     virtual bool SolveVelocityConstraint(SimulationModel &model, const unsigned int iter) { return true; };
 };
 
+//MARK: -
 struct BallJoint : public Constraint {
 public:
     static int type_id;
@@ -48,6 +50,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct BallOnLineJoint : public Constraint {
 public:
     static int type_id;
@@ -65,6 +68,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct HingeJoint : public Constraint {
 public:
     static int type_id;
@@ -82,6 +86,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct UniversalJoint : public Constraint {
 public:
     static int type_id;
@@ -100,6 +105,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct SliderJoint : public Constraint {
 public:
     static int type_id;
@@ -113,6 +119,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct MotorJoint : public Constraint {
 public:
     Real m_target;
@@ -132,6 +139,7 @@ private:
     bool m_repeat_sequence{};
 };
 
+//MARK: -
 struct TargetPositionMotorSliderJoint : public MotorJoint {
 public:
     static int type_id;
@@ -145,6 +153,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct TargetVelocityMotorSliderJoint : public MotorJoint {
 public:
     static int type_id;
@@ -159,6 +168,7 @@ public:
     bool SolveVelocityConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct TargetAngleMotorHingeJoint : public MotorJoint {
 public:
     static int type_id;
@@ -183,6 +193,7 @@ private:
     std::vector<Real> m_target_sequence;
 };
 
+//MARK: -
 struct TargetVelocityMotorHingeJoint : public MotorJoint {
 public:
     static int type_id;
@@ -200,6 +211,7 @@ public:
     bool SolveVelocityConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct DamperJoint : public Constraint {
 public:
     static int type_id;
@@ -219,6 +231,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct RigidBodyParticleBallJoint : public Constraint {
 public:
     static int type_id;
@@ -232,6 +245,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct RigidBodySpring : public Constraint {
 public:
     static int type_id;
@@ -253,6 +267,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct DistanceJoint : public Constraint {
 public:
     static int type_id;
@@ -271,6 +286,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct DistanceConstraint : public Constraint {
 public:
     static int type_id;
@@ -284,6 +300,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct DistanceConstraint_XPBD : public Constraint {
 public:
     static int type_id;
@@ -298,6 +315,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct DihedralConstraint : public Constraint {
 public:
     static int type_id;
@@ -316,6 +334,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct IsometricBendingConstraint : public Constraint {
 public:
     static int type_id;
@@ -334,6 +353,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct IsometricBendingConstraint_XPBD : public Constraint {
 public:
     static int type_id;
@@ -353,6 +373,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct FEMTriangleConstraint : public Constraint {
 public:
     static int type_id;
@@ -379,6 +400,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct StrainTriangleConstraint : public Constraint {
 public:
     static int type_id;
@@ -404,6 +426,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct VolumeConstraint : public Constraint {
 public:
     static int type_id;
@@ -422,6 +445,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct VolumeConstraint_XPBD : public Constraint {
 public:
     static int type_id;
@@ -441,6 +465,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct FEMTetConstraint : public Constraint {
 public:
     static int type_id;
@@ -462,6 +487,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct StrainTetConstraint : public Constraint {
 public:
     static int type_id;
@@ -486,6 +512,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct ShapeMatchingConstraint : public Constraint {
 public:
     static int type_id;
@@ -520,6 +547,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: - ==
 struct RigidBodyContactConstraint {
 public:
     static int type_id;
@@ -547,6 +575,7 @@ public:
     virtual bool SolveVelocityConstraint(SimulationModel &model, unsigned int iter);
 };
 
+//MARK: - ==
 struct ParticleRigidBodyContactConstraint {
 public:
     static int type_id;
@@ -574,6 +603,7 @@ public:
     virtual bool SolveVelocityConstraint(SimulationModel &model, unsigned int iter);
 };
 
+//MARK: - ==
 struct ParticleTetContactConstraint {
 public:
     static int type_id;
@@ -607,6 +637,7 @@ public:
     virtual bool SolveVelocityConstraint(SimulationModel &model, unsigned int iter);
 };
 
+//MARK: -
 struct StretchShearConstraint : public Constraint {
 public:
     static int type_id;
@@ -628,6 +659,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct BendTwistConstraint : public Constraint {
 public:
     static int type_id;
@@ -648,6 +680,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct StretchBendingTwistingConstraint : public Constraint {
     using Matrix6r = Eigen::Matrix<Real, 6, 6, Eigen::DontAlign>;
     using Vector6r = Eigen::Matrix<Real, 6, 1, Eigen::DontAlign>;
@@ -681,6 +714,7 @@ public:
     bool SolvePositionConstraint(SimulationModel &model, unsigned int iter) override;
 };
 
+//MARK: -
 struct Node;
 struct Interval;
 struct SimulationModel;

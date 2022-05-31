@@ -150,6 +150,7 @@ void PositionBasedRigidBodyDynamics::ComputeMatrixQHat(const Quaternionr &q,
     Q(3, 3) = q.w();
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitBallJoint(const Vector3r &x0,
                                                    const Quaternionr &q0,
@@ -247,6 +248,7 @@ bool PositionBasedRigidBodyDynamics::SolveBallJoint(Real inv_mass_0,
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitDistanceJoint(const Vector3r &x0,
                                                        const Quaternionr &q0,
@@ -387,6 +389,7 @@ bool PositionBasedRigidBodyDynamics::SolveDistanceJoint(Real inv_mass_0,
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitBallOnLineJoint(const Vector3r &x0,
                                                          const Quaternionr &q0,
@@ -523,6 +526,7 @@ bool PositionBasedRigidBodyDynamics::SolveBallOnLineJoint(
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitHingeJoint(const Vector3r &x0,
                                                     const Quaternionr &q0,
@@ -721,6 +725,7 @@ bool PositionBasedRigidBodyDynamics::SolveHingeJoint(
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitUniversalJoint(const Vector3r &x0,
                                                         const Quaternionr &q0,
@@ -909,6 +914,7 @@ bool PositionBasedRigidBodyDynamics::SolveUniversalJoint(Real inv_mass_0,
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitSliderJoint(const Vector3r &x0,
                                                      const Quaternionr &q0,
@@ -1078,6 +1084,7 @@ bool PositionBasedRigidBodyDynamics::SolveSliderJoint(Real inv_mass_0,
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitTargetPositionMotorSliderJoint(
         const Vector3r &x0,
@@ -1244,6 +1251,7 @@ bool PositionBasedRigidBodyDynamics::SolveTargetPositionMotorSliderJoint(
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitTargetVelocityMotorSliderJoint(
         const Vector3r &x0,
@@ -1395,6 +1403,7 @@ bool PositionBasedRigidBodyDynamics::VelocitySolveTargetVelocityMotorSliderJoint
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitTargetAngleMotorHingeJoint(
         const Vector3r &x0,
@@ -1605,6 +1614,7 @@ bool PositionBasedRigidBodyDynamics::SolveTargetAngleMotorHingeJoint(
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitTargetVelocityMotorHingeJoint(
         const Vector3r &x0,
@@ -1822,6 +1832,7 @@ bool PositionBasedRigidBodyDynamics::VelocitySolveTargetVelocityMotorHingeJoint(
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitDamperJoint(const Vector3r &x0,
                                                      const Quaternionr &q0,
@@ -1998,6 +2009,7 @@ bool PositionBasedRigidBodyDynamics::SolveDamperJoint(Real inv_mass_0,
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitRigidBodyParticleBallJoint(
         const Vector3r &x0,
@@ -2081,6 +2093,7 @@ bool PositionBasedRigidBodyDynamics::SolveRigidBodyParticleBallJoint(
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitRigidBodyContactConstraint(
         Real inv_mass_0,                      // inverse mass is zero if body is static
@@ -2237,6 +2250,7 @@ bool PositionBasedRigidBodyDynamics::VelocitySolveRigidBodyContactConstraint(
     return true;
 }
 
+//MARK: -
 // ----------------------------------------------------------------------------------------------
 bool PositionBasedRigidBodyDynamics::InitParticleRigidBodyContactConstraint(
         Real invMass0,                        // inverse mass is zero if body is static
