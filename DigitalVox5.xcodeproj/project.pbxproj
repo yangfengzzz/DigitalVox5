@@ -87,6 +87,13 @@
 		042D8CB628460425003EF95A /* time_integration.h in Headers */ = {isa = PBXBuildFile; fileRef = 042D8CA028460424003EF95A /* time_integration.h */; };
 		042D8CB728460425003EF95A /* time_step.h in Headers */ = {isa = PBXBuildFile; fileRef = 042D8CA128460424003EF95A /* time_step.h */; };
 		042D8CC128484C19003EF95A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 042D8CC028484C19003EF95A /* main.cpp */; };
+		042D8CC928484D56003EF95A /* bar_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 042D8CC728484D56003EF95A /* bar_app.cpp */; };
+		042D8CD228484DA8003EF95A /* libvox.base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C3C32E2833E39100B0BE1F /* libvox.base.a */; };
+		042D8CD328484DA8003EF95A /* libvox.force.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 042D8C0B2845FD02003EF95A /* libvox.force.a */; };
+		042D8CD428484DA8003EF95A /* libvox.math.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 047BB5DF2803A9B700CD5749 /* libvox.math.a */; };
+		042D8CD528484DA8003EF95A /* libvox.render.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 047BB5D02803A99E00CD5749 /* libvox.render.a */; };
+		042D8CD628484DB1003EF95A /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444EA562805770F00C6F279 /* IOKit.framework */; };
+		042D8CD728484DB4003EF95A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0444EA54280576F800C6F279 /* Cocoa.framework */; };
 		0444E4882803C73E00C6F279 /* point2.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E42A2803C73C00C6F279 /* point2.h */; };
 		0444E4892803C73E00C6F279 /* matrix_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E42B2803C73C00C6F279 /* matrix_utils.h */; };
 		0444E48A2803C73E00C6F279 /* constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E42C2803C73C00C6F279 /* constants.h */; };
@@ -1142,6 +1149,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		042D8CCA28484D9D003EF95A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04C3C32D2833E39100B0BE1F;
+			remoteInfo = vox.base;
+		};
+		042D8CCC28484D9D003EF95A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 042D8C0A2845FD02003EF95A;
+			remoteInfo = vox.force;
+		};
+		042D8CCE28484D9D003EF95A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 047BB5DE2803A9B700CD5749;
+			remoteInfo = vox.math;
+		};
+		042D8CD028484D9D003EF95A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 047BB5CF2803A99E00CD5749;
+			remoteInfo = vox.render;
+		};
 		0444EA4F2805767300C6F279 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
@@ -1443,7 +1478,8 @@
 		042D8CA128460424003EF95A /* time_step.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = time_step.h; sourceTree = "<group>"; };
 		042D8CBE28484C19003EF95A /* simulator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = simulator; sourceTree = BUILT_PRODUCTS_DIR; };
 		042D8CC028484C19003EF95A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		042D8CC628484CE3003EF95A /* simulator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = simulator.entitlements; sourceTree = "<group>"; };
+		042D8CC728484D56003EF95A /* bar_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bar_app.cpp; sourceTree = "<group>"; };
+		042D8CC828484D56003EF95A /* bar_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bar_app.h; sourceTree = "<group>"; };
 		0444E42A2803C73C00C6F279 /* point2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = point2.h; sourceTree = "<group>"; };
 		0444E42B2803C73C00C6F279 /* matrix_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix_utils.h; sourceTree = "<group>"; };
 		0444E42C2803C73C00C6F279 /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
@@ -2330,6 +2366,8 @@
 		04C3C60028372F2C00B0BE1F /* text_edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = text_edit.cpp; sourceTree = "<group>"; };
 		04C3C60128372F2C00B0BE1F /* widget_proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = widget_proxy.cpp; sourceTree = "<group>"; };
 		04C3C60228372F2C00B0BE1F /* tree_view.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tree_view.cpp; sourceTree = "<group>"; };
+		04D5C41828484EB900D2706D /* simulatorDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = simulatorDebug.entitlements; sourceTree = "<group>"; };
+		04D5C41928484EB900D2706D /* simulator.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = simulator.entitlements; sourceTree = "<group>"; };
 		04D95C152808EE0500E54DC2 /* device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device.cpp; sourceTree = "<group>"; };
 		04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scratch_buffer.cpp; sourceTree = "<group>"; };
 		04D95C172808EE0500E54DC2 /* scratch_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch_buffer.h; sourceTree = "<group>"; };
@@ -2585,6 +2623,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				042D8CD728484DB4003EF95A /* Cocoa.framework in Frameworks */,
+				042D8CD628484DB1003EF95A /* IOKit.framework in Frameworks */,
+				042D8CD228484DA8003EF95A /* libvox.base.a in Frameworks */,
+				042D8CD328484DA8003EF95A /* libvox.force.a in Frameworks */,
+				042D8CD428484DA8003EF95A /* libvox.math.a in Frameworks */,
+				042D8CD528484DA8003EF95A /* libvox.render.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2831,8 +2875,11 @@
 		042D8CBF28484C19003EF95A /* simulator */ = {
 			isa = PBXGroup;
 			children = (
-				042D8CC628484CE3003EF95A /* simulator.entitlements */,
+				04D5C41928484EB900D2706D /* simulator.entitlements */,
+				04D5C41828484EB900D2706D /* simulatorDebug.entitlements */,
 				042D8CC028484C19003EF95A /* main.cpp */,
+				042D8CC828484D56003EF95A /* bar_app.h */,
+				042D8CC728484D56003EF95A /* bar_app.cpp */,
 			);
 			path = simulator;
 			sourceTree = "<group>";
@@ -5302,6 +5349,10 @@
 			buildRules = (
 			);
 			dependencies = (
+				042D8CCB28484D9D003EF95A /* PBXTargetDependency */,
+				042D8CCD28484D9D003EF95A /* PBXTargetDependency */,
+				042D8CCF28484D9D003EF95A /* PBXTargetDependency */,
+				042D8CD128484D9D003EF95A /* PBXTargetDependency */,
 			);
 			name = simulator;
 			productName = simulator;
@@ -5725,6 +5776,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				042D8CC128484C19003EF95A /* main.cpp in Sources */,
+				042D8CC928484D56003EF95A /* bar_app.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6362,6 +6414,26 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		042D8CCB28484D9D003EF95A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04C3C32D2833E39100B0BE1F /* vox.base */;
+			targetProxy = 042D8CCA28484D9D003EF95A /* PBXContainerItemProxy */;
+		};
+		042D8CCD28484D9D003EF95A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 042D8C0A2845FD02003EF95A /* vox.force */;
+			targetProxy = 042D8CCC28484D9D003EF95A /* PBXContainerItemProxy */;
+		};
+		042D8CCF28484D9D003EF95A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 047BB5DE2803A9B700CD5749 /* vox.math */;
+			targetProxy = 042D8CCE28484D9D003EF95A /* PBXContainerItemProxy */;
+		};
+		042D8CD128484D9D003EF95A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 047BB5CF2803A99E00CD5749 /* vox.render */;
+			targetProxy = 042D8CD028484D9D003EF95A /* PBXContainerItemProxy */;
+		};
 		0444EA502805767300C6F279 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 047BB5DE2803A9B700CD5749 /* vox.math */;
