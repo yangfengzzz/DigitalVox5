@@ -31,12 +31,12 @@
 
 #include "vox.cloth/foundation/PxAssert.h"
 #include "vox.cloth/foundation/PxErrorCallback.h"
-#include "vox.cloth/ps/Ps.h"
-#include "vox.cloth/PsAtomic.h"
-#include "vox.cloth/PsFoundation.h"
-#include "vox.cloth/PsMutex.h"
-#include "vox.cloth/PsThread.h"
-#include "vox.cloth/PsUserAllocated.h"
+#include "vox.cloth/NvCloth/ps/Ps.h"
+#include "vox.cloth/NvCloth/ps/PsAtomic.h"
+#include "vox.cloth/NvCloth/ps/PsFoundation.h"
+#include "vox.cloth/NvCloth/ps/PsMutex.h"
+#include "vox.cloth/NvCloth/ps/PsThread.h"
+#include "vox.cloth/NvCloth/ps/PsUserAllocated.h"
 
 /** \brief NVidia namespace */
 namespace nv {

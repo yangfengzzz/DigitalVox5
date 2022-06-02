@@ -37,10 +37,7 @@
 #include "vox.cloth/NvCloth/ps/PsIntrinsics.h"
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 
 PX_INLINE char littleEndian() {
     int i = 1;
@@ -49,28 +46,28 @@ PX_INLINE char littleEndian() {
 
 // PT: checked casts
 PX_CUDA_CALLABLE PX_FORCE_INLINE physx::PxU32 to32(physx::PxU64 value) {
-    NV_CLOTH_ASSERT(value <= 0xffffffff);
+    NV_CLOTH_ASSERT(value <= 0xffffffff)
     return physx::PxU32(value);
 }
 PX_CUDA_CALLABLE PX_FORCE_INLINE physx::PxU16 to16(physx::PxU32 value) {
-    NV_CLOTH_ASSERT(value <= 0xffff);
+    NV_CLOTH_ASSERT(value <= 0xffff)
     return physx::PxU16(value);
 }
 PX_CUDA_CALLABLE PX_FORCE_INLINE physx::PxU8 to8(physx::PxU16 value) {
-    NV_CLOTH_ASSERT(value <= 0xff);
+    NV_CLOTH_ASSERT(value <= 0xff)
     return physx::PxU8(value);
 }
 PX_CUDA_CALLABLE PX_FORCE_INLINE physx::PxU8 to8(physx::PxU32 value) {
-    NV_CLOTH_ASSERT(value <= 0xff);
+    NV_CLOTH_ASSERT(value <= 0xff)
     return physx::PxU8(value);
 }
 PX_CUDA_CALLABLE PX_FORCE_INLINE physx::PxU8 to8(physx::PxI32 value) {
-    NV_CLOTH_ASSERT(value <= 0xff);
-    NV_CLOTH_ASSERT(value >= 0);
+    NV_CLOTH_ASSERT(value <= 0xff)
+    NV_CLOTH_ASSERT(value >= 0)
     return physx::PxU8(value);
 }
 PX_CUDA_CALLABLE PX_FORCE_INLINE physx::PxI8 toI8(physx::PxU32 value) {
-    NV_CLOTH_ASSERT(value <= 0x7f);
+    NV_CLOTH_ASSERT(value <= 0x7f)
     return physx::PxI8(value);
 }
 
@@ -151,8 +148,6 @@ inline const T* maxElement(const T* first, const T* last) {
     return m;
 }
 
-}  // namespace ps
-}  // namespace cloth
 }  // namespace nv
 
 #endif

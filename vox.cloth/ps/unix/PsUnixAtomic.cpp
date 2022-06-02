@@ -36,10 +36,7 @@
 #endif
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 
 void* atomicCompareExchangePointer(volatile void** dest, void* exch, void* comp) {
     return __sync_val_compare_and_swap(const_cast<void**>(dest), comp, exch);
@@ -83,6 +80,4 @@ int32_t atomicExchange(volatile int32_t* val, int32_t val2) {
 
     return oldVal;
 }
-}  // namespace ps
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth::ps

@@ -53,10 +53,7 @@ that the predicate implements the < operator:
 #endif
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 
 template <class T, class Predicate, class Allocator>
 void sort(T* elements,
@@ -66,14 +63,14 @@ void sort(T* elements,
           const uint32_t initialStackSize = 32) {
     static const uint32_t SMALL_SORT_CUTOFF = 5;  // must be >= 3 since we need 3 for median
 
-    PX_ALLOCA(stackMem, int32_t, initialStackSize);
+    PX_ALLOCA(stackMem, int32_t, initialStackSize)
     internal::Stack<Allocator> stack(stackMem, initialStackSize, inAllocator);
 
     int32_t first = 0, last = int32_t(count - 1);
     if (last > first) {
         for (;;) {
             while (last > first) {
-                NV_CLOTH_ASSERT(first >= 0 && last < int32_t(count));
+                NV_CLOTH_ASSERT(first >= 0 && last < int32_t(count))
                 if (uint32_t(last - first) < SMALL_SORT_CUTOFF) {
                     internal::smallSort(elements, first, last, compare);
                     break;
@@ -97,7 +94,7 @@ void sort(T* elements,
         }
     }
 #if PX_SORT_PARANOIA
-    for (uint32_t i = 1; i < count; i++) NV_CLOTH_ASSERT(!compare(elements[i], elements[i - 1]));
+    for (uint32_t i = 1; i < count; i++) NV_CLOTH_ASSERT(!compare(elements[i], elements[i - 1]))
 #endif
 }
 
@@ -111,8 +108,6 @@ void sort(T* elements, uint32_t count) {
     sort(elements, count, ps::Less<T>(), typename ps::AllocatorTraits<T>::Type());
 }
 
-}  // namespace ps
-}  // namespace cloth
 }  // namespace nv
 
 #if PX_VC

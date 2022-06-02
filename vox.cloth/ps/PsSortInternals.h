@@ -39,11 +39,7 @@
 #include "vox.cloth/ps/PxIntrinsics.h"
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
-namespace internal {
+namespace nv::cloth::ps::internal {
 template <class T, class Predicate>
 PX_INLINE void median3(T* elements, int32_t first, int32_t last, Predicate& compare) {
     /*
@@ -93,12 +89,12 @@ PX_INLINE int32_t partition(T* elements, int32_t first, int32_t last, Predicate&
 
         if (i >= j) break;
 
-        NV_CLOTH_ASSERT(i <= last && j >= first);
+        NV_CLOTH_ASSERT(i <= last && j >= first)
         swap(elements[i], elements[j]);
     }
     // put the pivot in place
 
-    NV_CLOTH_ASSERT(i <= last && first <= (last - 1));
+    NV_CLOTH_ASSERT(i <= last && first <= (last - 1))
     swap(elements[i], elements[last - 1]);
 
     return i;
@@ -133,8 +129,7 @@ public:
 
     void grow() {
         mCapacity *= 2;
-        int32_t* newMem =
-                reinterpret_cast<int32_t*>(mAllocator.allocate(sizeof(int32_t) * mCapacity, __FILE__, __LINE__));
+        auto* newMem = reinterpret_cast<int32_t*>(mAllocator.allocate(sizeof(int32_t) * mCapacity, __FILE__, __LINE__));
         physx::intrinsics::memCopy(newMem, mMemory, mSize * sizeof(int32_t));
         if (mRealloc) mAllocator.deallocate(mMemory);
         mRealloc = true;
@@ -148,16 +143,13 @@ public:
     }
 
     PX_INLINE void pop(int32_t& start, int32_t& end) {
-        NV_CLOTH_ASSERT(!empty());
+        NV_CLOTH_ASSERT(!empty())
         end = mMemory[--mSize];
         start = mMemory[--mSize];
     }
 
     PX_INLINE bool empty() { return mSize == 0; }
 };
-}  // namespace internal
-}  // namespace ps
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth::ps::internal
 
 #endif  // #ifndef PSFOUNDATION_PSSORTINTERNALS_H

@@ -33,10 +33,7 @@
 #include "vox.cloth/NvCloth/Allocator.h"
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 
 template <typename T, typename Unused = void>
 class ScopedPointer {
@@ -51,23 +48,22 @@ public:
     bool mOwned;
 };
 
-}  // namespace ps
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 /*! Stack allocation for \c count instances of \c type. Falling back to temp allocator if using more than 1kB. */
 #ifdef __SPU__
 #define PX_ALLOCA(var, type, count) type* var = reinterpret_cast<type*>(PxAlloca(sizeof(type) * (count)))
 #else
-#define PX_ALLOCA(var, type, count)                                                                                   \
-    nv::cloth::ps::ScopedPointer<type> var;                                                                           \
-    {                                                                                                                 \
-        uint32_t size = sizeof(type) * (count);                                                                       \
-        var.mOwned = size > 1024;                                                                                     \
-        if (var.mOwned)                                                                                               \
-            var.mPointer = reinterpret_cast<type*>(GetNvClothAllocator()->allocate(size, #type, __FILE__, __LINE__)); \
-        else                                                                                                          \
-            var.mPointer = reinterpret_cast<type*>(PxAlloca(size));                                                   \
+#define PX_ALLOCA(var, type, count)                                                                            \
+    nv::cloth::ps::ScopedPointer<type> var;                                                                    \
+    {                                                                                                          \
+        uint32_t size = sizeof(type) * (count);                                                                \
+        (var).mOwned = size > 1024;                                                                            \
+        if ((var).mOwned)                                                                                      \
+            (var).mPointer =                                                                                   \
+                    reinterpret_cast<type*>(GetNvClothAllocator()->allocate(size, #type, __FILE__, __LINE__)); \
+        else                                                                                                   \
+            (var).mPointer = reinterpret_cast<type*>(PxAlloca(size));                                          \
     }
 #endif
 #endif  // #ifndef PSFOUNDATION_PSALLOCA_H

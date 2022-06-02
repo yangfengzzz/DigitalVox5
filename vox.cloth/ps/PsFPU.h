@@ -49,10 +49,7 @@
 #define PX_SUPPORT_GUARDS (PX_WINDOWS_FAMILY || PX_XBOXONE || (PX_LINUX && (PX_X86 || PX_X64)) || PX_PS4 || PX_OSX)
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 
 // sets the default SDK state for scalar and SIMD units
 class NV_CLOTH_IMPORT FPUGuard {
@@ -84,9 +81,7 @@ NV_CLOTH_IMPORT void enableFPExceptions();
 */
 NV_CLOTH_IMPORT void disableFPExceptions();
 
-}  // namespace ps
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #if PX_WINDOWS_FAMILY || PX_XBOXONE
 #include "vox.cloth/windows/PsWindowsFPU.h"
