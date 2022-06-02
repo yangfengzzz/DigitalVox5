@@ -86,6 +86,7 @@
 		042D8CB528460425003EF95A /* volume_integration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 042D8C9F28460424003EF95A /* volume_integration.cpp */; };
 		042D8CB628460425003EF95A /* time_integration.h in Headers */ = {isa = PBXBuildFile; fileRef = 042D8CA028460424003EF95A /* time_integration.h */; };
 		042D8CB728460425003EF95A /* time_step.h in Headers */ = {isa = PBXBuildFile; fileRef = 042D8CA128460424003EF95A /* time_step.h */; };
+		042D8CC128484C19003EF95A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 042D8CC028484C19003EF95A /* main.cpp */; };
 		0444E4882803C73E00C6F279 /* point2.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E42A2803C73C00C6F279 /* point2.h */; };
 		0444E4892803C73E00C6F279 /* matrix_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E42B2803C73C00C6F279 /* matrix_utils.h */; };
 		0444E48A2803C73E00C6F279 /* constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 0444E42C2803C73C00C6F279 /* constants.h */; };
@@ -1284,6 +1285,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		042D8CBC28484C19003EF95A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		04523DC1281BB0C30079CC3C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1431,6 +1441,9 @@
 		042D8C9F28460424003EF95A /* volume_integration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = volume_integration.cpp; sourceTree = "<group>"; };
 		042D8CA028460424003EF95A /* time_integration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = time_integration.h; sourceTree = "<group>"; };
 		042D8CA128460424003EF95A /* time_step.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = time_step.h; sourceTree = "<group>"; };
+		042D8CBE28484C19003EF95A /* simulator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = simulator; sourceTree = BUILT_PRODUCTS_DIR; };
+		042D8CC028484C19003EF95A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		042D8CC628484CE3003EF95A /* simulator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = simulator.entitlements; sourceTree = "<group>"; };
 		0444E42A2803C73C00C6F279 /* point2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = point2.h; sourceTree = "<group>"; };
 		0444E42B2803C73C00C6F279 /* matrix_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix_utils.h; sourceTree = "<group>"; };
 		0444E42C2803C73C00C6F279 /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
@@ -2568,6 +2581,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		042D8CBB28484C19003EF95A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04523DC0281BB0C30079CC3C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2806,6 +2826,15 @@
 			children = (
 			);
 			name = geometry;
+			sourceTree = "<group>";
+		};
+		042D8CBF28484C19003EF95A /* simulator */ = {
+			isa = PBXGroup;
+			children = (
+				042D8CC628484CE3003EF95A /* simulator.entitlements */,
+				042D8CC028484C19003EF95A /* main.cpp */,
+			);
+			path = simulator;
 			sourceTree = "<group>";
 		};
 		0444E81A2805556100C6F279 /* core */ = {
@@ -3471,6 +3500,7 @@
 				04523DC4281BB0C30079CC3C /* editor */,
 				04C3C5872835DE8700B0BE1F /* vox.visual */,
 				042D8C0C2845FD02003EF95A /* vox.force */,
+				042D8CBF28484C19003EF95A /* simulator */,
 				047BB5C32803A96500CD5749 /* Products */,
 				0444EA4C2805766F00C6F279 /* Frameworks */,
 			);
@@ -3495,6 +3525,7 @@
 				04C3C53E2835CC2200B0BE1F /* test.core */,
 				04C3C5862835DE8700B0BE1F /* libvox.visual.a */,
 				042D8C0B2845FD02003EF95A /* libvox.force.a */,
+				042D8CBE28484C19003EF95A /* simulator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5260,6 +5291,23 @@
 			productReference = 042D8C0B2845FD02003EF95A /* libvox.force.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		042D8CBD28484C19003EF95A /* simulator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 042D8CC228484C19003EF95A /* Build configuration list for PBXNativeTarget "simulator" */;
+			buildPhases = (
+				042D8CBA28484C19003EF95A /* Sources */,
+				042D8CBB28484C19003EF95A /* Frameworks */,
+				042D8CBC28484C19003EF95A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = simulator;
+			productName = simulator;
+			productReference = 042D8CBE28484C19003EF95A /* simulator */;
+			productType = "com.apple.product-type.tool";
+		};
 		04523DC2281BB0C30079CC3C /* editor */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04523DC7281BB0C30079CC3C /* Build configuration list for PBXNativeTarget "editor" */;
@@ -5547,6 +5595,9 @@
 					042D8C0A2845FD02003EF95A = {
 						CreatedOnToolsVersion = 13.4;
 					};
+					042D8CBD28484C19003EF95A = {
+						CreatedOnToolsVersion = 13.4;
+					};
 					04523DC2281BB0C30079CC3C = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
@@ -5623,6 +5674,7 @@
 				04523DC2281BB0C30079CC3C /* editor */,
 				04C3C5852835DE8700B0BE1F /* vox.visual */,
 				042D8C0A2845FD02003EF95A /* vox.force */,
+				042D8CBD28484C19003EF95A /* simulator */,
 			);
 		};
 /* End PBXProject section */
@@ -5665,6 +5717,14 @@
 				042D8C8B2845FD3A003EF95A /* collision_detection.cpp in Sources */,
 				042D8CAB28460425003EF95A /* time_step_controller.cpp in Sources */,
 				042D8C852845FD3A003EF95A /* bounding_sphere_hierarchy.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		042D8CBA28484C19003EF95A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				042D8CC128484C19003EF95A /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6448,6 +6508,240 @@
 					/usr/local/Cellar/libomp/14.0.0/include,
 				);
 				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+		042D8CC328484C19003EF95A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = simulator/simulatorDebug.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4SL5L673UU;
+				ENABLE_HARDENED_RUNTIME = YES;
+				EXCLUDED_ARCHS = arm64;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'ROOT_PATH_SIZE=39'",
+					VKB_VULKAN_DEBUG,
+					VK_NO_PROTOTYPES,
+					VK_USE_PLATFORM_METAL_EXT,
+					LIBKTX,
+					"'KTX_FEATURE_WRITE=0'",
+					"'BASISD_SUPPORT_KTX2_ZSTD=0'",
+					BASISU_NO_ITERATOR_DEBUG_LEVEL,
+					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
+					"$(inherited)",
+					DISABLE_CUDA_PHYSX,
+					PX_PHYSX_CORE_EXPORTS,
+					_DEBUG,
+					"'PX_DEBUG=1'",
+					"'PX_CHECKED=1'",
+					"'PX_NVTX=0'",
+					"'PX_SUPPORT_PVD=1'",
+				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
+				LD_RUNPATH_SEARCH_PATHS = ./third_party/assimp/build_debug/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"./cmake-build-debug/third_party/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/glfw/src/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/glslang/glslang/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/glslang/glslang/OSDependent/Unix/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/glslang/SPIRV/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/spirv-cross/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/hwcpipe/lib/Debug/x86_64",
+					"./cmake-build-debug/third_party/glslang/OGLCompilersDLL/lib/Debug/x86_64",
+					./third_party/physX/physx/bin/linux.clang/debug,
+					/usr/local/lib,
+					./third_party/assimp/build_debug/bin,
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lvolk",
+					"-lktx",
+					"-lastc",
+					"-limgui",
+					"-lglslang",
+					"-lSPIRV",
+					"-lMachineIndependent",
+					"-lOGLCompiler",
+					"-lOSDependent",
+					"-lGenericCodeGen",
+					"-lhwcpipe",
+					"-lspirv-cross-glsl",
+					"-lspirv-cross-core",
+					"-lglslang-default-resource-limits",
+					"-lglfw3",
+					"-lopenvdb",
+					"-ltbb",
+					"-lPhysX_static_64",
+					"-lPhysXCommon_static_64",
+					"-lPhysXFoundation_static_64",
+					"-lPhysXPvdSDK_static_64",
+					"-lPhysXExtensions_static_64",
+					"-lPhysXCharacterKinematic_static_64",
+					"-lassimpd",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					./third_party/vma/src,
+					./third_party/volk,
+					./third_party/vulkan/include,
+					./third_party/spdlog/include,
+					./third_party/glm,
+					./third_party/glslang,
+					./third_party/tinygltf,
+					./third_party/cli11/include,
+					./third_party/glfw/include,
+					"./third_party/spirv-cross",
+					./third_party/hwcpipe,
+					./third_party/imgui,
+					./third_party/astc/Source,
+					./third_party/stb,
+					./third_party/ktx/include,
+					./third_party/CTPL,
+					/usr/local/include,
+					./third_party/physx/physx/source/common/src/mac,
+					./third_party/physx/physx/include,
+					./third_party/physx/physx/source/common/include,
+					./third_party/physx/physx/source/common/src,
+					./third_party/physx/physx/source/geomutils/include,
+					./third_party/physx/physx/source/geomutils/src,
+					./third_party/physx/physx/source/geomutils/src/contact,
+					./third_party/physx/physx/source/geomutils/src/common,
+					./third_party/physx/physx/source/geomutils/src/convex,
+					./third_party/physx/physx/source/geomutils/src/distance,
+					./third_party/physx/physx/source/geomutils/src/sweep,
+					./third_party/physx/physx/source/geomutils/src/gjk,
+					./third_party/physx/physx/source/geomutils/src/intersection,
+					./third_party/physx/physx/source/geomutils/src/mesh,
+					./third_party/physx/physx/source/geomutils/src/hf,
+					./third_party/physx/physx/source/geomutils/src/pcm,
+					./third_party/physx/physx/source/geomutils/src/ccd,
+					./third_party/physx/physx/source/physxgpu/include,
+					./third_party/physx/physx/../pxshared/include,
+					./third_party/physx/physx/source/foundation/include,
+					./third_party/assimp/include,
+					./third_party/assimp/build_debug/include,
+					./third_party/nlohmann/include,
+					./third_party/sol2/single/include,
+					/usr/local/include/lua,
+				);
+			};
+			name = Debug;
+		};
+		042D8CC428484C19003EF95A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = simulator/simulator.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4SL5L673UU;
+				ENABLE_HARDENED_RUNTIME = YES;
+				EXCLUDED_ARCHS = arm64;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'ROOT_PATH_SIZE=39'",
+					VK_NO_PROTOTYPES,
+					VK_USE_PLATFORM_METAL_EXT,
+					LIBKTX,
+					"'KTX_FEATURE_WRITE=0'",
+					"'BASISD_SUPPORT_KTX2_ZSTD=0'",
+					BASISU_NO_ITERATOR_DEBUG_LEVEL,
+					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
+					"$(inherited)",
+					DISABLE_CUDA_PHYSX,
+					PX_PHYSX_CORE_EXPORTS,
+					NDEBUG,
+					"'PX_SUPPORT_PVD=0'",
+				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
+				LD_RUNPATH_SEARCH_PATHS = ./third_party/assimp/build_release/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"./cmake-build-release/third_party/lib/Release/x86_64",
+					"./cmake-build-release/third_party/glfw/src/lib/Release/x86_64",
+					"./cmake-build-release/third_party/glslang/glslang/lib/Release/x86_64",
+					"./cmake-build-release/third_party/glslang/glslang/OSDependent/Unix/lib/Release/x86_64",
+					"./cmake-build-release/third_party/glslang/SPIRV/lib/Release/x86_64",
+					"./cmake-build-release/third_party/spirv-cross/lib/Release/x86_64",
+					"./cmake-build-release/third_party/hwcpipe/lib/Release/x86_64",
+					"./cmake-build-release/third_party/glslang/OGLCompilersDLL/lib/Release/x86_64",
+					./third_party/physX/physx/bin/linux.clang/release,
+					/usr/local/lib,
+					./third_party/assimp/build_release/bin,
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"-lvolk",
+					"-lktx",
+					"-lastc",
+					"-limgui",
+					"-lglslang",
+					"-lSPIRV",
+					"-lMachineIndependent",
+					"-lOGLCompiler",
+					"-lOSDependent",
+					"-lGenericCodeGen",
+					"-lhwcpipe",
+					"-lspirv-cross-glsl",
+					"-lspirv-cross-core",
+					"-lglslang-default-resource-limits",
+					"-lglfw3",
+					"-lopenvdb",
+					"-ltbb",
+					"-lPhysX_static_64",
+					"-lPhysXCommon_static_64",
+					"-lPhysXFoundation_static_64",
+					"-lPhysXPvdSDK_static_64",
+					"-lPhysXExtensions_static_64",
+					"-lPhysXCharacterKinematic_static_64",
+					"-lassimp",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					./third_party/vma/src,
+					./third_party/volk,
+					./third_party/vulkan/include,
+					./third_party/spdlog/include,
+					./third_party/glm,
+					./third_party/glslang,
+					./third_party/tinygltf,
+					./third_party/cli11/include,
+					./third_party/glfw/include,
+					"./third_party/spirv-cross",
+					./third_party/hwcpipe,
+					./third_party/imgui,
+					./third_party/astc/Source,
+					./third_party/stb,
+					./third_party/ktx/include,
+					./third_party/CTPL,
+					/usr/local/include,
+					./third_party/physx/physx/source/common/src/mac,
+					./third_party/physx/physx/include,
+					./third_party/physx/physx/source/common/include,
+					./third_party/physx/physx/source/common/src,
+					./third_party/physx/physx/source/geomutils/include,
+					./third_party/physx/physx/source/geomutils/src,
+					./third_party/physx/physx/source/geomutils/src/contact,
+					./third_party/physx/physx/source/geomutils/src/common,
+					./third_party/physx/physx/source/geomutils/src/convex,
+					./third_party/physx/physx/source/geomutils/src/distance,
+					./third_party/physx/physx/source/geomutils/src/sweep,
+					./third_party/physx/physx/source/geomutils/src/gjk,
+					./third_party/physx/physx/source/geomutils/src/intersection,
+					./third_party/physx/physx/source/geomutils/src/mesh,
+					./third_party/physx/physx/source/geomutils/src/hf,
+					./third_party/physx/physx/source/geomutils/src/pcm,
+					./third_party/physx/physx/source/geomutils/src/ccd,
+					./third_party/physx/physx/source/physxgpu/include,
+					./third_party/physx/physx/../pxshared/include,
+					./third_party/physx/physx/source/foundation/include,
+					./third_party/assimp/include,
+					./third_party/assimp/build_release/include,
+					./third_party/nlohmann/include,
+					./third_party/sol2/single/include,
+					/usr/local/include/lua,
+				);
 			};
 			name = Release;
 		};
@@ -8148,6 +8442,15 @@
 			buildConfigurations = (
 				042D8C132845FD02003EF95A /* Debug */,
 				042D8C142845FD02003EF95A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		042D8CC228484C19003EF95A /* Build configuration list for PBXNativeTarget "simulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				042D8CC328484C19003EF95A /* Debug */,
+				042D8CC428484C19003EF95A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
