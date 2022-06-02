@@ -77,6 +77,7 @@ add_subdirectory(apps)
 add_subdirectory(vox.editor)
 add_subdirectory(editor)
 
+add_subdirectory(vox.cloth)
 add_subdirectory(vox.force)
 add_subdirectory(simulator)
 
