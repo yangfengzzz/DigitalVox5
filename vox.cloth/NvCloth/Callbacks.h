@@ -49,9 +49,7 @@
 #define NV_CLOTH_API(ret_type) NV_CLOTH_LINKAGE ret_type NV_CLOTH_CALL_CONV
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
+namespace nv::cloth {
 class PxAllocatorCallback;
 class PxErrorCallback;
 class PxProfilerCallback;
@@ -71,19 +69,17 @@ InitializeNvCloth(physx::PxAllocatorCallback* allocatorCallback,
                   nv::cloth::PxAssertHandler* assertHandler,
                   physx::PxProfilerCallback* profilerCallback,
                   int autoDllIDCheck = NV_CLOTH_DLL_ID);
-}  // namespace cloth
 }  // namespace nv
 
 // Allocator
 NV_CLOTH_API(physx::PxAllocatorCallback*) GetNvClothAllocator();  // Only use internally
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 /* Base class to handle assert failures */
 class PxAssertHandler {
 public:
-    virtual ~PxAssertHandler() {}
+    virtual ~PxAssertHandler() = default;
     virtual void operator()(const char* exp, const char* file, int line, bool& ignore) = 0;
 };
 
@@ -148,7 +144,7 @@ public:
         : mCallback(callback) {
         PX_UNUSED(fileName);
         PX_UNUSED(lineno);
-        mProfilerData = NULL;  // nullptr doesn't work here on mac
+        mProfilerData = nullptr;  // nullptr doesn't work here on mac
         if (mCallback) {
             mEventName = eventName;
             mDetached = detached;
@@ -156,7 +152,7 @@ public:
             mProfilerData = mCallback->zoneStart(mEventName, mDetached, mContextId);
         }
     }
-    ~NvClothProfileScoped(void) {
+    ~NvClothProfileScoped() {
         if (mCallback) {
             mCallback->zoneEnd(mProfilerData, mEventName, mDetached, mContextId);
         }
@@ -183,5 +179,4 @@ public:
 
 #endif
 
-}  // namespace cloth
 }  // namespace nv

@@ -27,23 +27,18 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
-#include "vox.cloth/PsAllocator.h"
+#include "vox.cloth/NvCloth/ps/PsAllocator.h"
 
 #include "vox.cloth/NvCloth/Callbacks.h"
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 void* Allocator::allocate(size_t size, const char* file, int line) {
-    if (!size) return 0;
+    if (!size) return nullptr;
     return GetNvClothAllocator()->allocate(size, "", file, line);
 }
 void Allocator::deallocate(void* ptr) {
     if (ptr) GetNvClothAllocator()->deallocate(ptr);
 }
 
-}  // namespace ps
-}  // namespace cloth
 }  // namespace nv

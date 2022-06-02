@@ -36,11 +36,9 @@
 
 typedef struct CUctx_st* CUcontext;
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 class DxContextManagerCallback;
 class Factory;
-}  // namespace cloth
 }  // namespace nv
 NV_CLOTH_API(nv::cloth::Factory*) NvClothCreateFactoryCPU();
 NV_CLOTH_API(nv::cloth::Factory*) NvClothCreateFactoryCUDA(CUcontext);
@@ -52,8 +50,7 @@ NV_CLOTH_API(bool) NvClothCompiledWithCudaSupport();
 /// Returns true if this dll was compiled with DX support
 NV_CLOTH_API(bool) NvClothCompiledWithDxSupport();
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 class Fabric;
 class Cloth;
@@ -65,15 +62,15 @@ enum struct Platform { CPU, CUDA, DX11 };
 /// such as cloth, solver, collision, etc.
 class Factory : public UserAllocated {
 protected:
-    Factory() {}
+    Factory() = default;
     Factory(const Factory&);
     Factory& operator=(const Factory&);
-    virtual ~Factory() {}
+    virtual ~Factory() = default;
 
     friend NV_CLOTH_IMPORT void NV_CLOTH_CALL_CONV ::NvClothDestroyFactory(nv::cloth::Factory*);
 
 public:
-    virtual Platform getPlatform() const = 0;
+    [[nodiscard]] virtual Platform getPlatform() const = 0;
 
     /**
        \brief Create fabric data used to setup cloth object.
@@ -196,5 +193,4 @@ public:
     virtual void extractRestPositions(const Cloth& cloth, Range<physx::PxVec4> destRestPositions) const = 0;
 };
 
-}  // namespace cloth
 }  // namespace nv

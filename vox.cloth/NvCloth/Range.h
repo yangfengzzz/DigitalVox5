@@ -31,8 +31,7 @@
 
 #include "vox.cloth/NvCloth/Callbacks.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 template <class T>
 struct Range {
@@ -51,8 +50,8 @@ struct Range {
     template <typename S>
     Range(const Range<S>& other);
 
-    uint32_t size() const;
-    bool empty() const;
+    [[nodiscard]] uint32_t size() const;
+    [[nodiscard]] bool empty() const;
 
     void popFront();
     void popBack();
@@ -92,13 +91,13 @@ bool Range<T>::empty() const {
 
 template <typename T>
 void Range<T>::popFront() {
-    NV_CLOTH_ASSERT(mBegin < mEnd);
+    NV_CLOTH_ASSERT(mBegin < mEnd)
     ++mBegin;
 }
 
 template <typename T>
 void Range<T>::popBack() {
-    NV_CLOTH_ASSERT(mBegin < mEnd);
+    NV_CLOTH_ASSERT(mBegin < mEnd)
     --mEnd;
 }
 
@@ -114,21 +113,20 @@ T* Range<T>::end() const {
 
 template <typename T>
 T& Range<T>::front() const {
-    NV_CLOTH_ASSERT(mBegin < mEnd);
+    NV_CLOTH_ASSERT(mBegin < mEnd)
     return *mBegin;
 }
 
 template <typename T>
 T& Range<T>::back() const {
-    NV_CLOTH_ASSERT(mBegin < mEnd);
+    NV_CLOTH_ASSERT(mBegin < mEnd)
     return mEnd[-1];
 }
 
 template <typename T>
 T& Range<T>::operator[](uint32_t i) const {
-    NV_CLOTH_ASSERT(mBegin + i < mEnd);
+    NV_CLOTH_ASSERT(mBegin + i < mEnd)
     return mBegin[i];
 }
 
-}  // namespace cloth
 }  // namespace nv

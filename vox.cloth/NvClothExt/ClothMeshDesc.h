@@ -35,8 +35,7 @@
 
 #include "vox.cloth/foundation/PxVec3.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 struct StridedData {
     /**
@@ -47,7 +46,7 @@ struct StridedData {
     physx::PxU32 stride;
     const void* data;
 
-    StridedData() : stride(0), data(NULL) {}
+    StridedData() : stride(0), data(nullptr) {}
 
     template <typename TDataType>
     PX_INLINE const TDataType& at(physx::PxU32 idx) const {
@@ -145,7 +144,7 @@ public:
     \brief Returns true if the descriptor is valid.
     \return True if the current settings are valid
     */
-    PX_INLINE bool isValid() const;
+    [[nodiscard]] PX_INLINE bool isValid() const;
 };
 
 PX_INLINE ClothMeshDesc::ClothMeshDesc() { flags = 0; }
@@ -177,7 +176,6 @@ PX_INLINE bool ClothMeshDesc::isValid() const {
     return true;
 }
 
-}  // namespace cloth
 }  // namespace nv
 
 /** @} */

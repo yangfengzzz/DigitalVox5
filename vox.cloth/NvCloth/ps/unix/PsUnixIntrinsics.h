@@ -30,7 +30,7 @@
 #ifndef PSFOUNDATION_PSUNIXINTRINSICS_H
 #define PSFOUNDATION_PSUNIXINTRINSICS_H
 
-#include <math.h>
+#include <cmath>
 
 #include "vox.cloth/NvCloth/Callbacks.h"
 #include "vox.cloth/NvCloth/ps/Ps.h"
@@ -51,10 +51,7 @@
 #endif
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 
 PX_FORCE_INLINE void memoryBarrier() { __sync_synchronize(); }
 
@@ -123,8 +120,6 @@ PX_CUDA_CALLABLE PX_FORCE_INLINE float floatFloor(float x) { return ::floorf(x);
 
 #define NS_EXPECT_TRUE(x) x
 #define NS_EXPECT_FALSE(x) x
-}  // namespace ps
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #endif  // #ifndef PSFOUNDATION_PSUNIXINTRINSICS_H

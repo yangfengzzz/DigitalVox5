@@ -31,8 +31,7 @@
 
 #include "vox.cloth/foundation/Px.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 struct PhaseConfig {
     PhaseConfig(uint16_t index = uint16_t(-1))
@@ -53,5 +52,4 @@ struct PhaseConfig {
     uint16_t mPadding;
 };
 
-}  // namespace cloth
 }  // namespace nv

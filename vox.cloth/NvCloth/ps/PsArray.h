@@ -36,10 +36,7 @@
 #include "vox.cloth/NvCloth/ps/PsBasicTemplates.h"
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 template <class Serializer>
 void exportArray(Serializer& stream, const void* data, uint32_t size, uint32_t sizeOfElement, uint32_t capacity);
 char* importArray(char* address, void** data, uint32_t size, uint32_t sizeOfElement, uint32_t capacity);
@@ -140,7 +137,7 @@ public:
     The element i in the array.
     */
     PX_FORCE_INLINE const T& operator[](uint32_t i) const {
-        NV_CLOTH_ASSERT(i < mSize);
+        NV_CLOTH_ASSERT(i < mSize)
         return mData[i];
     }
 
@@ -152,7 +149,7 @@ public:
     The element i in the array.
     */
     PX_FORCE_INLINE T& operator[](uint32_t i) {
-        NV_CLOTH_ASSERT(i < mSize);
+        NV_CLOTH_ASSERT(i < mSize)
         return mData[i];
     }
 
@@ -181,12 +178,12 @@ public:
     */
 
     PX_FORCE_INLINE const T& front() const {
-        NV_CLOTH_ASSERT(mSize);
+        NV_CLOTH_ASSERT(mSize)
         return mData[0];
     }
 
     PX_FORCE_INLINE T& front() {
-        NV_CLOTH_ASSERT(mSize);
+        NV_CLOTH_ASSERT(mSize)
         return mData[0];
     }
 
@@ -196,12 +193,12 @@ public:
     */
 
     PX_FORCE_INLINE const T& back() const {
-        NV_CLOTH_ASSERT(mSize);
+        NV_CLOTH_ASSERT(mSize)
         return mData[mSize - 1];
     }
 
     PX_FORCE_INLINE T& back() {
-        NV_CLOTH_ASSERT(mSize);
+        NV_CLOTH_ASSERT(mSize)
         return mData[mSize - 1];
     }
 
@@ -211,7 +208,7 @@ public:
     \return
     The number of of entries in the array.
     */
-    PX_FORCE_INLINE uint32_t size() const { return mSize; }
+    [[nodiscard]] PX_FORCE_INLINE uint32_t size() const { return mSize; }
 
     /*!
     Clears the array.
@@ -226,7 +223,7 @@ public:
     \return
     true if the array is empty
     */
-    PX_FORCE_INLINE bool empty() const { return mSize == 0; }
+    [[nodiscard]] PX_FORCE_INLINE bool empty() const { return mSize == 0; }
 
     /*!
     Finds the first occurrence of an element in the array.
@@ -270,7 +267,7 @@ public:
     */
     /////////////////////////////////////////////////////////////////////////
     PX_INLINE T popBack() {
-        NV_CLOTH_ASSERT(mSize);
+        NV_CLOTH_ASSERT(mSize)
         T t = mData[mSize - 1];
 
         mData[--mSize].~T();
@@ -301,7 +298,7 @@ public:
     */
     /////////////////////////////////////////////////////////////////////////
     PX_INLINE void replaceWithLast(uint32_t i) {
-        NV_CLOTH_ASSERT(i < mSize);
+        NV_CLOTH_ASSERT(i < mSize)
         mData[i] = mData[--mSize];
 
         mData[mSize].~T();
@@ -337,7 +334,7 @@ public:
     */
     /////////////////////////////////////////////////////////////////////////
     PX_INLINE void remove(uint32_t i) {
-        NV_CLOTH_ASSERT(i < mSize);
+        NV_CLOTH_ASSERT(i < mSize)
 
         T* it = mData + i;
         it->~T();
@@ -360,8 +357,8 @@ public:
     */
     /////////////////////////////////////////////////////////////////////////
     PX_INLINE void removeRange(uint32_t begin, uint32_t count) {
-        NV_CLOTH_ASSERT(begin < mSize);
-        NV_CLOTH_ASSERT((begin + count) <= mSize);
+        NV_CLOTH_ASSERT(begin < mSize)
+        NV_CLOTH_ASSERT((begin + count) <= mSize)
 
         for (uint32_t i = 0; i < count; i++)
             mData[begin + i].~T();  // call the destructor on the ones being removed first.
@@ -384,9 +381,9 @@ public:
     Resize array
     */
     //////////////////////////////////////////////////////////////////////////
-    PX_NOINLINE void resize(const uint32_t size, const T& a = T());
+    PX_NOINLINE void resize(uint32_t size, const T& a = T());
 
-    PX_NOINLINE void resizeUninitialized(const uint32_t size);
+    PX_NOINLINE void resizeUninitialized(uint32_t size);
 
     //////////////////////////////////////////////////////////////////////////
     /*!
@@ -420,7 +417,7 @@ public:
     Query the capacity(allocated mem) for the array.
     */
     //////////////////////////////////////////////////////////////////////////
-    PX_FORCE_INLINE uint32_t capacity() const { return mCapacity & ~PX_SIGN_BITMASK; }
+    [[nodiscard]] PX_FORCE_INLINE uint32_t capacity() const { return mCapacity & ~PX_SIGN_BITMASK; }
 
     //////////////////////////////////////////////////////////////////////////
     /*!
@@ -428,7 +425,7 @@ public:
     */
     //////////////////////////////////////////////////////////////////////////
     PX_FORCE_INLINE void forceSize_Unsafe(uint32_t size) {
-        NV_CLOTH_ASSERT(size <= mCapacity);
+        NV_CLOTH_ASSERT(size <= mCapacity)
         mSize = size;
     }
 
@@ -455,7 +452,7 @@ public:
 
     // We need one bit to mark arrays that have been deserialized from a user-provided memory block.
     // For alignment & memory saving purpose we store that bit in the rarely used capacity member.
-    PX_FORCE_INLINE uint32_t isInUserMemory() const { return mCapacity & PX_SIGN_BITMASK; }
+    [[nodiscard]] PX_FORCE_INLINE uint32_t isInUserMemory() const { return mCapacity & PX_SIGN_BITMASK; }
 
     /// return reference to allocator
     PX_INLINE Alloc& getAllocator() { return *this; }
@@ -514,7 +511,7 @@ definition for serialized classes is complete in checked builds.
     The number of entries that the set should be able to hold.
     */
     PX_INLINE void grow(uint32_t capacity) {
-        NV_CLOTH_ASSERT(this->capacity() < capacity);
+        NV_CLOTH_ASSERT(this->capacity() < capacity)
         recreate(capacity);
     }
 
@@ -529,14 +526,14 @@ definition for serialized classes is complete in checked builds.
     // The idea here is to prevent accidental bugs with pushBack or insert. Unfortunately
     // it interacts badly with InlineArrays with smaller inline allocations.
     // TODO(dsequeira): policy template arg, this is exactly what they're for.
-    PX_INLINE uint32_t capacityIncrement() const {
+    [[nodiscard]] PX_INLINE uint32_t capacityIncrement() const {
         const uint32_t capacity = this->capacity();
         return capacity == 0 ? 1 : capacity * 2;
     }
 
     T* mData;
-    uint32_t mSize;
-    uint32_t mCapacity;
+    uint32_t mSize{};
+    uint32_t mCapacity{};
 };
 
 template <class T, class Alloc>
@@ -576,7 +573,7 @@ PX_NOINLINE T& Array<T, Alloc>::growAndPushBack(const T& a) {
     uint32_t capacity = capacityIncrement();
 
     T* newData = allocate(capacity);
-    NV_CLOTH_ASSERT((!capacity) || (newData && (newData != mData)));
+    NV_CLOTH_ASSERT((!capacity) || (newData && (newData != mData)))
     copy(newData, newData + mSize, mData);
 
     // inserting element before destroying old array
@@ -595,7 +592,7 @@ PX_NOINLINE T& Array<T, Alloc>::growAndPushBack(const T& a) {
 template <class T, class Alloc>
 PX_NOINLINE void Array<T, Alloc>::recreate(uint32_t capacity) {
     T* newData = allocate(capacity);
-    NV_CLOTH_ASSERT((!capacity) || (newData && (newData != mData)));
+    NV_CLOTH_ASSERT((!capacity) || (newData && (newData != mData)))
 
     copy(newData, newData + mSize, mData);
     destroy(mData, mData + mSize);
@@ -610,8 +607,6 @@ PX_INLINE void swap(Array<T, Alloc>& x, Array<T, Alloc>& y) {
     x.swap(y);
 }
 
-}  // namespace ps
-}  // namespace cloth
 }  // namespace nv
 
 #endif  // #ifndef PSFOUNDATION_PSARRAY_H

@@ -113,10 +113,7 @@
 #define PxAllocaAligned(x, alignment) ((size_t(PxAlloca(x + alignment)) + (alignment - 1)) & ~size_t(alignment - 1))
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 // NV_CLOTH_IMPORT PxAllocatorCallback& getAllocator();
 
 /**
@@ -125,7 +122,7 @@ Allocator used to access the global PxAllocatorCallback instance without providi
 
 class NV_CLOTH_IMPORT Allocator {
 public:
-    Allocator(const char* = 0) {}
+    Allocator(const char* = nullptr) {}
     void* allocate(size_t size, const char* file, int line);
     void deallocate(void* ptr);
 };
@@ -136,7 +133,7 @@ public:
  */
 class RawAllocator {
 public:
-    RawAllocator(const char* = 0) {}
+    RawAllocator(const char* = nullptr) {}
     void* allocate(size_t size, const char*, int) {
         // malloc returns valid pointer for size==0, no need to check
         return ::malloc(size);
@@ -155,9 +152,9 @@ public:
  */
 class NonTrackingAllocator {
 public:
-    PX_FORCE_INLINE NonTrackingAllocator(const char* = 0) {}
+    PX_FORCE_INLINE NonTrackingAllocator(const char* = nullptr) {}
     PX_FORCE_INLINE void* allocate(size_t size, const char* file, int line) {
-        return !size ? 0 : GetNvClothAllocator()->allocate(size, "NonTrackedAlloc", file, line);
+        return !size ? nullptr : GetNvClothAllocator()->allocate(size, "NonTrackedAlloc", file, line);
     }
     PX_FORCE_INLINE void deallocate(void* ptr) {
         if (ptr) GetNvClothAllocator()->deallocate(ptr);
@@ -186,15 +183,15 @@ methods are provided to set the callback later.
 */
 class VirtualAllocator {
 public:
-    VirtualAllocator(VirtualAllocatorCallback* callback = NULL) : mCallback(callback) {}
+    VirtualAllocator(VirtualAllocatorCallback* callback = nullptr) : mCallback(callback) {}
 
     void* allocate(const size_t size, const char* file, const int line) {
-        NV_CLOTH_ASSERT(mCallback);
+        NV_CLOTH_ASSERT(mCallback)
         if (size) return mCallback->allocate(size, file, line);
-        return NULL;
+        return nullptr;
     }
     void deallocate(void* ptr) {
-        NV_CLOTH_ASSERT(mCallback);
+        NV_CLOTH_ASSERT(mCallback)
         if (ptr) mCallback->deallocate(ptr);
     }
 
@@ -224,10 +221,10 @@ class ReflectionAllocator {
 
 public:
     ReflectionAllocator(const physx::PxEMPTY) {}
-    ReflectionAllocator(const char* = 0) {}
-    inline ReflectionAllocator(const ReflectionAllocator&) {}
+    ReflectionAllocator(const char* = nullptr) {}
+    inline ReflectionAllocator(const ReflectionAllocator&) = default;
     void* allocate(size_t size, const char* filename, int line) {
-        return size ? GetNvClothAllocator()->allocate(size, getName(), filename, line) : 0;
+        return size ? GetNvClothAllocator()->allocate(size, getName(), filename, line) : nullptr;
     }
     void deallocate(void* ptr) {
         if (ptr) GetNvClothAllocator()->deallocate(ptr);
@@ -248,8 +245,6 @@ union EnableIfPod {
     typedef X Type;
 };
 
-}  // namespace ps
-}  // namespace cloth
 }  // namespace nv
 
 // Global placement new for ReflectionAllocator templated by

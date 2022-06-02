@@ -33,8 +33,7 @@
 #include "vox.cloth/NvCloth/ps/PsArray.h"
 #include "vox.cloth/NvCloth/Range.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 class Cloth;
 
@@ -44,12 +43,12 @@ typedef bool (*InterCollisionFilter)(void* user0, void* user1);
 /// base class for solvers
 class Solver : public UserAllocated {
 protected:
-    Solver() {}
+    Solver() = default;
     Solver(const Solver&);
     Solver& operator=(const Solver&);
 
 public:
-    virtual ~Solver() {}
+    virtual ~Solver() = default;
 
     /// Adds cloth object.
     virtual void addCloth(Cloth* cloth) = 0;
@@ -61,10 +60,10 @@ public:
     virtual void removeCloth(Cloth* cloth) = 0;
 
     /// Returns the numer of cloths added to the solver.
-    virtual int getNumCloths() const = 0;
+    [[nodiscard]] virtual int getNumCloths() const = 0;
 
     /// Returns the pointer to the first cloth added to the solver
-    virtual Cloth* const* getClothList() const = 0;
+    [[nodiscard]] virtual Cloth* const* getClothList() const = 0;
 
     // functions executing the simulation work.
     /**	\brief Begins a simulation frame.
@@ -88,21 +87,20 @@ public:
 
     /** \brief Returns the number of chunks that need to be simulated this frame.
      */
-    virtual int getSimulationChunkCount() const = 0;
+    [[nodiscard]] virtual int getSimulationChunkCount() const = 0;
 
     /// inter-collision parameters
     /// Note that using intercollision with more than 32 cloths added to the solver will cause undefined behavior
     virtual void setInterCollisionDistance(float distance) = 0;
-    virtual float getInterCollisionDistance() const = 0;
+    [[nodiscard]] virtual float getInterCollisionDistance() const = 0;
     virtual void setInterCollisionStiffness(float stiffness) = 0;
-    virtual float getInterCollisionStiffness() const = 0;
+    [[nodiscard]] virtual float getInterCollisionStiffness() const = 0;
     virtual void setInterCollisionNbIterations(uint32_t nbIterations) = 0;
-    virtual uint32_t getInterCollisionNbIterations() const = 0;
+    [[nodiscard]] virtual uint32_t getInterCollisionNbIterations() const = 0;
     virtual void setInterCollisionFilter(InterCollisionFilter filter) = 0;
 
     /// Returns true if an unrecoverable error has occurred.
-    virtual bool hasError() const = 0;
+    [[nodiscard]] virtual bool hasError() const = 0;
 };
 
-}  // namespace cloth
 }  // namespace nv

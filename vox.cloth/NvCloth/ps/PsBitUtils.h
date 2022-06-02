@@ -36,10 +36,7 @@
 #include "vox.cloth/NvCloth/ps/PsIntrinsics.h"
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 PX_INLINE uint32_t bitCount(uint32_t v) {
     // from http://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetParallel
     uint32_t const w = v - ((v >> 1) & 0x55555555);
@@ -68,7 +65,7 @@ Return the index of the highest set bit. Not valid for zero arg.
 */
 
 PX_INLINE uint32_t lowestSetBit(uint32_t x) {
-    NV_CLOTH_ASSERT(x);
+    NV_CLOTH_ASSERT(x)
     return lowestSetBitUnsafe(x);
 }
 
@@ -77,7 +74,7 @@ Return the index of the highest set bit. Not valid for zero arg.
 */
 
 PX_INLINE uint32_t highestSetBit(uint32_t x) {
-    NV_CLOTH_ASSERT(x);
+    NV_CLOTH_ASSERT(x)
     return highestSetBitUnsafe(x);
 }
 
@@ -90,12 +87,10 @@ PX_INLINE uint32_t ilog2(uint32_t num) {
         if (num == 0) return i;
     }
 
-    NV_CLOTH_ASSERT(0);
+    NV_CLOTH_ASSERT(0)
     return uint32_t(-1);
 }
 
-}  // namespace ps
-}  // namespace cloth
 }  // namespace nv
 
 #endif  // #ifndef PSFOUNDATION_PSBITUTILS_H

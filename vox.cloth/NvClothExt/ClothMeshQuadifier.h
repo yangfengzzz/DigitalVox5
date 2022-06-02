@@ -38,12 +38,11 @@
 #include "vox.cloth/NvCloth/Callbacks.h"
 #include "vox.cloth/NvClothExt/ClothMeshDesc.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 class ClothMeshQuadifier : public UserAllocated {
 public:
-    virtual ~ClothMeshQuadifier() {}
+    virtual ~ClothMeshQuadifier() = default;
 
     /**
     \brief Convert triangles of ClothMeshDesc to quads.
@@ -60,10 +59,9 @@ public:
         \note The returned descriptor is valid only within the lifespan of ClothMeshQuadifier class.
         */
 
-    virtual ClothMeshDesc getDescriptor() const = 0;
+    [[nodiscard]] virtual ClothMeshDesc getDescriptor() const = 0;
 };
 
-}  // namespace cloth
 }  // namespace nv
 
 NV_CLOTH_API(nv::cloth::ClothMeshQuadifier*) NvClothCreateMeshQuadifier();

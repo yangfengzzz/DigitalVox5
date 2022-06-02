@@ -37,12 +37,11 @@
 #include "vox.cloth/NvCloth/Allocator.h"
 #include "vox.cloth/NvClothExt/ClothMeshDesc.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 class ClothTetherCooker : public UserAllocated {
 public:
-    virtual ~ClothTetherCooker() {}
+    virtual ~ClothTetherCooker() = default;
 
     /**
     \brief Compute tether data from ClothMeshDesc with simple distance measure.
@@ -59,7 +58,7 @@ public:
     \details This function returns cooker status after cooker computation is done.
     A non-zero return value indicates a failure.
     */
-    virtual uint32_t getCookerStatus() const = 0;  // From APEX
+    [[nodiscard]] virtual uint32_t getCookerStatus() const = 0;  // From APEX
 
     /**
     \brief Returns number of tether anchors per particle
@@ -68,7 +67,7 @@ public:
     \note If there is no attached point in the input mesh descriptor, this will return 0 and no tether data will be
     generated.
     */
-    virtual physx::PxU32 getNbTethersPerParticle() const = 0;
+    [[nodiscard]] virtual physx::PxU32 getNbTethersPerParticle() const = 0;
 
     /**
         \brief Returns computed tether data.
@@ -78,7 +77,6 @@ public:
     virtual void getTetherData(physx::PxU32* userTetherAnchors, physx::PxReal* userTetherLengths) const = 0;
 };
 
-}  // namespace cloth
 }  // namespace nv
 
 NV_CLOTH_API(nv::cloth::ClothTetherCooker*) NvClothCreateSimpleTetherCooker();

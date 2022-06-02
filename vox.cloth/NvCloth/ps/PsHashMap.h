@@ -71,10 +71,7 @@
 //			myFunction(iter->first, iter->second);
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 template <class Key, class Value, class HashFn = Hash<Key>, class Allocator = NonTrackingAllocator>
 class HashMap : public internal::HashMapBase<Key, Value, HashFn, Allocator> {
 public:
@@ -98,8 +95,6 @@ public:
     const Pair<const Key, Value>* getEntries() const { return HashMapBase::mBase.getEntries(); }
 };
 
-}  // namespace ps
-}  // namespace cloth
 }  // namespace nv
 
 #endif  // #ifndef PSFOUNDATION_PSHASHMAP_H

@@ -38,11 +38,10 @@
 #include "vox.cloth/NvCloth/Factory.h"
 #include "vox.cloth/NvClothExt/ClothMeshDesc.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 struct CookedData {
-    uint32_t mNumParticles;
+    uint32_t mNumParticles{};
     Range<const uint32_t> mPhaseIndices;
     Range<const int32_t> mPhaseTypes;
     Range<const uint32_t> mSets;
@@ -97,34 +96,34 @@ PX_INLINE ClothFabricPhase::ClothFabricPhase(ClothFabricPhaseType::Enum type, ph
 class ClothFabricDesc {
 public:
     /** \brief The number of particles needed when creating a PxCloth instance from the fabric. */
-    physx::PxU32 nbParticles;
+    physx::PxU32 nbParticles{};
 
     /** \brief The number of solver phases. */
-    physx::PxU32 nbPhases;
+    physx::PxU32 nbPhases{};
     /** \brief Array defining which constraints to solve each phase. See #Fabric.getPhases(). */
-    const ClothFabricPhase* phases;
+    const ClothFabricPhase* phases{};
 
     /** \brief The number of sets in the fabric. */
-    physx::PxU32 nbSets;
+    physx::PxU32 nbSets{};
     /** \brief Array with an index per set which points one entry beyond the last constraint of the set. See
      * #Fabric.getSets(). */
-    const physx::PxU32* sets;
+    const physx::PxU32* sets{};
 
     /** \brief Array of particle indices which specifies the pair of constrained vertices. See
      * #Fabric.getParticleIndices(). */
-    const physx::PxU32* indices;
+    const physx::PxU32* indices{};
     /** \brief Array of rest values for each constraint. See #Fabric.getRestvalues(). */
-    const physx::PxReal* restvalues;
+    const physx::PxReal* restvalues{};
 
     /** \brief Size of tetherAnchors and tetherLengths arrays, needs to be multiple of nbParticles. */
-    physx::PxU32 nbTethers;
+    physx::PxU32 nbTethers{};
     /** \brief Array of particle indices specifying the tether anchors. See #Fabric.getTetherAnchors(). */
-    const physx::PxU32* tetherAnchors;
+    const physx::PxU32* tetherAnchors{};
     /** \brief Array of rest distance between tethered particle pairs. See #Fabric.getTetherLengths(). */
-    const physx::PxReal* tetherLengths;
+    const physx::PxReal* tetherLengths{};
 
-    physx::PxU32 nbTriangles;
-    const physx::PxU32* triangles;
+    physx::PxU32 nbTriangles{};
+    const physx::PxU32* triangles{};
 
     /**
     \brief constructor sets to default.
@@ -140,7 +139,7 @@ public:
     \brief Returns true if the descriptor is valid.
     \return True if the current settings are valid
     */
-    PX_INLINE bool isValid() const;
+    [[nodiscard]] PX_INLINE bool isValid() const;
 };
 
 PX_INLINE ClothFabricDesc::ClothFabricDesc() { setToDefault(); }
@@ -155,7 +154,7 @@ PX_INLINE bool ClothFabricDesc::isValid() const {
 /// Use NvClothCreateFabricCooker() to create an implemented instance
 class NV_CLOTH_IMPORT ClothFabricCooker : public UserAllocated {
 public:
-    virtual ~ClothFabricCooker() {}
+    virtual ~ClothFabricCooker() = default;
 
     /**
     \brief Cooks a triangle mesh to a ClothFabricDesc.
@@ -172,10 +171,10 @@ public:
     virtual bool cook(const ClothMeshDesc& desc, physx::PxVec3 gravity, bool useGeodesicTether = true) = 0;
 
     /** \brief Returns fabric cooked data for creating fabrics. */
-    virtual CookedData getCookedData() const = 0;
+    [[nodiscard]] virtual CookedData getCookedData() const = 0;
 
     /** \brief Returns the fabric descriptor to create the fabric. */
-    virtual ClothFabricDesc getDescriptor() const = 0;
+    [[nodiscard]] virtual ClothFabricDesc getDescriptor() const = 0;
 
     /** \brief Saves the fabric data to a platform and version dependent stream. */
     virtual void save(physx::PxOutputStream& stream, bool platformMismatch) const = 0;
@@ -183,7 +182,6 @@ public:
 
 /** @} */
 
-}  // namespace cloth
 }  // namespace nv
 
 NV_CLOTH_API(nv::cloth::ClothFabricCooker*) NvClothCreateFabricCooker();

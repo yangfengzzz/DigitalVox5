@@ -29,8 +29,8 @@
 
 #pragma once
 
-#include <float.h>
-#include <math.h>
+#include <cfloat>
+#include <cmath>
 
 #include "vox.cloth/NvSimd/NvSimdTypes.h"
 
@@ -86,7 +86,7 @@ struct Simd4fTupleFactory {
     Simd4fTupleFactory& operator=(const Simd4fTupleFactory&);  // not implemented
     inline operator Simd4f() const;
     inline operator Scalar4f() const;
-    NV_SIMD_ALIGN(16, float) tuple[4];
+    NV_SIMD_ALIGN(16, float) tuple[4]{};
 };
 
 /*! \brief Loads Simd4f from (unaligned) pointer.

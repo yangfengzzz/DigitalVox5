@@ -39,8 +39,7 @@
 #include "vox.cloth/NvCloth/ps/PsArray.h"
 #include "vox.cloth/NvCloth/ps/PsHashMap.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 void* allocate(size_t);
 void deallocate(void*);
@@ -68,7 +67,6 @@ struct NvClothOverload {};
 #define NV_CLOTH_FREE(x) GetNvClothAllocator()->deallocate(x)
 #define NV_CLOTH_DELETE(x) delete x
 
-}  // namespace cloth
 }  // namespace nv
 
 // new/delete operators need to be declared in global scope
@@ -116,8 +114,7 @@ PX_INLINE void operator delete[](void* ptr,
     return GetNvClothAllocator()->deallocate(ptr);
 }
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 class UserAllocated {
 public:
@@ -147,6 +144,5 @@ public:
     PX_INLINE void operator delete[](void* ptr) { return GetNvClothAllocator()->deallocate(ptr); }
 };
 
-}  // namespace cloth
 }  // namespace nv
 /** \endcond */

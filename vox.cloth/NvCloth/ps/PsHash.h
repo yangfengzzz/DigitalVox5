@@ -47,10 +47,7 @@ Central definition of hash functions
 */
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 // Hash functions
 
 // Thomas Wang's 32 bit mix
@@ -124,7 +121,7 @@ struct Hash<const char*> {
 public:
     uint32_t operator()(const char* _string) const {
         // "DJB" string hash
-        const uint8_t* string = reinterpret_cast<const uint8_t*>(_string);
+        const auto* string = reinterpret_cast<const uint8_t*>(_string);
         uint32_t h = 5381;
         for (const uint8_t* ptr = string; *ptr; ptr++) h = ((h << 5) + h) ^ uint32_t(*ptr);
         return h;
@@ -132,8 +129,6 @@ public:
     bool equal(const char* string0, const char* string1) const { return !strcmp(string0, string1); }
 };
 
-}  // namespace ps
-}  // namespace cloth
 }  // namespace nv
 
 #if PX_VC

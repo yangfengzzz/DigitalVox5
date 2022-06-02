@@ -56,17 +56,12 @@ Platform specific defines
 #define PX_SIGN_BITMASK 0x80000000
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 // Int-as-bool type - has some uses for efficiency and with SIMD
 typedef int IntBool;
 static const IntBool IntFalse = 0;
 static const IntBool IntTrue = 1;
 
-}  // namespace ps
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #endif  // #ifndef PSFOUNDATION_PS_H

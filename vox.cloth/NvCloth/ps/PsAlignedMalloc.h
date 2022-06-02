@@ -39,10 +39,7 @@ Alignment must be a power of 2!
 */
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 /**
 Allocator, which is used to access the global PxAllocatorCallback instance
 (used for dynamic data types template instantiation), which can align memory
@@ -58,11 +55,10 @@ public:
 
     void* allocate(size_t size, const char* file, int line) {
         size_t pad = N - 1 + sizeof(size_t);  // store offset for delete.
-        uint8_t* base = reinterpret_cast<uint8_t*>(BaseAllocator::allocate(size + pad, file, line));
-        if (!base) return NULL;
+        auto* base = reinterpret_cast<uint8_t*>(BaseAllocator::allocate(size + pad, file, line));
+        if (!base) return nullptr;
 
-        uint8_t* ptr =
-                reinterpret_cast<uint8_t*>(size_t(base + pad) & ~(size_t(N) - 1));  // aligned pointer, ensuring N
+        auto* ptr = reinterpret_cast<uint8_t*>(size_t(base + pad) & ~(size_t(N) - 1));  // aligned pointer, ensuring N
         // is a size_t
         // wide mask
         reinterpret_cast<size_t*>(ptr)[-1] = size_t(ptr - base);  // store offset
@@ -70,15 +66,13 @@ public:
         return ptr;
     }
     void deallocate(void* ptr) {
-        if (ptr == NULL) return;
+        if (ptr == nullptr) return;
 
         uint8_t* base = reinterpret_cast<uint8_t*>(ptr) - reinterpret_cast<size_t*>(ptr)[-1];
         BaseAllocator::deallocate(base);
     }
 };
 
-}  // namespace ps
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #endif  // #ifndef PSFOUNDATION_PSALIGNEDMALLOC_H

@@ -33,10 +33,7 @@
 #include "vox.cloth/NvCloth/ps/Ps.h"
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 template <typename A>
 struct Equal {
     bool operator()(const A& a, const A& b) const { return a == b; }
@@ -110,8 +107,6 @@ PX_CUDA_CALLABLE PX_INLINE void swap(T& x, T& y) {
     y = tmp;
 }
 
-}  // namespace ps
-}  // namespace cloth
 }  // namespace nv
 
 #endif  // #ifndef PSFOUNDATION_PSBASICTEMPLATES_H

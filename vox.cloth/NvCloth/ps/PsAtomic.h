@@ -34,10 +34,7 @@
 #include "vox.cloth/NvCloth/ps/Ps.h"
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 /* set *dest equal to val. Return the old value of *dest */
 NV_CLOTH_IMPORT int32_t atomicExchange(volatile int32_t* dest, int32_t val);
 
@@ -59,8 +56,6 @@ NV_CLOTH_IMPORT int32_t atomicAdd(volatile int32_t* val, int32_t delta);
 /* compute the maximum of dest and val. Return the new value */
 NV_CLOTH_IMPORT int32_t atomicMax(volatile int32_t* val, int32_t val2);
 
-}  // namespace ps
-}  // namespace cloth
 }  // namespace nv
 
 #endif  // #ifndef PSFOUNDATION_PSATOMIC_H

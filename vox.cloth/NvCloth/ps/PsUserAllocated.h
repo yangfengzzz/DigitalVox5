@@ -33,10 +33,7 @@
 #include "vox.cloth/NvCloth/ps/PsAllocator.h"
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 /**
 Provides new and delete using a UserAllocator.
 Guarantees that 'delete x;' uses the UserAllocator too.
@@ -75,8 +72,6 @@ public:
     PX_INLINE void operator delete(void* ptr) { NonTrackingAllocator().deallocate(ptr); }
     PX_INLINE void operator delete[](void* ptr) { NonTrackingAllocator().deallocate(ptr); }
 };
-}  // namespace ps
-}  // namespace cloth
 }  // namespace nv
 
 #endif  // #ifndef PSFOUNDATION_PSUSERALLOCATED_H

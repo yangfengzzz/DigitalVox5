@@ -42,10 +42,7 @@
 // separateSwingTwist) it doesn't.
 
 /** \brief NVidia namespace */
-namespace nv {
-/** \brief nvcloth namespace */
-namespace cloth {
-namespace ps {
+namespace nv::cloth::ps {
 /**
 \brief sign returns the sign of its argument. The sign of zero is undefined.
 */
@@ -271,7 +268,7 @@ PX_CUDA_CALLABLE PX_INLINE physx::PxVec3 log(const physx::PxQuat& q) {
     if (s < 1e-12f) return physx::PxVec3(0.0f);
     // force the half-angle to have magnitude <= pi/2
     physx::PxReal halfAngle = q.w < 0 ? physx::PxAtan2(-s, -q.w) : physx::PxAtan2(s, q.w);
-    NV_CLOTH_ASSERT(halfAngle >= -physx::PxPi / 2 && halfAngle <= physx::PxPi / 2);
+    NV_CLOTH_ASSERT(halfAngle >= -physx::PxPi / 2 && halfAngle <= physx::PxPi / 2)
 
     return q.getImaginaryPart().getNormalized() * 2.f * halfAngle;
 }
@@ -299,7 +296,7 @@ PX_CUDA_CALLABLE PX_INLINE physx::PxQuat rotationArc(const physx::PxVec3& v0, co
 \brief returns largest axis
 */
 PX_CUDA_CALLABLE PX_FORCE_INLINE physx::PxU32 largestAxis(const physx::PxVec3& v) {
-    physx::PxU32 m = physx::PxU32(v.y > v.x ? 1 : 0);
+    auto m = physx::PxU32(v.y > v.x ? 1 : 0);
     return v.z > v[m] ? 2 : m;
 }
 
@@ -328,7 +325,7 @@ PX_CUDA_CALLABLE PX_FORCE_INLINE physx::PxU32 largestAxis(const physx::PxVec3& v
 \brief returns axis with smallest absolute value
 */
 PX_CUDA_CALLABLE PX_FORCE_INLINE physx::PxU32 closestAxis(const physx::PxVec3& v) {
-    physx::PxU32 m = physx::PxU32(physx::PxAbs(v.y) > physx::PxAbs(v.x) ? 1 : 0);
+    auto m = physx::PxU32(physx::PxAbs(v.y) > physx::PxAbs(v.x) ? 1 : 0);
     return physx::PxAbs(v.z) > physx::PxAbs(v[m]) ? 2 : m;
 }
 
@@ -402,7 +399,7 @@ PX_FORCE_INLINE void normalToTangents(const physx::PxVec3& normal, physx::PxVec3
 */
 NV_CLOTH_IMPORT physx::PxVec3 optimizeBoundingBox(physx::PxMat33& basis);
 
-NV_CLOTH_IMPORT physx::PxQuat slerp(const physx::PxReal t, const physx::PxQuat& left, const physx::PxQuat& right);
+NV_CLOTH_IMPORT physx::PxQuat slerp(physx::PxReal t, const physx::PxQuat& left, const physx::PxQuat& right);
 
 PX_CUDA_CALLABLE PX_INLINE physx::PxVec3 ellipseClamp(const physx::PxVec3& point, const physx::PxVec3& radii) {
     // This function need to be implemented in the header file because
@@ -561,8 +558,6 @@ PX_FORCE_INLINE bool isAlmostZero(const physx::PxVec3& v) {
     if (physx::PxAbs(v.x) > 1e-6f || physx::PxAbs(v.y) > 1e-6f || physx::PxAbs(v.z) > 1e-6f) return false;
     return true;
 }
-}  // namespace ps
-}  // namespace cloth
 }  // namespace nv
 
 #endif
