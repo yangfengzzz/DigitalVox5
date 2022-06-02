@@ -31,7 +31,7 @@
 #error This file needs to be compiled with NEON support!
 #endif
 
-#include "vox.cloth/../ps/android/cpu-features.h"
+#include "vox.cloth/ps/android/cpu-features.h"
 #include "vox.cloth/SwSolverKernel.cpp"
 
 namespace {

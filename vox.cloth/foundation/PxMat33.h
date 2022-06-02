@@ -89,7 +89,7 @@ so _12 is 1st row, second column and operator(row, column)!
 class PxMat33 {
 public:
     //! Default constructor
-    PX_CUDA_CALLABLE PX_FORCE_INLINE PxMat33() {}
+    PX_CUDA_CALLABLE PX_FORCE_INLINE PxMat33() = default;
 
     //! identity constructor
     PX_CUDA_CALLABLE PX_INLINE PxMat33(PxIDENTITY r)

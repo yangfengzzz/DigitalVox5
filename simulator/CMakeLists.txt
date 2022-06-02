@@ -11,6 +11,7 @@ include(android_package)
 project(simulator LANGUAGES C CXX)
 
 set(SRC
+        cloth/cloth_application.cpp
         bar_app.cpp
         main.cpp
         )
