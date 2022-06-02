@@ -121,8 +121,7 @@ struct cloth::TriangleData {
     float edge1InvSqrLength;
 };
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 template <typename T4f>
 BoundingBox<T4f> expandBounds(const BoundingBox<T4f>& bbox, const SphereData* sIt, const SphereData* sEnd) {
     BoundingBox<T4f> result = bbox;
@@ -134,8 +133,7 @@ BoundingBox<T4f> expandBounds(const BoundingBox<T4f>& bbox, const SphereData* sI
     }
     return result;
 }
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth
 
 namespace {
 template <typename T4f, typename SrcIterator>
@@ -236,7 +234,7 @@ void generateTriangles(cloth::TriangleData* dIt, const SrcIterator& src, uint32_
 }  // namespace
 
 template <typename T4f>
-cloth::SwCollision<T4f>::CollisionData::CollisionData() : mSpheres(0), mCones(0) {}
+cloth::SwCollision<T4f>::CollisionData::CollisionData() : mSpheres(nullptr), mCones(nullptr) {}
 
 template <typename T4f>
 cloth::SwCollision<T4f>::SwCollision(SwClothData& clothData, SwKernelAllocator& alloc)
@@ -392,7 +390,7 @@ void cloth::SwCollision<T4f>::buildSphereAcceleration(const SphereData* sIt) {
         const int* firstIdx = array(first);
         const int* lastIdx = array(last);
 
-        uint32_t* firstIt = reinterpret_cast<uint32_t*>(mSphereGrid);
+        auto* firstIt = reinterpret_cast<uint32_t*>(mSphereGrid);
         uint32_t* lastIt = firstIt + 3 * sGridSize;
 
         // loop through the 3 axes
@@ -416,9 +414,9 @@ void cloth::SwCollision<T4f>::buildConeAcceleration() {
 
         uint32_t spheresMask = coneIt->bothMask;
 
-        uint32_t* sphereIt = reinterpret_cast<uint32_t*>(mSphereGrid);
+        auto* sphereIt = reinterpret_cast<uint32_t*>(mSphereGrid);
         uint32_t* sphereEnd = sphereIt + 6 * sGridSize;
-        uint32_t* gridIt = reinterpret_cast<uint32_t*>(mConeGrid);
+        auto* gridIt = reinterpret_cast<uint32_t*>(mConeGrid);
         for (; sphereIt != sphereEnd; ++sphereIt, ++gridIt)
             if (*sphereIt & spheresMask) *gridIt |= coneMask;
     }
@@ -465,8 +463,8 @@ bool cloth::SwCollision<T4f>::buildAcceleration() {
     mGridBias = -expandedLower * mGridScale;
     array(mGridBias)[3] = 1.0f;  // needed for collideVirtualParticles()
 
-    NV_CLOTH_ASSERT(allTrue(((bounds.mLower * mGridScale + mGridBias) >= simd4f(0.0f)) | sMaskW));
-    NV_CLOTH_ASSERT(allTrue(((bounds.mUpper * mGridScale + mGridBias) < simd4f(8.0f)) | sMaskW));
+    NV_CLOTH_ASSERT(allTrue(((bounds.mLower * mGridScale + mGridBias) >= simd4f(0.0f)) | sMaskW))
+    NV_CLOTH_ASSERT(allTrue(((bounds.mUpper * mGridScale + mGridBias) < simd4f(8.0f)) | sMaskW))
 
     memset(mSphereGrid, 0, sizeof(uint32_t) * 6 * (sGridSize));
     if (mClothData.mEnableContinuousCollision) buildSphereAcceleration(mPrevData.mSpheres);
@@ -587,10 +585,10 @@ struct cloth::SwCollision<T4f>::ImpulseAccumulator {
           mNumCollisions(gSimd4fEpsilon) {}
 
     void add(const T4f& x, const T4f& y, const T4f& z, const T4f& scale, const T4f& mask) {
-        NV_CLOTH_ASSERT(allTrue((mask & x) == (mask & x)));
-        NV_CLOTH_ASSERT(allTrue((mask & y) == (mask & y)));
-        NV_CLOTH_ASSERT(allTrue((mask & z) == (mask & z)));
-        NV_CLOTH_ASSERT(allTrue((mask & scale) == (mask & scale)));
+        NV_CLOTH_ASSERT(allTrue((mask & x) == (mask & x)))
+        NV_CLOTH_ASSERT(allTrue((mask & y) == (mask & y)))
+        NV_CLOTH_ASSERT(allTrue((mask & z) == (mask & z)))
+        NV_CLOTH_ASSERT(allTrue((mask & scale) == (mask & scale)))
 
         T4f maskedScale = scale & mask;
         mDeltaX = mDeltaX + x * maskedScale;
@@ -600,9 +598,9 @@ struct cloth::SwCollision<T4f>::ImpulseAccumulator {
     }
 
     void addVelocity(const T4f& vx, const T4f& vy, const T4f& vz, const T4f& mask) {
-        NV_CLOTH_ASSERT(allTrue((mask & vx) == (mask & vx)));
-        NV_CLOTH_ASSERT(allTrue((mask & vy) == (mask & vy)));
-        NV_CLOTH_ASSERT(allTrue((mask & vz) == (mask & vz)));
+        NV_CLOTH_ASSERT(allTrue((mask & vx) == (mask & vx)))
+        NV_CLOTH_ASSERT(allTrue((mask & vy) == (mask & vy)))
+        NV_CLOTH_ASSERT(allTrue((mask & vz) == (mask & vz)))
 
         mVelX = mVelX + (vx & mask);
         mVelY = mVelY + (vy & mask);
@@ -610,10 +608,10 @@ struct cloth::SwCollision<T4f>::ImpulseAccumulator {
     }
 
     void subtract(const T4f& x, const T4f& y, const T4f& z, const T4f& scale, const T4f& mask) {
-        NV_CLOTH_ASSERT(allTrue((mask & x) == (mask & x)));
-        NV_CLOTH_ASSERT(allTrue((mask & y) == (mask & y)));
-        NV_CLOTH_ASSERT(allTrue((mask & z) == (mask & z)));
-        NV_CLOTH_ASSERT(allTrue((mask & scale) == (mask & scale)));
+        NV_CLOTH_ASSERT(allTrue((mask & x) == (mask & x)))
+        NV_CLOTH_ASSERT(allTrue((mask & y) == (mask & y)))
+        NV_CLOTH_ASSERT(allTrue((mask & z) == (mask & z)))
+        NV_CLOTH_ASSERT(allTrue((mask & scale) == (mask & scale)))
 
         T4f maskedScale = scale & mask;
         mDeltaX = mDeltaX - x * maskedScale;
@@ -676,7 +674,7 @@ FORCE_INLINE typename cloth::SwCollision<T4f>::T4i cloth::SwCollision<T4f>::coll
         const T4f* __restrict positions, ImpulseAccumulator& accum) const {
     const float* __restrict centerPtr = array(mCurData.mCones->center);
     const float* __restrict axisPtr = array(mCurData.mCones->axis);
-    const int32_t* __restrict auxiliaryPtr = reinterpret_cast<const int32_t*>(&mCurData.mCones->sqrCosine);
+    const auto* __restrict auxiliaryPtr = reinterpret_cast<const int32_t*>(&mCurData.mCones->sqrCosine);
 
     bool frictionEnabled = mClothData.mFrictionScale > 0.0f;
 
@@ -771,8 +769,8 @@ FORCE_INLINE typename cloth::SwCollision<T4f>::T4i cloth::SwCollision<T4f>::coll
             uint32_t s0 = mClothData.mCapsuleIndices[coneIndex].first;
             uint32_t s1 = mClothData.mCapsuleIndices[coneIndex].second;
 
-            float* prevSpheres = reinterpret_cast<float*>(mPrevData.mSpheres);
-            float* curSpheres = reinterpret_cast<float*>(mCurData.mSpheres);
+            auto* prevSpheres = reinterpret_cast<float*>(mPrevData.mSpheres);
+            auto* curSpheres = reinterpret_cast<float*>(mCurData.mSpheres);
 
             // todo: could pre-compute sphere velocities or it might be
             // faster to compute cur/prev sphere positions directly
@@ -900,11 +898,11 @@ FORCE_INLINE typename cloth::SwCollision<T4f>::T4i cloth::SwCollision<T4f>::coll
         const T4f* __restrict prevPos, T4f* __restrict curPos, ImpulseAccumulator& accum) const {
     const float* __restrict prevCenterPtr = array(mPrevData.mCones->center);
     const float* __restrict prevAxisPtr = array(mPrevData.mCones->axis);
-    const int32_t* __restrict prevAuxiliaryPtr = reinterpret_cast<const int32_t*>(&mPrevData.mCones->sqrCosine);
+    const auto* __restrict prevAuxiliaryPtr = reinterpret_cast<const int32_t*>(&mPrevData.mCones->sqrCosine);
 
     const float* __restrict curCenterPtr = array(mCurData.mCones->center);
     const float* __restrict curAxisPtr = array(mCurData.mCones->axis);
-    const int32_t* __restrict curAuxiliaryPtr = reinterpret_cast<const int32_t*>(&mCurData.mCones->sqrCosine);
+    const auto* __restrict curAuxiliaryPtr = reinterpret_cast<const int32_t*>(&mCurData.mCones->sqrCosine);
 
     bool frictionEnabled = mClothData.mFrictionScale > 0.0f;
 
@@ -1106,8 +1104,8 @@ FORCE_INLINE typename cloth::SwCollision<T4f>::T4i cloth::SwCollision<T4f>::coll
             uint32_t s0 = mClothData.mCapsuleIndices[coneIndex].first;
             uint32_t s1 = mClothData.mCapsuleIndices[coneIndex].second;
 
-            float* prevSpheres = reinterpret_cast<float*>(mPrevData.mSpheres);
-            float* curSpheres = reinterpret_cast<float*>(mCurData.mSpheres);
+            auto* prevSpheres = reinterpret_cast<float*>(mPrevData.mSpheres);
+            auto* curSpheres = reinterpret_cast<float*>(mCurData.mSpheres);
 
             // todo: could pre-compute sphere velocities or it might be
             // faster to compute cur/prev sphere positions directly
@@ -1703,7 +1701,7 @@ template <typename T4f>
 void cloth::SwCollision<T4f>::collideTriangles(const IterationState<T4f>& state) {
     if (!mClothData.mNumCollisionTriangles) return;
 
-    TriangleData* triangles =
+    auto* triangles =
             static_cast<TriangleData*>(mAllocator.allocate(sizeof(TriangleData) * mClothData.mNumCollisionTriangles));
 
     UnalignedIterator<T4f, 3> targetTriangles(mClothData.mTargetCollisionTriangles);

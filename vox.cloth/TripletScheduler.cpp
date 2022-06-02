@@ -43,7 +43,7 @@ cloth::TripletScheduler::TripletScheduler(Range<const uint32_t[4]> triplets)
 namespace {
 // linear search should be fine for small particlesInBatchSize values
 bool isIndexInBatch(
-        uint32_t* particlesInBatch, int particlesInBatchSize, uint32_t index1, uint32_t index2, uint32_t index3) {
+        const uint32_t* particlesInBatch, int particlesInBatchSize, uint32_t index1, uint32_t index2, uint32_t index3) {
     for (int i = 0; i < particlesInBatchSize; i++) {
         if (particlesInBatch[i] == 0xffffffff) return false;
         if (index1 == particlesInBatch[i] || index2 == particlesInBatch[i] || index3 == particlesInBatch[i])
@@ -56,7 +56,7 @@ void markIndicesInBatch(
         uint32_t* particlesInBatch, int particlesInBatchSize, uint32_t index1, uint32_t index2, uint32_t index3) {
     for (int i = 0; i < particlesInBatchSize - 2; i++) {
         if (particlesInBatch[i] == 0xffffffff) {
-            NV_CLOTH_ASSERT(i + 2 < particlesInBatchSize);
+            NV_CLOTH_ASSERT(i + 2 < particlesInBatchSize)
             particlesInBatch[i] = index1;
             particlesInBatch[i + 1] = index2;
             particlesInBatch[i + 2] = index3;
@@ -78,8 +78,8 @@ void cloth::TripletScheduler::simd(uint32_t numParticles, uint32_t simdWidth) {
     if (mTriplets.empty()) return;
 
     const int particlesInBatchSize = simdWidth * 3;
-    uint32_t* particlesInBatch = new uint32_t[particlesInBatchSize];  // used to mark used indices in current batch
-    int setSize = 0;                                                  // number of triplets in current set
+    auto* particlesInBatch = new uint32_t[particlesInBatchSize];  // used to mark used indices in current batch
+    int setSize = 0;                                              // number of triplets in current set
     int amountOfPaddingNeeded = 0;
 
     for (TripletIter tIt = mTriplets.begin(), tEnd = mTriplets.end(); tIt != tEnd; tIt++) {
@@ -169,10 +169,10 @@ struct TripletSet {
     uint32_t mMark;  // triplet index
 
     // [3] because each particle is fetched on a different instruction.
-    uint8_t mNumReplays[3];  // how many times the instruction needs to be executed to resolve all bank conflicts (=
-                             // maxElement(mNumConflicts[3][0...31]))
-    uint8_t mNumConflicts[3][32];  // Number of accesses for each of the 32 banks (if it is 1 then there is no conflict
-                                   // on that bank)
+    uint8_t mNumReplays[3]{};  // how many times the instruction needs to be executed to resolve all bank conflicts (=
+                               // maxElement(mNumConflicts[3][0...31]))
+    uint8_t mNumConflicts[3][32]{};  // Number of accesses for each of the 32 banks (if it is 1 then there is no
+                                     // conflict on that bank)
 };
 
 /*
@@ -223,10 +223,10 @@ public:
                                   uint32_t(0));  // initialize count to 0. Size+1 used later for prefixSum/indices
 
             // count the number of triplets per particle
-            for (ConstTripletIter tIt = triplets.begin(); tIt != triplets.end(); ++tIt) {
+            for (auto triplet : triplets) {
                 for (int i = 0; i < 3; i++)  // for each index in the triplet
                 {
-                    const uint32_t particleIndex = (*tIt)[i];
+                    const uint32_t particleIndex = triplet[i];
                     adjacencyCount[particleIndex] += 1;
                 }
             }
@@ -256,13 +256,13 @@ public:
         // mAdjacencies[mAdjacencyIndecies[i+1]] stores one past the last
     }
 
-    uint32_t getMaxAdjacentCount() const { return mMaxAdjacentCount; }
+    [[nodiscard]] uint32_t getMaxAdjacentCount() const { return mMaxAdjacentCount; }
 
-    nv::cloth::Range<const uint32_t> getAdjacentTriplets(uint32_t particleIndex) const {
+    [[nodiscard]] nv::cloth::Range<const uint32_t> getAdjacentTriplets(uint32_t particleIndex) const {
         // use .begin() + offset to get around bounds check
         auto begin = &*(mAdjacencies.begin() + mAdjacencyIndecies[particleIndex]);
         auto end = &*(mAdjacencies.begin() + mAdjacencyIndecies[particleIndex + 1]);
-        return nv::cloth::Range<const uint32_t>(begin, end);
+        return {begin, end};
     }
 };
 
@@ -271,7 +271,7 @@ public:
 // CUDA version. Doesn't add padding, optimizes for bank conflicts
 void cloth::TripletScheduler::warp(uint32_t numParticles, uint32_t warpWidth) {
     // warpWidth has to be <= 32 and a power of two
-    NV_CLOTH_ASSERT(warpWidth == 32 || warpWidth == 16);
+    NV_CLOTH_ASSERT(warpWidth == 32 || warpWidth == 16)
 
     if (mTriplets.empty()) return;
 
@@ -380,13 +380,11 @@ void cloth::TripletSchedulerTestInterface::warp(uint32_t numParticles, uint32_t 
 }
 
 cloth::Range<const uint32_t> cloth::TripletSchedulerTestInterface::GetTriplets() {
-    return Range<const uint32_t>(
-            reinterpret_cast<uint32_t*>(mScheduler->mTriplets.begin()),
-            reinterpret_cast<uint32_t*>(mScheduler->mTriplets.begin() + mScheduler->mTriplets.size()));
+    return {reinterpret_cast<uint32_t*>(mScheduler->mTriplets.begin()),
+            reinterpret_cast<uint32_t*>(mScheduler->mTriplets.begin() + mScheduler->mTriplets.size())};
 }
 cloth::Range<const uint32_t> cloth::TripletSchedulerTestInterface::GetSetSizes() {
-    return Range<const uint32_t>(mScheduler->mSetSizes.begin(),
-                                 mScheduler->mSetSizes.begin() + mScheduler->mSetSizes.size());
+    return {mScheduler->mSetSizes.begin(), mScheduler->mSetSizes.begin() + mScheduler->mSetSizes.size()};
 }
 
 NV_CLOTH_API(nv::cloth::TripletSchedulerTestInterface*)

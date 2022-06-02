@@ -29,18 +29,13 @@
 
 #include "vox.cloth/NvCloth/PhaseConfig.h"
 
-#include <algorithm>
-
 #include "vox.cloth/ClothImpl.h"
-#include "vox.cloth/NvCloth/ps/PsMathUtils.h"
 
 using namespace physx;
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 PhaseConfig transform(const PhaseConfig&);
-}
-}  // namespace nv
+}  // namespace nv::cloth
 
 using namespace nv;
 

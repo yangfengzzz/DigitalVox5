@@ -39,8 +39,7 @@
 
 using namespace physx;
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 namespace {
 // calculate the inclusive prefix sum, equivalent of std::partial_sum
@@ -167,13 +166,13 @@ struct VertexDistanceCount {
 
 // ---------------------------------------------------------------------------------------
 struct PathIntersection {
-    PxU32 vertOrTriangle;
-    PxU32 index;     // vertex id or triangle edge id
-    float s;         // only used for edge intersection
-    float distance;  // computed distance
+    PxU32 vertOrTriangle{};
+    PxU32 index{};     // vertex id or triangle edge id
+    float s{};         // only used for edge intersection
+    float distance{};  // computed distance
 
 public:
-    PathIntersection() {}
+    PathIntersection() = default;
 
     PathIntersection(PxU32 vort, PxU32 in_index, float in_distance, float in_s = 0.0f)
         : vertOrTriangle(vort), index(in_index), s(in_s), distance(in_distance) {}
@@ -258,15 +257,15 @@ bool intersectRayEdge(const PxVec3& O, const PxVec3& D, const PxVec3& A, const P
 }  // namespace
 
 struct ClothGeodesicTetherCooker : public ClothTetherCooker {
-    virtual bool cook(const ClothMeshDesc& desc) override;
+    bool cook(const ClothMeshDesc& desc) override;
 
-    virtual PxU32 getCookerStatus() const override;
-    virtual PxU32 getNbTethersPerParticle() const override;
-    virtual void getTetherData(PxU32* userTetherAnchors, PxReal* userTetherLengths) const override;
+    [[nodiscard]] PxU32 getCookerStatus() const override;
+    [[nodiscard]] PxU32 getNbTethersPerParticle() const override;
+    void getTetherData(PxU32* userTetherAnchors, PxReal* userTetherLengths) const override;
 
 public:
     // internal variables
-    PxU32 mNumParticles;
+    PxU32 mNumParticles{};
     nv::cloth::Vector<PxVec3>::Type mVertices;
     nv::cloth::Vector<PxU32>::Type mIndices;
     nv::cloth::Vector<PxU8>::Type mAttached;
@@ -275,7 +274,7 @@ public:
     nv::cloth::Vector<PxU32>::Type mTriNeighbors;  // needs changing for non-manifold support
 
     // error status
-    PxU32 mCookerStatus;
+    PxU32 mCookerStatus{};
 
     // output
     nv::cloth::Vector<PxU32>::Type mTetherAnchors;
@@ -380,7 +379,7 @@ void ClothGeodesicTetherCooker::createTetherData(const ClothMeshDesc& desc) {
     // while the island heap is not empty
     while (!vertexIslandHeap.empty()) {
         // pop vi from heap
-        VertexDistanceCount vi = popHeap<VertexDistanceCount>(vertexIslandHeap);
+        auto vi = popHeap<VertexDistanceCount>(vertexIslandHeap);
 
         // new cluster
         if (vertexIsland[PxU32(vi.vertNr)] == PxU32(-1)) {
@@ -391,8 +390,8 @@ void ClothGeodesicTetherCooker::createTetherData(const ClothMeshDesc& desc) {
         }
 
         // for each adjacent vj that's not visited
-        const PxU32 begin = PxU32(valency[PxU32(vi.vertNr)]);
-        const PxU32 end = PxU32(valency[PxU32(vi.vertNr + 1)]);
+        const auto begin = PxU32(valency[PxU32(vi.vertNr)]);
+        const auto end = PxU32(valency[PxU32(vi.vertNr + 1)]);
         for (PxU32 j = begin; j < end; ++j) {
             const PxU32 vj = neighbors[j];
 
@@ -411,11 +410,11 @@ void ClothGeodesicTetherCooker::createTetherData(const ClothMeshDesc& desc) {
 
     islandFirst.pushBack(islandIndexCnt);
 
-    NV_CLOTH_ASSERT(islandCnt == (islandFirst.size() - 1));
+    NV_CLOTH_ASSERT(islandCnt == (islandFirst.size() - 1))
 
     /////////////////////////////////////////////////////////
     PxU32 bufferSize = mNumParticles * islandCnt;
-    NV_CLOTH_ASSERT(bufferSize > 0);
+    NV_CLOTH_ASSERT(bufferSize > 0)
 
     nv::cloth::Vector<float>::Type vertexDistanceBuffer(bufferSize, PX_MAX_F32);
     nv::cloth::Vector<PxU32>::Type vertexParentBuffer(bufferSize, 0);
@@ -443,22 +442,22 @@ void ClothGeodesicTetherCooker::createTetherData(const ClothMeshDesc& desc) {
         }
 
         // no attached vertices in this island (error?)
-        NV_CLOTH_ASSERT(vertexHeap.empty() == false);
+        NV_CLOTH_ASSERT(vertexHeap.empty() == false)
         if (vertexHeap.empty()) continue;
 
         // while heap is not empty
         while (!vertexHeap.empty()) {
             // pop vi from heap
-            VertexDistanceCount vi = popHeap<VertexDistanceCount>(vertexHeap);
+            auto vi = popHeap<VertexDistanceCount>(vertexHeap);
 
             // obsolete entry ( we already found better distance)
             if (vi.distance > vertexDistance[vi.vertNr]) continue;
 
             // for each adjacent vj that's not visited
-            const PxI32 begin = PxI32(valency[PxU32(vi.vertNr)]);
-            const PxI32 end = PxI32(valency[PxU32(vi.vertNr + 1)]);
+            const auto begin = PxI32(valency[PxU32(vi.vertNr)]);
+            const auto end = PxI32(valency[PxU32(vi.vertNr + 1)]);
             for (PxI32 j = begin; j < end; ++j) {
-                const PxI32 vj = PxI32(neighbors[PxU32(j)]);
+                const auto vj = PxI32(neighbors[PxU32(j)]);
                 PxVec3 edge = mVertices[PxU32(vj)] - mVertices[PxU32(vi.vertNr)];
                 const PxF32 edgeLength = edge.magnitude();
                 float newDistance = vi.distance + edgeLength;
@@ -492,8 +491,8 @@ void ClothGeodesicTetherCooker::createTetherData(const ClothMeshDesc& desc) {
 
         // take out N-closest island from the heap
         for (PxU32 j = 0; j < nbTethersPerParticle; j++) {
-            VertexDistanceCount vi = popHeap<VertexDistanceCount>(vertexHeap);
-            PxU32 parent = PxU32(vi.vertNr);
+            auto vi = popHeap<VertexDistanceCount>(vertexHeap);
+            auto parent = PxU32(vi.vertNr);
             float distance = 0.0f;
 
             if (parent != i) {
@@ -659,7 +658,7 @@ int ClothGeodesicTetherCooker::computeVertexIntersection(PxU32 parent, PxU32 src
         // find intersection of ray (p2, d) against the edge (p0,p1)
         float s, t;
         bool result = intersectRayEdge(p2, d, p0, p1, s, t);
-        if (result == false) continue;
+        if (!result) continue;
 
         // t should be positive, otherwise we just hit the triangle in opposite direction, so ignore
         const float eps = 1e-5f;
@@ -854,8 +853,7 @@ float ClothGeodesicTetherCooker::computeGeodesicDistance(PxU32 i, PxU32 parent, 
     return geodesicDistance;
 }
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth
 
 NV_CLOTH_API(nv::cloth::ClothTetherCooker*) NvClothCreateGeodesicTetherCooker() {
     return NV_CLOTH_NEW(nv::cloth::ClothGeodesicTetherCooker);

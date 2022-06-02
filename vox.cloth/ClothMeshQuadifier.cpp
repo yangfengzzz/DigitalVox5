@@ -39,12 +39,11 @@
 
 using namespace physx;
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 struct ClothMeshQuadifierImpl : public ClothMeshQuadifier {
-    virtual bool quadify(const ClothMeshDesc& desc) override;
-    ClothMeshDesc getDescriptor() const override;
+    bool quadify(const ClothMeshDesc& desc) override;
+    [[nodiscard]] ClothMeshDesc getDescriptor() const override;
 
 public:
     ClothMeshDesc mDesc;
@@ -154,7 +153,7 @@ void computeUniqueEdges(nv::cloth::Vector<UniqueEdge>::Type& uniqueEdges,
         // check it's angle
         if (edgeAngles[longest] < rightAngle) edges[longest].isQuadDiagonal = true;
 
-        for (PxU32 j = 0; j < 3; j++) uniqueEdges.pushBack(edges[j]);
+        for (auto& edge : edges) uniqueEdges.pushBack(edge);
     }
 
     ps::sort(uniqueEdges.begin(), uniqueEdges.size(), UniqueEdge(0, 0, 0), ps::NonTrackingAllocator());
@@ -246,8 +245,8 @@ void refineUniqueEdges(nv::cloth::Vector<UniqueEdge>::Type& uniqueEdges, const P
 
     PxU32 numHiddenEdges = 0;
 
-    for (PxU32 i = 0; i < hideEdges.size(); i++) {
-        UniqueEdge& uniqueEdge = uniqueEdges[hideEdges[i]];
+    for (unsigned int hideEdge : hideEdges) {
+        UniqueEdge& uniqueEdge = uniqueEdges[hideEdge];
 
         // find some stop criterion
         if (uniqueEdge.maxAngle > maxAngle) break;
@@ -259,7 +258,7 @@ void refineUniqueEdges(nv::cloth::Vector<UniqueEdge>::Type& uniqueEdges, const P
         PxU32 numVisible = 0;
         for (PxU32 j = 0; j < 4; j++) {
             const PxU32 edgeIndex = findUniqueEdge(uniqueEdges, indices[j], indices[j + 1]);
-            NV_CLOTH_ASSERT(edgeIndex < uniqueEdges.size());
+            NV_CLOTH_ASSERT(edgeIndex < uniqueEdges.size())
 
             numVisible += uniqueEdges[edgeIndex].isQuadDiagonal ? 0 : 1;
         }
@@ -392,13 +391,12 @@ ClothMeshDesc ClothMeshQuadifierImpl::getDescriptor() const {
     desc.quads.data = mQuads.begin();
     desc.quads.stride = 4 * sizeof(PxU32);
 
-    NV_CLOTH_ASSERT(desc.isValid());
+    NV_CLOTH_ASSERT(desc.isValid())
 
     return desc;
 }
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth
 
 NV_CLOTH_API(nv::cloth::ClothMeshQuadifier*) NvClothCreateMeshQuadifier() {
     return NV_CLOTH_NEW(nv::cloth::ClothMeshQuadifierImpl);

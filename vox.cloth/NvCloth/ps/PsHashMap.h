@@ -51,12 +51,12 @@
 // HashMap<T>:
 //		bool			insert(const Key& k, const Value& v)	O(1) amortized (exponential resize
 // policy)
-//		Value &			operator[](const Key& k)				O(1) for existing objects,
-//else O(1) amortized 		const Entry *	find(const Key& k);						O(1)
+//		Value &			operator[](const Key& k)				O(1) for existing
+//objects, else O(1) amortized 		const Entry *	find(const Key& k); O(1)
 // bool erase(const T& k);						O(1) 		uint32_t
 // size(); constant 		void			reserve(uint32_t size);
 // O(MAX(currentOccupancy,size)) 		void			clear();
-//O(currentOccupancy) (with zero constant for objects
+// O(currentOccupancy) (with zero constant for objects
 // without
 // destructors)
 //      Iterator		getIterator();

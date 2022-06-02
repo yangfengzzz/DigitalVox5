@@ -33,8 +33,7 @@
 
 // platform specific helpers
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 inline uint32_t findBitSet(uint32_t mask);
 
@@ -67,8 +66,7 @@ struct Gather<Simd4i> {
 };
 #endif
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth
 
 #if NV_SIMD_SSE2
 #include "vox.cloth/sse2/SwCollisionHelpers.h"

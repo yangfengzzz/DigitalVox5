@@ -29,9 +29,7 @@
 
 #pragma once
 
-namespace nv {
-
-namespace cloth {
+namespace nv::cloth {
 
 // acts as a poor mans random access iterator
 template <typename T4f, typename BaseIterator>
@@ -121,6 +119,4 @@ private:
     BaseIterator mBaseIterator;
 };
 
-}  // namespace cloth
-
-}  // namespace nv
+}  // namespace nv::cloth

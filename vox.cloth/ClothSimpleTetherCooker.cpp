@@ -35,15 +35,14 @@
 
 using namespace physx;
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 struct ClothSimpleTetherCooker : public ClothTetherCooker {
-    virtual bool cook(const ClothMeshDesc& desc) override;
+    bool cook(const ClothMeshDesc& desc) override;
 
-    virtual uint32_t getCookerStatus() const override;  // From APEX
-    virtual void getTetherData(PxU32* userTetherAnchors, PxReal* userTetherLengths) const override;
-    virtual PxU32 getNbTethersPerParticle() const override { return 1; }
+    [[nodiscard]] uint32_t getCookerStatus() const override;  // From APEX
+    void getTetherData(PxU32* userTetherAnchors, PxReal* userTetherLengths) const override;
+    [[nodiscard]] PxU32 getNbTethersPerParticle() const override { return 1; }
 
 public:
     // output
@@ -53,7 +52,7 @@ public:
 protected:
     void createTetherData(const ClothMeshDesc& desc);
 
-    uint32_t mCookerStatus;  // From APEX
+    uint32_t mCookerStatus{};  // From APEX
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -102,7 +101,7 @@ void ClothSimpleTetherCooker::createTetherData(const ClothMeshDesc& desc) {
         mTetherLengths.pushBack(PxSqrt(minSqrDist));
     }
 
-    NV_CLOTH_ASSERT(mTetherAnchors.size() == mTetherLengths.size());
+    NV_CLOTH_ASSERT(mTetherAnchors.size() == mTetherLengths.size())
 
     if (numParticles == mTetherAnchors.size() && numParticles == mTetherLengths.size()) {
         mCookerStatus = 0;
@@ -118,8 +117,7 @@ void ClothSimpleTetherCooker::getTetherData(PxU32* userTetherAnchors, PxReal* us
     PxMemCopy(userTetherLengths, mTetherLengths.begin(), mTetherLengths.size() * sizeof(PxReal));
 }
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth
 
 NV_CLOTH_API(nv::cloth::ClothTetherCooker*) NvClothCreateSimpleTetherCooker() {
     return NV_CLOTH_NEW(nv::cloth::ClothSimpleTetherCooker);

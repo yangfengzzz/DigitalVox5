@@ -33,8 +33,7 @@
 #include "vox.cloth/Simd.h"
 #include "vox.cloth/StackAllocator.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 class SwCloth;
 struct SwClothData;
@@ -125,7 +124,7 @@ public:
     SwClothData& mClothData;
     SwKernelAllocator& mAllocator;
 
-    uint32_t mNumCollisions;
+    uint32_t mNumCollisions{};
 
     static const T4f sSkeletonWidth;
 };
@@ -138,5 +137,4 @@ extern template class SwCollision<Simd4f>;
 extern template class SwCollision<Scalar4f>;
 #endif
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

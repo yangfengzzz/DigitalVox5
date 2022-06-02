@@ -33,9 +33,7 @@
 #include "vox.cloth/foundation/PxVec4.h"
 #include "vox.cloth/NvCloth/Factory.h"
 
-namespace nv {
-
-namespace cloth {
+namespace nv::cloth {
 
 class SwFabric;
 class SwCloth;
@@ -48,59 +46,58 @@ public:
     typedef SwCloth ClothType;
 
     SwFactory();
-    virtual ~SwFactory();
+    ~SwFactory() override;
 
-    virtual Platform getPlatform() const { return Platform::CPU; }
+    [[nodiscard]] Platform getPlatform() const override { return Platform::CPU; }
 
-    virtual Fabric* createFabric(uint32_t numParticles,
-                                 Range<const uint32_t> phaseIndices,
-                                 Range<const uint32_t> sets,
-                                 Range<const float> restvalues,
-                                 Range<const float> stiffnessValues,
-                                 Range<const uint32_t> indices,
-                                 Range<const uint32_t> anchors,
-                                 Range<const float> tetherLengths,
-                                 Range<const uint32_t> triangles);
+    Fabric* createFabric(uint32_t numParticles,
+                         Range<const uint32_t> phaseIndices,
+                         Range<const uint32_t> sets,
+                         Range<const float> restvalues,
+                         Range<const float> stiffnessValues,
+                         Range<const uint32_t> indices,
+                         Range<const uint32_t> anchors,
+                         Range<const float> tetherLengths,
+                         Range<const uint32_t> triangles) override;
 
-    virtual Cloth* createCloth(Range<const physx::PxVec4> particles, Fabric& fabric);
+    Cloth* createCloth(Range<const physx::PxVec4> particles, Fabric& fabric) override;
 
-    virtual Solver* createSolver();
+    Solver* createSolver() override;
 
-    virtual Cloth* clone(const Cloth& cloth);
+    Cloth* clone(const Cloth& cloth) override;
 
-    virtual void extractFabricData(const Fabric& fabric,
-                                   Range<uint32_t> phaseIndices,
-                                   Range<uint32_t> sets,
-                                   Range<float> restvalues,
-                                   Range<float> stiffnessValues,
-                                   Range<uint32_t> indices,
-                                   Range<uint32_t> anchors,
-                                   Range<float> tetherLengths,
-                                   Range<uint32_t> triangles) const;
+    void extractFabricData(const Fabric& fabric,
+                           Range<uint32_t> phaseIndices,
+                           Range<uint32_t> sets,
+                           Range<float> restvalues,
+                           Range<float> stiffnessValues,
+                           Range<uint32_t> indices,
+                           Range<uint32_t> anchors,
+                           Range<float> tetherLengths,
+                           Range<uint32_t> triangles) const override;
 
-    virtual void extractCollisionData(const Cloth& cloth,
-                                      Range<physx::PxVec4> spheres,
-                                      Range<uint32_t> capsules,
-                                      Range<physx::PxVec4> planes,
-                                      Range<uint32_t> convexes,
-                                      Range<physx::PxVec3> triangles) const;
+    void extractCollisionData(const Cloth& cloth,
+                              Range<physx::PxVec4> spheres,
+                              Range<uint32_t> capsules,
+                              Range<physx::PxVec4> planes,
+                              Range<uint32_t> convexes,
+                              Range<physx::PxVec3> triangles) const override;
 
-    virtual void extractMotionConstraints(const Cloth& cloth, Range<physx::PxVec4> destConstraints) const;
+    void extractMotionConstraints(const Cloth& cloth, Range<physx::PxVec4> destConstraints) const override;
 
-    virtual void extractSeparationConstraints(const Cloth& cloth, Range<physx::PxVec4> destConstraints) const;
+    void extractSeparationConstraints(const Cloth& cloth, Range<physx::PxVec4> destConstraints) const override;
 
-    virtual void extractParticleAccelerations(const Cloth& cloth, Range<physx::PxVec4> destAccelerations) const;
+    void extractParticleAccelerations(const Cloth& cloth, Range<physx::PxVec4> destAccelerations) const override;
 
-    virtual void extractVirtualParticles(const Cloth& cloth,
-                                         Range<uint32_t[4]> destIndices,
-                                         Range<physx::PxVec3> destWeights) const;
+    void extractVirtualParticles(const Cloth& cloth,
+                                 Range<uint32_t[4]> destIndices,
+                                 Range<physx::PxVec3> destWeights) const override;
 
-    virtual void extractSelfCollisionIndices(const Cloth& cloth, Range<uint32_t> destIndices) const;
+    void extractSelfCollisionIndices(const Cloth& cloth, Range<uint32_t> destIndices) const override;
 
-    virtual void extractRestPositions(const Cloth& cloth, Range<physx::PxVec4> destRestPositions) const;
+    void extractRestPositions(const Cloth& cloth, Range<physx::PxVec4> destRestPositions) const override;
 
 public:
     Vector<SwFabric*>::Type mFabrics;
 };
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

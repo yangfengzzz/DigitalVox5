@@ -32,8 +32,7 @@
 #include "vox.cloth/foundation/PxTransform.h"
 #include "vox.cloth/MovingAverage.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 /* helper functions shared between SwCloth and CuCloth */
 
@@ -127,5 +126,4 @@ void copy(DstCloth& dstCloth, const SrcCloth& srcCloth) {
     dstCloth.mUserData = srcCloth.mUserData;
 }
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

@@ -36,8 +36,7 @@
 #include "vox.cloth/SwFabric.h"
 #include "vox.cloth/SwFactory.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 class DxFactory;
 class CuFactory;
 
@@ -50,7 +49,7 @@ Range<T> makeRange(ps::Array<T, A>& vec) {
 
 template <typename T, typename A>
 Range<const T> makeRange(const ps::Array<T, A>& vec) {
-    const T* ptr = vec.empty() ? 0 : vec.begin();
+    const T* ptr = vec.empty() ? nullptr : vec.begin();
     return Range<const T>(ptr, ptr + vec.size());
 }
 
@@ -90,7 +89,7 @@ typename DstFactoryType::FabricType* convertFabric(const SrcClothType& srcFabric
     srcFabric.mFactory.extractFabricData(srcFabric, phaseIndexRange, setRange, restvalueRange, stiffnessValueRange,
                                          indexRange, anchorRange, lengthRange, triangleRange);
 
-    DstFabricType* dstFabric = static_cast<DstFabricType*>(
+    auto* dstFabric = static_cast<DstFabricType*>(
             dstFactory.createFabric(srcFabric.mNumParticles, phaseIndexRange, setRange, restvalueRange,
                                     stiffnessValueRange, indexRange, anchorRange, lengthRange, triangleRange));
 
@@ -129,7 +128,7 @@ typename DstFactoryType::ClothType* convertCloth(DstFactoryType& dstFactory, con
     DstFabricType& dstFabric = *convertFabric(srcCloth.mFabric, dstFactory);
 
     // create new cloth
-    DstClothType* dstCloth = static_cast<DstClothType*>(dstFactory.createCloth(curParticles, dstFabric));
+    auto* dstCloth = static_cast<DstClothType*>(dstFactory.createCloth(curParticles, dstFabric));
     dstFabric.decRefCount();
 
     // copy across common parameters
@@ -145,17 +144,17 @@ typename DstFactoryType::ClothType* convertCloth(DstFactoryType& dstFactory, con
 
     // collision data
     Vector<physx::PxVec4>::Type spheres(srcCloth.getNumSpheres(), physx::PxVec4(0.0f));
-    physx::PxVec4* spherePtr = spheres.empty() ? 0 : &spheres.front();
+    physx::PxVec4* spherePtr = spheres.empty() ? nullptr : &spheres.front();
     Range<physx::PxVec4> sphereRange(spherePtr, spherePtr + spheres.size());
     Vector<uint32_t>::Type capsules(srcCloth.getNumCapsules() * 2);
     Range<uint32_t> capsuleRange = makeRange(capsules);
     Vector<physx::PxVec4>::Type planes(srcCloth.getNumPlanes(), physx::PxVec4(0.0f));
-    physx::PxVec4* planePtr = planes.empty() ? 0 : &planes.front();
+    physx::PxVec4* planePtr = planes.empty() ? nullptr : &planes.front();
     Range<physx::PxVec4> planeRange(planePtr, planePtr + planes.size());
     Vector<uint32_t>::Type convexes(srcCloth.getNumConvexes());
     Range<uint32_t> convexRange = makeRange(convexes);
     Vector<physx::PxVec3>::Type triangles(srcCloth.getNumTriangles() * 3, physx::PxVec3(0.0f));
-    physx::PxVec3* trianglePtr = triangles.empty() ? 0 : &triangles.front();
+    physx::PxVec3* trianglePtr = triangles.empty() ? nullptr : &triangles.front();
     Range<physx::PxVec3> triangleRange(trianglePtr, trianglePtr + triangles.size());
 
     srcFactory.extractCollisionData(srcCloth, sphereRange, capsuleRange, planeRange, convexRange, triangleRange);
@@ -193,10 +192,10 @@ typename DstFactoryType::ClothType* convertCloth(DstFactoryType& dstFactory, con
         Vector<Vec4u>::Type indices(srcCloth.getNumVirtualParticles());
         Vector<physx::PxVec3>::Type weights(srcCloth.getNumVirtualParticleWeights(), physx::PxVec3(0.0f));
 
-        uint32_t(*indicesPtr)[4] = indices.empty() ? 0 : &array(indices.front());
+        uint32_t(*indicesPtr)[4] = indices.empty() ? nullptr : &array(indices.front());
         Range<uint32_t[4]> indicesRange(indicesPtr, indicesPtr + indices.size());
 
-        physx::PxVec3* weightsPtr = weights.empty() ? 0 : &weights.front();
+        physx::PxVec3* weightsPtr = weights.empty() ? nullptr : &weights.front();
         Range<physx::PxVec3> weightsRange(weightsPtr, weightsPtr + weights.size());
 
         srcFactory.extractVirtualParticles(srcCloth, indicesRange, weightsRange);
@@ -207,5 +206,4 @@ typename DstFactoryType::ClothType* convertCloth(DstFactoryType& dstFactory, con
     return dstCloth;
 }
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

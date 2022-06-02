@@ -32,9 +32,7 @@
 #include "vox.cloth/NvCloth/Solver.h"
 #include "vox.cloth/SwInterCollision.h"
 
-namespace nv {
-
-namespace cloth {
+namespace nv::cloth {
 
 class SwCloth;
 class SwFactory;
@@ -43,7 +41,7 @@ class SwFactory;
 class SwSolver : public Solver {
     struct SimulatedCloth {
         SimulatedCloth(SwCloth& cloth, SwSolver* parent);
-        void Destroy();
+        void Destroy() const;
         void Simulate();
 
         SwCloth* mCloth;
@@ -57,34 +55,32 @@ class SwSolver : public Solver {
 
 public:
     SwSolver();
-    virtual ~SwSolver() override;
+    ~SwSolver() override;
 
-    virtual void addCloth(Cloth*) override;
-    virtual void addCloths(Range<Cloth*> cloths) override;
-    virtual void removeCloth(Cloth*) override;
-    virtual int getNumCloths() const override;
-    virtual Cloth* const* getClothList() const override;
+    void addCloth(Cloth*) override;
+    void addCloths(Range<Cloth*> cloths) override;
+    void removeCloth(Cloth*) override;
+    int getNumCloths() const override;
+    Cloth* const* getClothList() const override;
 
     // functions executing the simulation work.
-    virtual bool beginSimulation(float dt) override;
-    virtual void simulateChunk(int idx) override;
-    virtual void endSimulation() override;
-    virtual int getSimulationChunkCount() const override;
+    bool beginSimulation(float dt) override;
+    void simulateChunk(int idx) override;
+    void endSimulation() override;
+    int getSimulationChunkCount() const override;
 
-    virtual void setInterCollisionDistance(float distance) override { mInterCollisionDistance = distance; }
-    virtual float getInterCollisionDistance() const override { return mInterCollisionDistance; }
+    void setInterCollisionDistance(float distance) override { mInterCollisionDistance = distance; }
+    float getInterCollisionDistance() const override { return mInterCollisionDistance; }
 
-    virtual void setInterCollisionStiffness(float stiffness) override { mInterCollisionStiffness = stiffness; }
-    virtual float getInterCollisionStiffness() const override { return mInterCollisionStiffness; }
+    void setInterCollisionStiffness(float stiffness) override { mInterCollisionStiffness = stiffness; }
+    float getInterCollisionStiffness() const override { return mInterCollisionStiffness; }
 
-    virtual void setInterCollisionNbIterations(uint32_t nbIterations) override {
-        mInterCollisionIterations = nbIterations;
-    }
-    virtual uint32_t getInterCollisionNbIterations() const override { return mInterCollisionIterations; }
+    void setInterCollisionNbIterations(uint32_t nbIterations) override { mInterCollisionIterations = nbIterations; }
+    uint32_t getInterCollisionNbIterations() const override { return mInterCollisionIterations; }
 
-    virtual void setInterCollisionFilter(InterCollisionFilter filter) override { mInterCollisionFilter = filter; }
+    void setInterCollisionFilter(InterCollisionFilter filter) override { mInterCollisionFilter = filter; }
 
-    virtual bool hasError() const override { return false; }
+    bool hasError() const override { return false; }
 
 private:
     // add cloth helper functions
@@ -110,9 +106,8 @@ private:
     uint32_t mInterCollisionScratchMemSize;
     Vector<SwInterCollisionData>::Type mInterCollisionInstances;
 
-    float mCurrentDt;  // The delta time for the current simulated frame
+    float mCurrentDt{};  // The delta time for the current simulated frame
 
     mutable void* mSimulateProfileEventData;
 };
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

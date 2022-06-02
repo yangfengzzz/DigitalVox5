@@ -37,26 +37,24 @@
 #include "vox.cloth/foundation/PxVec4.h"
 #include "vox.cloth/NvCloth/Allocator.h"
 #include "vox.cloth/NvCloth/Fabric.h"
-#include "vox.cloth/NvCloth/ps/PsMathUtils.h"
 #include "vox.cloth/NvCloth/Range.h"
 #include "vox.cloth/NvClothExt/ClothTetherCooker.h"
 #include "vox.cloth/ps/PsSort.h"
 
 using namespace physx;
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 struct FabricCookerImpl : public ClothFabricCooker {
-    FabricCookerImpl() {}
-    bool cook(const ClothMeshDesc& desc, PxVec3 gravity, bool useGeodesicTether);
+    FabricCookerImpl() = default;
+    bool cook(const ClothMeshDesc& desc, PxVec3 gravity, bool useGeodesicTether) override;
 
-    ClothFabricDesc getDescriptor() const;
-    CookedData getCookedData() const;
-    void save(PxOutputStream& stream, bool platformMismatch) const;
+    ClothFabricDesc getDescriptor() const override;
+    CookedData getCookedData() const override;
+    void save(PxOutputStream& stream, bool platformMismatch) const override;
 
 public:
-    PxU32 mNumParticles;
+    PxU32 mNumParticles{};
 
     nv::cloth::Vector<PxU32>::Type mPhaseSetIndices;
     nv::cloth::Vector<ClothFabricPhaseType::Enum>::Type mPhaseTypes;
@@ -167,9 +165,9 @@ struct Edge {
 
     // classify v0-v2 edge based on alternative v0-v1-v2 path
     void classify(const PxVec4& v0, const PxVec4& v1, const PxVec4& v2) {
-        const PxVec3& p0 = reinterpret_cast<const PxVec3&>(v0);
-        const PxVec3& p1 = reinterpret_cast<const PxVec3&>(v1);
-        const PxVec3& p2 = reinterpret_cast<const PxVec3&>(v2);
+        const auto& p0 = reinterpret_cast<const PxVec3&>(v0);
+        const auto& p1 = reinterpret_cast<const PxVec3&>(v1);
+        const auto& p2 = reinterpret_cast<const PxVec3&>(v2);
 
         PxReal area = (p1 - p0).cross(p2 - p1).magnitude();
         // triangle height / base length
@@ -395,7 +393,7 @@ bool FabricCookerImpl::cook(const ClothMeshDesc& desc, PxVec3 gravity, bool useG
         ClothFabricPhaseType::Enum type = constraints[constraint].second;
 
         while (!constraintHeap.empty()) {
-            ConstraintGraphColorCount heapItem = popHeap<ConstraintGraphColorCount>(constraintHeap);
+            auto heapItem = popHeap<ConstraintGraphColorCount>(constraintHeap);
             constraint = heapItem.constraint;
             if (colors[constraint] != numConstraints) continue;  // skip if already colored
 
@@ -493,8 +491,8 @@ bool FabricCookerImpl::cook(const ClothMeshDesc& desc, PxVec3 gravity, bool useG
     mIndices = newIndices;
     mRestvalues = newRestValues;
 
-    NV_CLOTH_ASSERT(mIndices.size() == mRestvalues.size() * 2);
-    NV_CLOTH_ASSERT(mRestvalues.size() == mSets.back());
+    NV_CLOTH_ASSERT(mIndices.size() == mRestvalues.size() * 2)
+    NV_CLOTH_ASSERT(mRestvalues.size() == mSets.back())
 
     // calculate per constraint stiffness values if point stiffness values are provided
     if (desc.pointsStiffness.count) {
@@ -618,8 +616,7 @@ void FabricCookerImpl::save(PxOutputStream& stream, bool /*platformMismatch*/) c
     stream.write(desc.tetherLengths, desc.nbTethers * sizeof(PxReal));
 }
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth
 
 NV_CLOTH_API(nv::cloth::ClothFabricCooker*) NvClothCreateFabricCooker() {
     return NV_CLOTH_NEW(nv::cloth::FabricCookerImpl);
@@ -633,7 +630,7 @@ NvClothCookFabricFromMesh(nv::cloth::Factory* factory,
                           bool useGeodesicTether) {
     nv::cloth::FabricCookerImpl impl;
 
-    if (!impl.cook(desc, gravity, useGeodesicTether)) return 0;
+    if (!impl.cook(desc, gravity, useGeodesicTether)) return nullptr;
 
     nv::cloth::CookedData data = impl.getCookedData();
 

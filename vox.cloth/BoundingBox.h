@@ -31,9 +31,7 @@
 
 #include "vox.cloth/Simd.h"
 
-namespace nv {
-
-namespace cloth {
+namespace nv::cloth {
 
 template <typename T4f>
 struct BoundingBox {
@@ -89,5 +87,4 @@ template <typename T4f>
 inline bool isEmptyBounds(const BoundingBox<T4f>& a) {
     return anyGreater(a.mLower, a.mUpper) != 0;
 }
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

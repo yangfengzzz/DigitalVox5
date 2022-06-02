@@ -112,7 +112,7 @@ public:
 
     void setParticleBounds(const float*);
 
-    Range<physx::PxVec4> push(SwConstraints&);
+    Range<physx::PxVec4> push(SwConstraints&) const;
     static void clear(SwConstraints&);
 
     static Range<const physx::PxVec3> clampTriangleCount(Range<const physx::PxVec3>, uint32_t);
@@ -121,7 +121,7 @@ public:
     SwFactory& mFactory;
     SwFabric& mFabric;
 
-    bool mClothCostDirty;
+    bool mClothCostDirty{};
 
     // current and previous-iteration particle positions
     Vector<physx::PxVec4>::Type mCurParticles;
@@ -130,14 +130,14 @@ public:
     Vector<PhaseConfig>::Type mPhaseConfigs;  // transformed!
 
     // tether constraints stuff
-    float mTetherConstraintLogStiffness;
-    float mTetherConstraintScale;
+    float mTetherConstraintLogStiffness{};
+    float mTetherConstraintScale{};
 
     // motion constraints stuff
     SwConstraints mMotionConstraints;
-    float mMotionConstraintScale;
-    float mMotionConstraintBias;
-    float mMotionConstraintLogStiffness;
+    float mMotionConstraintScale{};
+    float mMotionConstraintBias{};
+    float mMotionConstraintLogStiffness{};
 
     // separation constraints stuff
     SwConstraints mSeparationConstraints;
@@ -154,9 +154,9 @@ public:
     Vector<physx::PxVec4>::Type mTargetCollisionPlanes;
     Vector<physx::PxVec3>::Type mStartCollisionTriangles;
     Vector<physx::PxVec3>::Type mTargetCollisionTriangles;
-    bool mEnableContinuousCollision;
-    float mCollisionMassScale;
-    float mFriction;
+    bool mEnableContinuousCollision{};
+    float mCollisionMassScale{};
+    float mFriction{};
 
     // virtual particles
     Vector<Vec4us>::Type mVirtualParticleIndices;
@@ -164,15 +164,15 @@ public:
     uint32_t mNumVirtualParticles;
 
     // self collision
-    float mSelfCollisionDistance;
-    float mSelfCollisionLogStiffness;
+    float mSelfCollisionDistance{};
+    float mSelfCollisionLogStiffness{};
 
     Vector<uint32_t>::Type mSelfCollisionIndices;
 
     Vector<physx::PxVec4>::Type mRestPositions;
 
     // unused for CPU simulation
-    void* mUserData;
+    void* mUserData{};
 };
 
 }  // namespace cloth

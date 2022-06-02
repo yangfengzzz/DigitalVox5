@@ -38,17 +38,15 @@
 
 using namespace physx;
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 PhaseConfig transform(const PhaseConfig&);  // from PhaseConfig.cpp
-}
-}  // namespace nv
+}  // namespace nv::cloth
 
 using namespace nv;
 
 cloth::SwCloth::SwCloth(SwFactory& factory, SwFabric& fabric, Range<const PxVec4> particles)
-    : mFactory(factory), mFabric(fabric), mNumVirtualParticles(0), mUserData(0) {
-    NV_CLOTH_ASSERT(!particles.empty());
+    : mFactory(factory), mFabric(fabric), mNumVirtualParticles(0), mUserData(nullptr) {
+    NV_CLOTH_ASSERT(!particles.empty())
 
     initialize(*this, particles.begin(), particles.end());
 
@@ -58,7 +56,7 @@ cloth::SwCloth::SwCloth(SwFactory& factory, SwFabric& fabric, Range<const PxVec4
     const uint32_t kSimdWidth = 4;  // sse
 #endif
 
-    NV_CLOTH_ASSERT(particles.size() == fabric.getNumParticles());
+    NV_CLOTH_ASSERT(particles.size() == fabric.getNumParticles())
 
     mCurParticles.reserve(particles.size() + kSimdWidth - 1);
     mCurParticles.assign(reinterpret_cast<const PxVec4*>(particles.begin()),
@@ -129,8 +127,8 @@ void cloth::SwCloth::setParticleBounds(const float* bounds) {
     }
 }
 
-cloth::Range<PxVec4> cloth::SwCloth::push(SwConstraints& constraints) {
-    uint32_t n = uint32_t(mCurParticles.size());
+cloth::Range<PxVec4> cloth::SwCloth::push(SwConstraints& constraints) const {
+    auto n = uint32_t(mCurParticles.size());
 
     if (!constraints.mTarget.capacity())
         constraints.mTarget.resize((n + 3) & ~3, PxVec4(0.0f));  // reserve multiple of 4 for SIMD
@@ -154,8 +152,7 @@ cloth::Range<const PxVec3> cloth::SwCloth::clampTriangleCount(Range<const PxVec3
 
 #include "vox.cloth/ClothImpl.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 Cloth* SwCloth::clone(Factory& factory) const { return factory.clone(*this); }
 
@@ -178,7 +175,7 @@ MappedRange<const physx::PxVec4> SwCloth::getPreviousParticles() const {
 }
 
 GpuParticles SwCloth::getGpuParticles() {
-    GpuParticles result = {0, 0, 0};
+    GpuParticles result = {nullptr, nullptr, nullptr};
     return result;
 }
 
@@ -203,14 +200,14 @@ uint32_t SwCloth::getNumVirtualParticles() const { return uint32_t(mNumVirtualPa
 
 Range<PxVec4> SwCloth::getParticleAccelerations() {
     if (mParticleAccelerations.empty()) {
-        uint32_t n = uint32_t(mCurParticles.size());
+        auto n = uint32_t(mCurParticles.size());
         mParticleAccelerations.resize(n, PxVec4(0.0f));
     }
 
     wakeUp();
 
     PxVec4* data = &mParticleAccelerations.front();
-    return Range<PxVec4>(data, data + mParticleAccelerations.size());
+    return {data, data + mParticleAccelerations.size()};
 }
 
 void SwCloth::clearParticleAccelerations() {
@@ -222,7 +219,7 @@ void SwCloth::setVirtualParticles(Range<const uint32_t[4]> indices, Range<const 
     mNumVirtualParticles = 0;
 
     // shuffle indices to form independent SIMD sets
-    uint16_t numParticles = uint16_t(mCurParticles.size());
+    auto numParticles = uint16_t(mCurParticles.size());
     TripletScheduler scheduler(indices);  // the TripletScheduler makes a copy so indices is not modified
     scheduler.simd(numParticles, 4);
 
@@ -240,5 +237,4 @@ void SwCloth::setVirtualParticles(Range<const uint32_t[4]> indices, Range<const 
     notifyChanged();
 }
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

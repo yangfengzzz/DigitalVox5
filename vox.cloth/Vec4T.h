@@ -32,12 +32,11 @@
 #include "vox.cloth/foundation/PxVec3.h"
 #include "vox.cloth/foundation/PxVec4.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 template <typename T>
 struct Vec4T {
-    Vec4T() {}
+    Vec4T() = default;
 
     Vec4T(T a, T b, T c, T d) : x(a), y(b), z(c), w(d) {}
 
@@ -95,6 +94,4 @@ inline const float (&array(const physx::PxMat44& v))[4][4] { return reinterpret_
 typedef Vec4T<uint32_t> Vec4u;
 typedef Vec4T<uint16_t> Vec4us;
 
-}  // namespace cloth
-
-}  // namespace nv
+}  // namespace nv::cloth

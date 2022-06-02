@@ -34,12 +34,11 @@
 #include "vox.cloth/NvCloth/Allocator.h"
 #include "vox.cloth/NvCloth/Callbacks.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 struct MovingAverage {
 public:
-    MovingAverage(uint32_t n = 1) : mBegin(0), mCount(0), mSize(n) {
+    explicit MovingAverage(uint32_t n = 1) : mBegin(0), mCount(0), mSize(n) {
         mData = reinterpret_cast<float*>(NV_CLOTH_ALLOC(mSize * sizeof(float), "MovingAverage"));
     }
     MovingAverage(const MovingAverage& other) : mData(nullptr), mBegin(0), mCount(0), mSize(0) { *this = other; }
@@ -54,12 +53,12 @@ public:
     }
     ~MovingAverage() { NV_CLOTH_FREE(mData); }
 
-    bool empty() const { return mCount == 0; }
+    [[nodiscard]] bool empty() const { return mCount == 0; }
 
-    uint32_t size() const { return mSize; }
+    [[nodiscard]] uint32_t size() const { return mSize; }
 
     void resize(uint32_t n) {
-        float* newData = reinterpret_cast<float*>(NV_CLOTH_ALLOC(n * sizeof(float), "MovingAverage"));
+        auto* newData = reinterpret_cast<float*>(NV_CLOTH_ALLOC(n * sizeof(float), "MovingAverage"));
 
         const int cutOffFront = std::max(mCount - static_cast<int32_t>(n), 0);
         int index = (mBegin + cutOffFront) % mSize;
@@ -100,8 +99,8 @@ public:
         mCount = newCount;
     }
 
-    float average() const {
-        NV_CLOTH_ASSERT(!empty());
+    [[nodiscard]] float average() const {
+        NV_CLOTH_ASSERT(!empty())
 
         float sum = 0.0f;
         int totalWeight = 0;
@@ -136,5 +135,4 @@ private:
     int32_t mCount;  // current number of elements
     int32_t mSize;   // max ringbuffer size
 };
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

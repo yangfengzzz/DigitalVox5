@@ -31,7 +31,7 @@
 
 namespace nv {
 
-void* cloth::allocate(size_t n) { return n ? GetNvClothAllocator()->allocate(n, "", __FILE__, __LINE__) : 0; }
+void* cloth::allocate(size_t n) { return n ? GetNvClothAllocator()->allocate(n, "", __FILE__, __LINE__) : nullptr; }
 
 void cloth::deallocate(void* ptr) {
     if (ptr) GetNvClothAllocator()->deallocate(ptr);

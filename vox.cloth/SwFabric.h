@@ -32,9 +32,7 @@
 #include "vox.cloth/NvCloth/Fabric.h"
 #include "vox.cloth/NvCloth/Range.h"
 
-namespace nv {
-
-namespace cloth {
+namespace nv::cloth {
 
 class SwFactory;
 
@@ -66,25 +64,25 @@ public:
 
     SwFabric& operator=(const SwFabric&);
 
-    virtual ~SwFabric();
+    ~SwFabric() override;
 
-    virtual Factory& getFactory() const;
+    [[nodiscard]] Factory& getFactory() const override;
 
-    virtual uint32_t getNumPhases() const;
-    virtual uint32_t getNumRestvalues() const;
-    virtual uint32_t getNumStiffnessValues() const;
+    [[nodiscard]] uint32_t getNumPhases() const override;
+    [[nodiscard]] uint32_t getNumRestvalues() const override;
+    [[nodiscard]] uint32_t getNumStiffnessValues() const override;
 
-    virtual uint32_t getNumSets() const;
-    virtual uint32_t getNumIndices() const;
+    [[nodiscard]] uint32_t getNumSets() const override;
+    [[nodiscard]] uint32_t getNumIndices() const override;
 
-    virtual uint32_t getNumParticles() const;
+    [[nodiscard]] uint32_t getNumParticles() const override;
 
-    virtual uint32_t getNumTethers() const;
+    [[nodiscard]] uint32_t getNumTethers() const override;
 
-    virtual uint32_t getNumTriangles() const;
+    [[nodiscard]] uint32_t getNumTriangles() const override;
 
-    virtual void scaleRestvalues(float);
-    virtual void scaleTetherLengths(float);
+    void scaleRestvalues(float) override;
+    void scaleTetherLengths(float) override;
 
 public:
     SwFactory& mFactory;
@@ -107,5 +105,4 @@ public:
 
     uint32_t mOriginalNumRestvalues;
 };
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

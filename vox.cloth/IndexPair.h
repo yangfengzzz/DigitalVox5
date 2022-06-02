@@ -29,13 +29,11 @@
 
 #pragma once
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 struct IndexPair {
     uint32_t first;
     uint32_t second;
 };
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

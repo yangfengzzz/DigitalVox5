@@ -29,14 +29,15 @@
 
 #pragma once
 
+#include <utility>
+
 #include "vox.cloth/foundation/PxTransform.h"
 #include "vox.cloth/foundation/PxVec3.h"
 #include "vox.cloth/foundation/PxVec4.h"
 #include "vox.cloth/Simd.h"
 #include "vox.cloth/StackAllocator.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 class SwCloth;
 struct SwClothData;
@@ -46,12 +47,12 @@ typedef StackAllocator<16> SwKernelAllocator;
 typedef bool (*InterCollisionFilter)(void* cloth0, void* cloth1);
 
 struct SwInterCollisionData {
-    SwInterCollisionData() {}
+    SwInterCollisionData() = default;
     SwInterCollisionData(physx::PxVec4* particles,
                          physx::PxVec4* prevParticles,
                          uint32_t numParticles,
                          uint32_t* indices,
-                         const physx::PxTransform& globalPose,
+                         physx::PxTransform globalPose,
                          const physx::PxVec3& boundsCenter,
                          const physx::PxVec3& boundsHalfExtents,
                          float impulseScale,
@@ -60,21 +61,21 @@ struct SwInterCollisionData {
           mPrevParticles(prevParticles),
           mNumParticles(numParticles),
           mIndices(indices),
-          mGlobalPose(globalPose),
+          mGlobalPose(std::move(globalPose)),
           mBoundsCenter(boundsCenter),
           mBoundsHalfExtent(boundsHalfExtents),
           mImpulseScale(impulseScale),
           mUserData(userData) {}
 
-    physx::PxVec4* mParticles;
-    physx::PxVec4* mPrevParticles;
-    uint32_t mNumParticles;
-    uint32_t* mIndices;
+    physx::PxVec4* mParticles{};
+    physx::PxVec4* mPrevParticles{};
+    uint32_t mNumParticles{};
+    uint32_t* mIndices{};
     physx::PxTransform mGlobalPose;
     physx::PxVec3 mBoundsCenter;
     physx::PxVec3 mBoundsHalfExtent;
-    float mImpulseScale;
-    void* mUserData;
+    float mImpulseScale{};
+    void* mUserData{};
 };
 
 template <typename T4f>
@@ -117,9 +118,9 @@ private:
     T4f mCollisionSquareDistance;
     T4f mStiffness;
 
-    uint16_t mClothIndex;
-    uint32_t mClothMask;
-    uint32_t mParticleIndex;
+    uint16_t mClothIndex{};
+    uint32_t mClothMask{};
+    uint32_t mParticleIndex{};
 
     uint32_t mNumIterations;
 
@@ -129,7 +130,7 @@ private:
     uint16_t* mClothIndices;
     uint32_t* mParticleIndices;
     uint32_t mNumParticles;
-    uint32_t* mOverlapMasks;
+    uint32_t* mOverlapMasks{};
 
     uint32_t mTotalParticles;
 
@@ -138,8 +139,8 @@ private:
     SwKernelAllocator& mAllocator;
 
 public:
-    mutable uint32_t mNumTests;
-    mutable uint32_t mNumCollisions;
+    mutable uint32_t mNumTests{};
+    mutable uint32_t mNumCollisions{};
 };
 
 // explicit template instantiation declaration
@@ -150,6 +151,4 @@ extern template class SwInterCollision<Simd4f>;
 extern template class SwInterCollision<Scalar4f>;
 #endif
 
-}  // namespace cloth
-
-}  // namespace nv
+}  // namespace nv::cloth

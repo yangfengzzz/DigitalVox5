@@ -33,8 +33,7 @@
 #include "vox.cloth/SwCollision.h"
 #include "vox.cloth/SwSelfCollision.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 class SwCloth;
 struct SwClothData;
@@ -86,5 +85,4 @@ extern template class SwSolverKernel<Simd4f>;
 extern template class SwSolverKernel<Scalar4f>;
 #endif
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

@@ -46,7 +46,7 @@ namespace {
 void radixSort(const uint32_t* first, const uint32_t* last, uint16_t* out) {
     // Note: This function is almost exactly duplicated in SwInterCollision.cpp
     // this sort uses a radix (bin) size of 256, requiring 4 bins to sort the 32 bit keys
-    uint16_t n = uint16_t(last - first);
+    auto n = uint16_t(last - first);
 
     uint16_t* buffer = out + 2 * n;
     uint16_t* __restrict histograms[] = {buffer, buffer + 256, buffer + 512, buffer + 768};
@@ -66,24 +66,24 @@ void radixSort(const uint32_t* first, const uint32_t* last, uint16_t* out) {
     // convert histograms to offset tables in-place
     uint16_t sums[4] = {0, 0, 0, 0};
     for (uint32_t i = 0; i < 256; ++i) {
-        uint16_t temp0 = uint16_t(histograms[0][i] + sums[0]);
+        auto temp0 = uint16_t(histograms[0][i] + sums[0]);
         histograms[0][i] = sums[0];
         sums[0] = temp0;
 
-        uint16_t temp1 = uint16_t(histograms[1][i] + sums[1]);
+        auto temp1 = uint16_t(histograms[1][i] + sums[1]);
         histograms[1][i] = sums[1];
         sums[1] = temp1;
 
-        uint16_t temp2 = uint16_t(histograms[2][i] + sums[2]);
+        auto temp2 = uint16_t(histograms[2][i] + sums[2]);
         histograms[2][i] = sums[2];
         sums[2] = temp2;
 
-        uint16_t temp3 = uint16_t(histograms[3][i] + sums[3]);
+        auto temp3 = uint16_t(histograms[3][i] + sums[3]);
         histograms[3][i] = sums[3];
         sums[3] = temp3;
     }
 
-    NV_CLOTH_ASSERT(sums[0] == n && sums[1] == n && sums[2] == n && sums[3] == n);
+    NV_CLOTH_ASSERT(sums[0] == n && sums[1] == n && sums[2] == n && sums[3] == n)
 
 #if PX_DEBUG
     memset(out, 0xff, 2 * n * sizeof(uint16_t));
@@ -142,7 +142,7 @@ cloth::SwSelfCollision<T4f>::SwSelfCollision(cloth::SwClothData& clothData, clot
 }
 
 template <typename T4f>
-cloth::SwSelfCollision<T4f>::~SwSelfCollision() {}
+cloth::SwSelfCollision<T4f>::~SwSelfCollision() = default;
 
 template <typename T4f>
 void cloth::SwSelfCollision<T4f>::operator()() {
@@ -174,9 +174,9 @@ void cloth::SwSelfCollision<T4f>::operator()() {
     void* buffer = mAllocator.allocate(getBufferSize(numIndices));
 
     const uint32_t* __restrict indices = mClothData.mSelfCollisionIndices;
-    uint32_t* __restrict keys = reinterpret_cast<uint32_t*>(buffer);
-    uint16_t* __restrict sortedIndices = reinterpret_cast<uint16_t*>(keys + numIndices);
-    uint32_t* __restrict sortedKeys = reinterpret_cast<uint32_t*>(sortedIndices + align2(numIndices));
+    auto* __restrict keys = reinterpret_cast<uint32_t*>(buffer);
+    auto* __restrict sortedIndices = reinterpret_cast<uint16_t*>(keys + numIndices);
+    auto* __restrict sortedKeys = reinterpret_cast<uint32_t*>(sortedIndices + align2(numIndices));
 
     const T4f* particles = reinterpret_cast<const T4f*>(mClothData.mCurParticles);
 
@@ -254,8 +254,8 @@ void cloth::SwSelfCollision<T4f>::operator()() {
 
 template <typename T4f>
 size_t cloth::SwSelfCollision<T4f>::estimateTemporaryMemory(const SwCloth& cloth) {
-    uint32_t numIndices = uint32_t(cloth.mSelfCollisionIndices.empty() ? cloth.mCurParticles.size()
-                                                                       : cloth.mSelfCollisionIndices.size());
+    auto numIndices = uint32_t(cloth.mSelfCollisionIndices.empty() ? cloth.mCurParticles.size()
+                                                                   : cloth.mSelfCollisionIndices.size());
     return isSelfCollisionEnabled(cloth) ? getBufferSize(numIndices) : 0;
 }
 
@@ -381,7 +381,7 @@ void cloth::SwSelfCollision<T4f>::collideParticles(const uint32_t* keys,
 
     // loop through all indices
     for (; iIt < iEnd; ++iIt, ++kFirst[0]) {
-        NV_CLOTH_ASSERT(*iIt < mClothData.mNumParticles);
+        NV_CLOTH_ASSERT(*iIt < mClothData.mNumParticles)
 
         // load current particle once outside of inner loop
         T4f particle = particles[*iIt];

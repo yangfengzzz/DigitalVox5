@@ -36,17 +36,14 @@
 #include "vox.cloth/SwCloth.h"
 #include "vox.cloth/SwClothData.h"
 #include "vox.cloth/SwFabric.h"
-#include "vox.cloth/SwFactory.h"
 #include "vox.cloth/SwInterCollision.h"
 #include "vox.cloth/SwSolverKernel.h"
 
 using namespace physx;
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 bool neonSolverKernel(SwCloth const&, SwClothData&, SwKernelAllocator&, IterationStateFactory&);
-}
-}  // namespace nv
+}  // namespace nv::cloth
 
 using namespace nv;
 using namespace cloth;
@@ -68,7 +65,7 @@ cloth::SwSolver::SwSolver()
 cloth::SwSolver::~SwSolver() {
     if (mInterCollisionScratchMem) NV_CLOTH_FREE(mInterCollisionScratchMem);
 
-    NV_CLOTH_ASSERT(mSimulatedCloths.empty());
+    NV_CLOTH_ASSERT(mSimulatedCloths.empty())
 }
 
 namespace {
@@ -139,12 +136,12 @@ bool cloth::SwSolver::beginSimulation(float dt) {
     return true;
 }
 void cloth::SwSolver::simulateChunk(int idx) {
-    NV_CLOTH_ASSERT(!mSimulatedCloths.empty());
+    NV_CLOTH_ASSERT(!mSimulatedCloths.empty())
     mSimulatedCloths[idx].Simulate();
     mSimulatedCloths[idx].Destroy();
 }
 void cloth::SwSolver::endSimulation() {
-    NV_CLOTH_ASSERT(!mSimulatedCloths.empty());
+    NV_CLOTH_ASSERT(!mSimulatedCloths.empty())
     interCollision();
     endFrame();
 }
@@ -164,18 +161,18 @@ void cloth::SwSolver::interCollision() {
 
     // rebuild cloth instance array
     mInterCollisionInstances.resize(0);
-    for (uint32_t i = 0; i < mSimulatedCloths.size(); ++i) {
-        SwCloth* c = mSimulatedCloths[i].mCloth;
-        float invNumIterations = mSimulatedCloths[i].mInvNumIterations;
+    for (auto& mSimulatedCloth : mSimulatedCloths) {
+        SwCloth* c = mSimulatedCloth.mCloth;
+        float invNumIterations = mSimulatedCloth.mInvNumIterations;
 
         mInterCollisionInstances.pushBack(SwInterCollisionData(
                 c->mCurParticles.begin(), c->mPrevParticles.begin(),
                 c->mSelfCollisionIndices.empty() ? c->mCurParticles.size() : c->mSelfCollisionIndices.size(),
-                c->mSelfCollisionIndices.empty() ? NULL : &c->mSelfCollisionIndices[0], c->mTargetMotion,
+                c->mSelfCollisionIndices.empty() ? nullptr : &c->mSelfCollisionIndices[0], c->mTargetMotion,
                 c->mParticleBoundsCenter, c->mParticleBoundsHalfExtent, elasticity * invNumIterations, c->mUserData));
     }
 
-    const uint32_t requiredTempMemorySize = uint32_t(SwInterCollision<Simd4fType>::estimateTemporaryMemory(
+    const auto requiredTempMemorySize = uint32_t(SwInterCollision<Simd4fType>::estimateTemporaryMemory(
             &mInterCollisionInstances[0], mInterCollisionInstances.size()));
 
     // realloc temp memory if necessary
@@ -199,7 +196,7 @@ void cloth::SwSolver::interCollision() {
 
 void cloth::SwSolver::addClothAppend(Cloth* cloth) {
     SwCloth& swCloth = *static_cast<SwCloth*>(cloth);
-    NV_CLOTH_ASSERT(mCloths.find(&swCloth) == mCloths.end());
+    NV_CLOTH_ASSERT(mCloths.find(&swCloth) == mCloths.end())
 
     mSimulatedCloths.pushBack(SimulatedCloth(swCloth, this));
 
@@ -215,9 +212,9 @@ void cloth::SwSolver::endFrame() const {
 }
 
 cloth::SwSolver::SimulatedCloth::SimulatedCloth(SwCloth& cloth, SwSolver* parent)
-    : mCloth(&cloth), mScratchMemorySize(0), mScratchMemory(0), mInvNumIterations(0.0f), mParent(parent) {}
+    : mCloth(&cloth), mScratchMemorySize(0), mScratchMemory(nullptr), mInvNumIterations(0.0f), mParent(parent) {}
 
-void cloth::SwSolver::SimulatedCloth::Destroy() {
+void cloth::SwSolver::SimulatedCloth::Destroy() const {
     mCloth->mMotionConstraints.pop();
     mCloth->mSeparationConstraints.pop();
 
@@ -239,7 +236,7 @@ void cloth::SwSolver::SimulatedCloth::Destroy() {
 void cloth::SwSolver::SimulatedCloth::Simulate() {
     // check if we need to reallocate the temp memory buffer
     // (number of shapes may have changed)
-    uint32_t requiredTempMemorySize = uint32_t(SwSolverKernel<Simd4fType>::estimateTemporaryMemory(*mCloth));
+    auto requiredTempMemorySize = uint32_t(SwSolverKernel<Simd4fType>::estimateTemporaryMemory(*mCloth));
 
     if (mScratchMemorySize < requiredTempMemorySize) {
         NV_CLOTH_FREE(mScratchMemory);

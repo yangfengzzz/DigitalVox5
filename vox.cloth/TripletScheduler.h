@@ -33,9 +33,7 @@
 #include "vox.cloth/NvCloth/Range.h"
 #include "vox.cloth/Vec4T.h"
 
-namespace nv {
-
-namespace cloth {
+namespace nv::cloth {
 
 struct TripletScheduler {
     typedef Vector<Vec4u>::Type::ConstIterator ConstTripletIter;
@@ -50,12 +48,10 @@ struct TripletScheduler {
     Vector<uint32_t>::Type mSetSizes;
     Vector<Vec4us>::Type mPaddedTriplets;
 };
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth
 
 // Make TripletScheduler available for the unit tests.
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 struct NV_CLOTH_IMPORT TripletSchedulerTestInterface {
 private:
     TripletScheduler* mScheduler;
@@ -69,8 +65,7 @@ public:
     Range<const uint32_t> GetTriplets();
     Range<const uint32_t> GetSetSizes();
 };
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth
 
 NV_CLOTH_API(nv::cloth::TripletSchedulerTestInterface*)
 NvClothCreateTripletScheduler(nv::cloth::Range<const uint32_t[4]>);

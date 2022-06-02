@@ -39,8 +39,7 @@
 #include "vox.cloth/NvCloth/Fabric.h"
 #include "vox.cloth/NvCloth/ps/PsMathUtils.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 template <typename T>
 class ClothTraits {};
@@ -52,7 +51,7 @@ class ClothImpl : public Cloth {
     ClothImpl(const ClothImpl&);
 
 public:
-    ClothImpl() {}
+    ClothImpl() = default;
     typedef T ClothType;
     typedef typename ClothTraits<ClothType>::FactoryType FactoryType;
     typedef typename ClothTraits<ClothType>::FabricType FabricType;
@@ -63,133 +62,133 @@ public:
     ClothType* getChildCloth() { return static_cast<T*>(this); }
     ClothType const* getChildCloth() const { return static_cast<T const*>(this); }
 
-    virtual Fabric& getFabric() const;
-    virtual Factory& getFactory() const;
+    [[nodiscard]] Fabric& getFabric() const override;
+    [[nodiscard]] Factory& getFactory() const override;
 
-    virtual void setTranslation(const physx::PxVec3& trans);
-    virtual void setRotation(const physx::PxQuat& rot);
+    void setTranslation(const physx::PxVec3& trans) override;
+    void setRotation(const physx::PxQuat& rot) override;
 
-    virtual const physx::PxVec3& getTranslation() const;
-    virtual const physx::PxQuat& getRotation() const;
+    [[nodiscard]] const physx::PxVec3& getTranslation() const override;
+    [[nodiscard]] const physx::PxQuat& getRotation() const override;
 
-    virtual void clearInertia();
+    void clearInertia() override;
 
-    virtual void teleport(const physx::PxVec3& delta);
-    virtual void teleportToLocation(const physx::PxVec3& translation, const physx::PxQuat& rotation);
+    void teleport(const physx::PxVec3& delta) override;
+    void teleportToLocation(const physx::PxVec3& translation, const physx::PxQuat& rotation) override;
 
-    virtual void ignoreVelocityDiscontinuity();
+    void ignoreVelocityDiscontinuity() override;
 
-    virtual float getPreviousIterationDt() const;
-    virtual void setGravity(const physx::PxVec3& gravity);
-    virtual physx::PxVec3 getGravity() const;
-    virtual void setDamping(const physx::PxVec3& damping);
-    virtual physx::PxVec3 getDamping() const;
-    virtual void setLinearDrag(const physx::PxVec3& drag);
-    virtual physx::PxVec3 getLinearDrag() const;
-    virtual void setAngularDrag(const physx::PxVec3& drag);
-    virtual physx::PxVec3 getAngularDrag() const;
-    virtual void setLinearInertia(const physx::PxVec3& inertia);
-    virtual physx::PxVec3 getLinearInertia() const;
-    virtual void setAngularInertia(const physx::PxVec3& inertia);
-    virtual physx::PxVec3 getAngularInertia() const;
-    virtual void setCentrifugalInertia(const physx::PxVec3& inertia);
-    virtual physx::PxVec3 getCentrifugalInertia() const;
+    [[nodiscard]] float getPreviousIterationDt() const override;
+    void setGravity(const physx::PxVec3& gravity) override;
+    [[nodiscard]] physx::PxVec3 getGravity() const override;
+    void setDamping(const physx::PxVec3& damping) override;
+    [[nodiscard]] physx::PxVec3 getDamping() const override;
+    void setLinearDrag(const physx::PxVec3& drag) override;
+    [[nodiscard]] physx::PxVec3 getLinearDrag() const override;
+    void setAngularDrag(const physx::PxVec3& drag) override;
+    [[nodiscard]] physx::PxVec3 getAngularDrag() const override;
+    void setLinearInertia(const physx::PxVec3& inertia) override;
+    [[nodiscard]] physx::PxVec3 getLinearInertia() const override;
+    void setAngularInertia(const physx::PxVec3& inertia) override;
+    [[nodiscard]] physx::PxVec3 getAngularInertia() const override;
+    void setCentrifugalInertia(const physx::PxVec3& inertia) override;
+    [[nodiscard]] physx::PxVec3 getCentrifugalInertia() const override;
 
-    virtual void setSolverFrequency(float frequency);
-    virtual float getSolverFrequency() const;
+    void setSolverFrequency(float frequency) override;
+    [[nodiscard]] float getSolverFrequency() const override;
 
-    virtual void setStiffnessFrequency(float frequency);
-    virtual float getStiffnessFrequency() const;
+    void setStiffnessFrequency(float frequency) override;
+    [[nodiscard]] float getStiffnessFrequency() const override;
 
-    virtual void setAcceleationFilterWidth(uint32_t);
-    virtual uint32_t getAccelerationFilterWidth() const;
+    void setAcceleationFilterWidth(uint32_t) override;
+    [[nodiscard]] uint32_t getAccelerationFilterWidth() const override;
 
-    virtual void setSpheres(Range<const physx::PxVec4>, uint32_t first, uint32_t last);
-    virtual void setSpheres(Range<const physx::PxVec4> startSpheres, Range<const physx::PxVec4> targetSpheres);
-    virtual uint32_t getNumSpheres() const;
+    void setSpheres(Range<const physx::PxVec4>, uint32_t first, uint32_t last) override;
+    void setSpheres(Range<const physx::PxVec4> startSpheres, Range<const physx::PxVec4> targetSpheres) override;
+    [[nodiscard]] uint32_t getNumSpheres() const override;
 
-    virtual void setCapsules(Range<const uint32_t>, uint32_t first, uint32_t last);
-    virtual uint32_t getNumCapsules() const;
+    void setCapsules(Range<const uint32_t>, uint32_t first, uint32_t last) override;
+    [[nodiscard]] uint32_t getNumCapsules() const override;
 
-    virtual void setPlanes(Range<const physx::PxVec4>, uint32_t first, uint32_t last);
-    virtual void setPlanes(Range<const physx::PxVec4> startPlanes, Range<const physx::PxVec4> targetPlanes);
-    virtual uint32_t getNumPlanes() const;
+    void setPlanes(Range<const physx::PxVec4>, uint32_t first, uint32_t last) override;
+    void setPlanes(Range<const physx::PxVec4> startPlanes, Range<const physx::PxVec4> targetPlanes) override;
+    [[nodiscard]] uint32_t getNumPlanes() const override;
 
-    virtual void setConvexes(Range<const uint32_t>, uint32_t first, uint32_t last);
-    virtual uint32_t getNumConvexes() const;
+    void setConvexes(Range<const uint32_t>, uint32_t first, uint32_t last) override;
+    [[nodiscard]] uint32_t getNumConvexes() const override;
 
-    virtual void setTriangles(Range<const physx::PxVec3>, uint32_t first, uint32_t last);
-    virtual void setTriangles(Range<const physx::PxVec3>, Range<const physx::PxVec3>, uint32_t first);
-    virtual uint32_t getNumTriangles() const;
+    void setTriangles(Range<const physx::PxVec3>, uint32_t first, uint32_t last) override;
+    void setTriangles(Range<const physx::PxVec3>, Range<const physx::PxVec3>, uint32_t first) override;
+    [[nodiscard]] uint32_t getNumTriangles() const override;
 
-    virtual bool isContinuousCollisionEnabled() const;
-    virtual void enableContinuousCollision(bool);
+    [[nodiscard]] bool isContinuousCollisionEnabled() const override;
+    void enableContinuousCollision(bool) override;
 
-    virtual float getCollisionMassScale() const;
-    virtual void setCollisionMassScale(float);
-    virtual void setFriction(float friction);
-    virtual float getFriction() const;
+    [[nodiscard]] float getCollisionMassScale() const override;
+    void setCollisionMassScale(float) override;
+    void setFriction(float friction) override;
+    [[nodiscard]] float getFriction() const override;
 
-    virtual uint32_t getNumVirtualParticleWeights() const;
+    [[nodiscard]] uint32_t getNumVirtualParticleWeights() const override;
 
-    virtual void setTetherConstraintScale(float scale);
-    virtual float getTetherConstraintScale() const;
-    virtual void setTetherConstraintStiffness(float stiffness);
-    virtual float getTetherConstraintStiffness() const;
+    void setTetherConstraintScale(float scale) override;
+    [[nodiscard]] float getTetherConstraintScale() const override;
+    void setTetherConstraintStiffness(float stiffness) override;
+    [[nodiscard]] float getTetherConstraintStiffness() const override;
 
-    virtual Range<physx::PxVec4> getMotionConstraints();
-    virtual void clearMotionConstraints();
-    virtual uint32_t getNumMotionConstraints() const;
-    virtual void setMotionConstraintScaleBias(float scale, float bias);
-    virtual float getMotionConstraintScale() const;
-    virtual float getMotionConstraintBias() const;
-    virtual void setMotionConstraintStiffness(float stiffness);
-    virtual float getMotionConstraintStiffness() const;
+    Range<physx::PxVec4> getMotionConstraints() override;
+    void clearMotionConstraints() override;
+    [[nodiscard]] uint32_t getNumMotionConstraints() const override;
+    void setMotionConstraintScaleBias(float scale, float bias) override;
+    [[nodiscard]] float getMotionConstraintScale() const override;
+    [[nodiscard]] float getMotionConstraintBias() const override;
+    void setMotionConstraintStiffness(float stiffness) override;
+    [[nodiscard]] float getMotionConstraintStiffness() const override;
 
-    virtual Range<physx::PxVec4> getSeparationConstraints();
-    virtual void clearSeparationConstraints();
-    virtual uint32_t getNumSeparationConstraints() const;
+    Range<physx::PxVec4> getSeparationConstraints() override;
+    void clearSeparationConstraints() override;
+    [[nodiscard]] uint32_t getNumSeparationConstraints() const override;
 
-    virtual void clearInterpolation();
+    void clearInterpolation() override;
 
-    virtual uint32_t getNumParticleAccelerations() const;
+    [[nodiscard]] uint32_t getNumParticleAccelerations() const override;
 
-    virtual void setWindVelocity(physx::PxVec3);
-    virtual physx::PxVec3 getWindVelocity() const;
-    virtual void setDragCoefficient(float);
-    virtual float getDragCoefficient() const;
-    virtual void setLiftCoefficient(float);
-    virtual float getLiftCoefficient() const;
-    virtual void setFluidDensity(float);
-    virtual float getFluidDensity() const;
+    void setWindVelocity(physx::PxVec3) override;
+    [[nodiscard]] physx::PxVec3 getWindVelocity() const override;
+    void setDragCoefficient(float) override;
+    [[nodiscard]] float getDragCoefficient() const override;
+    void setLiftCoefficient(float) override;
+    [[nodiscard]] float getLiftCoefficient() const override;
+    void setFluidDensity(float) override;
+    [[nodiscard]] float getFluidDensity() const override;
 
-    virtual void setSelfCollisionDistance(float);
-    virtual float getSelfCollisionDistance() const;
-    virtual void setSelfCollisionStiffness(float);
-    virtual float getSelfCollisionStiffness() const;
+    void setSelfCollisionDistance(float) override;
+    [[nodiscard]] float getSelfCollisionDistance() const override;
+    void setSelfCollisionStiffness(float) override;
+    [[nodiscard]] float getSelfCollisionStiffness() const override;
 
-    virtual uint32_t getNumSelfCollisionIndices() const;
+    [[nodiscard]] uint32_t getNumSelfCollisionIndices() const override;
 
-    virtual void setRestPositions(Range<const physx::PxVec4>);
-    virtual uint32_t getNumRestPositions() const;
+    void setRestPositions(Range<const physx::PxVec4>) override;
+    [[nodiscard]] uint32_t getNumRestPositions() const override;
 
-    virtual const physx::PxVec3& getBoundingBoxCenter() const;
-    virtual const physx::PxVec3& getBoundingBoxScale() const;
+    [[nodiscard]] const physx::PxVec3& getBoundingBoxCenter() const override;
+    [[nodiscard]] const physx::PxVec3& getBoundingBoxScale() const override;
 
-    virtual void setSleepThreshold(float);
-    virtual float getSleepThreshold() const;
-    virtual void setSleepTestInterval(uint32_t);
-    virtual uint32_t getSleepTestInterval() const;
-    virtual void setSleepAfterCount(uint32_t);
-    virtual uint32_t getSleepAfterCount() const;
-    virtual uint32_t getSleepPassCount() const;
-    virtual bool isAsleep() const;
-    virtual void putToSleep();
-    virtual bool isSleeping() const;
-    virtual void wakeUp();
+    void setSleepThreshold(float) override;
+    [[nodiscard]] float getSleepThreshold() const override;
+    void setSleepTestInterval(uint32_t) override;
+    [[nodiscard]] uint32_t getSleepTestInterval() const override;
+    void setSleepAfterCount(uint32_t) override;
+    [[nodiscard]] uint32_t getSleepAfterCount() const override;
+    [[nodiscard]] uint32_t getSleepPassCount() const override;
+    [[nodiscard]] bool isAsleep() const override;
+    void putToSleep() override;
+    [[nodiscard]] virtual bool isSleeping() const;
+    void wakeUp() override;
 
-    virtual void setUserData(void*);
-    virtual void* getUserData() const;
+    void setUserData(void*) override;
+    [[nodiscard]] void* getUserData() const override;
 
     // helper function
     template <typename U>
@@ -206,30 +205,30 @@ public:  // Fields shared between all cloth classes
     physx::PxVec3 mLinearInertia;
     physx::PxVec3 mAngularInertia;
     physx::PxVec3 mCentrifugalInertia;
-    float mSolverFrequency;
-    float mStiffnessFrequency;
+    float mSolverFrequency{};
+    float mStiffnessFrequency{};
 
     physx::PxTransform mTargetMotion;
     physx::PxTransform mCurrentMotion;
     physx::PxVec3 mLinearVelocity;
     physx::PxVec3 mAngularVelocity;
-    bool mIgnoreVelocityDiscontinuityNextFrame;
+    bool mIgnoreVelocityDiscontinuityNextFrame{};
 
-    float mPrevIterDt;
+    float mPrevIterDt{};
     MovingAverage mIterDtAvg;
 
     // wind
     physx::PxVec3 mWind;
-    float mDragLogCoefficient;
-    float mLiftLogCoefficient;
-    float mFluidDensity;
+    float mDragLogCoefficient{};
+    float mLiftLogCoefficient{};
+    float mFluidDensity{};
 
     // sleeping
-    uint32_t mSleepTestInterval;  // how often to test for movement
-    uint32_t mSleepAfterCount;    // number of tests to pass before sleep
-    float mSleepThreshold;        // max movement delta to pass test
-    uint32_t mSleepPassCounter;   // how many tests passed
-    uint32_t mSleepTestCounter;   // how many iterations since tested
+    uint32_t mSleepTestInterval{};  // how often to test for movement
+    uint32_t mSleepAfterCount{};    // number of tests to pass before sleep
+    float mSleepThreshold{};        // max movement delta to pass test
+    uint32_t mSleepPassCounter{};   // how many tests passed
+    uint32_t mSleepTestCounter{};   // how many iterations since tested
 };
 
 template <typename T>
@@ -305,7 +304,7 @@ inline float ClothImpl<T>::getPreviousIterationDt() const {
 
 template <typename T>
 inline void ClothImpl<T>::setGravity(const physx::PxVec3& gravity) {
-    physx::PxVec3 value = gravity;
+    const physx::PxVec3& value = gravity;
     if (value == mGravity) return;
 
     mGravity = value;
@@ -318,13 +317,11 @@ inline physx::PxVec3 ClothImpl<T>::getGravity() const {
 }
 
 inline float safeLog2(float x) {
-    NV_CLOTH_ASSERT_WITH_MESSAGE("safeLog2", x >= 0.0f);
+    NV_CLOTH_ASSERT_WITH_MESSAGE("safeLog2", x >= 0.0f)
     return x > 0 ? ps::log2(x) : -FLT_MAX_EXP;
 }
 
-inline physx::PxVec3 safeLog2(const physx::PxVec3& v) {
-    return physx::PxVec3(safeLog2(v.x), safeLog2(v.y), safeLog2(v.z));
-}
+inline physx::PxVec3 safeLog2(const physx::PxVec3& v) { return {safeLog2(v.x), safeLog2(v.y), safeLog2(v.z)}; }
 
 inline float safeExp2(float x) {
     if (x <= -FLT_MAX_EXP)
@@ -333,9 +330,7 @@ inline float safeExp2(float x) {
         return ps::exp2(x);
 }
 
-inline physx::PxVec3 safeExp2(const physx::PxVec3& v) {
-    return physx::PxVec3(safeExp2(v.x), safeExp2(v.y), safeExp2(v.z));
-}
+inline physx::PxVec3 safeExp2(const physx::PxVec3& v) { return {safeExp2(v.x), safeExp2(v.y), safeExp2(v.z)}; }
 
 template <typename T>
 inline void ClothImpl<T>::setDamping(const physx::PxVec3& damping) {
@@ -381,7 +376,7 @@ inline physx::PxVec3 ClothImpl<T>::getAngularDrag() const {
 
 template <typename T>
 inline void ClothImpl<T>::setLinearInertia(const physx::PxVec3& inertia) {
-    physx::PxVec3 value = inertia;
+    const physx::PxVec3& value = inertia;
     if (value == mLinearInertia) return;
 
     mLinearInertia = value;
@@ -395,7 +390,7 @@ inline physx::PxVec3 ClothImpl<T>::getLinearInertia() const {
 
 template <typename T>
 inline void ClothImpl<T>::setAngularInertia(const physx::PxVec3& inertia) {
-    physx::PxVec3 value = inertia;
+    const physx::PxVec3& value = inertia;
     if (value == mAngularInertia) return;
 
     mAngularInertia = value;
@@ -409,7 +404,7 @@ inline physx::PxVec3 ClothImpl<T>::getAngularInertia() const {
 
 template <typename T>
 inline void ClothImpl<T>::setCentrifugalInertia(const physx::PxVec3& inertia) {
-    physx::PxVec3 value = inertia;
+    const physx::PxVec3& value = inertia;
     if (value == mCentrifugalInertia) return;
 
     mCentrifugalInertia = value;
@@ -480,12 +475,12 @@ inline void ClothImpl<T>::setSpheres(Range<const physx::PxVec4> spheres, uint32_
     uint32_t oldSize = uint32_t(getChildCloth()->mStartCollisionSpheres.size());
     uint32_t newSize = uint32_t(spheres.size()) + oldSize - last + first;
 
-    NV_CLOTH_ASSERT(newSize <= 32);
-    NV_CLOTH_ASSERT(first <= oldSize);
-    NV_CLOTH_ASSERT(last <= oldSize);
+    NV_CLOTH_ASSERT(newSize <= 32)
+    NV_CLOTH_ASSERT(first <= oldSize)
+    NV_CLOTH_ASSERT(last <= oldSize)
 
 #if PX_DEBUG
-    for (const physx::PxVec4* it = spheres.begin(); it < spheres.end(); ++it) NV_CLOTH_ASSERT(it->w >= 0.0f);
+    for (const physx::PxVec4* it = spheres.begin(); it < spheres.end(); ++it) NV_CLOTH_ASSERT(it->w >= 0.0f)
 #endif
 
     if (!oldSize && !newSize) return;
@@ -512,7 +507,7 @@ inline void ClothImpl<T>::setSpheres(Range<const physx::PxVec4> spheres, uint32_
         start.resize(std::max(oldSize, newSize), physx::PxVec4(0.0f));
         target.resize(std::max(oldSize, newSize), physx::PxVec4(0.0f));
 
-        if (int32_t delta = int32_t(newSize - oldSize)) {
+        if (auto delta = int32_t(newSize - oldSize)) {
             // move past-range elements to new place
             move(start.begin(), last, oldSize, last + delta);
             move(target.begin(), last, oldSize, last + delta);
@@ -551,7 +546,7 @@ inline void ClothImpl<T>::setSpheres(Range<const physx::PxVec4> spheres, uint32_
 template <typename T>
 inline void ClothImpl<T>::setSpheres(Range<const physx::PxVec4> startSpheres,
                                      Range<const physx::PxVec4> targetSpheres) {
-    NV_CLOTH_ASSERT(startSpheres.size() == targetSpheres.size());
+    NV_CLOTH_ASSERT(startSpheres.size() == targetSpheres.size())
 
     // Clamp ranges to the first 32 spheres
     startSpheres =
@@ -560,7 +555,7 @@ inline void ClothImpl<T>::setSpheres(Range<const physx::PxVec4> startSpheres,
                                                std::min(targetSpheres.end(), targetSpheres.begin() + 32));
 
     uint32_t oldSize = uint32_t(getChildCloth()->mStartCollisionSpheres.size());
-    uint32_t newSize = uint32_t(startSpheres.size());
+    auto newSize = uint32_t(startSpheres.size());
 
     if (newSize > std::min(getChildCloth()->mStartCollisionSpheres.capacity(),
                            getChildCloth()->mTargetCollisionSpheres.capacity())) {
@@ -588,15 +583,15 @@ inline uint32_t ClothImpl<T>::getNumSpheres() const {
 // Fixed 4505:local function has been removed
 template <typename T>
 inline void ClothImpl<T>::setCapsules(Range<const uint32_t> capsules, uint32_t first, uint32_t last) {
-    const IndexPair* srcIndices = reinterpret_cast<const IndexPair*>(capsules.begin());
-    const uint32_t srcIndicesSize = uint32_t(capsules.size() / 2);
+    const auto* srcIndices = reinterpret_cast<const IndexPair*>(capsules.begin());
+    const auto srcIndicesSize = uint32_t(capsules.size() / 2);
 
     uint32_t oldSize = uint32_t(getChildCloth()->mCapsuleIndices.size());
     uint32_t newSize = srcIndicesSize + oldSize - last + first;
 
-    NV_CLOTH_ASSERT(newSize <= 32);
-    NV_CLOTH_ASSERT(first <= oldSize);
-    NV_CLOTH_ASSERT(last <= oldSize);
+    NV_CLOTH_ASSERT(newSize <= 32)
+    NV_CLOTH_ASSERT(first <= oldSize)
+    NV_CLOTH_ASSERT(last <= oldSize)
 
     if (getChildCloth()->mCapsuleIndices.capacity() < newSize) {
         ContextLockType contextLock(getChildCloth()->mFactory);
@@ -635,9 +630,9 @@ inline void ClothImpl<T>::setPlanes(Range<const physx::PxVec4> planes, uint32_t 
     uint32_t oldSize = uint32_t(getChildCloth()->mStartCollisionPlanes.size());
     uint32_t newSize = uint32_t(planes.size()) + oldSize - last + first;
 
-    NV_CLOTH_ASSERT(newSize <= 32);
-    NV_CLOTH_ASSERT(first <= oldSize);
-    NV_CLOTH_ASSERT(last <= oldSize);
+    NV_CLOTH_ASSERT(newSize <= 32)
+    NV_CLOTH_ASSERT(first <= oldSize)
+    NV_CLOTH_ASSERT(last <= oldSize)
 #if PX_DEBUG || PX_CHECKED
     int logCount = 0;
     for (int i = 0; i < static_cast<int>(planes.size()); i++) {
@@ -680,7 +675,7 @@ inline void ClothImpl<T>::setPlanes(Range<const physx::PxVec4> planes, uint32_t 
         start.resize(std::max(oldSize, newSize), physx::PxVec4(0.0f));
         target.resize(std::max(oldSize, newSize), physx::PxVec4(0.0f));
 
-        if (int32_t delta = int32_t(newSize - oldSize)) {
+        if (auto delta = int32_t(newSize - oldSize)) {
             // move past-range elements to new place
             move(start.begin(), last, oldSize, last + delta);
             move(target.begin(), last, oldSize, last + delta);
@@ -721,7 +716,7 @@ inline void ClothImpl<T>::setPlanes(Range<const physx::PxVec4> planes, uint32_t 
 
 template <typename T>
 inline void ClothImpl<T>::setPlanes(Range<const physx::PxVec4> startPlanes, Range<const physx::PxVec4> targetPlanes) {
-    NV_CLOTH_ASSERT(startPlanes.size() == targetPlanes.size());
+    NV_CLOTH_ASSERT(startPlanes.size() == targetPlanes.size())
 
     // Clamp ranges to the first 32 planes
     startPlanes =
@@ -730,7 +725,7 @@ inline void ClothImpl<T>::setPlanes(Range<const physx::PxVec4> startPlanes, Rang
             Range<const physx::PxVec4>(targetPlanes.begin(), std::min(targetPlanes.end(), targetPlanes.begin() + 32));
 
     uint32_t oldSize = uint32_t(getChildCloth()->mStartCollisionPlanes.size());
-    uint32_t newSize = uint32_t(startPlanes.size());
+    auto newSize = uint32_t(startPlanes.size());
 
     if (newSize > std::min(getChildCloth()->mStartCollisionPlanes.capacity(),
                            getChildCloth()->mTargetCollisionPlanes.capacity())) {
@@ -760,9 +755,9 @@ inline void ClothImpl<T>::setConvexes(Range<const uint32_t> convexMasks, uint32_
     uint32_t oldSize = uint32_t(getChildCloth()->mConvexMasks.size());
     uint32_t newSize = uint32_t(convexMasks.size()) + oldSize - last + first;
 
-    NV_CLOTH_ASSERT(newSize <= 32);
-    NV_CLOTH_ASSERT(first <= oldSize);
-    NV_CLOTH_ASSERT(last <= oldSize);
+    NV_CLOTH_ASSERT(newSize <= 32)
+    NV_CLOTH_ASSERT(first <= oldSize)
+    NV_CLOTH_ASSERT(last <= oldSize)
 #if PX_DEBUG || PX_CHECKED
     for (int i = 0; i < static_cast<int>(convexMasks.size()); i++) {
         if (convexMasks[i] == 0) {
@@ -811,13 +806,13 @@ inline void ClothImpl<T>::setTriangles(Range<const physx::PxVec3> triangles, uin
     last *= 3;
 
     triangles = getChildCloth()->clampTriangleCount(triangles, last - first);
-    NV_CLOTH_ASSERT(0 == triangles.size() % 3);
+    NV_CLOTH_ASSERT(0 == triangles.size() % 3)
 
     uint32_t oldSize = uint32_t(getChildCloth()->mStartCollisionTriangles.size());
     uint32_t newSize = uint32_t(triangles.size()) + oldSize - last + first;
 
-    NV_CLOTH_ASSERT(first <= oldSize);
-    NV_CLOTH_ASSERT(last <= oldSize);
+    NV_CLOTH_ASSERT(first <= oldSize)
+    NV_CLOTH_ASSERT(last <= oldSize)
 
     if (!oldSize && !newSize) return;
 
@@ -843,7 +838,7 @@ inline void ClothImpl<T>::setTriangles(Range<const physx::PxVec3> triangles, uin
         start.resize(std::max(oldSize, newSize), physx::PxVec3(0.0f));
         target.resize(std::max(oldSize, newSize), physx::PxVec3(0.0f));
 
-        if (int32_t delta = int32_t(newSize - oldSize)) {
+        if (auto delta = int32_t(newSize - oldSize)) {
             // move past-range elements to new place
             move(start.begin(), last, oldSize, last + delta);
             move(target.begin(), last, oldSize, last + delta);
@@ -906,7 +901,7 @@ template <typename T>
 inline void ClothImpl<T>::setTriangles(Range<const physx::PxVec3> startTriangles,
                                        Range<const physx::PxVec3> targetTriangles,
                                        uint32_t first) {
-    NV_CLOTH_ASSERT(startTriangles.size() == targetTriangles.size());
+    NV_CLOTH_ASSERT(startTriangles.size() == targetTriangles.size())
 
     // convert from triangle to vertex count
     first *= 3;
@@ -919,8 +914,8 @@ inline void ClothImpl<T>::setTriangles(Range<const physx::PxVec3> startTriangles
     uint32_t oldSize = uint32_t(getChildCloth()->mStartCollisionTriangles.size());
     uint32_t newSize = uint32_t(startTriangles.size()) + oldSize - last + first;
 
-    NV_CLOTH_ASSERT(first <= oldSize);
-    NV_CLOTH_ASSERT(last == oldSize);  // this path only supports replacing the tail
+    NV_CLOTH_ASSERT(first <= oldSize)
+    NV_CLOTH_ASSERT(last == oldSize)  // this path only supports replacing the tail
 
     if (!oldSize && !newSize) return;
 
@@ -1124,7 +1119,7 @@ inline physx::PxVec3 ClothImpl<T>::getWindVelocity() const {
 
 template <typename T>
 inline void ClothImpl<T>::setDragCoefficient(float coefficient) {
-    NV_CLOTH_ASSERT(coefficient <= 1.f);
+    NV_CLOTH_ASSERT(coefficient <= 1.f)
 
     float value = safeLog2(1.f - coefficient);
     if (value == mDragLogCoefficient) return;
@@ -1141,7 +1136,7 @@ inline float ClothImpl<T>::getDragCoefficient() const {
 
 template <typename T>
 inline void ClothImpl<T>::setLiftCoefficient(float coefficient) {
-    NV_CLOTH_ASSERT(coefficient <= 1.f);
+    NV_CLOTH_ASSERT(coefficient <= 1.f)
 
     float value = safeLog2(1.f - coefficient);
     if (value == mLiftLogCoefficient) return;
@@ -1158,7 +1153,7 @@ inline float ClothImpl<T>::getLiftCoefficient() const {
 
 template <typename T>
 inline void ClothImpl<T>::setFluidDensity(float fluidDensity) {
-    NV_CLOTH_ASSERT(fluidDensity > 0.f);
+    NV_CLOTH_ASSERT(fluidDensity > 0.f)
     if (fluidDensity == mFluidDensity) return;
 
     mFluidDensity = fluidDensity;
@@ -1179,7 +1174,7 @@ inline uint32_t ClothImpl<T>::getNumSelfCollisionIndices() const {
 // Fixed 4505:local function has been removed
 template <typename T>
 inline void ClothImpl<T>::setRestPositions(Range<const physx::PxVec4> restPositions) {
-    NV_CLOTH_ASSERT(restPositions.empty() || restPositions.size() == getNumParticles());
+    NV_CLOTH_ASSERT(restPositions.empty() || restPositions.size() == getNumParticles())
     ContextLockType contextLock(getChildCloth()->mFactory);
     getChildCloth()->mRestPositions.assign(restPositions.begin(), restPositions.end());
     wakeUp();
@@ -1206,7 +1201,7 @@ inline float ClothImpl<T>::getSelfCollisionDistance() const {
 
 template <typename T>
 inline void ClothImpl<T>::setSelfCollisionStiffness(float stiffness) {
-    NV_CLOTH_ASSERT(stiffness <= 1.0f);
+    NV_CLOTH_ASSERT(stiffness <= 1.0f)
     float value = safeLog2(1 - stiffness);
     if (value == getChildCloth()->mSelfCollisionLogStiffness) return;
 
@@ -1313,5 +1308,4 @@ inline MappedRange<U> ClothImpl<T>::getMappedParticles(U* data) const {
     return MappedRange<U>(data, data + getNumParticles(), *this, &Cloth::lockParticles, &Cloth::unlockParticles);
 }
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

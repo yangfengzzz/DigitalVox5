@@ -33,8 +33,7 @@
 #include "vox.cloth/Simd.h"
 #include "vox.cloth/StackAllocator.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 class SwCloth;
 struct SwClothData;
@@ -71,8 +70,8 @@ private:
     SwKernelAllocator& mAllocator;
 
 public:
-    mutable uint32_t mNumTests;
-    mutable uint32_t mNumCollisions;
+    mutable uint32_t mNumTests{};
+    mutable uint32_t mNumCollisions{};
 };
 
 // explicit template instantiation declaration
@@ -83,6 +82,4 @@ extern template class SwSelfCollision<Simd4f>;
 extern template class SwSelfCollision<Scalar4f>;
 #endif
 
-}  // namespace cloth
-
-}  // namespace nv
+}  // namespace nv::cloth

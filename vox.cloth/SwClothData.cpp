@@ -52,7 +52,7 @@ cloth::SwClothData::SwClothData(SwCloth& cloth, const SwFabric& fabric) {
     // avoid reading uninitialized data into mCurBounds, even though it's never used.
     mPrevBounds[0] = 0.0f;
 
-    mConfigBegin = cloth.mPhaseConfigs.empty() ? 0 : &cloth.mPhaseConfigs.front();
+    mConfigBegin = cloth.mPhaseConfigs.empty() ? nullptr : &cloth.mPhaseConfigs.front();
     mConfigEnd = mConfigBegin + cloth.mPhaseConfigs.size();
 
     mPhases = &fabric.mPhases.front();
@@ -85,44 +85,49 @@ cloth::SwClothData::SwClothData(SwCloth& cloth, const SwFabric& fabric) {
             0.5f;  // divide by 2 to so we don't have to compensate for double area from cross product in the solver
 
     mStartMotionConstraints =
-            cloth.mMotionConstraints.mStart.size() ? array(cloth.mMotionConstraints.mStart.front()) : 0;
+            !cloth.mMotionConstraints.mStart.empty() ? array(cloth.mMotionConstraints.mStart.front()) : nullptr;
     mTargetMotionConstraints =
-            !cloth.mMotionConstraints.mTarget.empty() ? array(cloth.mMotionConstraints.mTarget.front()) : 0;
+            !cloth.mMotionConstraints.mTarget.empty() ? array(cloth.mMotionConstraints.mTarget.front()) : nullptr;
     mMotionConstraintStiffness = 1.0f - expf(stiffnessExponent * cloth.mMotionConstraintLogStiffness);
 
     mStartSeparationConstraints =
-            cloth.mSeparationConstraints.mStart.size() ? array(cloth.mSeparationConstraints.mStart.front()) : 0;
-    mTargetSeparationConstraints =
-            !cloth.mSeparationConstraints.mTarget.empty() ? array(cloth.mSeparationConstraints.mTarget.front()) : 0;
+            !cloth.mSeparationConstraints.mStart.empty() ? array(cloth.mSeparationConstraints.mStart.front()) : nullptr;
+    mTargetSeparationConstraints = !cloth.mSeparationConstraints.mTarget.empty()
+                                           ? array(cloth.mSeparationConstraints.mTarget.front())
+                                           : nullptr;
 
-    mParticleAccelerations = cloth.mParticleAccelerations.size() ? array(cloth.mParticleAccelerations.front()) : 0;
+    mParticleAccelerations =
+            !cloth.mParticleAccelerations.empty() ? array(cloth.mParticleAccelerations.front()) : nullptr;
 
-    mStartCollisionSpheres = cloth.mStartCollisionSpheres.empty() ? 0 : array(cloth.mStartCollisionSpheres.front());
+    mStartCollisionSpheres =
+            cloth.mStartCollisionSpheres.empty() ? nullptr : array(cloth.mStartCollisionSpheres.front());
     mTargetCollisionSpheres = cloth.mTargetCollisionSpheres.empty() ? mStartCollisionSpheres
                                                                     : array(cloth.mTargetCollisionSpheres.front());
     mNumSpheres = uint32_t(cloth.mStartCollisionSpheres.size());
 
-    mCapsuleIndices = cloth.mCapsuleIndices.empty() ? 0 : &cloth.mCapsuleIndices.front();
+    mCapsuleIndices = cloth.mCapsuleIndices.empty() ? nullptr : &cloth.mCapsuleIndices.front();
     mNumCapsules = uint32_t(cloth.mCapsuleIndices.size());
 
-    mStartCollisionPlanes = cloth.mStartCollisionPlanes.empty() ? 0 : array(cloth.mStartCollisionPlanes.front());
+    mStartCollisionPlanes = cloth.mStartCollisionPlanes.empty() ? nullptr : array(cloth.mStartCollisionPlanes.front());
     mTargetCollisionPlanes =
             cloth.mTargetCollisionPlanes.empty() ? mStartCollisionPlanes : array(cloth.mTargetCollisionPlanes.front());
     mNumPlanes = uint32_t(cloth.mStartCollisionPlanes.size());
 
-    mConvexMasks = cloth.mConvexMasks.empty() ? 0 : &cloth.mConvexMasks.front();
+    mConvexMasks = cloth.mConvexMasks.empty() ? nullptr : &cloth.mConvexMasks.front();
     mNumConvexes = uint32_t(cloth.mConvexMasks.size());
 
     mStartCollisionTriangles =
-            cloth.mStartCollisionTriangles.empty() ? 0 : array(cloth.mStartCollisionTriangles.front());
+            cloth.mStartCollisionTriangles.empty() ? nullptr : array(cloth.mStartCollisionTriangles.front());
     mTargetCollisionTriangles = cloth.mTargetCollisionTriangles.empty()
                                         ? mStartCollisionTriangles
                                         : array(cloth.mTargetCollisionTriangles.front());
     mNumCollisionTriangles = uint32_t(cloth.mStartCollisionTriangles.size()) / 3;
 
-    mVirtualParticlesBegin = cloth.mVirtualParticleIndices.empty() ? 0 : array(cloth.mVirtualParticleIndices.front());
+    mVirtualParticlesBegin =
+            cloth.mVirtualParticleIndices.empty() ? nullptr : array(cloth.mVirtualParticleIndices.front());
     mVirtualParticlesEnd = mVirtualParticlesBegin + 4 * cloth.mVirtualParticleIndices.size();
-    mVirtualParticleWeights = cloth.mVirtualParticleWeights.empty() ? 0 : array(cloth.mVirtualParticleWeights.front());
+    mVirtualParticleWeights =
+            cloth.mVirtualParticleWeights.empty() ? nullptr : array(cloth.mVirtualParticleWeights.front());
     mNumVirtualParticleWeights = uint32_t(cloth.mVirtualParticleWeights.size());
 
     mEnableContinuousCollision = cloth.mEnableContinuousCollision;
@@ -135,7 +140,7 @@ cloth::SwClothData::SwClothData(SwCloth& cloth, const SwFabric& fabric) {
     mSelfCollisionIndices = cloth.mSelfCollisionIndices.empty() ? nullptr : cloth.mSelfCollisionIndices.begin();
     mNumSelfCollisionIndices = mSelfCollisionIndices ? uint32_t(cloth.mSelfCollisionIndices.size()) : mNumParticles;
 
-    mRestPositions = cloth.mRestPositions.size() ? array(cloth.mRestPositions.front()) : 0;
+    mRestPositions = !cloth.mRestPositions.empty() ? array(cloth.mRestPositions.front()) : nullptr;
 
     mSleepPassCounter = cloth.mSleepPassCounter;
     mSleepTestCounter = cloth.mSleepTestCounter;
@@ -153,9 +158,9 @@ void cloth::SwClothData::verify() const {
     // perhaps a good reason to construct SwClothData on PPU instead
 
     NV_CLOTH_ASSERT(!mNumCapsules ||
-                    mNumSpheres > *ps::maxElement(&mCapsuleIndices->first, &(mCapsuleIndices + mNumCapsules)->first));
+                    mNumSpheres > *ps::maxElement(&mCapsuleIndices->first, &(mCapsuleIndices + mNumCapsules)->first))
 
     NV_CLOTH_ASSERT(!mNumConvexes ||
                     (static_cast<uint64_t>(1) << static_cast<uint64_t>(mNumPlanes)) - static_cast<uint64_t>(1) >=
-                            static_cast<uint64_t>(*ps::maxElement(mConvexMasks, mConvexMasks + mNumConvexes)));
+                            static_cast<uint64_t>(*ps::maxElement(mConvexMasks, mConvexMasks + mNumConvexes)))
 }

@@ -39,15 +39,13 @@
 
 using namespace physx;
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 uint32_t getNextFabricId() {
     static uint32_t sNextFabricId = 0;
     return sNextFabricId++;
 }
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth
 
 nv::cloth::Factory* NvClothCreateFactoryCPU() { return NV_CLOTH_NEW(nv::cloth::SwFactory)(); }
 

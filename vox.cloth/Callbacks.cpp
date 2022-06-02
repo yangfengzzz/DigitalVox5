@@ -29,15 +29,13 @@
 
 #include "vox.cloth/NvCloth/Callbacks.h"
 
-#include <stdarg.h>
-#include <stdio.h>
+#include <cstdarg>
+#include <cstdio>
 
 #include "vox.cloth/foundation/PxAllocatorCallback.h"
 #include "vox.cloth/foundation/PxErrorCallback.h"
-#include "vox.cloth/NvCloth/Allocator.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 struct NvClothContext {
     physx::PxAllocatorCallback* mAllocator;
@@ -57,25 +55,23 @@ InitializeNvCloth(physx::PxAllocatorCallback* allocatorCallback,
     PX_UNUSED(autoDllIDCheck);
     NV_CLOTH_ASSERT_WITH_MESSAGE(
             "NvCloth dll id mismatch, ensure you compile with matching headers/run with matching dll.",
-            NV_CLOTH_DLL_ID == autoDllIDCheck);
-    NV_CLOTH_ASSERT_WITH_MESSAGE("NvCloth initialized with invalid allocator", allocatorCallback != nullptr);
+            NV_CLOTH_DLL_ID == autoDllIDCheck)
+    NV_CLOTH_ASSERT_WITH_MESSAGE("NvCloth initialized with invalid allocator", allocatorCallback != nullptr)
     sContext.mAllocator = allocatorCallback;
     sContext.mErrorCallback = errorCallback;
     sContext.mAssertHandler = assertHandler;
     sContext.mProfilerCallback = profilerCallback;
 }
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth
 
 physx::PxAllocatorCallback* GetNvClothAllocator() {
     NV_CLOTH_ASSERT_WITH_MESSAGE("NvCloth used before calling InitializeNvCloth",
-                                 nv::cloth::sContext.mAllocator != nullptr);
+                                 nv::cloth::sContext.mAllocator != nullptr)
     return nv::cloth::sContext.mAllocator;
 }
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 void LogFn(physx::PxErrorCode::Enum errorLevel,
            const char* fileName,
            int lineNumber,
@@ -121,5 +117,4 @@ NV_CLOTH_API(nv::cloth::PxAssertHandler*) GetNvClothAssertHandler() { return sCo
 
 physx::PxProfilerCallback* GetNvClothProfiler() { return sContext.mProfilerCallback; }
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

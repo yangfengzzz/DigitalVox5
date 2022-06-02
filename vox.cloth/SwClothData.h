@@ -31,12 +31,9 @@
 
 #include "vox.cloth/foundation/Px.h"
 
-namespace nv {
-namespace simd {}
-}  // namespace nv
+namespace nv::simd {}  // namespace nv::simd
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 class SwCloth;
 class SwFabric;
@@ -55,9 +52,9 @@ struct SwClothData {
     float* mCurParticles;
     float* mPrevParticles;
 
-    float mCurBounds[6];  // lower[3], upper[3]
-    float mPrevBounds[6];
-    float mPadding;  // write as simd
+    float mCurBounds[6]{};  // lower[3], upper[3]
+    float mPrevBounds[6]{};
+    float mPadding{};  // write as simd
 
     // distance constraints
     const PhaseConfig* mConfigBegin;
@@ -141,5 +138,4 @@ struct SwClothData {
     uint32_t mSleepPassCounter;
     uint32_t mSleepTestCounter;
 };
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth

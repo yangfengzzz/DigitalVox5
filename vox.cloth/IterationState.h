@@ -59,13 +59,13 @@ inline physx::PxVec3 log(const physx::PxQuat& q) {
     float theta = q.getImaginaryPart().magnitude();
     float scale = theta > PX_EPS_REAL ? physx::PxAsin(theta) / theta : 1.0f;
     scale = physx::intrinsics::fsel(q.w, scale, -scale);
-    return physx::PxVec3(q.x * scale, q.y * scale, q.z * scale);
+    return {q.x * scale, q.y * scale, q.z * scale};
 }
 
 inline physx::PxQuat exp(const physx::PxVec3& v) {
     float theta = v.magnitude();
     float scale = theta > PX_EPS_REAL ? physx::PxSin(theta) / theta : 1.0f;
-    return physx::PxQuat(v.x * scale, v.y * scale, v.z * scale, physx::PxCos(theta));
+    return {v.x * scale, v.y * scale, v.z * scale, physx::PxCos(theta)};
 }
 
 template <typename T4f, uint32_t N>
@@ -117,8 +117,8 @@ struct IterationState {
     // call after each iteration
     void update();
 
-    inline float getCurrentAlpha() const;
-    inline float getPreviousAlpha() const;
+    [[nodiscard]] inline float getCurrentAlpha() const;
+    [[nodiscard]] inline float getPreviousAlpha() const;
 
 public:
     T4f mRotationMatrix[3];  // should rename to 'mRotation'
@@ -294,7 +294,7 @@ cloth::IterationState<T4f> cloth::IterationStateFactory::create(MyCloth const& c
         physx::PxQuat curInvRotation = exp(castToPxVec3(curInvAngle));
         physx::PxQuat prevInvRotation = exp(castToPxVec3(prevInvAngle));
 
-        physx::PxMat44 curMatrix = physx::PxMat44(curInvRotation);
+        auto curMatrix = physx::PxMat44(curInvRotation);
         physx::PxMat44 prevMatrix = physx::PxMat44(prevInvRotation * curInvRotation);
 
         assign(result.mRotationMatrix, curMatrix);

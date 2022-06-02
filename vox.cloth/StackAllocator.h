@@ -35,8 +35,7 @@
 #include <stdint.h>  // intptr_t
 #endif
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 
 template <size_t align>
 class StackAllocator {
@@ -57,11 +56,11 @@ public:
     StackAllocator(void* buffer, size_t bufferSize)
         : mBuffer(reinterpret_cast<byte*>(buffer)), mBufferSize(bufferSize), mFreeStart(mBuffer), mTop(0) {}
 
-    ~StackAllocator() { NV_CLOTH_ASSERT(userBytes() == 0); }
+    ~StackAllocator() { NV_CLOTH_ASSERT(userBytes() == 0) }
 
     void* allocate(size_t numBytes) {
         // this is non-standard
-        if (!numBytes) return 0;
+        if (!numBytes) return nullptr;
 
         uintptr_t unalignedStart = uintptr_t(mFreeStart) + sizeof(Header);
 
@@ -69,7 +68,7 @@ public:
         byte* allocEnd = allocStart + numBytes;
 
         // ensure there is space for the alloc
-        NV_CLOTH_ASSERT(allocEnd <= mBuffer + mBufferSize);
+        NV_CLOTH_ASSERT(allocEnd <= mBuffer + mBufferSize)
 
         Header* h = getHeader(allocStart);
         h->mPrev = mTop;
@@ -98,16 +97,16 @@ public:
 private:
     // return the header for an allocation
     inline Header* getHeader(void* p) const {
-        NV_CLOTH_ASSERT((reinterpret_cast<uintptr_t>(p) & (align - 1)) == 0);
-        NV_CLOTH_ASSERT(reinterpret_cast<byte*>(p) >= mBuffer + sizeof(Header));
-        NV_CLOTH_ASSERT(reinterpret_cast<byte*>(p) < mBuffer + mBufferSize);
+        NV_CLOTH_ASSERT((reinterpret_cast<uintptr_t>(p) & (align - 1)) == 0)
+        NV_CLOTH_ASSERT(reinterpret_cast<byte*>(p) >= mBuffer + sizeof(Header))
+        NV_CLOTH_ASSERT(reinterpret_cast<byte*>(p) < mBuffer + mBufferSize)
 
         return reinterpret_cast<Header*>(p) - 1;
     }
 
 public:
     // total user-allocated bytes not including any overhead
-    size_t userBytes() const {
+    [[nodiscard]] size_t userBytes() const {
         size_t total = 0;
         Header* iter = mTop;
         while (iter) {
@@ -119,11 +118,11 @@ public:
     }
 
     // total user-allocated bytes + overhead
-    size_t totalUsedBytes() const { return mFreeStart - mBuffer; }
+    [[nodiscard]] size_t totalUsedBytes() const { return mFreeStart - mBuffer; }
 
-    size_t remainingBytes() const { return mBufferSize - totalUsedBytes(); }
+    [[nodiscard]] size_t remainingBytes() const { return mBufferSize - totalUsedBytes(); }
 
-    size_t wastedBytes() const { return totalUsedBytes() - userBytes(); }
+    [[nodiscard]] size_t wastedBytes() const { return totalUsedBytes() - userBytes(); }
 
 private:
     byte* const mBuffer;
@@ -133,5 +132,4 @@ private:
     Header* mTop;      // top allocation header
 };
 
-}  // namespace cloth
-}  // namespace nv
+}  // namespace nv::cloth
