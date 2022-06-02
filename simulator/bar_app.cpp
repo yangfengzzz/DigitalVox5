@@ -6,6 +6,10 @@
 
 #include "simulator/bar_app.h"
 
+#include "vox.force/simulation.h"
+#include "vox.force/simulation_model.h"
+#include "vox.force/time_manager.h"
+#include "vox.force/timing.h"
 #include "vox.render/camera.h"
 #include "vox.render/controls/orbit_control.h"
 #include "vox.render/entity.h"
@@ -16,17 +20,70 @@
 
 namespace vox {
 namespace {
-class MoveScript : public Script {
+class BarScript : public Script {
 public:
-    explicit MoveScript(Entity *entity) : Script(entity) {}
+    explicit BarScript(Entity *entity) : Script(entity) {
+        auto *model = new force::SimulationModel();
+        model->Init();
+        force::Simulation::GetCurrent()->SetModel(model);
+        BuildModel();
+    }
 
     void OnUpdate(float delta_time) override {
-        r_tri_ += 90 * delta_time;
-        GetEntity()->transform->SetRotation(0, r_tri_, 0);
+        force::SimulationModel *model = force::Simulation::GetCurrent()->GetModel();
+        const unsigned int kNumSteps = 1;
+        for (unsigned int i = 0; i < kNumSteps; i++) {
+            force::Simulation::GetCurrent()->GetTimeStep()->Step(*model);
+        }
+
+        for (unsigned int i = 0; i < model->GetTetModels().size(); i++) {
+            model->GetTetModels()[i]->UpdateMeshNormals(model->GetParticles());
+        }
+    }
+
+    void BuildModel() {
+        force::TimeManager::GetCurrent()->SetTimeStepSize(0.005f);
+        CreateMesh();
+    }
+
+    void CreateMesh() {
+        force::SimulationModel *model = force::Simulation::GetCurrent()->GetModel();
+        model->AddRegularTetModel(width_, height_, depth_, force::Vector3r(5, 0, 0), force::Matrix3r::Identity(),
+                                  force::Vector3r(10.0, 1.5, 1.5));
+
+        force::ParticleData &pd = model->GetParticles();
+        for (unsigned int i = 0; i < 1; i++) {
+            for (unsigned int j = 0; j < height_; j++) {
+                for (unsigned int k = 0; k < depth_; k++) pd.SetMass(i * height_ * depth_ + j * depth_ + k, 0.0);
+            }
+        }
+
+        // init constraints
+        stiffness_ = 1.0;
+        if (simulation_method_ == 5) stiffness_ = 100000;
+        volume_stiffness_ = 1.0;
+        if (simulation_method_ == 5) volume_stiffness_ = 100000;
+        for (unsigned int cm = 0; cm < model->GetTetModels().size(); cm++) {
+            model->AddSolidConstraints(model->GetTetModels()[cm], simulation_method_, stiffness_, poisson_ratio_,
+                                       volume_stiffness_, normalize_stretch_, normalize_shear_);
+
+            model->GetTetModels()[cm]->UpdateMeshNormals(pd);
+
+            LOGI("Number of tets: {}", model->GetTetModels()[cm]->GetParticleMesh().NumTets());
+            LOGI("Number of vertices: {}", width_ * height_ * depth_)
+        }
     }
 
 private:
-    float r_tri_ = 0;
+    const unsigned int width_ = 30;
+    const unsigned int depth_ = 5;
+    const unsigned int height_ = 5;
+    short simulation_method_ = 2;
+    float stiffness_ = 1.0;
+    float poisson_ratio_ = 0.3;
+    bool normalize_stretch_ = false;
+    bool normalize_shear_ = false;
+    float volume_stiffness_ = 1.0;
 };
 
 }  // namespace
@@ -49,21 +106,7 @@ void BarApp::LoadScene() {
     point_light->distance_ = 100;
 
     auto cube_entity = root_entity->CreateChild();
-    cube_entity->AddComponent<MoveScript>();
-    auto renderer = cube_entity->AddComponent<MeshRenderer>();
-    renderer->SetMesh(PrimitiveMesh::CreateCuboid(1));
-    auto material = std::make_shared<BlinnPhongMaterial>(*device_);
-    material->SetBaseColor(Color(0.4, 0.6, 0.6));
-    renderer->SetMaterial(material);
-
-    auto plane_entity = root_entity->CreateChild();
-    plane_entity->transform->SetPosition(0, 5, 0);
-    auto plane_renderer = plane_entity->AddComponent<MeshRenderer>();
-    plane_renderer->SetMesh(PrimitiveMesh::CreateSphere(1));
-    auto textured_material = std::make_shared<BlinnPhongMaterial>(*device_);
-    textured_material->SetBaseTexture(TextureManager::GetSingleton().LoadTexture("Textures/wood.png"));
-    plane_renderer->SetMaterial(textured_material);
-
+    cube_entity->AddComponent<BarScript>();
     scene->Play();
 }
 

@@ -12,6 +12,7 @@
 #include <unordered_map>
 
 #include "vox.base/logging.h"
+#include "vox.force/common.h"
 #include "vox.force/id_factory.h"
 
 namespace vox::force {
@@ -32,14 +33,6 @@ namespace vox::force {
         static int timing_timerId = -1;           \
         Timing::StopTiming(true, timing_timerId); \
     }
-
-#define INIT_TIMING                                               \
-    int IDFactory::id = 0;                                        \
-    std::unordered_map<int, AverageTime> Timing::m_average_times; \
-    std::stack<TimingHelper> Timing::m_timing_stack;              \
-    bool Timing::m_dont_print_times = false;                      \
-    unsigned int Timing::m_start_counter = 0;                     \
-    unsigned int Timing::m_stop_counter = 0;
 
 /** \brief Struct to store a time measurement.
  */
