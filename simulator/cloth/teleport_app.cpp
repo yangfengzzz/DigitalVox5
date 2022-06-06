@@ -4,15 +4,15 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "teleport_app.h"
+#include "simulator/cloth/teleport_app.h"
 
-#include "camera.h"
-#include "cloth/cloth_mesh_generator.h"
-#include "cloth/simple_mesh_utils.h"
-#include "controls/orbit_control.h"
-#include "material/blinn_phong_material.h"
-#include "mesh/mesh_renderer.h"
-#include "mesh/primitive_mesh.h"
+#include "simulator/cloth/cloth_mesh_generator.h"
+#include "simulator/cloth/simple_mesh_utils.h"
+#include "vox.render/camera.h"
+#include "vox.render/controls/orbit_control.h"
+#include "vox.render/material/blinn_phong_material.h"
+#include "vox.render/mesh/mesh_renderer.h"
+#include "vox.render/mesh/primitive_mesh.h"
 
 namespace vox::cloth {
 using namespace physx;

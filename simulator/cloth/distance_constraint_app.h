@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "cloth_application.h"
+#include "simulator/cloth/cloth_application.h"
 
 namespace vox::cloth {
 class DistanceConstraintApp : public ClothApplication {

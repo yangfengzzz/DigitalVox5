@@ -6,10 +6,9 @@
 
 #pragma once
 
-#include "cloth_application.h"
+#include "simulator/cloth/cloth_application.h"
 
-namespace vox {
-namespace cloth {
+namespace vox::cloth {
 class MultiSolverApp : public ClothApplication {
 public:
     void LoadScene() override;
@@ -22,5 +21,4 @@ private:
     ClothActor cloth_actor_[2];
 };
 
-}  // namespace cloth
-}  // namespace vox
+}  // namespace vox::cloth
