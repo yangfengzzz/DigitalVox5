@@ -145,7 +145,7 @@ void ClothRenderer::Initialize(
 
     vertex_buffers_ = std::make_unique<core::Buffer>(
             device, num_vertices * sizeof(float), VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-            VMA_MEMORY_USAGE_GPU_ONLY);
+            VMA_MEMORY_USAGE_CPU_TO_GPU);
 
     command_buffer.CopyBuffer(stage_buffer, *vertex_buffers_, num_vertices * sizeof(float));
     mesh->SetVertexBufferBinding(0, vertex_buffers_.get());
@@ -203,7 +203,9 @@ void ClothRenderer::Update(const physx::PxVec3 *positions, uint32_t num_vertices
 
     for (physx::PxU32 i = 0; i < num_vertices; ++i) vertices[i].normal.normalize();
 
-    vertex_buffers_->Update(vertices_.data(), sizeof(Vertex) * vertices_.size());
+    auto ptr = vertex_buffers_->Map();
+    memcpy(ptr, vertices_.data(), sizeof(Vertex) * vertices_.size());
+    vertex_buffers_->Unmap();
 }
 
 void ClothRenderer::UpdateBounds(BoundingBox3F &world_bounds) {

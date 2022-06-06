@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 
     auto code = platform.Initialize({});
     if (code == vox::ExitCode::SUCCESS) {
-        platform.SetApp(std::make_unique<vox::BarApp>());
+        platform.SetApp(std::make_unique<vox::cloth::FreeFallApp>());
         code = platform.MainLoop();
     }
     platform.Terminate(code);
