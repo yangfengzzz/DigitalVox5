@@ -954,6 +954,7 @@
 		04D5C46B284DD7F600D2706D /* cloth_mesh_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C44C284DD7F500D2706D /* cloth_mesh_generator.cpp */; };
 		04D5C46C284DD7F600D2706D /* teleport_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C44E284DD7F500D2706D /* teleport_app.cpp */; };
 		04D5C46D284DD7F600D2706D /* self_collision_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C450284DD7F500D2706D /* self_collision_app.cpp */; };
+		04D5C471284DDB9F00D2706D /* timing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C470284DDB9F00D2706D /* timing.cpp */; };
 		04D95C192808EE0500E54DC2 /* device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C152808EE0500E54DC2 /* device.cpp */; };
 		04D95C1A2808EE0500E54DC2 /* scratch_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */; };
 		04D95C1B2808EE0500E54DC2 /* scratch_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C172808EE0500E54DC2 /* scratch_buffer.h */; };
@@ -2451,6 +2452,7 @@
 		04D5C450284DD7F500D2706D /* self_collision_app.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = self_collision_app.cpp; sourceTree = "<group>"; };
 		04D5C451284DD7F500D2706D /* local_global_app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = local_global_app.h; sourceTree = "<group>"; };
 		04D5C452284DD7F600D2706D /* cloth_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cloth_controller.h; sourceTree = "<group>"; };
+		04D5C470284DDB9F00D2706D /* timing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timing.cpp; sourceTree = "<group>"; };
 		04D95C152808EE0500E54DC2 /* device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device.cpp; sourceTree = "<group>"; };
 		04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scratch_buffer.cpp; sourceTree = "<group>"; };
 		04D95C172808EE0500E54DC2 /* scratch_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch_buffer.h; sourceTree = "<group>"; };
@@ -2855,6 +2857,7 @@
 				042D8C9328460423003EF95A /* volume_integration.h */,
 				042D8C9F28460424003EF95A /* volume_integration.cpp */,
 				042D8C9928460424003EF95A /* timing.h */,
+				04D5C470284DDB9F00D2706D /* timing.cpp */,
 				042D8C8E28460423003EF95A /* time_manager.h */,
 				042D8C9128460423003EF95A /* time_manager.cpp */,
 				042D8C412845FD37003EF95A /* id_factory.h */,
@@ -5923,6 +5926,7 @@
 				042D8C772845FD3A003EF95A /* position_based_elastic_rods.cpp in Sources */,
 				042D8CB528460425003EF95A /* volume_integration.cpp in Sources */,
 				042D8C6F2845FD3A003EF95A /* neighborhood_search_spatial_hashing.cpp in Sources */,
+				04D5C471284DDB9F00D2706D /* timing.cpp in Sources */,
 				042D8CAD28460425003EF95A /* time_integration.cpp in Sources */,
 				042D8CA228460425003EF95A /* simulation.cpp in Sources */,
 				042D8CA728460425003EF95A /* time_manager.cpp in Sources */,

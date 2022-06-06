@@ -6,9 +6,9 @@
 
 #include "simulator/cloth/capsule_app.h"
 
-#include "controls/orbit_control.h"
 #include "simulator/cloth/cloth_mesh_generator.h"
 #include "vox.render/camera.h"
+#include "vox.render/controls/orbit_control.h"
 #include "vox.render/material/blinn_phong_material.h"
 #include "vox.render/mesh/mesh_renderer.h"
 #include "vox.render/mesh/primitive_mesh.h"
