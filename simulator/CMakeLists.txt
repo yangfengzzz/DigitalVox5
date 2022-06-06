@@ -12,6 +12,10 @@ project(simulator LANGUAGES C CXX)
 
 set(SRC
         cloth/cloth_application.cpp
+        cloth/cloth_controller.cpp
+        cloth/job_manager.cpp
+        cloth/simple_mesh_utils.cpp
+        cloth/cloth_mesh_generator.cpp
         bar_app.cpp
         main.cpp
         )

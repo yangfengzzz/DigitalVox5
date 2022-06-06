@@ -55,14 +55,14 @@ void ClothApplication::Update(float delta_time) {
 }
 
 void ClothApplication::StartSimulationStep(float dt) {
-    for (auto it = solver_helpers_.begin(); it != solver_helpers_.end(); ++it) {
-        it->second.StartSimulation(dt);
+    for (auto &solver_helper : solver_helpers_) {
+        solver_helper.second.StartSimulation(dt);
     }
 }
 
 void ClothApplication::WaitForSimulationStep() {
-    for (auto it = solver_helpers_.begin(); it != solver_helpers_.end(); ++it) {
-        it->second.WaitForSimulation();
+    for (auto &solver_helper : solver_helpers_) {
+        solver_helper.second.WaitForSimulation();
     }
 }
 
@@ -78,12 +78,12 @@ void ClothApplication::UpdateSimulationGraphics() {
 
 namespace {
 template <typename T>
-void trackT(std::vector<T> &list, T object) {
+void TrackT(std::vector<T> &list, T object) {
     list.push_back(object);
 }
 
 template <typename T>
-void untrackT(std::vector<T> &list, T object) {
+void UntrackT(std::vector<T> &list, T object) {
     for (auto it = list.begin(); it != list.end(); ++it) {
         if (*it == object) {
             list.erase(it);
@@ -93,23 +93,23 @@ void untrackT(std::vector<T> &list, T object) {
 }
 }  // namespace
 
-void ClothApplication::TrackClothActor(ClothActor *cloth_actor) { trackT(cloth_list_, cloth_actor); }
+void ClothApplication::TrackClothActor(ClothActor *cloth_actor) { TrackT(cloth_list_, cloth_actor); }
 
-void ClothApplication::UntrackClothActor(ClothActor *cloth_actor) { untrackT(cloth_list_, cloth_actor); }
+void ClothApplication::UntrackClothActor(ClothActor *cloth_actor) { UntrackT(cloth_list_, cloth_actor); }
 
 void ClothApplication::TrackSolver(nv::cloth::Solver *solver) {
-    trackT(solver_list_, solver);
+    TrackT(solver_list_, solver);
     solver_helpers_[solver].Initialize(solver, &job_manager_);
 }
 
 void ClothApplication::UntrackSolver(nv::cloth::Solver *solver) {
-    untrackT(solver_list_, solver);
+    UntrackT(solver_list_, solver);
     solver_helpers_.erase(solver);
 }
 
-void ClothApplication::TrackFabric(nv::cloth::Fabric *fabric) { trackT(fabric_list_, fabric); }
+void ClothApplication::TrackFabric(nv::cloth::Fabric *fabric) { TrackT(fabric_list_, fabric); }
 
-void ClothApplication::UntrackFabric(nv::cloth::Fabric *fabric) { untrackT(fabric_list_, fabric); }
+void ClothApplication::UntrackFabric(nv::cloth::Fabric *fabric) { UntrackT(fabric_list_, fabric); }
 
 void ClothApplication::AddClothToSolver(ClothActor *cloth_actor, nv::cloth::Solver *solver) {
     solver->addCloth(cloth_actor->cloth);
@@ -121,16 +121,15 @@ void ClothApplication::AddClothsToSolver(nv::cloth::Range<ClothActor *> cloth_ac
     // A temporary vector of Cloth*, to construct a Range from and pass to solver
     std::vector<nv::cloth::Cloth *> cloths;
 
-    for (uint32_t i = 0; i < cloth_actors.size(); ++i) {
-        auto *clothActor = cloth_actors[i];
-        assert(cloth_solver_map_.find(clothActor) == cloth_solver_map_.end());
-        cloth_solver_map_[clothActor] = solver;
+    for (auto cloth_actor : cloth_actors) {
+        assert(cloth_solver_map_.find(cloth_actor) == cloth_solver_map_.end());
+        cloth_solver_map_[cloth_actor] = solver;
 
-        cloths.push_back(clothActor->cloth);
+        cloths.push_back(cloth_actor->cloth);
     }
 
-    auto clothsRange = nv::cloth::Range<nv::cloth::Cloth *>(&cloths.front(), &cloths.back() + 1);
-    solver->addCloths(clothsRange);
+    auto cloths_range = nv::cloth::Range<nv::cloth::Cloth *>(&cloths.front(), &cloths.back() + 1);
+    solver->addCloths(cloths_range);
 }
 
 }  // namespace vox::cloth

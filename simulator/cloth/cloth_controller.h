@@ -15,75 +15,76 @@
 #include "vox.cloth/NvCloth/Solver.h"
 #include "vox.render/platform/input_events.h"
 
-namespace vox {
-namespace cloth {
+namespace vox::cloth {
 class ClothController : public Singleton<ClothController> {
 public:
-    static ClothController &getSingleton(void);
+    static ClothController &GetSingleton();
 
-    static ClothController *getSingletonPtr(void);
+    static ClothController *GetSingletonPtr();
 
     ClothController();
 
     ~ClothController();
 
-    nv::cloth::Factory *factory();
+    nv::cloth::Factory *Factory();
 
-    void update(float deltaTime);
+    void Update(float delta_time);
 
-    void handlePickingEvent(Camera *mainCamera, const InputEvent &inputEvent);
+    void HandlePickingEvent(Camera *main_camera, const InputEvent &input_event);
 
 public:
     // Helper functions to enable automatic deinitialize
     // Tracking an object will delete it when autoDeinitialize is called
     // Untracking can be used if you delete it sooner than autoDeinitialize
-    void trackClothActor(cloth::ClothRenderer *clothActor);
+    void TrackClothActor(cloth::ClothRenderer *cloth_actor);
 
-    void untrackClothActor(cloth::ClothRenderer *clothActor);
+    void UntrackClothActor(cloth::ClothRenderer *cloth_actor);
 
-    void trackSolver(nv::cloth::Solver *solver);
+    void TrackSolver(nv::cloth::Solver *solver);
 
-    void untrackSolver(nv::cloth::Solver *solver);
+    void UntrackSolver(nv::cloth::Solver *solver);
 
-    void trackFabric(nv::cloth::Fabric *fabric);
+    void TrackFabric(nv::cloth::Fabric *fabric);
 
-    void untrackFabric(nv::cloth::Fabric *fabric);
+    void UntrackFabric(nv::cloth::Fabric *fabric);
 
     // Help to detach cloths from solver at AutoDeinit.
-    void addClothToSolver(cloth::ClothRenderer *clothActor, nv::cloth::Solver *solver);
+    void AddClothToSolver(cloth::ClothRenderer *cloth_actor, nv::cloth::Solver *solver);
 
-    void addClothsToSolver(nv::cloth::Range<cloth::ClothRenderer *> clothActors, nv::cloth::Solver *solver);
+    void AddClothsToSolver(nv::cloth::Range<cloth::ClothRenderer *> cloth_actors, nv::cloth::Solver *solver);
 
 private:
-    void startSimulationStep(float dt);
+    void StartSimulationStep(float dt);
 
-    void waitForSimulationStep();
+    void WaitForSimulationStep();
 
-    void updateSimulationGraphics();
+    void UpdateSimulationGraphics();
 
-    void updateParticleDragging(const Ray3F &ray);
+    void UpdateParticleDragging(const Ray3F &ray) const;
 
 private:
     friend class ClothUI;
 
-    nv::cloth::Factory *_factory{nullptr};
-    std::vector<cloth::ClothRenderer *> _clothList;
-    std::vector<nv::cloth::Solver *> _solverList;
-    std::map<nv::cloth::Solver *, cloth::MultithreadedSolverHelper> _solverHelpers;
-    std::vector<nv::cloth::Fabric *> _fabricList;
-    std::map<cloth::ClothRenderer *, nv::cloth::Solver *> _clothSolverMap;
+    nv::cloth::Factory *factory_{nullptr};
+    std::vector<cloth::ClothRenderer *> cloth_list_;
+    std::vector<nv::cloth::Solver *> solver_list_;
+    std::map<nv::cloth::Solver *, cloth::MultithreadedSolverHelper> solver_helpers_;
+    std::vector<nv::cloth::Fabric *> fabric_list_;
+    std::map<cloth::ClothRenderer *, nv::cloth::Solver *> cloth_solver_map_;
 
-    cloth::JobManager _jobManager;
+    cloth::JobManager job_manager_;
 
     // Particle dragging
     struct DraggingParticle {
-        cloth::ClothRenderer *trackedCloth{nullptr};
+        cloth::ClothRenderer *tracked_cloth{nullptr};
         float dist = 0;
         float offset = 0;
-        int particleIndex = 0;
+        int particle_index = 0;
     };
-    DraggingParticle _draggingParticle;
+    DraggingParticle dragging_particle_;
 };
 
-}  // namespace cloth
-}  // namespace vox
+template <>
+inline cloth::ClothController *Singleton<cloth::ClothController>::ms_singleton = 0;
+
+}  // namespace vox::cloth

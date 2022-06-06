@@ -23,18 +23,18 @@ public:
 
     ClothRenderer(Entity* entity);
 
-    void _render(std::vector<RenderElement>& opaqueQueue,
-                 std::vector<RenderElement>& alphaTestQueue,
-                 std::vector<RenderElement>& transparentQueue) override;
+    void Render(std::vector<RenderElement>& opaqueQueue,
+                std::vector<RenderElement>& alphaTestQueue,
+                std::vector<RenderElement>& transparentQueue) override;
 
-    void setClothMeshDesc(const nv::cloth::ClothMeshDesc& desc);
+    void SetClothMeshDesc(const nv::cloth::ClothMeshDesc& desc);
 
-    void update(const physx::PxVec3* positions, uint32_t numVertices);
+    void Update(const physx::PxVec3* positions, uint32_t numVertices);
 
-    void _updateBounds(BoundingBox3F& worldBounds) override;
+    void UpdateBounds(BoundingBox3F& worldBounds) override;
 
 private:
-    void _initialize(
+    void Initialize(
             const void* vertices, uint32_t numVertices, uint32_t vertexSize, const uint16_t* faces, uint32_t numFaces);
 
     std::vector<Vertex> _vertices;
@@ -45,9 +45,9 @@ private:
     uint32_t _numVertices;
     uint32_t _vertexSize;
 
-    std::shared_ptr<MTL::Buffer> _vertexBuffers{nullptr};
-    std::shared_ptr<MTL::Buffer> _indexBuffers{nullptr};
-    std::shared_ptr<MTL::VertexDescriptor> _vertexDescriptor{nullptr};
+    //    std::shared_ptr<MTL::Buffer> _vertexBuffers{nullptr};
+    //    std::shared_ptr<MTL::Buffer> _indexBuffers{nullptr};
+    //    std::shared_ptr<MTL::VertexDescriptor> _vertexDescriptor{nullptr};
 
     MeshPtr _mesh{nullptr};
 };
