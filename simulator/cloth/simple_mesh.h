@@ -11,11 +11,10 @@
 #include "vox.cloth/foundation/PxVec2.h"
 #include "vox.cloth/foundation/PxVec3.h"
 
-namespace vox {
-namespace cloth {
+namespace vox::cloth {
 
 class Mesh {
-    virtual uint32_t getVertexStride() const = 0;
+    [[nodiscard]] virtual uint32_t GetVertexStride() const = 0;
 };
 
 /**
@@ -24,21 +23,19 @@ class Mesh {
  */
 class SimpleMesh : public Mesh {
 public:
-    class Vertex {
-    public:
+    struct Vertex {
         physx::PxVec3 position;
         physx::PxVec3 normal;
         physx::PxVec2 uv;
     };
 
-    virtual uint32_t getVertexStride() const { return sizeof(Vertex); }
+    [[nodiscard]] uint32_t GetVertexStride() const override { return sizeof(Vertex); }
 
-    std::vector<Vertex> vertices;
-    std::vector<uint16_t> indices;
+    std::vector<Vertex> vertices_;
+    std::vector<uint16_t> indices_;
 
-    physx::PxVec3 extents;
-    physx::PxVec3 center;
+    physx::PxVec3 extents_;
+    physx::PxVec3 center_;
 };
 
-}  // namespace cloth
-}  // namespace vox
+}  // namespace vox::cloth

@@ -9,13 +9,12 @@
 #include "simulator/cloth/simple_mesh.h"
 #include "vox.cloth/foundation/PxVec4.h"
 
-namespace vox {
-namespace cloth {
+namespace vox::cloth {
 /*
  * returns a PxVec4 containing [x,y,z,d] for plane equation ax + by + cz + d = 0.
  * Where plane contains p and has normal n.
  */
-inline physx::PxVec4 constructPlaneFromPointNormal(physx::PxVec3 p, physx::PxVec3 n) {
+inline physx::PxVec4 ConstructPlaneFromPointNormal(const physx::PxVec3 &p, physx::PxVec3 n) {
     n.normalize();
     return physx::PxVec4(n, -p.dot(n));
 }
@@ -24,7 +23,7 @@ inline physx::PxVec4 constructPlaneFromPointNormal(physx::PxVec3 p, physx::PxVec
  * returns two vectors in b and c so that [a b c] form a basis.
  * a needs to be a unit vector.
  */
-inline void computeBasis(const physx::PxVec3 &a, physx::PxVec3 *b, physx::PxVec3 *c) {
+inline void ComputeBasis(const physx::PxVec3 &a, physx::PxVec3 *b, physx::PxVec3 *c) {
     if (fabsf(a.x) >= 0.57735f)
         *b = physx::PxVec3(a.y, -a.x, 0.0f);
     else
@@ -35,116 +34,115 @@ inline void computeBasis(const physx::PxVec3 &a, physx::PxVec3 *b, physx::PxVec3
 }
 
 struct Point {
-    Point() {}
+    Point() = default;
 
-    Point(physx::PxVec3 _p) : p(_p) {}
+    Point(const physx::PxVec3 &p) : p(p) {}
 
     physx::PxVec3 p;
 
     Point operator*(float f) const { return Point(p * f); }
 
-    Point operator+(Point pt) const { return Point(p + pt.p); }
+    Point operator+(const Point &pt) const { return Point(p + pt.p); }
 };
 
 struct RenderVertex {
-    RenderVertex() {}
+    RenderVertex() = default;
 
-    RenderVertex(physx::PxVec3 _p, physx::PxVec3 _n) : p(_p), n(_n) {}
+    RenderVertex(const physx::PxVec3 &p, const physx::PxVec3 &n) : p(p), n(n) {}
 
     physx::PxVec3 p;
     physx::PxVec3 n;
 };
 
 struct Polygon {
-    Polygon() {}
+    Polygon() = default;
 
     template <typename P, typename... Args>
     Polygon(P p1, P p2, P p3, Args... args) {
-        addPoints(p1, p2, p3, args...);
+        AddPoints(p1, p2, p3, args...);
     }
 
-    std::vector<Point> mPoints;
+    std::vector<Point> m_points;
 
-    bool isTriangle() const { return mPoints.size() == 3; }
+    [[nodiscard]] bool IsTriangle() const { return m_points.size() == 3; }
 
     template <typename P, typename... Args>
-    void addPoints(P p, Args... args) {
-        mPoints.push_back(p);
-        addPoints(args...);
+    void AddPoints(P p, Args... args) {
+        m_points.push_back(p);
+        AddPoints(args...);
     }
 
     template <typename P>
-    void addPoints(P p) {
-        mPoints.push_back(p);
+    void AddPoints(P p) {
+        m_points.push_back(p);
     }
 
-    void triangulate(std::vector<Polygon> &out) const;
+    void Triangulate(std::vector<Polygon> &out) const;
 
-    void triangulate(std::vector<RenderVertex> &verts, std::vector<uint16_t> &indices) const;
+    void Triangulate(std::vector<RenderVertex> &verts, std::vector<uint16_t> &indices) const;
 
-    void triangulateWeld(std::vector<RenderVertex> &verts,
+    void TriangulateWeld(std::vector<RenderVertex> &verts,
                          std::vector<uint16_t> &indices) const;  // normalize normals afterwards
-    void triangulateForCollision(std::vector<physx::PxVec3> &verts) const;
+    void TriangulateForCollision(std::vector<physx::PxVec3> &verts) const;
 
-    physx::PxVec3 calculateNormal() const;
+    [[nodiscard]] physx::PxVec3 CalculateNormal() const;
 
-    float calculateArea() const;
+    [[nodiscard]] float CalculateArea() const;
 
-    void subdivideTriangle(std::vector<Polygon> &out) const;
+    void SubdivideTriangle(std::vector<Polygon> &out) const;
 
-    bool pointPlaneSide(physx::PxVec3 p, physx::PxVec4 plane) const;
+    [[nodiscard]] static bool PointPlaneSide(const physx::PxVec3 &p, const physx::PxVec4 &plane);
 
-    void clip(physx::PxVec4 plane, bool flip = false);
+    void Clip(const physx::PxVec4 &plane, bool flip = false);
 };
 
 struct PolygonMesh {
-    std::vector<Polygon> mPolygons;
+    std::vector<Polygon> m_polygons;
 
-    bool isTriangleMesh() const {
+    [[nodiscard]] bool IsTriangleMesh() const {
         bool b = true;
-        for (const auto &p : mPolygons) {
-            b = b && p.isTriangle();
+        for (const auto &p : m_polygons) {
+            b = b && p.IsTriangle();
         }
         return b;
     }
 
-    void addConvexPolygon(physx::PxVec4 plane, physx::PxVec4 *planes, uint32_t mask, bool flip);
+    void AddConvexPolygon(const physx::PxVec4 &plane, physx::PxVec4 *planes, uint32_t mask, bool flip);
 
-    void generateRenderBuffers(RenderVertex **vertices, uint16_t **indices, int *vertexCount, int *indexCount) const;
+    void GenerateRenderBuffers(RenderVertex **vertices, uint16_t **indices, int *vertex_count, int *index_count) const;
 
-    void generateSmoothRenderBuffers(RenderVertex **vertices,
+    void GenerateSmoothRenderBuffers(RenderVertex **vertices,
                                      uint16_t **indices,
-                                     int *vertexCount,
-                                     int *indexCount) const;
+                                     int *vertex_count,
+                                     int *index_count) const;
 
-    int generateTriangleList(physx::PxVec3 **positions);
+    int GenerateTriangleList(physx::PxVec3 **positions);
 
-    void applyTransfom(physx::PxMat44 transform);
+    void ApplyTransform(const physx::PxMat44 &transform);
 
-    void merge(const PolygonMesh &mesh);
+    void Merge(const PolygonMesh &mesh);
 };
 
-PolygonMesh generateTetrahedron(float radius);
+PolygonMesh GenerateTetrahedron(float radius);
 
-PolygonMesh generateIcosahedron(float radius, int subdivisions);
+PolygonMesh GenerateIcosahedron(float radius, int subdivisions);
 
-PolygonMesh generateCone(physx::PxVec4 a, physx::PxVec4 b, int segments, float grow, bool correctCone);
+PolygonMesh GenerateCone(physx::PxVec4 a, physx::PxVec4 b, int segments, float grow, bool correct_cone);
 
-PolygonMesh generateCollisionConvex(physx::PxVec4 *planes, uint32_t mask, float grow, bool flip);
+PolygonMesh GenerateCollisionConvex(physx::PxVec4 *planes, uint32_t mask, float grow, bool flip);
 
-PolygonMesh generateCollisionCapsules(
-        physx::PxVec4 *spheres, int sphereCount, uint32_t *indices, int indexCount, float grow);
+PolygonMesh GenerateCollisionCapsules(
+        physx::PxVec4 *spheres, int sphere_count, const uint32_t *indices, int index_count, float grow);
 
 // Generates simple meshes with smooth shading
-SimpleMesh generateFastSphere(int segmentsX, int segmentY, physx::PxMat44 transform);
-SimpleMesh generateFastCylinder(int segmentsX, int segmentY, physx::PxMat44 transform);  // no caps
+SimpleMesh GenerateFastSphere(int segments_x, int segment_y, const physx::PxMat44 &transform);
+SimpleMesh GenerateFastCylinder(int segments_x, int segment_y, const physx::PxMat44 &transform);  // no caps
 
 // Combines cashed spheres and cylinders to generate the capsules
-SimpleMesh generateCollisionCapsulesFast(
-        physx::PxVec4 *spheres, int sphereCount, uint32_t *indices, int indexCount, float grow);
+SimpleMesh GenerateCollisionCapsulesFast(
+        physx::PxVec4 *spheres, int sphere_count, const uint32_t *indices, int index_count, float grow);
 
-uint32_t generateConvexPolyhedronPlanes(
-        int segmentsX, int segmentsY, physx::PxVec3 center, float radius, std::vector<physx::PxVec4> *planes);
+uint32_t GenerateConvexPolyhedronPlanes(
+        int segments_x, int segments_y, const physx::PxVec3 &center, float radius, std::vector<physx::PxVec4> *planes);
 
-}  // namespace cloth
-}  // namespace vox
+}  // namespace vox::cloth

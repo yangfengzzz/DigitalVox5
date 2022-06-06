@@ -32,7 +32,7 @@ ClothController::ClothController() {
 ClothController::~ClothController() {
     // Remove all cloths from solvers
     for (auto it : cloth_solver_map_) {
-        it.second->removeCloth(it.first->cloth);
+        it.second->removeCloth(it.first->cloth_);
     }
     cloth_solver_map_.clear();
 
@@ -45,7 +45,7 @@ ClothController::~ClothController() {
 
     // Destroy all cloths
     for (auto it : cloth_list_) {
-        delete it->cloth;
+        delete it->cloth_;
     }
     cloth_list_.clear();
 
@@ -78,7 +78,7 @@ void ClothController::WaitForSimulationStep() {
 
 void ClothController::UpdateSimulationGraphics() {
     for (auto actor : cloth_list_) {
-        nv::cloth::MappedRange<physx::PxVec4> particles = actor->cloth->getCurrentParticles();
+        nv::cloth::MappedRange<physx::PxVec4> particles = actor->cloth_->getCurrentParticles();
         std::vector<physx::PxVec3> particles3(particles.size());
         for (uint32_t i = 0; i < particles.size(); ++i) particles3[i] = particles[i].getXYZ();
 
@@ -96,14 +96,14 @@ void ClothController::HandlePickingEvent(Camera *main_camera, const InputEvent &
 
             Ray3F ray = main_camera->ScreenPointToRay(Vector2F(mouse_button.GetPosX(), mouse_button.GetPosY()));
             for (auto it : cloth_list_) {
-                nv::cloth::Cloth *cloth = it->cloth;
-                Matrix4x4F modelMatrix = it->GetEntity()->transform->WorldMatrix();
+                nv::cloth::Cloth *cloth = it->cloth_;
+                Matrix4x4F model_matrix = it->GetEntity()->transform->WorldMatrix();
                 nv::cloth::Range<physx::PxVec4> particles = cloth->getCurrentParticles();
 
                 for (int i = 0; i < (int)particles.size(); i++) {
                     physx::PxVec4 p = particles[i];
                     Point3F point(p.x, p.y, p.z);
-                    point = modelMatrix * point;
+                    point = model_matrix * point;
 
                     float dist = ray.direction.dot(point - ray.origin);
                     float offset = point.distanceTo(ray.origin + ray.direction * dist);
@@ -133,38 +133,38 @@ void ClothController::HandlePickingEvent(Camera *main_camera, const InputEvent &
 
 void ClothController::UpdateParticleDragging(const Ray3F &ray) const {
     if (dragging_particle_.tracked_cloth) {
-        nv::cloth::Cloth *cloth = dragging_particle_.tracked_cloth->cloth;
-        Matrix4x4F modelMatrix = dragging_particle_.tracked_cloth->GetEntity()->transform->WorldMatrix();
+        nv::cloth::Cloth *cloth = dragging_particle_.tracked_cloth->cloth_;
+        Matrix4x4F model_matrix = dragging_particle_.tracked_cloth->GetEntity()->transform->WorldMatrix();
         nv::cloth::Range<physx::PxVec4> particles = cloth->getCurrentParticles();
-        nv::cloth::Range<physx::PxVec4> prevParticles = cloth->getPreviousParticles();
+        nv::cloth::Range<physx::PxVec4> prev_particles = cloth->getPreviousParticles();
 
-        physx::PxVec3 particleLocal = particles[dragging_particle_.particle_index].getXYZ();
-        Point3F particleWorld = modelMatrix * Point3F(particleLocal.x, particleLocal.y, particleLocal.z);
+        physx::PxVec3 particle_local = particles[dragging_particle_.particle_index].getXYZ();
+        Point3F particle_world = model_matrix * Point3F(particle_local.x, particle_local.y, particle_local.z);
 
-        float rayT = dragging_particle_.dist;
-        Point3F mousePointPlane = ray.origin + ray.direction * rayT;
-        Vector3F offset = mousePointPlane - particleWorld;
+        float ray_t = dragging_particle_.dist;
+        Point3F mouse_point_plane = ray.origin + ray.direction * ray_t;
+        Vector3F offset = mouse_point_plane - particle_world;
         if (offset.lengthSquared() > 2.5f * 2.5f) offset = offset.normalized() * 2.5f;
 
-        offset = modelMatrix.inverse() * offset;
+        offset = model_matrix.inverse() * offset;
 
         for (int i = 0; i < (int)particles.size(); i++) {
-            physx::PxVec4 pLocal = particles[i];
-            Vector4F p = modelMatrix * Vector4F(pLocal.x, pLocal.y, pLocal.z, pLocal.w);
-            float dist = Point3F(p.x, p.y, p.z).distanceTo(particleWorld);
+            physx::PxVec4 p_local = particles[i];
+            Vector4F p = model_matrix * Vector4F(p_local.x, p_local.y, p_local.z, p_local.w);
+            float dist = Point3F(p.x, p.y, p.z).distanceTo(particle_world);
 
             // Only move dynamic points
             if (p.w > 0.0f) {
-                const float softSelectionRadius = 0.4f;
-                const float maxWeight = 0.4f;
-                float weight = std::max(0.f, std::min(1.f, 1.f - (dist / softSelectionRadius))) * maxWeight;
+                const float kSoftSelectionRadius = 0.4f;
+                const float kMaxWeight = 0.4f;
+                float weight = std::max(0.f, std::min(1.f, 1.f - (dist / kSoftSelectionRadius))) * kMaxWeight;
                 if (weight <= 0.0f) continue;
-                Point3F point0(prevParticles[i].x, prevParticles[i].y, prevParticles[i].z);
-                point0 = point0 - weight * offset;
-                point0 = point0 * 0.99f + Vector3F(p.x, p.y, p.z) * 0.01f;
+                Point3F point_0(prev_particles[i].x, prev_particles[i].y, prev_particles[i].z);
+                point_0 = point_0 - weight * offset;
+                point_0 = point_0 * 0.99f + Vector3F(p.x, p.y, p.z) * 0.01f;
                 // move previous particle in the opposite direction to avoid invalid configurations in the next solver
                 // iteration.
-                prevParticles[i] = physx::PxVec4(point0.x, point0.y, point0.z, prevParticles[i].w);
+                prev_particles[i] = physx::PxVec4(point_0.x, point_0.y, point_0.z, prev_particles[i].w);
             }
         }
     }
@@ -172,12 +172,12 @@ void ClothController::UpdateParticleDragging(const Ray3F &ray) const {
 
 namespace {
 template <typename T>
-void trackT(std::vector<T> &list, T object) {
+void TrackT(std::vector<T> &list, T object) {
     list.push_back(object);
 }
 
 template <typename T>
-void untrackT(std::vector<T> &list, T object) {
+void UntrackT(std::vector<T> &list, T object) {
     for (auto it = list.begin(); it != list.end(); ++it) {
         if (*it == object) {
             list.erase(it);
@@ -187,26 +187,26 @@ void untrackT(std::vector<T> &list, T object) {
 }
 }  // namespace
 
-void ClothController::TrackClothActor(cloth::ClothRenderer *cloth_actor) { trackT(cloth_list_, cloth_actor); }
+void ClothController::TrackClothActor(cloth::ClothRenderer *cloth_actor) { TrackT(cloth_list_, cloth_actor); }
 
-void ClothController::UntrackClothActor(cloth::ClothRenderer *cloth_actor) { untrackT(cloth_list_, cloth_actor); }
+void ClothController::UntrackClothActor(cloth::ClothRenderer *cloth_actor) { UntrackT(cloth_list_, cloth_actor); }
 
 void ClothController::TrackSolver(nv::cloth::Solver *solver) {
-    trackT(solver_list_, solver);
+    TrackT(solver_list_, solver);
     solver_helpers_[solver].Initialize(solver, &job_manager_);
 }
 
 void ClothController::UntrackSolver(nv::cloth::Solver *solver) {
-    untrackT(solver_list_, solver);
+    UntrackT(solver_list_, solver);
     solver_helpers_.erase(solver);
 }
 
-void ClothController::TrackFabric(nv::cloth::Fabric *fabric) { trackT(fabric_list_, fabric); }
+void ClothController::TrackFabric(nv::cloth::Fabric *fabric) { TrackT(fabric_list_, fabric); }
 
-void ClothController::UntrackFabric(nv::cloth::Fabric *fabric) { untrackT(fabric_list_, fabric); }
+void ClothController::UntrackFabric(nv::cloth::Fabric *fabric) { UntrackT(fabric_list_, fabric); }
 
 void ClothController::AddClothToSolver(cloth::ClothRenderer *cloth_actor, nv::cloth::Solver *solver) {
-    solver->addCloth(cloth_actor->cloth);
+    solver->addCloth(cloth_actor->cloth_);
     assert(cloth_solver_map_.find(cloth_actor) == cloth_solver_map_.end());
     cloth_solver_map_[cloth_actor] = solver;
 }
@@ -216,15 +216,15 @@ void ClothController::AddClothsToSolver(nv::cloth::Range<cloth::ClothRenderer *>
     // A temporary vector of Cloth*, to construct a Range from and pass to solver
     std::vector<nv::cloth::Cloth *> cloths;
 
-    for (auto clothActor : cloth_actors) {
-        assert(cloth_solver_map_.find(clothActor) == cloth_solver_map_.end());
-        cloth_solver_map_[clothActor] = solver;
+    for (auto cloth_actor : cloth_actors) {
+        assert(cloth_solver_map_.find(cloth_actor) == cloth_solver_map_.end());
+        cloth_solver_map_[cloth_actor] = solver;
 
-        cloths.push_back(clothActor->cloth);
+        cloths.push_back(cloth_actor->cloth_);
     }
 
-    auto clothsRange = nv::cloth::Range<nv::cloth::Cloth *>(&cloths.front(), &cloths.back() + 1);
-    solver->addCloths(clothsRange);
+    auto cloths_range = nv::cloth::Range<nv::cloth::Cloth *>(&cloths.front(), &cloths.back() + 1);
+    solver->addCloths(cloths_range);
 }
 
 }  // namespace cloth

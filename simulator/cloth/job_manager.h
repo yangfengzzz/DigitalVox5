@@ -22,70 +22,67 @@
 #include "vox.cloth/foundation/PxVec3.h"
 #include "vox.cloth/foundation/PxVec4.h"
 
-namespace nv {
-namespace cloth {
+namespace nv::cloth {
 class Solver;
-}
-}  // namespace nv
+}  // namespace nv::cloth
 
-namespace vox {
-namespace cloth {
+namespace vox::cloth {
 /// Dummy task that can be used as end node in a task graph.
 class DummyTask : public physx::PxTask {
 public:
     DummyTask() {
-        mFinished = false;
+        m_finished_ = false;
         mTm = nullptr;
     }
 
-    DummyTask(physx::PxTaskManager *tm) {
-        mFinished = false;
+    explicit DummyTask(physx::PxTaskManager *tm) {
+        m_finished_ = false;
         mTm = tm;
         mTm->submitUnnamedTask(*this);
     }
 
-    ~DummyTask() {
+    ~DummyTask() override {
         mTm = nullptr;
-    }  // Way to catch race conditions. Will usually crash on nullptr if the task gets deleted before the taskmanager is
-       // done with it.
+    }  // Way to catch race conditions. Will usually crash on nullptr if the task gets deleted before the task-manager
+       // is done with it.
 
-    virtual void run() override {}
+    void run() override {}
 
-    virtual void release() override {
+    void release() override {
         physx::PxTask::release();
-        mFinished = true;
-        mWaitEvent.notify_all();
+        m_finished_ = true;
+        m_wait_event_.notify_all();
     }
 
-    virtual const char *getName() const override { return "DummyTask"; }
+    [[nodiscard]] const char *getName() const override { return "DummyTask"; }
 
     void Reset(physx::PxTaskManager *tm) {
-        mFinished = false;
+        m_finished_ = false;
         mTm = tm;
         mTm->submitUnnamedTask(*this);
     }
 
     /// Use Wait to block the calling thread until this task is finished and save to delete
     void Wait() {
-        std::mutex eventLock;
-        std::unique_lock<std::mutex> lock(eventLock);
-        while (!mFinished) {
-            mWaitEvent.wait(lock);
+        std::mutex event_lock;
+        std::unique_lock<std::mutex> lock(event_lock);
+        while (!m_finished_) {
+            m_wait_event_.wait(lock);
         }
     }
 
 private:
-    std::condition_variable mWaitEvent;
-    bool mFinished;
+    std::condition_variable m_wait_event_;
+    bool m_finished_;
 };
 
 class CpuDispatcher : public physx::PxCpuDispatcher {
-    virtual void submitTask(physx::PxBaseTask &task) {
+    void submitTask(physx::PxBaseTask &task) override {
         task.run();
         task.release();
     }
 
-    virtual uint32_t getWorkerCount() const { return 1; }
+    [[nodiscard]] uint32_t getWorkerCount() const override { return 1; }
 };
 
 class JobManager;
@@ -96,7 +93,7 @@ public:
 
     Job(const Job &);
 
-    ~Job() { mValid = false; }
+    ~Job() { m_valid_ = false; }
 
     void Initialize(JobManager *parent,
                     std::function<void(Job *)> function = std::function<void(Job *)>(),
@@ -113,105 +110,105 @@ public:
 private:
     virtual void ExecuteInternal() {}
 
-    std::function<void(Job *)> mFunction;
-    JobManager *mParent;
-    std::atomic_int mRefCount;
+    std::function<void(Job *)> m_function_;
+    JobManager *m_parent_{};
+    std::atomic_int m_ref_count_{};
 
-    bool mFinished;
-    std::mutex mFinishedLock;
-    std::condition_variable mFinishedEvent;
-    bool mValid = true;
+    bool m_finished_{};
+    std::mutex m_finished_lock_;
+    std::condition_variable m_finished_event_;
+    bool m_valid_ = true;
 };
 
 // this Job is a dependency to another job
 class JobDependency : public Job {
 public:
-    void SetDependentJob(Job *job) { mDependendJob = job; }
+    void SetDependentJob(Job *job) { m_depended_job_ = job; }
 
-    virtual void Execute() override {
-        auto dependendJob = mDependendJob;
+    void Execute() override {
+        auto depended_job = m_depended_job_;
         Job::Execute();
-        dependendJob->RemoveReference();
+        depended_job->RemoveReference();
     }
 
 private:
-    Job *mDependendJob;
+    Job *m_depended_job_;
 };
 
 class JobManager {
 public:
     JobManager() {
-        mWorkerCount = 8;
-        mWorkerThreads = new std::thread[mWorkerCount];
-        mQuit = false;
+        m_worker_count_ = 8;
+        m_worker_threads_ = new std::thread[m_worker_count_];
+        m_quit_ = false;
 
-        for (int i = 0; i < mWorkerCount; i++) mWorkerThreads[i] = std::thread(JobManager::WorkerEntryPoint, this);
+        for (int i = 0; i < m_worker_count_; i++)
+            m_worker_threads_[i] = std::thread(JobManager::WorkerEntryPoint, this);
     }
 
     ~JobManager() {
-        if (!mQuit) Quit();
+        if (!m_quit_) Quit();
     }
 
     void Quit() {
-        std::unique_lock<std::mutex> lock(mJobQueueLock);
-        mQuit = true;
+        std::unique_lock<std::mutex> lock(m_job_queue_lock_);
+        m_quit_ = true;
         lock.unlock();
-        mJobQueueEvent.notify_all();
-        for (int i = 0; i < mWorkerCount; i++) {
-            mWorkerThreads[i].join();
+        m_job_queue_event_.notify_all();
+        for (int i = 0; i < m_worker_count_; i++) {
+            m_worker_threads_[i].join();
         }
-        delete[] mWorkerThreads;
+        delete[] m_worker_threads_;
     }
 
     template <int count, typename F>
     void ParallelLoop(F const &function) {
         /*for(int i = 0; i < count; i++)
          function(i);*/
-        Job finalJob;
-        finalJob.Initialize(this, std::function<void(Job *)>(), count);
+        Job final_job;
+        final_job.Initialize(this, std::function<void(Job *)>(), count);
         JobDependency jobs[count];
         for (int j = 0; j < count; j++) {
-            jobs[j].Initialize(this, [j, &finalJob, function](Job *) { function(j); });
-            jobs[j].SetDependentJob(&finalJob);
+            jobs[j].Initialize(this, [j, &final_job, function](Job *) { function(j); });
+            jobs[j].SetDependentJob(&final_job);
             jobs[j].RemoveReference();
         }
-        finalJob.Wait();
+        final_job.Wait();
     }
 
-    static void WorkerEntryPoint(JobManager *parrent);
+    static void WorkerEntryPoint(JobManager *parent);
 
 private:
     friend class Job;
 
     void Submit(Job *job);
 
-    int mWorkerCount;
-    std::thread *mWorkerThreads;
+    int m_worker_count_;
+    std::thread *m_worker_threads_;
 
-    std::mutex mJobQueueLock;
-    std::queue<Job *> mJobQueue;
-    std::condition_variable mJobQueueEvent;
-    bool mQuit;
+    std::mutex m_job_queue_lock_;
+    std::queue<Job *> m_job_queue_;
+    std::condition_variable m_job_queue_event_;
+    bool m_quit_;
 };
 
 class MultithreadedSolverHelper {
 public:
-    void Initialize(nv::cloth::Solver *solver, JobManager *jobManager);
+    void Initialize(nv::cloth::Solver *solver, JobManager *job_manager);
 
     void StartSimulation(float dt);
 
     void WaitForSimulation();
 
 private:
-    Job mStartSimulationJob;
-    Job mEndSimulationJob;
-    std::vector<JobDependency> mSimulationChunkJobs;
+    Job m_start_simulation_job_;
+    Job m_end_simulation_job_;
+    std::vector<JobDependency> m_simulation_chunk_jobs_;
 
-    float mDt;
+    float m_dt_;
 
-    nv::cloth::Solver *mSolver;
-    JobManager *mJobManager;
+    nv::cloth::Solver *m_solver_;
+    JobManager *m_job_manager_;
 };
 
-}  // namespace cloth
-}  // namespace vox
+}  // namespace vox::cloth

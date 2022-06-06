@@ -10,8 +10,7 @@
 #include "vox.cloth/NvClothExt/ClothMeshDesc.h"
 #include "vox.render/renderer.h"
 
-namespace vox {
-namespace cloth {
+namespace vox::cloth {
 class ClothRenderer : public Renderer {
 public:
     struct Vertex {
@@ -19,38 +18,56 @@ public:
         physx::PxVec3 normal;
     };
 
-    nv::cloth::Cloth* cloth{nullptr};
+    nv::cloth::Cloth* cloth_{nullptr};
 
-    ClothRenderer(Entity* entity);
+    /**
+     * Returns the name of the component
+     */
+    std::string name() override;
 
-    void Render(std::vector<RenderElement>& opaqueQueue,
-                std::vector<RenderElement>& alphaTestQueue,
-                std::vector<RenderElement>& transparentQueue) override;
+    explicit ClothRenderer(Entity* entity);
+
+    void Render(std::vector<RenderElement>& opaque_queue,
+                std::vector<RenderElement>& alpha_test_queue,
+                std::vector<RenderElement>& transparent_queue) override;
 
     void SetClothMeshDesc(const nv::cloth::ClothMeshDesc& desc);
 
-    void Update(const physx::PxVec3* positions, uint32_t numVertices);
+    void Update(const physx::PxVec3* positions, uint32_t num_vertices);
 
-    void UpdateBounds(BoundingBox3F& worldBounds) override;
+    void UpdateBounds(BoundingBox3F& world_bounds) override;
+
+public:
+    /**
+     * Called when the serialization is asked
+     */
+    void OnSerialize(nlohmann::json& data) override;
+
+    /**
+     * Called when the deserialization is asked
+     */
+    void OnDeserialize(const nlohmann::json& data) override;
+
+    /**
+     * Defines how the component should be drawn in the inspector
+     */
+    void OnInspector(ui::WidgetContainer& p_root) override;
 
 private:
-    void Initialize(
-            const void* vertices, uint32_t numVertices, uint32_t vertexSize, const uint16_t* faces, uint32_t numFaces);
+    void Initialize(void* vertices, uint32_t num_vertices, uint32_t vertex_size, uint16_t* faces, uint32_t num_faces);
 
-    std::vector<Vertex> _vertices;
-    std::vector<uint16_t> _indices;
-    std::vector<uint32_t> _submeshOffsets;
+    std::vector<Vertex> vertices_;
+    std::vector<uint16_t> indices_;
+    std::vector<uint32_t> submesh_offsets_;
 
-    uint32_t _numFaces;
-    uint32_t _numVertices;
-    uint32_t _vertexSize;
+    uint32_t num_faces_{};
+    uint32_t num_vertices_{};
+    uint32_t vertex_size_{};
 
-    //    std::shared_ptr<MTL::Buffer> _vertexBuffers{nullptr};
-    //    std::shared_ptr<MTL::Buffer> _indexBuffers{nullptr};
-    //    std::shared_ptr<MTL::VertexDescriptor> _vertexDescriptor{nullptr};
+    std::unique_ptr<core::Buffer> vertex_buffers_{nullptr};
+    VertexInputState vertex_input_state_;
 
-    MeshPtr _mesh{nullptr};
+    MeshPtr mesh_{nullptr};
 };
 
-};  // namespace cloth
-}  // namespace vox
+}  // namespace vox::cloth

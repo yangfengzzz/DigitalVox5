@@ -6,8 +6,7 @@
 
 #pragma once
 
-#include <assert.h>
-
+#include <cassert>
 #include <map>
 #include <mutex>
 #include <sstream>
@@ -24,34 +23,33 @@
 #include <Windows.h>
 #endif
 
-namespace vox {
-namespace cloth {
+namespace vox::cloth {
 class Allocator : public physx::PxAllocatorCallback {
 public:
-    Allocator() { mEnableLeakDetection = false; }
+    Allocator() { m_enable_leak_detection_ = false; }
 
-    virtual void *allocate(size_t size, const char *typeName, const char *filename, int line) {
+    void *allocate(size_t size, const char *type_name, const char *filename, int line) override {
 #ifdef _MSC_VER
         void *ptr = _aligned_malloc(size, 16);
 #else
         void *ptr;
-        if (posix_memalign(&ptr, 16, size)) ptr = 0;
+        if (posix_memalign(&ptr, 16, size)) ptr = nullptr;
 #endif
-        if (mEnableLeakDetection) {
-            std::lock_guard<std::mutex> lock(mAllocationsMapLock);
-            mAllocations[ptr] = Allocation(size, typeName, filename, line);
+        if (m_enable_leak_detection_) {
+            std::lock_guard<std::mutex> lock(m_allocations_map_lock_);
+            m_allocations_[ptr] = Allocation(size, type_name, filename, line);
         }
         return ptr;
     }
 
-    virtual void deallocate(void *ptr) {
-        if (mEnableLeakDetection && ptr) {
-            std::lock_guard<std::mutex> lock(mAllocationsMapLock);
-            auto i = mAllocations.find(ptr);
-            if (i == mAllocations.end()) {
+    void deallocate(void *ptr) override {
+        if (m_enable_leak_detection_ && ptr) {
+            std::lock_guard<std::mutex> lock(m_allocations_map_lock_);
+            auto i = m_allocations_.find(ptr);
+            if (i == m_allocations_.end()) {
                 printf("Tried to deallocate %p which was not allocated with this allocator callback.", ptr);
             } else {
-                mAllocations.erase(i);
+                m_allocations_.erase(i);
             }
         }
 #ifdef _MSC_VER
@@ -62,26 +60,27 @@ public:
     }
 
     void StartTrackingLeaks() {
-        std::lock_guard<std::mutex> lock(mAllocationsMapLock);
-        mAllocations.clear();
-        mEnableLeakDetection = true;
+        std::lock_guard<std::mutex> lock(m_allocations_map_lock_);
+        m_allocations_.clear();
+        m_enable_leak_detection_ = true;
     }
 
     void StopTrackingLeaksAndReport() {
-        std::lock_guard<std::mutex> lock(mAllocationsMapLock);
-        mEnableLeakDetection = false;
+        std::lock_guard<std::mutex> lock(m_allocations_map_lock_);
+        m_enable_leak_detection_ = false;
 
-        size_t totalBytes = 0;
+        size_t total_bytes = 0;
         std::stringstream message;
         message << "Memory leaks detected:\n";
-        for (auto it = mAllocations.begin(); it != mAllocations.end(); ++it) {
-            const Allocation &alloc = it->second;
-            message << "* Allocated ptr " << it->first << " of " << alloc.mSize << "bytes (type=" << alloc.mTypeName
-                    << ") at " << alloc.mFileName << ":" << alloc.mLine << "\n";
-            totalBytes += alloc.mSize;
+        for (auto &m_allocation : m_allocations_) {
+            const Allocation &alloc = m_allocation.second;
+            message << "* Allocated ptr " << m_allocation.first << " of " << alloc.m_size
+                    << "bytes (type=" << alloc.m_type_name << ") at " << alloc.m_file_name << ":" << alloc.m_line
+                    << "\n";
+            total_bytes += alloc.m_size;
         }
-        if (mAllocations.size() > 0) {
-            message << "=====Total of " << totalBytes << " bytes in " << mAllocations.size()
+        if (!m_allocations_.empty()) {
+            message << "=====Total of " << total_bytes << " bytes in " << m_allocations_.size()
                     << " allocations leaked=====";
             const std::string &tmp = message.str();
 #ifdef _MSC_VER
@@ -91,33 +90,33 @@ public:
             printf("%s\n", tmp.c_str());
         }
 
-        mAllocations.clear();
+        m_allocations_.clear();
     }
 
 private:
-    bool mEnableLeakDetection;
+    bool m_enable_leak_detection_;
 
     struct Allocation {
-        Allocation() {}
+        Allocation() = default;
 
-        Allocation(size_t size, const char *typeName, const char *filename, int line)
-            : mSize(size), mTypeName(typeName), mFileName(filename), mLine(line) {}
+        Allocation(size_t size, const char *type_name, const char *filename, int line)
+            : m_size(size), m_type_name(type_name), m_file_name(filename), m_line(line) {}
 
-        size_t mSize;
-        std::string mTypeName;
-        std::string mFileName;
-        int mLine;
+        size_t m_size{};
+        std::string m_type_name;
+        std::string m_file_name;
+        int m_line{};
     };
 
-    std::map<void *, Allocation> mAllocations;
-    std::mutex mAllocationsMapLock;
+    std::map<void *, Allocation> m_allocations_;
+    std::mutex m_allocations_map_lock_;
 };
 
 class ErrorCallback : public physx::PxErrorCallback {
 public:
-    ErrorCallback() {}
+    ErrorCallback() = default;
 
-    virtual void reportError(physx::PxErrorCode::Enum code, const char *message, const char *file, int line);
+    void reportError(physx::PxErrorCode::Enum code, const char *message, const char *file, int line) override;
 };
 
 class NvClothEnvironment {
@@ -125,47 +124,46 @@ class NvClothEnvironment {
 
     virtual ~NvClothEnvironment() { TearDown(); }
 
-    static NvClothEnvironment *sEnv;
+    static NvClothEnvironment *s_env_;
 
 public:
-    static void AllocateEnv() { sEnv = new NvClothEnvironment; }
+    static void AllocateEnv() { s_env_ = new NvClothEnvironment; }
 
     static void FreeEnv() {
-        delete sEnv;
-        sEnv = nullptr;
+        delete s_env_;
+        s_env_ = nullptr;
     }
 
-    static void ReportEnvFreed() { sEnv = nullptr; }  // google test will free it for us, so we just reset the value
-    static NvClothEnvironment *GetEnv() { return sEnv; }
+    static void ReportEnvFreed() { s_env_ = nullptr; }  // google test will free it for us, so we just reset the value
+    static NvClothEnvironment *GetEnv() { return s_env_; }
 
     virtual void SetUp() {
-        mAllocator = new Allocator;
-        mAllocator->StartTrackingLeaks();
-        mFoundationAllocator = new Allocator;
-        mFoundationAllocator->StartTrackingLeaks();
-        mErrorCallback = new ErrorCallback;
-        nv::cloth::InitializeNvCloth(mAllocator, mErrorCallback, nullptr, nullptr);
+        m_allocator_ = new Allocator;
+        m_allocator_->StartTrackingLeaks();
+        m_foundation_allocator_ = new Allocator;
+        m_foundation_allocator_->StartTrackingLeaks();
+        m_error_callback_ = new ErrorCallback;
+        nv::cloth::InitializeNvCloth(m_allocator_, m_error_callback_, nullptr, nullptr);
     }
 
     virtual void TearDown() {
-        mAllocator->StopTrackingLeaksAndReport();
-        mFoundationAllocator->StopTrackingLeaksAndReport();
-        delete mErrorCallback;
-        delete mFoundationAllocator;
-        delete mAllocator;
+        m_allocator_->StopTrackingLeaksAndReport();
+        m_foundation_allocator_->StopTrackingLeaksAndReport();
+        delete m_error_callback_;
+        delete m_foundation_allocator_;
+        delete m_allocator_;
     }
 
-    Allocator *GetAllocator() { return mAllocator; }
+    Allocator *GetAllocator() { return m_allocator_; }
 
-    Allocator *GetFoundationAllocator() { return mFoundationAllocator; }
+    Allocator *GetFoundationAllocator() { return m_foundation_allocator_; }
 
-    ErrorCallback *GetErrorCallback() { return mErrorCallback; }
+    ErrorCallback *GetErrorCallback() { return m_error_callback_; }
 
 private:
-    Allocator *mAllocator;
-    Allocator *mFoundationAllocator;
-    ErrorCallback *mErrorCallback;
+    Allocator *m_allocator_{};
+    Allocator *m_foundation_allocator_{};
+    ErrorCallback *m_error_callback_{};
 };
 
-}  // namespace cloth
-}  // namespace vox
+}  // namespace vox::cloth

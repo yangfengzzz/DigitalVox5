@@ -12,12 +12,11 @@
 #include "vox.cloth/foundation/PxVec3.h"
 #include "vox.cloth/NvClothExt/ClothFabricCooker.h"
 
-namespace vox {
-namespace cloth {
+namespace vox::cloth {
 
 struct ClothMeshData {
     template <typename T>
-    static nv::cloth::BoundedData ToBoundedData(T &vector) {
+    static nv::cloth::BoundedData ToBoundedData(T& vector) {
         nv::cloth::BoundedData d;
         d.data = &vector[0];
         d.stride = sizeof(vector[0]);
@@ -27,84 +26,83 @@ struct ClothMeshData {
     }
 
     struct Triangle {
-        Triangle() {}
+        Triangle() = default;
 
         Triangle(uint32_t _a, uint32_t _b, uint32_t _c) : a(_a), b(_b), c(_c) {}
 
-        uint32_t a, b, c;
+        uint32_t a{}, b{}, c{};
 
-        Triangle operator+(uint32_t offset) const { return Triangle(a + offset, b + offset, c + offset); }
+        Triangle operator+(uint32_t offset) const { return {a + offset, b + offset, c + offset}; }
     };
 
     struct Quad {
-        Quad() {}
+        Quad() = default;
 
         Quad(uint32_t _a, uint32_t _b, uint32_t _c, uint32_t _d) : a(_a), b(_b), c(_c), d(_d) {}
 
-        uint32_t a, b, c, d;
+        uint32_t a{}, b{}, c{}, d{};
 
-        Quad operator+(uint32_t offset) const { return Quad(a + offset, b + offset, c + offset, d + offset); }
+        Quad operator+(uint32_t offset) const { return {a + offset, b + offset, c + offset, d + offset}; }
     };
 
-    std::vector<physx::PxVec3> mVertices;
-    std::vector<physx::PxVec2> mUvs;
-    std::vector<Triangle> mTriangles;
-    std::vector<Quad> mQuads;
-    std::vector<physx::PxReal> mInvMasses;
+    std::vector<physx::PxVec3> m_vertices;
+    std::vector<physx::PxVec2> m_uvs;
+    std::vector<Triangle> m_triangles;
+    std::vector<Quad> m_quads;
+    std::vector<physx::PxReal> m_inv_masses;
 
-    SimpleMesh mMesh;
+    SimpleMesh m_mesh;
 
     void Clear();
 
     void GeneratePlaneCloth(float width,
                             float height,
-                            int segmentsX,
-                            int segmentsY,
-                            bool createQuads = false,
-                            physx::PxMat44 transform = physx::PxIdentity,
-                            bool alternatingDiagonals = true,
+                            int segments_x,
+                            int segments_y,
+                            bool create_quads = false,
+                            const physx::PxMat44& transform = physx::PxIdentity,
+                            bool alternating_diagonals = true,
                             int zigzag = 0);
 
-    void GenerateCylinderWave(float radiusTop,
-                              float radiusBottom,
+    void GenerateCylinderWave(float radius_top,
+                              float radius_bottom,
                               float height,
                               float frequency,
-                              float ampitudeTop,
-                              float ampitudeBottom,
-                              int segmentsX,
-                              int segmentsY,
-                              physx::PxMat44 transform = physx::PxIdentity,
-                              bool attachTop = false,
-                              bool attachBottom = false,
-                              bool createQuads = false,
-                              int missingXsegments = 0);
+                              float ampitude_top,
+                              float ampitude_bottom,
+                              int segments_x,
+                              int segments_y,
+                              const physx::PxMat44& transform = physx::PxIdentity,
+                              bool attach_top = false,
+                              bool attach_bottom = false,
+                              bool create_quads = false,
+                              int missing_x_segments = 0);
 
-    void AttachClothPlaneByAngles(int segmentsX, int segmentsY, bool attachByWidth = true);
+    void AttachClothPlaneByAngles(int segments_x, int segments_y, bool attach_by_width = true);
 
-    void AttachClothPlaneBySide(int segmentsX, int segmentsY, bool attachByWidth = true);
+    void AttachClothPlaneBySide(int segments_x, int segments_y, bool attach_by_width = true);
 
-    bool ReadClothFromFile(const std::string &verticesPath,
-                           const std::string &indicesPath,
-                           physx::PxMat44 transform = physx::PxIdentity);
+    bool ReadClothFromFile(const std::string& vertices_path,
+                           const std::string& indices_path,
+                           const physx::PxMat44& transform = physx::PxIdentity);
 
     // positions as float (3 elements per position)
     template <typename PositionType = float, typename IndexType = uint16_t>
     bool InitializeFromData(nv::cloth::BoundedData positions,
                             nv::cloth::BoundedData indices,
-                            physx::PxMat44 transform = physx::PxMat44(physx::PxIdentity));
+                            const physx::PxMat44& transform = physx::PxMat44(physx::PxIdentity));
 
-    void AttachClothUsingTopVertices(float thresholdY = 0.5f);
+    void AttachClothUsingTopVertices(float threshold_y = 0.5f);
 
-    void SetInvMasses(float invMass);
+    void SetInvMasses(float inv_mass);
 
     void SetInvMassesFromDensity(float density);  // Todo
 
     nv::cloth::ClothMeshDesc GetClothMeshDesc();
 
-    SimpleMesh GetRenderMesh();
+    SimpleMesh GetRenderMesh() const;
 
-    void Merge(const ClothMeshData &other);
+    void Merge(const ClothMeshData& other);
 };
 
-}  // namespace cloth
-}  // namespace vox
+}  // namespace vox::cloth

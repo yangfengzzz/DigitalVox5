@@ -15,7 +15,8 @@
 #include "vox.cloth/NvCloth/Solver.h"
 #include "vox.render/platform/input_events.h"
 
-namespace vox::cloth {
+namespace vox {
+namespace cloth {
 class ClothController : public Singleton<ClothController> {
 public:
     static ClothController &GetSingleton();
@@ -84,7 +85,8 @@ private:
     DraggingParticle dragging_particle_;
 };
 
+}  // namespace cloth
 template <>
-inline cloth::ClothController *Singleton<cloth::ClothController>::ms_singleton = 0;
+inline cloth::ClothController *Singleton<cloth::ClothController>::ms_singleton = nullptr;
 
-}  // namespace vox::cloth
+}  // namespace vox

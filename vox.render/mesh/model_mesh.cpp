@@ -358,12 +358,6 @@ void ModelMesh::UpdateVertexState() {
     vertex_input_bindings[0] =
             vox::initializers::VertexInputBindingDescription(0, element_count * 4, VK_VERTEX_INPUT_RATE_VERTEX);
 
-    VkPipelineVertexInputStateCreateInfo vertex_input_state = vox::initializers::PipelineVertexInputStateCreateInfo();
-    vertex_input_state.vertexBindingDescriptionCount = static_cast<uint32_t>(vertex_input_bindings.size());
-    vertex_input_state.pVertexBindingDescriptions = vertex_input_bindings.data();
-    vertex_input_state.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertex_input_attributes.size());
-    vertex_input_state.pVertexAttributeDescriptions = vertex_input_attributes.data();
-
     element_count_ = element_count;
 }
 

@@ -9,28 +9,27 @@
 #include "vox.cloth/foundation/PxMat44.h"
 #include "vox.cloth/foundation/PxTransform.h"
 
-namespace vox {
-namespace cloth {
-void Polygon::triangulate(std::vector<Polygon> &out) const {
-    for (int i = 2; i < (int)mPoints.size(); i++) {
-        out.push_back(Polygon(mPoints[0], mPoints[i - 1], mPoints[i]));
+namespace vox::cloth {
+void Polygon::Triangulate(std::vector<Polygon> &out) const {
+    for (int i = 2; i < (int)m_points.size(); i++) {
+        out.emplace_back(m_points[0], m_points[i - 1], m_points[i]);
     }
 }
 
-void Polygon::triangulate(std::vector<RenderVertex> &verts, std::vector<uint16_t> &indices) const {
-    physx::PxVec3 normal = calculateNormal();
-    for (int i = 2; i < (int)mPoints.size(); i++) {
+void Polygon::Triangulate(std::vector<RenderVertex> &verts, std::vector<uint16_t> &indices) const {
+    physx::PxVec3 normal = CalculateNormal();
+    for (int i = 2; i < (int)m_points.size(); i++) {
         indices.push_back((uint16_t)verts.size());
-        verts.push_back(RenderVertex(mPoints[0].p, normal));
+        verts.emplace_back(m_points[0].p, normal);
         indices.push_back((uint16_t)verts.size());
-        verts.push_back(RenderVertex(mPoints[i - 1].p, normal));
+        verts.emplace_back(m_points[i - 1].p, normal);
         indices.push_back((uint16_t)verts.size());
-        verts.push_back(RenderVertex(mPoints[i].p, normal));
+        verts.emplace_back(m_points[i].p, normal);
     }
 }
 
-void Polygon::triangulateWeld(std::vector<RenderVertex> &verts, std::vector<uint16_t> &indices) const {
-    auto addVertex = [&verts, &indices](RenderVertex v) {
+void Polygon::TriangulateWeld(std::vector<RenderVertex> &verts, std::vector<uint16_t> &indices) const {
+    auto add_vertex = [&verts](const RenderVertex &v) {
         for (int i = 0; i < (int)verts.size(); i++) {
             if ((verts[i].p - v.p).magnitudeSquared() < 0.001f) {
                 return i;
@@ -40,129 +39,129 @@ void Polygon::triangulateWeld(std::vector<RenderVertex> &verts, std::vector<uint
         return (uint16_t)verts.size() - 1;
     };
 
-    physx::PxVec3 weightedNormal = calculateNormal() * calculateArea();
+    physx::PxVec3 weighted_normal = CalculateNormal() * CalculateArea();
 
-    for (int i = 2; i < (int)mPoints.size(); i++) {
-        indices.push_back(addVertex(RenderVertex(mPoints[0].p, weightedNormal)));
-        indices.push_back(addVertex(RenderVertex(mPoints[i - 1].p, weightedNormal)));
-        indices.push_back(addVertex(RenderVertex(mPoints[i].p, weightedNormal)));
+    for (int i = 2; i < (int)m_points.size(); i++) {
+        indices.push_back(add_vertex(RenderVertex(m_points[0].p, weighted_normal)));
+        indices.push_back(add_vertex(RenderVertex(m_points[i - 1].p, weighted_normal)));
+        indices.push_back(add_vertex(RenderVertex(m_points[i].p, weighted_normal)));
     }
 }
 
-void Polygon::triangulateForCollision(std::vector<physx::PxVec3> &verts) const {
-    for (int i = 2; i < (int)mPoints.size(); i++) {
-        verts.push_back(mPoints[0].p);
-        verts.push_back(mPoints[i - 1].p);
-        verts.push_back(mPoints[i].p);
+void Polygon::TriangulateForCollision(std::vector<physx::PxVec3> &verts) const {
+    for (int i = 2; i < (int)m_points.size(); i++) {
+        verts.push_back(m_points[0].p);
+        verts.push_back(m_points[i - 1].p);
+        verts.push_back(m_points[i].p);
     }
 }
 
-physx::PxVec3 Polygon::calculateNormal() const {
+physx::PxVec3 Polygon::CalculateNormal() const {
     physx::PxVec3 normal(0.0f, 0.0f, 0.0f);
-    for (int i = 2; i < (int)mPoints.size(); i++) {
+    for (int i = 2; i < (int)m_points.size(); i++) {
         physx::PxVec3 p[3];
-        p[0] = mPoints[0].p;
-        p[1] = mPoints[i - 1].p;
-        p[2] = mPoints[i].p;
+        p[0] = m_points[0].p;
+        p[1] = m_points[i - 1].p;
+        p[2] = m_points[i].p;
         normal += (p[1] - p[0]).cross(p[2] - p[0]);
     }
     normal.normalize();
     return normal;
 }
 
-float Polygon::calculateArea() const {
-    float doubleArea = 0.0f;
-    for (int i = 2; i < (int)mPoints.size(); i++) {
+float Polygon::CalculateArea() const {
+    float double_area = 0.0f;
+    for (int i = 2; i < (int)m_points.size(); i++) {
         physx::PxVec3 p[3];
-        p[0] = mPoints[0].p;
-        p[1] = mPoints[i - 1].p;
-        p[2] = mPoints[i].p;
-        doubleArea += (p[1] - p[0]).cross(p[2] - p[0]).magnitude();
+        p[0] = m_points[0].p;
+        p[1] = m_points[i - 1].p;
+        p[2] = m_points[i].p;
+        double_area += (p[1] - p[0]).cross(p[2] - p[0]).magnitude();
     }
-    return doubleArea * 0.5f;
+    return double_area * 0.5f;
 }
 
-void Polygon::subdivideTriangle(std::vector<Polygon> &out) const {
-    if (!isTriangle()) return;
+void Polygon::SubdivideTriangle(std::vector<Polygon> &out) const {
+    if (!IsTriangle()) return;
 
     for (int i = 0; i < 3; i++) {
-        out.push_back(Polygon(Point(mPoints[i].p), Point(0.5f * (mPoints[(i + 1) % 3].p + mPoints[i].p)),
-                              Point(0.5f * (mPoints[(i + 2) % 3].p + mPoints[i].p))));
+        out.emplace_back(Point(m_points[i].p), Point(0.5f * (m_points[(i + 1) % 3].p + m_points[i].p)),
+                         Point(0.5f * (m_points[(i + 2) % 3].p + m_points[i].p)));
     }
-    out.push_back(Polygon(Point(0.5f * (mPoints[0].p + mPoints[1].p)), Point(0.5f * (mPoints[1].p + mPoints[2].p)),
-                          Point(0.5f * (mPoints[2].p + mPoints[0].p))));
+    out.emplace_back(Point(0.5f * (m_points[0].p + m_points[1].p)), Point(0.5f * (m_points[1].p + m_points[2].p)),
+                     Point(0.5f * (m_points[2].p + m_points[0].p)));
 }
 
-float intersetcLinePlane(physx::PxVec3 a, physx::PxVec3 b, physx::PxVec4 plane) {
-    physx::PxVec3 planeNormal(plane.x, plane.y, plane.z);
-    float aprj = planeNormal.dot(a);
-    float bprj = planeNormal.dot(b);
+float IntersetLinePlane(const physx::PxVec3 &a, const physx::PxVec3 &b, const physx::PxVec4 &plane) {
+    physx::PxVec3 plane_normal(plane.x, plane.y, plane.z);
+    float aprj = plane_normal.dot(a);
+    float bprj = plane_normal.dot(b);
 
     return (-plane.w - aprj) / (bprj - aprj);
 }
 
-bool Polygon::pointPlaneSide(physx::PxVec3 p, physx::PxVec4 plane) const {
-    physx::PxVec3 planeNormal(plane.x, plane.y, plane.z);
-    return p.dot(planeNormal) + plane.w < 0;
+bool Polygon::PointPlaneSide(const physx::PxVec3 &p, const physx::PxVec4 &plane) {
+    physx::PxVec3 plane_normal(plane.x, plane.y, plane.z);
+    return p.dot(plane_normal) + plane.w < 0;
 }
 
-void Polygon::clip(physx::PxVec4 plane, bool flip) {
-    if (mPoints.size() < 3) return;
+void Polygon::Clip(const physx::PxVec4 &plane, bool flip) {
+    if (m_points.size() < 3) return;
 
-    std::vector<Point> input = mPoints;
-    mPoints.clear();
+    std::vector<Point> input = m_points;
+    m_points.clear();
 
-    Point S = input.back();
-    for (int pointIndex = 0; pointIndex < (int)input.size(); pointIndex++) {
-        if (pointPlaneSide(input[pointIndex].p, plane) != flip) {
-            if (pointPlaneSide(S.p, plane) == flip) {
-                float w = intersetcLinePlane(S.p, input[pointIndex].p, plane);
-                mPoints.push_back(S * (1.0f - w) + input[pointIndex] * w);
+    Point s = input.back();
+    for (auto &point_index : input) {
+        if (PointPlaneSide(point_index.p, plane) != flip) {
+            if (PointPlaneSide(s.p, plane) == flip) {
+                float w = IntersetLinePlane(s.p, point_index.p, plane);
+                m_points.push_back(s * (1.0f - w) + point_index * w);
             }
-            mPoints.push_back(input[pointIndex]);
-        } else if (pointPlaneSide(S.p, plane) != flip) {
-            float w = intersetcLinePlane(S.p, input[pointIndex].p, plane);
-            mPoints.push_back(S * (1.0f - w) + input[pointIndex] * w);
+            m_points.push_back(point_index);
+        } else if (PointPlaneSide(s.p, plane) != flip) {
+            float w = IntersetLinePlane(s.p, point_index.p, plane);
+            m_points.push_back(s * (1.0f - w) + point_index * w);
         }
-        S = input[pointIndex];
+        s = point_index;
     }
 }
 
-void PolygonMesh::addConvexPolygon(physx::PxVec4 plane, physx::PxVec4 *planes, uint32_t mask, bool flip) {
-    physx::PxVec3 t1, t2, normal;
+void PolygonMesh::AddConvexPolygon(const physx::PxVec4 &plane, physx::PxVec4 *planes, uint32_t mask, bool flip) {
+    physx::PxVec3 t_1, t_2, normal;
     normal.x = plane.x;
     normal.y = plane.y;
     normal.z = plane.z;
-    computeBasis(normal, &t1, &t2);
+    ComputeBasis(normal, &t_1, &t_2);
     Polygon poly;
     for (int i = 0; i < 4; i++) {
-        float xTable[4] = {-1.0f, 1.0f, 1.0f, -1.0f};
-        float yTable[4] = {-1.0f, -1.0f, 1.0f, 1.0f};
-        poly.mPoints.push_back(normal * -plane.w + 200.0f * t1 * xTable[i] + 200.0f * t2 * yTable[i]);
+        float x_table[4] = {-1.0f, 1.0f, 1.0f, -1.0f};
+        float y_table[4] = {-1.0f, -1.0f, 1.0f, 1.0f};
+        poly.m_points.emplace_back(normal * -plane.w + 200.0f * t_1 * x_table[i] + 200.0f * t_2 * y_table[i]);
         // polyTexcoord.push_back(vec2(0.0f, 10.0f) * xTable[i] + vec2(10.0f, 0.0f) * yTable[i]);
     }
 
     for (int i = 0; i < 32; i++) {
         if ((1 << i) & mask) {
-            const physx::PxVec4 pl = planes[i];
-            poly.clip(pl, flip);
+            const physx::PxVec4 kPl = planes[i];
+            poly.Clip(kPl, flip);
         }
     }
 
-    mPolygons.push_back(poly);
+    m_polygons.push_back(poly);
 }
 
-void PolygonMesh::generateRenderBuffers(RenderVertex **vertices,
+void PolygonMesh::GenerateRenderBuffers(RenderVertex **vertices,
                                         uint16_t **indices,
-                                        int *vertexCount,
-                                        int *indexCount) const {
+                                        int *vertex_count,
+                                        int *index_count) const {
     std::vector<RenderVertex> verts;
     std::vector<uint16_t> inds;
-    verts.reserve(mPolygons.size() * 3);
+    verts.reserve(m_polygons.size() * 3);
     verts.reserve(inds.size() * 3);
 
-    for (auto &p : mPolygons) {
-        p.triangulate(verts, inds);
+    for (auto &p : m_polygons) {
+        p.Triangulate(verts, inds);
     }
 
     *vertices = new RenderVertex[verts.size()];
@@ -170,21 +169,21 @@ void PolygonMesh::generateRenderBuffers(RenderVertex **vertices,
 
     memcpy(*vertices, verts.data(), sizeof(RenderVertex) * verts.size());
     memcpy(*indices, inds.data(), sizeof(uint16_t) * inds.size());
-    *vertexCount = (uint16_t)verts.size();
-    *indexCount = (uint16_t)inds.size();
+    *vertex_count = (uint16_t)verts.size();
+    *index_count = (uint16_t)inds.size();
 }
 
-void PolygonMesh::generateSmoothRenderBuffers(RenderVertex **vertices,
+void PolygonMesh::GenerateSmoothRenderBuffers(RenderVertex **vertices,
                                               uint16_t **indices,
-                                              int *vertexCount,
-                                              int *indexCount) const {
+                                              int *vertex_count,
+                                              int *index_count) const {
     std::vector<RenderVertex> verts;
     std::vector<uint16_t> inds;
-    verts.reserve(mPolygons.size() * 3);
+    verts.reserve(m_polygons.size() * 3);
     verts.reserve(inds.size() * 3);
 
-    for (auto &p : mPolygons) {
-        p.triangulateWeld(verts, inds);
+    for (auto &p : m_polygons) {
+        p.TriangulateWeld(verts, inds);
     }
 
     for (auto &v : verts) {
@@ -196,16 +195,16 @@ void PolygonMesh::generateSmoothRenderBuffers(RenderVertex **vertices,
 
     memcpy(*vertices, verts.data(), sizeof(RenderVertex) * verts.size());
     memcpy(*indices, inds.data(), sizeof(uint16_t) * inds.size());
-    *vertexCount = (uint16_t)verts.size();
-    *indexCount = (uint16_t)inds.size();
+    *vertex_count = (uint16_t)verts.size();
+    *index_count = (uint16_t)inds.size();
 }
 
-int PolygonMesh::generateTriangleList(physx::PxVec3 **positions) {
+int PolygonMesh::GenerateTriangleList(physx::PxVec3 **positions) {
     std::vector<physx::PxVec3> verts;
-    verts.reserve(mPolygons.size() * 3);
+    verts.reserve(m_polygons.size() * 3);
 
-    for (auto &p : mPolygons) {
-        p.triangulateForCollision(verts);
+    for (auto &p : m_polygons) {
+        p.TriangulateForCollision(verts);
     }
 
     *positions = new physx::PxVec3[verts.size()];
@@ -213,18 +212,18 @@ int PolygonMesh::generateTriangleList(physx::PxVec3 **positions) {
     return (int)verts.size();
 }
 
-void PolygonMesh::applyTransfom(physx::PxMat44 transform) {
-    for (auto &trig : mPolygons)
-        for (auto &point : trig.mPoints) {
+void PolygonMesh::ApplyTransform(const physx::PxMat44 &transform) {
+    for (auto &trig : m_polygons)
+        for (auto &point : trig.m_points) {
             point.p = transform.transform(point.p);
         }
 }
 
-void PolygonMesh::merge(const PolygonMesh &mesh) {
-    mPolygons.insert(mPolygons.end(), mesh.mPolygons.begin(), mesh.mPolygons.end());
+void PolygonMesh::Merge(const PolygonMesh &mesh) {
+    m_polygons.insert(m_polygons.end(), mesh.m_polygons.begin(), mesh.m_polygons.end());
 }
 
-PolygonMesh generateTetrahedron(float radius) {
+PolygonMesh GenerateTetrahedron(float radius) {
     PolygonMesh mesh;
     Point p[4];
     for (int i = 0; i < 3; i++) {
@@ -234,26 +233,26 @@ PolygonMesh generateTetrahedron(float radius) {
     }
     p[3] = Point(radius * physx::PxVec3(0, sqrtf(2.0f / 3.0f) * 0.5f * sqrtf(3), 0));
 
-    mesh.mPolygons.push_back(Polygon(p[0], p[1], p[2]));
-    mesh.mPolygons.push_back(Polygon(p[3], p[1], p[0]));
-    mesh.mPolygons.push_back(Polygon(p[3], p[2], p[1]));
-    mesh.mPolygons.push_back(Polygon(p[3], p[0], p[2]));
+    mesh.m_polygons.emplace_back(p[0], p[1], p[2]);
+    mesh.m_polygons.emplace_back(p[3], p[1], p[0]);
+    mesh.m_polygons.emplace_back(p[3], p[2], p[1]);
+    mesh.m_polygons.emplace_back(p[3], p[0], p[2]);
 
     return mesh;
 }
 
-PolygonMesh generateIcosahedron(float radius, int subdivisions) {
+PolygonMesh GenerateIcosahedron(float radius, int subdivisions) {
     PolygonMesh mesh;
     Point p[12];
 
     // generate positions
-    float goldenRatio = (1.0f + sqrtf(5.0f)) * 0.5f;
-    float scale = radius / physx::PxVec2(goldenRatio, 1.0f).magnitude();
+    float golden_ratio = (1.0f + sqrtf(5.0f)) * 0.5f;
+    float scale = radius / physx::PxVec2(golden_ratio, 1.0f).magnitude();
     for (int j = 0; j < 3; j++)
         for (int i = 0; i < 4; i++) {
-            float signA = i & 1 ? 1.0f : -1.0f;
-            float signB = i & 2 ? -1.0f : 1.0f;
-            physx::PxVec3 point(signA, signB * goldenRatio, 0.0f);
+            float sign_a = i & 1 ? 1.0f : -1.0f;
+            float sign_b = i & 2 ? -1.0f : 1.0f;
+            physx::PxVec3 point(sign_a, sign_b * golden_ratio, 0.0f);
             p[i + 4 * j] = physx::PxVec3(point[j % 3], point[(j + 1) % 3], point[(j + 2) % 3]) * scale;
         }
 
@@ -267,22 +266,22 @@ PolygonMesh generateIcosahedron(float radius, int subdivisions) {
                            8, 5, 9, 2, 8, 7, 10, 2, 6,  4, 10, 11, 5,  4, 1};
 
     for (int i = 0; i < 20 * 3; i += 3) {
-        mesh.mPolygons.push_back(Polygon(p[ti[i]], p[ti[i + 1]], p[ti[i + 2]]));
+        mesh.m_polygons.emplace_back(p[ti[i]], p[ti[i + 1]], p[ti[i + 2]]);
     }
 
-    bool projectToSphere = subdivisions > 0;
+    bool project_to_sphere = subdivisions > 0;
     while (subdivisions > 0) {
         subdivisions--;
         PolygonMesh sub;
-        for (auto &trig : mesh.mPolygons) {
-            trig.subdivideTriangle(sub.mPolygons);
+        for (auto &trig : mesh.m_polygons) {
+            trig.SubdivideTriangle(sub.m_polygons);
         }
-        std::swap(sub.mPolygons, mesh.mPolygons);
+        std::swap(sub.m_polygons, mesh.m_polygons);
     }
 
-    if (projectToSphere) {
-        for (auto &trig : mesh.mPolygons)
-            for (auto &point : trig.mPoints) {
+    if (project_to_sphere) {
+        for (auto &trig : mesh.m_polygons)
+            for (auto &point : trig.m_points) {
                 point.p = point.p.getNormalized() * radius;
             }
     }
@@ -291,94 +290,97 @@ PolygonMesh generateIcosahedron(float radius, int subdivisions) {
 }
 
 namespace {
-physx::PxVec3 IntersectSpheres(
-        float *circleRadius, physx::PxVec3 aCenter, float aRadius, physx::PxVec3 bCenter, float bRadius) {
+physx::PxVec3 IntersectSpheres(float *circle_radius,
+                               const physx::PxVec3 &a_center,
+                               float a_radius,
+                               const physx::PxVec3 &b_center,
+                               float b_radius) {
     // Intersect spheres in 2d (http://paulbourke.net/geometry/circlesphere/ Intersection of two circles)
-    float d = (aCenter - bCenter).magnitude();
-    float a = (aRadius * aRadius - bRadius * bRadius + d * d) / (2.0f * d);
-    float h = sqrtf(aRadius * aRadius - a * a);
-    physx::PxVec3 P3 = aCenter + a * (bCenter - aCenter) / d;
-    if (circleRadius) *circleRadius = h;
-    return P3;
+    float d = (a_center - b_center).magnitude();
+    float a = (a_radius * a_radius - b_radius * b_radius + d * d) / (2.0f * d);
+    float h = sqrtf(a_radius * a_radius - a * a);
+    physx::PxVec3 p_3 = a_center + a * (b_center - a_center) / d;
+    if (circle_radius) *circle_radius = h;
+    return p_3;
 }
-};  // namespace
+}  // namespace
 
-PolygonMesh generateCone(physx::PxVec4 a, physx::PxVec4 b, int segments, float grow, bool correctCone) {
+PolygonMesh GenerateCone(physx::PxVec4 a, physx::PxVec4 b, int segments, float grow, bool correct_cone) {
     PolygonMesh mesh;
 
     if (a.w < b.w) std::swap(a, b);
 
-    physx::PxVec3 aCenter = a.getXYZ();
-    physx::PxVec3 bCenter = b.getXYZ();
-    float aRadius = a.w + grow;
-    float bRadius = b.w + grow;
+    physx::PxVec3 a_center = a.getXYZ();
+    physx::PxVec3 b_center = b.getXYZ();
+    float a_radius = a.w + grow;
+    float b_radius = b.w + grow;
 
     physx::PxVec3 basis[3];
-    basis[2] = bCenter - aCenter;
+    basis[2] = b_center - a_center;
     basis[2].normalize();
-    computeBasis(basis[2], &basis[0], &basis[1]);
+    ComputeBasis(basis[2], &basis[0], &basis[1]);
 
-    if (correctCone) {
+    if (correct_cone) {
         // make the cone connect seamlessly to the spheres
         {
             // http://jwilson.coe.uga.edu/emt669/Student.Folders/Kertscher.Jeff/Essay.3/Tangents.html
 
             // sphere a with smaller radius
-            float cRadius = aRadius - bRadius;
-            if (cRadius > 0.00001) {
-                physx::PxVec3 cCenter = aCenter;
+            float c_radius = a_radius - b_radius;
+            if (c_radius > 0.00001) {
+                physx::PxVec3 c_center = a_center;
 
                 // sphere in between the a and b
-                physx::PxVec3 dCenter = (aCenter + bCenter) * 0.5f;
-                float dRadius = (aCenter - bCenter).magnitude() * 0.5f;
+                physx::PxVec3 d_center = (a_center + b_center) * 0.5f;
+                float d_radius = (a_center - b_center).magnitude() * 0.5f;
 
                 // intersection between c and d to get tangent point
-                float iRadius;
-                physx::PxVec3 iCenter = IntersectSpheres(&iRadius, dCenter, dRadius, cCenter, cRadius);
-                physx::PxVec3 iPoint = iCenter + basis[0] * iRadius;        // tangent point on c
-                physx::PxVec3 offset = (iPoint - aCenter).getNormalized();  // offset direction
+                float i_radius;
+                physx::PxVec3 i_center = IntersectSpheres(&i_radius, d_center, d_radius, c_center, c_radius);
+                physx::PxVec3 i_point = i_center + basis[0] * i_radius;       // tangent point on c
+                physx::PxVec3 offset = (i_point - a_center).getNormalized();  // offset direction
 
-                physx::PxVec3 aPoint = aCenter + offset * aRadius;
-                aCenter = (aPoint - aCenter).dot(basis[2]) * basis[2] + aCenter;
-                aRadius = (aPoint - aCenter).magnitude();
-                physx::PxVec3 bPoint = bCenter + offset * bRadius;
-                bCenter = (bPoint - aCenter).dot(basis[2]) * basis[2] + aCenter;
-                bRadius = (bPoint - bCenter).magnitude();
+                physx::PxVec3 a_point = a_center + offset * a_radius;
+                a_center = (a_point - a_center).dot(basis[2]) * basis[2] + a_center;
+                a_radius = (a_point - a_center).magnitude();
+                physx::PxVec3 b_point = b_center + offset * b_radius;
+                b_center = (b_point - a_center).dot(basis[2]) * basis[2] + a_center;
+                b_radius = (b_point - b_center).magnitude();
             }
         }
     }
 
     for (int i = 0; i < segments; i++) {
-        float angle1 = (float)i / (float)segments * physx::PxTwoPi;
-        float angle2 = (float)(i + 1) / (float)segments * physx::PxTwoPi;
+        float angle_1 = (float)i / (float)segments * physx::PxTwoPi;
+        float angle_2 = (float)(i + 1) / (float)segments * physx::PxTwoPi;
 
         Polygon p;
-        p.addPoints(Point(aCenter + (cosf(angle1) * basis[0] + sinf(angle1) * basis[1]) * aRadius));
-        p.addPoints(Point(aCenter + (cosf(angle2) * basis[0] + sinf(angle2) * basis[1]) * aRadius));
-        p.addPoints(Point(bCenter + (cosf(angle2) * basis[0] + sinf(angle2) * basis[1]) * bRadius));
-        p.addPoints(Point(bCenter + (cosf(angle1) * basis[0] + sinf(angle1) * basis[1]) * bRadius));
+        p.AddPoints(Point(a_center + (cosf(angle_1) * basis[0] + sinf(angle_1) * basis[1]) * a_radius));
+        p.AddPoints(Point(a_center + (cosf(angle_2) * basis[0] + sinf(angle_2) * basis[1]) * a_radius));
+        p.AddPoints(Point(b_center + (cosf(angle_2) * basis[0] + sinf(angle_2) * basis[1]) * b_radius));
+        p.AddPoints(Point(b_center + (cosf(angle_1) * basis[0] + sinf(angle_1) * basis[1]) * b_radius));
 
-        mesh.mPolygons.push_back(p);
+        mesh.m_polygons.push_back(p);
     }
 
     return mesh;
 }
 
-PolygonMesh generateCollisionConvex(physx::PxVec4 *planes, uint32_t mask, float grow, bool flip) {
+PolygonMesh GenerateCollisionConvex(physx::PxVec4 *planes, uint32_t mask, float grow, bool flip) {
     PolygonMesh mesh;
     if (grow != 0.0f) {
-        physx::PxVec4 *grownPlanes = new physx::PxVec4[32];
+        auto *grown_planes = new physx::PxVec4[32];
         for (int i = 0; i < 32; i++) {
             if ((1 << i) & mask) {
-                grownPlanes[i] = planes[i];
-                grownPlanes[i].w -= grow;
+                grown_planes[i] = planes[i];
+                grown_planes[i].w -= grow;
             }
         }
-        planes = grownPlanes;
+        planes = grown_planes;
     }
 
     for (int i = 0; i < 32; i++) {
-        if ((1 << i) & mask) mesh.addConvexPolygon(planes[i], planes, mask ^ (1 << i), flip);
+        if ((1 << i) & mask) mesh.AddConvexPolygon(planes[i], planes, mask ^ (1 << i), flip);
     }
 
     if (grow != 0.0f) delete[] planes;
@@ -386,26 +388,26 @@ PolygonMesh generateCollisionConvex(physx::PxVec4 *planes, uint32_t mask, float 
     return mesh;
 }
 
-PolygonMesh generateCollisionCapsules(
-        physx::PxVec4 *spheres, int sphereCount, uint32_t *indices, int indexCount, float grow) {
-    PolygonMesh finalMesh;
-    for (int i = 0; i < sphereCount; i++) {
-        PolygonMesh sphere = generateIcosahedron(spheres[i].w + grow, 2);
-        sphere.applyTransfom(physx::PxTransform(spheres[i].getXYZ()));
-        finalMesh.merge(sphere);
+PolygonMesh GenerateCollisionCapsules(
+        physx::PxVec4 *spheres, int sphere_count, const uint32_t *indices, int index_count, float grow) {
+    PolygonMesh final_mesh;
+    for (int i = 0; i < sphere_count; i++) {
+        PolygonMesh sphere = GenerateIcosahedron(spheres[i].w + grow, 2);
+        sphere.ApplyTransform(physx::PxTransform(spheres[i].getXYZ()));
+        final_mesh.Merge(sphere);
     }
 
-    for (int i = 0; i < indexCount; i += 2) {
-        finalMesh.merge(generateCone(spheres[indices[i]], spheres[indices[i + 1]], 32, grow, true));
+    for (int i = 0; i < index_count; i += 2) {
+        final_mesh.Merge(GenerateCone(spheres[indices[i]], spheres[indices[i + 1]], 32, grow, true));
     }
 
-    return finalMesh;
+    return final_mesh;
 }
 
-SimpleMesh generateFastSphere(int segmentsX, int segmentY, physx::PxMat44 transform) {
+SimpleMesh GenerateFastSphere(int segments_x, int segment_y, const physx::PxMat44 &transform) {
     SimpleMesh mesh;
-    const int xSegments = segmentsX;
-    const int ySegments = segmentY;
+    const int kXSegments = segments_x;
+    const int kYSegments = segment_y;
 
     {
         // bottom
@@ -414,15 +416,15 @@ SimpleMesh generateFastSphere(int segmentsX, int segmentY, physx::PxMat44 transf
         v.normal = transform.rotate(physx::PxVec4(v.position, 0.0f)).getXYZ();
         v.position = transform.transform(v.position);
         v.uv = physx::PxVec2(0.0f, 0.0f);
-        mesh.vertices.push_back(v);
+        mesh.vertices_.push_back(v);
     }
 
     // middle
-    for (int y = 1; y < ySegments; y++) {
-        for (int x = 0; x < xSegments; x++) {
-            float xf = (float)x / (xSegments - 1.0f);
+    for (int y = 1; y < kYSegments; y++) {
+        for (int x = 0; x < kXSegments; x++) {
+            float xf = (float)x / (kXSegments - 1.0f);
             float yaw = xf * physx::PxTwoPi;
-            float yf = (float)y / (ySegments);
+            float yf = (float)y / (kYSegments);
             float pitch = (yf - 0.5f) * physx::PxPi;
 
             SimpleMesh::Vertex v;
@@ -430,7 +432,7 @@ SimpleMesh generateFastSphere(int segmentsX, int segmentY, physx::PxMat44 transf
             v.uv = physx::PxVec2(xf, yf);
             v.normal = transform.rotate(physx::PxVec4(v.position, 0.0f)).getXYZ();
             v.position = transform.transform(v.position);
-            mesh.vertices.push_back(v);
+            mesh.vertices_.push_back(v);
         }
     }
 
@@ -441,167 +443,167 @@ SimpleMesh generateFastSphere(int segmentsX, int segmentY, physx::PxMat44 transf
         v.normal = transform.rotate(physx::PxVec4(v.position, 0.0f)).getXYZ();
         v.position = transform.transform(v.position);
         v.uv = physx::PxVec2(0.0f, 1.0f);
-        mesh.vertices.push_back(v);
+        mesh.vertices_.push_back(v);
     }
 
     // bottom cap
-    for (int x = 0; x < xSegments; x++) {
-        mesh.indices.push_back(0);
-        mesh.indices.push_back(1 + x);
-        mesh.indices.push_back(1 + (x + 1) % xSegments);
+    for (int x = 0; x < kXSegments; x++) {
+        mesh.indices_.push_back(0);
+        mesh.indices_.push_back(1 + x);
+        mesh.indices_.push_back(1 + (x + 1) % kXSegments);
     }
 
-    const auto RingVertex = [xSegments, ySegments](int x, int y) { return 1 + y * xSegments + x % xSegments; };
+    const auto kRingVertex = [kXSegments](int x, int y) { return 1 + y * kXSegments + x % kXSegments; };
 
     // middle
-    for (int y = 0; y < ySegments - 2; y++) {
-        for (int x = 0; x < xSegments; x++) {
-            mesh.indices.push_back(RingVertex(x, y));
-            mesh.indices.push_back(RingVertex(x + 1, y));
-            mesh.indices.push_back(RingVertex(x, y + 1));
+    for (int y = 0; y < kYSegments - 2; y++) {
+        for (int x = 0; x < kXSegments; x++) {
+            mesh.indices_.push_back(kRingVertex(x, y));
+            mesh.indices_.push_back(kRingVertex(x + 1, y));
+            mesh.indices_.push_back(kRingVertex(x, y + 1));
 
-            mesh.indices.push_back(RingVertex(x + 1, y));
-            mesh.indices.push_back(RingVertex(x + 1, y + 1));
-            mesh.indices.push_back(RingVertex(x, y + 1));
+            mesh.indices_.push_back(kRingVertex(x + 1, y));
+            mesh.indices_.push_back(kRingVertex(x + 1, y + 1));
+            mesh.indices_.push_back(kRingVertex(x, y + 1));
         }
     }
 
     // bottom cap
-    for (int x = 0; x < xSegments; x++) {
-        mesh.indices.push_back((uint16_t)mesh.vertices.size() - 1);
-        mesh.indices.push_back(RingVertex(x, ySegments - 2));
-        mesh.indices.push_back(RingVertex(x + 1, ySegments - 2));
+    for (int x = 0; x < kXSegments; x++) {
+        mesh.indices_.push_back((uint16_t)mesh.vertices_.size() - 1);
+        mesh.indices_.push_back(kRingVertex(x, kYSegments - 2));
+        mesh.indices_.push_back(kRingVertex(x + 1, kYSegments - 2));
     }
 
     return mesh;
 }
 
-SimpleMesh generateFastCylinder(int segmentsX, int segmentY, physx::PxMat44 transform) {
+SimpleMesh GenerateFastCylinder(int segments_x, int segment_y, const physx::PxMat44 &transform) {
     SimpleMesh mesh;
-    const int xSegments = segmentsX;
-    const int ySegments = segmentY;
+    const int kXSegments = segments_x;
+    const int kYSegments = segment_y;
 
     // middle
-    for (int y = 0; y < ySegments + 1; y++) {
-        for (int x = 0; x < xSegments; x++) {
-            float xf = (float)x / (xSegments - 1.0f);
+    for (int y = 0; y < kYSegments + 1; y++) {
+        for (int x = 0; x < kXSegments; x++) {
+            float xf = (float)x / (kXSegments - 1.0f);
             float yaw = xf * physx::PxTwoPi;
-            float yf = (float)y / (ySegments)*2.0f - 1.0f;
+            float yf = (float)y / (kYSegments)*2.0f - 1.0f;
 
             SimpleMesh::Vertex v;
             v.position = physx::PxVec3(cos(yaw), yf, sin(yaw));
             v.uv = physx::PxVec2(xf, yf);
             v.normal = transform.rotate(physx::PxVec4(physx::PxVec3(cos(yaw), 0.0f, sin(yaw)), 0.0f)).getXYZ();
             v.position = transform.transform(v.position);
-            mesh.vertices.push_back(v);
+            mesh.vertices_.push_back(v);
         }
     }
 
-    const auto RingVertex = [xSegments, ySegments](int x, int y) { return y * xSegments + x % xSegments; };
+    const auto kRingVertex = [kXSegments](int x, int y) { return y * kXSegments + x % kXSegments; };
 
     // middle
-    for (int y = 0; y < ySegments; y++) {
-        for (int x = 0; x < xSegments; x++) {
-            mesh.indices.push_back(RingVertex(x, y));
-            mesh.indices.push_back(RingVertex(x + 1, y));
-            mesh.indices.push_back(RingVertex(x, y + 1));
+    for (int y = 0; y < kYSegments; y++) {
+        for (int x = 0; x < kXSegments; x++) {
+            mesh.indices_.push_back(kRingVertex(x, y));
+            mesh.indices_.push_back(kRingVertex(x + 1, y));
+            mesh.indices_.push_back(kRingVertex(x, y + 1));
 
-            mesh.indices.push_back(RingVertex(x + 1, y));
-            mesh.indices.push_back(RingVertex(x + 1, y + 1));
-            mesh.indices.push_back(RingVertex(x, y + 1));
+            mesh.indices_.push_back(kRingVertex(x + 1, y));
+            mesh.indices_.push_back(kRingVertex(x + 1, y + 1));
+            mesh.indices_.push_back(kRingVertex(x, y + 1));
         }
     }
 
     return mesh;
 }
 
-SimpleMesh generateCollisionCapsulesFast(
-        physx::PxVec4 *spheres, int sphereCount, uint32_t *indices, int indexCount, float grow) {
-    static SimpleMesh sphere = generateFastSphere(
+SimpleMesh GenerateCollisionCapsulesFast(
+        physx::PxVec4 *spheres, int sphere_count, const uint32_t *indices, int index_count, float grow) {
+    static SimpleMesh sphere = GenerateFastSphere(
             24, 12,
             physx::PxTransform(physx::PxVec3(0.0f, 0.0f, 0.0f), physx::PxQuat(0.0f, physx::PxVec3(0.0f, 1.0f, 0.0f))));
-    static SimpleMesh cylinder = generateFastCylinder(
+    static SimpleMesh cylinder = GenerateFastCylinder(
             24, 1,
             physx::PxTransform(physx::PxVec3(0.0f, 1.0f, 0.0f), physx::PxQuat(0.0f, physx::PxVec3(0.0f, 1.0f, 0.0f))));
 
     SimpleMesh mesh;
-    mesh.vertices.resize(sphere.vertices.size() * sphereCount + cylinder.vertices.size() * (indexCount / 2));
-    mesh.indices.resize(sphere.indices.size() * sphereCount + cylinder.indices.size() * (indexCount / 2));
+    mesh.vertices_.resize(sphere.vertices_.size() * sphere_count + cylinder.vertices_.size() * (index_count / 2));
+    mesh.indices_.resize(sphere.indices_.size() * sphere_count + cylinder.indices_.size() * (index_count / 2));
 
-    int nextVertex = 0;
-    int nextIndex = 0;
-    for (int i = 0; i < sphereCount; i++) {
-        int baseIndex = nextVertex;
+    int next_vertex = 0;
+    int next_index = 0;
+    for (int i = 0; i < sphere_count; i++) {
+        int base_index = next_vertex;
         physx::PxMat44 transform =
                 physx::PxMat44(physx::PxMat33(physx::PxIdentity), spheres[i].getXYZ()) *
                 physx::PxMat44(physx::PxVec4(spheres[i].w + grow, spheres[i].w + grow, spheres[i].w + grow, 1.0f));
 
-        for (int vi = 0; vi < (int)sphere.vertices.size(); vi++) {
-            SimpleMesh::Vertex v = sphere.vertices[vi];
+        for (auto v : sphere.vertices_) {
             v.normal = transform.rotate(physx::PxVec4(v.normal, 0.0f)).getXYZ();
             v.position = transform.transform(v.position);
-            mesh.vertices[nextVertex++] = v;
+            mesh.vertices_[next_vertex++] = v;
         }
 
-        for (int ii = 0; ii < (int)sphere.indices.size(); ii++) {
-            mesh.indices[nextIndex++] = sphere.indices[ii] + baseIndex;
+        for (unsigned short indice : sphere.indices_) {
+            mesh.indices_[next_index++] = indice + base_index;
         }
     }
 
-    for (int i = 0; i < indexCount; i += 2) {
-        int baseIndex = nextVertex;
+    for (int i = 0; i < index_count; i += 2) {
+        int base_index = next_vertex;
 
-        physx::PxVec3 spherePosA = spheres[indices[i]].getXYZ();
-        physx::PxVec3 spherePosB = spheres[indices[i + 1]].getXYZ();
-        float sphereRadiusA = spheres[indices[i]].w + grow;
-        float sphereRadiusB = spheres[indices[i + 1]].w + grow;
+        physx::PxVec3 sphere_pos_a = spheres[indices[i]].getXYZ();
+        physx::PxVec3 sphere_pos_b = spheres[indices[i + 1]].getXYZ();
+        float sphere_radius_a = spheres[indices[i]].w + grow;
+        float sphere_radius_b = spheres[indices[i + 1]].w + grow;
 
-        if (sphereRadiusA < sphereRadiusB) {
-            std::swap(sphereRadiusA, sphereRadiusB);
-            std::swap(spherePosA, spherePosB);
+        if (sphere_radius_a < sphere_radius_b) {
+            std::swap(sphere_radius_a, sphere_radius_b);
+            std::swap(sphere_pos_a, sphere_pos_b);
         }
 
         {
             // http://jwilson.coe.uga.edu/emt669/Student.Folders/Kertscher.Jeff/Essay.3/Tangents.html
 
             // sphere a with smaller radius
-            float cRadius = sphereRadiusA - sphereRadiusB;
-            if (cRadius > 0.00001) {
+            float c_radius = sphere_radius_a - sphere_radius_b;
+            if (c_radius > 0.00001) {
                 physx::PxVec3 basis[3];
-                basis[2] = spherePosB - spherePosA;
+                basis[2] = sphere_pos_b - sphere_pos_a;
                 basis[2].normalize();
-                computeBasis(basis[2], &basis[0], &basis[1]);
+                ComputeBasis(basis[2], &basis[0], &basis[1]);
 
-                physx::PxVec3 cCenter = spherePosA;
+                physx::PxVec3 c_center = sphere_pos_a;
 
                 // sphere in between the a and b
-                physx::PxVec3 dCenter = (spherePosA + spherePosB) * 0.5f;
-                float dRadius = (spherePosA - spherePosB).magnitude() * 0.5f;
+                physx::PxVec3 d_center = (sphere_pos_a + sphere_pos_b) * 0.5f;
+                float d_radius = (sphere_pos_a - sphere_pos_b).magnitude() * 0.5f;
 
                 // intersection between c and d to get tangent point
-                float iRadius;
-                physx::PxVec3 iCenter = IntersectSpheres(&iRadius, dCenter, dRadius, cCenter, cRadius);
-                physx::PxVec3 iPoint = iCenter + basis[0] * iRadius;           // tangent point on c
-                physx::PxVec3 offset = (iPoint - spherePosA).getNormalized();  // offset direction
+                float i_radius;
+                physx::PxVec3 i_center = IntersectSpheres(&i_radius, d_center, d_radius, c_center, c_radius);
+                physx::PxVec3 i_point = i_center + basis[0] * i_radius;           // tangent point on c
+                physx::PxVec3 offset = (i_point - sphere_pos_a).getNormalized();  // offset direction
 
-                physx::PxVec3 aPoint = spherePosA + offset * sphereRadiusA;
-                spherePosA = (aPoint - spherePosA).dot(basis[2]) * basis[2] + spherePosA;
-                sphereRadiusA = (aPoint - spherePosA).magnitude();
-                physx::PxVec3 bPoint = spherePosB + offset * sphereRadiusB;
-                spherePosB = (bPoint - spherePosA).dot(basis[2]) * basis[2] + spherePosA;
-                sphereRadiusB = (bPoint - spherePosB).magnitude();
+                physx::PxVec3 a_point = sphere_pos_a + offset * sphere_radius_a;
+                sphere_pos_a = (a_point - sphere_pos_a).dot(basis[2]) * basis[2] + sphere_pos_a;
+                sphere_radius_a = (a_point - sphere_pos_a).magnitude();
+                physx::PxVec3 b_point = sphere_pos_b + offset * sphere_radius_b;
+                sphere_pos_b = (b_point - sphere_pos_a).dot(basis[2]) * basis[2] + sphere_pos_a;
+                sphere_radius_b = (b_point - sphere_pos_b).magnitude();
             }
         }
 
-        float length = (spherePosB - spherePosA).magnitude();
+        float length = (sphere_pos_b - sphere_pos_a).magnitude();
 
-        physx::PxMat44 scaleA = physx::PxMat44(physx::PxVec4(sphereRadiusA, length / 2.0f, sphereRadiusA + grow, 1.0f));
-        physx::PxMat44 scaleB = physx::PxMat44(physx::PxVec4(sphereRadiusB, length / 2.0f, sphereRadiusB, 1.0f));
+        physx::PxMat44 scale_a =
+                physx::PxMat44(physx::PxVec4(sphere_radius_a, length / 2.0f, sphere_radius_a + grow, 1.0f));
+        physx::PxMat44 scale_b = physx::PxMat44(physx::PxVec4(sphere_radius_b, length / 2.0f, sphere_radius_b, 1.0f));
 
         physx::PxQuat orientation;
         {
             physx::PxVec3 u = physx::PxVec3(0.0f, 1.0f, 0.0f);
-            physx::PxVec3 v = spherePosB - spherePosA;
+            physx::PxVec3 v = sphere_pos_b - sphere_pos_a;
             v.normalize();
 
             if (u.dot(v) < -0.9999)
@@ -616,58 +618,57 @@ SimpleMesh generateCollisionCapsulesFast(
             }
         }
 
-        physx::PxMat44 transform = physx::PxMat44(physx::PxTransform(spherePosA, orientation)) * scaleA;
+        physx::PxMat44 transform = physx::PxMat44(physx::PxTransform(sphere_pos_a, orientation)) * scale_a;
 
-        int firstRing = (int)cylinder.vertices.size() / 2;
-        for (int vi = 0; vi < firstRing; vi++) {
-            SimpleMesh::Vertex v = cylinder.vertices[vi];
+        int first_ring = (int)cylinder.vertices_.size() / 2;
+        for (int vi = 0; vi < first_ring; vi++) {
+            SimpleMesh::Vertex v = cylinder.vertices_[vi];
             v.normal = transform.rotate(physx::PxVec4(v.normal, 0.0f)).getXYZ();
             v.position = transform.transform(v.position);
-            mesh.vertices[nextVertex++] = v;
+            mesh.vertices_[next_vertex++] = v;
         }
-        transform = physx::PxMat44(physx::PxTransform(spherePosA, orientation)) * scaleB;
-        for (int vi = firstRing; vi < (int)cylinder.vertices.size(); vi++) {
-            SimpleMesh::Vertex v = cylinder.vertices[vi];
+        transform = physx::PxMat44(physx::PxTransform(sphere_pos_a, orientation)) * scale_b;
+        for (int vi = first_ring; vi < (int)cylinder.vertices_.size(); vi++) {
+            SimpleMesh::Vertex v = cylinder.vertices_[vi];
             v.normal = transform.rotate(physx::PxVec4(v.normal, 0.0f)).getXYZ();
             v.position = transform.transform(v.position);
-            mesh.vertices[nextVertex++] = v;
+            mesh.vertices_[next_vertex++] = v;
         }
 
-        for (int ii = 0; ii < (int)cylinder.indices.size(); ii++) {
-            mesh.indices[nextIndex++] = cylinder.indices[ii] + baseIndex;
+        for (unsigned short indice : cylinder.indices_) {
+            mesh.indices_[next_index++] = indice + base_index;
         }
     }
 
     return mesh;
 }
 
-uint32_t generateConvexPolyhedronPlanes(
-        int segmentsX, int segmentsY, physx::PxVec3 center, float radius, std::vector<physx::PxVec4> *planes) {
+uint32_t GenerateConvexPolyhedronPlanes(
+        int segments_x, int segments_y, const physx::PxVec3 &center, float radius, std::vector<physx::PxVec4> *planes) {
     int offset = 0;
     if (planes) {
-        planes->reserve(planes->size() + segmentsX * segmentsY);
+        planes->reserve(planes->size() + segments_x * segments_y);
         offset = (int)planes->size();
     }
 
-    segmentsY += 1;
-    for (int i = 1; i < segmentsY; i++) {
-        float angleY = (float)i / (float)segmentsY * physx::PxPi + physx::PxPiDivTwo;
-        for (int j = 0; j < segmentsX; j++) {
-            float angleX = (float)j / (float)segmentsX * physx::PxTwoPi;
+    segments_y += 1;
+    for (int i = 1; i < segments_y; i++) {
+        float angle_y = (float)i / (float)segments_y * physx::PxPi + physx::PxPiDivTwo;
+        for (int j = 0; j < segments_x; j++) {
+            float angle_x = (float)j / (float)segments_x * physx::PxTwoPi;
 
-            physx::PxVec3 nx(cosf(angleX), 0.0f, sinf(angleX));
-            physx::PxVec3 n = cosf(angleY) * nx + sinf(angleY) * physx::PxVec3(0.0f, 1.0f, 0.0f);
+            physx::PxVec3 nx(cosf(angle_x), 0.0f, sinf(angle_x));
+            physx::PxVec3 n = cosf(angle_y) * nx + sinf(angle_y) * physx::PxVec3(0.0f, 1.0f, 0.0f);
 
             physx::PxVec3 p = n * radius + center;
 
-            if (planes) planes->push_back(constructPlaneFromPointNormal(p, n));
+            if (planes) planes->push_back(ConstructPlaneFromPointNormal(p, n));
         }
     }
-    uint64_t shift = (segmentsX * (segmentsY - 1) + offset);
-    uint64_t excludeMask = (((uint64_t)1 << offset) - 1);
-    uint64_t mask = (((uint64_t)1 << shift) - 1) & ~excludeMask;
+    uint64_t shift = (segments_x * (segments_y - 1) + offset);
+    uint64_t exclude_mask = (((uint64_t)1 << offset) - 1);
+    uint64_t mask = (((uint64_t)1 << shift) - 1) & ~exclude_mask;
     return static_cast<uint32_t>(mask);
 }
 
-}  // namespace cloth
-}  // namespace vox
+}  // namespace vox::cloth

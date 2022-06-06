@@ -72,7 +72,7 @@ void ClothApplication::UpdateSimulationGraphics() {
         std::vector<PxVec3> particles3(particles.size());
         for (uint32_t i = 0; i < particles.size(); ++i) particles3[i] = particles[i].getXYZ();
 
-        actor->cloth_renderer->update(particles3.data(), particles.size());
+        actor->cloth_renderer->Update(particles3.data(), particles.size());
     }
 }
 

@@ -6,115 +6,114 @@
 
 #include "simulator/cloth/job_manager.h"
 
+#include <utility>
+
 #include "vox.cloth/NvCloth/Solver.h"
 
-namespace vox {
-namespace cloth {
+namespace vox::cloth {
 void Job::Initialize(JobManager *parent, std::function<void(Job *)> function, int refcount) {
-    mFunction = function;
-    mParent = parent;
+    m_function_ = std::move(function);
+    m_parent_ = parent;
     Reset(refcount);
 }
 
 Job::Job(const Job &job) {
-    mFunction = job.mFunction;
-    mParent = job.mParent;
-    mRefCount.store(job.mRefCount);
-    mFinished = job.mFinished;
+    m_function_ = job.m_function_;
+    m_parent_ = job.m_parent_;
+    m_ref_count_.store(job.m_ref_count_);
+    m_finished_ = job.m_finished_;
 }
 
 void Job::Reset(int refcount) {
-    mRefCount = refcount;
-    mFinished = false;
+    m_ref_count_ = refcount;
+    m_finished_ = false;
 }
 
 void Job::Execute() {
-    if (mFunction)
-        mFunction(this);
+    if (m_function_)
+        m_function_(this);
     else
         ExecuteInternal();
 
     {
-        std::lock_guard<std::mutex> lock(mFinishedLock);
-        mFinished = true;
+        std::lock_guard<std::mutex> lock(m_finished_lock_);
+        m_finished_ = true;
     }
-    mFinishedEvent.notify_one();
+    m_finished_event_.notify_one();
 }
 
-void Job::AddReference() { mRefCount++; }
+void Job::AddReference() { m_ref_count_++; }
 
 void Job::RemoveReference() {
-    int refCount = --mRefCount;
-    if (0 == refCount) {
-        mParent->Submit(this);
+    int ref_count = --m_ref_count_;
+    if (0 == ref_count) {
+        m_parent_->Submit(this);
     }
-    assert(refCount >= 0);
+    assert(ref_count >= 0);
 }
 
 void Job::Wait() {
-    std::unique_lock<std::mutex> lock(mFinishedLock);
-    mFinishedEvent.wait(lock, [this]() { return mFinished; });
+    std::unique_lock<std::mutex> lock(m_finished_lock_);
+    m_finished_event_.wait(lock, [this]() { return m_finished_; });
     lock.unlock();
-    return;
 }
 
-void JobManager::WorkerEntryPoint(JobManager *parrent) {
+void JobManager::WorkerEntryPoint(JobManager *parent) {
     while (true) {
         Job *job;
         {
-            std::unique_lock<std::mutex> lock(parrent->mJobQueueLock);
-            while (parrent->mJobQueue.size() == 0 && !parrent->mQuit) parrent->mJobQueueEvent.wait(lock);
+            std::unique_lock<std::mutex> lock(parent->m_job_queue_lock_);
+            while (parent->m_job_queue_.empty() && !parent->m_quit_) parent->m_job_queue_event_.wait(lock);
 
-            if (parrent->mQuit) return;
+            if (parent->m_quit_) return;
 
-            job = parrent->mJobQueue.front();
-            parrent->mJobQueue.pop();
+            job = parent->m_job_queue_.front();
+            parent->m_job_queue_.pop();
         }
         job->Execute();
     }
 }
 
 void JobManager::Submit(Job *job) {
-    mJobQueueLock.lock();
-    mJobQueue.push(job);
-    mJobQueueLock.unlock();
-    mJobQueueEvent.notify_one();
+    m_job_queue_lock_.lock();
+    m_job_queue_.push(job);
+    m_job_queue_lock_.unlock();
+    m_job_queue_event_.notify_one();
 }
 
-void MultithreadedSolverHelper::Initialize(nv::cloth::Solver *solver, JobManager *jobManager) {
-    mSolver = solver;
-    mJobManager = jobManager;
-    mEndSimulationJob.Initialize(mJobManager, [this](Job *) { mSolver->endSimulation(); });
+void MultithreadedSolverHelper::Initialize(nv::cloth::Solver *solver, JobManager *job_manager) {
+    m_solver_ = solver;
+    m_job_manager_ = job_manager;
+    m_end_simulation_job_.Initialize(m_job_manager_, [this](Job *) { m_solver_->endSimulation(); });
 
-    mStartSimulationJob.Initialize(mJobManager, [this](Job *) {
-        mSolver->beginSimulation(mDt);
-        for (int j = 0; j < mSolver->getSimulationChunkCount(); j++) mSimulationChunkJobs[j].RemoveReference();
+    m_start_simulation_job_.Initialize(m_job_manager_, [this](Job *) {
+        m_solver_->beginSimulation(m_dt_);
+        for (int j = 0; j < m_solver_->getSimulationChunkCount(); j++) m_simulation_chunk_jobs_[j].RemoveReference();
     });
 }
 
 void MultithreadedSolverHelper::StartSimulation(float dt) {
-    mDt = dt;
+    m_dt_ = dt;
 
-    if (mSolver->getSimulationChunkCount() != mSimulationChunkJobs.size()) {
-        mSimulationChunkJobs.resize(mSolver->getSimulationChunkCount(), JobDependency());
-        for (int j = 0; j < mSolver->getSimulationChunkCount(); j++) {
-            mSimulationChunkJobs[j].Initialize(mJobManager, [this, j](Job *) { mSolver->simulateChunk(j); });
-            mSimulationChunkJobs[j].SetDependentJob(&mEndSimulationJob);
+    if (m_solver_->getSimulationChunkCount() != m_simulation_chunk_jobs_.size()) {
+        m_simulation_chunk_jobs_.resize(m_solver_->getSimulationChunkCount(), JobDependency());
+        for (int j = 0; j < m_solver_->getSimulationChunkCount(); j++) {
+            m_simulation_chunk_jobs_[j].Initialize(m_job_manager_, [this, j](Job *) { m_solver_->simulateChunk(j); });
+            m_simulation_chunk_jobs_[j].SetDependentJob(&m_end_simulation_job_);
         }
     } else {
-        for (int j = 0; j < mSolver->getSimulationChunkCount(); j++) mSimulationChunkJobs[j].Reset();
+        for (int j = 0; j < m_solver_->getSimulationChunkCount(); j++) m_simulation_chunk_jobs_[j].Reset();
     }
 
-    mStartSimulationJob.Reset();
-    mEndSimulationJob.Reset(mSolver->getSimulationChunkCount());
-    mStartSimulationJob.RemoveReference();
+    m_start_simulation_job_.Reset();
+    m_end_simulation_job_.Reset(m_solver_->getSimulationChunkCount());
+    m_start_simulation_job_.RemoveReference();
 }
 
 void MultithreadedSolverHelper::WaitForSimulation() {
-    if (mSolver->getSimulationChunkCount() == 0) return;
+    if (m_solver_->getSimulationChunkCount() == 0) return;
 
-    mEndSimulationJob.Wait();
+    m_end_simulation_job_.Wait();
 }
 
-}  // namespace cloth
-}  // namespace vox
+}  // namespace vox::cloth
