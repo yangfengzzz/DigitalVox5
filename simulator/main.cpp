@@ -7,6 +7,7 @@
 #include "vox.base/logging.h"
 #include "vox.render/platform/platform.h"
 
+#include "simulator/cloth/cloth_apps.h"
 #include "simulator/bar_app.h"
 
 // MARK: - Entry

@@ -16,7 +16,7 @@ void ErrorCallback::reportError(physx::PxErrorCode::Enum code, const char *messa
     switch (code) {
 #define CASE(x)                       \
     case physx::PxErrorCode::Enum::x: \
-        code_name = #x;                \
+        code_name = #x;               \
         break;
         CASE(eNO_ERROR)
         CASE(eDEBUG_INFO)
@@ -34,4 +34,4 @@ void ErrorCallback::reportError(physx::PxErrorCode::Enum code, const char *messa
     std::cout << "Log " << code_name << " from file:" << file << ":" << line << "\n MSG:" << message << std::endl;
 }
 
-}  // namespace vox
+}  // namespace vox::cloth
