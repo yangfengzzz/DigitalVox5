@@ -4,8 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#ifndef cloth_apps_h
-#define cloth_apps_h
+#pragma once
 
 #include "capsule_app.h"              // capsule collider
 #include "ccd_app.h"                  // capsule collider with animation ccd
@@ -27,5 +26,3 @@
 #include "triangle_app.h"          // mesh collider
 #include "virtual_particle_app.h"  // virtual particles
 #include "wind_app.h"
-
-#endif /* cloth_apps_h */
