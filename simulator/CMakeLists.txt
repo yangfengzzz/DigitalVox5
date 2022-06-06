@@ -11,6 +11,7 @@ include(android_package)
 project(simulator LANGUAGES C CXX)
 
 set(SRC
+        cloth/callback_implementations.cpp
         cloth/cloth_application.cpp
         cloth/cloth_controller.cpp
         cloth/job_manager.cpp
