@@ -49,6 +49,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>vox.cloth.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>17</integer>
+		</dict>
 		<key>vox.core.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>

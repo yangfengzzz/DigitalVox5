@@ -335,5 +335,5 @@ NV_SIMD_NAMESPACE_END
 #endif
 
 #if NV_SIMD_SCALAR
-#include "vox.cloth/scalar/NvScalarSimd4i.h"
+#include "vox.cloth/NvSimd/scalar/NvScalarSimd4i.h"
 #endif

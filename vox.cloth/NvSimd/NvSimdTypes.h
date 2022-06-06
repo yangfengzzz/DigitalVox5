@@ -195,7 +195,7 @@ struct Simd4i;
 #endif
 
 #if NV_SIMD_SCALAR
-#include "vox.cloth/scalar/NvScalarSimdTypes.h"
+#include "vox.cloth/NvSimd/scalar/NvScalarSimdTypes.h"
 #else
 struct Scalar4f;
 struct Scalar4i;

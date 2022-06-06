@@ -955,6 +955,108 @@
 		04D5C46C284DD7F600D2706D /* teleport_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C44E284DD7F500D2706D /* teleport_app.cpp */; };
 		04D5C46D284DD7F600D2706D /* self_collision_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C450284DD7F500D2706D /* self_collision_app.cpp */; };
 		04D5C471284DDB9F00D2706D /* timing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C470284DDB9F00D2706D /* timing.cpp */; };
+		04D5C4BA284E43CE00D2706D /* SwClothData.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C492284E43CA00D2706D /* SwClothData.h */; };
+		04D5C4BB284E43CE00D2706D /* IndexPair.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C493284E43CA00D2706D /* IndexPair.h */; };
+		04D5C4BC284E43CE00D2706D /* Simd.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C494284E43CA00D2706D /* Simd.h */; };
+		04D5C4BD284E43CE00D2706D /* Callbacks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C495284E43CA00D2706D /* Callbacks.cpp */; };
+		04D5C4BE284E43CE00D2706D /* SwSolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C496284E43CA00D2706D /* SwSolver.cpp */; };
+		04D5C4BF284E43CE00D2706D /* SwFabric.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C497284E43CA00D2706D /* SwFabric.cpp */; };
+		04D5C4C0284E43CE00D2706D /* SwInterCollision.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C498284E43CB00D2706D /* SwInterCollision.h */; };
+		04D5C4C1284E43CE00D2706D /* SwSelfCollision.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C499284E43CB00D2706D /* SwSelfCollision.h */; };
+		04D5C4C2284E43CE00D2706D /* SwSolverKernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C49A284E43CB00D2706D /* SwSolverKernel.cpp */; };
+		04D5C4C3284E43CE00D2706D /* ClothFabricCooker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C49B284E43CB00D2706D /* ClothFabricCooker.cpp */; };
+		04D5C4C4284E43CE00D2706D /* ClothClone.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C49C284E43CB00D2706D /* ClothClone.h */; };
+		04D5C4C5284E43CE00D2706D /* SwCollision.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C49D284E43CB00D2706D /* SwCollision.h */; };
+		04D5C4C6284E43CE00D2706D /* SwCloth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C49E284E43CB00D2706D /* SwCloth.cpp */; };
+		04D5C4C7284E43CE00D2706D /* SwCollision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C49F284E43CB00D2706D /* SwCollision.cpp */; };
+		04D5C4C8284E43CE00D2706D /* MovingAverage.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4A0284E43CB00D2706D /* MovingAverage.h */; };
+		04D5C4C9284E43CE00D2706D /* SwFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4A1284E43CB00D2706D /* SwFactory.h */; };
+		04D5C4CA284E43CE00D2706D /* ClothMeshQuadifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C4A2284E43CB00D2706D /* ClothMeshQuadifier.cpp */; };
+		04D5C4CB284E43CE00D2706D /* Factory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C4A3284E43CB00D2706D /* Factory.cpp */; };
+		04D5C4CC284E43CE00D2706D /* SwInterCollision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C4A4284E43CC00D2706D /* SwInterCollision.cpp */; };
+		04D5C4CD284E43CE00D2706D /* SwSolverKernel.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4A5284E43CC00D2706D /* SwSolverKernel.h */; };
+		04D5C4CE284E43CE00D2706D /* TripletScheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4A6284E43CC00D2706D /* TripletScheduler.h */; };
+		04D5C4CF284E43CE00D2706D /* SwCloth.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4A7284E43CC00D2706D /* SwCloth.h */; };
+		04D5C4D0284E43CE00D2706D /* Vec4T.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4A8284E43CC00D2706D /* Vec4T.h */; };
+		04D5C4D1284E43CE00D2706D /* StackAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4A9284E43CC00D2706D /* StackAllocator.h */; };
+		04D5C4D2284E43CE00D2706D /* ClothImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4AA284E43CC00D2706D /* ClothImpl.h */; };
+		04D5C4D3284E43CE00D2706D /* IterationState.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4AB284E43CC00D2706D /* IterationState.h */; };
+		04D5C4D4284E43CE00D2706D /* SwCollisionHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4AC284E43CC00D2706D /* SwCollisionHelpers.h */; };
+		04D5C4D5284E43CE00D2706D /* BoundingBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4AD284E43CC00D2706D /* BoundingBox.h */; };
+		04D5C4D6284E43CE00D2706D /* ClothSimpleTetherCooker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C4AE284E43CD00D2706D /* ClothSimpleTetherCooker.cpp */; };
+		04D5C4D7284E43CE00D2706D /* SwFabric.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4AF284E43CD00D2706D /* SwFabric.h */; };
+		04D5C4D8284E43CE00D2706D /* PhaseConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C4B0284E43CD00D2706D /* PhaseConfig.cpp */; };
+		04D5C4D9284E43CE00D2706D /* SwSelfCollision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C4B1284E43CD00D2706D /* SwSelfCollision.cpp */; };
+		04D5C4DA284E43CE00D2706D /* SwClothData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C4B2284E43CD00D2706D /* SwClothData.cpp */; };
+		04D5C4DB284E43CE00D2706D /* ClothGeodesicTetherCooker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C4B3284E43CD00D2706D /* ClothGeodesicTetherCooker.cpp */; };
+		04D5C4DC284E43CE00D2706D /* ClothBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4B4284E43CD00D2706D /* ClothBase.h */; };
+		04D5C4DD284E43CE00D2706D /* SwFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C4B5284E43CD00D2706D /* SwFactory.cpp */; };
+		04D5C4DE284E43CE00D2706D /* Allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C4B6284E43CD00D2706D /* Allocator.cpp */; };
+		04D5C4DF284E43CE00D2706D /* PointInterpolator.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4B7284E43CD00D2706D /* PointInterpolator.h */; };
+		04D5C4E0284E43CE00D2706D /* TripletScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C4B8284E43CD00D2706D /* TripletScheduler.cpp */; };
+		04D5C4E1284E43CE00D2706D /* SwSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4B9284E43CD00D2706D /* SwSolver.h */; };
+		04D5C4E4284E43F100D2706D /* SwSolveConstraints.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4E2284E43F100D2706D /* SwSolveConstraints.h */; };
+		04D5C4E5284E43F100D2706D /* SwCollisionHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4E3284E43F100D2706D /* SwCollisionHelpers.h */; };
+		04D5C4E7284E43F600D2706D /* SwCollisionHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4E6284E43F600D2706D /* SwCollisionHelpers.h */; };
+		04D5C4EE284E440000D2706D /* PsSort.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4E8284E440000D2706D /* PsSort.h */; };
+		04D5C4EF284E440100D2706D /* PsFPU.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4E9284E440000D2706D /* PsFPU.h */; };
+		04D5C4F0284E440100D2706D /* PsSortInternals.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4EA284E440000D2706D /* PsSortInternals.h */; };
+		04D5C4F1284E440100D2706D /* PsUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4EB284E440000D2706D /* PsUtilities.h */; };
+		04D5C4F2284E440100D2706D /* PxIntrinsics.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4EC284E440000D2706D /* PxIntrinsics.h */; };
+		04D5C4F3284E440100D2706D /* PsAlloca.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4ED284E440000D2706D /* PsAlloca.h */; };
+		04D5C4F7284E440800D2706D /* PsUnixAtomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C4F4284E440800D2706D /* PsUnixAtomic.cpp */; };
+		04D5C4F8284E440800D2706D /* PsUnixFPU.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4F5284E440800D2706D /* PsUnixFPU.h */; };
+		04D5C4FD284E441700D2706D /* NvSimd4i.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4FA284E441700D2706D /* NvSimd4i.h */; };
+		04D5C4FE284E441700D2706D /* NvSimd4f.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4FB284E441700D2706D /* NvSimd4f.h */; };
+		04D5C4FF284E441700D2706D /* NvSimdTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C4FC284E441700D2706D /* NvSimdTypes.h */; };
+		04D5C504284E441E00D2706D /* ClothMeshDesc.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C500284E441E00D2706D /* ClothMeshDesc.h */; };
+		04D5C505284E441E00D2706D /* ClothMeshQuadifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C501284E441E00D2706D /* ClothMeshQuadifier.h */; };
+		04D5C506284E441E00D2706D /* ClothFabricCooker.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C502284E441E00D2706D /* ClothFabricCooker.h */; };
+		04D5C507284E441E00D2706D /* ClothTetherCooker.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C503284E441E00D2706D /* ClothTetherCooker.h */; };
+		04D5C511284E442600D2706D /* Solver.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C508284E442600D2706D /* Solver.h */; };
+		04D5C512284E442600D2706D /* Factory.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C509284E442600D2706D /* Factory.h */; };
+		04D5C513284E442600D2706D /* Fabric.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C50A284E442600D2706D /* Fabric.h */; };
+		04D5C514284E442600D2706D /* DxContextManagerCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C50B284E442600D2706D /* DxContextManagerCallback.h */; };
+		04D5C515284E442600D2706D /* Range.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C50C284E442600D2706D /* Range.h */; };
+		04D5C516284E442600D2706D /* Cloth.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C50D284E442600D2706D /* Cloth.h */; };
+		04D5C517284E442600D2706D /* Callbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C50E284E442600D2706D /* Callbacks.h */; };
+		04D5C518284E442600D2706D /* Allocator.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C50F284E442600D2706D /* Allocator.h */; };
+		04D5C519284E442600D2706D /* PhaseConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C510284E442600D2706D /* PhaseConfig.h */; };
+		04D5C51B284E442D00D2706D /* PsUnixIntrinsics.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C51A284E442D00D2706D /* PsUnixIntrinsics.h */; };
+		04D5C535284E444000D2706D /* PxSharedAssert.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C51C284E443E00D2706D /* PxSharedAssert.h */; };
+		04D5C536284E444000D2706D /* PxUnionCast.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C51D284E443E00D2706D /* PxUnionCast.h */; };
+		04D5C537284E444000D2706D /* PxIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C51E284E443E00D2706D /* PxIO.h */; };
+		04D5C538284E444000D2706D /* PxSimpleTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C51F284E443E00D2706D /* PxSimpleTypes.h */; };
+		04D5C539284E444000D2706D /* PxTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C520284E443E00D2706D /* PxTransform.h */; };
+		04D5C53A284E444000D2706D /* PxAllocatorCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C521284E443F00D2706D /* PxAllocatorCallback.h */; };
+		04D5C53B284E444000D2706D /* PxIntrinsics.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C522284E443F00D2706D /* PxIntrinsics.h */; };
+		04D5C53C284E444000D2706D /* Px.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C523284E443F00D2706D /* Px.h */; };
+		04D5C53D284E444000D2706D /* PxStrideIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C524284E443F00D2706D /* PxStrideIterator.h */; };
+		04D5C53E284E444000D2706D /* PxPreprocessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C525284E443F00D2706D /* PxPreprocessor.h */; };
+		04D5C53F284E444000D2706D /* PxMat44.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C526284E443F00D2706D /* PxMat44.h */; };
+		04D5C540284E444000D2706D /* PxMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C527284E443F00D2706D /* PxMath.h */; };
+		04D5C541284E444000D2706D /* PxProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C528284E443F00D2706D /* PxProfiler.h */; };
+		04D5C542284E444000D2706D /* PxVec2.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C529284E443F00D2706D /* PxVec2.h */; };
+		04D5C543284E444000D2706D /* PxPlane.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C52A284E443F00D2706D /* PxPlane.h */; };
+		04D5C544284E444000D2706D /* PxErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C52B284E443F00D2706D /* PxErrors.h */; };
+		04D5C545284E444000D2706D /* PxMat33.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C52C284E444000D2706D /* PxMat33.h */; };
+		04D5C546284E444000D2706D /* PxVec4.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C52D284E444000D2706D /* PxVec4.h */; };
+		04D5C547284E444000D2706D /* PxErrorCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C52E284E444000D2706D /* PxErrorCallback.h */; };
+		04D5C548284E444000D2706D /* PxBitAndData.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C52F284E444000D2706D /* PxBitAndData.h */; };
+		04D5C549284E444000D2706D /* PxFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C530284E444000D2706D /* PxFlags.h */; };
+		04D5C54A284E444000D2706D /* PxMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C531284E444000D2706D /* PxMemory.h */; };
+		04D5C54B284E444000D2706D /* PxVec3.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C532284E444000D2706D /* PxVec3.h */; };
+		04D5C54C284E444000D2706D /* PxQuat.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C533284E444000D2706D /* PxQuat.h */; };
+		04D5C54D284E444000D2706D /* PxBounds3.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C534284E444000D2706D /* PxBounds3.h */; };
+		04D5C54F284E444700D2706D /* PxUnixIntrinsics.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C54E284E444700D2706D /* PxUnixIntrinsics.h */; };
+		04D5C556284E469A00D2706D /* SwCollisionHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C552284E469A00D2706D /* SwCollisionHelpers.h */; };
+		04D5C55B284E46C400D2706D /* NvSse2Simd4i.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C558284E46C300D2706D /* NvSse2Simd4i.h */; };
+		04D5C55C284E46C400D2706D /* NvSse2SimdTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C559284E46C400D2706D /* NvSse2SimdTypes.h */; };
+		04D5C55D284E46C400D2706D /* NvSse2Simd4f.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C55A284E46C400D2706D /* NvSse2Simd4f.h */; };
+		04D5C561284E472B00D2706D /* NvScalarSimd4i.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C55E284E472B00D2706D /* NvScalarSimd4i.h */; };
+		04D5C562284E472B00D2706D /* NvScalarSimd4f.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C55F284E472B00D2706D /* NvScalarSimd4f.h */; };
+		04D5C563284E472B00D2706D /* NvScalarSimdTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C560284E472B00D2706D /* NvScalarSimdTypes.h */; };
+		04D5C566284E484E00D2706D /* libvox.cloth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D5C476284DDC5F00D2706D /* libvox.cloth.a */; };
 		04D95C192808EE0500E54DC2 /* device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C152808EE0500E54DC2 /* device.cpp */; };
 		04D95C1A2808EE0500E54DC2 /* scratch_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */; };
 		04D95C1B2808EE0500E54DC2 /* scratch_buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D95C172808EE0500E54DC2 /* scratch_buffer.h */; };
@@ -1344,6 +1446,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 04C3C32D2833E39100B0BE1F;
 			remoteInfo = vox.base;
+		};
+		04D5C564284E484900D2706D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04D5C475284DDC5F00D2706D;
+			remoteInfo = vox.cloth;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -2453,6 +2562,112 @@
 		04D5C451284DD7F500D2706D /* local_global_app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = local_global_app.h; sourceTree = "<group>"; };
 		04D5C452284DD7F600D2706D /* cloth_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cloth_controller.h; sourceTree = "<group>"; };
 		04D5C470284DDB9F00D2706D /* timing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timing.cpp; sourceTree = "<group>"; };
+		04D5C476284DDC5F00D2706D /* libvox.cloth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.cloth.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		04D5C492284E43CA00D2706D /* SwClothData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwClothData.h; sourceTree = "<group>"; };
+		04D5C493284E43CA00D2706D /* IndexPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexPair.h; sourceTree = "<group>"; };
+		04D5C494284E43CA00D2706D /* Simd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Simd.h; sourceTree = "<group>"; };
+		04D5C495284E43CA00D2706D /* Callbacks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Callbacks.cpp; sourceTree = "<group>"; };
+		04D5C496284E43CA00D2706D /* SwSolver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwSolver.cpp; sourceTree = "<group>"; };
+		04D5C497284E43CA00D2706D /* SwFabric.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwFabric.cpp; sourceTree = "<group>"; };
+		04D5C498284E43CB00D2706D /* SwInterCollision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwInterCollision.h; sourceTree = "<group>"; };
+		04D5C499284E43CB00D2706D /* SwSelfCollision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwSelfCollision.h; sourceTree = "<group>"; };
+		04D5C49A284E43CB00D2706D /* SwSolverKernel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwSolverKernel.cpp; sourceTree = "<group>"; };
+		04D5C49B284E43CB00D2706D /* ClothFabricCooker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClothFabricCooker.cpp; sourceTree = "<group>"; };
+		04D5C49C284E43CB00D2706D /* ClothClone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClothClone.h; sourceTree = "<group>"; };
+		04D5C49D284E43CB00D2706D /* SwCollision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwCollision.h; sourceTree = "<group>"; };
+		04D5C49E284E43CB00D2706D /* SwCloth.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwCloth.cpp; sourceTree = "<group>"; };
+		04D5C49F284E43CB00D2706D /* SwCollision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwCollision.cpp; sourceTree = "<group>"; };
+		04D5C4A0284E43CB00D2706D /* MovingAverage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingAverage.h; sourceTree = "<group>"; };
+		04D5C4A1284E43CB00D2706D /* SwFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwFactory.h; sourceTree = "<group>"; };
+		04D5C4A2284E43CB00D2706D /* ClothMeshQuadifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClothMeshQuadifier.cpp; sourceTree = "<group>"; };
+		04D5C4A3284E43CB00D2706D /* Factory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Factory.cpp; sourceTree = "<group>"; };
+		04D5C4A4284E43CC00D2706D /* SwInterCollision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwInterCollision.cpp; sourceTree = "<group>"; };
+		04D5C4A5284E43CC00D2706D /* SwSolverKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwSolverKernel.h; sourceTree = "<group>"; };
+		04D5C4A6284E43CC00D2706D /* TripletScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripletScheduler.h; sourceTree = "<group>"; };
+		04D5C4A7284E43CC00D2706D /* SwCloth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwCloth.h; sourceTree = "<group>"; };
+		04D5C4A8284E43CC00D2706D /* Vec4T.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vec4T.h; sourceTree = "<group>"; };
+		04D5C4A9284E43CC00D2706D /* StackAllocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StackAllocator.h; sourceTree = "<group>"; };
+		04D5C4AA284E43CC00D2706D /* ClothImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClothImpl.h; sourceTree = "<group>"; };
+		04D5C4AB284E43CC00D2706D /* IterationState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterationState.h; sourceTree = "<group>"; };
+		04D5C4AC284E43CC00D2706D /* SwCollisionHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwCollisionHelpers.h; sourceTree = "<group>"; };
+		04D5C4AD284E43CC00D2706D /* BoundingBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingBox.h; sourceTree = "<group>"; };
+		04D5C4AE284E43CD00D2706D /* ClothSimpleTetherCooker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClothSimpleTetherCooker.cpp; sourceTree = "<group>"; };
+		04D5C4AF284E43CD00D2706D /* SwFabric.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwFabric.h; sourceTree = "<group>"; };
+		04D5C4B0284E43CD00D2706D /* PhaseConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhaseConfig.cpp; sourceTree = "<group>"; };
+		04D5C4B1284E43CD00D2706D /* SwSelfCollision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwSelfCollision.cpp; sourceTree = "<group>"; };
+		04D5C4B2284E43CD00D2706D /* SwClothData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwClothData.cpp; sourceTree = "<group>"; };
+		04D5C4B3284E43CD00D2706D /* ClothGeodesicTetherCooker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClothGeodesicTetherCooker.cpp; sourceTree = "<group>"; };
+		04D5C4B4284E43CD00D2706D /* ClothBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClothBase.h; sourceTree = "<group>"; };
+		04D5C4B5284E43CD00D2706D /* SwFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwFactory.cpp; sourceTree = "<group>"; };
+		04D5C4B6284E43CD00D2706D /* Allocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Allocator.cpp; sourceTree = "<group>"; };
+		04D5C4B7284E43CD00D2706D /* PointInterpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointInterpolator.h; sourceTree = "<group>"; };
+		04D5C4B8284E43CD00D2706D /* TripletScheduler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TripletScheduler.cpp; sourceTree = "<group>"; };
+		04D5C4B9284E43CD00D2706D /* SwSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwSolver.h; sourceTree = "<group>"; };
+		04D5C4E2284E43F100D2706D /* SwSolveConstraints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwSolveConstraints.h; sourceTree = "<group>"; };
+		04D5C4E3284E43F100D2706D /* SwCollisionHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwCollisionHelpers.h; sourceTree = "<group>"; };
+		04D5C4E6284E43F600D2706D /* SwCollisionHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwCollisionHelpers.h; sourceTree = "<group>"; };
+		04D5C4E8284E440000D2706D /* PsSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PsSort.h; sourceTree = "<group>"; };
+		04D5C4E9284E440000D2706D /* PsFPU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PsFPU.h; sourceTree = "<group>"; };
+		04D5C4EA284E440000D2706D /* PsSortInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PsSortInternals.h; sourceTree = "<group>"; };
+		04D5C4EB284E440000D2706D /* PsUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PsUtilities.h; sourceTree = "<group>"; };
+		04D5C4EC284E440000D2706D /* PxIntrinsics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxIntrinsics.h; sourceTree = "<group>"; };
+		04D5C4ED284E440000D2706D /* PsAlloca.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PsAlloca.h; sourceTree = "<group>"; };
+		04D5C4F4284E440800D2706D /* PsUnixAtomic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PsUnixAtomic.cpp; sourceTree = "<group>"; };
+		04D5C4F5284E440800D2706D /* PsUnixFPU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PsUnixFPU.h; sourceTree = "<group>"; };
+		04D5C4F6284E440800D2706D /* PsUnixMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PsUnixMutex.cpp; sourceTree = "<group>"; };
+		04D5C4FA284E441700D2706D /* NvSimd4i.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NvSimd4i.h; sourceTree = "<group>"; };
+		04D5C4FB284E441700D2706D /* NvSimd4f.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NvSimd4f.h; sourceTree = "<group>"; };
+		04D5C4FC284E441700D2706D /* NvSimdTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NvSimdTypes.h; sourceTree = "<group>"; };
+		04D5C500284E441E00D2706D /* ClothMeshDesc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClothMeshDesc.h; sourceTree = "<group>"; };
+		04D5C501284E441E00D2706D /* ClothMeshQuadifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClothMeshQuadifier.h; sourceTree = "<group>"; };
+		04D5C502284E441E00D2706D /* ClothFabricCooker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClothFabricCooker.h; sourceTree = "<group>"; };
+		04D5C503284E441E00D2706D /* ClothTetherCooker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClothTetherCooker.h; sourceTree = "<group>"; };
+		04D5C508284E442600D2706D /* Solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Solver.h; sourceTree = "<group>"; };
+		04D5C509284E442600D2706D /* Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Factory.h; sourceTree = "<group>"; };
+		04D5C50A284E442600D2706D /* Fabric.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fabric.h; sourceTree = "<group>"; };
+		04D5C50B284E442600D2706D /* DxContextManagerCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DxContextManagerCallback.h; sourceTree = "<group>"; };
+		04D5C50C284E442600D2706D /* Range.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Range.h; sourceTree = "<group>"; };
+		04D5C50D284E442600D2706D /* Cloth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cloth.h; sourceTree = "<group>"; };
+		04D5C50E284E442600D2706D /* Callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Callbacks.h; sourceTree = "<group>"; };
+		04D5C50F284E442600D2706D /* Allocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Allocator.h; sourceTree = "<group>"; };
+		04D5C510284E442600D2706D /* PhaseConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhaseConfig.h; sourceTree = "<group>"; };
+		04D5C51A284E442D00D2706D /* PsUnixIntrinsics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PsUnixIntrinsics.h; sourceTree = "<group>"; };
+		04D5C51C284E443E00D2706D /* PxSharedAssert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxSharedAssert.h; sourceTree = "<group>"; };
+		04D5C51D284E443E00D2706D /* PxUnionCast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxUnionCast.h; sourceTree = "<group>"; };
+		04D5C51E284E443E00D2706D /* PxIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxIO.h; sourceTree = "<group>"; };
+		04D5C51F284E443E00D2706D /* PxSimpleTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxSimpleTypes.h; sourceTree = "<group>"; };
+		04D5C520284E443E00D2706D /* PxTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxTransform.h; sourceTree = "<group>"; };
+		04D5C521284E443F00D2706D /* PxAllocatorCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxAllocatorCallback.h; sourceTree = "<group>"; };
+		04D5C522284E443F00D2706D /* PxIntrinsics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxIntrinsics.h; sourceTree = "<group>"; };
+		04D5C523284E443F00D2706D /* Px.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Px.h; sourceTree = "<group>"; };
+		04D5C524284E443F00D2706D /* PxStrideIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxStrideIterator.h; sourceTree = "<group>"; };
+		04D5C525284E443F00D2706D /* PxPreprocessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxPreprocessor.h; sourceTree = "<group>"; };
+		04D5C526284E443F00D2706D /* PxMat44.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxMat44.h; sourceTree = "<group>"; };
+		04D5C527284E443F00D2706D /* PxMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxMath.h; sourceTree = "<group>"; };
+		04D5C528284E443F00D2706D /* PxProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxProfiler.h; sourceTree = "<group>"; };
+		04D5C529284E443F00D2706D /* PxVec2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxVec2.h; sourceTree = "<group>"; };
+		04D5C52A284E443F00D2706D /* PxPlane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxPlane.h; sourceTree = "<group>"; };
+		04D5C52B284E443F00D2706D /* PxErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxErrors.h; sourceTree = "<group>"; };
+		04D5C52C284E444000D2706D /* PxMat33.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxMat33.h; sourceTree = "<group>"; };
+		04D5C52D284E444000D2706D /* PxVec4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxVec4.h; sourceTree = "<group>"; };
+		04D5C52E284E444000D2706D /* PxErrorCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxErrorCallback.h; sourceTree = "<group>"; };
+		04D5C52F284E444000D2706D /* PxBitAndData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxBitAndData.h; sourceTree = "<group>"; };
+		04D5C530284E444000D2706D /* PxFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxFlags.h; sourceTree = "<group>"; };
+		04D5C531284E444000D2706D /* PxMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxMemory.h; sourceTree = "<group>"; };
+		04D5C532284E444000D2706D /* PxVec3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxVec3.h; sourceTree = "<group>"; };
+		04D5C533284E444000D2706D /* PxQuat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxQuat.h; sourceTree = "<group>"; };
+		04D5C534284E444000D2706D /* PxBounds3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxBounds3.h; sourceTree = "<group>"; };
+		04D5C54E284E444700D2706D /* PxUnixIntrinsics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PxUnixIntrinsics.h; sourceTree = "<group>"; };
+		04D5C550284E469A00D2706D /* NeonCollision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NeonCollision.cpp; sourceTree = "<group>"; };
+		04D5C551284E469A00D2706D /* NeonSelfCollision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NeonSelfCollision.cpp; sourceTree = "<group>"; };
+		04D5C552284E469A00D2706D /* SwCollisionHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwCollisionHelpers.h; sourceTree = "<group>"; };
+		04D5C553284E469A00D2706D /* NeonSolverKernel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NeonSolverKernel.cpp; sourceTree = "<group>"; };
+		04D5C558284E46C300D2706D /* NvSse2Simd4i.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NvSse2Simd4i.h; sourceTree = "<group>"; };
+		04D5C559284E46C400D2706D /* NvSse2SimdTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NvSse2SimdTypes.h; sourceTree = "<group>"; };
+		04D5C55A284E46C400D2706D /* NvSse2Simd4f.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NvSse2Simd4f.h; sourceTree = "<group>"; };
+		04D5C55E284E472B00D2706D /* NvScalarSimd4i.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NvScalarSimd4i.h; sourceTree = "<group>"; };
+		04D5C55F284E472B00D2706D /* NvScalarSimd4f.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NvScalarSimd4f.h; sourceTree = "<group>"; };
+		04D5C560284E472B00D2706D /* NvScalarSimdTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NvScalarSimdTypes.h; sourceTree = "<group>"; };
 		04D95C152808EE0500E54DC2 /* device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device.cpp; sourceTree = "<group>"; };
 		04D95C162808EE0500E54DC2 /* scratch_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scratch_buffer.cpp; sourceTree = "<group>"; };
 		04D95C172808EE0500E54DC2 /* scratch_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch_buffer.h; sourceTree = "<group>"; };
@@ -2708,6 +2923,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04D5C566284E484E00D2706D /* libvox.cloth.a in Frameworks */,
 				042D8CD728484DB4003EF95A /* Cocoa.framework in Frameworks */,
 				042D8CD628484DB1003EF95A /* IOKit.framework in Frameworks */,
 				042D8CD228484DA8003EF95A /* libvox.base.a in Frameworks */,
@@ -2830,6 +3046,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		04C3C5842835DE8700B0BE1F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04D5C474284DDC5F00D2706D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3635,6 +3858,7 @@
 				04C3C5872835DE8700B0BE1F /* vox.visual */,
 				042D8C0C2845FD02003EF95A /* vox.force */,
 				042D8CBF28484C19003EF95A /* simulator */,
+				04D5C477284DDC5F00D2706D /* vox.cloth */,
 				047BB5C32803A96500CD5749 /* Products */,
 				0444EA4C2805766F00C6F279 /* Frameworks */,
 			);
@@ -3660,6 +3884,7 @@
 				04C3C5862835DE8700B0BE1F /* libvox.visual.a */,
 				042D8C0B2845FD02003EF95A /* libvox.force.a */,
 				042D8CBE28484C19003EF95A /* simulator */,
+				04D5C476284DDC5F00D2706D /* libvox.cloth.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4482,6 +4707,254 @@
 			children = (
 			);
 			name = single;
+			sourceTree = "<group>";
+		};
+		04D5C477284DDC5F00D2706D /* vox.cloth */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C4B6284E43CD00D2706D /* Allocator.cpp */,
+				04D5C4AD284E43CC00D2706D /* BoundingBox.h */,
+				04D5C495284E43CA00D2706D /* Callbacks.cpp */,
+				04D5C4B4284E43CD00D2706D /* ClothBase.h */,
+				04D5C49C284E43CB00D2706D /* ClothClone.h */,
+				04D5C49B284E43CB00D2706D /* ClothFabricCooker.cpp */,
+				04D5C4B3284E43CD00D2706D /* ClothGeodesicTetherCooker.cpp */,
+				04D5C4AA284E43CC00D2706D /* ClothImpl.h */,
+				04D5C4A2284E43CB00D2706D /* ClothMeshQuadifier.cpp */,
+				04D5C4AE284E43CD00D2706D /* ClothSimpleTetherCooker.cpp */,
+				04D5C4A3284E43CB00D2706D /* Factory.cpp */,
+				04D5C493284E43CA00D2706D /* IndexPair.h */,
+				04D5C4AB284E43CC00D2706D /* IterationState.h */,
+				04D5C4A0284E43CB00D2706D /* MovingAverage.h */,
+				04D5C4B0284E43CD00D2706D /* PhaseConfig.cpp */,
+				04D5C4B7284E43CD00D2706D /* PointInterpolator.h */,
+				04D5C494284E43CA00D2706D /* Simd.h */,
+				04D5C4A9284E43CC00D2706D /* StackAllocator.h */,
+				04D5C49E284E43CB00D2706D /* SwCloth.cpp */,
+				04D5C4A7284E43CC00D2706D /* SwCloth.h */,
+				04D5C4B2284E43CD00D2706D /* SwClothData.cpp */,
+				04D5C492284E43CA00D2706D /* SwClothData.h */,
+				04D5C49F284E43CB00D2706D /* SwCollision.cpp */,
+				04D5C49D284E43CB00D2706D /* SwCollision.h */,
+				04D5C4AC284E43CC00D2706D /* SwCollisionHelpers.h */,
+				04D5C497284E43CA00D2706D /* SwFabric.cpp */,
+				04D5C4AF284E43CD00D2706D /* SwFabric.h */,
+				04D5C4B5284E43CD00D2706D /* SwFactory.cpp */,
+				04D5C4A1284E43CB00D2706D /* SwFactory.h */,
+				04D5C4A4284E43CC00D2706D /* SwInterCollision.cpp */,
+				04D5C498284E43CB00D2706D /* SwInterCollision.h */,
+				04D5C4B1284E43CD00D2706D /* SwSelfCollision.cpp */,
+				04D5C499284E43CB00D2706D /* SwSelfCollision.h */,
+				04D5C496284E43CA00D2706D /* SwSolver.cpp */,
+				04D5C4B9284E43CD00D2706D /* SwSolver.h */,
+				04D5C49A284E43CB00D2706D /* SwSolverKernel.cpp */,
+				04D5C4A5284E43CC00D2706D /* SwSolverKernel.h */,
+				04D5C4B8284E43CD00D2706D /* TripletScheduler.cpp */,
+				04D5C4A6284E43CC00D2706D /* TripletScheduler.h */,
+				04D5C4A8284E43CC00D2706D /* Vec4T.h */,
+				04D5C489284DDCBA00D2706D /* sse2 */,
+				04D5C488284DDCB400D2706D /* scalar */,
+				04D5C487284DDCAE00D2706D /* ps */,
+				04D5C486284DDCA800D2706D /* NvSimd */,
+				04D5C485284DDCA100D2706D /* NvClothExt */,
+				04D5C484284DDC9B00D2706D /* NvCloth */,
+				04D5C483284DDC9500D2706D /* neon */,
+				04D5C482284DDC8C00D2706D /* foundation */,
+				04D5C481284DDC8300D2706D /* avx */,
+			);
+			path = vox.cloth;
+			sourceTree = "<group>";
+		};
+		04D5C481284DDC8300D2706D /* avx */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = avx;
+			sourceTree = "<group>";
+		};
+		04D5C482284DDC8C00D2706D /* foundation */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C523284E443F00D2706D /* Px.h */,
+				04D5C521284E443F00D2706D /* PxAllocatorCallback.h */,
+				04D5C52F284E444000D2706D /* PxBitAndData.h */,
+				04D5C534284E444000D2706D /* PxBounds3.h */,
+				04D5C52E284E444000D2706D /* PxErrorCallback.h */,
+				04D5C52B284E443F00D2706D /* PxErrors.h */,
+				04D5C530284E444000D2706D /* PxFlags.h */,
+				04D5C522284E443F00D2706D /* PxIntrinsics.h */,
+				04D5C51E284E443E00D2706D /* PxIO.h */,
+				04D5C52C284E444000D2706D /* PxMat33.h */,
+				04D5C526284E443F00D2706D /* PxMat44.h */,
+				04D5C527284E443F00D2706D /* PxMath.h */,
+				04D5C531284E444000D2706D /* PxMemory.h */,
+				04D5C52A284E443F00D2706D /* PxPlane.h */,
+				04D5C525284E443F00D2706D /* PxPreprocessor.h */,
+				04D5C528284E443F00D2706D /* PxProfiler.h */,
+				04D5C533284E444000D2706D /* PxQuat.h */,
+				04D5C51C284E443E00D2706D /* PxSharedAssert.h */,
+				04D5C51F284E443E00D2706D /* PxSimpleTypes.h */,
+				04D5C524284E443F00D2706D /* PxStrideIterator.h */,
+				04D5C520284E443E00D2706D /* PxTransform.h */,
+				04D5C51D284E443E00D2706D /* PxUnionCast.h */,
+				04D5C529284E443F00D2706D /* PxVec2.h */,
+				04D5C532284E444000D2706D /* PxVec3.h */,
+				04D5C52D284E444000D2706D /* PxVec4.h */,
+				04D5C491284DDD0A00D2706D /* unix */,
+			);
+			path = foundation;
+			sourceTree = "<group>";
+		};
+		04D5C483284DDC9500D2706D /* neon */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C550284E469A00D2706D /* NeonCollision.cpp */,
+				04D5C551284E469A00D2706D /* NeonSelfCollision.cpp */,
+				04D5C553284E469A00D2706D /* NeonSolverKernel.cpp */,
+				04D5C552284E469A00D2706D /* SwCollisionHelpers.h */,
+			);
+			path = neon;
+			sourceTree = "<group>";
+		};
+		04D5C484284DDC9B00D2706D /* NvCloth */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C50F284E442600D2706D /* Allocator.h */,
+				04D5C50E284E442600D2706D /* Callbacks.h */,
+				04D5C50D284E442600D2706D /* Cloth.h */,
+				04D5C50B284E442600D2706D /* DxContextManagerCallback.h */,
+				04D5C50A284E442600D2706D /* Fabric.h */,
+				04D5C509284E442600D2706D /* Factory.h */,
+				04D5C510284E442600D2706D /* PhaseConfig.h */,
+				04D5C50C284E442600D2706D /* Range.h */,
+				04D5C508284E442600D2706D /* Solver.h */,
+				04D5C48E284DDCEC00D2706D /* ps */,
+			);
+			path = NvCloth;
+			sourceTree = "<group>";
+		};
+		04D5C485284DDCA100D2706D /* NvClothExt */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C502284E441E00D2706D /* ClothFabricCooker.h */,
+				04D5C500284E441E00D2706D /* ClothMeshDesc.h */,
+				04D5C501284E441E00D2706D /* ClothMeshQuadifier.h */,
+				04D5C503284E441E00D2706D /* ClothTetherCooker.h */,
+			);
+			path = NvClothExt;
+			sourceTree = "<group>";
+		};
+		04D5C486284DDCA800D2706D /* NvSimd */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C4FB284E441700D2706D /* NvSimd4f.h */,
+				04D5C4FA284E441700D2706D /* NvSimd4i.h */,
+				04D5C4FC284E441700D2706D /* NvSimdTypes.h */,
+				04D5C48D284DDCE100D2706D /* sse2 */,
+				04D5C48C284DDCDA00D2706D /* neon */,
+				04D5C48B284DDCD300D2706D /* scalar */,
+			);
+			path = NvSimd;
+			sourceTree = "<group>";
+		};
+		04D5C487284DDCAE00D2706D /* ps */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C4ED284E440000D2706D /* PsAlloca.h */,
+				04D5C4E9284E440000D2706D /* PsFPU.h */,
+				04D5C4E8284E440000D2706D /* PsSort.h */,
+				04D5C4EA284E440000D2706D /* PsSortInternals.h */,
+				04D5C4EB284E440000D2706D /* PsUtilities.h */,
+				04D5C4EC284E440000D2706D /* PxIntrinsics.h */,
+				04D5C48A284DDCC900D2706D /* unix */,
+			);
+			path = ps;
+			sourceTree = "<group>";
+		};
+		04D5C488284DDCB400D2706D /* scalar */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C4E6284E43F600D2706D /* SwCollisionHelpers.h */,
+			);
+			path = scalar;
+			sourceTree = "<group>";
+		};
+		04D5C489284DDCBA00D2706D /* sse2 */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C4E3284E43F100D2706D /* SwCollisionHelpers.h */,
+				04D5C4E2284E43F100D2706D /* SwSolveConstraints.h */,
+			);
+			path = sse2;
+			sourceTree = "<group>";
+		};
+		04D5C48A284DDCC900D2706D /* unix */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C4F4284E440800D2706D /* PsUnixAtomic.cpp */,
+				04D5C4F5284E440800D2706D /* PsUnixFPU.h */,
+				04D5C4F6284E440800D2706D /* PsUnixMutex.cpp */,
+			);
+			path = unix;
+			sourceTree = "<group>";
+		};
+		04D5C48B284DDCD300D2706D /* scalar */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C55F284E472B00D2706D /* NvScalarSimd4f.h */,
+				04D5C55E284E472B00D2706D /* NvScalarSimd4i.h */,
+				04D5C560284E472B00D2706D /* NvScalarSimdTypes.h */,
+			);
+			path = scalar;
+			sourceTree = "<group>";
+		};
+		04D5C48C284DDCDA00D2706D /* neon */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = neon;
+			sourceTree = "<group>";
+		};
+		04D5C48D284DDCE100D2706D /* sse2 */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C55A284E46C400D2706D /* NvSse2Simd4f.h */,
+				04D5C558284E46C300D2706D /* NvSse2Simd4i.h */,
+				04D5C559284E46C400D2706D /* NvSse2SimdTypes.h */,
+			);
+			path = sse2;
+			sourceTree = "<group>";
+		};
+		04D5C48E284DDCEC00D2706D /* ps */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C490284DDCFD00D2706D /* windows */,
+				04D5C48F284DDCF400D2706D /* unix */,
+			);
+			path = ps;
+			sourceTree = "<group>";
+		};
+		04D5C48F284DDCF400D2706D /* unix */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C51A284E442D00D2706D /* PsUnixIntrinsics.h */,
+			);
+			path = unix;
+			sourceTree = "<group>";
+		};
+		04D5C490284DDCFD00D2706D /* windows */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = windows;
+			sourceTree = "<group>";
+		};
+		04D5C491284DDD0A00D2706D /* unix */ = {
+			isa = PBXGroup;
+			children = (
+				04D5C54E284E444700D2706D /* PxUnixIntrinsics.h */,
+			);
+			path = unix;
 			sourceTree = "<group>";
 		};
 		04D95C412809B24700E54DC2 /* controls */ = {
@@ -5455,6 +5928,95 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		04D5C472284DDC5F00D2706D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04D5C537284E444000D2706D /* PxIO.h in Headers */,
+				04D5C4F1284E440100D2706D /* PsUtilities.h in Headers */,
+				04D5C542284E444000D2706D /* PxVec2.h in Headers */,
+				04D5C4D5284E43CE00D2706D /* BoundingBox.h in Headers */,
+				04D5C55C284E46C400D2706D /* NvSse2SimdTypes.h in Headers */,
+				04D5C515284E442600D2706D /* Range.h in Headers */,
+				04D5C4CE284E43CE00D2706D /* TripletScheduler.h in Headers */,
+				04D5C4D1284E43CE00D2706D /* StackAllocator.h in Headers */,
+				04D5C4CD284E43CE00D2706D /* SwSolverKernel.h in Headers */,
+				04D5C4FE284E441700D2706D /* NvSimd4f.h in Headers */,
+				04D5C4C8284E43CE00D2706D /* MovingAverage.h in Headers */,
+				04D5C4FD284E441700D2706D /* NvSimd4i.h in Headers */,
+				04D5C4D2284E43CE00D2706D /* ClothImpl.h in Headers */,
+				04D5C53D284E444000D2706D /* PxStrideIterator.h in Headers */,
+				04D5C511284E442600D2706D /* Solver.h in Headers */,
+				04D5C507284E441E00D2706D /* ClothTetherCooker.h in Headers */,
+				04D5C4EF284E440100D2706D /* PsFPU.h in Headers */,
+				04D5C535284E444000D2706D /* PxSharedAssert.h in Headers */,
+				04D5C4C0284E43CE00D2706D /* SwInterCollision.h in Headers */,
+				04D5C513284E442600D2706D /* Fabric.h in Headers */,
+				04D5C516284E442600D2706D /* Cloth.h in Headers */,
+				04D5C518284E442600D2706D /* Allocator.h in Headers */,
+				04D5C539284E444000D2706D /* PxTransform.h in Headers */,
+				04D5C4E7284E43F600D2706D /* SwCollisionHelpers.h in Headers */,
+				04D5C543284E444000D2706D /* PxPlane.h in Headers */,
+				04D5C562284E472B00D2706D /* NvScalarSimd4f.h in Headers */,
+				04D5C4E1284E43CE00D2706D /* SwSolver.h in Headers */,
+				04D5C54F284E444700D2706D /* PxUnixIntrinsics.h in Headers */,
+				04D5C541284E444000D2706D /* PxProfiler.h in Headers */,
+				04D5C53A284E444000D2706D /* PxAllocatorCallback.h in Headers */,
+				04D5C538284E444000D2706D /* PxSimpleTypes.h in Headers */,
+				04D5C4D3284E43CE00D2706D /* IterationState.h in Headers */,
+				04D5C54C284E444000D2706D /* PxQuat.h in Headers */,
+				04D5C556284E469A00D2706D /* SwCollisionHelpers.h in Headers */,
+				04D5C4C1284E43CE00D2706D /* SwSelfCollision.h in Headers */,
+				04D5C4C5284E43CE00D2706D /* SwCollision.h in Headers */,
+				04D5C4DF284E43CE00D2706D /* PointInterpolator.h in Headers */,
+				04D5C546284E444000D2706D /* PxVec4.h in Headers */,
+				04D5C4F0284E440100D2706D /* PsSortInternals.h in Headers */,
+				04D5C549284E444000D2706D /* PxFlags.h in Headers */,
+				04D5C4BA284E43CE00D2706D /* SwClothData.h in Headers */,
+				04D5C514284E442600D2706D /* DxContextManagerCallback.h in Headers */,
+				04D5C4BC284E43CE00D2706D /* Simd.h in Headers */,
+				04D5C4BB284E43CE00D2706D /* IndexPair.h in Headers */,
+				04D5C506284E441E00D2706D /* ClothFabricCooker.h in Headers */,
+				04D5C4F8284E440800D2706D /* PsUnixFPU.h in Headers */,
+				04D5C4F3284E440100D2706D /* PsAlloca.h in Headers */,
+				04D5C505284E441E00D2706D /* ClothMeshQuadifier.h in Headers */,
+				04D5C547284E444000D2706D /* PxErrorCallback.h in Headers */,
+				04D5C4D0284E43CE00D2706D /* Vec4T.h in Headers */,
+				04D5C4DC284E43CE00D2706D /* ClothBase.h in Headers */,
+				04D5C51B284E442D00D2706D /* PsUnixIntrinsics.h in Headers */,
+				04D5C53F284E444000D2706D /* PxMat44.h in Headers */,
+				04D5C563284E472B00D2706D /* NvScalarSimdTypes.h in Headers */,
+				04D5C54A284E444000D2706D /* PxMemory.h in Headers */,
+				04D5C536284E444000D2706D /* PxUnionCast.h in Headers */,
+				04D5C4E4284E43F100D2706D /* SwSolveConstraints.h in Headers */,
+				04D5C53B284E444000D2706D /* PxIntrinsics.h in Headers */,
+				04D5C4C9284E43CE00D2706D /* SwFactory.h in Headers */,
+				04D5C512284E442600D2706D /* Factory.h in Headers */,
+				04D5C540284E444000D2706D /* PxMath.h in Headers */,
+				04D5C54B284E444000D2706D /* PxVec3.h in Headers */,
+				04D5C4E5284E43F100D2706D /* SwCollisionHelpers.h in Headers */,
+				04D5C53E284E444000D2706D /* PxPreprocessor.h in Headers */,
+				04D5C53C284E444000D2706D /* Px.h in Headers */,
+				04D5C4F2284E440100D2706D /* PxIntrinsics.h in Headers */,
+				04D5C544284E444000D2706D /* PxErrors.h in Headers */,
+				04D5C55D284E46C400D2706D /* NvSse2Simd4f.h in Headers */,
+				04D5C4C4284E43CE00D2706D /* ClothClone.h in Headers */,
+				04D5C54D284E444000D2706D /* PxBounds3.h in Headers */,
+				04D5C517284E442600D2706D /* Callbacks.h in Headers */,
+				04D5C4CF284E43CE00D2706D /* SwCloth.h in Headers */,
+				04D5C545284E444000D2706D /* PxMat33.h in Headers */,
+				04D5C519284E442600D2706D /* PhaseConfig.h in Headers */,
+				04D5C4EE284E440000D2706D /* PsSort.h in Headers */,
+				04D5C55B284E46C400D2706D /* NvSse2Simd4i.h in Headers */,
+				04D5C561284E472B00D2706D /* NvScalarSimd4i.h in Headers */,
+				04D5C4D4284E43CE00D2706D /* SwCollisionHelpers.h in Headers */,
+				04D5C4FF284E441700D2706D /* NvSimdTypes.h in Headers */,
+				04D5C4D7284E43CE00D2706D /* SwFabric.h in Headers */,
+				04D5C504284E441E00D2706D /* ClothMeshDesc.h in Headers */,
+				04D5C548284E444000D2706D /* PxBitAndData.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04DBB3702833132E00D94795 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -5515,6 +6077,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				04D5C565284E484900D2706D /* PBXTargetDependency */,
 				042D8CCB28484D9D003EF95A /* PBXTargetDependency */,
 				042D8CCD28484D9D003EF95A /* PBXTargetDependency */,
 				042D8CCF28484D9D003EF95A /* PBXTargetDependency */,
@@ -5783,6 +6346,23 @@
 			productReference = 04C3C5862835DE8700B0BE1F /* libvox.visual.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		04D5C475284DDC5F00D2706D /* vox.cloth */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04D5C47E284DDC5F00D2706D /* Build configuration list for PBXNativeTarget "vox.cloth" */;
+			buildPhases = (
+				04D5C472284DDC5F00D2706D /* Headers */,
+				04D5C473284DDC5F00D2706D /* Sources */,
+				04D5C474284DDC5F00D2706D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = vox.cloth;
+			productName = vox.cloth;
+			productReference = 04D5C476284DDC5F00D2706D /* libvox.cloth.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		04DBB3732833132E00D94795 /* vox.geometry */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04DBB37E2833132E00D94795 /* Build configuration list for PBXNativeTarget "vox.geometry" */;
@@ -5857,6 +6437,9 @@
 					04C3C5852835DE8700B0BE1F = {
 						CreatedOnToolsVersion = 13.4;
 					};
+					04D5C475284DDC5F00D2706D = {
+						CreatedOnToolsVersion = 13.4;
+					};
 					04DBB3732833132E00D94795 = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
@@ -5890,6 +6473,7 @@
 				04523E27281CC4920079CC3C /* vox.editor */,
 				04523DC2281BB0C30079CC3C /* editor */,
 				04C3C5852835DE8700B0BE1F /* vox.visual */,
+				04D5C475284DDC5F00D2706D /* vox.cloth */,
 				042D8C0A2845FD02003EF95A /* vox.force */,
 				042D8CBD28484C19003EF95A /* simulator */,
 			);
@@ -6565,6 +7149,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		04D5C473284DDC5F00D2706D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04D5C4DD284E43CE00D2706D /* SwFactory.cpp in Sources */,
+				04D5C4CA284E43CE00D2706D /* ClothMeshQuadifier.cpp in Sources */,
+				04D5C4C3284E43CE00D2706D /* ClothFabricCooker.cpp in Sources */,
+				04D5C4BF284E43CE00D2706D /* SwFabric.cpp in Sources */,
+				04D5C4DE284E43CE00D2706D /* Allocator.cpp in Sources */,
+				04D5C4CC284E43CE00D2706D /* SwInterCollision.cpp in Sources */,
+				04D5C4C7284E43CE00D2706D /* SwCollision.cpp in Sources */,
+				04D5C4D6284E43CE00D2706D /* ClothSimpleTetherCooker.cpp in Sources */,
+				04D5C4C2284E43CE00D2706D /* SwSolverKernel.cpp in Sources */,
+				04D5C4D8284E43CE00D2706D /* PhaseConfig.cpp in Sources */,
+				04D5C4BE284E43CE00D2706D /* SwSolver.cpp in Sources */,
+				04D5C4D9284E43CE00D2706D /* SwSelfCollision.cpp in Sources */,
+				04D5C4DA284E43CE00D2706D /* SwClothData.cpp in Sources */,
+				04D5C4C6284E43CE00D2706D /* SwCloth.cpp in Sources */,
+				04D5C4DB284E43CE00D2706D /* ClothGeodesicTetherCooker.cpp in Sources */,
+				04D5C4CB284E43CE00D2706D /* Factory.cpp in Sources */,
+				04D5C4F7284E440800D2706D /* PsUnixAtomic.cpp in Sources */,
+				04D5C4E0284E43CE00D2706D /* TripletScheduler.cpp in Sources */,
+				04D5C4BD284E43CE00D2706D /* Callbacks.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04DBB3712833132E00D94795 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -6727,6 +7337,11 @@
 			isa = PBXTargetDependency;
 			target = 04C3C32D2833E39100B0BE1F /* vox.base */;
 			targetProxy = 04C3C613283DC69A00B0BE1F /* PBXContainerItemProxy */;
+		};
+		04D5C565284E484900D2706D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04D5C475284DDC5F00D2706D /* vox.cloth */;
+			targetProxy = 04D5C564284E484900D2706D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -8656,6 +9271,69 @@
 			};
 			name = Release;
 		};
+		04D5C47F284DDC5F00D2706D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'ROOT_PATH_SIZE=39'",
+					VKB_VULKAN_DEBUG,
+					VK_NO_PROTOTYPES,
+					VK_USE_PLATFORM_METAL_EXT,
+					LIBKTX,
+					"'KTX_FEATURE_WRITE=0'",
+					"'BASISD_SUPPORT_KTX2_ZSTD=0'",
+					BASISU_NO_ITERATOR_DEBUG_LEVEL,
+					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
+					"$(inherited)",
+					DISABLE_CUDA_PHYSX,
+					PX_PHYSX_CORE_EXPORTS,
+					_DEBUG,
+					"'PX_DEBUG=1'",
+					"'PX_CHECKED=1'",
+					"'PX_NVTX=0'",
+					"'PX_SUPPORT_PVD=1'",
+				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		04D5C480284DDC5F00D2706D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'ROOT_PATH_SIZE=39'",
+					VKB_VULKAN_DEBUG,
+					VK_NO_PROTOTYPES,
+					VK_USE_PLATFORM_METAL_EXT,
+					LIBKTX,
+					"'KTX_FEATURE_WRITE=0'",
+					"'BASISD_SUPPORT_KTX2_ZSTD=0'",
+					BASISU_NO_ITERATOR_DEBUG_LEVEL,
+					"'VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1'",
+					"$(inherited)",
+					DISABLE_CUDA_PHYSX,
+					PX_PHYSX_CORE_EXPORTS,
+					NDEBUG,
+					"'PX_SUPPORT_PVD=0'",
+				);
+				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
 		04DBB37C2833132E00D94795 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -8854,6 +9532,15 @@
 			buildConfigurations = (
 				04C3C58E2835DE8700B0BE1F /* Debug */,
 				04C3C58F2835DE8700B0BE1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04D5C47E284DDC5F00D2706D /* Build configuration list for PBXNativeTarget "vox.cloth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04D5C47F284DDC5F00D2706D /* Debug */,
+				04D5C480284DDC5F00D2706D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
