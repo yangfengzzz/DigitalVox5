@@ -52,7 +52,7 @@ cloth::SwFabric::SwFabric(SwFactory& factory,
                           uint32_t id)
     : mFactory(factory), mNumParticles(numParticles), mTetherLengthScale(1.0f), mId(id) {
     // should no longer be prefixed with 0
-    NV_CLOTH_ASSERT(sets.front() != 0)
+    NV_CLOTH_ASSERT(sets.front() != 0);
 
 #if PX_WINDOWS_FAMILY
     const uint32_t kSimdWidth = 8;  // avx
@@ -61,11 +61,11 @@ cloth::SwFabric::SwFabric(SwFactory& factory,
 #endif
 
     // consistency check
-    NV_CLOTH_ASSERT(sets.back() == restvalues.size())
-    NV_CLOTH_ASSERT(restvalues.size() * 2 == indices.size())
-    NV_CLOTH_ASSERT(restvalues.size() == stiffnessValues.size() || stiffnessValues.empty())
-    NV_CLOTH_ASSERT(mNumParticles > *ps::maxElement(indices.begin(), indices.end()))
-    NV_CLOTH_ASSERT(mNumParticles + kSimdWidth - 1 <= USHRT_MAX)
+    NV_CLOTH_ASSERT(sets.back() == restvalues.size());
+    NV_CLOTH_ASSERT(restvalues.size() * 2 == indices.size());
+    NV_CLOTH_ASSERT(restvalues.size() == stiffnessValues.size() || stiffnessValues.empty());
+    NV_CLOTH_ASSERT(mNumParticles > *ps::maxElement(indices.begin(), indices.end()));
+    NV_CLOTH_ASSERT(mNumParticles + kSimdWidth - 1 <= USHRT_MAX);
 
     mPhases.assign(phaseIndices.begin(), phaseIndices.end());
     mSets.reserve(sets.size() + 1);
@@ -112,7 +112,7 @@ cloth::SwFabric::SwFabric(SwFactory& factory,
     Vector<uint16_t>::Type(mIndices.begin(), mIndices.end()).swap(mIndices);
 
     // tethers
-    NV_CLOTH_ASSERT(anchors.size() == tetherLengths.size())
+    NV_CLOTH_ASSERT(anchors.size() == tetherLengths.size());
 
     // pad to allow for direct 16 byte (unaligned) loads
     mTethers.reserve(anchors.size() + 2);
@@ -129,7 +129,7 @@ cloth::SwFabric::SwFabric(SwFactory& factory,
 
 cloth::SwFabric::~SwFabric() {
     Vector<SwFabric*>::Type::Iterator fIt = mFactory.mFabrics.find(this);
-    NV_CLOTH_ASSERT(fIt != mFactory.mFabrics.end())
+    NV_CLOTH_ASSERT(fIt != mFactory.mFabrics.end());
     mFactory.mFabrics.replaceWithLast(fIt);
 }
 

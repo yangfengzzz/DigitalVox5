@@ -137,7 +137,7 @@ public:
     The element i in the array.
     */
     PX_FORCE_INLINE const T& operator[](uint32_t i) const {
-        NV_CLOTH_ASSERT(i < mSize)
+        NV_CLOTH_ASSERT(i < mSize);
         return mData[i];
     }
 
@@ -149,7 +149,7 @@ public:
     The element i in the array.
     */
     PX_FORCE_INLINE T& operator[](uint32_t i) {
-        NV_CLOTH_ASSERT(i < mSize)
+        NV_CLOTH_ASSERT(i < mSize);
         return mData[i];
     }
 
@@ -178,12 +178,12 @@ public:
     */
 
     PX_FORCE_INLINE const T& front() const {
-        NV_CLOTH_ASSERT(mSize)
+        NV_CLOTH_ASSERT(mSize);
         return mData[0];
     }
 
     PX_FORCE_INLINE T& front() {
-        NV_CLOTH_ASSERT(mSize)
+        NV_CLOTH_ASSERT(mSize);
         return mData[0];
     }
 
@@ -193,12 +193,12 @@ public:
     */
 
     PX_FORCE_INLINE const T& back() const {
-        NV_CLOTH_ASSERT(mSize)
+        NV_CLOTH_ASSERT(mSize);
         return mData[mSize - 1];
     }
 
     PX_FORCE_INLINE T& back() {
-        NV_CLOTH_ASSERT(mSize)
+        NV_CLOTH_ASSERT(mSize);
         return mData[mSize - 1];
     }
 
@@ -267,7 +267,7 @@ public:
     */
     /////////////////////////////////////////////////////////////////////////
     PX_INLINE T popBack() {
-        NV_CLOTH_ASSERT(mSize)
+        NV_CLOTH_ASSERT(mSize);
         T t = mData[mSize - 1];
 
         mData[--mSize].~T();
@@ -298,7 +298,7 @@ public:
     */
     /////////////////////////////////////////////////////////////////////////
     PX_INLINE void replaceWithLast(uint32_t i) {
-        NV_CLOTH_ASSERT(i < mSize)
+        NV_CLOTH_ASSERT(i < mSize);
         mData[i] = mData[--mSize];
 
         mData[mSize].~T();
@@ -334,7 +334,7 @@ public:
     */
     /////////////////////////////////////////////////////////////////////////
     PX_INLINE void remove(uint32_t i) {
-        NV_CLOTH_ASSERT(i < mSize)
+        NV_CLOTH_ASSERT(i < mSize);
 
         T* it = mData + i;
         it->~T();
@@ -357,8 +357,8 @@ public:
     */
     /////////////////////////////////////////////////////////////////////////
     PX_INLINE void removeRange(uint32_t begin, uint32_t count) {
-        NV_CLOTH_ASSERT(begin < mSize)
-        NV_CLOTH_ASSERT((begin + count) <= mSize)
+        NV_CLOTH_ASSERT(begin < mSize);
+        NV_CLOTH_ASSERT((begin + count) <= mSize);
 
         for (uint32_t i = 0; i < count; i++)
             mData[begin + i].~T();  // call the destructor on the ones being removed first.
@@ -425,7 +425,7 @@ public:
     */
     //////////////////////////////////////////////////////////////////////////
     PX_FORCE_INLINE void forceSize_Unsafe(uint32_t size) {
-        NV_CLOTH_ASSERT(size <= mCapacity)
+        NV_CLOTH_ASSERT(size <= mCapacity);
         mSize = size;
     }
 
@@ -511,7 +511,7 @@ definition for serialized classes is complete in checked builds.
     The number of entries that the set should be able to hold.
     */
     PX_INLINE void grow(uint32_t capacity) {
-        NV_CLOTH_ASSERT(this->capacity() < capacity)
+        NV_CLOTH_ASSERT(this->capacity() < capacity);
         recreate(capacity);
     }
 
@@ -573,7 +573,7 @@ PX_NOINLINE T& Array<T, Alloc>::growAndPushBack(const T& a) {
     uint32_t capacity = capacityIncrement();
 
     T* newData = allocate(capacity);
-    NV_CLOTH_ASSERT((!capacity) || (newData && (newData != mData)))
+    NV_CLOTH_ASSERT((!capacity) || (newData && (newData != mData)));
     copy(newData, newData + mSize, mData);
 
     // inserting element before destroying old array
@@ -592,7 +592,7 @@ PX_NOINLINE T& Array<T, Alloc>::growAndPushBack(const T& a) {
 template <class T, class Alloc>
 PX_NOINLINE void Array<T, Alloc>::recreate(uint32_t capacity) {
     T* newData = allocate(capacity);
-    NV_CLOTH_ASSERT((!capacity) || (newData && (newData != mData)))
+    NV_CLOTH_ASSERT((!capacity) || (newData && (newData != mData)));
 
     copy(newData, newData + mSize, mData);
     destroy(mData, mData + mSize);

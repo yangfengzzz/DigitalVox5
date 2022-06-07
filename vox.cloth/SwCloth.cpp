@@ -46,7 +46,7 @@ using namespace nv;
 
 cloth::SwCloth::SwCloth(SwFactory& factory, SwFabric& fabric, Range<const PxVec4> particles)
     : mFactory(factory), mFabric(fabric), mNumVirtualParticles(0), mUserData(nullptr) {
-    NV_CLOTH_ASSERT(!particles.empty())
+    NV_CLOTH_ASSERT(!particles.empty());
 
     initialize(*this, particles.begin(), particles.end());
 
@@ -56,7 +56,7 @@ cloth::SwCloth::SwCloth(SwFactory& factory, SwFabric& fabric, Range<const PxVec4
     const uint32_t kSimdWidth = 4;  // sse
 #endif
 
-    NV_CLOTH_ASSERT(particles.size() == fabric.getNumParticles())
+    NV_CLOTH_ASSERT(particles.size() == fabric.getNumParticles());
 
     mCurParticles.reserve(particles.size() + kSimdWidth - 1);
     mCurParticles.assign(reinterpret_cast<const PxVec4*>(particles.begin()),

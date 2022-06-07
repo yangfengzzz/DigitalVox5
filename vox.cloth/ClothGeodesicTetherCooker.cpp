@@ -410,11 +410,11 @@ void ClothGeodesicTetherCooker::createTetherData(const ClothMeshDesc& desc) {
 
     islandFirst.pushBack(islandIndexCnt);
 
-    NV_CLOTH_ASSERT(islandCnt == (islandFirst.size() - 1))
+    NV_CLOTH_ASSERT(islandCnt == (islandFirst.size() - 1));
 
     /////////////////////////////////////////////////////////
     PxU32 bufferSize = mNumParticles * islandCnt;
-    NV_CLOTH_ASSERT(bufferSize > 0)
+    NV_CLOTH_ASSERT(bufferSize > 0);
 
     nv::cloth::Vector<float>::Type vertexDistanceBuffer(bufferSize, PX_MAX_F32);
     nv::cloth::Vector<PxU32>::Type vertexParentBuffer(bufferSize, 0);
@@ -442,7 +442,7 @@ void ClothGeodesicTetherCooker::createTetherData(const ClothMeshDesc& desc) {
         }
 
         // no attached vertices in this island (error?)
-        NV_CLOTH_ASSERT(vertexHeap.empty() == false)
+        NV_CLOTH_ASSERT(vertexHeap.empty() == false);
         if (vertexHeap.empty()) continue;
 
         // while heap is not empty

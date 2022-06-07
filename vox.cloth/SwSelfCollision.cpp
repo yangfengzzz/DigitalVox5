@@ -83,7 +83,7 @@ void radixSort(const uint32_t* first, const uint32_t* last, uint16_t* out) {
         sums[3] = temp3;
     }
 
-    NV_CLOTH_ASSERT(sums[0] == n && sums[1] == n && sums[2] == n && sums[3] == n)
+    NV_CLOTH_ASSERT(sums[0] == n && sums[1] == n && sums[2] == n && sums[3] == n);
 
 #if PX_DEBUG
     memset(out, 0xff, 2 * n * sizeof(uint16_t));
@@ -381,7 +381,7 @@ void cloth::SwSelfCollision<T4f>::collideParticles(const uint32_t* keys,
 
     // loop through all indices
     for (; iIt < iEnd; ++iIt, ++kFirst[0]) {
-        NV_CLOTH_ASSERT(*iIt < mClothData.mNumParticles)
+        NV_CLOTH_ASSERT(*iIt < mClothData.mNumParticles);
 
         // load current particle once outside of inner loop
         T4f particle = particles[*iIt];

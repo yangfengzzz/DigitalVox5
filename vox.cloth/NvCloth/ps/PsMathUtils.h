@@ -268,7 +268,7 @@ PX_CUDA_CALLABLE PX_INLINE physx::PxVec3 log(const physx::PxQuat& q) {
     if (s < 1e-12f) return physx::PxVec3(0.0f);
     // force the half-angle to have magnitude <= pi/2
     physx::PxReal halfAngle = q.w < 0 ? physx::PxAtan2(-s, -q.w) : physx::PxAtan2(s, q.w);
-    NV_CLOTH_ASSERT(halfAngle >= -physx::PxPi / 2 && halfAngle <= physx::PxPi / 2)
+    NV_CLOTH_ASSERT(halfAngle >= -physx::PxPi / 2 && halfAngle <= physx::PxPi / 2);
 
     return q.getImaginaryPart().getNormalized() * 2.f * halfAngle;
 }

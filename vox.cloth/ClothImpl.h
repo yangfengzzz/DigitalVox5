@@ -317,7 +317,7 @@ inline physx::PxVec3 ClothImpl<T>::getGravity() const {
 }
 
 inline float safeLog2(float x) {
-    NV_CLOTH_ASSERT_WITH_MESSAGE("safeLog2", x >= 0.0f)
+    NV_CLOTH_ASSERT_WITH_MESSAGE("safeLog2", x >= 0.0f);
     return x > 0 ? ps::log2(x) : -FLT_MAX_EXP;
 }
 
@@ -475,9 +475,9 @@ inline void ClothImpl<T>::setSpheres(Range<const physx::PxVec4> spheres, uint32_
     uint32_t oldSize = uint32_t(getChildCloth()->mStartCollisionSpheres.size());
     uint32_t newSize = uint32_t(spheres.size()) + oldSize - last + first;
 
-    NV_CLOTH_ASSERT(newSize <= 32)
-    NV_CLOTH_ASSERT(first <= oldSize)
-    NV_CLOTH_ASSERT(last <= oldSize)
+    NV_CLOTH_ASSERT(newSize <= 32);
+    NV_CLOTH_ASSERT(first <= oldSize);
+    NV_CLOTH_ASSERT(last <= oldSize);
 
 #if PX_DEBUG
     for (const physx::PxVec4* it = spheres.begin(); it < spheres.end(); ++it) NV_CLOTH_ASSERT(it->w >= 0.0f)
@@ -546,7 +546,7 @@ inline void ClothImpl<T>::setSpheres(Range<const physx::PxVec4> spheres, uint32_
 template <typename T>
 inline void ClothImpl<T>::setSpheres(Range<const physx::PxVec4> startSpheres,
                                      Range<const physx::PxVec4> targetSpheres) {
-    NV_CLOTH_ASSERT(startSpheres.size() == targetSpheres.size())
+    NV_CLOTH_ASSERT(startSpheres.size() == targetSpheres.size());
 
     // Clamp ranges to the first 32 spheres
     startSpheres =
@@ -589,9 +589,9 @@ inline void ClothImpl<T>::setCapsules(Range<const uint32_t> capsules, uint32_t f
     uint32_t oldSize = uint32_t(getChildCloth()->mCapsuleIndices.size());
     uint32_t newSize = srcIndicesSize + oldSize - last + first;
 
-    NV_CLOTH_ASSERT(newSize <= 32)
-    NV_CLOTH_ASSERT(first <= oldSize)
-    NV_CLOTH_ASSERT(last <= oldSize)
+    NV_CLOTH_ASSERT(newSize <= 32);
+    NV_CLOTH_ASSERT(first <= oldSize);
+    NV_CLOTH_ASSERT(last <= oldSize);
 
     if (getChildCloth()->mCapsuleIndices.capacity() < newSize) {
         ContextLockType contextLock(getChildCloth()->mFactory);
@@ -630,9 +630,9 @@ inline void ClothImpl<T>::setPlanes(Range<const physx::PxVec4> planes, uint32_t 
     uint32_t oldSize = uint32_t(getChildCloth()->mStartCollisionPlanes.size());
     uint32_t newSize = uint32_t(planes.size()) + oldSize - last + first;
 
-    NV_CLOTH_ASSERT(newSize <= 32)
-    NV_CLOTH_ASSERT(first <= oldSize)
-    NV_CLOTH_ASSERT(last <= oldSize)
+    NV_CLOTH_ASSERT(newSize <= 32);
+    NV_CLOTH_ASSERT(first <= oldSize);
+    NV_CLOTH_ASSERT(last <= oldSize);
 #if PX_DEBUG || PX_CHECKED
     int logCount = 0;
     for (int i = 0; i < static_cast<int>(planes.size()); i++) {
@@ -716,7 +716,7 @@ inline void ClothImpl<T>::setPlanes(Range<const physx::PxVec4> planes, uint32_t 
 
 template <typename T>
 inline void ClothImpl<T>::setPlanes(Range<const physx::PxVec4> startPlanes, Range<const physx::PxVec4> targetPlanes) {
-    NV_CLOTH_ASSERT(startPlanes.size() == targetPlanes.size())
+    NV_CLOTH_ASSERT(startPlanes.size() == targetPlanes.size());
 
     // Clamp ranges to the first 32 planes
     startPlanes =
@@ -755,9 +755,9 @@ inline void ClothImpl<T>::setConvexes(Range<const uint32_t> convexMasks, uint32_
     uint32_t oldSize = uint32_t(getChildCloth()->mConvexMasks.size());
     uint32_t newSize = uint32_t(convexMasks.size()) + oldSize - last + first;
 
-    NV_CLOTH_ASSERT(newSize <= 32)
-    NV_CLOTH_ASSERT(first <= oldSize)
-    NV_CLOTH_ASSERT(last <= oldSize)
+    NV_CLOTH_ASSERT(newSize <= 32);
+    NV_CLOTH_ASSERT(first <= oldSize);
+    NV_CLOTH_ASSERT(last <= oldSize);
 #if PX_DEBUG || PX_CHECKED
     for (int i = 0; i < static_cast<int>(convexMasks.size()); i++) {
         if (convexMasks[i] == 0) {
@@ -806,13 +806,13 @@ inline void ClothImpl<T>::setTriangles(Range<const physx::PxVec3> triangles, uin
     last *= 3;
 
     triangles = getChildCloth()->clampTriangleCount(triangles, last - first);
-    NV_CLOTH_ASSERT(0 == triangles.size() % 3)
+    NV_CLOTH_ASSERT(0 == triangles.size() % 3);
 
     uint32_t oldSize = uint32_t(getChildCloth()->mStartCollisionTriangles.size());
     uint32_t newSize = uint32_t(triangles.size()) + oldSize - last + first;
 
-    NV_CLOTH_ASSERT(first <= oldSize)
-    NV_CLOTH_ASSERT(last <= oldSize)
+    NV_CLOTH_ASSERT(first <= oldSize);
+    NV_CLOTH_ASSERT(last <= oldSize);
 
     if (!oldSize && !newSize) return;
 
@@ -901,7 +901,7 @@ template <typename T>
 inline void ClothImpl<T>::setTriangles(Range<const physx::PxVec3> startTriangles,
                                        Range<const physx::PxVec3> targetTriangles,
                                        uint32_t first) {
-    NV_CLOTH_ASSERT(startTriangles.size() == targetTriangles.size())
+    NV_CLOTH_ASSERT(startTriangles.size() == targetTriangles.size());
 
     // convert from triangle to vertex count
     first *= 3;
@@ -914,8 +914,8 @@ inline void ClothImpl<T>::setTriangles(Range<const physx::PxVec3> startTriangles
     uint32_t oldSize = uint32_t(getChildCloth()->mStartCollisionTriangles.size());
     uint32_t newSize = uint32_t(startTriangles.size()) + oldSize - last + first;
 
-    NV_CLOTH_ASSERT(first <= oldSize)
-    NV_CLOTH_ASSERT(last == oldSize)  // this path only supports replacing the tail
+    NV_CLOTH_ASSERT(first <= oldSize);
+    NV_CLOTH_ASSERT(last == oldSize);  // this path only supports replacing the tail
 
     if (!oldSize && !newSize) return;
 
@@ -1119,7 +1119,7 @@ inline physx::PxVec3 ClothImpl<T>::getWindVelocity() const {
 
 template <typename T>
 inline void ClothImpl<T>::setDragCoefficient(float coefficient) {
-    NV_CLOTH_ASSERT(coefficient <= 1.f)
+    NV_CLOTH_ASSERT(coefficient <= 1.f);
 
     float value = safeLog2(1.f - coefficient);
     if (value == mDragLogCoefficient) return;
@@ -1136,7 +1136,7 @@ inline float ClothImpl<T>::getDragCoefficient() const {
 
 template <typename T>
 inline void ClothImpl<T>::setLiftCoefficient(float coefficient) {
-    NV_CLOTH_ASSERT(coefficient <= 1.f)
+    NV_CLOTH_ASSERT(coefficient <= 1.f);
 
     float value = safeLog2(1.f - coefficient);
     if (value == mLiftLogCoefficient) return;
@@ -1153,7 +1153,7 @@ inline float ClothImpl<T>::getLiftCoefficient() const {
 
 template <typename T>
 inline void ClothImpl<T>::setFluidDensity(float fluidDensity) {
-    NV_CLOTH_ASSERT(fluidDensity > 0.f)
+    NV_CLOTH_ASSERT(fluidDensity > 0.f);
     if (fluidDensity == mFluidDensity) return;
 
     mFluidDensity = fluidDensity;
@@ -1174,7 +1174,7 @@ inline uint32_t ClothImpl<T>::getNumSelfCollisionIndices() const {
 // Fixed 4505:local function has been removed
 template <typename T>
 inline void ClothImpl<T>::setRestPositions(Range<const physx::PxVec4> restPositions) {
-    NV_CLOTH_ASSERT(restPositions.empty() || restPositions.size() == getNumParticles())
+    NV_CLOTH_ASSERT(restPositions.empty() || restPositions.size() == getNumParticles());
     ContextLockType contextLock(getChildCloth()->mFactory);
     getChildCloth()->mRestPositions.assign(restPositions.begin(), restPositions.end());
     wakeUp();
@@ -1201,7 +1201,7 @@ inline float ClothImpl<T>::getSelfCollisionDistance() const {
 
 template <typename T>
 inline void ClothImpl<T>::setSelfCollisionStiffness(float stiffness) {
-    NV_CLOTH_ASSERT(stiffness <= 1.0f)
+    NV_CLOTH_ASSERT(stiffness <= 1.0f);
     float value = safeLog2(1 - stiffness);
     if (value == getChildCloth()->mSelfCollisionLogStiffness) return;
 

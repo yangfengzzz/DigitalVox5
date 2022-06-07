@@ -158,9 +158,9 @@ void cloth::SwClothData::verify() const {
     // perhaps a good reason to construct SwClothData on PPU instead
 
     NV_CLOTH_ASSERT(!mNumCapsules ||
-                    mNumSpheres > *ps::maxElement(&mCapsuleIndices->first, &(mCapsuleIndices + mNumCapsules)->first))
+                    mNumSpheres > *ps::maxElement(&mCapsuleIndices->first, &(mCapsuleIndices + mNumCapsules)->first));
 
     NV_CLOTH_ASSERT(!mNumConvexes ||
                     (static_cast<uint64_t>(1) << static_cast<uint64_t>(mNumPlanes)) - static_cast<uint64_t>(1) >=
-                            static_cast<uint64_t>(*ps::maxElement(mConvexMasks, mConvexMasks + mNumConvexes)))
+                            static_cast<uint64_t>(*ps::maxElement(mConvexMasks, mConvexMasks + mNumConvexes)));
 }

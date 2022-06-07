@@ -186,12 +186,12 @@ public:
     VirtualAllocator(VirtualAllocatorCallback* callback = nullptr) : mCallback(callback) {}
 
     void* allocate(const size_t size, const char* file, const int line) {
-        NV_CLOTH_ASSERT(mCallback)
+        NV_CLOTH_ASSERT(mCallback);
         if (size) return mCallback->allocate(size, file, line);
         return nullptr;
     }
     void deallocate(void* ptr) {
-        NV_CLOTH_ASSERT(mCallback)
+        NV_CLOTH_ASSERT(mCallback);
         if (ptr) mCallback->deallocate(ptr);
     }
 

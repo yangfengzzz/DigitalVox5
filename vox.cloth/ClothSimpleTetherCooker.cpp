@@ -101,7 +101,7 @@ void ClothSimpleTetherCooker::createTetherData(const ClothMeshDesc& desc) {
         mTetherLengths.pushBack(PxSqrt(minSqrDist));
     }
 
-    NV_CLOTH_ASSERT(mTetherAnchors.size() == mTetherLengths.size())
+    NV_CLOTH_ASSERT(mTetherAnchors.size() == mTetherLengths.size());
 
     if (numParticles == mTetherAnchors.size() && numParticles == mTetherLengths.size()) {
         mCookerStatus = 0;

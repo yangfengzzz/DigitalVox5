@@ -100,7 +100,7 @@ public:
     }
 
     [[nodiscard]] float average() const {
-        NV_CLOTH_ASSERT(!empty())
+        NV_CLOTH_ASSERT(!empty());
 
         float sum = 0.0f;
         int totalWeight = 0;

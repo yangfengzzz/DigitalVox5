@@ -46,7 +46,7 @@ protected:
 protected:
     Fabric() : mRefCount(1) {}
 
-    virtual ~Fabric() { NV_CLOTH_ASSERT(0 == mRefCount) }
+    virtual ~Fabric() { NV_CLOTH_ASSERT(0 == mRefCount); }
 
 public:
     /** \brief Returns the Factory used to create this Fabric.*/
@@ -97,12 +97,12 @@ public:
 
     void incRefCount() {
         ps::atomicIncrement(&mRefCount);
-        NV_CLOTH_ASSERT(mRefCount > 0)
+        NV_CLOTH_ASSERT(mRefCount > 0);
     }
 
     /// Returns true if the object is destroyed
     bool decRefCount() {
-        NV_CLOTH_ASSERT(mRefCount > 0)
+        NV_CLOTH_ASSERT(mRefCount > 0);
         int result = ps::atomicDecrement(&mRefCount);
         if (result == 0) {
             delete this;

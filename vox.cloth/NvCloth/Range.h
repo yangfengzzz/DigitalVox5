@@ -91,13 +91,13 @@ bool Range<T>::empty() const {
 
 template <typename T>
 void Range<T>::popFront() {
-    NV_CLOTH_ASSERT(mBegin < mEnd)
+    NV_CLOTH_ASSERT(mBegin < mEnd);
     ++mBegin;
 }
 
 template <typename T>
 void Range<T>::popBack() {
-    NV_CLOTH_ASSERT(mBegin < mEnd)
+    NV_CLOTH_ASSERT(mBegin < mEnd);
     --mEnd;
 }
 
@@ -113,19 +113,19 @@ T* Range<T>::end() const {
 
 template <typename T>
 T& Range<T>::front() const {
-    NV_CLOTH_ASSERT(mBegin < mEnd)
+    NV_CLOTH_ASSERT(mBegin < mEnd);
     return *mBegin;
 }
 
 template <typename T>
 T& Range<T>::back() const {
-    NV_CLOTH_ASSERT(mBegin < mEnd)
+    NV_CLOTH_ASSERT(mBegin < mEnd);
     return mEnd[-1];
 }
 
 template <typename T>
 T& Range<T>::operator[](uint32_t i) const {
-    NV_CLOTH_ASSERT(mBegin + i < mEnd)
+    NV_CLOTH_ASSERT(mBegin + i < mEnd);
     return mBegin[i];
 }
 

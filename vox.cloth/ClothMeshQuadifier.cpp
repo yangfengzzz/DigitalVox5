@@ -258,7 +258,7 @@ void refineUniqueEdges(nv::cloth::Vector<UniqueEdge>::Type& uniqueEdges, const P
         PxU32 numVisible = 0;
         for (PxU32 j = 0; j < 4; j++) {
             const PxU32 edgeIndex = findUniqueEdge(uniqueEdges, indices[j], indices[j + 1]);
-            NV_CLOTH_ASSERT(edgeIndex < uniqueEdges.size())
+            NV_CLOTH_ASSERT(edgeIndex < uniqueEdges.size());
 
             numVisible += uniqueEdges[edgeIndex].isQuadDiagonal ? 0 : 1;
         }
@@ -391,7 +391,7 @@ ClothMeshDesc ClothMeshQuadifierImpl::getDescriptor() const {
     desc.quads.data = mQuads.begin();
     desc.quads.stride = 4 * sizeof(PxU32);
 
-    NV_CLOTH_ASSERT(desc.isValid())
+    NV_CLOTH_ASSERT(desc.isValid());
 
     return desc;
 }

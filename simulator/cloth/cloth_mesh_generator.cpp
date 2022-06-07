@@ -259,7 +259,7 @@ void ClothMeshData::AttachClothUsingTopVertices(float threshold_y) {
             top_vertex_index = i;
         }
     }
-    NV_CLOTH_ASSERT(top_vertex_index >= 0)
+    NV_CLOTH_ASSERT(top_vertex_index >= 0);
 
     for (int i = 0; i < (int)m_vertices.size(); ++i) {
         if (top_vertex.y - m_vertices[i].y < threshold_y) {
@@ -285,8 +285,8 @@ bool ClothMeshData::InitializeFromData(nv::cloth::BoundedData positions,
                                        const physx::PxMat44 &transform) {
     if (positions.count < 3 || indices.count < 3) return false;
 
-    NV_CLOTH_ASSERT(sizeof(PositionType) != sizeof(physx::PxVec3) || positions.count % 3 == 0)
-    NV_CLOTH_ASSERT(indices.count % 3 == 0)
+    NV_CLOTH_ASSERT(sizeof(PositionType) != sizeof(physx::PxVec3) || positions.count % 3 == 0);
+    NV_CLOTH_ASSERT(indices.count % 3 == 0);
 
     auto num_vertices = (sizeof(PositionType) == sizeof(physx::PxVec3)) ? positions.count : positions.count / 3;
     const auto kNumTriangles = indices.count / 3;

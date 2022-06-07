@@ -463,8 +463,8 @@ bool cloth::SwCollision<T4f>::buildAcceleration() {
     mGridBias = -expandedLower * mGridScale;
     array(mGridBias)[3] = 1.0f;  // needed for collideVirtualParticles()
 
-    NV_CLOTH_ASSERT(allTrue(((bounds.mLower * mGridScale + mGridBias) >= simd4f(0.0f)) | sMaskW))
-    NV_CLOTH_ASSERT(allTrue(((bounds.mUpper * mGridScale + mGridBias) < simd4f(8.0f)) | sMaskW))
+    NV_CLOTH_ASSERT(allTrue(((bounds.mLower * mGridScale + mGridBias) >= simd4f(0.0f)) | sMaskW));
+    NV_CLOTH_ASSERT(allTrue(((bounds.mUpper * mGridScale + mGridBias) < simd4f(8.0f)) | sMaskW));
 
     memset(mSphereGrid, 0, sizeof(uint32_t) * 6 * (sGridSize));
     if (mClothData.mEnableContinuousCollision) buildSphereAcceleration(mPrevData.mSpheres);
@@ -585,10 +585,10 @@ struct cloth::SwCollision<T4f>::ImpulseAccumulator {
           mNumCollisions(gSimd4fEpsilon) {}
 
     void add(const T4f& x, const T4f& y, const T4f& z, const T4f& scale, const T4f& mask) {
-        NV_CLOTH_ASSERT(allTrue((mask & x) == (mask & x)))
-        NV_CLOTH_ASSERT(allTrue((mask & y) == (mask & y)))
-        NV_CLOTH_ASSERT(allTrue((mask & z) == (mask & z)))
-        NV_CLOTH_ASSERT(allTrue((mask & scale) == (mask & scale)))
+        NV_CLOTH_ASSERT(allTrue((mask & x) == (mask & x)));
+        NV_CLOTH_ASSERT(allTrue((mask & y) == (mask & y)));
+        NV_CLOTH_ASSERT(allTrue((mask & z) == (mask & z)));
+        NV_CLOTH_ASSERT(allTrue((mask & scale) == (mask & scale)));
 
         T4f maskedScale = scale & mask;
         mDeltaX = mDeltaX + x * maskedScale;
@@ -598,9 +598,9 @@ struct cloth::SwCollision<T4f>::ImpulseAccumulator {
     }
 
     void addVelocity(const T4f& vx, const T4f& vy, const T4f& vz, const T4f& mask) {
-        NV_CLOTH_ASSERT(allTrue((mask & vx) == (mask & vx)))
-        NV_CLOTH_ASSERT(allTrue((mask & vy) == (mask & vy)))
-        NV_CLOTH_ASSERT(allTrue((mask & vz) == (mask & vz)))
+        NV_CLOTH_ASSERT(allTrue((mask & vx) == (mask & vx)));
+        NV_CLOTH_ASSERT(allTrue((mask & vy) == (mask & vy)));
+        NV_CLOTH_ASSERT(allTrue((mask & vz) == (mask & vz)));
 
         mVelX = mVelX + (vx & mask);
         mVelY = mVelY + (vy & mask);
@@ -608,10 +608,10 @@ struct cloth::SwCollision<T4f>::ImpulseAccumulator {
     }
 
     void subtract(const T4f& x, const T4f& y, const T4f& z, const T4f& scale, const T4f& mask) {
-        NV_CLOTH_ASSERT(allTrue((mask & x) == (mask & x)))
-        NV_CLOTH_ASSERT(allTrue((mask & y) == (mask & y)))
-        NV_CLOTH_ASSERT(allTrue((mask & z) == (mask & z)))
-        NV_CLOTH_ASSERT(allTrue((mask & scale) == (mask & scale)))
+        NV_CLOTH_ASSERT(allTrue((mask & x) == (mask & x)));
+        NV_CLOTH_ASSERT(allTrue((mask & y) == (mask & y)));
+        NV_CLOTH_ASSERT(allTrue((mask & z) == (mask & z)));
+        NV_CLOTH_ASSERT(allTrue((mask & scale) == (mask & scale)));
 
         T4f maskedScale = scale & mask;
         mDeltaX = mDeltaX - x * maskedScale;

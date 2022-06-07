@@ -89,12 +89,12 @@ PX_INLINE int32_t partition(T* elements, int32_t first, int32_t last, Predicate&
 
         if (i >= j) break;
 
-        NV_CLOTH_ASSERT(i <= last && j >= first)
+        NV_CLOTH_ASSERT(i <= last && j >= first);
         swap(elements[i], elements[j]);
     }
     // put the pivot in place
 
-    NV_CLOTH_ASSERT(i <= last && first <= (last - 1))
+    NV_CLOTH_ASSERT(i <= last && first <= (last - 1));
     swap(elements[i], elements[last - 1]);
 
     return i;
@@ -143,7 +143,7 @@ public:
     }
 
     PX_INLINE void pop(int32_t& start, int32_t& end) {
-        NV_CLOTH_ASSERT(!empty())
+        NV_CLOTH_ASSERT(!empty());
         end = mMemory[--mSize];
         start = mMemory[--mSize];
     }

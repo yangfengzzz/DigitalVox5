@@ -65,7 +65,7 @@ cloth::SwSolver::SwSolver()
 cloth::SwSolver::~SwSolver() {
     if (mInterCollisionScratchMem) NV_CLOTH_FREE(mInterCollisionScratchMem);
 
-    NV_CLOTH_ASSERT(mSimulatedCloths.empty())
+    NV_CLOTH_ASSERT(mSimulatedCloths.empty());
 }
 
 namespace {
@@ -136,12 +136,12 @@ bool cloth::SwSolver::beginSimulation(float dt) {
     return true;
 }
 void cloth::SwSolver::simulateChunk(int idx) {
-    NV_CLOTH_ASSERT(!mSimulatedCloths.empty())
+    NV_CLOTH_ASSERT(!mSimulatedCloths.empty());
     mSimulatedCloths[idx].Simulate();
     mSimulatedCloths[idx].Destroy();
 }
 void cloth::SwSolver::endSimulation() {
-    NV_CLOTH_ASSERT(!mSimulatedCloths.empty())
+    NV_CLOTH_ASSERT(!mSimulatedCloths.empty());
     interCollision();
     endFrame();
 }
@@ -196,7 +196,7 @@ void cloth::SwSolver::interCollision() {
 
 void cloth::SwSolver::addClothAppend(Cloth* cloth) {
     SwCloth& swCloth = *static_cast<SwCloth*>(cloth);
-    NV_CLOTH_ASSERT(mCloths.find(&swCloth) == mCloths.end())
+    NV_CLOTH_ASSERT(mCloths.find(&swCloth) == mCloths.end());
 
     mSimulatedCloths.pushBack(SimulatedCloth(swCloth, this));
 

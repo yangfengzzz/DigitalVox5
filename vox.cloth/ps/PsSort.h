@@ -70,7 +70,7 @@ void sort(T* elements,
     if (last > first) {
         for (;;) {
             while (last > first) {
-                NV_CLOTH_ASSERT(first >= 0 && last < int32_t(count))
+                NV_CLOTH_ASSERT(first >= 0 && last < int32_t(count));
                 if (uint32_t(last - first) < SMALL_SORT_CUTOFF) {
                     internal::smallSort(elements, first, last, compare);
                     break;

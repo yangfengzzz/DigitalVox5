@@ -55,7 +55,7 @@ InitializeNvCloth(physx::PxAllocatorCallback* allocatorCallback,
     PX_UNUSED(autoDllIDCheck);
     NV_CLOTH_ASSERT_WITH_MESSAGE(
             "NvCloth dll id mismatch, ensure you compile with matching headers/run with matching dll.",
-            NV_CLOTH_DLL_ID == autoDllIDCheck)
+            NV_CLOTH_DLL_ID == autoDllIDCheck);
     NV_CLOTH_ASSERT_WITH_MESSAGE("NvCloth initialized with invalid allocator", allocatorCallback != nullptr);
     sContext.mAllocator = allocatorCallback;
     sContext.mErrorCallback = errorCallback;

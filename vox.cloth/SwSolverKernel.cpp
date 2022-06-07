@@ -549,7 +549,7 @@ void cloth::SwSolverKernel<T4f>::constrainTether() {
     NV_CLOTH_ASSERT(
             0 ==
             numTethers %
-                    numParticles)  // the particles can have multiple tethers, but each particle has the same amount
+                    numParticles);  // the particles can have multiple tethers, but each particle has the same amount
 
     // particle iterators
     float* __restrict curIt = mClothData.mCurParticles;
@@ -573,7 +573,7 @@ void cloth::SwSolverKernel<T4f>::constrainTether() {
 
         // Loop through all tethers connected to our particle
         for (TetherIter tIt = tFirst; tIt < tEnd; tIt += numParticles) {
-            NV_CLOTH_ASSERT(tIt->mAnchor < numParticles)
+            NV_CLOTH_ASSERT(tIt->mAnchor < numParticles);
 
             // Get the particle on the other end of the tether
             T4f anchor = loadAligned(curFirst, tIt->mAnchor * sizeof(PxVec4));

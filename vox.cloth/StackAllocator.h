@@ -56,7 +56,7 @@ public:
     StackAllocator(void* buffer, size_t bufferSize)
         : mBuffer(reinterpret_cast<byte*>(buffer)), mBufferSize(bufferSize), mFreeStart(mBuffer), mTop(0) {}
 
-    ~StackAllocator() { NV_CLOTH_ASSERT(userBytes() == 0) }
+    ~StackAllocator() { NV_CLOTH_ASSERT(userBytes() == 0); }
 
     void* allocate(size_t numBytes) {
         // this is non-standard
@@ -68,7 +68,7 @@ public:
         byte* allocEnd = allocStart + numBytes;
 
         // ensure there is space for the alloc
-        NV_CLOTH_ASSERT(allocEnd <= mBuffer + mBufferSize)
+        NV_CLOTH_ASSERT(allocEnd <= mBuffer + mBufferSize);
 
         Header* h = getHeader(allocStart);
         h->mPrev = mTop;
@@ -97,9 +97,9 @@ public:
 private:
     // return the header for an allocation
     inline Header* getHeader(void* p) const {
-        NV_CLOTH_ASSERT((reinterpret_cast<uintptr_t>(p) & (align - 1)) == 0)
-        NV_CLOTH_ASSERT(reinterpret_cast<byte*>(p) >= mBuffer + sizeof(Header))
-        NV_CLOTH_ASSERT(reinterpret_cast<byte*>(p) < mBuffer + mBufferSize)
+        NV_CLOTH_ASSERT((reinterpret_cast<uintptr_t>(p) & (align - 1)) == 0);
+        NV_CLOTH_ASSERT(reinterpret_cast<byte*>(p) >= mBuffer + sizeof(Header));
+        NV_CLOTH_ASSERT(reinterpret_cast<byte*>(p) < mBuffer + mBufferSize);
 
         return reinterpret_cast<Header*>(p) - 1;
     }

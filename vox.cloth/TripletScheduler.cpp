@@ -56,7 +56,7 @@ void markIndicesInBatch(
         uint32_t* particlesInBatch, int particlesInBatchSize, uint32_t index1, uint32_t index2, uint32_t index3) {
     for (int i = 0; i < particlesInBatchSize - 2; i++) {
         if (particlesInBatch[i] == 0xffffffff) {
-            NV_CLOTH_ASSERT(i + 2 < particlesInBatchSize)
+            NV_CLOTH_ASSERT(i + 2 < particlesInBatchSize);
             particlesInBatch[i] = index1;
             particlesInBatch[i + 1] = index2;
             particlesInBatch[i + 2] = index3;
@@ -271,7 +271,7 @@ public:
 // CUDA version. Doesn't add padding, optimizes for bank conflicts
 void cloth::TripletScheduler::warp(uint32_t numParticles, uint32_t warpWidth) {
     // warpWidth has to be <= 32 and a power of two
-    NV_CLOTH_ASSERT(warpWidth == 32 || warpWidth == 16)
+    NV_CLOTH_ASSERT(warpWidth == 32 || warpWidth == 16);
 
     if (mTriplets.empty()) return;
 

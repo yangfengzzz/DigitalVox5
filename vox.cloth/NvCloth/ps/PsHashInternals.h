@@ -170,7 +170,7 @@ public:
     PX_INLINE const Entry* getEntries() const { return mEntries; }
 
     PX_INLINE Entry* insertUnique(const Key& k) {
-        NV_CLOTH_ASSERT(find(k) == NULL)
+        NV_CLOTH_ASSERT(find(k) == NULL);
         uint32_t h = hash(k);
 
         uint32_t entryIndex = freeListGetNext();
@@ -201,7 +201,7 @@ private:
     PX_INLINE void freeListAdd(uint32_t index) {
         if (compacting) {
             mFreeList--;
-            NV_CLOTH_ASSERT(mFreeList == mEntriesCount)
+            NV_CLOTH_ASSERT(mFreeList == mEntriesCount);
         } else {
             mEntriesNext[index] = mFreeList;
             mFreeList = index;
@@ -215,16 +215,16 @@ private:
 
             // link in old free list
             mEntriesNext[end - 1] = mFreeList;
-            NV_CLOTH_ASSERT(mFreeList != end - 1)
+            NV_CLOTH_ASSERT(mFreeList != end - 1);
             mFreeList = start;
         } else if (mFreeList == EOL)  // don't reset the free ptr for the compacting hash unless it's empty
             mFreeList = start;
     }
 
     PX_INLINE uint32_t freeListGetNext() {
-        NV_CLOTH_ASSERT(!freeListEmpty())
+        NV_CLOTH_ASSERT(!freeListEmpty());
         if (compacting) {
-            NV_CLOTH_ASSERT(mFreeList == mEntriesCount)
+            NV_CLOTH_ASSERT(mFreeList == mEntriesCount);
             return mFreeList++;
         } else {
             uint32_t entryIndex = mFreeList;
@@ -247,7 +247,7 @@ private:
 
         uint32_t h = hash(GetKey()(mEntries[index]));
         uint32_t* ptr;
-        for (ptr = mHash + h; *ptr != mEntriesCount; ptr = mEntriesNext + *ptr) NV_CLOTH_ASSERT(*ptr != EOL)
+        for (ptr = mHash + h; *ptr != mEntriesCount; ptr = mEntriesNext + *ptr) NV_CLOTH_ASSERT(*ptr != EOL);
         *ptr = index;
     }
 
@@ -274,7 +274,7 @@ private:
     void reserveInternal(uint32_t size) {
         if (!isPowerOfTwo(size)) size = nextPowerOfTwo(size);
 
-        NV_CLOTH_ASSERT(!(size & (size - 1)))
+        NV_CLOTH_ASSERT(!(size & (size - 1)));
 
         // decide whether iteration can be done on the entries directly
         bool resizeCompact = compacting || freeListEmpty();
@@ -297,7 +297,7 @@ private:
             uint32_t newBufferByteSize = newEntriesByteOffset + newEntriesCapacity * sizeof(Entry);
 
             newBuffer = reinterpret_cast<uint8_t*>(Allocator::allocate(newBufferByteSize, __FILE__, __LINE__));
-            NV_CLOTH_ASSERT(newBuffer)
+            NV_CLOTH_ASSERT(newBuffer);
 
             newHash = reinterpret_cast<uint32_t*>(newBuffer + newHashByteOffset);
             newEntriesNext = reinterpret_cast<uint32_t*>(newBuffer + newEntriesNextBytesOffset);
@@ -310,7 +310,7 @@ private:
         // iterate over old entries, re-hash and create new entries
         if (resizeCompact) {
             // check that old free list is empty - we don't need to copy the next entries
-            NV_CLOTH_ASSERT(compacting || mFreeList == EOL)
+            NV_CLOTH_ASSERT(compacting || mFreeList == EOL);
 
             for (uint32_t index = 0; index < mEntriesCount; ++index) {
                 uint32_t h = hash(GetKey()(mEntries[index]), newHashSize);
@@ -329,7 +329,7 @@ private:
                 while (index != EOL) {
                     uint32_t h = hash(GetKey()(mEntries[index]), newHashSize);
                     newEntriesNext[index] = newHash[h];
-                    NV_CLOTH_ASSERT(index != newHash[h])
+                    NV_CLOTH_ASSERT(index != newHash[h]);
 
                     newHash[h] = index;
 
@@ -354,7 +354,7 @@ private:
     }
 
     void grow() {
-        NV_CLOTH_ASSERT((mFreeList == EOL) || (compacting && (mEntriesCount == mEntriesCapacity)))
+        NV_CLOTH_ASSERT((mFreeList == EOL) || (compacting && (mEntriesCount == mEntriesCapacity)));
 
         uint32_t size = mHashSize == 0 ? 16 : mHashSize * 2;
         reserve(size);
@@ -381,7 +381,7 @@ public:
             }
         }
 
-        PX_INLINE void check() const { NV_CLOTH_ASSERT(mTimestamp == mBase.mTimestamp) }
+        PX_INLINE void check() const { NV_CLOTH_ASSERT(mTimestamp == mBase.mTimestamp); }
         PX_INLINE const Entry& operator*() const {
             check();
             return mBase.mEntries[mEntry];
@@ -504,7 +504,7 @@ PX_NOINLINE void HashBase<Entry, Key, HashFn, GetKey, Allocator, compacting>::co
 
             bool exists;
             Entry* newEntry = create(GK()(otherEntry), exists);
-            NV_CLOTH_ASSERT(!exists)
+            NV_CLOTH_ASSERT(!exists);
 
             PX_PLACEMENT_NEW(newEntry, Entry)(otherEntry);
         }

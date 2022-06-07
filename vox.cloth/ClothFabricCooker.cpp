@@ -491,8 +491,8 @@ bool FabricCookerImpl::cook(const ClothMeshDesc& desc, PxVec3 gravity, bool useG
     mIndices = newIndices;
     mRestvalues = newRestValues;
 
-    NV_CLOTH_ASSERT(mIndices.size() == mRestvalues.size() * 2)
-    NV_CLOTH_ASSERT(mRestvalues.size() == mSets.back())
+    NV_CLOTH_ASSERT(mIndices.size() == mRestvalues.size() * 2);
+    NV_CLOTH_ASSERT(mRestvalues.size() == mSets.back());
 
     // calculate per constraint stiffness values if point stiffness values are provided
     if (desc.pointsStiffness.count) {

@@ -46,7 +46,7 @@ uint32_t getNextFabricId();
 cloth::SwFactory::SwFactory() = default;
 
 cloth::SwFactory::~SwFactory(){NV_CLOTH_ASSERT_WITH_MESSAGE(
-        "All fabrics created by this factory need to be deleted before this factory is destroyed.", mFabrics.empty())}
+        "All fabrics created by this factory need to be deleted before this factory is destroyed.", mFabrics.empty());}
 
 cloth::Fabric* cloth::SwFactory::createFabric(uint32_t numParticles,
                                               Range<const uint32_t> phaseIndices,
@@ -85,13 +85,13 @@ void cloth::SwFactory::extractFabricData(const Fabric& fabric,
                                          Range<uint32_t> triangles) const {
     const auto& swFabric = static_cast<const SwFabric&>(fabric);
 
-    NV_CLOTH_ASSERT(phaseIndices.empty() || phaseIndices.size() == swFabric.getNumPhases())
-    NV_CLOTH_ASSERT(restvalues.empty() || restvalues.size() == swFabric.getNumRestvalues())
-    NV_CLOTH_ASSERT(stiffnessValues.empty() || stiffnessValues.size() == swFabric.getNumStiffnessValues())
-    NV_CLOTH_ASSERT(sets.empty() || sets.size() == swFabric.getNumSets())
-    NV_CLOTH_ASSERT(indices.empty() || indices.size() == swFabric.getNumIndices())
-    NV_CLOTH_ASSERT(anchors.empty() || anchors.size() == swFabric.getNumTethers())
-    NV_CLOTH_ASSERT(tetherLengths.empty() || tetherLengths.size() == swFabric.getNumTethers())
+    NV_CLOTH_ASSERT(phaseIndices.empty() || phaseIndices.size() == swFabric.getNumPhases());
+    NV_CLOTH_ASSERT(restvalues.empty() || restvalues.size() == swFabric.getNumRestvalues());
+    NV_CLOTH_ASSERT(stiffnessValues.empty() || stiffnessValues.size() == swFabric.getNumStiffnessValues());
+    NV_CLOTH_ASSERT(sets.empty() || sets.size() == swFabric.getNumSets());
+    NV_CLOTH_ASSERT(indices.empty() || indices.size() == swFabric.getNumIndices());
+    NV_CLOTH_ASSERT(anchors.empty() || anchors.size() == swFabric.getNumTethers());
+    NV_CLOTH_ASSERT(tetherLengths.empty() || tetherLengths.size() == swFabric.getNumTethers());
 
     for (uint32_t i = 0; !phaseIndices.empty(); ++i, phaseIndices.popFront())
         phaseIndices.front() = swFabric.mPhases[i];
@@ -145,15 +145,15 @@ void cloth::SwFactory::extractCollisionData(const Cloth& cloth,
                                             Range<PxVec4> planes,
                                             Range<uint32_t> convexes,
                                             Range<PxVec3> triangles) const {
-    NV_CLOTH_ASSERT(&cloth.getFactory() == this)
+    NV_CLOTH_ASSERT(&cloth.getFactory() == this);
 
     const auto& swCloth = static_cast<const SwCloth&>(cloth);
 
-    NV_CLOTH_ASSERT(spheres.empty() || spheres.size() == swCloth.mStartCollisionSpheres.size())
-    NV_CLOTH_ASSERT(capsules.empty() || capsules.size() == swCloth.mCapsuleIndices.size() * 2)
-    NV_CLOTH_ASSERT(planes.empty() || planes.size() == swCloth.mStartCollisionPlanes.size())
-    NV_CLOTH_ASSERT(convexes.empty() || convexes.size() == swCloth.mConvexMasks.size())
-    NV_CLOTH_ASSERT(triangles.empty() || triangles.size() == swCloth.mStartCollisionTriangles.size())
+    NV_CLOTH_ASSERT(spheres.empty() || spheres.size() == swCloth.mStartCollisionSpheres.size());
+    NV_CLOTH_ASSERT(capsules.empty() || capsules.size() == swCloth.mCapsuleIndices.size() * 2);
+    NV_CLOTH_ASSERT(planes.empty() || planes.size() == swCloth.mStartCollisionPlanes.size());
+    NV_CLOTH_ASSERT(convexes.empty() || convexes.size() == swCloth.mConvexMasks.size());
+    NV_CLOTH_ASSERT(triangles.empty() || triangles.size() == swCloth.mStartCollisionTriangles.size());
 
     if (!swCloth.mStartCollisionSpheres.empty() && !spheres.empty())
         memcpy(spheres.begin(), &swCloth.mStartCollisionSpheres.front(),
@@ -175,7 +175,7 @@ void cloth::SwFactory::extractCollisionData(const Cloth& cloth,
 }
 
 void cloth::SwFactory::extractMotionConstraints(const Cloth& cloth, Range<PxVec4> destConstraints) const {
-    NV_CLOTH_ASSERT(&cloth.getFactory() == this)
+    NV_CLOTH_ASSERT(&cloth.getFactory() == this);
 
     const auto& swCloth = static_cast<const SwCloth&>(cloth);
 
@@ -185,14 +185,14 @@ void cloth::SwFactory::extractMotionConstraints(const Cloth& cloth, Range<PxVec4
 
     if (!srcConstraints.empty()) {
         // make sure dest array is big enough
-        NV_CLOTH_ASSERT(destConstraints.size() == srcConstraints.size())
+        NV_CLOTH_ASSERT(destConstraints.size() == srcConstraints.size());
 
         memcpy(destConstraints.begin(), &srcConstraints.front(), srcConstraints.size() * sizeof(PxVec4));
     }
 }
 
 void cloth::SwFactory::extractSeparationConstraints(const Cloth& cloth, Range<PxVec4> destConstraints) const {
-    NV_CLOTH_ASSERT(&cloth.getFactory() == this)
+    NV_CLOTH_ASSERT(&cloth.getFactory() == this);
 
     const auto& swCloth = static_cast<const SwCloth&>(cloth);
 
@@ -202,20 +202,20 @@ void cloth::SwFactory::extractSeparationConstraints(const Cloth& cloth, Range<Px
 
     if (!srcConstraints.empty()) {
         // make sure dest array is big enough
-        NV_CLOTH_ASSERT(destConstraints.size() == srcConstraints.size())
+        NV_CLOTH_ASSERT(destConstraints.size() == srcConstraints.size());
 
         memcpy(destConstraints.begin(), &srcConstraints.front(), srcConstraints.size() * sizeof(PxVec4));
     }
 }
 
 void cloth::SwFactory::extractParticleAccelerations(const Cloth& cloth, Range<PxVec4> destAccelerations) const {
-    NV_CLOTH_ASSERT(&cloth.getFactory() == this)
+    NV_CLOTH_ASSERT(&cloth.getFactory() == this);
 
     const auto& swCloth = static_cast<const SwCloth&>(cloth);
 
     if (!swCloth.mParticleAccelerations.empty()) {
         // make sure dest array is big enough
-        NV_CLOTH_ASSERT(destAccelerations.size() == swCloth.mParticleAccelerations.size())
+        NV_CLOTH_ASSERT(destAccelerations.size() == swCloth.mParticleAccelerations.size());
 
         memcpy(destAccelerations.begin(), &swCloth.mParticleAccelerations.front(),
                swCloth.mParticleAccelerations.size() * sizeof(PxVec4));
@@ -225,15 +225,15 @@ void cloth::SwFactory::extractParticleAccelerations(const Cloth& cloth, Range<Px
 void cloth::SwFactory::extractVirtualParticles(const Cloth& cloth,
                                                Range<uint32_t[4]> indices,
                                                Range<PxVec3> weights) const {
-    NV_CLOTH_ASSERT(this == &cloth.getFactory())
+    NV_CLOTH_ASSERT(this == &cloth.getFactory());
 
     const auto& swCloth = static_cast<const SwCloth&>(cloth);
 
     uint32_t numIndices = cloth.getNumVirtualParticles();
     uint32_t numWeights = cloth.getNumVirtualParticleWeights();
 
-    NV_CLOTH_ASSERT(indices.size() == numIndices || indices.empty())
-    NV_CLOTH_ASSERT(weights.size() == numWeights || weights.empty())
+    NV_CLOTH_ASSERT(indices.size() == numIndices || indices.empty());
+    NV_CLOTH_ASSERT(weights.size() == numWeights || weights.empty());
 
     if (weights.size() == numWeights) {
         auto* wDestIt = reinterpret_cast<PxVec3*>(weights.begin());
@@ -244,7 +244,7 @@ void cloth::SwFactory::extractVirtualParticles(const Cloth& cloth,
 
         for (; wIt != wEnd; ++wIt, ++wDestIt) *wDestIt = PxVec3(wIt->x, wIt->y, wIt->z);
 
-        NV_CLOTH_ASSERT(wDestIt == weights.end())
+        NV_CLOTH_ASSERT(wDestIt == weights.end());
     }
     if (indices.size() == numIndices) {
         // convert indices
@@ -261,18 +261,18 @@ void cloth::SwFactory::extractVirtualParticles(const Cloth& cloth,
                 *iDestIt++ = Vec4u(*iIt);
         }
 
-        NV_CLOTH_ASSERT(&array(*iDestIt) == indices.end())
+        NV_CLOTH_ASSERT(&array(*iDestIt) == indices.end());
     }
 }
 
 void cloth::SwFactory::extractSelfCollisionIndices(const Cloth& cloth, Range<uint32_t> destIndices) const {
     const auto& swCloth = static_cast<const SwCloth&>(cloth);
-    NV_CLOTH_ASSERT(destIndices.size() == swCloth.mSelfCollisionIndices.size())
+    NV_CLOTH_ASSERT(destIndices.size() == swCloth.mSelfCollisionIndices.size());
     memcpy(destIndices.begin(), swCloth.mSelfCollisionIndices.begin(), destIndices.size() * sizeof(uint32_t));
 }
 
 void cloth::SwFactory::extractRestPositions(const Cloth& cloth, Range<PxVec4> destRestPositions) const {
     const auto& swCloth = static_cast<const SwCloth&>(cloth);
-    NV_CLOTH_ASSERT(destRestPositions.size() == swCloth.mRestPositions.size())
+    NV_CLOTH_ASSERT(destRestPositions.size() == swCloth.mRestPositions.size());
     memcpy(destRestPositions.begin(), swCloth.mRestPositions.begin(), destRestPositions.size() * sizeof(PxVec4));
 }

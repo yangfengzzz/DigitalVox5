@@ -65,7 +65,7 @@ Return the index of the highest set bit. Not valid for zero arg.
 */
 
 PX_INLINE uint32_t lowestSetBit(uint32_t x) {
-    NV_CLOTH_ASSERT(x)
+    NV_CLOTH_ASSERT(x);
     return lowestSetBitUnsafe(x);
 }
 
@@ -74,7 +74,7 @@ Return the index of the highest set bit. Not valid for zero arg.
 */
 
 PX_INLINE uint32_t highestSetBit(uint32_t x) {
-    NV_CLOTH_ASSERT(x)
+    NV_CLOTH_ASSERT(x);
     return highestSetBitUnsafe(x);
 }
 
@@ -87,7 +87,7 @@ PX_INLINE uint32_t ilog2(uint32_t num) {
         if (num == 0) return i;
     }
 
-    NV_CLOTH_ASSERT(0)
+    NV_CLOTH_ASSERT(0);
     return uint32_t(-1);
 }
 

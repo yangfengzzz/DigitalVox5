@@ -89,7 +89,7 @@ void radixSort(const uint32_t* first, const uint32_t* last, uint32_t* out) {
         sums[3] = temp3;
     }
 
-    NV_CLOTH_ASSERT(sums[0] == n && sums[1] == n && sums[2] == n && sums[3] == n)
+    NV_CLOTH_ASSERT(sums[0] == n && sums[1] == n && sums[2] == n && sums[3] == n);
 
 #if PX_DEBUG
     memset(out, 0xff, 2 * n * sizeof(uint32_t));
@@ -144,7 +144,7 @@ cloth::SwInterCollision<T4f>::SwInterCollision(const cloth::SwInterCollisionData
       mTotalParticles(0),
       mFilter(filter),
       mAllocator(alloc) {
-    NV_CLOTH_ASSERT(mFilter)
+    NV_CLOTH_ASSERT(mFilter);
 
     mCollisionDistance = simd4f(colDist, colDist, colDist, 0.0f);
     mCollisionSquareDistance = mCollisionDistance * mCollisionDistance;
@@ -180,8 +180,8 @@ struct ClothSorter {
     ClothSorter(BoundingBox* bounds, uint32_t n, uint32_t axis) : mBounds(bounds), mNumBounds(n), mAxis(axis) {}
 
     bool operator()(uint32_t i, uint32_t j) const {
-        NV_CLOTH_ASSERT(i < mNumBounds)
-        NV_CLOTH_ASSERT(j < mNumBounds)
+        NV_CLOTH_ASSERT(i < mNumBounds);
+        NV_CLOTH_ASSERT(j < mNumBounds);
 
         return array(mBounds[i].mLower)[mAxis] < array(mBounds[j].mLower)[mAxis];
     }
@@ -227,7 +227,7 @@ uint32_t calculatePotentialColliders(const cloth::SwInterCollisionData* cBegin,
 
         // grow bounds with the collision distance colDist
         PxBounds3 lcBounds = PxBounds3::centerExtents(c.mBoundsCenter, c.mBoundsHalfExtent + PxVec3(array(colDist)[0]));
-        NV_CLOTH_ASSERT(!lcBounds.isEmpty())
+        NV_CLOTH_ASSERT(!lcBounds.isEmpty());
         // transform bounds to world space
         PxBounds3 cWorld = PxBounds3::transformFast(c.mGlobalPose, lcBounds);
 
@@ -249,7 +249,7 @@ uint32_t calculatePotentialColliders(const cloth::SwInterCollisionData* cBegin,
     ps::sort(sortedIndices, numCloths, predicate, nv::cloth::ps::NonTrackingAllocator());
 
     for (uint32_t i = 0; i < numCloths; ++i) {
-        NV_CLOTH_ASSERT(sortedIndices[i] < numCloths)
+        NV_CLOTH_ASSERT(sortedIndices[i] < numCloths);
 
         const SwInterCollisionData& a = cBegin[sortedIndices[i]];
 
@@ -291,7 +291,7 @@ uint32_t calculatePotentialColliders(const cloth::SwInterCollisionData* cBegin,
             // transform bounds from b local space to local space of a
             PxBounds3 lcBounds =
                     PxBounds3::centerExtents(b.mBoundsCenter, b.mBoundsHalfExtent + PxVec3(array(colDist)[0]));
-            NV_CLOTH_ASSERT(!lcBounds.isEmpty())
+            NV_CLOTH_ASSERT(!lcBounds.isEmpty());
             PxBounds3 bLocal = PxBounds3::transformFast(aToLocal * b.mGlobalPose, lcBounds);
 
             BoundingBox bBounds = {simd4f(bLocal.minimum.x, bLocal.minimum.y, bLocal.minimum.z, 0.0f),
@@ -366,12 +366,12 @@ uint32_t calculatePotentialColliders(const cloth::SwInterCollisionData* cBegin,
 
 template <typename T4f>
 PX_INLINE T4f& cloth::SwInterCollision<T4f>::getParticle(uint32_t index) {
-    NV_CLOTH_ASSERT(index < mNumParticles)
+    NV_CLOTH_ASSERT(index < mNumParticles);
 
     uint16_t clothIndex = mClothIndices[index];
     uint32_t particleIndex = mParticleIndices[index];
 
-    NV_CLOTH_ASSERT(clothIndex < mNumInstances)
+    NV_CLOTH_ASSERT(clothIndex < mNumInstances);
 
     return reinterpret_cast<T4f&>(mInstances[clothIndex].mParticles[particleIndex]);
 }
@@ -634,9 +634,9 @@ void cloth::SwInterCollision<T4f>::collideParticles(const uint32_t* keys,
     for (; iIt != iEnd; ++iIt, ++kFirst[0]) {
         // load current particle once outside of inner loop
         uint32_t index = *iIt;
-        NV_CLOTH_ASSERT(index < mNumParticles)
+        NV_CLOTH_ASSERT(index < mNumParticles);
         mClothIndex = mClothIndices[index];
-        NV_CLOTH_ASSERT(mClothIndex < mNumInstances)
+        NV_CLOTH_ASSERT(mClothIndex < mNumInstances);
         mClothMask = mOverlapMasks[mClothIndex];
 
         const SwInterCollisionData* instance = mInstances + mClothIndex;
