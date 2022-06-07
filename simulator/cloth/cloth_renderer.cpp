@@ -145,7 +145,7 @@ void ClothRenderer::Initialize(
 
     vertex_buffers_ = std::make_unique<core::Buffer>(
             device, num_vertices * vertex_size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-            VMA_MEMORY_USAGE_CPU_TO_GPU);
+            VMA_MEMORY_USAGE_GPU_ONLY);
 
     command_buffer.CopyBuffer(stage_buffer, *vertex_buffers_, num_vertices * vertex_size);
     mesh->SetVertexBufferBinding(0, vertex_buffers_.get());
@@ -203,9 +203,30 @@ void ClothRenderer::Update(const physx::PxVec3 *positions, uint32_t num_vertices
 
     for (physx::PxU32 i = 0; i < num_vertices; ++i) vertices[i].normal.normalize();
 
-    auto ptr = vertex_buffers_->Map();
-    memcpy(ptr, vertices_.data(), sizeof(Vertex) * vertices_.size());
-    vertex_buffers_->Unmap();
+    auto &device = entity_->Scene()->Device();
+    auto &queue = device.GetQueueByFlags(VK_QUEUE_GRAPHICS_BIT, 0);
+
+    // keep stage buffer alive until submit finish
+    std::vector<core::Buffer> transient_buffers;
+    auto &command_buffer = device.RequestCommandBuffer();
+
+    command_buffer.Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+
+    core::Buffer stage_buffer{device, num_vertices * sizeof(Vertex), VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+                              VMA_MEMORY_USAGE_CPU_ONLY};
+
+    stage_buffer.Update(vertices, num_vertices * sizeof(Vertex));
+
+    command_buffer.CopyBuffer(stage_buffer, *vertex_buffers_, num_vertices * sizeof(Vertex));
+    transient_buffers.push_back(std::move(stage_buffer));
+
+    command_buffer.End();
+
+    queue.Submit(command_buffer, device.RequestFence());
+
+    device.GetFencePool().wait();
+    device.GetFencePool().reset();
+    device.GetCommandPool().ResetPool();
 }
 
 void ClothRenderer::UpdateBounds(BoundingBox3F &world_bounds) {
