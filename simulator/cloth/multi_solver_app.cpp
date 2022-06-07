@@ -121,6 +121,8 @@ void MultiSolverApp::LoadScene() {
     auto cloth_entity = root_entity->CreateChild();
     InitializeCloth(cloth_entity, 0, physx::PxVec3(-5.0f, 0.0f, 0.0f));
     InitializeCloth(cloth_entity, 1, physx::PxVec3(5.0f, 0.0f, 0.0f));
+
+    scene->Play();
 }
 
 }  // namespace vox::cloth

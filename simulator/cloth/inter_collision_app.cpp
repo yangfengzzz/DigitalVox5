@@ -126,6 +126,8 @@ void InterCollisionApp::LoadScene() {
     InitializeCloth(cloth_entity, 1, pos_trans);
     pos_trans.setPosition(physx::PxVec3(0.0f, 1.6f, -1.4f));
     InitializeCloth(cloth_entity, 2, pos_trans);
+
+    scene->Play();
 }
 
 }  // namespace vox::cloth

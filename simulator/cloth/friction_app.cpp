@@ -123,6 +123,8 @@ void FrictionApp::LoadScene() {
         float friction = i > 0 ? float(i) * friction_delta : 0.f;  // 0.0, 0.2, 0.4, 0.6, 0.8
         InitializeCloth(cloth_entity, i, physx::PxVec3(4.f + float(i) * space_x, 4.f, -18.f), friction);
     }
+
+    scene->Play();
 }
 
 }  // namespace vox::cloth

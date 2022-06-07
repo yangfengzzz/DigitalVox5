@@ -114,6 +114,8 @@ void LocalGlobalApp::LoadScene() {
     auto cloth_entity = root_entity->CreateChild();
     InitializeCloth(cloth_entity, 1, physx::PxVec3(0.0f, 0.0f, 0.0f));
     InitializeCloth(cloth_entity, 0, physx::PxVec3(0.0f, 0.0f, 0.0f));
+
+    scene->Play();
 }
 
 void LocalGlobalApp::Update(float delta_time) {

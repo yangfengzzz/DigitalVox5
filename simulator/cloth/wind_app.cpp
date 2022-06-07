@@ -108,6 +108,8 @@ void WindApp::LoadScene() {
     InitializeCloth(cloth_entity, 2, physx::PxVec3(-11.0f, 0.0f, 0.0f));
     InitializeCloth(cloth_entity, 1, physx::PxVec3(-4.0f, 0.0f, 0.0f));
     InitializeCloth(cloth_entity, 0, physx::PxVec3(3.0f, 0.0f, 0.0f));
+
+    scene->Play();
 }
 
 void WindApp::Update(float delta_time) {

@@ -152,6 +152,8 @@ void SelfCollisionApp::LoadScene() {
     physx::PxMat44 pos_trans(physx::PxIdentity);
     pos_trans.setPosition(physx::PxVec3(0.0f, 0.f, -1.0f));
     InitializeCloth(cloth_entity, 0, pos_trans);
+
+    scene->Play();
 }
 
 }  // namespace vox::cloth

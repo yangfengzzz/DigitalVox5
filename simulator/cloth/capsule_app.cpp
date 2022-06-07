@@ -113,6 +113,8 @@ void CapsuleApp::LoadScene() {
 
     auto cloth_entity = root_entity->CreateChild();
     InitializeCloth(cloth_entity, physx::PxVec3(0.0f, 0.0f, 0.0f));
+
+    scene->Play();
 }
 
 }  // namespace vox::cloth

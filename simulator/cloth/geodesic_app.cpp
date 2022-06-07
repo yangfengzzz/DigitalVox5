@@ -104,6 +104,8 @@ void GeodesicApp::LoadScene() {
     auto cloth_entity = root_entity->CreateChild();
     InitializeCloth(cloth_entity, 0, physx::PxVec3(-5.0f, 0.0f, 0.0f), false);
     InitializeCloth(cloth_entity, 1, physx::PxVec3(4.0f, 0.0f, 0.0f), true);
+
+    scene->Play();
 }
 
 }  // namespace vox::cloth
