@@ -138,32 +138,32 @@ void ClothRenderer::Initialize(
 
     command_buffer.Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 
-    core::Buffer stage_buffer{device, num_vertices * sizeof(float), VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+    core::Buffer stage_buffer{device, num_vertices * vertex_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
                               VMA_MEMORY_USAGE_CPU_ONLY};
 
-    stage_buffer.Update(vertices, num_vertices * sizeof(float));
+    stage_buffer.Update(vertices, num_vertices * vertex_size);
 
     vertex_buffers_ = std::make_unique<core::Buffer>(
-            device, num_vertices * sizeof(float), VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+            device, num_vertices * vertex_size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
             VMA_MEMORY_USAGE_CPU_TO_GPU);
 
-    command_buffer.CopyBuffer(stage_buffer, *vertex_buffers_, num_vertices * sizeof(float));
+    command_buffer.CopyBuffer(stage_buffer, *vertex_buffers_, num_vertices * vertex_size);
     mesh->SetVertexBufferBinding(0, vertex_buffers_.get());
     transient_buffers.push_back(std::move(stage_buffer));
 
     {
-        core::Buffer stage_buffer{device, num_faces * sizeof(uint32_t), VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+        core::Buffer stage_buffer{device, num_faces * 3 * sizeof(uint16_t), VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
                                   VMA_MEMORY_USAGE_CPU_ONLY};
 
-        stage_buffer.Update(faces, num_faces * sizeof(uint32_t));
+        stage_buffer.Update(faces, num_faces * 3 * sizeof(uint16_t));
 
-        core::Buffer new_index_buffer{device, num_faces * sizeof(uint32_t),
+        core::Buffer new_index_buffer{device, num_faces * 3 * sizeof(uint16_t),
                                       VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
                                       VMA_MEMORY_USAGE_GPU_ONLY};
 
-        command_buffer.CopyBuffer(stage_buffer, new_index_buffer, num_faces * sizeof(uint32_t));
+        command_buffer.CopyBuffer(stage_buffer, new_index_buffer, num_faces * 3 * sizeof(uint16_t));
         mesh->SetIndexBufferBinding(
-                std::make_unique<vox::IndexBufferBinding>(std::move(new_index_buffer), VK_INDEX_TYPE_UINT32));
+                std::make_unique<vox::IndexBufferBinding>(std::move(new_index_buffer), VK_INDEX_TYPE_UINT16));
         transient_buffers.push_back(std::move(stage_buffer));
     }
     command_buffer.End();
@@ -209,15 +209,12 @@ void ClothRenderer::Update(const physx::PxVec3 *positions, uint32_t num_vertices
 }
 
 void ClothRenderer::UpdateBounds(BoundingBox3F &world_bounds) {
-    physx::PxVec3 c_tmep = cloth_->getBoundingBoxCenter();
-    Point3F c = Point3F(c_tmep.x, c_tmep.y, c_tmep.z);
-    physx::PxVec3 d_temp = cloth_->getBoundingBoxScale();
-    Vector3F d = Vector3F(d_temp.x, d_temp.y, d_temp.z);
-
-    world_bounds.lower_corner = c - d;
-    world_bounds.lower_corner.y -= 10;
-    world_bounds.upper_corner = c + d;
-    world_bounds.upper_corner.y += 10;
+    world_bounds.lower_corner.x = -std::numeric_limits<float>::max();
+    world_bounds.lower_corner.y = -std::numeric_limits<float>::max();
+    world_bounds.lower_corner.z = -std::numeric_limits<float>::max();
+    world_bounds.upper_corner.x = std::numeric_limits<float>::max();
+    world_bounds.upper_corner.y = std::numeric_limits<float>::max();
+    world_bounds.upper_corner.z = std::numeric_limits<float>::max();
 }
 
 // MARK: - Reflection

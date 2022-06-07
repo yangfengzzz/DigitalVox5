@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "042D8CBD28484C19003EF95A"
-               BuildableName = "simulator"
-               BlueprintName = "simulator"
+               BlueprintIdentifier = "04D5C475284DDC5F00D2706D"
+               BuildableName = "libvox.cloth.a"
+               BlueprintName = "vox.cloth"
                ReferencedContainer = "container:DigitalVox5.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -35,23 +35,11 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
-      useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/yangfeng/Desktop/DigitalVox5"
+      useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      enableGPUFrameCaptureMode = "1"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "042D8CBD28484C19003EF95A"
-            BuildableName = "simulator"
-            BlueprintName = "simulator"
-            ReferencedContainer = "container:DigitalVox5.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -59,16 +47,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "042D8CBD28484C19003EF95A"
-            BuildableName = "simulator"
-            BlueprintName = "simulator"
+            BlueprintIdentifier = "04D5C475284DDC5F00D2706D"
+            BuildableName = "libvox.cloth.a"
+            BlueprintName = "vox.cloth"
             ReferencedContainer = "container:DigitalVox5.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

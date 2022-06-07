@@ -122,6 +122,8 @@ void FreeFallApp::LoadScene() {
     for (int i = 0; i < 4; ++i) {
         InitializeCloth(cloth_entity, i, physx::PxVec3(8.f + float((i + 1) * (i + 1)) * space_x, 2.f, -7.f));
     }
+    
+    scene->Play();
 }
 
 }  // namespace vox::cloth
