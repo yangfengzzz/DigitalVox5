@@ -10,6 +10,7 @@
 #include "apps/cluster_forward_app.h"
 #include "apps/framebuffer_picker_app.h"
 #include "apps/gui_app.h"
+#include "apps/gui_custom_app.h"
 #include "apps/ibl_app.h"
 #include "apps/irradiance_app.h"
 #include "apps/multi_light_app.h"
@@ -51,7 +52,7 @@ int main(int argc, char *argv[]) {
 
     auto code = platform.Initialize(plugins::GetAll());
     if (code == vox::ExitCode::SUCCESS) {
-        platform.SetApp(std::make_unique<vox::PhysXDynamicApp>());
+        platform.SetApp(std::make_unique<vox::GuiCustomApp>());
         code = platform.MainLoop();
     }
     platform.Terminate(code);

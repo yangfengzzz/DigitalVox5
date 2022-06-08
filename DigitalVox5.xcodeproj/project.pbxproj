@@ -554,6 +554,7 @@
 		04523ED3281E73930079CC3C /* profiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523ECE281E73930079CC3C /* profiler.cpp */; };
 		04523ED4281E758B0079CC3C /* profiler_window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DDB281BCC2C0079CC3C /* profiler_window.cpp */; };
 		04523ED5281E7CC30079CC3C /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DEA281BCC2D0079CC3C /* console.cpp */; };
+		045357EC285055E2000ED871 /* gui_custom_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 045357EA285055E2000ED871 /* gui_custom_app.cpp */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -2090,6 +2091,8 @@
 		04523ECC281E73930079CC3C /* profiler_spy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = profiler_spy.cpp; sourceTree = "<group>"; };
 		04523ECD281E73930079CC3C /* profiler_report.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = profiler_report.h; sourceTree = "<group>"; };
 		04523ECE281E73930079CC3C /* profiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = profiler.cpp; sourceTree = "<group>"; };
+		045357EA285055E2000ED871 /* gui_custom_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gui_custom_app.cpp; sourceTree = "<group>"; };
+		045357EB285055E2000ED871 /* gui_custom_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gui_custom_app.h; sourceTree = "<group>"; };
 		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
 		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
 		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
@@ -3905,6 +3908,8 @@
 				04D95DB52814D06100E54DC2 /* assimp_app.cpp */,
 				04D95DB92814E07700E54DC2 /* gui_app.h */,
 				04D95DB82814E07700E54DC2 /* gui_app.cpp */,
+				045357EB285055E2000ED871 /* gui_custom_app.h */,
+				045357EA285055E2000ED871 /* gui_custom_app.cpp */,
 				04D95DBC2814E60600E54DC2 /* pbr_app.h */,
 				04D95DBB2814E60600E54DC2 /* pbr_app.cpp */,
 				04D95DBF2814FBC800E54DC2 /* irradiance_app.h */,
@@ -4631,17 +4636,17 @@
 		04D5C41A284DD7DF00D2706D /* cloth */ = {
 			isa = PBXGroup;
 			children = (
-				04D5C42C284DD7F200D2706D /* callback_implementations.cpp */,
 				04D5C41E284DD7F100D2706D /* callback_implementations.h */,
-				04D5C43B284DD7F300D2706D /* cloth_controller.cpp */,
+				04D5C42C284DD7F200D2706D /* callback_implementations.cpp */,
 				04D5C452284DD7F600D2706D /* cloth_controller.h */,
-				04D5C44C284DD7F500D2706D /* cloth_mesh_generator.cpp */,
-				04D5C434284DD7F300D2706D /* cloth_mesh_generator.h */,
-				04D5C44A284DD7F500D2706D /* job_manager.cpp */,
+				04D5C43B284DD7F300D2706D /* cloth_controller.cpp */,
 				04D5C429284DD7F100D2706D /* job_manager.h */,
-				04D5C426284DD7F100D2706D /* simple_mesh_utils.cpp */,
-				04D5C44D284DD7F500D2706D /* simple_mesh_utils.h */,
+				04D5C44A284DD7F500D2706D /* job_manager.cpp */,
 				04D5C41F284DD7F100D2706D /* simple_mesh.h */,
+				04D5C44D284DD7F500D2706D /* simple_mesh_utils.h */,
+				04D5C426284DD7F100D2706D /* simple_mesh_utils.cpp */,
+				04D5C434284DD7F300D2706D /* cloth_mesh_generator.h */,
+				04D5C44C284DD7F500D2706D /* cloth_mesh_generator.cpp */,
 				04D5C42D284DD7F200D2706D /* cloth_renderer.h */,
 				04D5C43D284DD7F400D2706D /* cloth_renderer.cpp */,
 				04D5C444284DD7F400D2706D /* cloth_application.h */,
@@ -6622,6 +6627,7 @@
 				04AAD9BD2817717E00121576 /* shadowmap_app.cpp in Sources */,
 				049A9D7B2818E10E001937A7 /* atomic_compute_app.cpp in Sources */,
 				04AAD9C02817739500121576 /* cascade_shadowmap_app.cpp in Sources */,
+				045357EC285055E2000ED871 /* gui_custom_app.cpp in Sources */,
 				04D95D982810EACC00E54DC2 /* plugins.cpp in Sources */,
 				04D95D56280EC2DB00E54DC2 /* primitive_app.cpp in Sources */,
 				04D95D922810E96600E54DC2 /* fps_logger.cpp in Sources */,
