@@ -1016,7 +1016,6 @@
 		04D5C511284E442600D2706D /* Solver.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C508284E442600D2706D /* Solver.h */; };
 		04D5C512284E442600D2706D /* Factory.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C509284E442600D2706D /* Factory.h */; };
 		04D5C513284E442600D2706D /* Fabric.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C50A284E442600D2706D /* Fabric.h */; };
-		04D5C514284E442600D2706D /* DxContextManagerCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C50B284E442600D2706D /* DxContextManagerCallback.h */; };
 		04D5C515284E442600D2706D /* Range.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C50C284E442600D2706D /* Range.h */; };
 		04D5C516284E442600D2706D /* Cloth.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C50D284E442600D2706D /* Cloth.h */; };
 		04D5C517284E442600D2706D /* Callbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5C50E284E442600D2706D /* Callbacks.h */; };
@@ -2625,7 +2624,6 @@
 		04D5C508284E442600D2706D /* Solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Solver.h; sourceTree = "<group>"; };
 		04D5C509284E442600D2706D /* Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Factory.h; sourceTree = "<group>"; };
 		04D5C50A284E442600D2706D /* Fabric.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fabric.h; sourceTree = "<group>"; };
-		04D5C50B284E442600D2706D /* DxContextManagerCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DxContextManagerCallback.h; sourceTree = "<group>"; };
 		04D5C50C284E442600D2706D /* Range.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Range.h; sourceTree = "<group>"; };
 		04D5C50D284E442600D2706D /* Cloth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cloth.h; sourceTree = "<group>"; };
 		04D5C50E284E442600D2706D /* Callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Callbacks.h; sourceTree = "<group>"; };
@@ -4712,54 +4710,54 @@
 		04D5C477284DDC5F00D2706D /* vox.cloth */ = {
 			isa = PBXGroup;
 			children = (
-				04D5C4B6284E43CD00D2706D /* Allocator.cpp */,
+				04D5C4A8284E43CC00D2706D /* Vec4T.h */,
+				04D5C4A9284E43CC00D2706D /* StackAllocator.h */,
 				04D5C4AD284E43CC00D2706D /* BoundingBox.h */,
-				04D5C495284E43CA00D2706D /* Callbacks.cpp */,
 				04D5C4B4284E43CD00D2706D /* ClothBase.h */,
 				04D5C49C284E43CB00D2706D /* ClothClone.h */,
-				04D5C49B284E43CB00D2706D /* ClothFabricCooker.cpp */,
-				04D5C4B3284E43CD00D2706D /* ClothGeodesicTetherCooker.cpp */,
-				04D5C4AA284E43CC00D2706D /* ClothImpl.h */,
-				04D5C4A2284E43CB00D2706D /* ClothMeshQuadifier.cpp */,
-				04D5C4AE284E43CD00D2706D /* ClothSimpleTetherCooker.cpp */,
-				04D5C4A3284E43CB00D2706D /* Factory.cpp */,
 				04D5C493284E43CA00D2706D /* IndexPair.h */,
 				04D5C4AB284E43CC00D2706D /* IterationState.h */,
 				04D5C4A0284E43CB00D2706D /* MovingAverage.h */,
-				04D5C4B0284E43CD00D2706D /* PhaseConfig.cpp */,
 				04D5C4B7284E43CD00D2706D /* PointInterpolator.h */,
-				04D5C494284E43CA00D2706D /* Simd.h */,
-				04D5C4A9284E43CC00D2706D /* StackAllocator.h */,
-				04D5C49E284E43CB00D2706D /* SwCloth.cpp */,
-				04D5C4A7284E43CC00D2706D /* SwCloth.h */,
-				04D5C4B2284E43CD00D2706D /* SwClothData.cpp */,
-				04D5C492284E43CA00D2706D /* SwClothData.h */,
-				04D5C49F284E43CB00D2706D /* SwCollision.cpp */,
-				04D5C49D284E43CB00D2706D /* SwCollision.h */,
-				04D5C4AC284E43CC00D2706D /* SwCollisionHelpers.h */,
-				04D5C497284E43CA00D2706D /* SwFabric.cpp */,
-				04D5C4AF284E43CD00D2706D /* SwFabric.h */,
-				04D5C4B5284E43CD00D2706D /* SwFactory.cpp */,
-				04D5C4A1284E43CB00D2706D /* SwFactory.h */,
-				04D5C4A4284E43CC00D2706D /* SwInterCollision.cpp */,
-				04D5C498284E43CB00D2706D /* SwInterCollision.h */,
-				04D5C4B1284E43CD00D2706D /* SwSelfCollision.cpp */,
-				04D5C499284E43CB00D2706D /* SwSelfCollision.h */,
-				04D5C496284E43CA00D2706D /* SwSolver.cpp */,
-				04D5C4B9284E43CD00D2706D /* SwSolver.h */,
-				04D5C49A284E43CB00D2706D /* SwSolverKernel.cpp */,
-				04D5C4A5284E43CC00D2706D /* SwSolverKernel.h */,
-				04D5C4B8284E43CD00D2706D /* TripletScheduler.cpp */,
 				04D5C4A6284E43CC00D2706D /* TripletScheduler.h */,
-				04D5C4A8284E43CC00D2706D /* Vec4T.h */,
-				04D5C489284DDCBA00D2706D /* sse2 */,
-				04D5C488284DDCB400D2706D /* scalar */,
+				04D5C4B8284E43CD00D2706D /* TripletScheduler.cpp */,
 				04D5C487284DDCAE00D2706D /* ps */,
-				04D5C486284DDCA800D2706D /* NvSimd */,
-				04D5C485284DDCA100D2706D /* NvClothExt */,
-				04D5C484284DDC9B00D2706D /* NvCloth */,
-				04D5C483284DDC9500D2706D /* neon */,
 				04D5C482284DDC8C00D2706D /* foundation */,
+				04D5C4B6284E43CD00D2706D /* Allocator.cpp */,
+				04D5C495284E43CA00D2706D /* Callbacks.cpp */,
+				04D5C4B0284E43CD00D2706D /* PhaseConfig.cpp */,
+				04D5C484284DDC9B00D2706D /* NvCloth */,
+				04D5C4AA284E43CC00D2706D /* ClothImpl.h */,
+				04D5C4A7284E43CC00D2706D /* SwCloth.h */,
+				04D5C49E284E43CB00D2706D /* SwCloth.cpp */,
+				04D5C492284E43CA00D2706D /* SwClothData.h */,
+				04D5C4B2284E43CD00D2706D /* SwClothData.cpp */,
+				04D5C4AF284E43CD00D2706D /* SwFabric.h */,
+				04D5C497284E43CA00D2706D /* SwFabric.cpp */,
+				04D5C4A3284E43CB00D2706D /* Factory.cpp */,
+				04D5C4A1284E43CB00D2706D /* SwFactory.h */,
+				04D5C4B5284E43CD00D2706D /* SwFactory.cpp */,
+				04D5C4B9284E43CD00D2706D /* SwSolver.h */,
+				04D5C496284E43CA00D2706D /* SwSolver.cpp */,
+				04D5C4A5284E43CC00D2706D /* SwSolverKernel.h */,
+				04D5C49A284E43CB00D2706D /* SwSolverKernel.cpp */,
+				04D5C4AC284E43CC00D2706D /* SwCollisionHelpers.h */,
+				04D5C49D284E43CB00D2706D /* SwCollision.h */,
+				04D5C49F284E43CB00D2706D /* SwCollision.cpp */,
+				04D5C498284E43CB00D2706D /* SwInterCollision.h */,
+				04D5C4A4284E43CC00D2706D /* SwInterCollision.cpp */,
+				04D5C499284E43CB00D2706D /* SwSelfCollision.h */,
+				04D5C4B1284E43CD00D2706D /* SwSelfCollision.cpp */,
+				04D5C485284DDCA100D2706D /* NvClothExt */,
+				04D5C4A2284E43CB00D2706D /* ClothMeshQuadifier.cpp */,
+				04D5C49B284E43CB00D2706D /* ClothFabricCooker.cpp */,
+				04D5C4AE284E43CD00D2706D /* ClothSimpleTetherCooker.cpp */,
+				04D5C4B3284E43CD00D2706D /* ClothGeodesicTetherCooker.cpp */,
+				04D5C486284DDCA800D2706D /* NvSimd */,
+				04D5C494284E43CA00D2706D /* Simd.h */,
+				04D5C488284DDCB400D2706D /* scalar */,
+				04D5C489284DDCBA00D2706D /* sse2 */,
+				04D5C483284DDC9500D2706D /* neon */,
 				04D5C481284DDC8300D2706D /* avx */,
 			);
 			path = vox.cloth;
@@ -4819,14 +4817,13 @@
 		04D5C484284DDC9B00D2706D /* NvCloth */ = {
 			isa = PBXGroup;
 			children = (
+				04D5C50C284E442600D2706D /* Range.h */,
 				04D5C50F284E442600D2706D /* Allocator.h */,
 				04D5C50E284E442600D2706D /* Callbacks.h */,
+				04D5C510284E442600D2706D /* PhaseConfig.h */,
 				04D5C50D284E442600D2706D /* Cloth.h */,
-				04D5C50B284E442600D2706D /* DxContextManagerCallback.h */,
 				04D5C50A284E442600D2706D /* Fabric.h */,
 				04D5C509284E442600D2706D /* Factory.h */,
-				04D5C510284E442600D2706D /* PhaseConfig.h */,
-				04D5C50C284E442600D2706D /* Range.h */,
 				04D5C508284E442600D2706D /* Solver.h */,
 				04D5C48E284DDCEC00D2706D /* ps */,
 			);
@@ -4836,9 +4833,9 @@
 		04D5C485284DDCA100D2706D /* NvClothExt */ = {
 			isa = PBXGroup;
 			children = (
-				04D5C502284E441E00D2706D /* ClothFabricCooker.h */,
 				04D5C500284E441E00D2706D /* ClothMeshDesc.h */,
 				04D5C501284E441E00D2706D /* ClothMeshQuadifier.h */,
+				04D5C502284E441E00D2706D /* ClothFabricCooker.h */,
 				04D5C503284E441E00D2706D /* ClothTetherCooker.h */,
 			);
 			path = NvClothExt;
@@ -5973,7 +5970,6 @@
 				04D5C4F0284E440100D2706D /* PsSortInternals.h in Headers */,
 				04D5C549284E444000D2706D /* PxFlags.h in Headers */,
 				04D5C4BA284E43CE00D2706D /* SwClothData.h in Headers */,
-				04D5C514284E442600D2706D /* DxContextManagerCallback.h in Headers */,
 				04D5C4BC284E43CE00D2706D /* Simd.h in Headers */,
 				04D5C4BB284E43CE00D2706D /* IndexPair.h in Headers */,
 				04D5C506284E441E00D2706D /* ClothFabricCooker.h in Headers */,
