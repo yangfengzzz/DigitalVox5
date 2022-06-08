@@ -555,6 +555,8 @@
 		04523ED4281E758B0079CC3C /* profiler_window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DDB281BCC2C0079CC3C /* profiler_window.cpp */; };
 		04523ED5281E7CC30079CC3C /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04523DEA281BCC2D0079CC3C /* console.cpp */; };
 		045357EC285055E2000ED871 /* gui_custom_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 045357EA285055E2000ED871 /* gui_custom_app.cpp */; };
+		045357EF2850CD4C000ED871 /* demo_application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 045357ED2850CD4C000ED871 /* demo_application.cpp */; };
+		045357F02850CD4C000ED871 /* demo_application.h in Headers */ = {isa = PBXBuildFile; fileRef = 045357EE2850CD4C000ED871 /* demo_application.h */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -2093,6 +2095,8 @@
 		04523ECE281E73930079CC3C /* profiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = profiler.cpp; sourceTree = "<group>"; };
 		045357EA285055E2000ED871 /* gui_custom_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gui_custom_app.cpp; sourceTree = "<group>"; };
 		045357EB285055E2000ED871 /* gui_custom_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gui_custom_app.h; sourceTree = "<group>"; };
+		045357ED2850CD4C000ED871 /* demo_application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = demo_application.cpp; sourceTree = "<group>"; };
+		045357EE2850CD4C000ED871 /* demo_application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = demo_application.h; sourceTree = "<group>"; };
 		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
 		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
 		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
@@ -3729,6 +3733,8 @@
 				04523EC9281E73630079CC3C /* profiling */,
 				04523DFB281BCCD90079CC3C /* editor_application.h */,
 				04523E01281BCCD90079CC3C /* editor_application.cpp */,
+				045357EE2850CD4C000ED871 /* demo_application.h */,
+				045357ED2850CD4C000ED871 /* demo_application.cpp */,
 			);
 			path = vox.editor;
 			sourceTree = "<group>";
@@ -5419,6 +5425,7 @@
 				04523E45281CC5410079CC3C /* asset_browser.h in Headers */,
 				04523E90281D56580079CC3C /* imgui_bezier_math.h in Headers */,
 				04523E60281CC7630079CC3C /* view.h in Headers */,
+				045357F02850CD4C000ED871 /* demo_application.h in Headers */,
 				04523E8E281D56580079CC3C /* imgui_zmo.h in Headers */,
 				04523E92281D56580079CC3C /* imgui_curve.h in Headers */,
 				04523E48281CC5410079CC3C /* material_editor.h in Headers */,
@@ -6600,6 +6607,7 @@
 				04523E3E281CC5410079CC3C /* panels_manager.cpp in Sources */,
 				04523E5F281CC7630079CC3C /* view.cpp in Sources */,
 				04523E44281CC5410079CC3C /* editor_actions.cpp in Sources */,
+				045357EF2850CD4C000ED871 /* demo_application.cpp in Sources */,
 				04523E36281CC5410079CC3C /* hierarchy.cpp in Sources */,
 				04523E4B281CC5410079CC3C /* editor_resources.cpp in Sources */,
 			);

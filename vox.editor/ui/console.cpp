@@ -79,7 +79,7 @@ Console::Console(const std::string &title, bool opened, const PanelWindowSetting
     log_group_ = &CreateWidget<Group>();
     log_group_->ReverseDrawOrder();
 
-    EditorActions::GetSingleton().play_event_ += std::bind(&Console::ClearOnPlay, this);
+//    EditorActions::GetSingleton().play_event_ += std::bind(&Console::ClearOnPlay, this);
 }
 
 Console::~Console() {
