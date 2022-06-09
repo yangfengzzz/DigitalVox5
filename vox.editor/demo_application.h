@@ -62,7 +62,10 @@ public:
      */
     void UpdateEditorPanels(float delta_time);
 
-private:
+public:
+    virtual Camera *LoadScene(Entity *root_entity) = 0;
+
+protected:
     ::vox::ui::Canvas canvas_;
     ui::PanelsManager panels_manager_;
 

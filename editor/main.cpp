@@ -8,7 +8,7 @@
 #include "vox.render/platform/platform.h"
 
 #include "vox.editor/editor_application.h"
-#include "vox.editor/demo_application.h"
+#include "editor/cloth_app.h"
 
 // MARK: - Entry
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 
     auto code = platform.Initialize({});
     if (code == vox::ExitCode::SUCCESS) {
-        platform.SetApp(std::make_unique<vox::editor::DemoApplication>());
+        platform.SetApp(std::make_unique<vox::editor::ClothApp>());
         code = platform.MainLoop();
     }
     platform.Terminate(code);

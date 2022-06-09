@@ -8,55 +8,22 @@ cmake_minimum_required(VERSION 3.12)
 
 project(vox.editor LANGUAGES C CXX)
 
-set(UI_FILES
-        ui/menu_bar.cpp
-        ui/project_settings.cpp
-        ui/tool_bar.cpp
-        ui/asset_browser.cpp
-        ui/material_editor.cpp
-        ui/hierarchy.cpp
-        ui/inspector.cpp
-        ui/asset_properties.cpp
-        ui/profiler_window.cpp
-        ui/console.cpp
+file(GLOB UI_FILES
+        ${CMAKE_CURRENT_SOURCE_DIR}/ui/*.cpp
         size_converter.cpp
         editor_utils.cpp
         editor_actions.cpp
         editor_resources.cpp
         panels_manager.cpp
         entity_creation_menu.cpp
-        editor_application.cpp)
+        editor_application.cpp
+        demo_application.cpp)
 
-set(VIEW_FILES
-        view/view.cpp
-        view/view.h
-        view/game_view.cpp
-        view/game_view.h
-        view/asset_view.cpp
-        view/asset_view.h
-        view/scene_view.cpp
-        view/scene_view.h)
+file(GLOB VIEW_FILES
+        ${CMAKE_CURRENT_SOURCE_DIR}/view/*.cpp)
 
-set(IMGUI_FILES
-        imgui/crude_json.cpp
-        imgui/crude_json.h
-        imgui/imgui_bezier_math.h
-        imgui/imgui_bezier_math.inl
-        imgui/imgui_canvas.cpp
-        imgui/imgui_canvas.h
-        imgui/imgui_curve.cpp
-        imgui/imgui_curve.h
-        imgui/imgui_extra_math.h
-        imgui/imgui_extra_math.inl
-        imgui/imgui_node_editor.cpp
-        imgui/imgui_node_editor.h
-        imgui/imgui_node_editor_api.cpp
-        imgui/imgui_node_editor_internal.h
-        imgui/imgui_node_editor_internal.inl
-        imgui/imgui_shapes.cpp
-        imgui/imgui_shapes.h
-        imgui/imgui_zmo.cpp
-        imgui/imgui_zmo.h)
+file(GLOB IMGUI_FILES
+        ${CMAKE_CURRENT_SOURCE_DIR}/imgui/*.cpp)
 
 set(PROFILING
         profiling/profiler.cpp

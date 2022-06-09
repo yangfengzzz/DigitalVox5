@@ -507,7 +507,7 @@ int Curve(const char *label, const ImVec2 &size, const int maxpoints, ImVec2 *po
     ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size);
     ItemSize(bb);
 
-    if (!ItemAdd(bb, NULL)) {
+    if (!ItemAdd(bb, 0)) {
         return 0;
     }
 

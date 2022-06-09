@@ -12,14 +12,12 @@
 #include "vox.editor/ui/console.h"
 #include "vox.editor/ui/inspector.h"
 #include "vox.editor/ui/menu_bar.h"
-#include "vox.editor/view/scene_view.h"
+#include "vox.editor/view/demo_view.h"
 #include "vox.render/camera.h"
 #include "vox.render/rendering/subpasses/geometry_subpass.h"
 
 namespace vox::editor {
-DemoApplication::DemoApplication()
-    : GraphicsApplication(),
-      panels_manager_(canvas_) {}
+DemoApplication::DemoApplication() : GraphicsApplication(), panels_manager_(canvas_) {}
 
 DemoApplication::~DemoApplication() {
     // release first
@@ -96,8 +94,8 @@ void DemoApplication::SetupUi() {
     panels_manager_.CreatePanel<ui::MenuBar>("Menu Bar");
     panels_manager_.CreatePanel<ui::Console>("Console", true, settings);
     panels_manager_.CreatePanel<ui::Inspector>("Inspector", true, settings);
-    panels_manager_.CreatePanel<ui::SceneView>("Scene View", true, settings, *render_context_,
-                                               scene_manager_->CurrentScene());
+    panels_manager_.CreatePanel<ui::DemoView>("Scene View", true, settings, *render_context_,
+                                              scene_manager_->CurrentScene(), this);
 
     canvas_.MakeDockSpace(true);
     gui_->SetCanvas(canvas_);
@@ -153,7 +151,7 @@ void DemoApplication::UpdateEditorPanels(float delta_time) {
 }
 
 void DemoApplication::RenderViews(float delta_time, CommandBuffer &command_buffer) {
-    auto &scene_view = panels_manager_.GetPanelAs<ui::SceneView>("Scene View");
+    auto &scene_view = panels_manager_.GetPanelAs<ui::DemoView>("Scene View");
 
     {
         PROFILER_SPY("Editor Views Update");
@@ -176,7 +174,7 @@ void DemoApplication::InputEvent(const vox::InputEvent &input_event) {
     GraphicsApplication::InputEvent(input_event);
     components_manager_->CallScriptInputEvent(input_event);
 
-    auto &scene_view = panels_manager_.GetPanelAs<ui::SceneView>("Scene View");
+    auto &scene_view = panels_manager_.GetPanelAs<ui::DemoView>("Scene View");
     scene_view.InputEvent(input_event);
 }
 

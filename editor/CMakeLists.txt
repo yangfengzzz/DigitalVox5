@@ -12,6 +12,7 @@ project(editor LANGUAGES C CXX)
 
 set(SRC
         main.cpp
+        cloth_app.cpp
         )
 
 source_group("\\" FILES ${SRC})
