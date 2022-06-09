@@ -10,9 +10,7 @@
 #include "vox.render/camera.h"
 #include "vox.render/entity.h"
 
-namespace vox {
-
-namespace cloth {
+namespace vox::cloth {
 ClothController::ClothController() {
     NvClothEnvironment::AllocateEnv();
     factory_ = NvClothCreateFactoryCPU();
@@ -219,5 +217,4 @@ void ClothController::AddClothsToSolver(nv::cloth::Range<cloth::ClothRenderer *>
     solver->addCloths(cloths_range);
 }
 
-}  // namespace cloth
-}  // namespace vox
+}  // namespace vox::cloth

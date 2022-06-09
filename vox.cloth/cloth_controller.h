@@ -14,8 +14,7 @@
 #include "vox.cloth/NvCloth/Solver.h"
 #include "vox.render/platform/input_events.h"
 
-namespace vox {
-namespace cloth {
+namespace vox::cloth {
 class ClothController {
 public:
     ClothController();
@@ -28,7 +27,9 @@ public:
 
     void HandlePickingEvent(Camera *main_camera, const InputEvent &input_event);
 
-    inline const std::vector<cloth::ClothRenderer *> &cloth_list() const { return cloth_list_; }
+    [[nodiscard]] inline const std::vector<cloth::ClothRenderer *> &ClothList() const { return cloth_list_; }
+
+    [[nodiscard]] inline const std::vector<nv::cloth::Solver *> &SolverList() const { return solver_list_; }
 
 public:
     // Helper functions to enable automatic deinitialize
@@ -61,8 +62,6 @@ private:
     void UpdateParticleDragging(const Ray3F &ray) const;
 
 private:
-    friend class ClothUI;
-
     nv::cloth::Factory *factory_{nullptr};
     std::vector<cloth::ClothRenderer *> cloth_list_;
     std::vector<nv::cloth::Solver *> solver_list_;
@@ -82,5 +81,4 @@ private:
     DraggingParticle dragging_particle_;
 };
 
-}  // namespace cloth
-}  // namespace vox
+}  // namespace vox::cloth
