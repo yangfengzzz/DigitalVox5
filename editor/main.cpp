@@ -8,7 +8,7 @@
 #include "vox.render/platform/platform.h"
 
 #include "vox.editor/editor_application.h"
-#include "editor/cloth_app.h"
+#include "editor/cloth/cloth_app.h"
 
 // MARK: - Entry
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)

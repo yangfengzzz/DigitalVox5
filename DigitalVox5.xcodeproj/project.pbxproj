@@ -560,6 +560,7 @@
 		045357F328517050000ED871 /* demo_view.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 045357F128517050000ED871 /* demo_view.cpp */; };
 		045357F428517050000ED871 /* demo_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 045357F228517050000ED871 /* demo_view.h */; };
 		045357F7285172ED000ED871 /* cloth_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 045357F5285172ED000ED871 /* cloth_app.cpp */; };
+		045357FB2851797B000ED871 /* cloth_inspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 045357F92851797B000ED871 /* cloth_inspector.cpp */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -2104,6 +2105,8 @@
 		045357F228517050000ED871 /* demo_view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = demo_view.h; sourceTree = "<group>"; };
 		045357F5285172ED000ED871 /* cloth_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cloth_app.cpp; sourceTree = "<group>"; };
 		045357F6285172ED000ED871 /* cloth_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cloth_app.h; sourceTree = "<group>"; };
+		045357F92851797B000ED871 /* cloth_inspector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cloth_inspector.cpp; sourceTree = "<group>"; };
+		045357FA2851797B000ED871 /* cloth_inspector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cloth_inspector.h; sourceTree = "<group>"; };
 		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
 		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
 		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
@@ -3680,10 +3683,9 @@
 		04523DC4281BB0C30079CC3C /* editor */ = {
 			isa = PBXGroup;
 			children = (
+				045357F828517879000ED871 /* cloth */,
 				04523DCA281BB3320079CC3C /* editor.entitlements */,
 				04523DC5281BB0C30079CC3C /* main.cpp */,
-				045357F6285172ED000ED871 /* cloth_app.h */,
-				045357F5285172ED000ED871 /* cloth_app.cpp */,
 			);
 			path = editor;
 			sourceTree = "<group>";
@@ -3820,6 +3822,17 @@
 				04523ECC281E73930079CC3C /* profiler_spy.cpp */,
 			);
 			path = profiling;
+			sourceTree = "<group>";
+		};
+		045357F828517879000ED871 /* cloth */ = {
+			isa = PBXGroup;
+			children = (
+				045357FA2851797B000ED871 /* cloth_inspector.h */,
+				045357F92851797B000ED871 /* cloth_inspector.cpp */,
+				045357F6285172ED000ED871 /* cloth_app.h */,
+				045357F5285172ED000ED871 /* cloth_app.cpp */,
+			);
+			path = cloth;
 			sourceTree = "<group>";
 		};
 		04698839281988E600EF1EE1 /* particle */ = {
@@ -6583,6 +6596,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				045357F7285172ED000ED871 /* cloth_app.cpp in Sources */,
+				045357FB2851797B000ED871 /* cloth_inspector.cpp in Sources */,
 				04523DC6281BB0C30079CC3C /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

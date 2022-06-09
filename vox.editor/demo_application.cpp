@@ -10,7 +10,6 @@
 
 #include "vox.editor/profiling/profiler_spy.h"
 #include "vox.editor/ui/console.h"
-#include "vox.editor/ui/inspector.h"
 #include "vox.editor/ui/menu_bar.h"
 #include "vox.editor/view/demo_view.h"
 #include "vox.render/camera.h"
@@ -93,7 +92,6 @@ void DemoApplication::SetupUi() {
 
     panels_manager_.CreatePanel<ui::MenuBar>("Menu Bar");
     panels_manager_.CreatePanel<ui::Console>("Console", true, settings);
-    panels_manager_.CreatePanel<ui::Inspector>("Inspector", true, settings);
     panels_manager_.CreatePanel<ui::DemoView>("Scene View", true, settings, *render_context_,
                                               scene_manager_->CurrentScene(), this);
 
@@ -104,9 +102,6 @@ void DemoApplication::SetupUi() {
 
 // MARK: - Update
 void DemoApplication::Update(float delta_time) {
-    //    if (auto editorMode = editor_actions_->current_editor_mode();
-    //        editorMode == EditorActions::EditorMode::PLAY ||
-    //        editorMode == EditorActions::EditorMode::FRAME_BY_FRAME) {
     components_manager_->CallScriptOnStart();
 
     physics_manager_->Update(delta_time);
@@ -118,10 +113,6 @@ void DemoApplication::Update(float delta_time) {
 
     components_manager_->CallRendererOnUpdate(delta_time);
     scene_manager_->CurrentScene()->UpdateShaderData();
-
-    //        if (editorMode == EditorActions::EditorMode::FRAME_BY_FRAME)
-    //            editor_actions_->pause_game();
-    //    }
 
     PROFILER_SPY("Scene garbage collection");
     texture_manager_->CollectGarbage();

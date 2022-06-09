@@ -47,11 +47,6 @@ public:
     void UpdateGpuTask(CommandBuffer &command_buffer, RenderTarget &render_target);
 
     /**
-     * Handle panels creation and canvas binding
-     */
-    void SetupUi();
-
-    /**
      * Render every views (Scene View, Game View, Asset View)
      */
     void RenderViews(float delta_time, CommandBuffer &command_buffer);
@@ -63,6 +58,11 @@ public:
     void UpdateEditorPanels(float delta_time);
 
 public:
+    /**
+     * Handle panels creation and canvas binding
+     */
+    virtual void SetupUi();
+    
     virtual Camera *LoadScene(Entity *root_entity) = 0;
 
 protected:

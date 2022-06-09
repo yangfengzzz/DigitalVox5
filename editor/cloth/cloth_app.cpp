@@ -4,8 +4,8 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "editor/cloth_app.h"
-
+#include "editor/cloth/cloth_app.h"
+#include "editor/cloth/cloth_inspector.h"
 #include "vox.render/camera.h"
 #include "vox.render/controls/orbit_control.h"
 #include "vox.render/entity.h"
@@ -61,6 +61,16 @@ Camera *ClothApp::LoadScene(Entity *root_entity) {
     plane_renderer->SetMaterial(textured_material);
 
     return camera;
+}
+
+void ClothApp::SetupUi() {
+    DemoApplication::SetupUi();
+    
+    PanelWindowSettings settings;
+    settings.closable = true;
+    settings.collapsable = true;
+    settings.dockable = true;
+    panels_manager_.CreatePanel<ui::ClothInspector>("Inspector", true, settings);
 }
 
 }  // namespace vox::editor

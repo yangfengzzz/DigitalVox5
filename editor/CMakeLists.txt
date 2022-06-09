@@ -10,9 +10,12 @@ include(android_package)
 # create sample app project
 project(editor LANGUAGES C CXX)
 
+file(GLOB Cloth_FILES
+        ${CMAKE_CURRENT_SOURCE_DIR}/cloth/*.cpp)
+
 set(SRC
         main.cpp
-        cloth_app.cpp
+        ${Cloth_FILES}
         )
 
 source_group("\\" FILES ${SRC})
