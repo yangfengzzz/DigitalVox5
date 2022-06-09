@@ -517,10 +517,11 @@ set(MESH_FILES mesh/index_buffer_binding.h
         mesh/gpu_skinned_mesh_renderer.cpp
         mesh/primitive_mesh.h
         mesh/primitive_mesh.cpp
-        mesh/wireframe_primitive_mesh.h
-        mesh/wireframe_primitive_mesh.cpp
         mesh/mesh_manager.h
         mesh/mesh_manager.cpp)
+
+file(GLOB WIREFRAME_FILES
+        ${CMAKE_CURRENT_SOURCE_DIR}/wireframe/*.cpp)
 
 set(SHADER_FILES shader/glsl_compiler.h
         shader/glsl_compiler.cpp
@@ -664,6 +665,7 @@ set(PROJECT_FILES
         ${CONTROL_FILES}
         ${PHYSX_FILES}
         ${MESH_FILES}
+        ${WIREFRAME_FILES}
         ${SHADER_FILES}
         ${MATERIAL_FILES}
         ${LOADER_FILES}

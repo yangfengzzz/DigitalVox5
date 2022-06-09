@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "vox.render/mesh/wireframe_primitive_mesh.h"
+#include "vox.render/wireframe/wireframe_primitive_mesh.h"
 
 #include "vox.render/mesh/mesh_manager.h"
 

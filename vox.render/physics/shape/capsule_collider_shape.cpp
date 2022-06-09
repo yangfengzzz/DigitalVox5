@@ -10,7 +10,7 @@
 
 #ifdef DEBUG
 #include "vox.render/material/unlit_material.h"
-#include "vox.render/mesh/wireframe_primitive_mesh.h"
+#include "vox.render/wireframe/wireframe_primitive_mesh.h"
 #include "vox.render/scene.h"
 #endif
 

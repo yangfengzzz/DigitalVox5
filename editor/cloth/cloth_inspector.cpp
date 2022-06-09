@@ -213,7 +213,18 @@ private:
         }
     }
 
-    void DrawDebugVisualization() {}
+    void DrawDebugVisualization() {
+        if (debug_visualization_flags_ & DEBUG_VIS_TETHERS) DebugRenderTethers();
+        if (debug_visualization_flags_ & DEBUG_VIS_CONSTRAINTS) DebugRenderConstraints();
+        if (debug_visualization_flags_ & DEBUG_VIS_CONSTRAINTS_STIFFNESS) DebugRenderConstraintStiffness();
+
+        if (debug_visualization_flags_ & DEBUG_VIS_CONSTRAINT_ERROR) DebugRenderConstraintError();
+        if (debug_visualization_flags_ & DEBUG_VIS_POSITION_DELTA) DebugRenderPositionDelta();
+        if (debug_visualization_flags_ & DEBUG_VIS_BOUNDING_BOX) DebugRenderBoundingBox();
+        if (debug_visualization_flags_ & DEBUG_VIS_DISTANCE_CONSTRAINTS) DebugRenderDistanceConstraints();
+
+        debug_visualization_update_requested_ = false;
+    }
 
     void DebugRenderDistanceConstraints() {}
     void DebugRenderTethers() {}

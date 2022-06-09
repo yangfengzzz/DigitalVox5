@@ -568,6 +568,8 @@
 		0453580328517F8A000ED871 /* cloth_mesh_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C44C284DD7F500D2706D /* cloth_mesh_generator.cpp */; };
 		0453580428517F8A000ED871 /* cloth_controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C43B284DD7F300D2706D /* cloth_controller.cpp */; };
 		0453580728518337000ED871 /* libvox.cloth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D5C476284DDC5F00D2706D /* libvox.cloth.a */; };
+		0453580B28519167000ED871 /* wireframe_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0453580928519167000ED871 /* wireframe_manager.cpp */; };
+		0453580C28519167000ED871 /* wireframe_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0453580A28519167000ED871 /* wireframe_manager.h */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -2115,6 +2117,8 @@
 		045357F6285172ED000ED871 /* cloth_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cloth_app.h; sourceTree = "<group>"; };
 		045357F92851797B000ED871 /* cloth_inspector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cloth_inspector.cpp; sourceTree = "<group>"; };
 		045357FA2851797B000ED871 /* cloth_inspector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cloth_inspector.h; sourceTree = "<group>"; };
+		0453580928519167000ED871 /* wireframe_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = wireframe_manager.cpp; sourceTree = "<group>"; };
+		0453580A28519167000ED871 /* wireframe_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wireframe_manager.h; sourceTree = "<group>"; };
 		0469883A2819892B00EF1EE1 /* particle_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_manager.cpp; sourceTree = "<group>"; };
 		0469883B2819892B00EF1EE1 /* particle_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particle_manager.h; sourceTree = "<group>"; };
 		0469883E2819DCC400EF1EE1 /* particle_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particle_material.cpp; sourceTree = "<group>"; };
@@ -3844,6 +3848,17 @@
 			path = cloth;
 			sourceTree = "<group>";
 		};
+		045358082851912A000ED871 /* wireframe */ = {
+			isa = PBXGroup;
+			children = (
+				04D95CC8280BA16A00E54DC2 /* wireframe_primitive_mesh.h */,
+				04D95CC7280BA16A00E54DC2 /* wireframe_primitive_mesh.cpp */,
+				0453580A28519167000ED871 /* wireframe_manager.h */,
+				0453580928519167000ED871 /* wireframe_manager.cpp */,
+			);
+			path = wireframe;
+			sourceTree = "<group>";
+		};
 		04698839281988E600EF1EE1 /* particle */ = {
 			isa = PBXGroup;
 			children = (
@@ -4021,6 +4036,7 @@
 				04D95CC1280B110900E54DC2 /* shader */,
 				04D95CDE280BEA7300E54DC2 /* material */,
 				04D95CA4280AADFA00E54DC2 /* mesh */,
+				045358082851912A000ED871 /* wireframe */,
 				04D95DAE28125DA500E54DC2 /* assimp_parser.h */,
 				04D95DAD28125DA500E54DC2 /* assimp_parser.cpp */,
 				0444EBEA28084D3000C6F279 /* event.h */,
@@ -5092,8 +5108,6 @@
 				04D95DB12812A0DB00E54DC2 /* mesh_manager.cpp */,
 				04D95CC4280BA0BA00E54DC2 /* primitive_mesh.h */,
 				04D95CC3280BA0BA00E54DC2 /* primitive_mesh.cpp */,
-				04D95CC8280BA16A00E54DC2 /* wireframe_primitive_mesh.h */,
-				04D95CC7280BA16A00E54DC2 /* wireframe_primitive_mesh.cpp */,
 				04D95D01280C443E00E54DC2 /* mesh_renderer.h */,
 				04D95D00280C443E00E54DC2 /* mesh_renderer.cpp */,
 				04D95D4D280E447700E54DC2 /* gpu_skinned_mesh_renderer.h */,
@@ -5591,6 +5605,7 @@
 				0444E9C7280569C500C6F279 /* render_pipeline.h in Headers */,
 				04D95C78280A8C6E00E54DC2 /* hinge_joint.h in Headers */,
 				04D95C8C280A8C7500E54DC2 /* capsule_character_controller.h in Headers */,
+				0453580C28519167000ED871 /* wireframe_manager.h in Headers */,
 				04D95D19280CF20200E54DC2 /* postprocessing_pass.h in Headers */,
 				0444E9D728056A1900C6F279 /* buffer_pool.h in Headers */,
 				0444E9AD2805689000C6F279 /* sampled_image.h in Headers */,
@@ -6846,6 +6861,7 @@
 				04D95CAF280ACD0400E54DC2 /* texture_manager.cpp in Sources */,
 				04523EBF281E68600079CC3C /* lua_binder.cpp in Sources */,
 				0444E953280562C700C6F279 /* image_view.cpp in Sources */,
+				0453580B28519167000ED871 /* wireframe_manager.cpp in Sources */,
 				0444EBEE2808534A00C6F279 /* inspector_item.cpp in Sources */,
 				0444E93A28055F8100C6F279 /* queue.cpp in Sources */,
 				0444EAE528084B5E00C6F279 /* gui_drawer.cpp in Sources */,
