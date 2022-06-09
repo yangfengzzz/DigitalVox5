@@ -8,6 +8,7 @@
 
 #include "vox.cloth/cloth_controller.h"
 #include "vox.editor/demo_application.h"
+#include "vox.render/wireframe/wireframe_manager.h"
 
 namespace vox::editor {
 class ClothApp : public DemoApplication {
@@ -21,6 +22,7 @@ public:
     void Update(float delta_time) override;
 
 private:
+    std::unique_ptr<WireframeManager> wireframe_manager_{nullptr};
     cloth::ClothController controller_;
     Camera *scene_camera_{nullptr};
 

@@ -8,7 +8,7 @@
 
 #include "vox.render/entity.h"
 #include "vox.render/material/base_material.h"
-#include "vox.render/mesh/buffer_mesh.h"
+#include "vox.render/mesh/mesh_manager.h"
 #include "vox.render/scene.h"
 #include "vox.render/shader/shader_manager.h"
 
@@ -67,7 +67,56 @@ void WireframeManager::AddLine(const Matrix4x4F &t, const Vector3F &a, const Vec
 
 void WireframeManager::Flush() {
     if (!lines_.vertex.empty()) {
+        auto mesh = MeshManager::GetSingleton().LoadBufferMesh();
+        mesh->SetVertexInputState(vertex_input_state_.bindings, vertex_input_state_.attributes);
+        mesh->AddSubMesh(0, lines_.indices.size());
+        lines_.renderer->SetMesh(mesh);
+
+        auto vertex_byte_length = static_cast<uint32_t>(lines_.vertex.size() * sizeof(RenderDebugVertex));
+        auto &device = entity_->Scene()->Device();
+        auto &queue = device.GetQueueByFlags(VK_QUEUE_GRAPHICS_BIT, 0);
+
+        // keep stage buffer alive until submit finish
+        std::vector<core::Buffer> transient_buffers;
+        auto &command_buffer = device.RequestCommandBuffer();
+
+        command_buffer.Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+
+        core::Buffer stage_buffer{device, vertex_byte_length, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+                                  VMA_MEMORY_USAGE_CPU_ONLY};
+        stage_buffer.Update(lines_.vertex.data(), vertex_byte_length);
+        if (lines_.vertex_buffer == nullptr || lines_.vertex_buffer->GetSize() != vertex_byte_length) {
+            lines_.vertex_buffer = std::make_unique<core::Buffer>(
+                    device, vertex_byte_length, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+                    VMA_MEMORY_USAGE_GPU_ONLY);
+        }
+        command_buffer.CopyBuffer(stage_buffer, *lines_.vertex_buffer, vertex_byte_length);
+        mesh->SetVertexBufferBinding(0, lines_.vertex_buffer.get());
+        transient_buffers.push_back(std::move(stage_buffer));
+
+        {
+            auto indices_size = lines_.indices.size() * sizeof(uint32_t);
+            core::Buffer stage_buffer{device, indices_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+                                      VMA_MEMORY_USAGE_CPU_ONLY};
+            stage_buffer.Update(lines_.indices.data(), indices_size);
+            core::Buffer new_index_buffer{device, indices_size,
+                                          VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
+                                          VMA_MEMORY_USAGE_GPU_ONLY};
+            command_buffer.CopyBuffer(stage_buffer, new_index_buffer, indices_size);
+            mesh->SetIndexBufferBinding(
+                    std::make_unique<vox::IndexBufferBinding>(std::move(new_index_buffer), VK_INDEX_TYPE_UINT32));
+            transient_buffers.push_back(std::move(stage_buffer));
+        }
+        command_buffer.End();
+        queue.Submit(command_buffer, device.RequestFence());
+        device.GetFencePool().wait();
+        device.GetFencePool().reset();
+        device.GetCommandPool().ResetPool();
+    } else {
+        lines_.renderer->SetMesh(nullptr);
     }
+
+    Clear();
 }
 
 }  // namespace vox

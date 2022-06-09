@@ -96,6 +96,8 @@ void ClothApp::InitializeCloth(Entity *entity, const physx::PxVec3 &offset) {
 }
 
 Camera *ClothApp::LoadScene(Entity *root_entity) {
+    wireframe_manager_ = std::make_unique<WireframeManager>(root_entity);
+
     auto camera_entity = root_entity->CreateChild();
     camera_entity->transform->SetPosition(10, 10, 10);
     camera_entity->transform->LookAt(Point3F(0, 0, 0));
