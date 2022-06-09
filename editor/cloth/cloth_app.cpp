@@ -141,8 +141,8 @@ void ClothApp::InputEvent(const vox::InputEvent &input_event) {
 
 void ClothApp::Update(float delta_time) {
     controller_.Update(delta_time);
-    DemoApplication::Update(delta_time);
     wireframe_manager_->Flush();
+    DemoApplication::Update(delta_time);
 }
 
 }  // namespace vox::editor

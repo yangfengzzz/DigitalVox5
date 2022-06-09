@@ -24,8 +24,8 @@ WireframeManager &WireframeManager::GetSingleton() {
 
 WireframeManager::WireframeManager(Entity *entity) : entity_(entity) {
     material_ = std::make_shared<BaseMaterial>(entity->Scene()->Device());
-    material_->vertex_source_ = ShaderManager::GetSingleton().LoadShader("");
-    material_->fragment_source_ = ShaderManager::GetSingleton().LoadShader("");
+    material_->vertex_source_ = ShaderManager::GetSingleton().LoadShader("base/wireframe.vert");
+    material_->fragment_source_ = ShaderManager::GetSingleton().LoadShader("base/wireframe.frag");
     material_->input_assembly_state_.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
     
     auto &vertex_input_attributes = vertex_input_state_.attributes;
