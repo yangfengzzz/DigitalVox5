@@ -73,13 +73,14 @@ add_subdirectory(test.math)
 add_subdirectory(vox.render)
 add_subdirectory(apps)
 
-# Add editor
-add_subdirectory(vox.editor)
-add_subdirectory(editor)
-
+# Add simulator
 add_subdirectory(vox.cloth)
 add_subdirectory(vox.force)
 add_subdirectory(simulator)
+
+# Add editor
+add_subdirectory(vox.editor)
+add_subdirectory(editor)
 
 ################## Arche source ################
 add_subdirectory(vox.visual)

@@ -7,6 +7,7 @@
 #pragma once
 
 #include "vox.editor/demo_application.h"
+#include "vox.cloth/cloth_controller.h"
 
 namespace vox::editor {
 class ClothApp : public DemoApplication {
@@ -14,6 +15,9 @@ public:
     void SetupUi() override;
 
     Camera *LoadScene(Entity *root_entity) override;
+    
+private:
+    cloth::ClothController controller_;
 };
 
 }  // namespace vox::editor

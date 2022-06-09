@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "simulator/cloth/simple_mesh.h"
 #include "vox.cloth/foundation/PxMat44.h"
 #include "vox.cloth/foundation/PxVec2.h"
 #include "vox.cloth/foundation/PxVec3.h"
 #include "vox.cloth/NvClothExt/ClothFabricCooker.h"
+#include "vox.cloth/simple_mesh.h"
 
 namespace vox::cloth {
 

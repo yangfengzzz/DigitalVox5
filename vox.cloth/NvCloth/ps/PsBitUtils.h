@@ -91,6 +91,6 @@ PX_INLINE uint32_t ilog2(uint32_t num) {
     return uint32_t(-1);
 }
 
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #endif  // #ifndef PSFOUNDATION_PSBITUTILS_H

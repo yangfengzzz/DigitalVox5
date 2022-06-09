@@ -52,4 +52,4 @@ struct PhaseConfig {
     uint16_t mPadding;
 };
 
-}  // namespace nv
+}  // namespace nv::cloth

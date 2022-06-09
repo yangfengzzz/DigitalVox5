@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "simulator/cloth/simple_mesh_utils.h"
+#include "vox.cloth/simple_mesh_utils.h"
 
 #include "vox.cloth/foundation/PxMat44.h"
 #include "vox.cloth/foundation/PxTransform.h"

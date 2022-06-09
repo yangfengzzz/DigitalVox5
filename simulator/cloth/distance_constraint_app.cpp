@@ -6,8 +6,8 @@
 
 #include "simulator/cloth/distance_constraint_app.h"
 
-#include "simulator/cloth/cloth_mesh_generator.h"
-#include "simulator/cloth/simple_mesh_utils.h"
+#include "vox.cloth/cloth_mesh_generator.h"
+#include "vox.cloth/simple_mesh_utils.h"
 #include "vox.render/camera.h"
 #include "vox.render/controls/orbit_control.h"
 #include "vox.render/material/blinn_phong_material.h"

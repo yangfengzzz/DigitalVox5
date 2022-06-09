@@ -459,4 +459,4 @@ inline MappedRange<const physx::PxVec4> readPreviousParticles(const Cloth& cloth
     return cloth.getPreviousParticles();
 }
 
-}  // namespace nv
+}  // namespace nv::cloth

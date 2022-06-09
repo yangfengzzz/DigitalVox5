@@ -182,7 +182,7 @@ public:
 
 /** @} */
 
-}  // namespace nv
+}  // namespace nv::cloth
 
 NV_CLOTH_API(nv::cloth::ClothFabricCooker*) NvClothCreateFabricCooker();
 

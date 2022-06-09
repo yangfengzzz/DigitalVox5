@@ -67,7 +67,7 @@ struct NvClothOverload {};
 #define NV_CLOTH_FREE(x) GetNvClothAllocator()->deallocate(x)
 #define NV_CLOTH_DELETE(x) delete x
 
-}  // namespace nv
+}  // namespace nv::cloth
 
 // new/delete operators need to be declared in global scope
 template <typename T>
@@ -144,5 +144,5 @@ public:
     PX_INLINE void operator delete[](void* ptr) { return GetNvClothAllocator()->deallocate(ptr); }
 };
 
-}  // namespace nv
+}  // namespace nv::cloth
 /** \endcond */

@@ -52,7 +52,7 @@
 //		bool			insert(const Key& k, const Value& v)	O(1) amortized (exponential resize
 // policy)
 //		Value &			operator[](const Key& k)				O(1) for existing
-//objects, else O(1) amortized 		const Entry *	find(const Key& k); O(1)
+// objects, else O(1) amortized 		const Entry *	find(const Key& k); O(1)
 // bool erase(const T& k);						O(1) 		uint32_t
 // size(); constant 		void			reserve(uint32_t size);
 // O(MAX(currentOccupancy,size)) 		void			clear();
@@ -95,6 +95,6 @@ public:
     const Pair<const Key, Value>* getEntries() const { return HashMapBase::mBase.getEntries(); }
 };
 
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #endif  // #ifndef PSFOUNDATION_PSHASHMAP_H

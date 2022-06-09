@@ -607,6 +607,6 @@ PX_INLINE void swap(Array<T, Alloc>& x, Array<T, Alloc>& y) {
     x.swap(y);
 }
 
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #endif  // #ifndef PSFOUNDATION_PSARRAY_H

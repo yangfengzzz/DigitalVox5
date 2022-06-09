@@ -129,4 +129,4 @@ T& Range<T>::operator[](uint32_t i) const {
     return mBegin[i];
 }
 
-}  // namespace nv
+}  // namespace nv::cloth

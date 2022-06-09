@@ -4,21 +4,13 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "simulator/cloth/cloth_controller.h"
+#include "vox.cloth/cloth_controller.h"
 
 #include "vox.cloth/NvClothExt/ClothFabricCooker.h"
 #include "vox.render/camera.h"
 #include "vox.render/entity.h"
 
 namespace vox {
-
-//-----------------------------------------------------------------------
-cloth::ClothController *cloth::ClothController::GetSingletonPtr() { return ms_singleton; }
-
-cloth::ClothController &cloth::ClothController::GetSingleton() {
-    assert(ms_singleton);
-    return (*ms_singleton);
-}
 
 namespace cloth {
 ClothController::ClothController() {

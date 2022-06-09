@@ -148,6 +148,6 @@ inline const T* maxElement(const T* first, const T* last) {
     return m;
 }
 
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #endif

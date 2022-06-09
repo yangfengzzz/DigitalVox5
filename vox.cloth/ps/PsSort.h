@@ -108,7 +108,7 @@ void sort(T* elements, uint32_t count) {
     sort(elements, count, ps::Less<T>(), typename ps::AllocatorTraits<T>::Type());
 }
 
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #if PX_VC
 #pragma warning(pop)

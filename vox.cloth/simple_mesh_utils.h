@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "simulator/cloth/simple_mesh.h"
 #include "vox.cloth/foundation/PxVec4.h"
+#include "vox.cloth/simple_mesh.h"
 
 namespace vox::cloth {
 /*

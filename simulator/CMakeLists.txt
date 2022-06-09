@@ -10,16 +10,8 @@ include(android_package)
 # create sample app project
 project(simulator LANGUAGES C CXX)
 
-set(CLOTH_FRAMEWORK
-        cloth/callback_implementations.cpp
-        cloth/cloth_application.cpp
-        cloth/cloth_controller.cpp
-        cloth/job_manager.cpp
-        cloth/simple_mesh_utils.cpp
-        cloth/cloth_mesh_generator.cpp
-        cloth/cloth_renderer.cpp)
-
 set(CLOTH_APP
+        cloth/cloth_application.cpp
         cloth/sphere_app.cpp
         cloth/capsule_app.cpp
         cloth/ccd_app.cpp
@@ -42,7 +34,6 @@ set(CLOTH_APP
         cloth/wind_app.cpp)
 
 set(SRC
-        ${CLOTH_FRAMEWORK}
         ${CLOTH_APP}
         bar_app.cpp
         main.cpp

@@ -107,6 +107,6 @@ PX_CUDA_CALLABLE PX_INLINE void swap(T& x, T& y) {
     y = tmp;
 }
 
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #endif  // #ifndef PSFOUNDATION_PSBASICTEMPLATES_H

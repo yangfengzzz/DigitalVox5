@@ -72,6 +72,6 @@ public:
     PX_INLINE void operator delete(void* ptr) { NonTrackingAllocator().deallocate(ptr); }
     PX_INLINE void operator delete[](void* ptr) { NonTrackingAllocator().deallocate(ptr); }
 };
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #endif  // #ifndef PSFOUNDATION_PSUSERALLOCATED_H

@@ -176,7 +176,7 @@ PX_INLINE bool ClothMeshDesc::isValid() const {
     return true;
 }
 
-}  // namespace nv
+}  // namespace nv::cloth
 
 /** @} */
 #endif

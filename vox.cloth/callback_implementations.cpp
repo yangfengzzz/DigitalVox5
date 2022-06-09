@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "simulator/cloth/callback_implementations.h"
+#include "vox.cloth/callback_implementations.h"
 
 #include <iostream>
 

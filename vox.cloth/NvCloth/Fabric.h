@@ -115,4 +115,4 @@ protected:
     int32_t mRefCount;
 };
 
-}  // namespace nv
+}  // namespace nv::cloth

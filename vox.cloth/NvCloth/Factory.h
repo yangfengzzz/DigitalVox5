@@ -39,7 +39,7 @@ typedef struct CUctx_st* CUcontext;
 namespace nv::cloth {
 class DxContextManagerCallback;
 class Factory;
-}  // namespace nv
+}  // namespace nv::cloth
 NV_CLOTH_API(nv::cloth::Factory*) NvClothCreateFactoryCPU();
 NV_CLOTH_API(nv::cloth::Factory*) NvClothCreateFactoryCUDA(CUcontext);
 NV_CLOTH_API(nv::cloth::Factory*) NvClothCreateFactoryDX11(nv::cloth::DxContextManagerCallback*);
@@ -193,4 +193,4 @@ public:
     virtual void extractRestPositions(const Cloth& cloth, Range<physx::PxVec4> destRestPositions) const = 0;
 };
 
-}  // namespace nv
+}  // namespace nv::cloth

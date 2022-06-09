@@ -62,7 +62,7 @@ public:
     [[nodiscard]] virtual ClothMeshDesc getDescriptor() const = 0;
 };
 
-}  // namespace nv
+}  // namespace nv::cloth
 
 NV_CLOTH_API(nv::cloth::ClothMeshQuadifier*) NvClothCreateMeshQuadifier();
 

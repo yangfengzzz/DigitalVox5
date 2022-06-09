@@ -599,7 +599,7 @@ public:
 protected:
     BaseMap mBase;
 };
-}  // namespace nv
+}  // namespace nv::cloth::ps::internal
 
 #if PX_VC
 #pragma warning(pop)

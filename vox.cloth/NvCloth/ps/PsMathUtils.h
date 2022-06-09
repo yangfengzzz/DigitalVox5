@@ -558,6 +558,6 @@ PX_FORCE_INLINE bool isAlmostZero(const physx::PxVec3& v) {
     if (physx::PxAbs(v.x) > 1e-6f || physx::PxAbs(v.y) > 1e-6f || physx::PxAbs(v.z) > 1e-6f) return false;
     return true;
 }
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #endif

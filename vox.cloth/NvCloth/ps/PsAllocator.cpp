@@ -41,4 +41,4 @@ void Allocator::deallocate(void* ptr) {
     if (ptr) GetNvClothAllocator()->deallocate(ptr);
 }
 
-}  // namespace nv
+}  // namespace nv::cloth::ps

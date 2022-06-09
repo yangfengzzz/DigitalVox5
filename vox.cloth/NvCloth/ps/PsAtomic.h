@@ -56,6 +56,6 @@ NV_CLOTH_IMPORT int32_t atomicAdd(volatile int32_t* val, int32_t delta);
 /* compute the maximum of dest and val. Return the new value */
 NV_CLOTH_IMPORT int32_t atomicMax(volatile int32_t* val, int32_t val2);
 
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #endif  // #ifndef PSFOUNDATION_PSATOMIC_H

@@ -8,8 +8,8 @@
 
 #include <map>
 
-#include "simulator/cloth/cloth_renderer.h"
-#include "simulator/cloth/job_manager.h"
+#include "vox.cloth/cloth_renderer.h"
+#include "vox.cloth/job_manager.h"
 #include "vox.cloth/NvCloth/Cloth.h"
 #include "vox.cloth/NvCloth/Fabric.h"
 #include "vox.cloth/NvCloth/Solver.h"

@@ -8,21 +8,16 @@
 
 #include <map>
 
-#include "simulator/cloth/cloth_renderer.h"
-#include "simulator/cloth/job_manager.h"
-#include "vox.base/singleton.h"
+#include "vox.cloth/cloth_renderer.h"
+#include "vox.cloth/job_manager.h"
 #include "vox.cloth/NvCloth/Fabric.h"
 #include "vox.cloth/NvCloth/Solver.h"
 #include "vox.render/platform/input_events.h"
 
 namespace vox {
 namespace cloth {
-class ClothController : public Singleton<ClothController> {
+class ClothController {
 public:
-    static ClothController &GetSingleton();
-
-    static ClothController *GetSingletonPtr();
-
     ClothController();
 
     ~ClothController();
@@ -32,6 +27,8 @@ public:
     void Update(float delta_time);
 
     void HandlePickingEvent(Camera *main_camera, const InputEvent &input_event);
+
+    inline const std::vector<cloth::ClothRenderer *> &cloth_list() const { return cloth_list_; }
 
 public:
     // Helper functions to enable automatic deinitialize
@@ -86,7 +83,4 @@ private:
 };
 
 }  // namespace cloth
-template <>
-inline cloth::ClothController *Singleton<cloth::ClothController>::ms_singleton = nullptr;
-
 }  // namespace vox

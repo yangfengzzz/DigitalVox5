@@ -70,7 +70,7 @@ void ClothApp::SetupUi() {
     settings.closable = true;
     settings.collapsable = true;
     settings.dockable = true;
-    panels_manager_.CreatePanel<ui::ClothInspector>("Inspector", true, settings);
+    panels_manager_.CreatePanel<ui::ClothInspector>("Inspector", true, settings, controller_);
 }
 
 }  // namespace vox::editor

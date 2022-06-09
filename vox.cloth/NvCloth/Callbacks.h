@@ -69,7 +69,7 @@ InitializeNvCloth(physx::PxAllocatorCallback* allocatorCallback,
                   nv::cloth::PxAssertHandler* assertHandler,
                   physx::PxProfilerCallback* profilerCallback,
                   int autoDllIDCheck = NV_CLOTH_DLL_ID);
-}  // namespace nv
+}  // namespace nv::cloth
 
 // Allocator
 NV_CLOTH_API(physx::PxAllocatorCallback*) GetNvClothAllocator();  // Only use internally
@@ -179,4 +179,4 @@ public:
 
 #endif
 
-}  // namespace nv
+}  // namespace nv::cloth

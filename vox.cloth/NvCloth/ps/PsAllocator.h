@@ -245,7 +245,7 @@ union EnableIfPod {
     typedef X Type;
 };
 
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 // Global placement new for ReflectionAllocator templated by
 // plain-old-type. Allows using PX_NEW for pointers and built-in-types.

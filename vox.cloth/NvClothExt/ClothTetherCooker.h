@@ -77,7 +77,7 @@ public:
     virtual void getTetherData(physx::PxU32* userTetherAnchors, physx::PxReal* userTetherLengths) const = 0;
 };
 
-}  // namespace nv
+}  // namespace nv::cloth
 
 NV_CLOTH_API(nv::cloth::ClothTetherCooker*) NvClothCreateSimpleTetherCooker();
 NV_CLOTH_API(nv::cloth::ClothTetherCooker*) NvClothCreateGeodesicTetherCooker();

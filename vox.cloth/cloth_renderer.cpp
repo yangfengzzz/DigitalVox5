@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "simulator/cloth/cloth_renderer.h"
+#include "vox.cloth/cloth_renderer.h"
 
 #include "vox.cloth/foundation/PxStrideIterator.h"
 #include "vox.render/entity.h"

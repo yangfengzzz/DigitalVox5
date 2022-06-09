@@ -129,7 +129,7 @@ public:
     bool equal(const char* string0, const char* string1) const { return !strcmp(string0, string1); }
 };
 
-}  // namespace nv
+}  // namespace nv::cloth::ps
 
 #if PX_VC
 #pragma warning(pop)

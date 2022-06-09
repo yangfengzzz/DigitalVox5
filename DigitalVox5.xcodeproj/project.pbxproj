@@ -561,6 +561,13 @@
 		045357F428517050000ED871 /* demo_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 045357F228517050000ED871 /* demo_view.h */; };
 		045357F7285172ED000ED871 /* cloth_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 045357F5285172ED000ED871 /* cloth_app.cpp */; };
 		045357FB2851797B000ED871 /* cloth_inspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 045357F92851797B000ED871 /* cloth_inspector.cpp */; };
+		045357FF28517F8A000ED871 /* simple_mesh_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C426284DD7F100D2706D /* simple_mesh_utils.cpp */; };
+		0453580028517F8A000ED871 /* cloth_renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C43D284DD7F400D2706D /* cloth_renderer.cpp */; };
+		0453580128517F8A000ED871 /* job_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C44A284DD7F500D2706D /* job_manager.cpp */; };
+		0453580228517F8A000ED871 /* callback_implementations.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C42C284DD7F200D2706D /* callback_implementations.cpp */; };
+		0453580328517F8A000ED871 /* cloth_mesh_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C44C284DD7F500D2706D /* cloth_mesh_generator.cpp */; };
+		0453580428517F8A000ED871 /* cloth_controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C43B284DD7F300D2706D /* cloth_controller.cpp */; };
+		0453580728518337000ED871 /* libvox.cloth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D5C476284DDC5F00D2706D /* libvox.cloth.a */; };
 		0469883C2819892B00EF1EE1 /* particle_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883A2819892B00EF1EE1 /* particle_manager.cpp */; };
 		0469883D2819892B00EF1EE1 /* particle_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0469883B2819892B00EF1EE1 /* particle_manager.h */; };
 		046988402819DCC500EF1EE1 /* particle_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0469883E2819DCC400EF1EE1 /* particle_material.cpp */; };
@@ -940,16 +947,12 @@
 		04D5C456284DD7F600D2706D /* plane_collision_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C422284DD7F100D2706D /* plane_collision_app.cpp */; };
 		04D5C457284DD7F600D2706D /* cloth_application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C423284DD7F100D2706D /* cloth_application.cpp */; };
 		04D5C458284DD7F600D2706D /* virtual_particle_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C424284DD7F100D2706D /* virtual_particle_app.cpp */; };
-		04D5C459284DD7F600D2706D /* simple_mesh_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C426284DD7F100D2706D /* simple_mesh_utils.cpp */; };
 		04D5C45A284DD7F600D2706D /* local_global_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C428284DD7F100D2706D /* local_global_app.cpp */; };
-		04D5C45B284DD7F600D2706D /* callback_implementations.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C42C284DD7F200D2706D /* callback_implementations.cpp */; };
 		04D5C45C284DD7F600D2706D /* capsule_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C42E284DD7F200D2706D /* capsule_app.cpp */; };
 		04D5C45D284DD7F600D2706D /* wind_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C433284DD7F200D2706D /* wind_app.cpp */; };
 		04D5C45E284DD7F600D2706D /* friction_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C437284DD7F300D2706D /* friction_app.cpp */; };
 		04D5C45F284DD7F600D2706D /* triangle_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C438284DD7F300D2706D /* triangle_app.cpp */; };
 		04D5C460284DD7F600D2706D /* stiffness_per_constraint_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C43A284DD7F300D2706D /* stiffness_per_constraint_app.cpp */; };
-		04D5C461284DD7F600D2706D /* cloth_controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C43B284DD7F300D2706D /* cloth_controller.cpp */; };
-		04D5C462284DD7F600D2706D /* cloth_renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C43D284DD7F400D2706D /* cloth_renderer.cpp */; };
 		04D5C463284DD7F600D2706D /* sphere_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C43F284DD7F400D2706D /* sphere_app.cpp */; };
 		04D5C464284DD7F600D2706D /* ccd_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C440284DD7F400D2706D /* ccd_app.cpp */; };
 		04D5C465284DD7F600D2706D /* multi_solver_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C441284DD7F400D2706D /* multi_solver_app.cpp */; };
@@ -957,8 +960,6 @@
 		04D5C467284DD7F600D2706D /* geodesic_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C445284DD7F400D2706D /* geodesic_app.cpp */; };
 		04D5C468284DD7F600D2706D /* free_fall_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C446284DD7F500D2706D /* free_fall_app.cpp */; };
 		04D5C469284DD7F600D2706D /* inter_collision_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C447284DD7F500D2706D /* inter_collision_app.cpp */; };
-		04D5C46A284DD7F600D2706D /* job_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C44A284DD7F500D2706D /* job_manager.cpp */; };
-		04D5C46B284DD7F600D2706D /* cloth_mesh_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C44C284DD7F500D2706D /* cloth_mesh_generator.cpp */; };
 		04D5C46C284DD7F600D2706D /* teleport_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C44E284DD7F500D2706D /* teleport_app.cpp */; };
 		04D5C46D284DD7F600D2706D /* self_collision_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C450284DD7F500D2706D /* self_collision_app.cpp */; };
 		04D5C471284DDB9F00D2706D /* timing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04D5C470284DDB9F00D2706D /* timing.cpp */; };
@@ -1368,6 +1369,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 04523E27281CC4920079CC3C;
 			remoteInfo = vox.editor;
+		};
+		045358052851832A000ED871 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 047BB5BA2803A96500CD5749 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04D5C475284DDC5F00D2706D;
+			remoteInfo = vox.cloth;
 		};
 		04B7624E2832295400FE2C5C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2953,11 +2961,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				04C3C615283DC69F00B0BE1F /* libvox.base.a in Frameworks */,
+				04523DD2281BB3F20079CC3C /* libvox.math.a in Frameworks */,
+				0453580728518337000ED871 /* libvox.cloth.a in Frameworks */,
+				04523DD3281BB3F20079CC3C /* libvox.render.a in Frameworks */,
 				04523EA3281D78CA0079CC3C /* libvox.editor.a in Frameworks */,
 				04523DD5281BB3FD0079CC3C /* Cocoa.framework in Frameworks */,
 				04523DD4281BB3F90079CC3C /* IOKit.framework in Frameworks */,
-				04523DD2281BB3F20079CC3C /* libvox.math.a in Frameworks */,
-				04523DD3281BB3F20079CC3C /* libvox.render.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3884,12 +3893,12 @@
 				04B762092832279500FE2C5C /* test.math */,
 				047BB5D12803A99E00CD5749 /* vox.render */,
 				047BB5C42803A96500CD5749 /* apps */,
-				04523E29281CC4920079CC3C /* vox.editor */,
-				04523DC4281BB0C30079CC3C /* editor */,
 				04C3C5872835DE8700B0BE1F /* vox.visual */,
 				04D5C477284DDC5F00D2706D /* vox.cloth */,
 				042D8C0C2845FD02003EF95A /* vox.force */,
 				042D8CBF28484C19003EF95A /* simulator */,
+				04523E29281CC4920079CC3C /* vox.editor */,
+				04523DC4281BB0C30079CC3C /* editor */,
 				047BB5C32803A96500CD5749 /* Products */,
 				0444EA4C2805766F00C6F279 /* Frameworks */,
 			);
@@ -4666,23 +4675,9 @@
 		04D5C41A284DD7DF00D2706D /* cloth */ = {
 			isa = PBXGroup;
 			children = (
-				04D5C41E284DD7F100D2706D /* callback_implementations.h */,
-				04D5C42C284DD7F200D2706D /* callback_implementations.cpp */,
-				04D5C452284DD7F600D2706D /* cloth_controller.h */,
-				04D5C43B284DD7F300D2706D /* cloth_controller.cpp */,
-				04D5C429284DD7F100D2706D /* job_manager.h */,
-				04D5C44A284DD7F500D2706D /* job_manager.cpp */,
-				04D5C41F284DD7F100D2706D /* simple_mesh.h */,
-				04D5C44D284DD7F500D2706D /* simple_mesh_utils.h */,
-				04D5C426284DD7F100D2706D /* simple_mesh_utils.cpp */,
-				04D5C434284DD7F300D2706D /* cloth_mesh_generator.h */,
-				04D5C44C284DD7F500D2706D /* cloth_mesh_generator.cpp */,
-				04D5C42D284DD7F200D2706D /* cloth_renderer.h */,
-				04D5C43D284DD7F400D2706D /* cloth_renderer.cpp */,
 				04D5C444284DD7F400D2706D /* cloth_application.h */,
 				04D5C423284DD7F100D2706D /* cloth_application.cpp */,
 				04D5C427284DD7F100D2706D /* cloth_apps.h */,
-				04D5C46E284DD85300D2706D /* framework */,
 				04D5C43C284DD7F400D2706D /* sphere_app.h */,
 				04D5C43F284DD7F400D2706D /* sphere_app.cpp */,
 				04D5C41B284DD7F000D2706D /* capsule_app.h */,
@@ -4726,13 +4721,6 @@
 				04D5C433284DD7F200D2706D /* wind_app.cpp */,
 			);
 			path = cloth;
-			sourceTree = "<group>";
-		};
-		04D5C46E284DD85300D2706D /* framework */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = framework;
 			sourceTree = "<group>";
 		};
 		04D5C46F284DD86000D2706D /* single */ = {
@@ -4794,6 +4782,19 @@
 				04D5C489284DDCBA00D2706D /* sse2 */,
 				04D5C483284DDC9500D2706D /* neon */,
 				04D5C481284DDC8300D2706D /* avx */,
+				04D5C41E284DD7F100D2706D /* callback_implementations.h */,
+				04D5C42C284DD7F200D2706D /* callback_implementations.cpp */,
+				04D5C452284DD7F600D2706D /* cloth_controller.h */,
+				04D5C43B284DD7F300D2706D /* cloth_controller.cpp */,
+				04D5C429284DD7F100D2706D /* job_manager.h */,
+				04D5C44A284DD7F500D2706D /* job_manager.cpp */,
+				04D5C41F284DD7F100D2706D /* simple_mesh.h */,
+				04D5C44D284DD7F500D2706D /* simple_mesh_utils.h */,
+				04D5C426284DD7F100D2706D /* simple_mesh_utils.cpp */,
+				04D5C434284DD7F300D2706D /* cloth_mesh_generator.h */,
+				04D5C44C284DD7F500D2706D /* cloth_mesh_generator.cpp */,
+				04D5C42D284DD7F200D2706D /* cloth_renderer.h */,
+				04D5C43D284DD7F400D2706D /* cloth_renderer.cpp */,
 			);
 			path = vox.cloth;
 			sourceTree = "<group>";
@@ -6133,9 +6134,10 @@
 			);
 			dependencies = (
 				04C3C614283DC69A00B0BE1F /* PBXTargetDependency */,
-				04523EA2281D78C60079CC3C /* PBXTargetDependency */,
 				04523DCF281BB3E90079CC3C /* PBXTargetDependency */,
+				045358062851832A000ED871 /* PBXTargetDependency */,
 				04523DD1281BB3E90079CC3C /* PBXTargetDependency */,
+				04523EA2281D78C60079CC3C /* PBXTargetDependency */,
 			);
 			name = editor;
 			productName = editor;
@@ -6503,12 +6505,12 @@
 				04B762072832279400FE2C5C /* test.math */,
 				047BB5CF2803A99E00CD5749 /* vox.render */,
 				047BB5C12803A96500CD5749 /* apps */,
-				04523E27281CC4920079CC3C /* vox.editor */,
-				04523DC2281BB0C30079CC3C /* editor */,
 				04C3C5852835DE8700B0BE1F /* vox.visual */,
 				04D5C475284DDC5F00D2706D /* vox.cloth */,
 				042D8C0A2845FD02003EF95A /* vox.force */,
 				042D8CBD28484C19003EF95A /* simulator */,
+				04523E27281CC4920079CC3C /* vox.editor */,
+				04523DC2281BB0C30079CC3C /* editor */,
 			);
 		};
 /* End PBXProject section */
@@ -6559,26 +6561,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04D5C461284DD7F600D2706D /* cloth_controller.cpp in Sources */,
-				04D5C46A284DD7F600D2706D /* job_manager.cpp in Sources */,
 				04D5C460284DD7F600D2706D /* stiffness_per_constraint_app.cpp in Sources */,
 				04D5C468284DD7F600D2706D /* free_fall_app.cpp in Sources */,
 				04D5C466284DD7F600D2706D /* time_step_app.cpp in Sources */,
-				04D5C459284DD7F600D2706D /* simple_mesh_utils.cpp in Sources */,
 				04D5C45C284DD7F600D2706D /* capsule_app.cpp in Sources */,
-				04D5C46B284DD7F600D2706D /* cloth_mesh_generator.cpp in Sources */,
 				04D5C46C284DD7F600D2706D /* teleport_app.cpp in Sources */,
 				04D5C463284DD7F600D2706D /* sphere_app.cpp in Sources */,
 				04D5C457284DD7F600D2706D /* cloth_application.cpp in Sources */,
 				04D5C45D284DD7F600D2706D /* wind_app.cpp in Sources */,
 				04D5C45A284DD7F600D2706D /* local_global_app.cpp in Sources */,
 				042D8CC128484C19003EF95A /* main.cpp in Sources */,
-				04D5C45B284DD7F600D2706D /* callback_implementations.cpp in Sources */,
 				04D5C464284DD7F600D2706D /* ccd_app.cpp in Sources */,
 				04D5C456284DD7F600D2706D /* plane_collision_app.cpp in Sources */,
 				04D5C458284DD7F600D2706D /* virtual_particle_app.cpp in Sources */,
 				04D5C46D284DD7F600D2706D /* self_collision_app.cpp in Sources */,
-				04D5C462284DD7F600D2706D /* cloth_renderer.cpp in Sources */,
 				04D5C453284DD7F600D2706D /* tether_app.cpp in Sources */,
 				04D5C467284DD7F600D2706D /* geodesic_app.cpp in Sources */,
 				04D5C465284DD7F600D2706D /* multi_solver_app.cpp in Sources */,
@@ -7199,15 +7195,21 @@
 				04D5C4CC284E43CE00D2706D /* SwInterCollision.cpp in Sources */,
 				04D5C4C7284E43CE00D2706D /* SwCollision.cpp in Sources */,
 				04D5C4D6284E43CE00D2706D /* ClothSimpleTetherCooker.cpp in Sources */,
+				0453580028517F8A000ED871 /* cloth_renderer.cpp in Sources */,
+				0453580128517F8A000ED871 /* job_manager.cpp in Sources */,
 				04D5C4C2284E43CE00D2706D /* SwSolverKernel.cpp in Sources */,
 				04D5C4D8284E43CE00D2706D /* PhaseConfig.cpp in Sources */,
 				04D5C4BE284E43CE00D2706D /* SwSolver.cpp in Sources */,
+				0453580328517F8A000ED871 /* cloth_mesh_generator.cpp in Sources */,
 				04D5C4D9284E43CE00D2706D /* SwSelfCollision.cpp in Sources */,
 				04D5C4DA284E43CE00D2706D /* SwClothData.cpp in Sources */,
 				04D5C4C6284E43CE00D2706D /* SwCloth.cpp in Sources */,
 				04D5C4DB284E43CE00D2706D /* ClothGeodesicTetherCooker.cpp in Sources */,
 				04D5C4CB284E43CE00D2706D /* Factory.cpp in Sources */,
+				0453580228517F8A000ED871 /* callback_implementations.cpp in Sources */,
+				045357FF28517F8A000ED871 /* simple_mesh_utils.cpp in Sources */,
 				04D5C4F7284E440800D2706D /* PsUnixAtomic.cpp in Sources */,
+				0453580428517F8A000ED871 /* cloth_controller.cpp in Sources */,
 				04D5C4E0284E43CE00D2706D /* TripletScheduler.cpp in Sources */,
 				04D5C4BD284E43CE00D2706D /* Callbacks.cpp in Sources */,
 			);
@@ -7315,6 +7317,11 @@
 			isa = PBXTargetDependency;
 			target = 04523E27281CC4920079CC3C /* vox.editor */;
 			targetProxy = 04523EA1281D78C60079CC3C /* PBXContainerItemProxy */;
+		};
+		045358062851832A000ED871 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04D5C475284DDC5F00D2706D /* vox.cloth */;
+			targetProxy = 045358052851832A000ED871 /* PBXContainerItemProxy */;
 		};
 		04B7624F2832295400FE2C5C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -9338,6 +9345,51 @@
 				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					./third_party/vma/src,
+					./third_party/volk,
+					./third_party/vulkan/include,
+					./third_party/spdlog/include,
+					./third_party/glm,
+					./third_party/glslang,
+					./third_party/tinygltf,
+					./third_party/cli11/include,
+					./third_party/glfw/include,
+					"./third_party/spirv-cross",
+					./third_party/hwcpipe,
+					./third_party/imgui,
+					./third_party/astc/Source,
+					./third_party/stb,
+					./third_party/ktx/include,
+					./third_party/CTPL,
+					/usr/local/include,
+					./third_party/physx/physx/source/common/src/mac,
+					./third_party/physx/physx/include,
+					./third_party/physx/physx/source/common/include,
+					./third_party/physx/physx/source/common/src,
+					./third_party/physx/physx/source/geomutils/include,
+					./third_party/physx/physx/source/geomutils/src,
+					./third_party/physx/physx/source/geomutils/src/contact,
+					./third_party/physx/physx/source/geomutils/src/common,
+					./third_party/physx/physx/source/geomutils/src/convex,
+					./third_party/physx/physx/source/geomutils/src/distance,
+					./third_party/physx/physx/source/geomutils/src/sweep,
+					./third_party/physx/physx/source/geomutils/src/gjk,
+					./third_party/physx/physx/source/geomutils/src/intersection,
+					./third_party/physx/physx/source/geomutils/src/mesh,
+					./third_party/physx/physx/source/geomutils/src/hf,
+					./third_party/physx/physx/source/geomutils/src/pcm,
+					./third_party/physx/physx/source/geomutils/src/ccd,
+					./third_party/physx/physx/source/physxgpu/include,
+					./third_party/physx/physx/../pxshared/include,
+					./third_party/physx/physx/source/foundation/include,
+					./third_party/assimp/include,
+					./third_party/assimp/build_debug/include,
+					./third_party/nlohmann/include,
+					./third_party/sol2/single/include,
+					/usr/local/include/lua,
+					./third_party/eigen,
+				);
 				USE_HEADERMAP = NO;
 			};
 			name = Debug;
@@ -9368,6 +9420,51 @@
 				HEADER_SEARCH_PATHS = /Users/yangfeng/Desktop/DigitalVox5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					./third_party/vma/src,
+					./third_party/volk,
+					./third_party/vulkan/include,
+					./third_party/spdlog/include,
+					./third_party/glm,
+					./third_party/glslang,
+					./third_party/tinygltf,
+					./third_party/cli11/include,
+					./third_party/glfw/include,
+					"./third_party/spirv-cross",
+					./third_party/hwcpipe,
+					./third_party/imgui,
+					./third_party/astc/Source,
+					./third_party/stb,
+					./third_party/ktx/include,
+					./third_party/CTPL,
+					/usr/local/include,
+					./third_party/physx/physx/source/common/src/mac,
+					./third_party/physx/physx/include,
+					./third_party/physx/physx/source/common/include,
+					./third_party/physx/physx/source/common/src,
+					./third_party/physx/physx/source/geomutils/include,
+					./third_party/physx/physx/source/geomutils/src,
+					./third_party/physx/physx/source/geomutils/src/contact,
+					./third_party/physx/physx/source/geomutils/src/common,
+					./third_party/physx/physx/source/geomutils/src/convex,
+					./third_party/physx/physx/source/geomutils/src/distance,
+					./third_party/physx/physx/source/geomutils/src/sweep,
+					./third_party/physx/physx/source/geomutils/src/gjk,
+					./third_party/physx/physx/source/geomutils/src/intersection,
+					./third_party/physx/physx/source/geomutils/src/mesh,
+					./third_party/physx/physx/source/geomutils/src/hf,
+					./third_party/physx/physx/source/geomutils/src/pcm,
+					./third_party/physx/physx/source/geomutils/src/ccd,
+					./third_party/physx/physx/source/physxgpu/include,
+					./third_party/physx/physx/../pxshared/include,
+					./third_party/physx/physx/source/foundation/include,
+					./third_party/assimp/include,
+					./third_party/assimp/build_release/include,
+					./third_party/nlohmann/include,
+					./third_party/sol2/single/include,
+					/usr/local/include/lua,
+					./third_party/eigen,
+				);
 				USE_HEADERMAP = NO;
 			};
 			name = Release;

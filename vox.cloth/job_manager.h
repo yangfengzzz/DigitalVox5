@@ -17,7 +17,7 @@
 #include <thread>
 #include <vector>
 
-#include "simulator/cloth/callback_implementations.h"
+#include "vox.cloth/callback_implementations.h"
 #include "vox.cloth/foundation/PxErrorCallback.h"
 #include "vox.cloth/foundation/PxVec3.h"
 #include "vox.cloth/foundation/PxVec4.h"
