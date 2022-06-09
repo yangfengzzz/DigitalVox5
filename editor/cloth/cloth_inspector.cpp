@@ -11,33 +11,33 @@ namespace vox::editor::ui {
 namespace {
 class ClothUI : public vox::ui::Widget {
 public:
-    ClothUI(cloth::ClothController& controller):controller_(controller) {}
+    explicit ClothUI(cloth::ClothController& controller):controller_(controller) {}
     
     void DrawImpl() override {
-        _updateClothUI();
-        _updateSolverUI();
-        _updateDebugUI();
-        
-        _drawDebugVisualization();
+        UpdateClothUi();
+        UpdateSolverUi();
+        UpdateDebugUi();
+
+        DrawDebugVisualization();
     }
     
 private:
     cloth::ClothController& controller_;
     
-    void _updateClothUI() {
-        static int activeCloth = 0;
+    void UpdateClothUi() {
+        static int active_cloth = 0;
         
         if (ImGui::TreeNode("Cloth Properties")) {
-            activeCloth = std::min(activeCloth, (int) controller_.cloth_list().size() - 1);
+            active_cloth = std::min(active_cloth, (int) controller_.cloth_list().size() - 1);
             for (int i = 0; i < (int) controller_.cloth_list().size(); i++) {
                 if (i)
                     ImGui::SameLine();
-                std::stringstream clothName;
-                clothName << "Cloth " << i;
-                ImGui::RadioButton(clothName.str().c_str(), &activeCloth, i);
+                std::stringstream cloth_name;
+                cloth_name << "Cloth " << i;
+                ImGui::RadioButton(cloth_name.str().c_str(), &active_cloth, i);
             }
             
-            nv::cloth::Cloth *cloth = controller_.cloth_list()[activeCloth]->cloth_;
+            nv::cloth::Cloth *cloth = controller_.cloth_list()[active_cloth]->cloth_;
             {
                 bool b = cloth->isContinuousCollisionEnabled();
                 if (ImGui::Checkbox("Continuous Collision Detection (CCD)", &b))
@@ -165,19 +165,19 @@ private:
         }
     }
     
-    void _updateSolverUI() {}
+    void UpdateSolverUi() {}
 
-    void _updateDebugUI() {}
+    void UpdateDebugUi() {}
 
-    void _drawDebugVisualization() {}
+    void DrawDebugVisualization() {}
     
-    void _debugRenderDistanceConstraints() {}
-    void _debugRenderTethers() {}
-    void _debugRenderConstraints() {}
-    void _debugRenderConstraintStiffness() {}
-    void _debugRenderConstraintError() {}
-    void _debugRenderPositionDelta() {}
-    void _debugRenderBoundingBox() {}
+    void DebugRenderDistanceConstraints() {}
+    void DebugRenderTethers() {}
+    void DebugRenderConstraints() {}
+    void DebugRenderConstraintStiffness() {}
+    void DebugRenderConstraintError() {}
+    void DebugRenderPositionDelta() {}
+    void DebugRenderBoundingBox() {}
     
     enum {
         DEBUG_VIS_DISTANCE_CONSTRAINTS = 1,
@@ -193,20 +193,20 @@ private:
         DEBUG_VIS_BOUNDING_BOX = 1024,
         DEBUG_VIS_LAST
     };
-    static unsigned int _debugVisualizationFlags;
-    static bool _debugVisualizationUpdateRequested;
+    static unsigned int debug_visualization_flags_;
+    static bool debug_visualization_update_requested_;
     
     struct SceneDebugRenderParams {
         //Constraint render params
-        int visiblePhaseRangeBegin;
-        int visiblePhaseRangeEnd;
+        int visible_phase_range_begin;
+        int visible_phase_range_end;
     };
-    static SceneDebugRenderParams _sceneDebugRenderParams;
+    static SceneDebugRenderParams scene_debug_render_params_;
 };
 
-unsigned int ClothUI::_debugVisualizationFlags = 0;
-bool ClothUI::_debugVisualizationUpdateRequested = true;
-ClothUI::SceneDebugRenderParams ClothUI::_sceneDebugRenderParams;
+unsigned int ClothUI::debug_visualization_flags_ = 0;
+bool ClothUI::debug_visualization_update_requested_ = true;
+ClothUI::SceneDebugRenderParams ClothUI::scene_debug_render_params_;
 
 }  // namespace
 
