@@ -26,7 +26,8 @@ WireframeManager::WireframeManager(Entity *entity) : entity_(entity) {
     material_ = std::make_shared<BaseMaterial>(entity->Scene()->Device());
     material_->vertex_source_ = ShaderManager::GetSingleton().LoadShader("");
     material_->fragment_source_ = ShaderManager::GetSingleton().LoadShader("");
-
+    material_->input_assembly_state_.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
+    
     auto &vertex_input_attributes = vertex_input_state_.attributes;
     vertex_input_attributes.resize(2);
     vertex_input_attributes[0] = initializers::VertexInputAttributeDescription(0, 0, VK_FORMAT_R32G32B32_SFLOAT, 0);
@@ -69,7 +70,7 @@ void WireframeManager::Flush() {
     if (!lines_.vertex.empty()) {
         auto mesh = MeshManager::GetSingleton().LoadBufferMesh();
         mesh->SetVertexInputState(vertex_input_state_.bindings, vertex_input_state_.attributes);
-        mesh->AddSubMesh(0, lines_.indices.size());
+        mesh->AddSubMesh(0, static_cast<uint32_t>(lines_.indices.size()));
         lines_.renderer->SetMesh(mesh);
 
         auto vertex_byte_length = static_cast<uint32_t>(lines_.vertex.size() * sizeof(RenderDebugVertex));

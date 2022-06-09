@@ -73,8 +73,6 @@ void MeshRenderer::Render(std::vector<RenderElement> &opaque_queue,
                 PushPrimitive(element, opaque_queue, alpha_test_queue, transparent_queue);
             }
         }
-    } else {
-        assert(false && "mesh is nullptr.");
     }
 }
 
