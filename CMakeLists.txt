@@ -53,15 +53,19 @@ find_package(TBB REQUIRED)
 # Add third party libraries
 add_subdirectory(third_party)
 
+# Add base library
 add_subdirectory(vox.base)
 add_subdirectory(test.base)
 
+# Add cpu geometry library
 add_subdirectory(vox.geometry)
 add_subdirectory(test.geometry)
 
+# Add cpu geometry io library
 add_subdirectory(vox.io)
 add_subdirectory(test.io)
 
+# Add core library
 add_subdirectory(vox.core)
 add_subdirectory(test.core)
 
