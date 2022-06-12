@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "042D8C0A2845FD02003EF95A"
                BuildableName = "libvox.force.a"
-               BlueprintName = "vox.force"
+               BlueprintName = "vox.compute"
                ReferencedContainer = "container:DigitalVox5.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -52,7 +52,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "042D8C0A2845FD02003EF95A"
             BuildableName = "libvox.force.a"
-            BlueprintName = "vox.force"
+            BlueprintName = "vox.compute"
             ReferencedContainer = "container:DigitalVox5.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

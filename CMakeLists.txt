@@ -57,14 +57,6 @@ add_subdirectory(third_party)
 add_subdirectory(vox.base)
 add_subdirectory(test.base)
 
-# Add cpu geometry library
-add_subdirectory(vox.geometry)
-add_subdirectory(test.geometry)
-
-# Add cpu geometry io library
-add_subdirectory(vox.io)
-add_subdirectory(test.io)
-
 # Add math library
 add_subdirectory(vox.math)
 add_subdirectory(test.math)
@@ -75,7 +67,7 @@ add_subdirectory(apps)
 
 # Add simulator
 add_subdirectory(vox.cloth)
-add_subdirectory(vox.force)
+add_subdirectory(vox.compute)
 add_subdirectory(simulator)
 
 # Add editor

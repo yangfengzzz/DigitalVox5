@@ -6,10 +6,10 @@
 
 #include "simulator/bar_app.h"
 
-#include "vox.force/simulation.h"
-#include "vox.force/simulation_model.h"
-#include "vox.force/time_manager.h"
-#include "vox.force/timing.h"
+#include "vox.compute/simulation.h"
+#include "vox.compute/simulation_model.h"
+#include "vox.compute/time_manager.h"
+#include "vox.compute/timing.h"
 #include "vox.render/camera.h"
 #include "vox.render/controls/orbit_control.h"
 #include "vox.render/entity.h"
@@ -23,17 +23,17 @@ namespace {
 class BarScript : public Script {
 public:
     explicit BarScript(Entity *entity) : Script(entity) {
-        auto *model = new force::SimulationModel();
+        auto *model = new compute::SimulationModel();
         model->Init();
-        force::Simulation::GetCurrent()->SetModel(model);
+        compute::Simulation::GetCurrent()->SetModel(model);
         BuildModel();
     }
 
     void OnUpdate(float delta_time) override {
-        force::SimulationModel *model = force::Simulation::GetCurrent()->GetModel();
+        compute::SimulationModel *model = compute::Simulation::GetCurrent()->GetModel();
         const unsigned int kNumSteps = 1;
         for (unsigned int i = 0; i < kNumSteps; i++) {
-            force::Simulation::GetCurrent()->GetTimeStep()->Step(*model);
+            compute::Simulation::GetCurrent()->GetTimeStep()->Step(*model);
         }
 
         for (unsigned int i = 0; i < model->GetTetModels().size(); i++) {
@@ -42,16 +42,16 @@ public:
     }
 
     void BuildModel() {
-        force::TimeManager::GetCurrent()->SetTimeStepSize(0.005f);
+        compute::TimeManager::GetCurrent()->SetTimeStepSize(0.005f);
         CreateMesh();
     }
 
     void CreateMesh() {
-        force::SimulationModel *model = force::Simulation::GetCurrent()->GetModel();
-        model->AddRegularTetModel(width_, height_, depth_, force::Vector3r(5, 0, 0), force::Matrix3r::Identity(),
-                                  force::Vector3r(10.0, 1.5, 1.5));
+        compute::SimulationModel *model = compute::Simulation::GetCurrent()->GetModel();
+        model->AddRegularTetModel(width_, height_, depth_, compute::Vector3r(5, 0, 0), compute::Matrix3r::Identity(),
+                                  compute::Vector3r(10.0, 1.5, 1.5));
 
-        force::ParticleData &pd = model->GetParticles();
+        compute::ParticleData &pd = model->GetParticles();
         for (unsigned int i = 0; i < 1; i++) {
             for (unsigned int j = 0; j < height_; j++) {
                 for (unsigned int k = 0; k < depth_; k++) pd.SetMass(i * height_ * depth_ + j * depth_ + k, 0.0);
