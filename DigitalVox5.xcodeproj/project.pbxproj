@@ -634,9 +634,7 @@
 		04C3C3672833E3A600B0BE1F /* extract_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C34A2833E3A400B0BE1F /* extract_zip.cpp */; };
 		04C3C3682833E3A600B0BE1F /* extract.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C34B2833E3A400B0BE1F /* extract.h */; };
 		04C3C3692833E3A600B0BE1F /* timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C34C2833E3A400B0BE1F /* timer.cpp */; };
-		04C3C36A2833E3A600B0BE1F /* ijson_convertible.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C34D2833E3A500B0BE1F /* ijson_convertible.h */; };
 		04C3C36B2833E3A600B0BE1F /* download.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C34E2833E3A500B0BE1F /* download.cpp */; };
-		04C3C36C2833E3A600B0BE1F /* ijson_convertible.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C34F2833E3A500B0BE1F /* ijson_convertible.cpp */; };
 		04C3C36D2833E3A600B0BE1F /* extract_zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C3502833E3A500B0BE1F /* extract_zip.h */; };
 		04C3C36E2833E3A600B0BE1F /* progress_bar.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C3512833E3A500B0BE1F /* progress_bar.h */; };
 		04C3C36F2833E3A600B0BE1F /* download.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C3522833E3A500B0BE1F /* download.h */; };
@@ -1791,9 +1789,7 @@
 		04C3C34A2833E3A400B0BE1F /* extract_zip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = extract_zip.cpp; sourceTree = "<group>"; };
 		04C3C34B2833E3A400B0BE1F /* extract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extract.h; sourceTree = "<group>"; };
 		04C3C34C2833E3A400B0BE1F /* timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timer.cpp; sourceTree = "<group>"; };
-		04C3C34D2833E3A500B0BE1F /* ijson_convertible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ijson_convertible.h; sourceTree = "<group>"; };
 		04C3C34E2833E3A500B0BE1F /* download.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = download.cpp; sourceTree = "<group>"; };
-		04C3C34F2833E3A500B0BE1F /* ijson_convertible.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ijson_convertible.cpp; sourceTree = "<group>"; };
 		04C3C3502833E3A500B0BE1F /* extract_zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extract_zip.h; sourceTree = "<group>"; };
 		04C3C3512833E3A500B0BE1F /* progress_bar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = progress_bar.h; sourceTree = "<group>"; };
 		04C3C3522833E3A500B0BE1F /* download.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = download.h; sourceTree = "<group>"; };
@@ -3401,8 +3397,6 @@
 				04C3C3532833E3A500B0BE1F /* file_system.cpp */,
 				04C3C3402833E3A300B0BE1F /* helper.h */,
 				04C3C3452833E3A400B0BE1F /* helper.cpp */,
-				04C3C34D2833E3A500B0BE1F /* ijson_convertible.h */,
-				04C3C34F2833E3A500B0BE1F /* ijson_convertible.cpp */,
 				04C3C3512833E3A500B0BE1F /* progress_bar.h */,
 				04C3C33B2833E3A300B0BE1F /* progress_bar.cpp */,
 				04C3C52E2835CA7C00B0BE1F /* progress_reporters.h */,
@@ -4526,7 +4520,6 @@
 				04C3C35E2833E3A600B0BE1F /* eigen.h in Headers */,
 				04C3C36D2833E3A600B0BE1F /* extract_zip.h in Headers */,
 				04C3C3632833E3A600B0BE1F /* timer.h in Headers */,
-				04C3C36A2833E3A600B0BE1F /* ijson_convertible.h in Headers */,
 				04C3C5392835CA7C00B0BE1F /* overload.h in Headers */,
 				04C3C3712833E3A600B0BE1F /* compiler_info.h in Headers */,
 				04C3C5382835CA7C00B0BE1F /* macro.h in Headers */,
@@ -5337,7 +5330,6 @@
 				04C3C3642833E3A600B0BE1F /* console.cpp in Sources */,
 				04C3C35F2833E3A600B0BE1F /* extract.cpp in Sources */,
 				04C3C3562833E3A600B0BE1F /* cpu_info.cpp in Sources */,
-				04C3C36C2833E3A600B0BE1F /* ijson_convertible.cpp in Sources */,
 				04C3C3702833E3A600B0BE1F /* file_system.cpp in Sources */,
 				04C3C5342835CA7C00B0BE1F /* parallel.cpp in Sources */,
 				04C3C3672833E3A600B0BE1F /* extract_zip.cpp in Sources */,
@@ -5514,10 +5506,7 @@
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					./third_party,
 					./third_party/eigen,
-					./third_party/qhull/src,
-					./third_party/json_cpp/include,
 					./third_party/spdlog/include,
-					./third_party/nanoflann/include,
 					/usr/local/Cellar/libomp/14.0.0/include,
 				);
 				USE_HEADERMAP = NO;
@@ -5537,10 +5526,7 @@
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					./third_party,
 					./third_party/eigen,
-					./third_party/qhull/src,
-					./third_party/json_cpp/include,
 					./third_party/spdlog/include,
-					./third_party/nanoflann/include,
 					/usr/local/Cellar/libomp/14.0.0/include,
 				);
 				USE_HEADERMAP = NO;
