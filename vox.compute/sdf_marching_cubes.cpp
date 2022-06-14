@@ -6,7 +6,4 @@
 
 #include "sdf_marching_cubes.h"
 
-namespace vox::compute {
-
-
-}
+namespace vox::compute {}

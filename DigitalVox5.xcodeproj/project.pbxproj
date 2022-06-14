@@ -537,6 +537,8 @@
 		04B762502832295700FE2C5C /* libvox.math.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 047BB5DF2803A9B700CD5749 /* libvox.math.a */; };
 		04BC71B8285769DE00BAF837 /* sdf_marching_cubes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04BC71B6285769DE00BAF837 /* sdf_marching_cubes.cpp */; };
 		04BC71B9285769DE00BAF837 /* sdf_marching_cubes.h in Headers */ = {isa = PBXBuildFile; fileRef = 04BC71B7285769DE00BAF837 /* sdf_marching_cubes.h */; };
+		04BC71BC28580DCC00BAF837 /* sdf_collision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04BC71BA28580DCC00BAF837 /* sdf_collision.cpp */; };
+		04BC71BD28580DCC00BAF837 /* sdf_collision.h in Headers */ = {isa = PBXBuildFile; fileRef = 04BC71BB28580DCC00BAF837 /* sdf_collision.h */; };
 		04C3C3562833E3A600B0BE1F /* cpu_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C3392833E3A300B0BE1F /* cpu_info.cpp */; };
 		04C3C3572833E3A600B0BE1F /* file_system.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C3C33A2833E3A300B0BE1F /* file_system.h */; };
 		04C3C3582833E3A600B0BE1F /* progress_bar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C33B2833E3A300B0BE1F /* progress_bar.cpp */; };
@@ -1610,6 +1612,8 @@
 		04BC71B52857696900BAF837 /* marching_cubes_tables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = marching_cubes_tables.h; sourceTree = "<group>"; };
 		04BC71B6285769DE00BAF837 /* sdf_marching_cubes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sdf_marching_cubes.cpp; sourceTree = "<group>"; };
 		04BC71B7285769DE00BAF837 /* sdf_marching_cubes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sdf_marching_cubes.h; sourceTree = "<group>"; };
+		04BC71BA28580DCC00BAF837 /* sdf_collision.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sdf_collision.cpp; sourceTree = "<group>"; };
+		04BC71BB28580DCC00BAF837 /* sdf_collision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sdf_collision.h; sourceTree = "<group>"; };
 		04C3C32E2833E39100B0BE1F /* libvox.base.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.base.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C3C3392833E3A300B0BE1F /* cpu_info.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cpu_info.cpp; sourceTree = "<group>"; };
 		04C3C33A2833E3A300B0BE1F /* file_system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_system.h; sourceTree = "<group>"; };
@@ -2130,19 +2134,13 @@
 		042D8C0C2845FD02003EF95A /* vox.compute */ = {
 			isa = PBXGroup;
 			children = (
-				042D8C162845FD17003EF95A /* discregrid */,
 				04BC71B52857696900BAF837 /* marching_cubes_tables.h */,
 				04BC71B7285769DE00BAF837 /* sdf_marching_cubes.h */,
 				04BC71B6285769DE00BAF837 /* sdf_marching_cubes.cpp */,
+				04BC71BB28580DCC00BAF837 /* sdf_collision.h */,
+				04BC71BA28580DCC00BAF837 /* sdf_collision.cpp */,
 			);
 			path = vox.compute;
-			sourceTree = "<group>";
-		};
-		042D8C162845FD17003EF95A /* discregrid */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = discregrid;
 			sourceTree = "<group>";
 		};
 		042D8CBF28484C19003EF95A /* simulator */ = {
@@ -3815,6 +3813,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04BC71B9285769DE00BAF837 /* sdf_marching_cubes.h in Headers */,
+				04BC71BD28580DCC00BAF837 /* sdf_collision.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4604,6 +4603,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04BC71BC28580DCC00BAF837 /* sdf_collision.cpp in Sources */,
 				04BC71B8285769DE00BAF837 /* sdf_marching_cubes.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "vox.math/vector4.h"
 #include "vox.math/matrix4x4.h"
+#include "vox.math/vector4.h"
 #include "vox.render/core/command_buffer.h"
 
 namespace vox::compute {
@@ -17,12 +17,12 @@ struct MarchingCubesUniformBuffer {
     Vector4F cColor;
     Vector4F vLightDir;
     Vector4F g_Origin;
-    
+
     float g_CellSize;
     int32_t g_NumCellsX;
     int32_t g_NumCellsY;
     int32_t g_NumCellsZ;
-    
+
     int32_t g_MaxMarchingCubesVertices;
     float g_MarchingCubesIsolevel;
 };
@@ -39,4 +39,4 @@ public:
     void Update(CommandBuffer& command_buffer);
 };
 
-}
+}  // namespace vox::compute

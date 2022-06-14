@@ -8,7 +8,6 @@
 #include "vox.render/platform/platform.h"
 
 #include "simulator/cloth/cloth_apps.h"
-#include "simulator/bar_app.h"
 
 // MARK: - Entry
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
