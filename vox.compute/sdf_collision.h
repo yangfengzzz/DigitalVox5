@@ -11,11 +11,21 @@
 #include "vox.math/vector4.h"
 #include "vox.render/core/command_buffer.h"
 #include "vox.render/mesh/mesh.h"
+#include "vox.render/rendering/postprocessing_computepass.h"
+#include "vox.render/rendering/postprocessing_pipeline.h"
 
 namespace vox::compute {
-class SdfCollisionSystem {
+struct SdfCollisionSystem {
 public:
-    void Initialize(Device& p_device) {}
+    void Initialize(Device& device, RenderContext& render_context);
+
+    PostProcessingComputePass* initialize_signed_distance_field_pass{nullptr};
+    PostProcessingComputePass* construct_signed_distance_field_pass{nullptr};
+    PostProcessingComputePass* finalize_signed_distance_field_pass{nullptr};
+    std::unique_ptr<PostProcessingPipeline> signed_distance_field_pipeline{nullptr};
+
+    PostProcessingComputePass* collide_hair_vertices_with_sdf_pass{nullptr};
+    std::unique_ptr<PostProcessingPipeline> collide_hair_vertices_with_sdf_pipeline{nullptr};
 };
 
 class SdfCollision {
@@ -27,7 +37,7 @@ public:
                  float collision_margin);
 
     // Update and animate the collision mesh
-    void Update(CommandBuffer& command_buffer, SdfCollisionSystem& system);
+    void Update(CommandBuffer& command_buffer, RenderTarget& render_target, SdfCollisionSystem& system);
 
     // Grid
     [[nodiscard]] float GetGridCellSize() const { return m_cell_size_; }
