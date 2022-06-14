@@ -7,7 +7,7 @@ layout(local_size_x = THREAD_GROUP_SIZE, local_size_y = 1, local_size_z = 1) in;
 void main() {
     int numSdfCells = g_NumCellsX * g_NumCellsY * g_NumCellsZ;
 
-    int sdfCellIndex = GId.x * THREAD_GROUP_SIZE + GIndex;
+    int sdfCellIndex = gl_GlobalInvocationID.x;
 
     if (sdfCellIndex >= numSdfCells) {
         return;

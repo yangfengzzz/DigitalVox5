@@ -6,9 +6,12 @@
 
 #pragma once
 
+#include "vox.compute/constant_buffers.h"
 #include "vox.math/matrix4x4.h"
 #include "vox.math/vector4.h"
 #include "vox.render/core/command_buffer.h"
+#include "vox.render/rendering/postprocessing_computepass.h"
+#include "vox.render/rendering/postprocessing_pipeline.h"
 
 namespace vox::compute {
 class SdfCollision;
@@ -33,6 +36,8 @@ class SdfMarchingCubes {
 public:
     SdfMarchingCubes();
 
+    void Initialize(const char* name, Device& device, RenderContext& render_context);
+
     // Draw the SDF using marching cubes for debug purpose
     void Draw();
 
@@ -40,7 +45,7 @@ public:
     void DrawGrid();
 
     // Update mesh by running marching cubes
-    void Update(CommandBuffer& command_buffer);
+    void Update(CommandBuffer& command_buffer, RenderTarget& render_target);
 
     void SetSdf(SdfCollision* sdf) {
         assert(sdf);
@@ -76,6 +81,11 @@ private:
 
     const int m_max_marching_cubes_vertices_;
     int m_num_mc_vertices_{};
+
+    // compute shader
+    PostProcessingComputePass* initialize_mc_vertices_pass_{nullptr};
+    PostProcessingComputePass* run_marching_cubes_on_sdf_pass_{nullptr};
+    std::unique_ptr<PostProcessingPipeline> marching_cubes_pipeline_{nullptr};
 };
 
 }  // namespace vox::compute
