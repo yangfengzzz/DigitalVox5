@@ -11,24 +11,28 @@
 #include "vox.render/core/command_buffer.h"
 
 namespace vox::compute {
+class SdfCollision;
+
 struct MarchingCubesUniformBuffer {
-    Matrix4x4F mMW;
-    Matrix4x4F mMWP;
-    Vector4F cColor;
-    Vector4F vLightDir;
-    Vector4F g_Origin;
+    Matrix4x4F m_mw;
+    Matrix4x4F m_mwp;
+    Vector4F c_color;
+    Vector4F v_light_dir;
+    Vector4F g_origin;
 
-    float g_CellSize;
-    int32_t g_NumCellsX;
-    int32_t g_NumCellsY;
-    int32_t g_NumCellsZ;
+    float g_cell_size;
+    int32_t g_num_cells_x;
+    int32_t g_num_cells_y;
+    int32_t g_num_cells_z;
 
-    int32_t g_MaxMarchingCubesVertices;
-    float g_MarchingCubesIsolevel;
+    int32_t g_max_marching_cubes_vertices;
+    float g_marching_cubes_iso_level;
 };
 
-class SDFMarchingCubes {
+class SdfMarchingCubes {
 public:
+    SdfMarchingCubes();
+
     // Draw the SDF using marching cubes for debug purpose
     void Draw();
 
@@ -37,6 +41,41 @@ public:
 
     // Update mesh by running marching cubes
     void Update(CommandBuffer& command_buffer);
+
+    void SetSdf(SdfCollision* sdf) {
+        assert(sdf);
+        m_p_sdf_ = sdf;
+    }
+
+    // Setting the SDF ISO level for drawing.
+    void SetSdfIsoLevel(float iso_level) { m_sdf_iso_level_ = iso_level; }
+
+private:
+    // SDF grid
+    Point3F m_origin_;
+    float m_cell_size_{};
+    int m_num_cells_x_{};
+    int m_num_cells_y_{};
+    int m_num_cells_z_{};
+    int m_num_total_cells_{};
+
+    SdfCollision* m_p_sdf_{};
+
+    MarchingCubesUniformBuffer m_uniform_buffer_data_;
+
+    // For drawing lines
+    // SuBatchLineRenderer m_LineRenderer;
+
+    struct VertexData {
+        float position[4];
+        float normal[4];
+    };
+
+    // SDF ISO level. This value will be multiplied with the cell size before be passed to the compute shader.
+    float m_sdf_iso_level_{};
+
+    const int m_max_marching_cubes_vertices_;
+    int m_num_mc_vertices_{};
 };
 
 }  // namespace vox::compute

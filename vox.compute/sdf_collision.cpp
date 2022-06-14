@@ -4,7 +4,7 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "sdf_collision.h"
+#include "vox.compute/sdf_collision.h"
 
 #include <utility>
 
