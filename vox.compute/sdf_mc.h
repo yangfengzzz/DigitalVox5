@@ -6,23 +6,18 @@
 
 #pragma once
 
-#include "vox.base/singleton.h"
 #include "vox.compute/constant_buffers.h"
 #include "vox.math/matrix4x4.h"
 #include "vox.math/vector4.h"
+#include "vox.render/component.h"
 #include "vox.render/core/command_buffer.h"
 #include "vox.render/rendering/postprocessing_computepass.h"
 #include "vox.render/rendering/postprocessing_pipeline.h"
 
-namespace vox {
-namespace compute {
+namespace vox::compute {
 class SdfCollision;
 
 struct MarchingCubesUniformBuffer {
-    Matrix4x4F m_mw;
-    Matrix4x4F m_mwp;
-    Vector4F c_color;
-    Vector4F v_light_dir;
     Vector4F g_origin;
 
     float g_cell_size;
@@ -34,13 +29,9 @@ struct MarchingCubesUniformBuffer {
     float g_marching_cubes_iso_level;
 };
 
-class SdfMarchingCubeManager : public Singleton<SdfMarchingCubeManager> {
+class SdfMarchingCube : public Component {
 public:
-    static SdfMarchingCubeManager& GetSingleton();
-
-    static SdfMarchingCubeManager* GetSingletonPtr();
-
-    SdfMarchingCubeManager();
+    SdfMarchingCube(Entity* entity);
 
     void Initialize(const char* name, Device& device, RenderContext& render_context);
 
@@ -80,7 +71,4 @@ private:
     std::unique_ptr<PostProcessingPipeline> marching_cubes_pipeline_{nullptr};
 };
 
-}  // namespace compute
-template <>
-inline compute::SdfMarchingCubeManager* Singleton<compute::SdfMarchingCubeManager>::ms_singleton{nullptr};
-}  // namespace vox
+}  // namespace vox::compute

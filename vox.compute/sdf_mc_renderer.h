@@ -7,10 +7,25 @@
 #pragma once
 
 #include "vox.render/renderer.h"
+#include "vox.render/material/base_material.h"
 
 namespace vox::compute {
+class SdfMarchingCubeMaterial : public BaseMaterial {
+public:
+    explicit SdfMarchingCubeMaterial(Device &device);
+};
+
+class SdfMarchingCubeLineMaterial : public BaseMaterial {
+public:
+    explicit SdfMarchingCubeLineMaterial(Device &device);
+};
+
 class SdfMarchingCubeRenderer : public Renderer {
 public:
+    explicit SdfMarchingCubeRenderer(Entity* entity);
+
+    void LineMode(bool flag);
+
     void Render(std::vector<RenderElement> &opaque_queue,
                 std::vector<RenderElement> &alpha_test_queue,
                 std::vector<RenderElement> &transparent_queue) override;
@@ -22,6 +37,9 @@ private:
         Vector4F position;
         Vector4F normal;
     };
+    std::shared_ptr<SdfMarchingCubeMaterial> material_{nullptr};
+    std::shared_ptr<SdfMarchingCubeLineMaterial> line_material_{nullptr};
+    bool is_line_mode_{false};
 
     void OnEnable() override;
 
