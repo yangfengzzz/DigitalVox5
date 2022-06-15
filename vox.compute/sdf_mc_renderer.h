@@ -6,10 +6,12 @@
 
 #pragma once
 
-#include "vox.render/renderer.h"
 #include "vox.render/material/base_material.h"
+#include "vox.render/renderer.h"
 
 namespace vox::compute {
+class SdfMarchingCube;
+
 class SdfMarchingCubeMaterial : public BaseMaterial {
 public:
     explicit SdfMarchingCubeMaterial(Device &device);
@@ -22,7 +24,7 @@ public:
 
 class SdfMarchingCubeRenderer : public Renderer {
 public:
-    explicit SdfMarchingCubeRenderer(Entity* entity);
+    explicit SdfMarchingCubeRenderer(Entity *entity);
 
     void LineMode(bool flag);
 
@@ -33,6 +35,7 @@ public:
     void UpdateBounds(BoundingBox3F &world_bounds) override;
 
 private:
+    SdfMarchingCube *sdf_mc_{nullptr};
     struct VertexData {
         Vector4F position;
         Vector4F normal;

@@ -7,7 +7,7 @@
 #include "vox.compute/sdf_mc.h"
 
 #include "vox.compute/marching_cubes_tables.h"
-#include "vox.compute/sdf_collision.h"
+#include "vox.compute/sdf_grid.h"
 #include "vox.render/shader/shader_manager.h"
 
 namespace vox::compute {

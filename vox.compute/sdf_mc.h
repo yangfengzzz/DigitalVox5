@@ -15,7 +15,7 @@
 #include "vox.render/rendering/postprocessing_pipeline.h"
 
 namespace vox::compute {
-class SdfCollision;
+class SdfGrid;
 
 struct MarchingCubesUniformBuffer {
     Vector4F g_origin;
@@ -31,14 +31,14 @@ struct MarchingCubesUniformBuffer {
 
 class SdfMarchingCube : public Component {
 public:
-    SdfMarchingCube(Entity* entity);
+    explicit SdfMarchingCube(Entity* entity);
 
     void Initialize(const char* name, Device& device, RenderContext& render_context);
 
     // Update mesh by running marching cubes
     void Update(CommandBuffer& command_buffer, RenderTarget& render_target);
 
-    void SetSdf(SdfCollision* sdf) {
+    void SetSdf(SdfGrid* sdf) {
         assert(sdf);
         m_p_sdf_ = sdf;
     }
@@ -55,7 +55,7 @@ private:
     int m_num_cells_z_{};
     int m_num_total_cells_{};
 
-    SdfCollision* m_p_sdf_{};
+    SdfGrid* m_p_sdf_{};
 
     MarchingCubesUniformBuffer m_uniform_buffer_data_;
 

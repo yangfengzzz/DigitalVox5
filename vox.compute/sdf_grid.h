@@ -28,9 +28,9 @@ public:
     std::unique_ptr<PostProcessingPipeline> collide_hair_vertices_with_sdf_pipeline{nullptr};
 };
 
-class SdfCollision {
+class SdfGrid {
 public:
-    SdfCollision(Device& p_device,
+    SdfGrid(Device& p_device,
                  std::shared_ptr<Mesh> p_coll_mesh,
                  const char* model_name,
                  int num_cells_in_x,
@@ -49,10 +49,10 @@ public:
     }
     [[nodiscard]] int GetGridNumTotalCells() const { return m_num_total_cells_; }
 
-    SDFCollisionParams& GetConstantBufferData() { return m_const_buffer_; }
+    SDFGridParams& GetConstantBufferData() { return m_const_buffer_; }
 
 private:
-    SDFCollisionParams m_const_buffer_;
+    SDFGridParams m_const_buffer_;
     std::shared_ptr<Mesh> m_p_input_collision_mesh_;
 
     // SDF grid

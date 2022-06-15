@@ -4,10 +4,9 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "vox.compute/sdf_collision.h"
-
 #include <utility>
 
+#include "vox.compute/sdf_grid.h"
 #include "vox.render/shader/shader_manager.h"
 
 namespace vox::compute {
@@ -25,7 +24,7 @@ void SdfCollisionSystem::Initialize(Device& device, RenderContext& render_contex
             ShaderManager::GetSingleton().LoadShader("base/particle/particle_simulation.comp"));
 }
 
-SdfCollision::SdfCollision(Device& p_device,
+SdfGrid::SdfGrid(Device& p_device,
                            std::shared_ptr<Mesh> p_coll_mesh,
                            const char* model_name,
                            int num_cells_in_x,
@@ -56,11 +55,11 @@ SdfCollision::SdfCollision(Device& p_device,
                                                             m_num_cells_y_ * m_num_cells_z_));
 }
 
-void SdfCollision::UpdateSdfGrid(const Point3F& tight_bbox_min, const Point3F& tight_bbox_max) {
+void SdfGrid::UpdateSdfGrid(const Point3F& tight_bbox_min, const Point3F& tight_bbox_max) {
     m_origin_ = tight_bbox_min - m_padding_boundary_;
 }
 
-void SdfCollision::Update(CommandBuffer& command_buffer, RenderTarget& render_target, SdfCollisionSystem& system) {
+void SdfGrid::Update(CommandBuffer& command_buffer, RenderTarget& render_target, SdfCollisionSystem& system) {
     if (!m_p_input_collision_mesh_) return;
 
     // Update the grid data based on the current bounding box

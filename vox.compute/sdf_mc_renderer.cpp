@@ -24,6 +24,7 @@ SdfMarchingCubeLineMaterial::SdfMarchingCubeLineMaterial(Device &device) : BaseM
 
 SdfMarchingCubeRenderer::SdfMarchingCubeRenderer(Entity *entity) : Renderer(entity) {
     material_ = std::make_shared<SdfMarchingCubeMaterial>(entity_->Scene()->Device());
+    sdf_mc_ = entity->GetComponent<SdfMarchingCube>();
 }
 
 void SdfMarchingCubeRenderer::LineMode(bool flag) {

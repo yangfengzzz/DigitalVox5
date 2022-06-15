@@ -86,7 +86,7 @@ struct CapsuleCollisionConstantBuffer {
     int m_num_collision_capsules;
 };
 
-struct SDFCollisionParams {
+struct SDFGridParams {
     Vector4F m_origin;
     float m_cell_size;
     int m_num_cells_x;
