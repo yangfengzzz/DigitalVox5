@@ -4,16 +4,22 @@
 //  personal capacity and am not conveying any rights to any intellectual
 //  property of any third parties.
 
-#include "vox.compute/sdf_marching_cubes.h"
-
 #include "vox.compute/marching_cubes_tables.h"
 #include "vox.compute/sdf_collision.h"
+#include "vox.compute/sdf_mc_manager.h"
 #include "vox.render/shader/shader_manager.h"
 
 namespace vox::compute {
-SdfMarchingCubes::SdfMarchingCubes() : m_max_marching_cubes_vertices_(128 * 1024) {}
+SdfMarchingCubeManager *SdfMarchingCubeManager::GetSingletonPtr() { return ms_singleton; }
 
-void SdfMarchingCubes::Initialize(const char* name, Device& device, RenderContext& render_context) {
+SdfMarchingCubeManager &SdfMarchingCubeManager::GetSingleton() {
+    assert(ms_singleton);
+    return (*ms_singleton);
+}
+
+SdfMarchingCubeManager::SdfMarchingCubeManager() : m_max_marching_cubes_vertices_(128 * 1024) {}
+
+void SdfMarchingCubeManager::Initialize(const char* name, Device& device, RenderContext& render_context) {
     marching_cubes_pipeline_ = std::make_unique<PostProcessingPipeline>(render_context, ShaderSource());
     initialize_mc_vertices_pass_ = &marching_cubes_pipeline_->AddPass<PostProcessingComputePass>(
             ShaderManager::GetSingleton().LoadShader("base/particle/particle_simulation.comp"));
@@ -21,11 +27,7 @@ void SdfMarchingCubes::Initialize(const char* name, Device& device, RenderContex
             ShaderManager::GetSingleton().LoadShader("base/particle/particle_simulation.comp"));
 }
 
-void SdfMarchingCubes::Draw() {}
-
-void SdfMarchingCubes::DrawGrid() {}
-
-void SdfMarchingCubes::Update(CommandBuffer& command_buffer, RenderTarget& render_target) {
+void SdfMarchingCubeManager::Update(CommandBuffer& command_buffer, RenderTarget& render_target) {
     m_origin_ = {m_p_sdf_->GetGridOrigin().x, m_p_sdf_->GetGridOrigin().y, m_p_sdf_->GetGridOrigin().z};
     m_cell_size_ = m_p_sdf_->GetGridCellSize();
     m_p_sdf_->GetGridNumCells(m_num_cells_x_, m_num_cells_y_, m_num_cells_z_);

@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "vox.base/singleton.h"
 #include "vox.compute/constant_buffers.h"
 #include "vox.math/matrix4x4.h"
 #include "vox.math/vector4.h"
@@ -13,7 +14,8 @@
 #include "vox.render/rendering/postprocessing_computepass.h"
 #include "vox.render/rendering/postprocessing_pipeline.h"
 
-namespace vox::compute {
+namespace vox {
+namespace compute {
 class SdfCollision;
 
 struct MarchingCubesUniformBuffer {
@@ -32,17 +34,15 @@ struct MarchingCubesUniformBuffer {
     float g_marching_cubes_iso_level;
 };
 
-class SdfMarchingCubes {
+class SdfMarchingCubeManager : public Singleton<SdfMarchingCubeManager> {
 public:
-    SdfMarchingCubes();
+    static SdfMarchingCubeManager& GetSingleton();
+
+    static SdfMarchingCubeManager* GetSingletonPtr();
+
+    SdfMarchingCubeManager();
 
     void Initialize(const char* name, Device& device, RenderContext& render_context);
-
-    // Draw the SDF using marching cubes for debug purpose
-    void Draw();
-
-    // Draw the grid
-    void DrawGrid();
 
     // Update mesh by running marching cubes
     void Update(CommandBuffer& command_buffer, RenderTarget& render_target);
@@ -68,14 +68,6 @@ private:
 
     MarchingCubesUniformBuffer m_uniform_buffer_data_;
 
-    // For drawing lines
-    // SuBatchLineRenderer m_LineRenderer;
-
-    struct VertexData {
-        float position[4];
-        float normal[4];
-    };
-
     // SDF ISO level. This value will be multiplied with the cell size before be passed to the compute shader.
     float m_sdf_iso_level_{};
 
@@ -88,4 +80,7 @@ private:
     std::unique_ptr<PostProcessingPipeline> marching_cubes_pipeline_{nullptr};
 };
 
-}  // namespace vox::compute
+}  // namespace compute
+template <>
+inline compute::SdfMarchingCubeManager* Singleton<compute::SdfMarchingCubeManager>::ms_singleton{nullptr};
+}  // namespace vox
