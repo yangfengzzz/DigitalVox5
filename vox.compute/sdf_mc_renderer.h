@@ -36,10 +36,7 @@ public:
 
 private:
     SdfMarchingCube *sdf_mc_{nullptr};
-    struct VertexData {
-        Vector4F position;
-        Vector4F normal;
-    };
+
     std::shared_ptr<SdfMarchingCubeMaterial> material_{nullptr};
     std::shared_ptr<SdfMarchingCubeLineMaterial> line_material_{nullptr};
     bool is_line_mode_{false};
