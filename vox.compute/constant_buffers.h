@@ -86,20 +86,4 @@ struct CapsuleCollisionConstantBuffer {
     int m_num_collision_capsules;
 };
 
-struct SDFGridParams {
-    Vector4F m_origin;
-    float m_cell_size;
-    int m_num_cells_x;
-    int m_num_cells_y;
-    int m_num_cells_z;
-    int m_max_marching_cubes_vertices;
-    float m_marching_cubes_iso_level;
-    float m_collision_margin;
-    int m_num_hair_vertices_per_strand;
-    int m_num_total_hair_vertices;
-    float pad_1;
-    float pad_2;
-    float pad_3;
-};
-
 }  // namespace vox::compute

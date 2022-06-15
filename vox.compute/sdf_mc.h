@@ -21,10 +21,10 @@ struct MarchingCubesUniformBuffer {
     Point3F origin;
     float cell_size;
 
-    int32_t num_cells_x;
-    int32_t num_cells_y;
-    int32_t num_cells_z;
-    int32_t max_marching_cubes_vertices;
+    uint32_t num_cells_x;
+    uint32_t num_cells_y;
+    uint32_t num_cells_z;
+    uint32_t max_marching_cubes_vertices;
 
     float marching_cubes_iso_level;
 };

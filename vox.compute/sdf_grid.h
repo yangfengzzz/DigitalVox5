@@ -15,6 +15,21 @@
 #include "vox.render/rendering/postprocessing_pipeline.h"
 
 namespace vox::compute {
+struct SDFGridParams {
+    Point3F origin;
+    float cell_size;
+
+    uint32_t num_cells_x;
+    uint32_t num_cells_y;
+    uint32_t num_cells_z;
+    uint32_t max_marching_cubes_vertices;
+
+    float marching_cubes_iso_level;
+    float collision_margin;
+    int num_hair_vertices_per_strand;
+    int num_total_hair_vertices;
+};
+
 struct SdfCollisionSystem {
 public:
     void Initialize(Device& device, RenderContext& render_context);
@@ -30,46 +45,41 @@ public:
 
 class SdfGrid {
 public:
-    SdfGrid(Device& p_device,
-                 std::shared_ptr<Mesh> p_coll_mesh,
-                 const char* model_name,
-                 int num_cells_in_x,
-                 float collision_margin);
+    SdfGrid(Device& device,
+            std::shared_ptr<Mesh> coll_mesh,
+            const char* model_name,
+            int num_cells_in_x,
+            float collision_margin);
 
     // Update and animate the collision mesh
     void Update(CommandBuffer& command_buffer, RenderTarget& render_target, SdfCollisionSystem& system);
 
-    // Grid
-    [[nodiscard]] float GetGridCellSize() const { return m_cell_size_; }
-    [[nodiscard]] Point3F GetGridOrigin() const { return m_origin_; }
-    void GetGridNumCells(int& x, int& y, int& z) const {
-        x = m_num_cells_x_;
-        y = m_num_cells_y_;
-        z = m_num_cells_z_;
+    [[nodiscard]] const core::Buffer& GetSdfDataGpuBuffer() const { return *m_signed_distance_field_; }
+    core::Buffer& GetSdfDataGpuBuffer() { return *m_signed_distance_field_; }
+
+    [[nodiscard]] float GetSdfCollisionMargin() const { return m_collision_margin_; }
+    [[nodiscard]] float GetGridCellSize() const { return m_constant_buffer_data_.cell_size; }
+    [[nodiscard]] Point3F GetGridOrigin() const { return m_constant_buffer_data_.origin; }
+    void GetGridNumCells(uint32_t& x, uint32_t& y, uint32_t& z) const {
+        x = m_constant_buffer_data_.num_cells_x;
+        y = m_constant_buffer_data_.num_cells_y;
+        z = m_constant_buffer_data_.num_cells_z;
     }
     [[nodiscard]] int GetGridNumTotalCells() const { return m_num_total_cells_; }
-
-    SDFGridParams& GetConstantBufferData() { return m_const_buffer_; }
+    SDFGridParams& GetConstantBufferData() { return m_constant_buffer_data_; }
 
 private:
-    SDFGridParams m_const_buffer_;
-    std::shared_ptr<Mesh> m_p_input_collision_mesh_;
+    SDFGridParams m_constant_buffer_data_;
+    std::unique_ptr<core::Buffer> m_constant_buffer_{nullptr};
 
-    // SDF grid
-    Point3F m_origin_;
-    float m_cell_size_;
-    int m_num_cells_x_;
-    int m_num_cells_y_;
-    int m_num_cells_z_;
+    std::shared_ptr<Mesh> m_input_collision_mesh_;
+    std::unique_ptr<core::Buffer> m_signed_distance_field_{nullptr};
+
     int m_num_total_cells_;
-    Vector3F m_min_;
-    Vector3F m_max_;
     Vector3F m_padding_boundary_;
     float m_grid_allocation_multiplier_;
-
     // number of cells in X axis
     int m_num_cells_in_x_axis_;
-
     // SDF collision margin.
     float m_collision_margin_;
 
