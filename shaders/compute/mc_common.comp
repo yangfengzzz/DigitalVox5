@@ -1,13 +1,6 @@
 #version 450
 
 layout(set = 0, binding = 3) uniform  ConstBuffer_MC {
-// rendering
-    mat4 mMW;
-    mat4 mWVP;
-    vec3 cColor;
-    vec3 vLightDir;
-
-//simulation
     vec3 g_Origin;
     float g_CellSize;
     int g_NumCellsX;
@@ -16,6 +9,37 @@ layout(set = 0, binding = 3) uniform  ConstBuffer_MC {
 
     int g_MaxMarchingCubesVertices;
     float g_MarchingCubesIsolevel;
+};
+
+struct StandardVertex {
+    vec4 position;
+    vec4 normal;
+};
+
+//Actually contains floats; make sure to use asfloat() when accessing. uint is used to allow atomics.
+layout(binding = 4)
+buffer g_SignedDistanceField {
+    uint field[];
+};
+
+layout(binding = 5)
+buffer g_MarchingCubesTriangleVertices {
+    StandardVertex vertices[];
+};
+
+layout(binding = 6)
+buffer g_NumMarchingCubesVertices {
+    uint count;
+};
+
+layout(binding = 7)
+buffer g_MarchingCubesEdgeTable {
+    int edgeTable[];
+};
+
+layout(binding = 8)
+buffer g_MarchingCubesTriangleTable {
+    int triTable[];
 };
 
 ivec3 GetSdfCellPositionFromIndex(uint sdfCellIndex) {
