@@ -506,6 +506,12 @@
 		049A9D842818F6EF001937A7 /* cluster_debug_material.h in Headers */ = {isa = PBXBuildFile; fileRef = 049A9D822818F6EF001937A7 /* cluster_debug_material.h */; };
 		049A9D872818F979001937A7 /* cluster_forward_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049A9D852818F978001937A7 /* cluster_forward_app.cpp */; };
 		049A9D8A2818FA0C001937A7 /* multi_light_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049A9D882818FA0C001937A7 /* multi_light_app.cpp */; };
+		049F751D2866F0EC00E4455D /* sdf_mc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049F75172866F0EC00E4455D /* sdf_mc.cpp */; };
+		049F751E2866F0EC00E4455D /* sdf_grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049F75182866F0EC00E4455D /* sdf_grid.cpp */; };
+		049F751F2866F0EC00E4455D /* sdf_grid.h in Headers */ = {isa = PBXBuildFile; fileRef = 049F75192866F0EC00E4455D /* sdf_grid.h */; };
+		049F75202866F0EC00E4455D /* sdf_mc_renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 049F751A2866F0EC00E4455D /* sdf_mc_renderer.h */; };
+		049F75212866F0EC00E4455D /* sdf_mc.h in Headers */ = {isa = PBXBuildFile; fileRef = 049F751B2866F0EC00E4455D /* sdf_mc.h */; };
+		049F75222866F0EC00E4455D /* sdf_mc_renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049F751C2866F0EC00E4455D /* sdf_mc_renderer.cpp */; };
 		04AAD9B92816A44E00121576 /* shadow_subpass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9B72816A44E00121576 /* shadow_subpass.cpp */; };
 		04AAD9BA2816A44E00121576 /* shadow_subpass.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AAD9B82816A44E00121576 /* shadow_subpass.h */; };
 		04AAD9BD2817717E00121576 /* shadowmap_app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04AAD9BB2817717E00121576 /* shadowmap_app.cpp */; };
@@ -535,10 +541,6 @@
 		04B7624C2832285700FE2C5C /* point3_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7622E2832285700FE2C5C /* point3_tests.cpp */; };
 		04B7624D2832285700FE2C5C /* collision_util_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B7622F2832285700FE2C5C /* collision_util_tests.cpp */; };
 		04B762502832295700FE2C5C /* libvox.math.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 047BB5DF2803A9B700CD5749 /* libvox.math.a */; };
-		04BC71B8285769DE00BAF837 /* sdf_marching_cubes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04BC71B6285769DE00BAF837 /* sdf_marching_cubes.cpp */; };
-		04BC71B9285769DE00BAF837 /* sdf_marching_cubes.h in Headers */ = {isa = PBXBuildFile; fileRef = 04BC71B7285769DE00BAF837 /* sdf_marching_cubes.h */; };
-		04BC71BC28580DCC00BAF837 /* sdf_collision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04BC71BA28580DCC00BAF837 /* sdf_collision.cpp */; };
-		04BC71BD28580DCC00BAF837 /* sdf_collision.h in Headers */ = {isa = PBXBuildFile; fileRef = 04BC71BB28580DCC00BAF837 /* sdf_collision.h */; };
 		04BC71C028581BB300BAF837 /* constant_buffers.h in Headers */ = {isa = PBXBuildFile; fileRef = 04BC71BE28581BB300BAF837 /* constant_buffers.h */; };
 		04BC71C128581BB300BAF837 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = 04BC71BF28581BB300BAF837 /* common.h */; };
 		04C3C3562833E3A600B0BE1F /* cpu_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C3C3392833E3A300B0BE1F /* cpu_info.cpp */; };
@@ -1578,6 +1580,12 @@
 		049A9D862818F978001937A7 /* cluster_forward_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cluster_forward_app.h; sourceTree = "<group>"; };
 		049A9D882818FA0C001937A7 /* multi_light_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = multi_light_app.cpp; sourceTree = "<group>"; };
 		049A9D892818FA0C001937A7 /* multi_light_app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = multi_light_app.h; sourceTree = "<group>"; };
+		049F75172866F0EC00E4455D /* sdf_mc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sdf_mc.cpp; sourceTree = "<group>"; };
+		049F75182866F0EC00E4455D /* sdf_grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sdf_grid.cpp; sourceTree = "<group>"; };
+		049F75192866F0EC00E4455D /* sdf_grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sdf_grid.h; sourceTree = "<group>"; };
+		049F751A2866F0EC00E4455D /* sdf_mc_renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sdf_mc_renderer.h; sourceTree = "<group>"; };
+		049F751B2866F0EC00E4455D /* sdf_mc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sdf_mc.h; sourceTree = "<group>"; };
+		049F751C2866F0EC00E4455D /* sdf_mc_renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sdf_mc_renderer.cpp; sourceTree = "<group>"; };
 		04AAD9B72816A44E00121576 /* shadow_subpass.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shadow_subpass.cpp; sourceTree = "<group>"; };
 		04AAD9B82816A44E00121576 /* shadow_subpass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shadow_subpass.h; sourceTree = "<group>"; };
 		04AAD9BB2817717E00121576 /* shadowmap_app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shadowmap_app.cpp; sourceTree = "<group>"; };
@@ -1612,10 +1620,6 @@
 		04B7622E2832285700FE2C5C /* point3_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = point3_tests.cpp; sourceTree = "<group>"; };
 		04B7622F2832285700FE2C5C /* collision_util_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = collision_util_tests.cpp; sourceTree = "<group>"; };
 		04BC71B52857696900BAF837 /* marching_cubes_tables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = marching_cubes_tables.h; sourceTree = "<group>"; };
-		04BC71B6285769DE00BAF837 /* sdf_marching_cubes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sdf_marching_cubes.cpp; sourceTree = "<group>"; };
-		04BC71B7285769DE00BAF837 /* sdf_marching_cubes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sdf_marching_cubes.h; sourceTree = "<group>"; };
-		04BC71BA28580DCC00BAF837 /* sdf_collision.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sdf_collision.cpp; sourceTree = "<group>"; };
-		04BC71BB28580DCC00BAF837 /* sdf_collision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sdf_collision.h; sourceTree = "<group>"; };
 		04BC71BE28581BB300BAF837 /* constant_buffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constant_buffers.h; sourceTree = "<group>"; };
 		04BC71BF28581BB300BAF837 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		04C3C32E2833E39100B0BE1F /* libvox.base.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libvox.base.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2140,11 +2144,13 @@
 			children = (
 				04BC71BF28581BB300BAF837 /* common.h */,
 				04BC71BE28581BB300BAF837 /* constant_buffers.h */,
-				04BC71BB28580DCC00BAF837 /* sdf_collision.h */,
-				04BC71BA28580DCC00BAF837 /* sdf_collision.cpp */,
 				04BC71B52857696900BAF837 /* marching_cubes_tables.h */,
-				04BC71B7285769DE00BAF837 /* sdf_marching_cubes.h */,
-				04BC71B6285769DE00BAF837 /* sdf_marching_cubes.cpp */,
+				049F75182866F0EC00E4455D /* sdf_grid.cpp */,
+				049F75192866F0EC00E4455D /* sdf_grid.h */,
+				049F751C2866F0EC00E4455D /* sdf_mc_renderer.cpp */,
+				049F751A2866F0EC00E4455D /* sdf_mc_renderer.h */,
+				049F75172866F0EC00E4455D /* sdf_mc.cpp */,
+				049F751B2866F0EC00E4455D /* sdf_mc.h */,
 			);
 			path = vox.compute;
 			sourceTree = "<group>";
@@ -3819,9 +3825,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				04BC71C028581BB300BAF837 /* constant_buffers.h in Headers */,
-				04BC71B9285769DE00BAF837 /* sdf_marching_cubes.h in Headers */,
-				04BC71BD28580DCC00BAF837 /* sdf_collision.h in Headers */,
+				049F751F2866F0EC00E4455D /* sdf_grid.h in Headers */,
+				049F75212866F0EC00E4455D /* sdf_mc.h in Headers */,
 				04BC71C128581BB300BAF837 /* common.h in Headers */,
+				049F75202866F0EC00E4455D /* sdf_mc_renderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4611,8 +4618,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04BC71BC28580DCC00BAF837 /* sdf_collision.cpp in Sources */,
-				04BC71B8285769DE00BAF837 /* sdf_marching_cubes.cpp in Sources */,
+				049F75222866F0EC00E4455D /* sdf_mc_renderer.cpp in Sources */,
+				049F751D2866F0EC00E4455D /* sdf_mc.cpp in Sources */,
+				049F751E2866F0EC00E4455D /* sdf_grid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6541,7 +6549,7 @@
 					./third_party/zlib/contrib/minizip,
 					./third_party/openssl/include,
 					./third_party/spdlog/include,
-					"/usr/local/Cellar/openssl@3/3.0.3/include",
+					"/usr/local/Cellar/openssl@3/3.0.4/include",
 				);
 				USE_HEADERMAP = NO;
 			};
@@ -6565,7 +6573,7 @@
 					./third_party/zlib/contrib/minizip,
 					./third_party/openssl/include,
 					./third_party/spdlog/include,
-					"/usr/local/Cellar/openssl@3/3.0.3/include",
+					"/usr/local/Cellar/openssl@3/3.0.4/include",
 				);
 				USE_HEADERMAP = NO;
 			};
@@ -6584,7 +6592,7 @@
 					./third_party/googletest/build/lib,
 					./third_party/json_cpp/build/lib,
 					./third_party/zlib,
-					"/usr/local/Cellar/openssl@3/3.0.3/lib",
+					"/usr/local/Cellar/openssl@3/3.0.4/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-lgtest",
@@ -6597,7 +6605,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = (
-					"/usr/local/Cellar/openssl@3/3.0.3/include",
+					"/usr/local/Cellar/openssl@3/3.0.4/include",
 					./third_party/eigen,
 					./third_party/json_cpp/include,
 					./third_party/zlib/contrib/,
@@ -6623,7 +6631,7 @@
 					./third_party/googletest/build/lib,
 					./third_party/json_cpp/build/lib,
 					./third_party/zlib,
-					"/usr/local/Cellar/openssl@3/3.0.3/lib",
+					"/usr/local/Cellar/openssl@3/3.0.4/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-lgtest",
@@ -6636,7 +6644,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYSTEM_HEADER_SEARCH_PATHS = (
-					"/usr/local/Cellar/openssl@3/3.0.3/include",
+					"/usr/local/Cellar/openssl@3/3.0.4/include",
 					./third_party/eigen,
 					./third_party/json_cpp/include,
 					./third_party/zlib/contrib/,
