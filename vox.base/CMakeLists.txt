@@ -25,7 +25,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         ../third_party/eigen
         ../third_party/zlib/contrib/
         ../third_party/zlib/contrib/minizip
-        /usr/local/Cellar/openssl@3/3.0.3/include)
+        /usr/local/Cellar/openssl@3/3.0.4/include)
 
 # Link third party libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
