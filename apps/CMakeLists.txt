@@ -16,6 +16,7 @@ set(SRC
         primitive_app.cpp
         physx_app.cpp
         physx_dynamic_app.cpp
+        physx_joint_app.cpp
         skybox_app.cpp
         assimp_app.cpp
         gui_app.cpp

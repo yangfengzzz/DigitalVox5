@@ -18,6 +18,7 @@
 #include "apps/pbr_app.h"
 #include "apps/physx_app.h"
 #include "apps/physx_dynamic_app.h"
+#include "apps/physx_joint_app.h"
 #include "apps/plugins/plugins.h"
 #include "apps/primitive_app.h"
 #include "apps/shadowmap_app.h"
@@ -52,7 +53,7 @@ int main(int argc, char *argv[]) {
 
     auto code = platform.Initialize(plugins::GetAll());
     if (code == vox::ExitCode::SUCCESS) {
-        platform.SetApp(std::make_unique<vox::GuiCustomApp>());
+        platform.SetApp(std::make_unique<vox::PhysXJointApp>());
         code = platform.MainLoop();
     }
     platform.Terminate(code);
